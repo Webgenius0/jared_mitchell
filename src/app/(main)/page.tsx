@@ -1,12 +1,11 @@
 import Container from "@/Components/Common/Container";
+import Hero from "@/Components/PageComponents/mainPages/home/Hero";
 
 const Page = () => {
   return (
-    <main className="grid place-items-center h-[87vh] bg-gray-900 text-white">
+    <main className="min-h-[87vh] bg-white text-[#1D1D1F]">
       <Container>
-        <h1 className="text-3xl px-5 py-3 rounded w-full font-medium mb-8 bg-gray-600">
-          Welcome to Next JS
-        </h1>
+        <Hero />
       </Container>
     </main>
   );
