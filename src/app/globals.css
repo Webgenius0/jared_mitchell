@@ -3,7 +3,11 @@
 @theme {
   /* Colors */
   --color-primary-green: #63be60;
-  --color-secondary-blue: #0184ff;
+  /* --color-secondary-blue: #0184ff; */
+  --color-primary-blue: #306FDC;
+  --color-secondary-blue: #155DFC;
+  --color-primary-black: #1D1D1F;
+  --color-secondary-black: #364153;
 
   /* Font Family */
   --font-poppins: var(--font-poppins);
@@ -21,6 +25,9 @@ body {
   @apply font-poppins;
 }
 
+button{
+  cursor: pointer;
+}
 /* Custom CSS */
 
 .section_title {
@@ -30,3 +37,4 @@ body {
 .section_description {
   @apply text-base;
 }
+
