@@ -1,12 +1,56 @@
 import Container from "@/Components/Common/Container";
+import Sponsors from "@/Components/PageComponents/mainPages/home/Sponsors";
+import CoreValues from "@/Components/PageComponents/mainPages/home/CoreValues";
 import Hero from "@/Components/PageComponents/mainPages/home/Hero";
+import WhyChoose from "@/Components/PageComponents/mainPages/home/WhyChoose";
+import Image from "next/image";
+import CommunityPartner from "@/Components/PageComponents/mainPages/home/CommunityPartner";
+import WhatYouAreGetting from "@/Components/PageComponents/mainPages/home/WhatYouAreGetting";
+import Features from "@/Components/PageComponents/mainPages/home/Features";
+import PricingTable from "@/Components/PageComponents/mainPages/home/PricingTable";
+import PricingPlan from "@/Components/PageComponents/mainPages/home/PricingPlan";
+import BossBeginnings from "@/Components/PageComponents/mainPages/home/BossBeginnings";
+import OSIApparel from "@/Components/PageComponents/mainPages/home/OSIApparel";
+import NewsLetter from "@/Components/PageComponents/mainPages/home/NewsLetter";
 
 const Page = () => {
   return (
-    <main className="min-h-[87vh] bg-white text-[#1D1D1F]">
-      <Container>
-        <Hero />
-      </Container>
+    <main className="min-h-[87vh] text-[#1D1D1F]">
+      <Hero />
+      <Sponsors />
+
+      <section className="w-full max-h-[580px] h-full overflow-hidden flex items-center relative">
+        <Image src={"/home/home-banner-1.jpg"} width={1920} height={580} alt="home banner" className="object-cover w-full" />
+        <div className="w-full h-full absolute top-0 bg-black/60">
+          <div className="flex flex-col max-w-[1200px] w-full mx-auto h-full items-center justify-center">
+            <h2 className="section_title text-white">Everything You Need to Grow Your Business — Powered by OSI.</h2>
+            <p className="section_sub_title text-[#F5F5F7]">Marketing support, visibility, tools, and community — all in one membership built for real creators and small businesses.
+              Unlock professional exposure, business tools, spotlight features, and hands-on support — at a price any startup can afford.</p>
+          </div>
+        </div>
+      </section>
+      <WhyChoose />
+      <CoreValues />
+      <PricingPlan />
+      <PricingTable />
+      <WhatYouAreGetting />
+      <Features />
+      <BossBeginnings />
+
+      {/* Events section */}
+      <section className="w-full max-h-[580px] h-full overflow-hidden flex items-center relative">
+        <Image src={"/home/home-banner-2.jpg"} width={1920} height={580} alt="home banner" className="object-cover w-full" />
+        <div className="w-full h-full absolute top-0 bg-black/60">
+          <div className="flex flex-col max-w-[1200px] w-full mx-auto h-full items-center justify-center">
+            <h2 className="section_title text-white 2xl:text-6xl">Events</h2>
+            <p className="section_sub_title text-[#F5F5F7]">Discover celebrations, workshops, and community moments.<br />
+              A curated look at the newest and most important events happening inside Our Social Image.</p>
+          </div>
+        </div>
+      </section>
+      <OSIApparel />
+      <CommunityPartner />
+      <NewsLetter />
     </main>
   );
 };

@@ -21,7 +21,7 @@ const Navbar = () => {
   const [lang, setLang] = useState("en");
 
   return (
-    <nav className="py-5 border-b">
+    <nav className="py-5 border-b bg-white">
       <Container>
         <div className="flex justify-between items-center">
           {/* Left */}
