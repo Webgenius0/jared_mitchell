@@ -61,16 +61,16 @@ const businessData = [
 
 const Footer = () => {
   return (
-    <footer className="bg-[#18181B] text-white pt-14 pb-8">
+    <footer className="bg-[#18181B] text-white pt-7 md:pt-10 lg:pt-14 pb-5 md:pb-7 xl:pb-8">
       <Container>
-        <div className="flex gap-12">
+        <div className="flex flex-wrap xl:flex-nowrap gap-5 md:gap-8 lg:gap-12">
           {/* First Column */}
-          <div className="space-y-5 w-[473px]">
+          <div className="space-y-3 md:space-y-5 lg:w-[373px]">
             <div>
-              <h3 className="text-white font-medium text-2xl mb-3">
+              <h3 className="text-white font-medium text-lg md:text-x xl:text-2xl mb-3">
                 Our Social Image (OSI)
               </h3>
-              <p className="text-[#99A1AF] text-lg">
+              <p className="text-[#99A1AF] xl:text-lg">
                 Empowering creators, small businesses, and community leaders
                 through digital storytelling, technology, and culture-driven
                 visibility.
@@ -80,17 +80,17 @@ const Footer = () => {
             <hr className="text-[#99A1AF]" />
 
             <div>
-              <h3 className="text-white font-medium text-2xl mb-3">
+              <h3 className="text-white font-medium text-lg md:text-x xl:text-2xl mb-3">
                 Our Mission
               </h3>
-              <p className="text-[#99A1AF] text-lg">
+              <p className="text-[#99A1AF] xl:text-lg">
                 To elevate the voices of entrepreneurs, artists, and community
                 innovators by providing tools, exposure, and automated digital
                 support that turn vision into opportunity.
               </p>
             </div>
 
-            <div className="flex gap-3 items-center mt-12">
+            <div className="flex gap-3 items-center mt-5 md:mt-8 xl:mt-12">
               <button className="cursor-pointer">
                 <InstagramSvg />
               </button>
@@ -114,12 +114,12 @@ const Footer = () => {
 
           {/* Second Column */}
           <div className="shrink-0">
-            <h3 className="text-white font-medium text-2xl mb-3">
+            <h3 className="text-white font-medium text-lg md:text-x xl:text-2xl mb-3">
               Explore OSI
             </h3>
-            <ul className="space-y-3">
+            <ul className="space-y-2 md:space-y-3">
               {exploreData?.map((item, idx) => (
-                <li key={idx} className="text-[#99A1AF] text-lg">
+                <li key={idx} className="text-[#99A1AF] xl:text-lg">
                   {item}
                 </li>
               ))}
@@ -127,13 +127,13 @@ const Footer = () => {
           </div>
 
           {/* Third Column */}
-          <div className="w-[235px]">
-            <h3 className="text-white font-medium text-2xl mb-3">
+          <div className="md:w-[235px]">
+            <h3 className="text-white font-medium text-lg md:text-x xl:text-2xl mb-3">
               Help & Support
             </h3>
-            <ul className="space-y-3">
+            <ul className="space-y-2 md:space-y-3">
               {helpData?.map((item, idx) => (
-                <li key={idx} className="text-[#99A1AF] text-lg">
+                <li key={idx} className="text-[#99A1AF] xl:text-lg">
                   {item}
                 </li>
               ))}
@@ -142,10 +142,12 @@ const Footer = () => {
 
           {/* Forth Column */}
           <div>
-            <h3 className="text-white font-medium text-2xl mb-3">Legal</h3>
-            <ul className="space-y-3">
+            <h3 className="text-white font-medium text-lg md:text-xl xl:text-2xl mb-3">
+              Legal
+            </h3>
+            <ul className="space-y-2 md:space-y-3">
               {legalData?.map((item, idx) => (
-                <li key={idx} className="text-[#99A1AF] text-lg">
+                <li key={idx} className="text-[#99A1AF] xl:text-lg">
                   {item}
                 </li>
               ))}
@@ -153,14 +155,14 @@ const Footer = () => {
           </div>
 
           {/* Fifth Column */}
-          <div className="space-y-8 w-[273px]">
+          <div className="space-y-8 xl:w-[273px]">
             <div>
-              <h3 className="text-white font-medium text-2xl mb-3">
+              <h3 className="text-white font-medium text-lg md:text-xl xl:text-2xl mb-3">
                 Business Details
               </h3>
-              <ul className="space-y-3">
+              <ul className="space-y-2 md:space-y-3">
                 {businessData?.map((item, idx) => (
-                  <li key={idx} className="text-[#99A1AF] text-lg">
+                  <li key={idx} className="text-[#99A1AF] xl:text-lg">
                     {item}
                   </li>
                 ))}
@@ -168,11 +170,11 @@ const Footer = () => {
             </div>
 
             <div>
-              <h3 className="text-white font-medium text-2xl mb-3">
+              <h3 className="text-white font-medium text-lg md:text-xl xl:text-2xl mb-3">
                 Newsletter Signup
               </h3>
 
-              <p className="text-[#99A1AF] text-lg">
+              <p className="text-[#99A1AF] xl:text-lg">
                 Stay connected. Receive stories, events, spotlights, and growth
                 tools directly to your inbox.
               </p>
@@ -191,9 +193,9 @@ const Footer = () => {
           </div>
         </div>
 
-        <hr className="text-[#99A1AF] mt-12" />
+        <hr className="text-[#99A1AF] mt-5 md:mt-12" />
 
-        <p className="text-center pt-7 text-gray-300">
+        <p className="text-center pt-4 md:pt-7 text-gray-300 text-sm md:text-base">
           &copy; 2025 Our Social Image LLC. All rights reserved.
         </p>
       </Container>
