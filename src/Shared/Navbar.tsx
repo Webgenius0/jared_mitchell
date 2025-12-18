@@ -7,15 +7,15 @@ import { useState } from "react";
 
 const navLinks = [
   { label: "Home", path: "/" },
-  { label: "About", path: "about" },
-  { label: "Service", path: "services" },
-  { label: "Spotlight", path: "spotlight" },
-  { label: "Events", path: "events" },
-  { label: "Shop", path: "shop" },
-  { label: "Sponsorships", path: "sponsorships" },
-  { label: "Boss Beginnings", path: "boss-beginnings" },
-  { label: "Dashboard", path: "dashboard" },
-  { label: "Contact", path: "contact" },
+  { label: "About", path: "/about" },
+  { label: "Service", path: "/services" },
+  { label: "Spotlight", path: "/spotlight" },
+  { label: "Events", path: "/events" },
+  { label: "Shop", path: "/shop" },
+  { label: "Sponsorships", path: "/sponsorships" },
+  { label: "Boss Beginnings", path: "/boss-beginnings" },
+  { label: "Dashboard", path: "/dashboard" },
+  { label: "Contact", path: "/contact" },
 ];
 
 const Navbar = () => {

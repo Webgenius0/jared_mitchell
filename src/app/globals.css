@@ -1,5 +1,26 @@
 @import "tailwindcss";
 
+@font-face {
+  font-family: "sf_pro";
+  src: url("/fonts/sf_regular.OTF") format("opentype");
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "sf_pro";
+  src: url("/fonts/sf_medium.OTF") format("opentype");
+  font-weight: 500;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "sf_pro";
+  src: url("/fonts/sf_bold.OTF") format("opentype");
+  font-weight: 700;
+  font-display: swap;
+}
+
 @theme {
   /* Colors */
   --color-primary-blue: #306fdc;
@@ -8,11 +29,11 @@
   --color-secondary-black: #364153;
 
   /* Font Family */
-  --font-poppins: var(--font-poppins);
+  --font-sf: "sf_pro", sans-serif;
 }
 
 body {
-  @apply font-poppins;
+  @apply font-sf;
 }
 
 /* Custom CSS */
