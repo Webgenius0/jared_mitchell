@@ -13,3 +13,11 @@ export type Card = {
   title: string;
   description: string;
 };
+
+export type LogoSliderProps = {
+    logos: {
+        id: number;
+        icon: () => React.ReactNode;
+    }[]
+    reverse?: boolean
+}
