@@ -1,29 +1,40 @@
 @import "tailwindcss";
 
+@font-face {
+  font-family: "sf_pro";
+  src: url("/fonts/sf_regular.OTF") format("opentype");
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "sf_pro";
+  src: url("/fonts/sf_medium.OTF") format("opentype");
+  font-weight: 500;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "sf_pro";
+  src: url("/fonts/sf_bold.OTF") format("opentype");
+  font-weight: 700;
+  font-display: swap;
+}
+
 @theme {
   /* Colors */
-  --color-primary-green: #63be60;
-  /* --color-secondary-blue: #0184ff; */
-  --color-primary-blue: #306FDC;
-  --color-secondary-blue: #155DFC;
-  --color-primary-black: #1D1D1F;
+  --color-primary-blue: #306fdc;
+  --color-secondary-blue: #155dfc;
+  --color-primary-black: #1d1d1f;
   --color-secondary-black: #364153;
 
   /* Font Family */
-  --font-poppins: var(--font-poppins);
-
-  /* Breakpoints */
-  --breakpoint-sm: 480px;
-  --breakpoint-md: 576px;
-  --breakpoint-lg: 768px;
-  --breakpoint-xl: 1024px;
-  --breakpoint-2xl: 1280px;
-  --breakpoint-3xl: 1536px;
+  --font-sf: "sf_pro", sans-serif;
 }
 
 html,
 body {
-  @apply w-dvw h-dvh overflow-x-hidden;
+  @apply w-dvw h-dvh overflow-x-hidden font-sf;
 }
 
 @layer base{
@@ -53,7 +64,6 @@ button{
   border: 0.5px solid rgba(0, 0, 0, 0.16);
 }
 
-/* marquee */
 .marquee {
   animation: marquee 20s linear infinite;
 }

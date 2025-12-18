@@ -15,7 +15,7 @@ import NewsLetter from "@/Components/PageComponents/mainPages/home/NewsLetter";
 
 const Page = () => {
   return (
-    <main className="min-h-[87vh] text-[#1D1D1F]">
+    <>
       <Hero />
       <Sponsors />
 
@@ -51,7 +51,7 @@ const Page = () => {
       <OSIApparel />
       <CommunityPartner />
       <NewsLetter />
-    </main>
+    </>
   );
 };
 
