@@ -50,8 +50,8 @@ const businessData = [
   "Our Social Image LLC",
   "Indianapolis, IN",
   "Hours of Operation:Mon–Fri, 9am–6pm EST",
-  "Media & Press Inquiries:press@oursocialimage.net",
-  "Partnership Inquiries:partners@oursocialimage.net",
+  "Media & Press Inquiries : press@oursocialimage.net",
+  "Partnership Inquiries : partners@oursocialimage.net",
   "Shop",
   "Sponsorships",
   "Boss Beginnings",
@@ -61,11 +61,11 @@ const businessData = [
 
 const Footer = () => {
   return (
-    <footer className="bg-[#18181B] text-white pt-14 pb-10">
+    <footer className="bg-[#18181B] text-white pt-14 pb-8">
       <Container>
-        <div className="grid grid-cols-5 gap-10">
+        <div className="flex gap-12">
           {/* First Column */}
-          <div className="space-y-5">
+          <div className="space-y-5 w-[473px]">
             <div>
               <h3 className="text-white font-medium text-2xl mb-3">
                 Our Social Image (OSI)
@@ -91,17 +91,29 @@ const Footer = () => {
             </div>
 
             <div className="flex gap-3 items-center mt-12">
-              <InstagramSvg />
-              <YoutubeSvg />
-              <FacebookSvg />
-              <TwitterSvg />
-              <MusicSvg />
-              <LinkedinSvg />
+              <button className="cursor-pointer">
+                <InstagramSvg />
+              </button>
+              <button className="cursor-pointer">
+                <YoutubeSvg />
+              </button>
+              <button className="cursor-pointer">
+                <FacebookSvg />
+              </button>
+              <button className="cursor-pointer">
+                <TwitterSvg />
+              </button>
+              <button className="cursor-pointer">
+                <MusicSvg />
+              </button>
+              <button className="cursor-pointer">
+                <LinkedinSvg />
+              </button>
             </div>
           </div>
 
           {/* Second Column */}
-          <div>
+          <div className="shrink-0">
             <h3 className="text-white font-medium text-2xl mb-3">
               Explore OSI
             </h3>
@@ -115,7 +127,7 @@ const Footer = () => {
           </div>
 
           {/* Third Column */}
-          <div>
+          <div className="w-[235px]">
             <h3 className="text-white font-medium text-2xl mb-3">
               Help & Support
             </h3>
@@ -141,7 +153,7 @@ const Footer = () => {
           </div>
 
           {/* Fifth Column */}
-          <div className="space-y-8">
+          <div className="space-y-8 w-[273px]">
             <div>
               <h3 className="text-white font-medium text-2xl mb-3">
                 Business Details
