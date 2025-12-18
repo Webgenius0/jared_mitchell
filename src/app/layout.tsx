@@ -1,19 +1,10 @@
 import "./globals.css";
 import type { Metadata } from "next";
 import { Toaster } from "react-hot-toast";
-import { Poppins } from "next/font/google";
 import { getSiteSettings } from "@/Hooks/api/cms_api";
 import AosProvider from "@/Provider/AosProvider/AosProvider";
 import AuthProvider from "@/Provider/AuthProvider/AuthProvider";
 import QueryProvider from "@/Provider/QueryProvider/QueryProvider";
-
-// Fonts
-const poppins = Poppins({
-  variable: "--font-poppins",
-  subsets: ["latin"],
-  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
-  display: "swap",
-});
 
 // Metadata
 export const metadata: Metadata = {
@@ -37,7 +28,7 @@ export default async function RootLayout({
       <head>
         <link rel="icon" href={faviconUrl} />
       </head>
-      <body className={`${poppins.variable} antialiased`}>
+      <body>
         <QueryProvider>
           <AuthProvider>
             <AosProvider>

@@ -1,4 +1,5 @@
 // All Fake Data
+import {AmazonSvg, WooCommerce} from '../Svg/SvgContainer'
 export const data = [
   {
     id: 1,
@@ -16,3 +17,32 @@ export const data = [
     description: "desc....",
   },
 ];
+
+export const sponsorsData = [
+  {
+    id: 1, 
+    icon: WooCommerce
+  },
+  {
+    id: 1, 
+    icon: AmazonSvg
+  },
+  {
+    id: 1, 
+    icon: WooCommerce
+  },
+  {
+    id: 1, 
+    icon: AmazonSvg
+  },
+  {
+    id: 1, 
+    icon: WooCommerce
+  },
+  {
+    id: 1, 
+    icon: AmazonSvg
+  },
+  
+]
+
