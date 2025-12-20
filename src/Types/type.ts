@@ -21,3 +21,18 @@ export type LogoSliderProps = {
     }[]
     reverse?: boolean
 }
+
+export type PricingPlan = {
+  id: string
+  title: string
+  price: string
+  period: string
+  badge?: string
+  highlighted?: boolean
+  bestFor: string
+  sections: {
+    title: string
+    items: string[]
+  }[]
+  outcome: string
+}

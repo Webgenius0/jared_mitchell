@@ -1,6 +1,5 @@
 import { Button } from '@/Components/Common/Button'
 import Container from '@/Components/Common/Container'
-import React from 'react'
 
 const NewsLetter = () => {
     return (
