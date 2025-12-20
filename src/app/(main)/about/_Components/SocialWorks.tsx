@@ -66,12 +66,12 @@ const SocialWorks = () => {
       <Marquee autoFill={true}>
         <div className="flex">
           {data?.map(item => (
-            <div className="border border-[#00000013] rounded-xl px-5 py-10 shadow-[0_4px_20px_0_rgba(0,0,0,0.07)] flex flex-col gap-4 justify-between w-[450px] text-center mr-5">
-              <span className="size-28 mx-auto grid place-items-center rounded-full bg-gray-50 shadow border border-[#00000013]">
+            <div className="border border-[#00000013] rounded-xl px-5 py-10 shadow-[0_4px_20px_0_rgba(0,0,0,0.07)] flex flex-col gap-5 justify-between w-[450px] text-center mr-5">
+              <span className="size-28 mx-auto grid place-items-center rounded-full bg-gray-50 shadow border border-[#00000007]">
                 {item?.icon}
               </span>
 
-              <h3 className="font-medium text-2xl text-[#1D1D1F] leading-[150%]">
+              <h3 className="font-bold text-2xl text-[#1D1D1F] leading-[150%]">
                 {item?.title}
               </h3>
 
