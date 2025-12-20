@@ -1,7 +1,6 @@
 import { Button } from '@/Components/Common/Button'
 import Container from '@/Components/Common/Container'
 import Image from 'next/image'
-import { GoGift } from 'react-icons/go'
 
 const OSIApparel = () => {
     return (

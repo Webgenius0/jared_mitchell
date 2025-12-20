@@ -8,7 +8,7 @@ const Sponsors = () => {
     return (
         <section className='section'>
             <h2 className='section_title'>Powered by our community partners</h2>
-            <div className='flex flex-col gap-y-2 mt-6 md:mt-10'>
+            <div className='space-y-3 md:space-y-10 mt-6 md:mt-10'>
                 <SponsorSlider logos={sponsorsData} />
                 <SponsorSlider logos={sponsorsData} reverse={true} />
             </div>

@@ -1,5 +1,5 @@
 import Container from "@/Components/Common/Container"
-import { AnnouncementSvg, BadgeSvg, BlueBigBadge, BlueBigPower, BlueBigStars, BlueHeartSvg, BlueStarsSvg, GrowthSvg, PeopleSvg, PowerSvg, StarSvg } from "@/Components/Svg/SvgContainer"
+import { BlueBigBadge, BlueBigPower, BlueBigStars, StarSvg } from "@/Components/Svg/SvgContainer"
 
 const data = [
     {

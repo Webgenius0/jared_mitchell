@@ -1,34 +1,31 @@
-import Container from "@/Components/Common/Container";
-import Sponsors from "@/Components/PageComponents/mainPages/home/Sponsors";
-import CoreValues from "@/Components/PageComponents/mainPages/home/CoreValues";
-import Hero from "@/Components/PageComponents/mainPages/home/Hero";
-import WhyChoose from "@/Components/PageComponents/mainPages/home/WhyChoose";
-import Image from "next/image";
-import CommunityPartner from "@/Components/PageComponents/mainPages/home/CommunityPartner";
-import WhatYouAreGetting from "@/Components/PageComponents/mainPages/home/WhatYouAreGetting";
-import Features from "@/Components/PageComponents/mainPages/home/Features";
-import PricingTable from "@/Components/PageComponents/mainPages/home/PricingTable";
-import PricingPlan from "@/Components/PageComponents/mainPages/home/PricingPlan";
-import BossBeginnings from "@/Components/PageComponents/mainPages/home/BossBeginnings";
-import OSIApparel from "@/Components/PageComponents/mainPages/home/OSIApparel";
-import NewsLetter from "@/Components/PageComponents/mainPages/home/NewsLetter";
+import Sponsors from "@/app/(main)/_components/Sponsors";
+import CoreValues from "@/app/(main)/_components/CoreValues";
+import Hero from "@/app/(main)/_components/Hero";
+import WhyChoose from "@/app/(main)/_components/WhyChoose";
+import CommunityPartner from "@/app/(main)/_components/CommunityPartner";
+import WhatYouAreGetting from "@/app/(main)/_components/WhatYouAreGetting";
+import Features from "@/app/(main)/_components/Features";
+import PricingTable from "@/app/(main)/_components/PricingTable";
+import PricingPlan from "@/app/(main)/_components/PricingPlan";
+import BossBeginnings from "@/app/(main)/_components/BossBeginnings";
+import OSIApparel from "@/app/(main)/_components/OSIApparel";
+import NewsLetter from "@/app/(main)/_components/NewsLetter";
+import SuccessStories from "@/app/(main)/_components/SuccessStories";
+import CommunityAchievements from "@/app/(main)/_components/CommunityAchievements";
+import Countdown from "@/app/(main)/_components/Countdown";
+import ArtistSpotlightCard from "@/app/(main)/_components/ArtistSpotlightCard";
+import PastEvents from "@/app/(main)/_components/PastEvents";
+import UpcomingEvents from "@/app/(main)/_components/UpcomingEvents";
+import EventBanner from "./_components/EventBanner";
+import PoweredByOSI from "./_components/PoweredByOSI";
+import FeaturedEvent from "./_components/FeaturedEvent";
 
 const Page = () => {
   return (
     <>
       <Hero />
       <Sponsors />
-
-      <section className="w-full max-h-[580px] h-full overflow-hidden flex items-center relative">
-        <Image src={"/home/home-banner-1.jpg"} width={1920} height={580} alt="home banner" className="object-cover w-full" />
-        <div className="w-full h-full absolute top-0 bg-black/60">
-          <div className="flex flex-col max-w-[1200px] w-full mx-auto h-full items-center justify-center">
-            <h2 className="section_title text-white">Everything You Need to Grow Your Business — Powered by OSI.</h2>
-            <p className="section_sub_title text-[#F5F5F7]">Marketing support, visibility, tools, and community — all in one membership built for real creators and small businesses.
-              Unlock professional exposure, business tools, spotlight features, and hands-on support — at a price any startup can afford.</p>
-          </div>
-        </div>
-      </section>
+      <PoweredByOSI />
       <WhyChoose />
       <CoreValues />
       <PricingPlan />
@@ -36,18 +33,17 @@ const Page = () => {
       <WhatYouAreGetting />
       <Features />
       <BossBeginnings />
-
-      {/* Events section */}
-      <section className="w-full max-h-[580px] h-full overflow-hidden flex items-center relative">
-        <Image src={"/home/home-banner-2.jpg"} width={1920} height={580} alt="home banner" className="object-cover w-full" />
-        <div className="w-full h-full absolute top-0 bg-black/60">
-          <div className="flex flex-col max-w-[1200px] w-full mx-auto h-full items-center justify-center">
-            <h2 className="section_title text-white 2xl:text-6xl">Events</h2>
-            <p className="section_sub_title text-[#F5F5F7]">Discover celebrations, workshops, and community moments.<br />
-              A curated look at the newest and most important events happening inside Our Social Image.</p>
-          </div>
-        </div>
-      </section>
+      <SuccessStories />
+      <ArtistSpotlightCard />
+      <CommunityAchievements />
+      <ArtistSpotlightCard />
+      <CommunityAchievements />
+      <EventBanner />
+      <Countdown />
+      <FeaturedEvent />
+      <UpcomingEvents />
+      <PastEvents />
+      <CommunityAchievements />
       <OSIApparel />
       <CommunityPartner />
       <NewsLetter />
