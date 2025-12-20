@@ -23,7 +23,7 @@ const Mission = () => {
         <div className="flex-1 bg-[#FFCE290A] py-12 flex flex-col justify-center items-center rounded-xl space-y-5 text-center px-20 shadow-[0_4px_20px_0_rgba(0,0,0,0.07)] border border-[#0000000e]">
           <ATwoSvg />
           <h3 className=" text-primary-black text-4xl font-bold">Purpose</h3>
-          <p className="text-[#364153] text-xl">
+          <p className="text-[#364153] text-[22px]">
             To build a united community that encourages collaboration, inspires
             creativity, and supports the dreams of those shaping the future.
           </p>

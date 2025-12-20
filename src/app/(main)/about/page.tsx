@@ -20,6 +20,7 @@ const page = () => {
       <Mission />
       <WhatWeDo />
       <SocialWorks />
+      
       <WeServe />
       <WhatExist />
       <OurImpact />
