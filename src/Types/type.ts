@@ -1,13 +1,3 @@
-export interface Demo {
-  id: number;
-  title: string;
-  description: string;
-}
-
-export interface Demo2 extends Demo {
-  sub_title: string;
-}
-
 export type Card = {
   id: number;
   title: string;
@@ -15,21 +5,21 @@ export type Card = {
 };
 
 export type LogoSliderProps = {
-    logos: {
-        id: number;
-        icon: () => React.ReactNode;
-    }[]
-    reverse?: boolean
-}
+  logos: {
+    id: number;
+    icon: () => React.ReactNode;
+  }[];
+  reverse?: boolean;
+};
 
 export type PricingPlan = {
-  id: string
-  title: string
-  price: string
-  period: string
-  badge?: string
-  highlighted?: boolean
-  bestFor: string
+  id: string;
+  title: string;
+  price: string;
+  period: string;
+  badge?: string;
+  highlighted?: boolean;
+  bestFor: string;
   sections: {
     title: string
     items: string[]
@@ -49,4 +39,4 @@ export interface Testimonial {
   role: string;
   quote: string;
   rating: number;
-}
+};

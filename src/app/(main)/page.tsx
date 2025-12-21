@@ -9,7 +9,6 @@ import PricingTable from "@/app/(main)/_components/PricingTable";
 import PricingPlan from "@/app/(main)/_components/PricingPlan";
 import BossBeginnings from "@/app/(main)/_components/BossBeginnings";
 import OSIApparel from "@/app/(main)/_components/OSIApparel";
-import NewsLetter from "@/app/(main)/_components/NewsLetter";
 import SuccessStories from "@/app/(main)/_components/SuccessStories";
 import CommunityAchievements from "@/app/(main)/_components/CommunityAchievements";
 import Countdown from "@/app/(main)/_components/Countdown";
@@ -19,6 +18,7 @@ import UpcomingEvents from "@/app/(main)/_components/UpcomingEvents";
 import EventBanner from "./_components/EventBanner";
 import PoweredByOSI from "./_components/PoweredByOSI";
 import FeaturedEvent from "./_components/FeaturedEvent";
+import NewsLetter from "@/Components/Common/NewsLetter";
 
 const Page = () => {
   return (
@@ -46,7 +46,10 @@ const Page = () => {
       <CommunityAchievements />
       <OSIApparel />
       <CommunityPartner />
-      <NewsLetter />
+      <NewsLetter
+        title="Stay inspired. Get the latest spotlights and events delivered to your inbox."
+        sub_title="Be the first to hear about new creators, rising businesses, upcoming events, and OSI announcements."
+      />
     </>
   );
 };
