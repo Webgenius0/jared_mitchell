@@ -9,7 +9,6 @@ import WhatExist from "./_Components/WhatExist";
 import OurImpact from "./_Components/OurImpact";
 import FounderMessage from "./_Components/FounderMessage";
 import JoinMovement from "./_Components/JoinMovement";
-import GetStarted from "./_Components/GetStarted";
 
 const page = () => {
   return (
@@ -23,10 +22,8 @@ const page = () => {
       <WeServe />
       <WhatExist />
       <OurImpact />
-      
       <FounderMessage />
       <JoinMovement />
-      <GetStarted />
     </>
   );
 };
