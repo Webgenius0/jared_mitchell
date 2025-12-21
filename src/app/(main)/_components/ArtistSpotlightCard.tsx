@@ -13,7 +13,7 @@ export default function ArtistSpotlightCard() {
             <div className="overflow-hidden max-w-[1396px] w-full mx-auto rounded-2xl bg-white custom_shadow custom_border">
                 <figure className="w-full h-[871px] overflow-hidden">
                     <Image
-                        src="/home/artist-spotlight.jpg"
+                        src="/home/artist-spotlight-img.jpg"
                         width={1396}
                         height={871}
                         alt="Artist painting"

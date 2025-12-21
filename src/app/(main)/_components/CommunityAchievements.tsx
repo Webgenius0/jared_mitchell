@@ -9,7 +9,7 @@ const CommunityAchievements = () => {
             <h2 className='section_title 2xl:text-6xl 2xl:font-semibold'>Past Six Months Highlights</h2>
             <p className='section_sub_title'>Celebrating our community's achievements and creative milestones</p>
             <div className='my-6 md:my-12'>
-                <Marquee>
+                <Marquee pauseOnHover>
                     {successStories?.map((data, index) => (
                         <div key={data.id} className='relative flex items-center justify-center w-[500px] h-[300px] mx-3 my-1'>
                             <figure className='w-[500px] h-[300px]'>
