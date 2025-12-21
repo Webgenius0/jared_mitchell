@@ -16,8 +16,8 @@ const PricingTable = () => {
                             </tr>
                         </thead>
                         <tbody className='rounded-2xl [&>tr:last-child>td:first-child]:rounded-bl-2xl [&>tr:last-child>td:last-child]:rounded-br-2xl [&>tr:last-child]:border-none'>
-                            {pricingTableData.map((row) => (
-                                <tr key={row.feature} className='md:text-2xl border-b border-gray-200 text-center bg-white'>
+                            {pricingTableData.map((row, index) => (
+                                <tr key={index} className='md:text-2xl border-b border-gray-200 text-center bg-white'>
                                     <td className='py-[26px]'>{row.feature}</td>
                                     <td className='py-[26px]'>{row.basic}</td>
                                     <td className='py-[26px]'>{row.growth}</td>

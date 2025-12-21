@@ -36,3 +36,17 @@ export type PricingPlan = {
   }[]
   outcome: string
 }
+
+export interface FAQItem {
+  id: number;
+  question: string;
+  answer: string;
+}
+
+export interface Testimonial {
+  id: number;
+  name: string;
+  role: string;
+  quote: string;
+  rating: number;
+}
