@@ -38,26 +38,23 @@ body {
   @apply w-dvw h-dvh overflow-x-hidden font-sf;
 }
 
-@layer base{
-  .section_title{
-    @apply text-center font-medium text-5xl text-primary-black leading-[150%];
-  }
-  .section_sub_title{
-    @apply text-center text-base sm:text-lg md:text-xl xl:text-2xl text-secondary-black my-2 md:my-4 font-medium;
-  }
-  .section_description {
-    @apply text-base;
-  }
-  .container {
-    @apply max-w-[1548px] w-full mx-auto;
-  }
+.container {
+  @apply max-w-[1548px] w-full mx-auto;
 }
 
-button{
-  cursor: pointer;
+.section_title {
+  @apply text-primary-black text-5xl font-bold leading-[140%] text-center mb-10;
 }
 
-.section{
+.section_sub_title {
+  @apply text-center text-base sm:text-lg md:text-xl xl:text-2xl text-secondary-black my-2 md:my-5 font-medium;
+}
+
+.section_description {
+  @apply text-base;
+}
+
+.section {
   @apply py-6 md:py-12 xl:py-20 2xl:py-24;
 }
 

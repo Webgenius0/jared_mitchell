@@ -9,6 +9,9 @@ import WhatExist from "./_Components/WhatExist";
 import OurImpact from "./_Components/OurImpact";
 import FounderMessage from "./_Components/FounderMessage";
 import JoinMovement from "./_Components/JoinMovement";
+import SponsorSlider from "@/Components/Common/SponsorSlider";
+import { sponsorsData } from "@/Components/Data/data";
+import NewsLetter from "@/Components/Common/NewsLetter";
 
 const page = () => {
   return (
@@ -24,6 +27,17 @@ const page = () => {
       <OurImpact />
       <FounderMessage />
       <JoinMovement />
+      <section className="py-20">
+        <h2 className="text-primary-black text-5xl font-bold leading-[140%] text-center mb-10">
+          Our Event Sponsors
+        </h2>
+        <SponsorSlider logos={sponsorsData} />
+        <SponsorSlider logos={sponsorsData} reverse={true} />
+      </section>
+      <NewsLetter
+        title="Stay inspired. Get the latest spotlights and events delivered to your
+          inbox."
+      />
     </>
   );
 };
