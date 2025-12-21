@@ -1,44 +1,3 @@
-// import React from "react";
-// import { cn } from "@/lib/utils";
-
-// type ButtonProps = {
-//   text: string;
-//   className?: string;
-//   animation?: boolean;
-//   onClick?: () => void;
-//   type?: "reset" | "submit";
-//   variant?: "primary_btn" | "secondary_btn";
-// };
-
-// const Button: React.FC<ButtonProps> = ({
-//   type,
-//   text,
-//   onClick,
-//   className,
-//   animation = true,
-//   variant = "primary_btn",
-//   ...props
-// }) => {
-//   return (
-//     <button
-//       type={type}
-//       onClick={onClick}
-//       data-aos={animation ? "fade-up" : undefined}
-//       className={cn(
-//         "text-black text-lg font-bold", // Default/Common Class
-//         variant === "primary_btn" && "text-red-500",
-//         variant === "secondary_btn" && "text-green-500",
-//         className
-//       )}
-//       {...props}
-//     >
-//       {text}
-//     </button>
-//   );
-// };
-
-// export default Button;
-
 import * as React from "react"
 import { Slot } from "@radix-ui/react-slot"
 import { cva, type VariantProps } from "class-variance-authority"
@@ -62,7 +21,7 @@ const buttonVariants = cva(
         link: "text-primary underline-offset-4 hover:underline",
       },
       size: {
-        default: "h-12 px-8 py-2 rounded-full text-lg",
+        default: "h-14 px-8 py-2 rounded-full text-lg",
         sm: "h-8 rounded-md px-3 text-xs",
         lg: "h-9 rounded-full px-3",
         icon: "h-9 w-9",

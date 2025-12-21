@@ -21,8 +21,22 @@ export type PricingPlan = {
   highlighted?: boolean;
   bestFor: string;
   sections: {
-    title: string;
-    items: string[];
-  }[];
-  outcome: string;
+    title: string
+    items: string[]
+  }[]
+  outcome: string
+}
+
+export interface FAQItem {
+  id: number;
+  question: string;
+  answer: string;
+}
+
+export interface Testimonial {
+  id: number;
+  name: string;
+  role: string;
+  quote: string;
+  rating: number;
 };

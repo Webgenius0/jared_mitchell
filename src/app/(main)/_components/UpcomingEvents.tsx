@@ -13,7 +13,7 @@ const UpcomingEvents = () => {
         <section className='section'>
             <h2 className='section_title 2xl:text-7xl 2xl:font-bold'>Upcoming Events</h2>
             <div className='my-10'>
-            <Marquee>
+            <Marquee pauseOnHover>
                 {upcomingEvents?.map((data) => (
                     <div key={data.id} className="w-[500px] rounded-[20px] bg-white custom_shadow custom_border overflow-hidden mx-3">
                         <div className='relative w-full' >

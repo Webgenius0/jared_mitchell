@@ -11,7 +11,7 @@ const SuccessStories = () => {
             <p className='section_sub_title'>Meet the businesses shaping our neighborhoods.<br />
                 From innovative startups to community anchors, these stories highlight the courage, creativity, and commitment behind every brand.</p>
             <div className='my-6 md:my-12'>
-                <Marquee>
+                <Marquee pauseOnHover>
                     {successStories?.map((data, index) => (
                         <div key={data.id} className='relative flex items-center justify-center w-[500px] h-[300px] mx-3 my-1'>
                             <Image src={data.image} width={500} height={300} alt='image' className='size-full object-cover' />
