@@ -21,11 +21,11 @@ export type PricingPlan = {
   highlighted?: boolean;
   bestFor: string;
   sections: {
-    title: string
-    items: string[]
-  }[]
-  outcome: string
-}
+    title: string;
+    items: string[];
+  }[];
+  outcome: string;
+};
 
 export interface FAQItem {
   id: number;
@@ -39,4 +39,22 @@ export interface Testimonial {
   role: string;
   quote: string;
   rating: number;
+}
+
+export type PickCardProps = {
+  id: number;
+  name: string;
+  role: string;
+  description: string;
+  image: string;
+  href: string;
 };
+
+export interface Artist {
+  id: number;
+  name: string;
+  role: string;
+  description: string;
+  image: string;
+  href: string;
+}

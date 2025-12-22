@@ -43,11 +43,11 @@ body {
 }
 
 .section_title {
-  @apply text-primary-black text-5xl font-bold leading-[140%] text-center mb-10;
+  @apply text-primary-black text-5xl font-bold leading-[140%] text-center mb-4;
 }
 
 .section_sub_title {
-  @apply text-center text-base sm:text-lg md:text-xl xl:text-2xl text-secondary-black my-2 md:my-5 font-medium;
+  @apply text-center text-base sm:text-lg md:text-xl xl:text-2xl text-secondary-black my-2 font-medium;
 }
 
 .section_description {

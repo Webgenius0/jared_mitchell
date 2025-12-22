@@ -18,7 +18,7 @@ const FeaturedEvent = () => {
             <div className="absolute top-7 left-7 text-xl px-5 py-4 rounded-full text-primary-blue bg-[#eff6ff]">Featured Event</div>
           </figure>
           <div className="lg:basis-1/2">
-            <h2 className="section_title text-left 2xl:font-bold 2xl:text-6xl tracking-tight mb-9 leading-[90px]">Boss Beginnings – Westside Beauty Lounge</h2>
+            <h2 className="section_title !text-left 2xl:font-bold 2xl:text-6xl tracking-tight mb-9 leading-[90px]">Boss Beginnings – Westside Beauty Lounge</h2>
             <div className="space-y-4">
               <div className="flex items-center text-2xl gap-3">
                 <PiCalendarBlank className="text-primary-blue" />

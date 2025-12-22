@@ -1,5 +1,5 @@
 // All Fake Data, but some of them are real 🙄
-import { FAQItem, PricingPlan, Testimonial } from "@/Types/type";
+import { Artist, FAQItem, PickCardProps, PricingPlan, Testimonial } from "@/Types/type";
 import { AmazonSvg, WooCommerce } from "../Svg/SvgContainer";
 
 export const sponsorsData = [
@@ -528,3 +528,144 @@ export const testimonials: Testimonial[] = [
     rating: 5
   }
 ];
+
+export const editorPicks: PickCardProps[] = [
+  {
+    id: 1,
+    name: "James Boyd",
+    role: "Visual Artists",
+    description:
+      "I create digital illustrations that combine vibrant colors with bold shapes.",
+    image: "/spotlight/artist-pick-img.jpg",
+    href: "/artists/james-boyd",
+  },
+  {
+    id: 2,
+    name: "James Boyd",
+    role: "Visual Artists",
+    description:
+      "I create digital illustrations that combine vibrant colors with bold shapes.",
+    image: "/spotlight/artist-pick-img.jpg",
+    href: "/artists/james-boyd",
+  },
+  {
+    id: 3,
+    name: "James Boyd",
+    role: "Visual Artists",
+    description:
+      "I create digital illustrations that combine vibrant colors with bold shapes.",
+    image: "/spotlight/artist-pick-img.jpg",
+    href: "/artists/james-boyd",
+  },
+]
+
+export const artists:Artist[] = [
+  {
+    id: 1,
+    name: "James Boyd",
+    role: "Visual Artists",
+    description:
+      "I create digital illustrations that combine vibrant colors with bold shapes.",
+    image: "/profile.svg",
+    href: "/artists/james-boyd",
+  },
+  {
+    id: 2,
+    name: "James Boyd",
+    role: "Visual Artists",
+    description:
+      "I create digital illustrations that combine vibrant colors with bold shapes.",
+    image: "/profile.svg",
+    href: "/artists/james-boyd",
+  },
+  {
+    id: 3,
+    name: "James Boyd",
+    role: "Visual Artists",
+    description:
+      "I create digital illustrations that combine vibrant colors with bold shapes.",
+    image: "/profile.svg",
+    href: "/artists/james-boyd",
+  },
+  {
+    id: 1,
+    name: "James Boyd",
+    role: "Visual Artists",
+    description:
+      "I create digital illustrations that combine vibrant colors with bold shapes.",
+    image: "/profile.svg",
+    href: "/artists/james-boyd",
+  },
+  {
+    id: 2,
+    name: "James Boyd",
+    role: "Visual Artists",
+    description:
+      "I create digital illustrations that combine vibrant colors with bold shapes.",
+    image: "/profile.svg",
+    href: "/artists/james-boyd",
+  },
+  {
+    id: 3,
+    name: "James Boyd",
+    role: "Visual Artists",
+    description:
+      "I create digital illustrations that combine vibrant colors with bold shapes.",
+    image: "/profile.svg",
+    href: "/artists/james-boyd",
+  },
+  {
+    id: 1,
+    name: "James Boyd",
+    role: "Visual Artists",
+    description:
+      "I create digital illustrations that combine vibrant colors with bold shapes.",
+    image: "/profile.svg",
+    href: "/artists/james-boyd",
+  },
+  {
+    id: 2,
+    name: "James Boyd",
+    role: "Visual Artists",
+    description:
+      "I create digital illustrations that combine vibrant colors with bold shapes.",
+    image: "/profile.svg",
+    href: "/artists/james-boyd",
+  },
+  {
+    id: 3,
+    name: "James Boyd",
+    role: "Visual Artists",
+    description:
+      "I create digital illustrations that combine vibrant colors with bold shapes.",
+    image: "/profile.svg",
+    href: "/artists/james-boyd",
+  },
+  {
+    id: 1,
+    name: "James Boyd",
+    role: "Visual Artists",
+    description:
+      "I create digital illustrations that combine vibrant colors with bold shapes.",
+    image: "/profile.svg",
+    href: "/artists/james-boyd",
+  },
+  {
+    id: 2,
+    name: "James Boyd",
+    role: "Visual Artists",
+    description:
+      "I create digital illustrations that combine vibrant colors with bold shapes.",
+    image: "/profile.svg",
+    href: "/artists/james-boyd",
+  },
+  {
+    id: 3,
+    name: "James Boyd",
+    role: "Visual Artists",
+    description:
+      "I create digital illustrations that combine vibrant colors with bold shapes.",
+    image: "/profile.svg",
+    href: "/artists/james-boyd",
+  },
+]
