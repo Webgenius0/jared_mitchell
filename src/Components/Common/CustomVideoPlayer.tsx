@@ -4,7 +4,7 @@ import { useRef, useState } from "react"
 import { MuteIcon, PlayIcon, SoundIcon } from "../Svg/SvgContainer"
 import {cn} from '@/lib/utils'
 
-export default function CustomVideoPlayer({ videoSrc, customClass }: { videoSrc: string, customClass?: string }) {
+export default function CustomVideoPlayer({ videoSrc, className }: { videoSrc: string, className?: string }) {
     const videoRef = useRef<HTMLVideoElement>(null)
     const [isPlaying, setIsPlaying] = useState(false)
     const [isMuted, setIsMuted] = useState(true)
@@ -28,7 +28,7 @@ export default function CustomVideoPlayer({ videoSrc, customClass }: { videoSrc:
     }
 
     return (
-        <div className={cn(customClass, "relative w-full h-full overflow-hidden rounded-2xl")}>
+        <div className={cn(className, "relative w-full h-full overflow-hidden rounded-2xl")}>
             <video
                 ref={videoRef}
                 src={videoSrc}

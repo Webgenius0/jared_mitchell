@@ -34,7 +34,7 @@ const FAQAccordion = () => {
                   {faq.question}
                 </span>
                 <IoIosArrowDown
-                  className={`size-7 text-primary-blue transition-transform ${openId === faq.id ? "rotate-180" : ""
+                  className={`size-7 text-primary-blue transition-transform duration-300 ${openId === faq.id ? "rotate-180" : ""
                     }`}
                 />
               </button>
