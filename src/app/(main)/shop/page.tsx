@@ -1,10 +1,14 @@
-import React from 'react';
+import FeaturedShop from './_components/FeaturedShop';
+import IconSection from './_components/IconSection';
+import PurchaseSupports from './_components/PurchaseSupports';
 
 const page = () => {
   return (
-    <div>
-      Shop
-    </div>
+    <>
+      <IconSection />
+      <FeaturedShop />
+      <PurchaseSupports />
+    </>
   );
 };
 

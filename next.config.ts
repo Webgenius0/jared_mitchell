@@ -21,6 +21,7 @@ const nextConfig = {
         pathname: "/**",
       },
     ],
+    domains: ["i.ibb.co.com"],
   },
 };
 
