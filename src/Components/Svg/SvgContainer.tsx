@@ -2006,3 +2006,146 @@ export const ViewSvg = () => {
     </svg>
   );
 };
+
+export const HOneSvg = () => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="40"
+      height="40"
+      viewBox="0 0 40 40"
+      fill="none"
+    >
+      <path
+        d="M18.3333 10C23.4023 10.1306 28.3565 8.47917 32.3333 5.33333C32.5809 5.14762 32.8754 5.03453 33.1837 5.00674C33.4919 4.97894 33.8018 5.03753 34.0787 5.17596C34.3555 5.31438 34.5884 5.52716 34.7511 5.79045C34.9138 6.05374 35 6.35715 35 6.66667V26.6667C35 26.9762 34.9138 27.2796 34.7511 27.5429C34.5884 27.8062 34.3555 28.019 34.0787 28.1574C33.8018 28.2958 33.4919 28.3544 33.1837 28.3266C32.8754 28.2988 32.5809 28.1857 32.3333 28C28.3565 24.8542 23.4023 23.2028 18.3333 23.3333H8.33333C7.44928 23.3333 6.60143 22.9821 5.97631 22.357C5.35119 21.7319 5 20.8841 5 20V13.3333C5 12.4493 5.35119 11.6014 5.97631 10.9763C6.60143 10.3512 7.44928 10 8.33333 10H18.3333Z"
+        stroke="#1977DD"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M10 23.3335C10 27.6609 11.4036 31.8716 14 35.3335C14.5304 36.0407 15.3201 36.5083 16.1953 36.6333C17.0704 36.7584 17.9594 36.5306 18.6667 36.0002C19.3739 35.4697 19.8415 34.6801 19.9665 33.8049C20.0915 32.9297 19.8638 32.0407 19.3333 31.3335C17.6024 29.0255 16.6667 26.2184 16.6667 23.3335"
+        stroke="#1977DD"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M13.332 10V23.3333"
+        stroke="#1977DD"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+    </svg>
+  );
+};
+
+export const HTwoSvg = () => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="40"
+      height="40"
+      viewBox="0 0 40 40"
+      fill="none"
+    >
+      <path
+        d="M26.6654 35V31.6667C26.6654 29.8986 25.963 28.2029 24.7127 26.9526C23.4625 25.7024 21.7668 25 19.9987 25H9.9987C8.23059 25 6.5349 25.7024 5.28465 26.9526C4.03441 28.2029 3.33203 29.8986 3.33203 31.6667V35"
+        stroke="#1977DD"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M26.668 5.21338C28.0976 5.584 29.3636 6.41882 30.2674 7.58682C31.1712 8.75481 31.6616 10.1899 31.6616 11.6667C31.6616 13.1436 31.1712 14.5786 30.2674 15.7466C29.3636 16.9146 28.0976 17.7494 26.668 18.12"
+        stroke="#1977DD"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M36.668 35.0001V31.6668C36.6669 30.1897 36.1752 28.7548 35.2702 27.5873C34.3653 26.4199 33.0982 25.5861 31.668 25.2168"
+        stroke="#1977DD"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M14.9987 18.3333C18.6806 18.3333 21.6654 15.3486 21.6654 11.6667C21.6654 7.98477 18.6806 5 14.9987 5C11.3168 5 8.33203 7.98477 8.33203 11.6667C8.33203 15.3486 11.3168 18.3333 14.9987 18.3333Z"
+        stroke="#1977DD"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+    </svg>
+  );
+};
+
+export const HThreeSvg = () => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="40"
+      height="40"
+      viewBox="0 0 40 40"
+      fill="none"
+    >
+      <path
+        d="M13.332 3.3335V10.0002"
+        stroke="#1977DD"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M26.668 3.3335V10.0002"
+        stroke="#1977DD"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M31.6667 6.6665H8.33333C6.49238 6.6665 5 8.15889 5 9.99984V33.3332C5 35.1741 6.49238 36.6665 8.33333 36.6665H31.6667C33.5076 36.6665 35 35.1741 35 33.3332V9.99984C35 8.15889 33.5076 6.6665 31.6667 6.6665Z"
+        stroke="#1977DD"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M5 16.6665H35"
+        stroke="#1977DD"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+    </svg>
+  );
+};
+
+export const HFourSvg = () => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="40"
+      height="40"
+      viewBox="0 0 40 40"
+      fill="none"
+    >
+      <path
+        d="M26.668 11.6665H36.668V21.6665"
+        stroke="#1977DD"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M36.6654 11.6665L22.4987 25.8332L14.1654 17.4998L3.33203 28.3332"
+        stroke="#1977DD"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+    </svg>
+  );
+};
