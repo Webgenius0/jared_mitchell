@@ -1,5 +1,14 @@
 // All Fake Data, but some of them are real 🙄
-import { Artist, FAQItem, PickCardProps, PricingPlan, Testimonial } from "@/Types/type";
+import {
+  Artist,
+  FAQItem,
+  PickCardProps,
+  PricingPlan,
+  ShopCardProps,
+  Testimonial,
+  User,
+  WeeklyTimelineProps,
+} from "@/Types/type";
 import { AmazonSvg, WooCommerce } from "../Svg/SvgContainer";
 
 export const sponsorsData = [
@@ -465,33 +474,38 @@ export const faqs: FAQItem[] = [
   {
     id: 1,
     question: "Can I cancel my plan anytime?",
-    answer: "Yes, you can cancel your plan at any time from your account settings."
+    answer:
+      "Yes, you can cancel your plan at any time from your account settings.",
   },
   {
     id: 2,
     question: "How do spotlights work?",
-    answer: "Spotlights allow your profile or business to be featured for increased visibility."
+    answer:
+      "Spotlights allow your profile or business to be featured for increased visibility.",
   },
   {
     id: 3,
     question: "What are AI insights?",
-    answer: "AI insights provide performance analytics and recommendations based on your activity."
+    answer:
+      "AI insights provide performance analytics and recommendations based on your activity.",
   },
   {
     id: 4,
     question: "Do I need a business to join OSI?",
-    answer: "No, individuals and businesses can both join OSI."
+    answer: "No, individuals and businesses can both join OSI.",
   },
   {
     id: 5,
     question: "How quickly will I see visibility?",
-    answer: "Visibility can begin within days, depending on your plan and engagement."
+    answer:
+      "Visibility can begin within days, depending on your plan and engagement.",
   },
   {
     id: 6,
     question: "Do all plans include events?",
-    answer: "Yes, all plans include events, with higher tiers offering early or VIP access."
-  }
+    answer:
+      "Yes, all plans include events, with higher tiers offering early or VIP access.",
+  },
 ];
 
 export const testimonials: Testimonial[] = [
@@ -501,7 +515,7 @@ export const testimonials: Testimonial[] = [
     role: "Visual Artist",
     quote:
       "OSI gave me the visibility I never had before. My art reached new audiences and I finally felt seen as a creator.",
-    rating: 5
+    rating: 5,
   },
   {
     id: 2,
@@ -509,7 +523,7 @@ export const testimonials: Testimonial[] = [
     role: "Business Owner",
     quote:
       "When OSI featured my business, I saw immediate engagement. Their support is real, and it made a huge difference.",
-    rating: 4
+    rating: 4,
   },
   {
     id: 3,
@@ -517,7 +531,7 @@ export const testimonials: Testimonial[] = [
     role: "Model",
     quote:
       "OSI makes you feel supported, respected, and appreciated. Their platform changes lives.",
-    rating: 3
+    rating: 3,
   },
   {
     id: 4,
@@ -525,8 +539,8 @@ export const testimonials: Testimonial[] = [
     role: "Entrepreneur",
     quote:
       "Boss Beginnings was a blessing. OSI gave my business a real start with encouragement, community, and exposure.",
-    rating: 5
-  }
+    rating: 5,
+  },
 ];
 
 export const editorPicks: PickCardProps[] = [
@@ -557,115 +571,301 @@ export const editorPicks: PickCardProps[] = [
     image: "/spotlight/artist-pick-img.jpg",
     href: "/artists/james-boyd",
   },
+];
+
+export const artists: Artist[] = [
+  {
+    id: 1,
+    name: "James Boyd",
+    role: "Visual Artists",
+    description:
+      "I create digital illustrations that combine vibrant colors with bold shapes.",
+    image: "/profile.svg",
+    href: "/artists/james-boyd",
+  },
+  {
+    id: 2,
+    name: "James Boyd",
+    role: "Visual Artists",
+    description:
+      "I create digital illustrations that combine vibrant colors with bold shapes.",
+    image: "/profile.svg",
+    href: "/artists/james-boyd",
+  },
+  {
+    id: 3,
+    name: "James Boyd",
+    role: "Visual Artists",
+    description:
+      "I create digital illustrations that combine vibrant colors with bold shapes.",
+    image: "/profile.svg",
+    href: "/artists/james-boyd",
+  },
+  {
+    id: 1,
+    name: "James Boyd",
+    role: "Visual Artists",
+    description:
+      "I create digital illustrations that combine vibrant colors with bold shapes.",
+    image: "/profile.svg",
+    href: "/artists/james-boyd",
+  },
+  {
+    id: 2,
+    name: "James Boyd",
+    role: "Visual Artists",
+    description:
+      "I create digital illustrations that combine vibrant colors with bold shapes.",
+    image: "/profile.svg",
+    href: "/artists/james-boyd",
+  },
+  {
+    id: 3,
+    name: "James Boyd",
+    role: "Visual Artists",
+    description:
+      "I create digital illustrations that combine vibrant colors with bold shapes.",
+    image: "/profile.svg",
+    href: "/artists/james-boyd",
+  },
+  {
+    id: 1,
+    name: "James Boyd",
+    role: "Visual Artists",
+    description:
+      "I create digital illustrations that combine vibrant colors with bold shapes.",
+    image: "/profile.svg",
+    href: "/artists/james-boyd",
+  },
+  {
+    id: 2,
+    name: "James Boyd",
+    role: "Visual Artists",
+    description:
+      "I create digital illustrations that combine vibrant colors with bold shapes.",
+    image: "/profile.svg",
+    href: "/artists/james-boyd",
+  },
+  {
+    id: 3,
+    name: "James Boyd",
+    role: "Visual Artists",
+    description:
+      "I create digital illustrations that combine vibrant colors with bold shapes.",
+    image: "/profile.svg",
+    href: "/artists/james-boyd",
+  },
+  {
+    id: 1,
+    name: "James Boyd",
+    role: "Visual Artists",
+    description:
+      "I create digital illustrations that combine vibrant colors with bold shapes.",
+    image: "/profile.svg",
+    href: "/artists/james-boyd",
+  },
+  {
+    id: 2,
+    name: "James Boyd",
+    role: "Visual Artists",
+    description:
+      "I create digital illustrations that combine vibrant colors with bold shapes.",
+    image: "/profile.svg",
+    href: "/artists/james-boyd",
+  },
+  {
+    id: 3,
+    name: "James Boyd",
+    role: "Visual Artists",
+    description:
+      "I create digital illustrations that combine vibrant colors with bold shapes.",
+    image: "/profile.svg",
+    href: "/artists/james-boyd",
+  },
+];
+
+export const timelineData: WeeklyTimelineProps = {
+  title: "Automated Weekly Timeline",
+  events: [
+    {
+      id: 1,
+      time: "Sunday 11:59 PM",
+      title: "Voting Freeze & Selection",
+      points: [
+        "Current Final 6 voting locks",
+        "Highest score wins Spotlight of the Week",
+        "Top 6 from Top 12 advance to Final 6",
+        "System auto-selects 12 new nominees for next week",
+      ],
+    },
+    {
+      id: 2,
+      time: "Monday 12:00 AM",
+      title: "Weekly Reset & Publish",
+      points: [
+        "All weekly scores reset to 0",
+        "New winner announced",
+        "New Final 6 voting begins",
+        "Next week's Top 12 revealed",
+      ],
+    },
+    {
+      id: 3,
+      time: "Monday – Sunday",
+      title: "Active Voting Period",
+      points: [
+        "Community votes on Final 6",
+        "Scores accumulate throughout the week",
+        "Real-time leaderboard updates",
+        "Next week's Top 12 revealed",
+      ],
+    },
+  ],
+};
+
+export const topPerformers: User[] = [
+  {
+    id: 1,
+    rank: 1,
+    name: "Aisha Patel",
+    title: "Cybersecurity Expert",
+    description:
+      "Protecting critical infrastructure and teaching security best practices to the next generation.",
+    tag: "Security",
+    avatar: "/profile.svg",
+    claps: 45,
+    saves: 18,
+    shares: 9,
+    weeklyScore: 156,
+    socials: {
+      website: "https://aishapatel.dev",
+      twitter: "https://twitter.com/aishasec",
+      github: "https://github.com/aishapatel",
+      linkedin: "https://linkedin.com/in/aishapatel",
+    },
+  },
+  {
+    id: 2,
+    rank: 2,
+    name: "Marcus Rodriguez",
+    title: "Open Source Maintainer",
+    description:
+      "Creator of popular developer tools used by over 100k developers worldwide.",
+    tag: "Open Source",
+    avatar: "/profile.svg",
+    claps: 38,
+    saves: 19,
+    shares: 8,
+    weeklyScore: 143,
+    socials: {
+      github: "https://github.com/marcusr",
+      twitter: "https://twitter.com/marcusr_dev",
+    },
+  },
+  {
+    id: 3,
+    rank: 3,
+    name: "James Liu",
+    title: "Cloud Architect",
+    description:
+      "Designing scalable cloud infrastructure and mentoring engineers in distributed systems.",
+    tag: "Cloud & DevOps",
+    avatar: "/profile.svg",
+    claps: 45,
+    saves: 18,
+    shares: 9,
+    weeklyScore: 156,
+    socials: {
+      linkedin: "https://linkedin.com/in/jamesliu",
+      website: "https://jamesliu.io",
+    },
+  },
+  {
+    id: 4,
+    rank: 4,
+    name: "Sarah Chen",
+    title: "AI Research Engineer",
+    description:
+      "Building ethical and scalable AI systems with a focus on large language models.",
+    tag: "AI & ML",
+    avatar: "/profile.svg",
+    claps: 41,
+    saves: 15,
+    shares: 7,
+    weeklyScore: 136,
+    socials: {
+      twitter: "https://twitter.com/sarahai",
+      github: "https://github.com/sarahchen",
+      linkedin: "https://linkedin.com/in/sarahchen",
+    },
+  },
+  {
+    id: 5,
+    rank: 5,
+    name: "Daniel Moore",
+    title: "Frontend Engineer",
+    description:
+      "Crafting accessible, high-performance user interfaces with modern web technologies.",
+    tag: "Frontend",
+    avatar: "/profile.svg",
+    claps: 34,
+    saves: 14,
+    shares: 6,
+    weeklyScore: 128,
+    socials: {
+      github: "https://github.com/danielmoore",
+      website: "https://danielmoore.dev",
+    },
+  },
+  {
+    id: 6,
+    rank: 6,
+    name: "Fatima Rahman",
+    title: "Product Designer",
+    description:
+      "Designing intuitive digital products with a strong focus on user research and usability.",
+    tag: "Product Design",
+    avatar: "/profile.svg",
+    claps: 31,
+    saves: 12,
+    shares: 5,
+    weeklyScore: 121,
+    socials: {
+      linkedin: "https://linkedin.com/in/fatimarahman",
+      twitter: "https://twitter.com/fatima_designs",
+    },
+  },
 ]
 
-export const artists:Artist[] = [
+
+export const featuredShopData: ShopCardProps[] = [
   {
-    id: 1,
-    name: "James Boyd",
-    role: "Visual Artists",
-    description:
-      "I create digital illustrations that combine vibrant colors with bold shapes.",
-    image: "/profile.svg",
-    href: "/artists/james-boyd",
+    id: "1",
+    image: "https://i.ibb.co.com/V0TXvhy4/3b1a85c852f585e5f2ef2f75cc735a4ce893aa76.jpg",
+    title: "OSI Signature Hoodie",
+    description: "Premium quality hoodie that represents the culture.",
+    price: "$65"
   },
   {
-    id: 2,
-    name: "James Boyd",
-    role: "Visual Artists",
-    description:
-      "I create digital illustrations that combine vibrant colors with bold shapes.",
-    image: "/profile.svg",
-    href: "/artists/james-boyd",
+    id: "2",
+    image: "https://i.ibb.co.com/V0TXvhy4/3b1a85c852f585e5f2ef2f75cc735a4ce893aa76.jpg",
+    title: "Boss Beginnings Toolkit",
+    description: "Complete toolkit to launch and grow your business.",
+    price: "$49",
+    tag: "Digital"
   },
   {
-    id: 3,
-    name: "James Boyd",
-    role: "Visual Artists",
-    description:
-      "I create digital illustrations that combine vibrant colors with bold shapes.",
-    image: "/profile.svg",
-    href: "/artists/james-boyd",
+    id: "3",
+    image: "https://i.ibb.co.com/V0TXvhy4/3b1a85c852f585e5f2ef2f75cc735a4ce893aa76.jpg",
+    title: "Vendor Starter Pack",
+    description: "Everything needed for your first vendor event.",
+    price: "$129"
   },
   {
-    id: 1,
-    name: "James Boyd",
-    role: "Visual Artists",
-    description:
-      "I create digital illustrations that combine vibrant colors with bold shapes.",
-    image: "/profile.svg",
-    href: "/artists/james-boyd",
-  },
-  {
-    id: 2,
-    name: "James Boyd",
-    role: "Visual Artists",
-    description:
-      "I create digital illustrations that combine vibrant colors with bold shapes.",
-    image: "/profile.svg",
-    href: "/artists/james-boyd",
-  },
-  {
-    id: 3,
-    name: "James Boyd",
-    role: "Visual Artists",
-    description:
-      "I create digital illustrations that combine vibrant colors with bold shapes.",
-    image: "/profile.svg",
-    href: "/artists/james-boyd",
-  },
-  {
-    id: 1,
-    name: "James Boyd",
-    role: "Visual Artists",
-    description:
-      "I create digital illustrations that combine vibrant colors with bold shapes.",
-    image: "/profile.svg",
-    href: "/artists/james-boyd",
-  },
-  {
-    id: 2,
-    name: "James Boyd",
-    role: "Visual Artists",
-    description:
-      "I create digital illustrations that combine vibrant colors with bold shapes.",
-    image: "/profile.svg",
-    href: "/artists/james-boyd",
-  },
-  {
-    id: 3,
-    name: "James Boyd",
-    role: "Visual Artists",
-    description:
-      "I create digital illustrations that combine vibrant colors with bold shapes.",
-    image: "/profile.svg",
-    href: "/artists/james-boyd",
-  },
-  {
-    id: 1,
-    name: "James Boyd",
-    role: "Visual Artists",
-    description:
-      "I create digital illustrations that combine vibrant colors with bold shapes.",
-    image: "/profile.svg",
-    href: "/artists/james-boyd",
-  },
-  {
-    id: 2,
-    name: "James Boyd",
-    role: "Visual Artists",
-    description:
-      "I create digital illustrations that combine vibrant colors with bold shapes.",
-    image: "/profile.svg",
-    href: "/artists/james-boyd",
-  },
-  {
-    id: 3,
-    name: "James Boyd",
-    role: "Visual Artists",
-    description:
-      "I create digital illustrations that combine vibrant colors with bold shapes.",
-    image: "/profile.svg",
-    href: "/artists/james-boyd",
-  },
-]
+    id: "4",
+    image: "https://i.ibb.co.com/V0TXvhy4/3b1a85c852f585e5f2ef2f75cc735a4ce893aa76.jpg",
+    title: "Spotlight Promotion Credit",
+    description: "Get your business featured on OSI platforms.",
+    price: "$99"
+  }
+];

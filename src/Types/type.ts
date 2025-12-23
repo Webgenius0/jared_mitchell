@@ -58,3 +58,46 @@ export interface Artist {
   image: string;
   href: string;
 }
+
+type TimelineEvent = {
+  id: number;
+  time: string;
+  title: string;
+  points: string[];
+};
+
+export type WeeklyTimelineProps = {
+  title: string;
+  events: TimelineEvent[];
+};
+
+export type SocialLinks = {
+  website?: string;
+  twitter?: string;
+  github?: string;
+  linkedin?: string;
+};
+
+export type User = {
+  id?: number;
+  rank?: number;
+  name: string;
+  title: string;
+  description: string;
+  tag: string;
+  avatar: string;
+  claps: number;
+  saves: number;
+  shares: number;
+  weeklyScore: number;
+  socials: SocialLinks;
+};
+
+export interface ShopCardProps {
+  id: string;
+  image: string;
+  title: string;
+  description: string;
+  price: string;
+  tag?: string;
+}
