@@ -12,7 +12,7 @@ const FeaturedShop = () => {
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 px-8">
               {featuredShopData?.map((data, index) => (
-                <ShopCard data={data} />
+                <ShopCard data={data} key={index}/>
               ))}
             </div>
           </div>
