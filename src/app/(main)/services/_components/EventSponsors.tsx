@@ -1,8 +1,6 @@
 'use client'
-import { Button } from '@/Components/Common/Button'
 import SponsorSlider from '@/Components/Common/SponsorSlider'
 import { sponsorsData } from '@/Components/Data/data'
-import { FaArrowRightLong } from 'react-icons/fa6'
 
 const EventSponsors = () => {
     return (
