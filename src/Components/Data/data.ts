@@ -837,7 +837,6 @@ export const topPerformers: User[] = [
   },
 ]
 
-
 export const featuredShopData: ShopCardProps[] = [
   {
     id: "1",
@@ -867,5 +866,32 @@ export const featuredShopData: ShopCardProps[] = [
     title: "Spotlight Promotion Credit",
     description: "Get your business featured on OSI platforms.",
     price: "$99"
+  }
+];
+
+export const limitedDrops: ShopCardProps[] = [
+  {
+    id: "1",
+    image: "https://i.ibb.co.com/hFf4n28R/Frame-2147230524.png",
+    title: "OSI Signature Hoodie",
+    description: "Premium quality hoodie that represents the culture.",
+    price: "$65",
+    EndsIn: "5d 8h 45m"
+  },
+  {
+    id: "2",
+    image: "https://i.ibb.co.com/hFf4n28R/Frame-2147230524.png",
+    title: "Boss Beginnings Toolkit",
+    description: "Complete toolkit to launch and grow your business.",
+    price: "$49",
+    EndsIn: "5d 8h 45m"
+  },
+  {
+    id: "3",
+    image: "https://i.ibb.co.com/hFf4n28R/Frame-2147230524.png",
+    title: "Vendor Starter Pack",
+    description: "Everything needed for your first vendor event.",
+    price: "$129",
+    EndsIn: "5d 8h 45m"
   }
 ];
