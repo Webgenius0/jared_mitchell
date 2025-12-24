@@ -1,5 +1,5 @@
 import Container from '@/Components/Common/Container'
-import { featuredShopData } from '@/Components/Data/data'
+import { limitedDrops } from '@/Components/Data/data'
 import ShopCard from './ShopCard'
 
 const LimitedDrops = () => {
@@ -10,9 +10,9 @@ const LimitedDrops = () => {
             <div>
               <h2 className="section_title 2xl:!text-7xl">Featured from the OSI Shop</h2>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 px-8">
-              {featuredShopData?.map((data, index) => (
-                <ShopCard data={data} />
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 px-8">
+              {limitedDrops?.map((data, index) => (
+                <ShopCard data={data} key={index}/>
               ))}
             </div>
           </div>

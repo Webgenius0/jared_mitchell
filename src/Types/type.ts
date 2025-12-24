@@ -100,4 +100,5 @@ export interface ShopCardProps {
   description: string;
   price: string;
   tag?: string;
-}
+  EndsIn?:string;
+} 
