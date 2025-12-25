@@ -8,6 +8,8 @@ import VendorOsi from "./_Components/VendorOsi";
 import WhatYouGet from "./_Components/WhatYouGet";
 import EventGallery from "./_Components/EventGallery";
 import EventHighlight from "./_Components/EventHighlight";
+import NewsLetter from "@/Components/Common/NewsLetter";
+import Sponsors from "../_components/Sponsors";
 
 const page = () => {
   return (
@@ -22,6 +24,7 @@ const page = () => {
       <WhatYouGet />
       <EventGallery />
       <EventHighlight />
+     
     </>
   );
 };

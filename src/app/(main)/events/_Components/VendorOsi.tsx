@@ -8,7 +8,6 @@ import {
   PThreeSvg,
   PTwoSvg,
 } from "@/Components/Svg/SvgContainer";
-import React from "react";
 
 const VendorOsi = () => {
   return (
