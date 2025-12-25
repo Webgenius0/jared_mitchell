@@ -24,7 +24,8 @@ const page = () => {
       <WhatYouGet />
       <EventGallery />
       <EventHighlight />
-     
+      <Sponsors />
+      <NewsLetter title="Be part of the movement. Get stories, updates, and opportunities straight to your inbox." />
     </>
   );
 };
