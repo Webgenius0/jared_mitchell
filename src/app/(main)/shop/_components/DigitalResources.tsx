@@ -1,12 +1,12 @@
 import { Button } from "@/Components/Common/Button"
 import Container from "@/Components/Common/Container"
-import { RobotHeadSvg } from "@/Components/Svg/SvgContainer"
+import { CalendarSvg2, FileTextSvg, GrowthSvg2, LayoutSvg, RobotHeadSvg, RobotHeadSvg2 } from "@/Components/Svg/SvgContainer"
 import { FiDownload } from "react-icons/fi"
 
 const resources = [
   {
     id: 1,
-    icon: "calendar",
+    icon: CalendarSvg2,
     title: "Social Media Content Calendar",
     description: "Plan 90 days of content in minutes",
     audience: "Content creators & businesses",
@@ -14,7 +14,7 @@ const resources = [
   },
   {
     id: 2,
-    icon: "file",
+    icon: FileTextSvg,
     title: "Business Planning Templates",
     description: "Launch-ready templates for every stage",
     audience: "New entrepreneurs",
@@ -22,7 +22,7 @@ const resources = [
   },
   {
     id: 3,
-    icon: RobotHeadSvg,
+    icon: RobotHeadSvg2,
     title: "AI Prompt Packs",
     description: "200+ prompts for marketing & growth",
     audience: "Digital marketers",
@@ -30,7 +30,7 @@ const resources = [
   },
   {
     id: 4,
-    icon: "chart",
+    icon: GrowthSvg2,
     title: "Marketing Playbooks",
     description: "Step-by-step strategies that work",
     audience: "Small business owners",
@@ -38,7 +38,7 @@ const resources = [
   },
   {
     id: 5,
-    icon: "journal",
+    icon: FileTextSvg,
     title: "Finance & Trading Journal",
     description: "Track investments and build wealth",
     audience: "Aspiring investors",
@@ -46,7 +46,7 @@ const resources = [
   },
   {
     id: 6,
-    icon: "design",
+    icon: LayoutSvg ,
     title: "Canva Template Bundle",
     description: "50+ ready-to-use design templates",
     audience: "Visual content creators",
