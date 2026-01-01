@@ -3,6 +3,7 @@ import Container from "@/Components/Common/Container"
 import { CalendarSvg2, FileTextSvg, GrowthSvg2, LayoutSvg, RobotHeadSvg, RobotHeadSvg2 } from "@/Components/Svg/SvgContainer"
 import { FiDownload } from "react-icons/fi"
 
+
 const resources = [
   {
     id: 1,
