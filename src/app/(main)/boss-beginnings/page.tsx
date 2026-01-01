@@ -4,6 +4,9 @@ import CustomVideoPlayer from '@/Components/Common/CustomVideoPlayer';
 import BossBeginningWinner from './_components/BossBeginningWinner';
 import NewBusiness from './_components/NewBusiness';
 import HowVotingWorks from './_components/HowVotingWorks';
+import WinnerReceives from './_components/WinnerReceives';
+import PartnerWithBossBeginnings from './_components/PartnerWithBossBeginnings';
+import NewsLetter from '@/Components/Common/NewsLetter';
 
 const page = () => {
   return (
@@ -19,6 +22,9 @@ const page = () => {
       <BossBeginningWinner />
       <NewBusiness />
       <HowVotingWorks />
+      <WinnerReceives />
+      <PartnerWithBossBeginnings />
+      <NewsLetter title='Be part of the movement. Get stories, updates, and opportunities straight to your inbox.'/>
     </>
   );
 };
