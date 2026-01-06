@@ -3366,3 +3366,5 @@ export const PlatinumSvg = () => {
     </svg>
   )
 }
+
+// export const BadgeSvg
