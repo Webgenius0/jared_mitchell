@@ -9,7 +9,7 @@ const PrivateLayout = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     if (!loading && !token && !user) {
-      router.push("/auth/login");
+      router.push("/auth");
     }
   }, [loading, token, user, router]);
 
