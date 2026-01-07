@@ -1,3 +1,17 @@
+export type LoginProps = {
+  email: string;
+  password: string;
+  rememberMe: boolean;
+};
+
+export type RegisterProps = {
+  name: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+  rememberMe: boolean;
+};
+
 export type Card = {
   id: number;
   title: string;
@@ -100,5 +114,5 @@ export interface ShopCardProps {
   description: string;
   price: string;
   tag?: string;
-  EndsIn?:string;
-} 
+  EndsIn?: string;
+}
