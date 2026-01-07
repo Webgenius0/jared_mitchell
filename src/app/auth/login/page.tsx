@@ -1,65 +1,60 @@
 "use client";
 import React from "react";
 import { useLogin } from "@/Hooks/api/auth_api";
+import AuthFlexBox from "../_components/AuthFlexBox";
+import { useForm } from 'react-hook-form'
+import { MailSvg } from "@/Components/Svg/SvgContainer";
+import Link from "next/link";
+import PasswordInput from "@/Components/Common/PasswordInput";
+import { LoginProps } from "@/Types/type";
 
 const Login = () => {
+  const { register, handleSubmit } = useForm({
+    defaultValues: {
+      email: "",
+      password: "",
+      rememberMe: false
+    }
+  })
   const { mutateAsync: loginMutation, isPending } = useLogin();
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const form = e.currentTarget;
-    const formData = new FormData(form);
-    const email = formData.get("email") as string;
-    const password = formData.get("password") as string;
-    const data = { email, password };
-    await loginMutation(data as any);
+  const onSubmit = async (data: LoginProps) => {
+    console.log("login data", data)
+    const formData = new FormData();
+
+    // formData.append()
+
+    // await loginMutation(data as any);
   };
 
   return (
-    <section className="flex justify-center items-center pt-40">
-      <div className="w-[400px] mx-auto">
-        <h4 className="text-black font-merriweather text-center text-3xl mb-6">
-          Login
-        </h4>
-
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <div>
-            <label htmlFor="email" className="block mb-1 text-sm">
-              Email
-            </label>
-            <input
-              className="w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2 shadow-inner focus:outline-none focus:ring-2 focus:ring-primary"
-              type="email"
-              id="email"
-              name="email"
-              placeholder="Enter your email"
-              required
-            />
+    <AuthFlexBox title={"Welcome Back"} description={"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud."}>
+      <div>
+        <h5 className="text-[56px] text-primary-black text-center capitalize">Login your account</h5>
+        <p className="text-secondary-black text-xl capitalize">Sign in to continue to your account</p>
+        <form onSubmit={handleSubmit(onSubmit)} className="mt-8 space-y-3">
+          <div className="space-y-3">
+            <div className="text-xl text-primary-black">Email address*</div>
+            <div className="auth_input">
+              <MailSvg />
+              <input type="text" {...register("email")} placeholder="Type your email address..." className="placeholder:text-[#364153]" />
+            </div>
+            <div className="text-xl text-primary-black">Password*</div>
+            <PasswordInput name="password" placeholder="Password..." />
           </div>
-
-          <div>
-            <label htmlFor="password" className="block mb-1 text-sm">
-              Password
+          <div className="flex items-center justify-between mt-1">
+            <label className="flex items-center gap-2 text-secondary-black cursor-pointer">
+              <input type="checkbox" {...register("rememberMe")} />
+              Remember me
             </label>
-            <input
-              className="w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2 shadow-inner focus:outline-none focus:ring-2 focus:ring-primary"
-              type="password"
-              id="password"
-              name="password"
-              placeholder="Enter your password"
-              required
-            />
+            <Link href={"/forget-password"} className="underline text-secondary-black font-medium">Forget Password?</Link>
           </div>
-
-          <button
-            type="submit"
-            className="w-full cursor-pointer rounded-full bg-secondary-blue py-3 font-semibold text-white transition-all"
-          >
-            {isPending ? "Logging..." : "Login"}
-          </button>
+          <button className="text-center rounded-2xl custom_shadow px-6 py-3 text-white text-xl bg-tertiary-blue w-full">Log in</button>
         </form>
+        <div className="h-[1px] my-5 bg-[#00000029] max-w-[482px] w-full mx-auto" />
+        <p className="text-center text-lg text-secondary-black">Don’t have an account? <Link href={'/auth/register'} className="text-tertiary-blue font-medium hover:underline">Sign up</Link></p>
       </div>
-    </section>
+    </AuthFlexBox>
   );
 };
 

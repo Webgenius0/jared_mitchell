@@ -2,7 +2,7 @@
 import Container from "@/Components/Common/Container";
 import { ProfileSvg, SearchSvg } from "@/Components/Svg/SvgContainer";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { FaBars } from "react-icons/fa";
 
@@ -88,9 +88,9 @@ const Navbar = () => {
               <button>
                 <SearchSvg />
               </button>
-              <button>
+              <Link href={"/auth/choose-role"}>
                 <ProfileSvg />
-              </button>
+              </Link>
 
               <button
                 onClick={() => setOpen(!isOpen)}
