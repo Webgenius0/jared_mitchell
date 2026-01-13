@@ -78,10 +78,10 @@ button {
   gap: 0.75rem;
   padding: 1rem 1.5rem;
   border: 0.5px solid rgba(0, 0, 0, 0.16);
-  background-color: #F5F5F7;
+  background-color: #f5f5f7;
   border-radius: 1rem;
   color: #314158;
-  input{
+  input {
     width: 100%;
     outline: none;
   }
@@ -119,4 +119,46 @@ button {
 .fc-daygrid-day-number {
   font-size: 12px;
   color: #6b7280;
+}
+
+/* Ensure the container has enough room for the scale effect */
+.osi-coverflow {
+  padding: 40px 0 !important;
+  overflow: visible !important;
+}
+
+/* 1. The "Disabled" State (All slides by default) */
+.osi-slide {
+  width: 360px; /* Fixed width for consistency */
+  transition: all 0.5s ease-in-out;
+  
+  /* Dimming & Shrinking */
+  opacity: 0.5; 
+  transform: scale(0.85); 
+  filter: grayscale(40%) blur(1px);
+  pointer-events: none; /* Prevents clicking buttons on side slides */
+}
+
+/* 2. The "Active" State (The middle slide) */
+.osi-slide.swiper-slide-active {
+  opacity: 1;
+  transform: scale(1.05); /* Make it slightly larger than original */
+  filter: grayscale(0%) blur(0px);
+  pointer-events: auto; /* Re-enable buttons */
+  z-index: 10;
+}
+
+.osi-card {
+  position: relative;
+  height: 460px;
+  border-radius: 28px;
+  overflow: hidden;
+  /* Soft shadow for side slides */
+  box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+  transition: box-shadow 0.5s ease;
+}
+
+/* 3. High-contrast shadow only for active card */
+.swiper-slide-active .osi-card {
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
 }
