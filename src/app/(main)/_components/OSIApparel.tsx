@@ -42,70 +42,74 @@ const products = [
 
 const OSIApparel = () => {
   return (
-    <section className="container mx-auto py-16 text-center">
-      {/* Heading */}
-      <h2 className="text-4xl sm:text-5xl lg:text-7xl font-bold">
-        Shop OSI Apparel, Ebooks, and Digital
-      </h2>
+    <>
+      <section className="py-16 text-center bg-[#F5F5F7]">
+        <div className="container">
+          {/* Heading */}
+          <h2 className="text-4xl sm:text-5xl lg:text-7xl font-bold">
+            Shop OSI Apparel, Ebooks, and Digital
+          </h2>
 
-      <p className="mt-4 text-xl max-w-3xl mx-auto text-secondary-black">
-        Explore exclusive merchandise, creative tools, and digital resources
-        designed to help you build your brand and elevate your craft.
-      </p>
+          <p className="mt-4 text-xl max-w-3xl mx-auto text-secondary-black">
+            Explore exclusive merchandise, creative tools, and digital resources
+            designed to help you build your brand and elevate your craft.
+          </p>
 
-      {/* Swiper */}
-      <div className="mt-16">
-        <Swiper
-          effect="coverflow"
-          grabCursor
-          centeredSlides={true} // Crucial for the center effect
-          slidesPerView={"auto"} // Allows CSS to define the width
-          initialSlide={1}
-          pagination={{ clickable: true }}
-          coverflowEffect={{
-            rotate: 0,
-            stretch: 80, // Pulls the side slides closer or pushes them away
-            depth: 200,
-            modifier: 1,
-            slideShadows: false,
-          }}
-          modules={[EffectCoverflow, Pagination]}
-          className="osi-coverflow"
-        >
-          {products.map(item => (
-            <SwiperSlide key={item.id} className="osi-slide">
-              <div className="osi-card">
-                <Image
-                  src={item.image}
-                  alt={item.title}
-                  fill
-                  className="object-cover"
-                />
+          {/* Swiper */}
+          <div className="mt-16">
+            <Swiper
+              effect="coverflow"
+              grabCursor
+              centeredSlides
+              slidesPerView="auto"
+              initialSlide={1}
+              pagination={{ clickable: true }}
+              coverflowEffect={{
+                rotate: 0, // ❌ disable auto rotate
+                stretch: 120, // spacing like the image
+                depth: 300, // push side slides back
+                modifier: 1,
+                slideShadows: false,
+              }}
+              modules={[EffectCoverflow, Pagination]}
+              className="osi-coverflow"
+            >
+              {products.map(item => (
+                <SwiperSlide key={item.id} className="osi-slide">
+                  <div className="osi-card">
+                    <Image
+                      src={item.image}
+                      alt={item.title}
+                      fill
+                      className="object-cover"
+                    />
 
-                {/* Overlay */}
-                <div className="absolute inset-0 bg-black/25" />
+                    {/* Overlay */}
+                    <div className="absolute inset-0 bg-black/25" />
 
-                {/* Tag */}
-                {item.tag && (
-                  <span className="absolute top-4 right-4 bg-white text-xs px-3 py-1 rounded-full">
-                    {item.tag}
-                  </span>
-                )}
+                    {/* Tag */}
+                    {item.tag && (
+                      <span className="absolute top-4 right-4 bg-white text-xs px-3 py-1 rounded-full">
+                        {item.tag}
+                      </span>
+                    )}
 
-                {/* Content */}
-                <div className="absolute bottom-0 p-6 text-left text-white">
-                  <h4 className="text-lg font-semibold">{item.title}</h4>
-                  <p className="text-sm opacity-80">{item.price}</p>
+                    {/* Content */}
+                    <div className="absolute bottom-0 p-6 text-left text-white">
+                      <h4 className="text-lg font-semibold">{item.title}</h4>
+                      <p className="text-sm opacity-80">{item.price}</p>
 
-                  <button className="mt-3 bg-primary px-4 py-2 rounded-full text-sm">
-                    Add to Cart
-                  </button>
-                </div>
-              </div>
-            </SwiperSlide>
-          ))}
-        </Swiper>
-      </div>
+                      <button className="mt-3 bg-primary px-4 py-2 rounded-full text-sm">
+                        Add to Cart
+                      </button>
+                    </div>
+                  </div>
+                </SwiperSlide>
+              ))}
+            </Swiper>
+          </div>
+        </div>
+      </section>
 
       {/* CTA */}
       <h3 className="mt-20 section_title max-w-4xl mx-auto">
@@ -117,7 +121,7 @@ const OSIApparel = () => {
         <Button>Join OSI</Button>
         <Button variant="outline">Become a Sponsor</Button>
       </div>
-    </section>
+    </>
   );
 };
 
