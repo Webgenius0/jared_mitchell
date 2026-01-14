@@ -119,6 +119,7 @@ const StepTwo = () => {
           ></textarea>
         </div>
 
+        
         {/* Target Customer */}
         <div className="col-span-2">
           <p className="flex justify-between items-center mb-2">
