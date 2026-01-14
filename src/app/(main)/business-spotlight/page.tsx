@@ -58,7 +58,7 @@ const Page = () => {
   };
 
   return (
-    <>
+    <section className="pb-20">
       {/* Banner */}
       <div
         className="h-[450px] bg-cover bg-center flex flex-col justify-center items-center text-center"
@@ -78,11 +78,11 @@ const Page = () => {
       </div>
 
       {/* Form */}
-      <div className="container py-10">
+      <div className="container pt-16">
         <FormProvider {...methods}>
           <form onSubmit={methods.handleSubmit(onSubmit)}>
             {/* Progress Header */}
-            <div className="p-4 rounded-xl shadow border mb-10">
+            <div className="p-4 rounded-xl shadow border border-gray-200 mb-10">
               <div className="flex justify-between pb-4">
                 <span className="text-xl">
                   Section {step + 1} of {totalSteps}
@@ -95,7 +95,7 @@ const Page = () => {
               {/* Progress Bar */}
               <div className="h-4 bg-gray-100 rounded-lg overflow-hidden mb-6">
                 <div
-                  className="h-full bg-blue-500 transition-all"
+                  className="h-full bg-blue-500 transition-all rounded-full"
                   style={{ width: `${progressPercent}%` }}
                 />
               </div>
@@ -118,12 +118,12 @@ const Page = () => {
                       }`}
                     >
                       <span
-                        className={`size-12 rounded-full border grid place-items-center mb-1 ${
+                        className={`size-14 rounded-full border grid place-items-center text-xl mb-2 ${
                           isActive
                             ? "bg-blue-100"
                             : isCompleted
                             ? "bg-primary-blue border-blue-500"
-                            : "bg-gray-100"
+                            : "bg-gray-100 border-gray-200"
                         }`}
                       >
                         {isCompleted ? <CheckBtnSvg /> : idx + 1}
@@ -151,7 +151,7 @@ const Page = () => {
                 type="button"
                 disabled={step === 0}
                 onClick={onPrev}
-                className="flex items-center gap-3 px-12 py-4 border rounded-full disabled:opacity-50 disabled:cursor-not-allowed"
+                className="flex items-center gap-3 px-12 py-4 border border-gray-300 rounded-full disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <LeftArrowSvg />
                 Previous
@@ -168,7 +168,7 @@ const Page = () => {
           </form>
         </FormProvider>
       </div>
-    </>
+    </section>
   );
 };
 

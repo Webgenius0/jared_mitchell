@@ -157,3 +157,19 @@ button {
   pointer-events: auto;
   z-index: 10;
 }
+
+.step_box {
+  @apply px-7 py-10 rounded-lg shadow-[0_4px_15px_rgba(0,0,0,0.05)] bg-white border border-gray-100;
+}
+
+.step_input {
+  @apply rounded-full px-5 py-3 border text-lg w-full block outline-none;
+}
+
+.auth_label {
+  @apply text-xl text-[#1D1D1F] block;
+}
+
+.auth_label span {
+  @apply text-red-500;
+}
