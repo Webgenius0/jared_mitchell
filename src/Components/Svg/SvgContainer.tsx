@@ -2736,7 +2736,7 @@ export const CheckSvg = () => {
     >
       <path
         d="M13.3346 4L6.0013 11.3333L2.66797 8"
-        stroke="#1977DD"
+        stroke="currentColor"
         stroke-linecap="round"
         stroke-linejoin="round"
       />
@@ -4816,6 +4816,73 @@ export const CheckBtnSvg = () => {
         d="M25 7L9.875 22L3 15.1818"
         stroke="white"
         stroke-width="1.66667"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+    </svg>
+  );
+};
+
+export const WorldSvg = () => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="28"
+      height="28"
+      viewBox="0 0 28 28"
+      fill="none"
+    >
+      <path
+        d="M13.9997 25.6663C20.443 25.6663 25.6663 20.443 25.6663 13.9997C25.6663 7.55635 20.443 2.33301 13.9997 2.33301C7.55635 2.33301 2.33301 7.55635 2.33301 13.9997C2.33301 20.443 7.55635 25.6663 13.9997 25.6663Z"
+        stroke="#1977DD"
+        stroke-width="1.66667"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M13.9997 2.33301C11.0039 5.47852 9.33301 9.65587 9.33301 13.9997C9.33301 18.3435 11.0039 22.5208 13.9997 25.6663C16.9954 22.5208 18.6663 18.3435 18.6663 13.9997C18.6663 9.65587 16.9954 5.47852 13.9997 2.33301Z"
+        stroke="#1977DD"
+        stroke-width="1.66667"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M2.33301 14H25.6663"
+        stroke="#1977DD"
+        stroke-width="1.66667"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+    </svg>
+  );
+};
+
+export const DownloadIconSvg = () => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      className="size-10"
+      viewBox="0 0 60 60"
+      fill="none"
+    >
+      <path
+        d="M30 7.5V37.5"
+        stroke="#99A1AF"
+        stroke-width="3.33333"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M42.5 20L30 7.5L17.5 20"
+        stroke="#99A1AF"
+        stroke-width="3.33333"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M52.5 37.5V47.5C52.5 48.8261 51.9732 50.0979 51.0355 51.0355C50.0979 51.9732 48.8261 52.5 47.5 52.5H12.5C11.1739 52.5 9.90215 51.9732 8.96447 51.0355C8.02678 50.0979 7.5 48.8261 7.5 47.5V37.5"
+        stroke="#99A1AF"
+        stroke-width="3.33333"
         stroke-linecap="round"
         stroke-linejoin="round"
       />
