@@ -5,7 +5,7 @@ import {
   LeftArrowSvg,
   RightArrowSvg,
 } from "@/Components/Svg/SvgContainer";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import StepOne from "./_Components/StepOne";
 import StepTwo from "./_Components/StepTwo";
@@ -30,6 +30,7 @@ const steps: StepItem[] = [
 
 const Page = () => {
   const [step, setStep] = useState(0);
+  const formRef = useRef<HTMLDivElement | null>(null);
   const totalSteps = steps.length;
   const CurrentStep = steps[step].component;
   const progressPercent = ((step + 1) / totalSteps) * 100;
@@ -57,6 +58,10 @@ const Page = () => {
     }
   };
 
+  useEffect(() => {
+    formRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [step]);
+
   return (
     <section className="pb-20">
       {/* Banner */}
@@ -78,7 +83,7 @@ const Page = () => {
       </div>
 
       {/* Form */}
-      <div className="container pt-16">
+      <div ref={formRef} className="container pt-24">
         <FormProvider {...methods}>
           <form onSubmit={methods.handleSubmit(onSubmit)}>
             {/* Progress Header */}
