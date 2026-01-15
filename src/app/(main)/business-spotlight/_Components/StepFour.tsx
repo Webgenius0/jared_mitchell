@@ -1,17 +1,17 @@
 import { CheckSvg, DownloadIconSvg } from "@/Components/Svg/SvgContainer";
-import { useState } from "react";
 import { useFormContext } from "react-hook-form";
 
 const StepFour = () => {
-  const [ownerPhoto, setOwnerPhoto] = useState<null | File>(null);
-  const [workspacePhoto, setWorkspacePhoto] = useState<null | File>(null);
-  const [servicePhoto, setServicePhoto] = useState<null | File>(null);
-  const [teamPhoto, setTeamPhoto] = useState<null | File>(null);
-
   const {
     register,
+    watch,
     formState: { errors },
   } = useFormContext();
+
+  const ownerPhoto = watch("owner_portrait")?.[0];
+  const workspacePhoto = watch("workstation")?.[0];
+  const servicePhoto = watch("product_photos")?.[0];
+  const teamPhoto = watch("team_photo")?.[0];
 
   return (
     <div className="step_box">
@@ -44,9 +44,6 @@ const StepFour = () => {
               })}
               onChange={e => {
                 register("owner_portrait").onChange(e);
-                if (e.target.files) {
-                  setOwnerPhoto(e.target.files[0]);
-                }
               }}
             />
 
@@ -96,9 +93,6 @@ const StepFour = () => {
               })}
               onChange={e => {
                 register("workstation").onChange(e);
-                if (e.target.files) {
-                  setWorkspacePhoto(e.target.files[0]);
-                }
               }}
             />
 
@@ -150,9 +144,6 @@ const StepFour = () => {
               })}
               onChange={e => {
                 register("product_photos").onChange(e);
-                if (e.target.files) {
-                  setServicePhoto(e.target.files[0]);
-                }
               }}
             />
 
@@ -202,9 +193,6 @@ const StepFour = () => {
               })}
               onChange={e => {
                 register("team_photo").onChange(e);
-                if (e.target.files) {
-                  setTeamPhoto(e.target.files[0]);
-                }
               }}
             />
 
