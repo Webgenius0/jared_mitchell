@@ -13,6 +13,7 @@ import StepThree from "./_Components/StepThree";
 import StepFour from "./_Components/StepFour";
 import StepFive from "./_Components/StepFive";
 import StepSix from "./_Components/StepSix";
+import StepSeven from "./_Components/StepSeven";
 
 type StepItem = {
   title: string;
@@ -26,6 +27,7 @@ const steps: StepItem[] = [
   { title: "Media", component: StepFour },
   { title: "Consent", component: StepFive },
   { title: "Optional", component: StepSix },
+  { title: "Success", component: StepSeven },
 ];
 
 const Page = () => {
@@ -90,7 +92,7 @@ const Page = () => {
             <div className="p-4 rounded-xl shadow border border-gray-200 mb-10">
               <div className="flex justify-between pb-4">
                 <span className="text-xl">
-                  Section {step + 1} of {totalSteps}
+                  Section {step > 5 ? 6 : step + 1} of {totalSteps - 1}
                 </span>
                 <span className="text-green-500 text-xl">
                   {Math.round(progressPercent)}% Complete
@@ -107,7 +109,7 @@ const Page = () => {
 
               {/* Step Indicators */}
               <div className="flex justify-between">
-                {steps?.map((s, idx) => {
+                {steps?.slice(0, 6).map((s, idx) => {
                   const isActive = idx === step;
                   const isCompleted = idx < step;
 
@@ -149,27 +151,27 @@ const Page = () => {
                 totalSteps={totalSteps}
               />
             </div>
+            {step < 6 && (
+              <div className="flex justify-between">
+                <button
+                  type="button"
+                  disabled={step === 0}
+                  onClick={onPrev}
+                  className="flex items-center gap-3 px-12 py-4 border border-gray-300 rounded-full disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  <LeftArrowSvg />
+                  Previous
+                </button>
 
-            {/* Navigation */}
-            <div className="flex justify-between">
-              <button
-                type="button"
-                disabled={step === 0}
-                onClick={onPrev}
-                className="flex items-center gap-3 px-12 py-4 border border-gray-300 rounded-full disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                <LeftArrowSvg />
-                Previous
-              </button>
-
-              <button
-                type="submit"
-                className="flex items-center gap-3 px-12 py-4 bg-primary-blue text-white rounded-full"
-              >
-                {step === totalSteps - 1 ? "Submit" : "Next Section"}
-                <RightArrowSvg />
-              </button>
-            </div>
+                <button
+                  type="submit"
+                  className="flex items-center gap-3 px-12 py-4 bg-primary-blue text-white rounded-full"
+                >
+                  {step === totalSteps - 1 ? "Submit" : "Next Section"}
+                  <RightArrowSvg />
+                </button>
+              </div>
+            )}
           </form>
         </FormProvider>
       </div>

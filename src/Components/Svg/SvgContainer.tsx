@@ -4907,6 +4907,32 @@ export const PrivacySvg = () => {
   );
 };
 
+export const SuccessfulSvg = () => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      className="size-[60px]"
+      viewBox="0 0 100 100"
+      fill="none"
+    >
+      <path
+        d="M90.8372 41.6659C92.7401 51.0046 91.3839 60.7135 86.9949 69.1734C82.6059 77.6332 75.4492 84.3328 66.7185 88.1547C57.9877 91.9767 48.2106 92.69 39.0176 90.1758C29.8246 87.6615 21.7713 82.0717 16.2008 74.3385C10.6304 66.6052 7.87936 57.196 8.40662 47.68C8.93387 38.164 12.7075 29.1163 19.0982 22.0458C25.4889 14.9753 34.1104 10.3094 43.525 8.82611C52.9395 7.34287 62.5779 9.13197 70.833 13.8951"
+        stroke="#229A16"
+        stroke-width="4"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M37.5 45.8327L50 58.3327L91.6667 16.666"
+        stroke="#229A16"
+        stroke-width="4"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+    </svg>
+  );
+};
+
 export const OSixSvg = () => {
   return <></>;
 };
