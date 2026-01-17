@@ -10,7 +10,7 @@ import { LoginProps } from "@/Types/type";
 import { MdKeyboardArrowLeft } from "react-icons/md";
 import { useRouter } from "next/navigation";
 
-const Login = () => {
+const page = () => {
   const router = useRouter()
 
   const { register, handleSubmit, formState: { errors } } = useForm({
@@ -59,4 +59,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default page;

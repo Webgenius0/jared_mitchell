@@ -16,14 +16,16 @@ const page = () => {
       <DiscoverArtists />
       <CommunityAchievements />
       <EditorsPicks />
-     <SpotlightLadder title="OSI Spotlight Ladder" subTitle="Community-driven weekly recognition" buttonHref="/spotlight-business/spotlight-ladder" />
+      <SpotlightLadder
+        title="OSI Spotlight Ladder"
+        subTitle="Community-driven weekly recognition"
+        buttonHref="/spotlight-business/spotlight-ladder"
+      />
       <BecomeAPart />
       <CreativeJourney />
       <WhatExist />
       <EventSponsors />
-      <NewsLetter
-        title="Stay connected with new spotlights, events, and creative tools."
-      />
+      <NewsLetter title="Stay connected with new spotlights, events, and creative tools." />
     </>
   );
 };

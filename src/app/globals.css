@@ -53,7 +53,7 @@ button {
 }
 
 .section_sub_title {
-  @apply text-center text-base sm:text-lg md:text-xl xl:text-2xl text-secondary-black my-2 font-medium;
+  @apply text-center text-base sm:text-lg md:text-xl xl:text-2xl text-secondary-black my-2;
 }
 
 .section_description {
@@ -78,10 +78,10 @@ button {
   gap: 0.75rem;
   padding: 1rem 1.5rem;
   border: 0.5px solid rgba(0, 0, 0, 0.16);
-  background-color: #F5F5F7;
+  background-color: #f5f5f7;
   border-radius: 1rem;
   color: #314158;
-  input{
+  input {
     width: 100%;
     outline: none;
   }
@@ -119,4 +119,57 @@ button {
 .fc-daygrid-day-number {
   font-size: 12px;
   color: #6b7280;
+}
+
+/* =========== For Swiper Slider ================ */
+
+.osi-coverflow {
+  padding: 90px 0 !important;
+  overflow: visible !important;
+  perspective: 1400px;
+}
+
+.osi-slide {
+  width: 420px;
+  opacity: 0.45;
+  transition: transform 0.6s ease, opacity 0.6s ease;
+  pointer-events: none;
+}
+
+.osi-card {
+  height: 460px;
+  border-radius: 28px;
+  overflow: hidden;
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.35);
+}
+
+.swiper-slide-prev {
+  transform: translateX(-60px) rotateY(28deg);
+}
+
+.swiper-slide-next {
+  transform: translateX(60px) rotateY(-28deg);
+}
+
+.osi-slide.swiper-slide-active {
+  opacity: 1;
+  transform: translateX(0) rotateY(0);
+  pointer-events: auto;
+  z-index: 10;
+}
+
+.step_box {
+  @apply px-7 py-10 rounded-lg shadow-[0_4px_15px_rgba(0,0,0,0.05)] bg-white border border-gray-100;
+}
+
+.step_input {
+  @apply rounded-full px-5 py-3 border text-lg w-full block outline-none;
+}
+
+.auth_label {
+  @apply text-xl text-[#1D1D1F] block;
+}
+
+.auth_label span {
+  @apply text-red-500;
 }
