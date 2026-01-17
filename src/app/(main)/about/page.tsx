@@ -13,6 +13,7 @@ import SponsorSlider from "@/Components/Common/SponsorSlider";
 import { sponsorsData } from "@/Components/Data/data";
 import NewsLetter from "@/Components/Common/NewsLetter";
 
+
 const page = () => {
   return (
     <>
