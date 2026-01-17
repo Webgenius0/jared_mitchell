@@ -1,5 +1,5 @@
 "use client";
-import submissionBg from "@/Assets/submission_form.png";
+import artistBg from "@/Assets/artistBg.png";
 import {
   CheckBtnSvg,
   LeftArrowSvg,
@@ -69,18 +69,19 @@ const Page = () => {
       {/* Banner */}
       <div
         className="h-[450px] bg-cover bg-center flex flex-col justify-center items-center text-center"
-        style={{ backgroundImage: `url(${submissionBg.src})` }}
+        style={{ backgroundImage: `url(${artistBg.src})` }}
       >
         <span className="text-2xl text-white">
           <span className="font-semibold">Service</span> / Artist Spotlight
         </span>
 
         <h2 className="text-white font-semibold text-6xl py-7">
-          Business Spotlight Submission
+          Artist Spotlight Submission Form
         </h2>
 
         <p className="text-2xl text-white max-w-[900px] leading-[150%]">
-          Share your business story and get featured on OSI.
+          Apply for our weekly artist spotlight program. Share your story,
+          showcase your work, and connect with the community.
         </p>
       </div>
 
