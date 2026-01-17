@@ -9,7 +9,6 @@ export type RegisterProps = {
   email: string;
   password: string;
   confirmPassword: string;
-  rememberMe: boolean;
 };
 
 export type Card = {

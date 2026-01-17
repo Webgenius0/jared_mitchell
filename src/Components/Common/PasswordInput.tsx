@@ -1,12 +1,24 @@
 import { useState } from "react";
-import { useForm } from "react-hook-form";
+import {
+  FieldValues,
+  Path,
+  UseFormRegister,
+} from "react-hook-form";
 import { EyeCloseSvg, PasswordSvg } from "../Svg/SvgContainer";
 import { IoEyeOutline } from "react-icons/io5";
 
+type PasswordInputProps<T extends FieldValues> = {
+  name: Path<T>;
+  placeholder: string;
+  register: UseFormRegister<T>;
+};
 
-const PasswordInput = ({ name, placeholder }: { name: string, placeholder: string }) => {
-  const [showPassword, setShowPassword] = useState<boolean>(false);
-  const { register } = useForm()
+const PasswordInput = <T extends FieldValues>({
+  name,
+  placeholder,
+  register,
+}: PasswordInputProps<T>) => {
+  const [showPassword, setShowPassword] = useState(false);
 
   return (
     <div className="auth_input relative flex items-center">
@@ -14,7 +26,7 @@ const PasswordInput = ({ name, placeholder }: { name: string, placeholder: strin
 
       <input
         type={showPassword ? "text" : "password"}
-        {...register(name)}
+        {...register(name, { required: true })}
         placeholder={placeholder}
         className="placeholder:text-[#364153] w-full pr-10"
       />
@@ -25,7 +37,11 @@ const PasswordInput = ({ name, placeholder }: { name: string, placeholder: strin
         className="absolute right-3"
         aria-label="Toggle password visibility"
       >
-        {showPassword ? <IoEyeOutline className="size-6"/> : <EyeCloseSvg />}
+        {showPassword ? (
+          <IoEyeOutline className="size-6" />
+        ) : (
+          <EyeCloseSvg />
+        )}
       </button>
     </div>
   );

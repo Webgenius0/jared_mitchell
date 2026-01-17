@@ -33,7 +33,8 @@ const Page = () => {
   const onSubmit = (data: OtpForm) => {
     const otpCode = data.otp.join("");
     console.log("OTP:", otpCode);
-    router.push("/dashboard")
+
+    router.push("/auth/reset-password")
   };
 
   const handleChange = (value: string, index: number) => {
@@ -96,7 +97,7 @@ const Page = () => {
                 key={index}
                 type="text"
                 maxLength={1}
-                {...register(`otp.${index}`, { required: true })}
+                {...register(`otp.${index}`)}
                 ref={(el) => {
                   if (el) inputsRef.current[index] = el;
                 }}
