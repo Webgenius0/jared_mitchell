@@ -1,64 +1,112 @@
-import Container from '@/Components/Common/Container'
-import { BadgeSvg, BagSvg, HeartSvg, PowerSvg, StarsSvg, ThreeCircleSvg } from '@/Components/Svg/SvgContainer'
+import Container from "@/Components/Common/Container";
+import coreValueBg from "@/Assets/core_values.jpg";
+import {
+  OFiveSvg,
+  OFourSvg,
+  OOneSvg,
+  OThreeSvg,
+  OTwoSvg,
+} from "@/Components/Svg/SvgContainer";
+import Image from "next/image";
 
 const data = [
-    {
-        id: 1,
-        icon: BagSvg,
-        title: "Local businesses",
-        description: "wanting real customers"
-    },
-    {
-        id: 2,
-        icon: StarsSvg,
-        title: "Creators",
-        description: "looking for exposure"
-    },
-    {
-        id: 3,
-        icon: BadgeSvg,
-        title: "Small Business",
-        description: "needing marketing support"
-    },
-    {
-        id: 4,
-        icon: ThreeCircleSvg,
-        title: "Entrepreneurs",
-        description: "who want structure & growth"
-    },
-    {
-        id: 5,
-        icon: HeartSvg,
-        title: "Anyone",
-        description: "who wants their story told"
-    },
-    {
-        id: 6,
-        icon: PowerSvg,
-        title: "Anyone",
-        description: "with limited time, budget, or resources"
-    },
-]
+  {
+    id: 1,
+    icon: OOneSvg,
+    title: "Intentional Visibility",
+    sub_title: "Visibility should be thoughtful, not random.",
+    description:
+      "OSI highlights creators and businesses with care, context, and purpose — prioritizing meaningful stories over noise or trends.",
+  },
+  {
+    id: 2,
+    icon: OTwoSvg,
+    title: "Community Over Vanity Metrics",
+    sub_title: "Real support matters more than likes.",
+    description:
+      "OSI is built to foster genuine engagement and long-term relationships, not empty numbers or short-term attention.",
+  },
+  {
+    id: 3,
+    icon: OTwoSvg,
+    title: "Accessibility Without Exploitation",
+    sub_title: "Opportunity shouldn’t depend on privilege",
+    description:
+      "OSI provides fair, transparent tools and support for people with limited time and resources — without manipulation or false promises.",
+  },
+  {
+    id: 4,
+    icon: OThreeSvg,
+    title: "Respect for the Craft",
+    sub_title: "Creative work deserves dignity.",
+    description:
+      "OSI presents people professionally and authentically, honoring the effort it takes to build something from the ground up.",
+  },
+  {
+    id: 5,
+    icon: OFourSvg,
+    title: "Progress Over Perfection",
+    sub_title: "Momentum creates growth.",
+    description:
+      "OSI encourages action, learning, and steady improvement — helping people move forward without waiting to be “ready.",
+  },
+  {
+    id: 6,
+    icon: OFiveSvg,
+    title: "We Win When You Win",
+    sub_title: "Success should be shared",
+    description:
+      "OSI grows by uplifting creators, small businesses, and communities — measuring impact by outcomes, not transactions.",
+  },
+];
 
 const CoreValues = () => {
-    return (
-        <section className='bg-[#FAFAFA] section'>
-            <Container>
-                <h2 className='section_title'>Our Core Values</h2>
-                <div className='grid grid-cols-3 gap-[70px] mt-14 md:mt-20'>
-                    {data?.map((data) => (
-                        <div key={data.id} className='relative rounded-2xl py-20 pl-[74px] pr-[27px] border space-y-4 border-[rgba(0,0,0,0.16)] bg-white shadow-[0_4px_20px_0_rgba(0,0,0,0.07)]'>
-                            <h4 className='text-3xl font-medium text-primary-black'>{data.title}</h4>
-                            <p className='text-2xl text-secondary-black'>{data.description}</p>
-                            <div className='absolute flex items-center justify-center aspect-square size-[120px] left-[-46px] top-[-46px] rounded-full border border-[rgba(0,0,0,0.16)] shadow-[0_4px_20px_0_rgba(0,0,0,0.07)] bg-white '>
-                                <data.icon />
-                            </div>
-                        </div>
-                    ))}
-                </div>
-            </Container>
-        </section>
-    )
-}
+  return (
+    <section className="bg-[#FAFAFA] section">
+      <Container>
+        <h2 className="section_title !mb-12">Our Core Values</h2>
 
-export default CoreValues
+        <div className="w-full max-h-[680px] h-full overflow-hidden flex items-center justify-center relative rounded-2xl">
+          <Image
+            src={coreValueBg}
+            width={1920}
+            height={580}
+            alt="home banner"
+            className="object-cover w-full rounded-2xl"
+          />
+
+          <div className="w-full h-full absolute top-0 bg-[linear-gradient(0deg,rgba(255,255,255,0.40),rgba(255,255,255,0.40)),url('/path-to-image')] rounded-2xl">
+            <div className="grid grid-cols-3 gap-10 p-12">
+              {data?.map(data => (
+                <div
+                  key={data.id}
+                  className="rounded-2xl border space-y-4 border-[rgba(0,0,0,0.16)] bg-white shadow-[0_4px_20px_0_rgba(0,0,0,0.07)] py-6 px-8"
+                >
+                  <div className="flex gap-3 items-center">
+                    <p className="size-[60px] rounded-full border border-[#D6E5F5] shadow-[0_4px_20px_0_rgba(0,0,0,0.07)] bg-[#D6E5F5] grid place-items-center shrink-0">
+                      <data.icon />
+                    </p>
+
+                    <h3 className="text-2xl text-primary-black font-semibold">
+                      {data?.title}
+                    </h3>
+                  </div>
+
+                  <h4 className="text-2xl font-medium text-primary-black">
+                    {data?.sub_title}
+                  </h4>
+
+                  <p className="text-lg text-secondary-black">
+                    {data?.description}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </Container>
+    </section>
+  );
+};
+
+export default CoreValues;
