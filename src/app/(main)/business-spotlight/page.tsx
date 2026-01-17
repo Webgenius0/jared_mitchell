@@ -129,8 +129,8 @@ const Page = () => {
                           isActive
                             ? "bg-blue-100"
                             : isCompleted
-                            ? "bg-primary-blue border-blue-500"
-                            : "bg-gray-100 border-gray-200"
+                              ? "bg-primary-blue border-blue-500"
+                              : "bg-gray-100 border-gray-200"
                         }`}
                       >
                         {isCompleted ? <CheckBtnSvg /> : idx + 1}
