@@ -8,10 +8,12 @@ import EditorsPicks from "../_components/EditorsPicks";
 import BecomeAPart from "../_components/BecomeAPart";
 import CreativeJourney from "../_components/CreativeJourney";
 import SpotlightLadder from "../_components/SpotlightLadder";
+import BusinessSpotlightBanner from "../_components/BusinessSpotlightBanner";
 
 const page = () => {
   return (
     <>
+      <BusinessSpotlightBanner />
       <SpotlightHero />
       <DiscoverArtists />
       <CommunityAchievements />

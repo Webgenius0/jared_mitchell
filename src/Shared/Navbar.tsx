@@ -2,7 +2,7 @@
 import Container from "@/Components/Common/Container";
 import { ProfileSvg, SearchSvg } from "@/Components/Svg/SvgContainer";
 import Link from "next/link";
-import { usePathname, useSearchParams } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { FaBars } from "react-icons/fa";
 
@@ -10,7 +10,14 @@ const navLinks = [
   { label: "Home", path: "/" },
   { label: "About", path: "/about" },
   { label: "Service", path: "/services" },
-  { label: "Spotlight", path: "/spotlight" },
+  {
+    label: "Spotlight",
+    path: "",
+    subMenu: [
+      { label: "Artist Spotlight", path: "/spotlight-artist" },
+      { label: "Businesses Spotlight", path: "/spotlight-business" },
+    ],
+  },
   { label: "Events", path: "/events" },
   { label: "Shop", path: "/shop" },
   { label: "Sponsorships", path: "/sponsorships" },
@@ -21,6 +28,7 @@ const navLinks = [
 
 const Navbar = () => {
   const [isOpen, setOpen] = useState<boolean>(false);
+  const [openSubmenu, setOpenSubmenu] = useState<boolean>(false);
   const [lang, setLang] = useState<string>("en");
   const pathname = usePathname();
 
@@ -45,13 +53,43 @@ const Navbar = () => {
                   <Link
                     key={link?.path}
                     href={link?.path}
-                    className={`${
+                    onClick={() => {
+                      if (link?.label === "Spotlight") {
+                        setOpenSubmenu(!openSubmenu);
+                      } else {
+                        setOpenSubmenu(false);
+                      }
+                    }}
+                    className={`relative ${
                       isActive
                         ? "text-secondary-blue font-medium"
                         : "text-[#2A2929]"
                     }`}
                   >
                     {link?.label}
+
+                    {/* For Sub Menu */}
+                    {openSubmenu && (
+                      <div className="absolute -bottom-32 left-0  bg-white z-50 shadow rounded-xl px-4 w-44">
+                        {link?.subMenu?.map(subItem => {
+                          const isActiveSubmenu = pathname === subItem?.path;
+
+                          return (
+                            <Link
+                              key={subItem?.path}
+                              href={subItem?.path}
+                              className={`block py-3 border-b border-gray-300 last:border-b-0 duration-300 transition-all hover:text-primary-blue ${
+                                isActiveSubmenu
+                                  ? "text-secondary-blue"
+                                  : "text-[#2A2929]"
+                              }`}
+                            >
+                              {subItem?.label}
+                            </Link>
+                          );
+                        })}
+                      </div>
+                    )}
                   </Link>
                 );
               })}
