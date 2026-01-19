@@ -1,5 +1,5 @@
-import Container from '@/Components/Common/Container'
-import { timelineData } from '@/Components/Data/data'
+import Container from "@/Components/Common/Container";
+import { timelineData } from "@/Components/Data/data";
 
 const WeeklyTimeline = () => {
   return (
@@ -10,7 +10,7 @@ const WeeklyTimeline = () => {
             {timelineData.title}
           </h2>
           <div className="space-y-7">
-            {timelineData.events.map((event) => (
+            {timelineData.events.map(event => (
               <div
                 key={event.id}
                 className="grid grid-cols-1 md:grid-cols-[220px_1fr] gap-6"
@@ -19,7 +19,7 @@ const WeeklyTimeline = () => {
                   {event.time}
                 </div>
 
-                <div className='space-y-3'>
+                <div className="space-y-3">
                   <h3 className="text-lg md:text-2xl text-primary-black">
                     {event.title}
                   </h3>
@@ -36,7 +36,7 @@ const WeeklyTimeline = () => {
         </div>
       </Container>
     </section>
-  )
-}
+  );
+};
 
-export default WeeklyTimeline
+export default WeeklyTimeline;
