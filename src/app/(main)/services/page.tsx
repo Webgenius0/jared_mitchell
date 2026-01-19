@@ -12,6 +12,7 @@ import Testimonials from "./_components/Testimonials";
 import WhoOSIIsFor from "./_components/WhoOSIIsFor";
 import ServiceBanner from "./_components/ServiceBanner";
 import NewsLetter from "@/Components/Common/NewsLetter";
+import Link from "next/link";
 
 const page = () => {
   return (
@@ -54,9 +55,12 @@ const page = () => {
             Apply for our weekly artist spotlight program. Share your story,
             showcase your work, and connect with the community.
           </p>
-          <div className="text-center">
+          <Link
+            href="artist-spotlight"
+            className="text-center block w-fit mx-auto"
+          >
             <Button>Apply Now</Button>
-          </div>
+          </Link>
         </Container>
       </section>
       <section className="section">
@@ -68,18 +72,19 @@ const page = () => {
             Apply for our weekly Business Spotlight program. Share your brand
             story, showcase your business, and connect with the community.
           </p>
-          <div className="text-center">
+          <Link
+            href="business-spotlight"
+            className="text-center block w-fit mx-auto"
+          >
             <Button>Apply Now</Button>
-          </div>
+          </Link>
         </Container>
       </section>
       <Testimonials />
       <FAQAccordion />
       <TryOSI />
       <EventSponsors />
-      <NewsLetter
-        title="Stay connected with new spotlights, events, and creative tools."
-      />
+      <NewsLetter title="Stay connected with new spotlights, events, and creative tools." />
     </>
   );
 };
