@@ -1,4 +1,6 @@
-// All Fake Data, but some of them are real 🙄
+import f1 from "@/Assets/f1.png";
+import f2 from "@/Assets/f2.png";
+import f3 from "@/Assets/f3.png";
 import {
   Artist,
   FAQItem,
@@ -847,16 +849,14 @@ export const topPerformers: User[] = [
 export const featuredShopData: ShopCardProps[] = [
   {
     id: "1",
-    image:
-      "https://i.ibb.co.com/V0TXvhy4/3b1a85c852f585e5f2ef2f75cc735a4ce893aa76.jpg",
+    image: f1,
     title: "OSI Signature Hoodie",
     description: "Premium quality hoodie that represents the culture.",
     price: "$65",
   },
   {
     id: "2",
-    image:
-      "https://i.ibb.co.com/V0TXvhy4/3b1a85c852f585e5f2ef2f75cc735a4ce893aa76.jpg",
+    image: f2,
     title: "Boss Beginnings Toolkit",
     description: "Complete toolkit to launch and grow your business.",
     price: "$49",
@@ -864,8 +864,7 @@ export const featuredShopData: ShopCardProps[] = [
   },
   {
     id: "3",
-    image:
-      "https://i.ibb.co.com/V0TXvhy4/3b1a85c852f585e5f2ef2f75cc735a4ce893aa76.jpg",
+    image: f3,
     title: "Vendor Starter Pack",
     description: "Everything needed for your first vendor event.",
     price: "$129",

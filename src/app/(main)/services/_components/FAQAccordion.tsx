@@ -1,5 +1,4 @@
 "use client";
-
 import Container from "@/Components/Common/Container";
 import { faqs } from "@/Components/Data/data";
 import { useState } from "react";
@@ -13,15 +12,14 @@ const FAQAccordion = () => {
   };
 
   return (
-
     <section className="section">
       <Container className="!max-w-[1333px]">
         <h2 className="section_title 2xl:text-7xl 2xl:font-bold">
           Frequently Asked Questions
         </h2>
-    
-        <div className="space-y-4 md:space-y-10 mt-20">
-          {faqs.map((faq) => (
+
+        <div className="space-y-4 md:space-y-7 mt-10">
+          {faqs.map(faq => (
             <div
               key={faq.id}
               className="bg-white rounded-[14px] custom_shadow custom_border"
@@ -30,12 +28,11 @@ const FAQAccordion = () => {
                 onClick={() => toggle(faq.id)}
                 className="w-full flex items-center justify-between p-4 md:p-6 text-left"
               >
-                <span className="text-xl text-gray-900">
-                  {faq.question}
-                </span>
+                <span className="text-xl text-gray-900">{faq.question}</span>
                 <IoIosArrowDown
-                  className={`size-7 text-primary-blue transition-transform duration-300 ${openId === faq.id ? "rotate-180" : ""
-                    }`}
+                  className={`size-7 text-primary-blue transition-transform duration-300 ${
+                    openId === faq.id ? "rotate-180" : ""
+                  }`}
                 />
               </button>
 
@@ -50,6 +47,6 @@ const FAQAccordion = () => {
       </Container>
     </section>
   );
-}
+};
 
 export default FAQAccordion;
