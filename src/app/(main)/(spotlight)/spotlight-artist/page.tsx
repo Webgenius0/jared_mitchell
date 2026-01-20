@@ -8,22 +8,26 @@ import SpotlightLadder from "../_components/SpotlightLadder";
 import CommunityAchievements from "../../_components/CommunityAchievements";
 import WhatExist from "../../about/_Components/WhatExist";
 import EventSponsors from "../../services/_components/EventSponsors";
+import ArtistSpotlightBanner from "../_components/ArtistSpotlightBanner";
 
 const page = () => {
   return (
     <>
+      <ArtistSpotlightBanner />
       <SpotlightHero />
       <DiscoverArtists />
       <CommunityAchievements />
       <EditorsPicks />
-      <SpotlightLadder title="Weekly Spotlight Ladder" subTitle="Community-driven recognition for outstanding developers" buttonHref="/spotlight-artist/spotlight-ladder" />
+      <SpotlightLadder
+        title="Weekly Spotlight Ladder"
+        subTitle="Community-driven recognition for outstanding developers"
+        buttonHref="/spotlight-artist/spotlight-ladder"
+      />
       <BecomeAPart />
       <CreativeJourney />
       <WhatExist />
       <EventSponsors />
-      <NewsLetter
-        title="Stay connected with new spotlights, events, and creative tools."
-      />
+      <NewsLetter title="Stay connected with new spotlights, events, and creative tools." />
     </>
   );
 };

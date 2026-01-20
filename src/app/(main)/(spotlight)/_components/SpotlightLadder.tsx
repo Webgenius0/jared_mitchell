@@ -18,9 +18,12 @@ const SpotlightLadder = ({
         <h2 className="section_title">{title}</h2>
         <p className="section_sub_title">{subTitle}</p>
         <div className="text-center mt-10">
-          <Link href={buttonHref}>
-            Explore Spotlight Ladder <BsArrowRight className="text-2xl" />
-          </Link>
+          <Button asChild size="xl">
+            <Link href={buttonHref}>
+              Explore Spotlight Ladder
+              <BsArrowRight className="text-2xl" />
+            </Link>
+          </Button>
         </div>
       </Container>
     </section>

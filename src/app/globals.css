@@ -132,7 +132,9 @@ button {
 .osi-slide {
   width: 420px;
   opacity: 0.45;
-  transition: transform 0.6s ease, opacity 0.6s ease;
+  transition:
+    transform 0.6s ease,
+    opacity 0.6s ease;
   pointer-events: none;
 }
 
@@ -168,6 +170,10 @@ button {
 
 .auth_label {
   @apply text-xl text-[#1D1D1F] block;
+}
+
+.artist_label {
+  @apply text-xl text-[#1D1D1F] flex gap-2 items-center;
 }
 
 .auth_label span {
