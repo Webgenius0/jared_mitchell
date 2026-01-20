@@ -910,97 +910,48 @@ export const membershipPlans = [
   {
     id: "bronze",
     icon: BronzeSvg,
+    title: "Community Supporter",
     iconBgColor: "#783D0080",
     name: "Bronze",
     price: "$50",
     description: "Small businesses wanting consistent weekly exposure.",
-    includes: [
-      "4 social media posts per week featuring your ad (we post the ad you provide)",
-      "Featured on OSI social stories (1x/week)",
-      "Logo placement on OSI website sponsor carousel",
-      "Access to sponsor-only updates & opportunities",
-      "Mention in monthly sponsor appreciation post",
-    ],
-    provides: [
-      "Your ad image(s), graphics, product promo, or sale announcement",
-      "Your business logo",
-      "Social media links",
-    ],
-    impact:
-      "Affordable visibility for businesses who want consistent weekly promotion.",
+    short_desc:
+      "Best for startups, creators, and early-stage brands. Purpose: Presence, not growth.",
   },
   {
     id: "silver",
     icon: SilverSvg,
+    title: "Growing Visibility",
     iconBgColor: "#4A556529",
     name: "Silver",
     price: "$100",
     description:
       "Businesses ready for increased visibility and more frequent posting.",
-    includes: [
-      "Daily social media posting (1 post per day, 7x a week)",
-      "Quarter-page feature in the OSI Magazine",
-      "Logo placement on OSI website sponsor carousel",
-      "Inclusion in monthly newsletter 'Sponsor Highlights'",
-      "Standard placement in community event promotions",
-      "Priority access to vendor booth discounts",
-      "Priority in OSI-hosted events",
-    ],
-    provides: [
-      "Any ads you want showcased",
-      "1 promo video or brand reel (optional)",
-      "Product photos, announcements, sales",
-    ],
-    impact:
-      "Daily exposure that builds momentum, brand recognition, and consistent traffic.",
+    short_desc:
+      "For businesses building momentum. Purpose: Recognition begins here.",
   },
   {
     id: "gold",
     icon: GoldSvg,
     iconBgColor: "#E1B35380",
+    title: "Featured Business",
     name: "Gold",
     price: "$250",
     description:
       "Businesses who want powerful multimedia promotion across OSI video & social platforms.",
-    includes: [
-      "1 social media post per day (7 days/week)",
-      "15-second video rotation on OSI's digital video channels (provided by sponsor)",
-      "Half-page feature in the OSI Magazine",
-      "Mention during OSI livestreams (when applicable)",
-      "Priority discount on vendor booths",
-      "Priority in OSI-hosted events",
-    ],
-    provides: [
-      "A 15-second video commercial",
-      "Your images, flyers, sales, and brand promos",
-      "Logo and social links",
-    ],
-    impact:
-      "Strong multimedia presence with consistent daily promotion + video rotation.",
+    short_desc:
+      "Daily visibility • ~$8 per day Purpose: Consistent recognition and growth.",
   },
   {
     id: "platinum",
     icon: PlatinumSvg,
+    title: "Premier Partner",
     iconBgColor: "#5B42CEB2",
     name: "Platinum",
     price: "$500",
     description:
       "Brands, agencies, larger businesses wanting maximum visibility and deeper integration.",
-    includes: [
-      "3 social media posts per day (21 posts/week)",
-      "30-second video rotation on OSI's digital channels (provided by sponsor)",
-      "Full-page feature in OSI Magazine",
-      "Ad placement in our regular rotation on all OSI media outlets",
-      "Social media shoutouts",
-      "Logo in premium sponsor section",
-      "Priority discount for vendor booths at OSI events",
-      "Inclusion in high-traffic content pushes",
-    ],
-    provides: [
-      "A 30-second commercial or promotional clip",
-      "Your images, ads, flyers, and brand messaging",
-    ],
-    impact:
-      "Maximum exposure with top-tier ad frequency and cross-platform visibility.",
+    short_desc:
+      "Authority • Priority • Top-tier presence Purpose: Leadership positioning.",
   },
 ];
