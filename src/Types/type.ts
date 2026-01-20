@@ -1,3 +1,5 @@
+import { StaticImageData } from "next/image";
+
 export type LoginProps = {
   email: string;
   password: string;
@@ -108,7 +110,7 @@ export type User = {
 
 export interface ShopCardProps {
   id: string;
-  image: string;
+  image: string | StaticImageData;
   title: string;
   description: string;
   price: string;
