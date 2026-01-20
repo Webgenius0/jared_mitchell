@@ -9,7 +9,14 @@ import {
   User,
   WeeklyTimelineProps,
 } from "@/Types/type";
-import { AmazonSvg, BronzeSvg, GoldSvg, PlatinumSvg, SilverSvg, WooCommerce } from "../Svg/SvgContainer";
+import {
+  AmazonSvg,
+  BronzeSvg,
+  GoldSvg,
+  PlatinumSvg,
+  SilverSvg,
+  WooCommerce,
+} from "../Svg/SvgContainer";
 
 export const sponsorsData = [
   {
@@ -835,38 +842,42 @@ export const topPerformers: User[] = [
       twitter: "https://twitter.com/fatima_designs",
     },
   },
-]
+];
 
 export const featuredShopData: ShopCardProps[] = [
   {
     id: "1",
-    image: "https://i.ibb.co.com/V0TXvhy4/3b1a85c852f585e5f2ef2f75cc735a4ce893aa76.jpg",
+    image:
+      "https://i.ibb.co.com/V0TXvhy4/3b1a85c852f585e5f2ef2f75cc735a4ce893aa76.jpg",
     title: "OSI Signature Hoodie",
     description: "Premium quality hoodie that represents the culture.",
-    price: "$65"
+    price: "$65",
   },
   {
     id: "2",
-    image: "https://i.ibb.co.com/V0TXvhy4/3b1a85c852f585e5f2ef2f75cc735a4ce893aa76.jpg",
+    image:
+      "https://i.ibb.co.com/V0TXvhy4/3b1a85c852f585e5f2ef2f75cc735a4ce893aa76.jpg",
     title: "Boss Beginnings Toolkit",
     description: "Complete toolkit to launch and grow your business.",
     price: "$49",
-    tag: "Digital"
+    tag: "Digital",
   },
   {
     id: "3",
-    image: "https://i.ibb.co.com/V0TXvhy4/3b1a85c852f585e5f2ef2f75cc735a4ce893aa76.jpg",
+    image:
+      "https://i.ibb.co.com/V0TXvhy4/3b1a85c852f585e5f2ef2f75cc735a4ce893aa76.jpg",
     title: "Vendor Starter Pack",
     description: "Everything needed for your first vendor event.",
-    price: "$129"
+    price: "$129",
   },
   {
     id: "4",
-    image: "https://i.ibb.co.com/V0TXvhy4/3b1a85c852f585e5f2ef2f75cc735a4ce893aa76.jpg",
+    image:
+      "https://i.ibb.co.com/V0TXvhy4/3b1a85c852f585e5f2ef2f75cc735a4ce893aa76.jpg",
     title: "Spotlight Promotion Credit",
     description: "Get your business featured on OSI platforms.",
-    price: "$99"
-  }
+    price: "$99",
+  },
 ];
 
 export const limitedDrops: ShopCardProps[] = [
@@ -876,7 +887,7 @@ export const limitedDrops: ShopCardProps[] = [
     title: "OSI Signature Hoodie",
     description: "Premium quality hoodie that represents the culture.",
     price: "$65",
-    EndsIn: "5d 8h 45m"
+    EndsIn: "5d 8h 45m",
   },
   {
     id: "2",
@@ -884,7 +895,7 @@ export const limitedDrops: ShopCardProps[] = [
     title: "Boss Beginnings Toolkit",
     description: "Complete toolkit to launch and grow your business.",
     price: "$49",
-    EndsIn: "5d 8h 45m"
+    EndsIn: "5d 8h 45m",
   },
   {
     id: "3",
@@ -892,8 +903,8 @@ export const limitedDrops: ShopCardProps[] = [
     title: "Vendor Starter Pack",
     description: "Everything needed for your first vendor event.",
     price: "$129",
-    EndsIn: "5d 8h 45m"
-  }
+    EndsIn: "5d 8h 45m",
+  },
 ];
 
 export const membershipPlans = [
@@ -909,14 +920,15 @@ export const membershipPlans = [
       "Featured on OSI social stories (1x/week)",
       "Logo placement on OSI website sponsor carousel",
       "Access to sponsor-only updates & opportunities",
-      "Mention in monthly sponsor appreciation post"
+      "Mention in monthly sponsor appreciation post",
     ],
     provides: [
       "Your ad image(s), graphics, product promo, or sale announcement",
       "Your business logo",
-      "Social media links"
+      "Social media links",
     ],
-    impact: "Affordable visibility for businesses who want consistent weekly promotion.",
+    impact:
+      "Affordable visibility for businesses who want consistent weekly promotion.",
   },
   {
     id: "silver",
@@ -924,7 +936,8 @@ export const membershipPlans = [
     iconBgColor: "#4A556529",
     name: "Silver",
     price: "$100",
-    description: "Businesses ready for increased visibility and more frequent posting.",
+    description:
+      "Businesses ready for increased visibility and more frequent posting.",
     includes: [
       "Daily social media posting (1 post per day, 7x a week)",
       "Quarter-page feature in the OSI Magazine",
@@ -932,14 +945,15 @@ export const membershipPlans = [
       "Inclusion in monthly newsletter 'Sponsor Highlights'",
       "Standard placement in community event promotions",
       "Priority access to vendor booth discounts",
-      "Priority in OSI-hosted events"
+      "Priority in OSI-hosted events",
     ],
     provides: [
       "Any ads you want showcased",
       "1 promo video or brand reel (optional)",
-      "Product photos, announcements, sales"
+      "Product photos, announcements, sales",
     ],
-    impact: "Daily exposure that builds momentum, brand recognition, and consistent traffic.",
+    impact:
+      "Daily exposure that builds momentum, brand recognition, and consistent traffic.",
   },
   {
     id: "gold",
@@ -947,21 +961,23 @@ export const membershipPlans = [
     iconBgColor: "#E1B35380",
     name: "Gold",
     price: "$250",
-    description: "Businesses who want powerful multimedia promotion across OSI video & social platforms.",
+    description:
+      "Businesses who want powerful multimedia promotion across OSI video & social platforms.",
     includes: [
       "1 social media post per day (7 days/week)",
       "15-second video rotation on OSI's digital video channels (provided by sponsor)",
       "Half-page feature in the OSI Magazine",
       "Mention during OSI livestreams (when applicable)",
       "Priority discount on vendor booths",
-      "Priority in OSI-hosted events"
+      "Priority in OSI-hosted events",
     ],
     provides: [
       "A 15-second video commercial",
       "Your images, flyers, sales, and brand promos",
-      "Logo and social links"
+      "Logo and social links",
     ],
-    impact: "Strong multimedia presence with consistent daily promotion + video rotation.",
+    impact:
+      "Strong multimedia presence with consistent daily promotion + video rotation.",
   },
   {
     id: "platinum",
@@ -969,7 +985,8 @@ export const membershipPlans = [
     iconBgColor: "#5B42CEB2",
     name: "Platinum",
     price: "$500",
-    description: "Brands, agencies, larger businesses wanting maximum visibility and deeper integration.",
+    description:
+      "Brands, agencies, larger businesses wanting maximum visibility and deeper integration.",
     includes: [
       "3 social media posts per day (21 posts/week)",
       "30-second video rotation on OSI's digital channels (provided by sponsor)",
@@ -978,12 +995,13 @@ export const membershipPlans = [
       "Social media shoutouts",
       "Logo in premium sponsor section",
       "Priority discount for vendor booths at OSI events",
-      "Inclusion in high-traffic content pushes"
+      "Inclusion in high-traffic content pushes",
     ],
     provides: [
       "A 30-second commercial or promotional clip",
-      "Your images, ads, flyers, and brand messaging"
+      "Your images, ads, flyers, and brand messaging",
     ],
-    impact: "Maximum exposure with top-tier ad frequency and cross-platform visibility.",
-  }
+    impact:
+      "Maximum exposure with top-tier ad frequency and cross-platform visibility.",
+  },
 ];
