@@ -4,6 +4,7 @@ import {
   FAQItem,
   PickCardProps,
   PricingPlan,
+  RoundData,
   ShopCardProps,
   Testimonial,
   User,
@@ -1004,4 +1005,74 @@ export const membershipPlans = [
     impact:
       "Maximum exposure with top-tier ad frequency and cross-platform visibility.",
   },
+];
+
+export const roundsData: RoundData[] = [
+  {
+    id: 1,
+    title: 'Open Qualifier Round',
+    phase: 'Phase 1',
+    description: 'Narrow the field and generate buzz. Top 60% advance based on community engagement.',
+    participants: 100,
+    advancing: 60,
+    advancingPercentage: 60,
+    timeLeft: '3 weeks 4 days',
+    votingWeight: '100% Community'
+  },
+  {
+    id: 2,
+    title: 'Community Impact Round',
+    phase: 'Phase 2',
+    description: 'Filter for meaning, not just popularity. Submit 3-5 bullet points or 60-90 second video.',
+    challenge: {
+      title: 'Challenge:',
+      question: 'How does your business serve the community?'
+    },
+    participants: 60,
+    advancing: 30,
+    advancingPercentage: 50,
+    timeLeft: '2 weeks 1 days',
+    votingWeight: '70% Community'
+  },
+  {
+    id: 3,
+    title: 'Innovation Showcase Round',
+    phase: 'Phase 3',
+    description: 'Demonstrate your unique value proposition and market differentiation.',
+    challenge: {
+      title: 'Challenge:',
+      question: 'What makes your solution innovative and scalable?'
+    },
+    participants: 30,
+    advancing: 15,
+    advancingPercentage: 50,
+    timeLeft: '1 week 5 days',
+    votingWeight: '60% Community'
+  },
+  {
+    id: 4,
+    title: 'Expert Review Round',
+    phase: 'Phase 4',
+    description: 'Industry experts evaluate business models and growth potential.',
+    participants: 15,
+    advancing: 8,
+    advancingPercentage: 53,
+    timeLeft: '1 week 2 days',
+    votingWeight: '50% Community'
+  },
+  {
+    id: 5,
+    title: 'Final Championship',
+    phase: 'Phase 5',
+    description: 'Present your complete vision to judges and community for the grand prize.',
+    challenge: {
+      title: 'Challenge:',
+      question: 'Pitch your complete business vision and impact strategy.'
+    },
+    participants: 8,
+    advancing: 3,
+    advancingPercentage: 38,
+    timeLeft: '5 days',
+    votingWeight: '40% Community'
+  }
 ];

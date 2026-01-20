@@ -5355,3 +5355,75 @@ export const DateSvg = () => {
 export const OSixSvg = () => {
   return <></>;
 };
+
+export const CIROneSvg = () => {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 36 36" fill="none">
+      <path d="M24 31.5V28.5C24 26.9087 23.3679 25.3826 22.2426 24.2574C21.1174 23.1321 19.5913 22.5 18 22.5H9C7.4087 22.5 5.88258 23.1321 4.75736 24.2574C3.63214 25.3826 3 26.9087 3 28.5V31.5" stroke="#1977DD" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round" />
+      <path d="M24 4.69238C25.2866 5.02594 26.4261 5.77728 27.2395 6.82848C28.0529 7.87967 28.4943 9.17122 28.4943 10.5004C28.4943 11.8295 28.0529 13.1211 27.2395 14.1723C26.4261 15.2235 25.2866 15.9748 24 16.3084" stroke="#1977DD" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round" />
+      <path d="M33 31.5003V28.5003C32.999 27.1709 32.5565 25.8795 31.742 24.8288C30.9276 23.7781 29.7872 23.0277 28.5 22.6953" stroke="#1977DD" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round" />
+      <path d="M13.5 16.5C16.8137 16.5 19.5 13.8137 19.5 10.5C19.5 7.18629 16.8137 4.5 13.5 4.5C10.1863 4.5 7.5 7.18629 7.5 10.5C7.5 13.8137 10.1863 16.5 13.5 16.5Z" stroke="#1977DD" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round" />
+    </svg>
+  )
+}
+
+export const CIRTwoSvg = () => {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 36 36" fill="none">
+      <path d="M24 10.5H33V19.5" stroke="#1977DD" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round" />
+      <path d="M33 10.5L20.25 23.25L12.75 15.75L3 25.5" stroke="#1977DD" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round" />
+    </svg>
+  )
+}
+
+export const CIRThreeSvg = () => {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 36 36" fill="none">
+      <path d="M18 9V18L24 21" stroke="#1977DD" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round" />
+      <path d="M18 33C26.2843 33 33 26.2843 33 18C33 9.71573 26.2843 3 18 3C9.71573 3 3 9.71573 3 18C3 26.2843 9.71573 33 18 33Z" stroke="#1977DD" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round" />
+    </svg>
+  )
+}
+
+export const CIRFourSvg = () => {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 36 36" fill="none">
+      <path d="M23.2161 19.335L25.4886 32.124C25.5141 32.2746 25.4929 32.4293 25.428 32.5676C25.3632 32.7058 25.2576 32.821 25.1255 32.8977C24.9934 32.9743 24.841 33.0088 24.6888 32.9965C24.5366 32.9842 24.3917 32.9258 24.2736 32.829L18.9036 28.7985C18.6444 28.6048 18.3294 28.5001 18.0059 28.5001C17.6823 28.5001 17.3673 28.6048 17.1081 28.7985L11.7291 32.8275C11.6111 32.9241 11.4664 32.9825 11.3143 32.9948C11.1623 33.0071 11.0101 32.9727 10.8781 32.8963C10.7461 32.8198 10.6405 32.705 10.5755 32.567C10.5104 32.429 10.489 32.2744 10.5141 32.124L12.7851 19.335" stroke="#1977DD" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round" />
+      <path d="M18 21C22.9706 21 27 16.9706 27 12C27 7.02944 22.9706 3 18 3C13.0294 3 9 7.02944 9 12C9 16.9706 13.0294 21 18 21Z" stroke="#1977DD" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round" />
+    </svg>
+  )
+}
+
+export const PanelSvg = () => {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+      <path d="M9.99964 20C9.99955 20.1858 10.0512 20.368 10.1489 20.5261C10.2466 20.6842 10.3864 20.8119 10.5526 20.895L12.5526 21.895C12.7051 21.9712 12.8746 22.0072 13.0449 21.9994C13.2152 21.9917 13.3807 21.9406 13.5257 21.8509C13.6707 21.7613 13.7903 21.636 13.8733 21.4871C13.9562 21.3381 13.9997 21.1705 13.9996 21V14C13.9999 13.5044 14.1841 13.0265 14.5166 12.659L21.7396 4.67C21.8691 4.52656 21.9542 4.34868 21.9847 4.15788C22.0152 3.96708 21.9898 3.77153 21.9115 3.59487C21.8333 3.41822 21.7055 3.26802 21.5436 3.16245C21.3818 3.05688 21.1929 3.00046 20.9996 3H2.99964C2.80625 3.00007 2.61702 3.05622 2.45489 3.16164C2.29276 3.26706 2.16467 3.41723 2.08614 3.59396C2.00762 3.7707 1.98203 3.96641 2.01246 4.15739C2.0429 4.34837 2.12807 4.52643 2.25764 4.67L9.48264 12.659C9.81518 13.0265 9.99942 13.5044 9.99964 14V20Z" stroke="#314158" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round" />
+    </svg>
+  )
+}
+
+export const DoubleArrowSvg = () => {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+      <path d="M21 16L17 20L13 16" stroke="#314158" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round" />
+      <path d="M17 20V4" stroke="#314158" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round" />
+      <path d="M3 8L7 4L11 8" stroke="#314158" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round" />
+      <path d="M7 4V20" stroke="#314158" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round" />
+    </svg>
+  )
+}
+
+export const DownArrow = () => {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+      <g clip-path="url(#clip0_16354_16163)">
+        <path d="M7.78776 12C7.69474 12.0001 7.6026 11.9818 7.51666 11.9462C7.43072 11.9106 7.35266 11.8583 7.28698 11.7925L0.203679 4.70916C-0.0731012 4.43238 -0.0731012 3.98419 0.203679 3.70758C0.480458 3.43098 0.928654 3.43081 1.20526 3.70758L7.78776 10.2901L14.3703 3.70758C14.6471 3.43081 15.0952 3.43081 15.3719 3.70758C15.6485 3.98436 15.6486 4.43256 15.3719 4.70916L8.28855 11.7925C8.22286 11.8583 8.14481 11.9106 8.05886 11.9462C7.97292 11.9818 7.88079 12.0001 7.78776 12Z" fill="#314158" />
+      </g>
+      <defs>
+        <clipPath id="clip0_16354_16163">
+          <rect width="16" height="16" fill="white" />
+        </clipPath>
+      </defs>
+    </svg>
+  )
+}

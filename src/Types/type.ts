@@ -115,3 +115,19 @@ export interface ShopCardProps {
   tag?: string;
   EndsIn?: string;
 }
+
+export interface RoundData {
+  id: number;
+  title: string;
+  phase: string;
+  description: string;
+  challenge?: {
+    title: string;
+    question: string;
+  };
+  participants: number;
+  advancing: number;
+  advancingPercentage: number;
+  timeLeft: string;
+  votingWeight: string;
+}
