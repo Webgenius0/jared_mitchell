@@ -1,11 +1,14 @@
 import {
   CurrentSvg,
+  EyeSvg,
+  GonkSvg,
   GroupSvg,
   LoveSvg,
   RankSvg,
   SaveSvg,
   ShareSvg,
   TotalSvg,
+  WatchSvg,
 } from "@/Components/Svg/SvgContainer2";
 import EngagementOverview from "./_Components/EngagementOverview";
 
@@ -33,6 +36,12 @@ const data2 = [
     title: "Your spotlight was shared 5 times",
     time: "2 hours ago",
   },
+];
+
+const data3 = [
+  { icon: <WatchSvg />, title: "Submitted", count: "Dec IO, 2024" },
+  { icon: <EyeSvg />, title: "Views", count: "12,847" },
+  { icon: <GonkSvg />, title: "gonk", count: "#12" },
 ];
 
 const page = () => {
@@ -96,6 +105,23 @@ const page = () => {
       </div>
 
       <h3 className="text-2xl font-medium mb-5">Spotlight Status</h3>
+
+      <div className="grid grid-cols-3 gap-5">
+        {data3?.map(item => (
+          <div
+            key={item?.count}
+            className="bg-white border border-gray-100 p-5 rounded-lg"
+          >
+            <p className="bg-[#155DFC1A] size-12 rounded-full grid place-items-center mb-3">
+              {item?.icon}
+            </p>
+
+            <p className="text-gray-500 font-medium">{item?.title}</p>
+
+            <h2 className="text-3xl font-semibold pt-4 pb-3">{item?.count}</h2>
+          </div>
+        ))}
+      </div>
     </>
   );
 };
