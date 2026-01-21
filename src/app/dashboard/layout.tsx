@@ -1,14 +1,211 @@
 "use client";
 import React, { useState } from "react";
-import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
 import PrivateLayout from "@/Private/PrivateLayout";
-import { FaBars } from "react-icons/fa";
+import DashboardSidebar from "@/Shared/DashboardSidebar";
+import {
+  NEighteenSvg,
+  NEightSvg,
+  NElevenSvg,
+  NFifteenSvg,
+  NFiveSvg,
+  NFourSvg,
+  NFourteenSvg,
+  NNineSvg,
+  NNineTeenSvg,
+  NOneSvg,
+  NSevenSvg,
+  NSeventeenSvg,
+  NSixSvg,
+  NSixteenSvg,
+  NTenSvg,
+  NThirteenSvg,
+  NThreeSvg,
+  NTwelveSvg,
+  NTwentyOneSvg,
+  NTwentySvg,
+  NTwentyTwoSvg,
+  NTwoSvg,
+} from "@/Components/Svg/SvgContainer";
+import DashboardHeader from "@/Shared/DashboardHeader";
 
-const navLinks = [
-  { id: 1, label: "Dashboard", path: "/dashboard" },
-  { id: 2, label: "Settings", path: "/dashboard/settings" },
-  { id: 3, label: "Go to home", path: "/" },
+const artistLinks = [
+  {
+    id: 1,
+    label: "Dashboard",
+    path: "/dashboard/artist_business",
+    icon: <NOneSvg />,
+  },
+  {
+    id: 2,
+    label: "Spotlight Management",
+    path: "/dashboard/artist_business/spotlight-management",
+    icon: <NTwoSvg />,
+  },
+  {
+    id: 3,
+    label: "Promotion Tools",
+    path: "/dashboard/artist_business/promotion-tools",
+    icon: <NThreeSvg />,
+  },
+  {
+    id: 4,
+    label: "Analytics",
+    path: "/dashboard/artist_business/analytics",
+    icon: <NFourSvg />,
+  },
+  {
+    id: 5,
+    label: "Events",
+    path: "/dashboard/artist_business/events",
+    icon: <NFiveSvg />,
+  },
+  {
+    id: 6,
+    label: "Billing",
+    path: "/dashboard/artist_business/billing",
+    icon: <NSixSvg />,
+  },
+  {
+    id: 7,
+    label: "Setting",
+    path: "/dashboard/artist_business/setting",
+    icon: <NSevenSvg />,
+  },
+];
+
+const communityMemberLinks = [
+  {
+    id: 8,
+    label: "Dashboard",
+    path: "/dashboard/community_member",
+    icon: <NOneSvg />,
+  },
+  {
+    id: 9,
+    label: "Voting Center",
+    path: "/dashboard/community_member/voting-center",
+    icon: <NEightSvg />,
+  },
+  {
+    id: 10,
+    label: "Saved Content",
+    path: "/dashboard/community_member/saved-content",
+    icon: <NNineSvg />,
+  },
+  {
+    id: 11,
+    label: "Support Votes",
+    path: "/dashboard/community_member/support-votes",
+    icon: <NTenSvg />,
+  },
+  {
+    id: 12,
+    label: "Setting",
+    path: "/dashboard/community_member/settings",
+    icon: <NElevenSvg />,
+  },
+];
+
+const sponsorLinks = [
+  {
+    id: 13,
+    label: "Dashboard",
+    path: "/dashboard/sponsor",
+    icon: <NOneSvg />,
+  },
+  {
+    id: 14,
+    label: "Ad Performance",
+    path: "/dashboard/sponsor/ad-performance",
+    icon: <NTwelveSvg />,
+  },
+  {
+    id: 15,
+    label: "Placement Schedule",
+    path: "/dashboard/sponsor/placement-schedule",
+    icon: <NThirteenSvg />,
+  },
+  {
+    id: 16,
+    label: "Impression Estimates",
+    path: "/dashboard/sponsor/impression-estimates",
+    icon: <NFourteenSvg />,
+  },
+  {
+    id: 17,
+    label: "Campaign Assets",
+    path: "/dashboard/sponsor/campaign-assets",
+    icon: <NFifteenSvg />,
+  },
+  {
+    id: 18,
+    label: "Billing",
+    path: "/dashboard/sponsor/billing",
+    icon: <NSixteenSvg />,
+  },
+  {
+    id: 19,
+    label: "Setting",
+    path: "/dashboard/sponsor/settings",
+    icon: <NElevenSvg />,
+  },
+];
+
+const bossLinks = [
+  {
+    id: 20,
+    label: "Dashboard",
+    path: "/dashboard/boss_beginning",
+    icon: <NOneSvg />,
+  },
+  {
+    id: 21,
+    label: "Voting Center",
+    path: "/dashboard/boss_beginning/voting-center",
+    icon: <NSeventeenSvg />,
+  },
+  {
+    id: 22,
+    label: "Leaderboards",
+    path: "/dashboard/boss_beginning/leaderboards",
+    icon: <NEighteenSvg />,
+  },
+  {
+    id: 23,
+    label: "Promotion Tools",
+    path: "/dashboard/boss_beginning/promotion-tools",
+    icon: <NNineTeenSvg />,
+  },
+  {
+    id: 24,
+    label: "Billing & Payments",
+    path: "/dashboard/boss_beginning/payments",
+    icon: <NSixteenSvg />,
+  },
+  {
+    id: 25,
+    label: "Events & Vendors",
+    path: "/dashboard/boss_beginning/events",
+    icon: <NTwentySvg />,
+  },
+  {
+    id: 25,
+    label: "Community Hub",
+    path: "/dashboard/boss_beginning/community-hub",
+    icon: <NTwentyOneSvg />,
+  },
+  {
+    id: 25,
+    label: "Activity Log",
+    path: "/dashboard/boss_beginning/activity-log",
+    icon: <NTwentyTwoSvg />,
+  },
+  {
+    id: 26,
+    label: "Setting",
+    path: "/dashboard/boss_beginning/settings",
+    icon: <NElevenSvg />,
+  },
 ];
 
 export default function DashboardLayout({
@@ -16,81 +213,54 @@ export default function DashboardLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const pathname = usePathname();
-  const router = useRouter();
+  const user = "artist_business"; // artist_business || boss_beginning || community_member || sponsor
   const [open, setOpen] = useState<boolean>(false);
 
   return (
-    <PrivateLayout>
-      <section className="min-h-screen max-h-screen flex flex-col">
+    // <PrivateLayout>
+    <section className="min-h-screen max-h-screen flex">
+      {/* Sidebar */}
+      <DashboardSidebar
+        open={open}
+        setOpen={setOpen}
+        dashboardNavLinks={
+          user === "artist_business"
+            ? artistLinks
+            : user === "community_member"
+              ? communityMemberLinks
+              : user === "sponsor"
+                ? sponsorLinks
+                : bossLinks
+        }
+      />
+
+      <section className="flex-1 bg-[#F8F8FA] overflow-y-auto">
         {/* Dashboard Header */}
-        <header className="bg-white border-b h-[84px] flex justify-between items-center px-10 fixed w-full left-0 right-0 z-40">
-          {/* Left */}
-          <div onClick={() => router.push("/")}>Logo</div>
+        <DashboardHeader
+          setOpen={setOpen}
+          dashboardNavLinks={
+            user === "artist_business"
+              ? artistLinks
+              : user === "community_member"
+                ? communityMemberLinks
+                : user === "sponsor"
+                  ? sponsorLinks
+                  : bossLinks
+          }
+        />
 
-          {/* Right */}
-          <div className="flex gap-3 md:gap-4 items-center">
-            <button className="w-9 md:w-10 h-9 md:h-10 rounded-full grid place-items-center cursor-pointer border border-[#ECEEF0]">
-              N
-            </button>
-            <button
-              onClick={() => setOpen(!open)}
-              className="xl:hidden w-9 md:w-10 h-8.5 md:h-9.5 cursor-pointer grid place-items-center rounded text-white bg-secondary-blue"
-            >
-              <FaBars className="text-xl md:text-2xl" />
-            </button>
-          </div>
-        </header>
-
-        {/* Main Content */}
-        <main className="flex overflow-x-hidden mt-[84px] h-[calc(100vh-84px)]">
-          {/* Sidebar */}
-          <aside
-            className={`${
-              open ? "translate-x-0" : "-translate-x-full xl:translate-x-0"
-            } fixed top-0 left-0 z-[999] 2xl:static max-2xl:h-screen w-72 duration-500 transition-transform border-r bg-white p-5 shrink-0 overflow-y-auto`}
-          >
-            {/* Logo */}
-            <p onClick={() => router.push("/")} className="2xl:hidden">
-              Logo
-            </p>
-
-            {/* Nav Links */}
-            <nav className="flex flex-col gap-1">
-              {navLinks?.map(item => {
-                const isActive = pathname === item.path;
-                return (
-                  <Link
-                    key={item.id}
-                    href={item.path}
-                    onClick={() => setOpen(false)}
-                    className={`px-4 py-2 rounded-md ${
-                      isActive
-                        ? "bg-blue-600 text-white"
-                        : "hover:bg-gray-100 text-gray-700"
-                    }`}
-                  >
-                    {item.label}
-                  </Link>
-                );
-              })}
-            </nav>
-          </aside>
-
-          {/* Outlet */}
-          <section className="flex-1 p-5 bg-gray-100 overflow-y-auto">
-            {children}
-          </section>
-
-          {/* Blur Overlay */}
-          <div
-            onClick={() => setOpen(false)}
-            className={`fixed inset-0 bg-black/30 backdrop-blur-[3px] transition-opacity duration-300 2xl:hidden z-50 ${
-              open ? "opacity-100" : "opacity-0 pointer-events-none"
-            }`}
-          />
-        </main>
+        {/* Dashboard Outlet */}
+        <main className="p-5">{children}</main>
       </section>
-    </PrivateLayout>
+
+      {/* Blur Overlay */}
+      <div
+        onClick={() => setOpen(false)}
+        className={`fixed inset-0 bg-black/30 backdrop-blur-[3px] transition-opacity duration-300 2xl:hidden z-50 ${
+          open ? "opacity-100" : "opacity-0 pointer-events-none"
+        }`}
+      />
+    </section>
+    // </PrivateLayout>
   );
 }
