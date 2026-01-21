@@ -22,7 +22,7 @@ const DashboardHeader = ({
   const activeLink = dashboardNavLinks?.find(link => link?.path === pathname);
 
   return (
-    <header className="border-b border-gray-200 flex justify-between items-center py-4 px-5">
+    <header className="flex justify-between items-center pt-4 px-5 sticky top-0 bg-[#F8F8FA] z-50">
       <h3 className="text-3xl font-medium text-black capitalize">
         {activeLink?.label}
       </h3>

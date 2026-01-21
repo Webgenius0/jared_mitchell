@@ -35,7 +35,7 @@ const DashboardSidebar = ({
     <aside
       className={`${
         open ? "translate-x-0" : "-translate-x-full xl:translate-x-0"
-      } fixed top-0 left-0 z-[999] 2xl:static max-2xl:h-screen w-[270px] duration-500 transition-transform shadow bg-white px-5 py-7 shrink-0 overflow-y-auto`}
+      } fixed top-0 left-0 z-[999] 2xl:static max-2xl:h-screen w-[275px] duration-500 transition-transform shadow bg-white px-5 py-7 shrink-0 overflow-y-auto`}
     >
       {/* Logo */}
       <p onClick={() => router.push("/")} className="text-2xl font-medium mb-7">

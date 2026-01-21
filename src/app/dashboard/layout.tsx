@@ -1,15 +1,29 @@
 "use client";
 import React, { useState } from "react";
 import PrivateLayout from "@/Private/PrivateLayout";
-import { FaBars } from "react-icons/fa";
 import DashboardSidebar from "@/Shared/DashboardSidebar";
 import {
+  NEighteenSvg,
+  NEightSvg,
+  NElevenSvg,
+  NFifteenSvg,
   NFiveSvg,
   NFourSvg,
+  NFourteenSvg,
+  NNineSvg,
+  NNineTeenSvg,
   NOneSvg,
   NSevenSvg,
+  NSeventeenSvg,
   NSixSvg,
+  NSixteenSvg,
+  NTenSvg,
+  NThirteenSvg,
   NThreeSvg,
+  NTwelveSvg,
+  NTwentyOneSvg,
+  NTwentySvg,
+  NTwentyTwoSvg,
   NTwoSvg,
 } from "@/Components/Svg/SvgContainer";
 import DashboardHeader from "@/Shared/DashboardHeader";
@@ -59,6 +73,141 @@ const artistLinks = [
   },
 ];
 
+const communityMemberLinks = [
+  {
+    id: 8,
+    label: "Dashboard",
+    path: "/dashboard/community_member",
+    icon: <NOneSvg />,
+  },
+  {
+    id: 9,
+    label: "Voting Center",
+    path: "/dashboard/community_member/voting-center",
+    icon: <NEightSvg />,
+  },
+  {
+    id: 10,
+    label: "Saved Content",
+    path: "/dashboard/community_member/saved-content",
+    icon: <NNineSvg />,
+  },
+  {
+    id: 11,
+    label: "Support Votes",
+    path: "/dashboard/community_member/support-votes",
+    icon: <NTenSvg />,
+  },
+  {
+    id: 12,
+    label: "Setting",
+    path: "/dashboard/community_member/settings",
+    icon: <NElevenSvg />,
+  },
+];
+
+const sponsorLinks = [
+  {
+    id: 13,
+    label: "Dashboard",
+    path: "/dashboard/sponsor",
+    icon: <NOneSvg />,
+  },
+  {
+    id: 14,
+    label: "Ad Performance",
+    path: "/dashboard/sponsor/ad-performance",
+    icon: <NTwelveSvg />,
+  },
+  {
+    id: 15,
+    label: "Placement Schedule",
+    path: "/dashboard/sponsor/placement-schedule",
+    icon: <NThirteenSvg />,
+  },
+  {
+    id: 16,
+    label: "Impression Estimates",
+    path: "/dashboard/sponsor/impression-estimates",
+    icon: <NFourteenSvg />,
+  },
+  {
+    id: 17,
+    label: "Campaign Assets",
+    path: "/dashboard/sponsor/campaign-assets",
+    icon: <NFifteenSvg />,
+  },
+  {
+    id: 18,
+    label: "Billing",
+    path: "/dashboard/sponsor/billing",
+    icon: <NSixteenSvg />,
+  },
+  {
+    id: 19,
+    label: "Setting",
+    path: "/dashboard/sponsor/settings",
+    icon: <NElevenSvg />,
+  },
+];
+
+const bossLinks = [
+  {
+    id: 20,
+    label: "Dashboard",
+    path: "/dashboard/boss_beginning",
+    icon: <NOneSvg />,
+  },
+  {
+    id: 21,
+    label: "Voting Center",
+    path: "/dashboard/boss_beginning/voting-center",
+    icon: <NSeventeenSvg />,
+  },
+  {
+    id: 22,
+    label: "Leaderboards",
+    path: "/dashboard/boss_beginning/leaderboards",
+    icon: <NEighteenSvg />,
+  },
+  {
+    id: 23,
+    label: "Promotion Tools",
+    path: "/dashboard/boss_beginning/promotion-tools",
+    icon: <NNineTeenSvg />,
+  },
+  {
+    id: 24,
+    label: "Billing & Payments",
+    path: "/dashboard/boss_beginning/payments",
+    icon: <NSixteenSvg />,
+  },
+  {
+    id: 25,
+    label: "Events & Vendors",
+    path: "/dashboard/boss_beginning/events",
+    icon: <NTwentySvg />,
+  },
+  {
+    id: 25,
+    label: "Community Hub",
+    path: "/dashboard/boss_beginning/community-hub",
+    icon: <NTwentyOneSvg />,
+  },
+  {
+    id: 25,
+    label: "Activity Log",
+    path: "/dashboard/boss_beginning/activity-log",
+    icon: <NTwentyTwoSvg />,
+  },
+  {
+    id: 26,
+    label: "Setting",
+    path: "/dashboard/boss_beginning/settings",
+    icon: <NElevenSvg />,
+  },
+];
+
 export default function DashboardLayout({
   children,
 }: {
@@ -75,21 +224,33 @@ export default function DashboardLayout({
         open={open}
         setOpen={setOpen}
         dashboardNavLinks={
-          user === "artist_business" ? artistLinks : artistLinks
+          user === "artist_business"
+            ? artistLinks
+            : user === "community_member"
+              ? communityMemberLinks
+              : user === "sponsor"
+                ? sponsorLinks
+                : bossLinks
         }
       />
 
-      <section className="flex-1 bg-gray-100">
+      <section className="flex-1 bg-[#F8F8FA] overflow-y-auto">
         {/* Dashboard Header */}
         <DashboardHeader
           setOpen={setOpen}
           dashboardNavLinks={
-            user === "artist_business" ? artistLinks : artistLinks
+            user === "artist_business"
+              ? artistLinks
+              : user === "community_member"
+                ? communityMemberLinks
+                : user === "sponsor"
+                  ? sponsorLinks
+                  : bossLinks
           }
         />
 
         {/* Dashboard Outlet */}
-        <main className="p-5 overflow-y-auto">{children}</main>
+        <main className="p-5">{children}</main>
       </section>
 
       {/* Blur Overlay */}

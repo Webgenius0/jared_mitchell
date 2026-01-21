@@ -1,11 +1,7 @@
 import React from 'react';
 
 const page = () => {
-  return (
-    <div>
-      Community Member Home
-    </div>
-  );
+  return <div>support-votes</div>;
 };
 
 export default page;
