@@ -81,7 +81,12 @@ export default function DashboardLayout({
 
       <section className="flex-1 bg-gray-100">
         {/* Dashboard Header */}
-        <DashboardHeader title="Dashboard" setOpen={setOpen} />
+        <DashboardHeader
+          setOpen={setOpen}
+          dashboardNavLinks={
+            user === "artist_business" ? artistLinks : artistLinks
+          }
+        />
 
         {/* Dashboard Outlet */}
         <main className="p-5 overflow-y-auto">{children}</main>
