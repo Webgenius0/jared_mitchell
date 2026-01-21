@@ -1,6 +1,8 @@
 import f1 from "@/Assets/f1.png";
 import f2 from "@/Assets/f2.png";
 import f3 from "@/Assets/f3.png";
+import { FiUsers } from "react-icons/fi";
+
 import {
   Artist,
   FAQItem,
@@ -1031,3 +1033,11 @@ export const roundsData: RoundData[] = [
     votingWeight: "40% Community",
   },
 ];
+
+// export const OSIPanelRoundsData = [
+//   {
+//     id: "1",
+//     icon: FiUsers,
+//     roundNumber: "1",
+//   },
+// ];

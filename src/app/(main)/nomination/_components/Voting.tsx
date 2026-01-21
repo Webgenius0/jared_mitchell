@@ -15,7 +15,7 @@ import { LuEye } from "react-icons/lu";
 const Voting = () => {
   const [activeTab, setActiveTab] = useState(1);
   const activeRound =
-    roundsData.find(round => round.id === activeTab) || roundsData[0];
+    roundsData.find((round) => round.id === activeTab) || roundsData[0];
 
   return (
     <div>
@@ -33,7 +33,7 @@ const Voting = () => {
 
             {/* Tabs Navigation */}
             <div className="flex gap-2 h-fit">
-              {roundsData.map(round => (
+              {roundsData.map((round) => (
                 <button
                   key={round.id}
                   onClick={() => setActiveTab(round.id)}

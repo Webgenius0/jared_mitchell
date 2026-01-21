@@ -5797,8 +5797,8 @@ export const DownArrow = () => {
         </clipPath>
       </defs>
     </svg>
-  );
-};
+  )
+}
 
 export const NOneSvg = () => {
   return (
