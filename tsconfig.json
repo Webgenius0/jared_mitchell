@@ -34,7 +34,7 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts"
-  ],
+, "src/app/(main)/nomination/_components/OsiPanel.tsx"  ],
   "exclude": [
     "node_modules"
   ]

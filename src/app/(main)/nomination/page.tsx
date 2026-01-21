@@ -19,7 +19,7 @@ const Page = () => {
       <Container>
         {/* Tabs */}
         <div className="w-full border-b border-[#E5E7EB] flex items-center gap-6 my-[40px]">
-          {tabs.map(item => (
+          {tabs.map((item) => (
             <button
               key={item.id}
               onClick={() => setActiveTab(item.id)}

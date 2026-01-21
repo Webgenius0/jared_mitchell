@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 
 const LeaderBoard = () => {
   return (
@@ -7,7 +7,7 @@ const LeaderBoard = () => {
         <h2 className="text-xl font-semibold mb-2">Leader-board</h2>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default LeaderBoard
+export default LeaderBoard;
