@@ -15,13 +15,14 @@ export default function DashboardLayout({
   children,
 }: {
   children: React.ReactNode;
-}) {
-  const pathname = usePathname();
-  const router = useRouter();
-  const [open, setOpen] = useState<boolean>(false);
+  }) {
+    const user = "artist_business"; // artist_business || boss_beginning || community_member || sponsor
+    const pathname = usePathname();
+    const router = useRouter();
+    const [open, setOpen] = useState<boolean>(false);
 
-  return (
-    <PrivateLayout>
+    return (
+      // <PrivateLayout>
       <section className="min-h-screen max-h-screen flex flex-col">
         {/* Dashboard Header */}
         <header className="bg-white border-b h-[84px] flex justify-between items-center px-10 fixed w-full left-0 right-0 z-40">
@@ -91,6 +92,6 @@ export default function DashboardLayout({
           />
         </main>
       </section>
-    </PrivateLayout>
-  );
-}
+      // </PrivateLayout>
+    );
+  }
