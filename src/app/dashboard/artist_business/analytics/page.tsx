@@ -1,11 +1,7 @@
 import React from 'react';
 
 const page = () => {
-  return (
-    <div>
-      Artist and business Home
-    </div>
-  );
+  return <div>analytics</div>;
 };
 
 export default page;
