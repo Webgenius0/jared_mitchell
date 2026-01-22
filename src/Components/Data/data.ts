@@ -22,6 +22,7 @@ import {
   SilverSvg,
   WooCommerce,
 } from "../Svg/SvgContainer";
+import { FaArrowTrendUp } from "react-icons/fa6";
 
 export const sponsorsData = [
   {
@@ -1034,10 +1035,29 @@ export const roundsData: RoundData[] = [
   },
 ];
 
-// export const OSIPanelRoundsData = [
-//   {
-//     id: "1",
-//     icon: FiUsers,
-//     roundNumber: "1",
-//   },
-// ];
+export const OSIPanelRoundsData = [
+  {
+    id: "1",
+    icon: FiUsers,
+    roundNumber: "1",
+    title: "OPEN NOMINATIONS",
+    sub_title: "Up to 100 Businesses",
+    goal: ["Secure a spot in the competition."],
+    requirements: [
+      "Submit a complete nomination that clearly explains what the business does and why it deserves community support.",
+      "Businesses that do not complete the nomination or meet eligibility requirements do not advance.",
+    ],
+  },
+  {
+    id: "2",
+    icon: FaArrowTrendUp,
+    roundNumber: "2",
+    title: "MOMENTUM ROUND",
+    sub_title: "Top 60 Advance",
+    goal: ["Show early community interest and momentum."],
+    requirements: [
+      "Demonstrate initial traction through community engagement (claps, saves, shares, and support votes).",
+      "Businesses that fail to generate enough early momentum are eliminated, ensuring only actively supported businesses continue.",
+    ],
+  },
+];
