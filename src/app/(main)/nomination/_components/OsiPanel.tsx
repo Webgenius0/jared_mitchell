@@ -4,6 +4,9 @@ import { IoMdCheckmark } from "react-icons/io";
 const OsiPanel = () => {
   return (
     <div>
+      <section>
+        asdf
+      </section>
       <section className="bg-[#306FDC]">
         <div className="section text-white flex flex-col items-center justify-center">
           <h3 className="text-6xl font-bold mb-6">WHY THIS SYSTEM IS FAIR</h3>
