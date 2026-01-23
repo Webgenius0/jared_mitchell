@@ -1,7 +1,7 @@
 import "./globals.css";
 import type { Metadata } from "next";
 import { Toaster } from "react-hot-toast";
-import { getSiteSettings } from "@/Hooks/api/cms_api";
+// import { getSiteSettings } from "@/Hooks/api/cms_api";
 import AosProvider from "@/Provider/AosProvider/AosProvider";
 import AuthProvider from "@/Provider/AuthProvider/AuthProvider";
 import QueryProvider from "@/Provider/QueryProvider/QueryProvider";
@@ -17,17 +17,17 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  let faviconUrl = "/favicon.svg";
-  const siteSettings = await getSiteSettings();
-  if (siteSettings?.data?.favicon) {
-    faviconUrl = `${process.env.NEXT_PUBLIC_SITE_URL}/${siteSettings.data.favicon}`;
-  }
+  // let faviconUrl = "/favicon.svg";
+  // const siteSettings = await getSiteSettings();
+  // if (siteSettings?.data?.favicon) {
+  //   faviconUrl = `${process.env.NEXT_PUBLIC_SITE_URL}/${siteSettings.data.favicon}`;
+  // }
 
   return (
     <html lang="en">
-      <head>
+      {/* <head>
         <link rel="icon" href={faviconUrl} />
-      </head>
+      </head> */}
       <body>
         <QueryProvider>
           <AuthProvider>
