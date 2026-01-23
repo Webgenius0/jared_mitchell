@@ -11,10 +11,10 @@ import { useServerApi } from "@/Hooks/useServerApi";
 // =======================================================
 
 // Site Settings
-export async function getSiteSettings() {
-  return useServerApi({
-    mode: "ISR",
-    revalidate: 86400,
-    endpoint: "/api/site-settings",
-  });
-}
+// export async function getSiteSettings() {
+//   return useServerApi({
+//     mode: "ISR",
+//     revalidate: 86400,
+//     endpoint: "/api/site-settings",
+//   });
+// }

@@ -9,6 +9,7 @@ import {
   WatchSvg,
 } from "@/Components/Svg/SvgContainer2";
 
+
 const data2 = [
   {
     icon: <WatchSvg />,
