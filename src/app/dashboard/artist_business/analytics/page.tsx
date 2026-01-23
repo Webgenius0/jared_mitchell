@@ -1,12 +1,10 @@
 import {
   CurrentSvg,
-  GonkSvg,
   LoveSvg,
   RankSvg,
   SaveSvg,
   ShareSvg,
   TotalSvg,
-  WatchSvg,
 } from "@/Components/Svg/SvgContainer2";
 import EngagementOverview from "../_Components/EngagementOverview";
 import VoteBreakdown from "../_Components/VoteBreakdown";
