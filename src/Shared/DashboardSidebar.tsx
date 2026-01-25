@@ -47,6 +47,9 @@ const DashboardSidebar = ({
       <nav className="flex flex-col gap-4">
         {dashboardNavLinks?.map(item => {
           const isActive = pathname === item?.path;
+          const isActiveSubMenu =
+            item?.id === 7 &&
+            pathname?.startsWith("/dashboard/artist_business/setting/");
 
           return (
             <Link
@@ -60,7 +63,7 @@ const DashboardSidebar = ({
             >
               <p
                 className={`flex justify-between items-center px-3 py-2 rounded-md duration-300 transition-all ${
-                  isActive
+                  isActive || isActiveSubMenu
                     ? "bg-primary-blue text-white"
                     : "hover:bg-gray-100 text-gray-700"
                 }`}
@@ -80,13 +83,17 @@ const DashboardSidebar = ({
 
               {item?.subMenu && (
                 <div
-                  className={`w-fit mx-auto text-[15px] duration-300 transition-all space-y-1 pt-2 ${openSubMenu ? "opacity-100 h-auto " : "opacity-0 h-0"}`}
+                  onClick={e => {
+                    e.stopPropagation();
+                    setOpenSubMenu(true);
+                  }}
+                  className={`w-fit mx-auto text-[15px] duration-300 transition-all space-y-1 pt-2 ${openSubMenu ? "opacity-100 h-auto" : "opacity-0 h-0"}`}
                 >
                   {item?.subMenu?.map(subItem => (
                     <Link
                       key={subItem?.path}
                       href={subItem?.path}
-                      className={`block w-full text-gray-500`}
+                      className={`${pathname === subItem?.path ? "text-gray-900" : "text-gray-500"} block w-full hover:text-gray-800`}
                     >
                       {subItem?.label}
                     </Link>

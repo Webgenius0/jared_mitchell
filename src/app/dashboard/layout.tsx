@@ -27,6 +27,7 @@ import {
   NTwoSvg,
 } from "@/Components/Svg/SvgContainer";
 import DashboardHeader from "@/Shared/DashboardHeader";
+import { CanvaSvg } from "@/Components/Svg/SvgContainer2";
 
 const artistLinks = [
   {
@@ -69,7 +70,7 @@ const artistLinks = [
     id: 6,
     label: "Canva",
     path: "/dashboard/artist_business/canva",
-    icon: <NSixSvg />,
+    icon: <CanvaSvg />,
   },
   {
     id: 7,
@@ -79,7 +80,7 @@ const artistLinks = [
     subMenu: [
       {
         label: "Personal Settings",
-        path: "/dashboard/artist_business/setting/personal-settings",
+        path: "/dashboard/artist_business/setting",
       },
       {
         label: "Notifications",
