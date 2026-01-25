@@ -1,12 +1,12 @@
 import { LogoutSvg } from "@/Components/Svg/SvgContainer";
+import { DownArrowSvg } from "@/Components/Svg/SvgContainer2";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import React from "react";
+import React, { useState } from "react";
 
 type SubMenu = {
   label: string;
   path: string;
-  icon?: React.ReactElement<React.SVGProps<SVGSVGElement>>;
 };
 
 type NavLinsProps = {
@@ -14,7 +14,7 @@ type NavLinsProps = {
   label: string;
   path: string;
   icon: React.ReactElement<React.SVGProps<SVGSVGElement>>;
-  subMenus?: SubMenu[];
+  subMenu?: SubMenu[];
 };
 
 type SidebarProps = {
@@ -30,6 +30,7 @@ const DashboardSidebar = ({
 }: SidebarProps) => {
   const router = useRouter();
   const pathname = usePathname();
+  const [openSubMenu, setOpenSubMenu] = useState<boolean>(false);
 
   return (
     <aside
@@ -51,15 +52,47 @@ const DashboardSidebar = ({
             <Link
               key={item?.id}
               href={item?.path}
-              onClick={() => setOpen(false)}
-              className={`px-3 py-2 rounded-md flex gap-2.5 items-center duration-300 transition-all ${
-                isActive
-                  ? "bg-primary-blue text-white"
-                  : "hover:bg-gray-100 text-gray-700"
-              }`}
+              onClick={() => {
+                setOpen(false);
+                item?.subMenu && setOpenSubMenu(!openSubMenu);
+              }}
+              className="duration-500 transition-all"
             >
-              <span>{item?.icon}</span>
-              <span>{item.label}</span>
+              <p
+                className={`flex justify-between items-center px-3 py-2 rounded-md duration-300 transition-all ${
+                  isActive
+                    ? "bg-primary-blue text-white"
+                    : "hover:bg-gray-100 text-gray-700"
+                }`}
+              >
+                <p className="flex gap-2.5 items-center">
+                  <span>{item?.icon}</span>
+                  <span>{item.label}</span>
+                </p>
+                {item?.subMenu && (
+                  <p
+                    className={`duration-300 transition-transform ${openSubMenu ? "rotate-0" : "rotate-180"}`}
+                  >
+                    <DownArrowSvg />
+                  </p>
+                )}
+              </p>
+
+              {item?.subMenu && (
+                <div
+                  className={`w-fit mx-auto text-[15px] duration-300 transition-all space-y-1 pt-2 ${openSubMenu ? "opacity-100 h-auto " : "opacity-0 h-0"}`}
+                >
+                  {item?.subMenu?.map(subItem => (
+                    <Link
+                      key={subItem?.path}
+                      href={subItem?.path}
+                      className={`block w-full text-gray-500`}
+                    >
+                      {subItem?.label}
+                    </Link>
+                  ))}
+                </div>
+              )}
             </Link>
           );
         })}

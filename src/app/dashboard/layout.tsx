@@ -66,10 +66,31 @@ const artistLinks = [
     icon: <NSixSvg />,
   },
   {
+    id: 6,
+    label: "Canva",
+    path: "/dashboard/artist_business/canva",
+    icon: <NSixSvg />,
+  },
+  {
     id: 7,
     label: "Setting",
     path: "/dashboard/artist_business/setting",
     icon: <NSevenSvg />,
+    subMenu: [
+      {
+        label: "Personal Settings",
+        path: "/dashboard/artist_business/setting/personal-settings",
+      },
+      {
+        label: "Notifications",
+        path: "/dashboard/artist_business/setting/notifications",
+      },
+      { label: "Privacy", path: "/dashboard/artist_business/setting/privacy" },
+      {
+        label: "Connected Accounts",
+        path: "/dashboard/artist_business/setting/connected-accounts",
+      },
+    ],
   },
 ];
 
