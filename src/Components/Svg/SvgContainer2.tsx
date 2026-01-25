@@ -369,6 +369,131 @@ export const CanvaSvg = () => {
   );
 };
 
+export const EditSvg = () => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="16"
+      height="16"
+      viewBox="0 0 16 16"
+      fill="none"
+    >
+      <path
+        d="M8.83958 2.4008L3.36624 8.19413C3.15958 8.41413 2.95958 8.84746 2.91958 9.14746L2.67291 11.3075C2.58624 12.0875 3.14624 12.6208 3.91958 12.4875L6.06624 12.1208C6.36624 12.0675 6.78624 11.8475 6.99291 11.6208L12.4662 5.82746C13.4129 4.82746 13.8396 3.68746 12.3662 2.29413C10.8996 0.914129 9.78624 1.4008 8.83958 2.4008Z"
+        stroke="white"
+        stroke-miterlimit="10"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M7.92578 3.36719C8.21245 5.20719 9.70578 6.61385 11.5591 6.80052"
+        stroke="white"
+        stroke-miterlimit="10"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M2 14.668H14"
+        stroke="white"
+        stroke-miterlimit="10"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+    </svg>
+  );
+};
+
+export const ProfileEditSvg = () => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+    >
+      <path
+        d="M13.2594 3.59924L5.04936 12.2892C4.73936 12.6192 4.43936 13.2692 4.37936 13.7192L4.00936 16.9592C3.87936 18.1292 4.71936 18.9292 5.87936 18.7292L9.09936 18.1792C9.54936 18.0992 10.1794 17.7692 10.4894 17.4292L18.6994 8.73924C20.1194 7.23924 20.7594 5.52924 18.5494 3.43924C16.3494 1.36924 14.6794 2.09924 13.2594 3.59924Z"
+        stroke="#1977DD"
+        stroke-width="1.5"
+        stroke-miterlimit="10"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M11.8906 5.05078C12.3206 7.81078 14.5606 9.92078 17.3406 10.2008"
+        stroke="#1977DD"
+        stroke-width="1.5"
+        stroke-miterlimit="10"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M3 22H21"
+        stroke="#1977DD"
+        stroke-width="1.5"
+        stroke-miterlimit="10"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+    </svg>
+  );
+};
+
+export const TwitterSvg = () => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="28"
+      height="28"
+      viewBox="0 0 28 28"
+      fill="none"
+    >
+      <path
+        d="M25.6673 4.66539C25.6673 4.66539 24.8507 7.11539 23.334 8.63206C25.2007 20.2987 12.3673 28.8154 2.33398 22.1654C4.90065 22.2821 7.46732 21.4654 9.33398 19.8321C3.50065 18.0821 0.583984 11.1987 3.50065 5.83206C6.06732 8.86539 10.034 10.6154 14.0007 10.4987C12.9507 5.59872 18.6673 2.79872 22.1673 6.06539C23.4507 6.06539 25.6673 4.66539 25.6673 4.66539Z"
+        stroke="#1977DD"
+        stroke-width="1.66667"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+    </svg>
+  );
+};
+
+export const InstagramSvg = () => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="28"
+      height="28"
+      viewBox="0 0 28 28"
+      fill="none"
+    >
+      <path
+        d="M19.834 2.33203H8.16732C4.94566 2.33203 2.33398 4.9437 2.33398 8.16537V19.832C2.33398 23.0537 4.94566 25.6654 8.16732 25.6654H19.834C23.0556 25.6654 25.6673 23.0537 25.6673 19.832V8.16537C25.6673 4.9437 23.0556 2.33203 19.834 2.33203Z"
+        stroke="#1977DD"
+        stroke-width="1.66667"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M18.6657 13.2634C18.8097 14.2344 18.6438 15.226 18.1917 16.0972C17.7396 16.9685 17.0243 17.675 16.1476 18.1164C15.2708 18.5577 14.2772 18.7113 13.3081 18.5553C12.339 18.3994 11.4437 17.9418 10.7497 17.2478C10.0556 16.5537 9.59803 15.6584 9.44209 14.6893C9.28614 13.7202 9.43975 12.7266 9.88105 11.8498C10.3224 10.9731 11.0289 10.2578 11.9002 9.80568C12.7714 9.3536 13.7631 9.18775 14.734 9.33173C15.7244 9.4786 16.6413 9.94011 17.3493 10.6481C18.0573 11.3561 18.5188 12.273 18.6657 13.2634Z"
+        stroke="#1977DD"
+        stroke-width="1.66667"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M20.416 7.58203H20.4277"
+        stroke="#1977DD"
+        stroke-width="1.66667"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+    </svg>
+  );
+};
+
 export const Svg = () => {
   return <></>;
 };
