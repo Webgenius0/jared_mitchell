@@ -183,3 +183,20 @@ button {
 .card {
   @apply bg-white border border-gray-100 p-5 rounded-lg;
 }
+
+.swiper-pagination {
+  margin-top: 40px;
+  position: relative !important;
+}
+
+.swiper-pagination-bullet {
+  background-color: white;
+  opacity: 0.5;
+  width: 12px !important;
+  height: 12px !important;
+}
+
+.swiper-pagination-bullet-active {
+  background-color: #636364 !important;
+  transform: scale(1.2);
+}

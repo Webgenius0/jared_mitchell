@@ -1,6 +1,10 @@
+"use client";
 import { successStories } from "@/Components/Data/data";
 import Image from "next/image";
-import Marquee from "react-fast-marquee";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Pagination, Autoplay } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/pagination";
 import { LuArrowRight } from "react-icons/lu";
 
 const CommunityAchievements = () => {
@@ -9,47 +13,74 @@ const CommunityAchievements = () => {
       <h2 className="section_title 2xl:text-6xl 2xl:font-semibold">
         Past Six Months Highlights
       </h2>
+
       <p className="section_sub_title">
         Celebrating our community's achievements and creative milestones
       </p>
-      <div className="my-6 md:my-12">
-        <Marquee pauseOnHover>
-          {successStories?.map((data, index) => (
-            <div
-              key={data.id}
-              className="relative flex items-center justify-center w-[500px] h-[300px] mx-3 my-1"
-            >
-              <figure className="w-[500px] h-[300px]">
+
+      <div className="my-6 md:mt-12">
+        <Swiper
+          modules={[Pagination, Autoplay]}
+          spaceBetween={20}
+          slidesPerView={1.2}
+          centeredSlides={false}
+          pagination={{ clickable: true }}
+          autoplay={{
+            delay: 3000,
+            disableOnInteraction: false,
+          }}
+          breakpoints={{
+            640: {
+              slidesPerView: 1.5,
+            },
+            768: {
+              slidesPerView: 2,
+            },
+            1024: {
+              slidesPerView: 3,
+            },
+            1280: {
+              slidesPerView: 4,
+            },
+          }}
+        >
+          {successStories?.map(data => (
+            <SwiperSlide key={data.id}>
+              <div className="relative w-full h-[300px]">
                 <Image
                   src={data.image}
-                  width={500}
-                  height={300}
+                  fill
                   alt="image"
-                  className="size-full object-cover"
+                  className="object-cover rounded-xl"
                 />
-              </figure>
-              <div className="absolute top-0 left-0 size-full bg-[linear-gradient(0deg,_rgba(0,0,0,0.60)_36.37%,_rgba(0,0,0,0.20)_63.02%,_rgba(0,0,0,0.00)_100%)]">
-                <div className="absolute top-4 left-4 inline bg-white py-1 px-3 rounded-full text-primary-black text-sm">
-                  {data.category}
-                </div>
-                <div className="size-full flex gap-1.5 items-end px-4 pb-2">
-                  <div className="space-y-1.5">
-                    <h4 className="text-2xl font-semibold text-white">
-                      {data.title}
-                    </h4>
-                    <p className="text-primary-gray tracking-wider">
-                      {data.description}
-                    </p>
+
+                <div className="absolute inset-0 bg-[linear-gradient(0deg,_rgba(0,0,0,0.60)_36%,_rgba(0,0,0,0.20)_63%,_rgba(0,0,0,0.00)_100%)] rounded-xl">
+                  {/* Category */}
+                  <div className="absolute top-4 left-4 bg-white py-1 px-3 rounded-full text-primary-black text-sm">
+                    {data.category}
                   </div>
-                  <div className="text-white flex items-center text-nowrap gap-2.5 tracking-wide">
-                    View Spotlight
-                    <LuArrowRight />
+
+                  {/* Bottom Content */}
+                  <div className="absolute bottom-4 left-4 right-4 flex justify-between items-end">
+                    <div className="space-y-1.5">
+                      <h4 className="text-xl font-semibold text-white">
+                        {data.title}
+                      </h4>
+                      <p className="text-primary-gray text-sm">
+                        {data.description}
+                      </p>
+                    </div>
+
+                    <div className="text-white flex items-center gap-2 text-sm whitespace-nowrap">
+                      View Spotlight
+                      <LuArrowRight />
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
+            </SwiperSlide>
           ))}
-        </Marquee>
+        </Swiper>
       </div>
     </section>
   );

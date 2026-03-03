@@ -1,4 +1,3 @@
-import Container from "@/Components/Common/Container";
 import coreValueBg from "@/Assets/core_values.jpg";
 import {
   OFiveSvg,
@@ -8,7 +7,6 @@ import {
   OTwoSvg,
 } from "@/Components/Svg/SvgContainer";
 import Image from "next/image";
-
 const data = [
   {
     id: 1,
@@ -63,7 +61,7 @@ const data = [
 const CoreValues = () => {
   return (
     <section className="bg-[#FAFAFA] section">
-      <Container>
+      <div className="container">
         <h2 className="section_title !mb-12">Our Core Values</h2>
 
         <div className="w-full max-h-[680px] h-full overflow-hidden flex items-center justify-center relative rounded-2xl">
@@ -104,7 +102,14 @@ const CoreValues = () => {
             </div>
           </div>
         </div>
-      </Container>
+
+        <p className="text-[#364153] text-center text-xl pt-10">
+          "The comparison table should be visually de-emphasized, collapsed by
+          default, and presented as optional plan details. Reduce font size and
+          spacing, soften colors, and avoid competing with the pricing cards.
+          This section is for reassurance, not decision-making."
+        </p>
+      </div>
     </section>
   );
 };

@@ -73,6 +73,34 @@ const artistLinks = [
     icon: <CanvaSvg />,
   },
   {
+    id: 77,
+    label: "Post",
+    path: "/dashboard/artist_business/post",
+    icon: <NSevenSvg />,
+    subMenu: [
+      {
+        label: "Create Post",
+        path: "/dashboard/artist_business/post",
+      },
+      {
+        label: "Save Draft",
+        path: "/dashboard/artist_business/post/draft",
+      },
+      {
+        label: "Schedule Post",
+        path: "/dashboard/artist_business/post/schedule",
+      },
+      {
+        label: "Publish",
+        path: "/dashboard/artist_business/post/publish",
+      },
+      {
+        label: "Ask OSI AI",
+        path: "/dashboard/artist_business/post/ask-osi",
+      },
+    ],
+  },
+  {
     id: 7,
     label: "Setting",
     path: "/dashboard/artist_business/setting",
