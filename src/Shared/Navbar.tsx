@@ -1,5 +1,4 @@
 "use client";
-import Container from "@/Components/Common/Container";
 import { ProfileSvg, SearchSvg } from "@/Components/Svg/SvgContainer";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -34,7 +33,7 @@ const Navbar = () => {
 
   return (
     <nav className="py-3 md:py-4 xl:py-6 border-b border-[#0000001C] sticky top-0 z-50 bg-white">
-      <Container>
+      <div className="container">
         <div className="flex justify-between items-center">
           {/* Left */}
           <div className="flex gap-10 2xl:gap-14 items-center">
@@ -139,7 +138,7 @@ const Navbar = () => {
             </div>
           </div>
         </div>
-      </Container>
+      </div>
 
       {/* Blur Overlay */}
       <div
