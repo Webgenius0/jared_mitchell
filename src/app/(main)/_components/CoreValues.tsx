@@ -62,39 +62,38 @@ const CoreValues = () => {
   return (
     <section className="bg-[#FAFAFA] section">
       <div className="container">
-        <h2 className="section_title !mb-12">Our Core Values</h2>
+        <h2 className="section_title !mb-5 md:!mb-8 lg:!mb-12">Our Core Values</h2>
 
-        <div className="w-full max-h-[680px] h-full overflow-hidden flex items-center justify-center relative rounded-2xl">
+        <div className="w-full h-[680px] overflow-hidden hidden md:flex items-center justify-center rounded-2xl relative">
           <Image
             src={coreValueBg}
-            width={1920}
-            height={580}
+            fill
             alt="home banner"
             className="object-cover w-full rounded-2xl"
           />
 
           <div className="w-full h-full absolute top-0 bg-[linear-gradient(0deg,rgba(255,255,255,0.40),rgba(255,255,255,0.40)),url('/path-to-image')] rounded-2xl">
-            <div className="grid grid-cols-3 gap-10 p-12">
+            <div className="grid grid-cols-3 gap-3 lg:gap-5 2xl:gap-10 p-5 lg:p-8 2xl:p-12">
               {data?.map(data => (
                 <div
                   key={data.id}
-                  className="rounded-2xl border space-y-4 border-[rgba(0,0,0,0.16)] bg-white shadow-[0_4px_20px_0_rgba(0,0,0,0.07)] py-6 px-8"
+                  className="rounded-2xl border space-y-4 border-[rgba(0,0,0,0.16)] bg-white shadow-[0_4px_20px_0_rgba(0,0,0,0.07)] p-3 lg:py-4 2xl:py-6 lg:px-6 2xl:px-8"
                 >
                   <div className="flex gap-3 items-center">
-                    <p className="size-[60px] rounded-full border border-[#D6E5F5] shadow-[0_4px_20px_0_rgba(0,0,0,0.07)] bg-[#D6E5F5] grid place-items-center shrink-0">
+                    <p className="size-10 xl:size-13 rounded-full border border-[#D6E5F5] shadow-[0_4px_20px_0_rgba(0,0,0,0.07)] bg-[#D6E5F5] grid place-items-center shrink-0">
                       <data.icon />
                     </p>
 
-                    <h3 className="text-2xl text-primary-black font-semibold">
+                    <h3 className="lg:text-lg xl:text-xl 2xl:text-2xl text-primary-black font-semibold">
                       {data?.title}
                     </h3>
                   </div>
 
-                  <h4 className="text-2xl font-medium text-primary-black">
+                  <h4 className="lg:text-lg xl:text-xl font-medium text-primary-black">
                     {data?.sub_title}
                   </h4>
 
-                  <p className="text-lg text-secondary-black">
+                  <p className="xl:text-lg text-secondary-black">
                     {data?.description}
                   </p>
                 </div>
@@ -103,7 +102,34 @@ const CoreValues = () => {
           </div>
         </div>
 
-        <p className="text-[#364153] text-center text-xl pt-10">
+        <div className="space-y-3 md:hidden">
+          {data?.map(data => (
+            <div
+              key={data.id}
+              className="rounded-2xl border space-y-4 border-[rgba(0,0,0,0.16)] bg-white shadow-[0_4px_20px_0_rgba(0,0,0,0.07)] p-3 lg:py-4 2xl:py-6 lg:px-6 2xl:px-8"
+            >
+              <div className="flex gap-3 items-center">
+                <p className="size-10 xl:size-13 rounded-full border border-[#D6E5F5] shadow-[0_4px_20px_0_rgba(0,0,0,0.07)] bg-[#D6E5F5] grid place-items-center shrink-0">
+                  <data.icon />
+                </p>
+
+                <h3 className="lg:text-lg xl:text-xl 2xl:text-2xl text-primary-black font-semibold">
+                  {data?.title}
+                </h3>
+              </div>
+
+              <h4 className="lg:text-lg xl:text-xl font-medium text-primary-black">
+                {data?.sub_title}
+              </h4>
+
+              <p className="xl:text-lg text-secondary-black">
+                {data?.description}
+              </p>
+            </div>
+          ))}
+        </div>
+
+        <p className="text-[#364153] text-center md:text-lg lg:text-xl pt-5 md:pt-10">
           "The comparison table should be visually de-emphasized, collapsed by
           default, and presented as optional plan details. Reduce font size and
           spacing, soften colors, and avoid competing with the pricing cards.

@@ -23,7 +23,7 @@ import NewsLetter from "@/Components/Common/NewsLetter";
 const Page = () => {
   return (
     <>
-      {/* <Hero />
+      <Hero />
       <Sponsors />
       <PoweredByOSI />
       <WhyChoose />
@@ -31,6 +31,8 @@ const Page = () => {
       <PricingPlan />
       <PricingTable />
       <WhatYouAreGetting />
+
+      {/*
       <Features />
       <BossBeginnings />
       <SuccessStories />

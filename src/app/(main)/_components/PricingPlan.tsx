@@ -1,5 +1,4 @@
 import { Button } from "@/Components/Common/Button";
-import Container from "@/Components/Common/Container";
 import { pricingPlans } from "@/Components/Data/data";
 import { GoArrowRight } from "react-icons/go";
 import { IoCheckmarkOutline } from "react-icons/io5";
@@ -7,10 +6,11 @@ import { IoCheckmarkOutline } from "react-icons/io5";
 const PricingPlan = () => {
   return (
     <section className="section">
-      <Container>
+      <div className="container">
         <h2 className="section_title">Choose Your Growth Plan</h2>
-        <div className="w-full py-16">
-          <div className="grid gap-6 md:grid-cols-3">
+
+        <div className="w-full py-5 md:py-10 xl:py-16">
+          <div className="grid gap-4 md:gap-5 xl:gap-6 lg:grid-cols-3">
             {pricingPlans.map(plan => (
               <div
                 key={plan.id}
@@ -25,11 +25,13 @@ const PricingPlan = () => {
                     {plan.badge}
                   </span>
                 )}
-                <h3 className="text-2xl font-semibold uppercase">
+                <h3 className="text-xl md:text-2xl font-semibold uppercase">
                   {plan.title}
                 </h3>
                 <div className="mt-2 flex items-end gap-1">
-                  <span className="text-3xl xl:text-4xl">{plan.price}</span>
+                  <span className="text-2xl md:text-3xl xl:text-4xl">
+                    {plan.price}
+                  </span>
                   <span className="text-sm opacity-70">{plan.period}</span>
                 </div>
                 <p className="mt-4 text-xl">Best for:</p>
@@ -45,7 +47,7 @@ const PricingPlan = () => {
                 <div className="mt-6 space-y-6">
                   {plan.sections.map(section => (
                     <div key={section.title}>
-                      <h4 className="mb-3 text-lg font-medium">
+                      <h4 className="mb-3 md:text-lg font-medium">
                         {section.title}
                       </h4>
                       <ul className="space-y-2">
@@ -86,7 +88,7 @@ const PricingPlan = () => {
             ))}
           </div>
         </div>
-      </Container>
+      </div>
     </section>
   );
 };
