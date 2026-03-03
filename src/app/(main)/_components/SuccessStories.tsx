@@ -43,7 +43,7 @@ const SuccessStories = () => {
             1024: {
               slidesPerView: 3,
             },
-            1280: {
+            1536: {
               slidesPerView: 4,
             },
           }}
@@ -55,10 +55,10 @@ const SuccessStories = () => {
                   src={data.image}
                   fill
                   alt="image"
-                  className="object-cover rounded-xl"
+                  className="object-cover rounded-lg"
                 />
 
-                <div className="absolute inset-0 bg-[linear-gradient(0deg,_rgba(0,0,0,0.60)_36%,_rgba(0,0,0,0.20)_63%,_rgba(0,0,0,0.00)_100%)] rounded-xl">
+                <div className="absolute inset-0 bg-[linear-gradient(0deg,_rgba(0,0,0,0.60)_36%,_rgba(0,0,0,0.20)_63%,_rgba(0,0,0,0.00)_100%)] rounded-lg">
                   {/* Category */}
                   <div className="absolute top-4 left-4 bg-white py-1 px-3 rounded-full text-primary-black text-sm">
                     {data.category}
@@ -67,7 +67,7 @@ const SuccessStories = () => {
                   {/* Bottom Content */}
                   <div className="absolute bottom-4 left-4 right-4 flex justify-between items-end">
                     <div className="space-y-1.5">
-                      <h4 className="text-xl font-semibold text-white">
+                      <h4 className="text-lg xl:text-xl font-semibold text-white">
                         {data.title}
                       </h4>
                       <p className="text-primary-gray text-sm">

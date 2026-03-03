@@ -31,12 +31,12 @@ const Page = () => {
       <PricingPlan />
       <PricingTable />
       <WhatYouAreGetting />
-
-      {/*
       <Features />
       <BossBeginnings />
       <SuccessStories />
-      <ArtistSpotlightCard />
+
+      {/*
+       <ArtistSpotlightCard />
       <CommunityAchievements />
       <ArtistSpotlightCard />
       <CommunityAchievements />
