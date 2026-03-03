@@ -34,10 +34,10 @@ const Footer = () => {
   return (
     <footer className="bg-[#18181B] text-white pt-7 md:pt-10 lg:pt-14 pb-5 md:pb-7 xl:pb-8">
       <div className="container">
-        <div className="grid grid-cols-5 gap-5 md:gap-8 lg:gap-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-5 md:gap-8 xl:gap-12">
           {/* First Column */}
-          <div className="col-span-2 space-y-3 md:space-y-5 ">
-            <h3 className="text-white font-medium text-lg md:text-xl mb-3">
+          <div className="xl:col-span-2 space-y-3 md:space-y-5 ">
+            <h3 className="text-white font-medium text-lg xl:text-xl mb-3">
               Image Features & Visibility
             </h3>
 
@@ -56,7 +56,7 @@ const Footer = () => {
 
           {/* Second Column */}
           <div className="">
-            <h3 className="text-white font-medium text-lg md:text-xl mb-3">
+            <h3 className="text-white font-medium text-lg xl:text-xl mb-3">
               Explore OSI
             </h3>
             <ul className="space-y-2 md:space-y-3">
@@ -70,7 +70,7 @@ const Footer = () => {
 
           {/* Third Column */}
           <div className="">
-            <h3 className="text-white font-medium text-lg md:text-xl mb-3">
+            <h3 className="text-white font-medium text-lg xl:text-xl mb-3">
               Help & Support
             </h3>
             <ul className="space-y-2 md:space-y-3">
@@ -85,7 +85,7 @@ const Footer = () => {
           {/* Forth Column */}
           <div className="space-y-7">
             <div>
-              <h3 className="text-white font-medium text-lg md:text-xl mb-3">
+              <h3 className="text-white font-medium text-lg xl:text-xl mb-3">
                 For Creators & Businesses
               </h3>
               <ul className="space-y-2">
@@ -98,14 +98,14 @@ const Footer = () => {
             </div>
 
             <div>
-              <h3 className="text-white font-medium text-lg md:text-xl xl:text-xl mb-1">
+              <h3 className="text-white font-medium text-lg xl:text-xl  mb-1">
                 Our Social Image LLC
               </h3>
               <p className="text-[#99A1AF] xl:text-lg">Indianapolis, IN</p>
             </div>
 
             <div>
-              <h3 className="text-white font-medium text-lg md:text-xl xl:text-xl mb-1">
+              <h3 className="text-white font-medium text-lg xl:text-xl mb-1">
                 Media & Press
               </h3>
               <p className="text-[#99A1AF] xl:text-lg">
@@ -113,7 +113,7 @@ const Footer = () => {
               </p>
             </div>
 
-            <div className="flex gap-5 items-center mt-5 md:mt-8">
+            <div className="flex gap-3 xl:gap-5 items-center mt-5 md:mt-8">
               <button className="cursor-pointer">
                 <InstagramSvg />
               </button>
@@ -132,15 +132,15 @@ const Footer = () => {
 
         <hr className="text-[#99A1AF] mt-5 md:mt-12" />
 
-        <div className="flex gap-5 items-center justify-between pt-4 md:pt-6">
-          <p className="flex gap-3 items-center text-[#99A1AF]">
+        <div className="flex flex-col lg:flex-row gap-3 lg:gap-5 items-center justify-between pt-4 md:pt-6">
+          <p className="flex flex-wrap justify-center gap-2 md:gap-3 items-center text-[#99A1AF] text-sm lg:text-base">
             <span>Privacy Policy</span>
             <span>Terms of Use</span>
             <span>Cookie Policy</span>
             <span>Accessibility</span>
           </p>
 
-          <p className="text-gray-300 text-sm md:text-base">
+          <p className="text-gray-300 text-sm lg:text-base">
             &copy; 2025 Our Social Image LLC. All rights reserved.
           </p>
         </div>

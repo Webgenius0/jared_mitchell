@@ -71,8 +71,7 @@ export function InstagramSvg() {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width="28"
-      height="28"
+      className="size-5 xl:size-6"
       viewBox="0 0 28 28"
       fill="none"
     >
@@ -132,8 +131,7 @@ export function FacebookSvg() {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width="28"
-      height="28"
+      className="size-5 xl:size-6"
       viewBox="0 0 28 28"
       fill="none"
     >
@@ -172,8 +170,7 @@ export function MusicSvg() {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width="28"
-      height="28"
+      className="size-5 xl:size-6"
       viewBox="0 0 28 28"
       fill="none"
     >
@@ -199,8 +196,7 @@ export function LinkedinSvg() {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width="28"
-      height="28"
+      className="size-5 xl:size-6"
       viewBox="0 0 28 28"
       fill="none"
     >

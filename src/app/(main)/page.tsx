@@ -23,7 +23,7 @@ import NewsLetter from "@/Components/Common/NewsLetter";
 const Page = () => {
   return (
     <>
-      <Hero />
+      {/* <Hero />
       <Sponsors />
       <PoweredByOSI />
       <WhyChoose />
@@ -49,7 +49,7 @@ const Page = () => {
       <NewsLetter
         title="Stay inspired. Get the latest spotlights and events delivered to your inbox."
         sub_title="Be the first to hear about new creators, rising businesses, upcoming events, and OSI announcements."
-      />
+      /> */}
     </>
   );
 };

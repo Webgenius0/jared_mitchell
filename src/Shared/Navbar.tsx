@@ -156,6 +156,7 @@ const Navbar = () => {
       >
         <Link
           href="/"
+          onClick={() => setOpen(false)}
           className="text-[#2A2929] font-poppins text-xl font-semibold cursor-pointer"
         >
           OSI
