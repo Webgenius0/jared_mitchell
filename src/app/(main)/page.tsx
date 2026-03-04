@@ -45,14 +45,11 @@ const Page = () => {
       <PastEvents />
       <CommunityAchievements />
       <OSIApparel />
-
-      {/*
-     
       <CommunityPartner />
       <NewsLetter
         title="Stay inspired. Get the latest spotlights and events delivered to your inbox."
         sub_title="Be the first to hear about new creators, rising businesses, upcoming events, and OSI announcements."
-      /> */}
+      />
     </>
   );
 };
