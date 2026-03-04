@@ -16,11 +16,11 @@ const OurStory = () => {
 
         {/* Right */}
         <div className="order-0 md:order-1">
-          <h2 className="text-primary-black text-3xl xl:text-5xl font-bold leading-[140%] max-w-[602px] mb-5">
+          <h2 className="text-primary-black text-xl md:text-3xl xl:text-5xl font-bold leading-[140%] max-w-[602px] mb-3 md:mb-5">
             Our Origin Story
           </h2>
 
-          <div className="space-y-3.5 text-lg xl:text-[22px] text-[#364153] leading-[150%]">
+          <div className="space-y-3.5 md:text-lg xl:text-[22px] text-[#364153] leading-[150%]">
             <p className="">
               OSI was created from one simple truth: people deserve to be seen.
               Too often, small businesses, artists, and creators struggle to
