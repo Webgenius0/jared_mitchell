@@ -41,18 +41,13 @@ const Page = () => {
       <EventBanner />
       <Countdown />
       <FeaturedEvent />
-      {/*
-       
-     
-      
-     
-     
-     
-      
       <UpcomingEvents />
       <PastEvents />
       <CommunityAchievements />
       <OSIApparel />
+
+      {/*
+     
       <CommunityPartner />
       <NewsLetter
         title="Stay inspired. Get the latest spotlights and events delivered to your inbox."
