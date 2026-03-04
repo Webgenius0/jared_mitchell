@@ -51,13 +51,13 @@ const data = [
 
 const SocialWorks = () => {
   return (
-    <section className="py-20">
+    <section className="py-10 xl:py-20">
       <div className="container">
-        <h2 className="text-primary-black text-5xl font-bold leading-[140%] text-center mb-5">
+        <h2 className="text-primary-black text-4xl xl:text-5xl font-bold leading-[140%] text-center mb-3 xl:mb-5">
           How Our Social Image Works
         </h2>
 
-        <p className="text-[#1D1D1F] text-center text-xl leading-[150%] mb-12">
+        <p className="text-[#1D1D1F] text-center text-xl leading-[150%] mb-7 xl:mb-12">
           A simple ecosystem built to support creators, businesses, and
           community—together.
         </p>
