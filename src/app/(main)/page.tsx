@@ -34,15 +34,21 @@ const Page = () => {
       <Features />
       <BossBeginnings />
       <SuccessStories />
-
-      {/*
-       <ArtistSpotlightCard />
+      <ArtistSpotlightCard />
       <CommunityAchievements />
       <ArtistSpotlightCard />
       <CommunityAchievements />
       <EventBanner />
       <Countdown />
       <FeaturedEvent />
+      {/*
+       
+     
+      
+     
+     
+     
+      
       <UpcomingEvents />
       <PastEvents />
       <CommunityAchievements />

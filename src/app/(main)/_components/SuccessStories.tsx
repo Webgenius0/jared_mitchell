@@ -11,16 +11,18 @@ import "swiper/css/pagination";
 const SuccessStories = () => {
   return (
     <section className="section">
-      <h2 className="section_title 2xl:text-6xl 2xl:font-semibold">
-        Celebrating Local Success Stories
-      </h2>
+      <div className="container">
+        <h2 className="section_title 2xl:text-6xl 2xl:font-semibold">
+          Celebrating Local Success Stories
+        </h2>
 
-      <p className="section_sub_title">
-        Meet the businesses shaping our neighborhoods.
-        <br />
-        From innovative startups to community anchors, these stories highlight
-        the courage, creativity, and commitment behind every brand.
-      </p>
+        <p className="section_sub_title">
+          Meet the businesses shaping our neighborhoods.
+          <br />
+          From innovative startups to community anchors, these stories highlight
+          the courage, creativity, and commitment behind every brand.
+        </p>
+      </div>
 
       <div className="my-6 md:mt-12">
         <Swiper
