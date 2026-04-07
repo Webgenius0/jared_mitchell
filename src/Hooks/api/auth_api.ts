@@ -20,15 +20,13 @@ export const useGetUserData = (token: any) => {
 
 // Registration
 export const useRegister = () => {
-  const router = useRouter();
   return useClientApi({
     method: "post",
     key: ["register"],
-    endpoint: "/api/users/register",
-    onSuccess: (data: any) => {
-      if (data?.status || data?.success) {
-        toast.success(data?.message);
-        router.push("/auth/login");
+    endpoint: "/v1/register",
+    onSuccess: (res: any) => {
+      if (res?.success) {
+        toast.success(res?.message);
       }
     },
     onError: (err: any) => {

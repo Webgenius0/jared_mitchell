@@ -10,7 +10,8 @@ export type RegisterProps = {
   name: string;
   email: string;
   password: string;
-  confirmPassword: string;
+  password_confirmation: string;
+  role: string;
 };
 
 export type Card = {
