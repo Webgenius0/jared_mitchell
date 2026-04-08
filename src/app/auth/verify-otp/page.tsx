@@ -4,7 +4,11 @@ import { MdKeyboardArrowLeft } from "react-icons/md";
 import AuthFlexBox from "../_components/AuthFlexBox";
 import { useRouter, useSearchParams } from "next/navigation";
 import OTPInput from "react-otp-input";
-import { useOtpVerification, useResendOtp } from "@/Hooks/api/auth_api";
+import {
+  useOtpVerification,
+  useResendOtp,
+  useVerifyOtp,
+} from "@/Hooks/api/auth_api";
 import { TbLoader2 } from "react-icons/tb";
 
 type OtpForm = {
@@ -17,8 +21,11 @@ const Page = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const email = searchParams.get("email");
+  const type = searchParams.get("type");
+
   const { mutateAsync: otpVerificationMutation, isPending } =
     useOtpVerification();
+  const { mutateAsync: verifyOtp, isPending: isSending } = useVerifyOtp();
   const { mutate: resendOtpMutation, isPending: isResending } = useResendOtp();
 
   const {
@@ -29,7 +36,20 @@ const Page = () => {
 
   const onSubmit = async (data: OtpForm) => {
     const payload = { ...data, email };
-    await otpVerificationMutation(payload);
+
+    if (type === "create_account") {
+      return await otpVerificationMutation(payload);
+    }
+
+    return await verifyOtp(payload, {
+      onSuccess: (res: any) => {
+        if (res?.success) {
+          router.push(
+            `/auth/reset-password?email=${email}&token=${res?.data?.reset_token}`,
+          );
+        }
+      },
+    });
   };
 
   return (
@@ -105,10 +125,10 @@ const Page = () => {
           {/* Submit */}
           <button
             type="submit"
-            disabled={isPending}
+            disabled={isPending || isSending}
             className="w-full rounded-2xl bg-tertiary-blue py-4 text-xl text-white custom_shadow disabled:opacity-70 disabled:cursor-not-allowed flex justify-center items-center"
           >
-            {isPending ? (
+            {isPending || isSending ? (
               <span className="flex gap-2 items-center">
                 <TbLoader2 className="animate-spin" /> Verifying...
               </span>
@@ -121,17 +141,19 @@ const Page = () => {
         {/* Divider */}
         <div className="h-[1px] my-6 bg-[#00000029] max-w-[482px] mx-auto" />
 
+        {type === "create_account" && (
+          <p className="text-center text-lg text-secondary-black">
+            Didn&apos;t receive code?{" "}
+            <button
+              disabled={isResending}
+              onClick={() => resendOtpMutation({ email })}
+              className="text-tertiary-blue font-medium enabled:hover:underline disabled:opacity-70 disabled:cursor-not-allowed"
+            >
+              {isResending ? "Resending..." : "Resend Now"}
+            </button>
+          </p>
+        )}
         {/* Resend */}
-        <p className="text-center text-lg text-secondary-black">
-          Didn&apos;t receive code?{" "}
-          <button
-            disabled={isResending}
-            onClick={() => resendOtpMutation({ email })}
-            className="text-tertiary-blue font-medium enabled:hover:underline disabled:opacity-70 disabled:cursor-not-allowed"
-          >
-            {isResending ? "Resending..." : "Resend Now"}
-          </button>
-        </p>
       </div>
     </AuthFlexBox>
   );

@@ -11,19 +11,21 @@ import { TbLoader2 } from "react-icons/tb";
 
 const Register = () => {
   const router = useRouter();
+  const { mutateAsync: registrationMutation, isPending } = useRegister();
 
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<RegisterProps>();
-  const { mutateAsync: registrationMutation, isPending } = useRegister();
 
   const onSubmit = async (data: RegisterProps) => {
     registrationMutation(data, {
       onSuccess: (res: any) => {
         if (res?.success) {
-          router.push(`/auth/verify-otp?email=${res?.data?.user?.email}`);
+          router.push(
+            `/auth/verify-otp?email=${res?.data?.user?.email}&type=${"create_account"}`,
+          );
         }
       },
     });

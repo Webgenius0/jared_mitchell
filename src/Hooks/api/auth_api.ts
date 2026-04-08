@@ -82,12 +82,66 @@ export const useLogin = () => {
   return useClientApi({
     method: "post",
     key: ["login"],
-    endpoint: "/api/users/login",
-    onSuccess: (data: any) => {
-      if (data?.status || data?.success) {
-        setToken(data?.data?.token);
-        toast.success(data?.message);
-        router.push("/dashboard");
+    endpoint: "/v1/login",
+    onSuccess: (res: any) => {
+      if (res?.success) {
+        setToken(res?.data?.token);
+        toast.success(res?.message);
+        router.push("/");
+      }
+    },
+    onError: (err: any) => {
+      toast.error(err?.response?.data?.message);
+    },
+  });
+};
+
+// Verify Email
+export const useVerifyEmail = () => {
+  return useClientApi({
+    method: "post",
+    key: ["verify-email"],
+    endpoint: "/v1/forgot-password",
+    onSuccess: (res: any) => {
+      if (res?.success) {
+        toast.success(res?.message);
+      }
+    },
+    onError: (err: any) => {
+      toast.error(err?.response?.data?.message);
+    },
+  });
+};
+
+// Verify OTP
+export const useVerifyOtp = () => {
+  return useClientApi({
+    method: "post",
+    key: ["verify-otp"],
+    endpoint: "/v1/verify-otp",
+    onSuccess: (res: any) => {
+      if (res?.success) {
+        toast.success(res?.message);
+      }
+    },
+    onError: (err: any) => {
+      toast.error(err?.response?.data?.message);
+    },
+  });
+};
+
+// Reset Password
+export const useResetPassword = () => {
+  const router = useRouter();
+
+  return useClientApi({
+    method: "post",
+    key: ["reset-password"],
+    endpoint: "/v1/reset-password",
+    onSuccess: (res: any) => {
+      if (res?.success) {
+        toast.success(res?.message);
+        router.push("/auth/login");
       }
     },
     onError: (err: any) => {
