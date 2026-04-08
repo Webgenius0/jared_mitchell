@@ -29,18 +29,21 @@ const Login = () => {
       }
     >
       <div>
-        <h5 className="text-[56px] text-primary-black capitalize">
+        <h5 className="text-3xl md:text-4xl xl:text-5xl mb-2 xl:mb-3 text-primary-black capitalize">
           Login your account
         </h5>
 
-        <p className="text-secondary-black text-xl capitalize">
+        <p className="text-secondary-black md:text-lg xl:text-xl capitalize">
           Sign in to continue to your account
         </p>
 
-        <form onSubmit={handleSubmit(onSubmit)} className="mt-8 space-y-3">
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="mt-5 xl:mt-8 space-y-3"
+        >
           <div className="space-y-3">
             {/* Email */}
-            <div className="text-xl text-primary-black">Email address*</div>
+            <div className="label">Email address*</div>
             <div>
               <div className="auth_input">
                 <MailSvg />
@@ -57,7 +60,7 @@ const Login = () => {
             </div>
 
             {/* Password */}
-            <div className="text-xl text-primary-black">Password*</div>
+            <div className="label">Password*</div>
             <div>
               <PasswordInput
                 name="password"
@@ -77,15 +80,16 @@ const Login = () => {
             </label>
             <Link
               href={"/auth/forget-password"}
-              className="underline text-secondary-black font-medium"
+              className="underline text-secondary-black font-medium text-sm md:text-base"
             >
               Forget Password?
             </Link>
           </div>
+
           <button
             type="submit"
             disabled={isPending}
-            className="text-center rounded-2xl custom_shadow px-6 py-3 text-white text-xl bg-tertiary-blue w-full disabled:opacity-70 disabled:cursor-not-allowed flex justify-center items-center"
+            className="text-center xl:text-xl rounded-xl xl:rounded-2xl custom_shadow px-6 py-2.5 xl:py-3 text-white bg-tertiary-blue w-full disabled:opacity-70 disabled:cursor-not-allowed flex justify-center items-center"
           >
             {isPending ? (
               <span className="flex gap-2 items-center">
@@ -97,8 +101,8 @@ const Login = () => {
           </button>
         </form>
 
-        <div className="h-[1px] my-5 bg-[#00000029] max-w-[482px] w-full mx-auto" />
-        <p className="text-center text-lg text-secondary-black">
+        <div className="h-[1px] my-3 xl:my-5 bg-[#00000029] max-w-[482px] w-full mx-auto" />
+        <p className="text-center md:text-lg text-secondary-black">
           Don’t have an account?{" "}
           <Link
             href={"/auth/register"}

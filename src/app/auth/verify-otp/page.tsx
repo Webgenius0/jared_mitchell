@@ -63,22 +63,24 @@ const Page = () => {
         {/* Back Button */}
         <button
           onClick={() => router.back()}
-          className="absolute -top-5 left-0 flex items-center text-2xl"
+          className="text-[17px] md:text-xl flex gap-0.5 md:gap-1 items-center mb-3 md:mb-5 2xl:mb-10"
         >
-          <MdKeyboardArrowLeft className="size-10" />
-          Back
+          <MdKeyboardArrowLeft className="text-xl md:text-2xl" /> Back
         </button>
 
         {/* Heading */}
-        <h5 className="text-[56px] text-primary-black capitalize">
+        <h5 className="text-3xl md:text-4xl xl:text-5xl mb-2 xl:mb-3 text-primary-black capitalize">
           Verify your email
         </h5>
-        <p className="text-secondary-black text-xl">
+        <p className="text-secondary-black md:text-lg xl:text-xl capitalize">
           We’ve sent a verification code to your email {email}
         </p>
 
         {/* Form */}
-        <form onSubmit={handleSubmit(onSubmit)} className="mt-8 space-y-6">
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="mt-5 xl:mt-8 space-y-6"
+        >
           {/* OTP Input */}
           <Controller
             name="otp"
@@ -128,7 +130,7 @@ const Page = () => {
           <button
             type="submit"
             disabled={isPending || isSending}
-            className="w-full rounded-2xl bg-tertiary-blue py-4 text-xl text-white custom_shadow disabled:opacity-70 disabled:cursor-not-allowed flex justify-center items-center"
+            className="text-center xl:text-xl rounded-xl xl:rounded-2xl custom_shadow px-6 py-2.5 xl:py-3 text-white bg-tertiary-blue w-full disabled:opacity-70 disabled:cursor-not-allowed flex justify-center items-center"
           >
             {isPending || isSending ? (
               <span className="flex gap-2 items-center">
@@ -141,9 +143,9 @@ const Page = () => {
         </form>
 
         {/* Divider */}
-        <div className="h-[1px] my-6 bg-[#00000029] max-w-[482px] mx-auto" />
+        <div className="h-[1px] my-3 xl:my-5 bg-[#00000029] max-w-[482px] mx-auto" />
 
-        <p className="text-center text-lg text-secondary-black">
+        <p className="text-center md:text-lg text-secondary-black">
           Didn&apos;t receive code?{" "}
           <button
             disabled={isResending || isProcessing}
@@ -158,8 +160,6 @@ const Page = () => {
             {isResending || isProcessing ? "Resending..." : "Resend Now"}
           </button>
         </p>
-
-        {/* Resend */}
       </div>
     </AuthFlexBox>
   );

@@ -43,20 +43,25 @@ const page = () => {
       <div className="my-auto">
         <button
           onClick={() => router.back()}
-          className="absolute -top-5 left-0 flex items-center gap- text-2xl"
+          className="text-[17px] md:text-xl flex gap-0.5 md:gap-1 items-center mb-3 md:mb-5 2xl:mb-10"
         >
-          <MdKeyboardArrowLeft className="size-10" />
-          Back
+          <MdKeyboardArrowLeft className="text-xl md:text-2xl" /> Back
         </button>
-        <h5 className="text-[56px] text-primary-black capitalize">
+
+        <h5 className="text-3xl md:text-4xl xl:text-5xl mb-2 xl:mb-3 text-primary-black capitalize">
           Forget Password
         </h5>
-        <p className="text-secondary-black text-xl capitalize">
+
+        <p className="text-secondary-black md:text-lg xl:text-xl capitalize">
           No worries, we’ll help you reset it
         </p>
-        <form onSubmit={handleSubmit(onSubmit)} className="mt-8 space-y-3">
+
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="mt-5 xl:mt-8 space-y-3"
+        >
           <div className="space-y-3">
-            <div className="text-xl text-primary-black">Email address*</div>
+            <div className="label">Email address*</div>
             <div>
               <div className="auth_input">
                 <MailSvg />
@@ -72,10 +77,11 @@ const page = () => {
               )}
             </div>
           </div>
+
           <button
             type="submit"
             disabled={isPending}
-            className="text-center rounded-2xl custom_shadow px-6 mt-3 py-3 text-white text-xl bg-tertiary-blue w-full disabled:opacity-70 disabled:cursor-not-allowed flex justify-center items-center"
+            className="text-center xl:text-xl rounded-xl xl:rounded-2xl custom_shadow px-6 py-2.5 xl:py-3 text-white bg-tertiary-blue w-full disabled:opacity-70 disabled:cursor-not-allowed flex justify-center items-center"
           >
             {isPending ? (
               <span className="flex gap-2 items-center">
