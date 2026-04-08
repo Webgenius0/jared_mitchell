@@ -7,6 +7,7 @@ import OTPInput from "react-otp-input";
 import {
   useOtpVerification,
   useResendOtp,
+  useVerifyEmail,
   useVerifyOtp,
 } from "@/Hooks/api/auth_api";
 import { TbLoader2 } from "react-icons/tb";
@@ -27,6 +28,7 @@ const Page = () => {
     useOtpVerification();
   const { mutateAsync: verifyOtp, isPending: isSending } = useVerifyOtp();
   const { mutate: resendOtpMutation, isPending: isResending } = useResendOtp();
+  const { mutate: sendOtpMutation, isPending: isProcessing } = useVerifyEmail();
 
   const {
     control,
@@ -141,18 +143,22 @@ const Page = () => {
         {/* Divider */}
         <div className="h-[1px] my-6 bg-[#00000029] max-w-[482px] mx-auto" />
 
-        {type === "create_account" && (
-          <p className="text-center text-lg text-secondary-black">
-            Didn&apos;t receive code?{" "}
-            <button
-              disabled={isResending}
-              onClick={() => resendOtpMutation({ email })}
-              className="text-tertiary-blue font-medium enabled:hover:underline disabled:opacity-70 disabled:cursor-not-allowed"
-            >
-              {isResending ? "Resending..." : "Resend Now"}
-            </button>
-          </p>
-        )}
+        <p className="text-center text-lg text-secondary-black">
+          Didn&apos;t receive code?{" "}
+          <button
+            disabled={isResending || isProcessing}
+            onClick={() => {
+              if (type === "create_account") {
+                return resendOtpMutation({ email });
+              }
+              sendOtpMutation({ email });
+            }}
+            className="text-tertiary-blue font-medium enabled:hover:underline disabled:opacity-70 disabled:cursor-not-allowed"
+          >
+            {isResending || isProcessing ? "Resending..." : "Resend Now"}
+          </button>
+        </p>
+
         {/* Resend */}
       </div>
     </AuthFlexBox>

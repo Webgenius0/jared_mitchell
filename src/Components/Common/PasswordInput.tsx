@@ -1,11 +1,8 @@
 import { useState } from "react";
-import {
-  FieldValues,
-  Path,
-  UseFormRegister,
-} from "react-hook-form";
-import { EyeCloseSvg, PasswordSvg } from "../Svg/SvgContainer";
+import { FieldValues, Path, UseFormRegister } from "react-hook-form";
+import { PasswordSvg } from "../Svg/SvgContainer";
 import { IoEyeOutline } from "react-icons/io5";
+import { VscEyeClosed } from "react-icons/vsc";
 
 type PasswordInputProps<T extends FieldValues> = {
   name: Path<T>;
@@ -33,14 +30,14 @@ const PasswordInput = <T extends FieldValues>({
 
       <button
         type="button"
-        onClick={() => setShowPassword((prev) => !prev)}
+        onClick={() => setShowPassword(prev => !prev)}
         className="absolute right-3"
         aria-label="Toggle password visibility"
       >
         {showPassword ? (
-          <IoEyeOutline className="size-6" />
+          <IoEyeOutline className="size-5 xl:size-6" />
         ) : (
-          <EyeCloseSvg />
+          <VscEyeClosed className="size-5 xl:size-6" />
         )}
       </button>
     </div>

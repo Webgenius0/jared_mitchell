@@ -39,19 +39,22 @@ const Register = () => {
       }
     >
       <>
-        <h5 className="text-[56px] text-primary-black capitalize">
+        <h5 className="text-3xl md:text-4xl xl:text-5xl mb-2 xl:mb-3 text-primary-black capitalize">
           Create your account
         </h5>
 
-        <p className="text-secondary-black text-xl capitalize">
+        <p className="text-secondary-black md:text-lg xl:text-xl capitalize">
           Join our community and start your journey
         </p>
 
-        <form onSubmit={handleSubmit(onSubmit)} className="mt-8 space-y-3">
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="mt-5 xl:mt-8 space-y-3"
+        >
           <div className="space-y-3">
             {/* First name */}
             <div>
-              <h3 className="text-xl text-primary-black mb-3">Full Name*</h3>
+              <h3 className="label">Full Name*</h3>
               <div>
                 <div className="auth_input">
                   <UserAuthSvg />
@@ -70,9 +73,7 @@ const Register = () => {
 
             {/* Email */}
             <div>
-              <h3 className="text-xl text-primary-black mb-3">
-                Email address*
-              </h3>
+              <h3 className="label">Email address*</h3>
               <div>
                 <div className="auth_input">
                   <MailSvg />
@@ -91,7 +92,7 @@ const Register = () => {
 
             {/* Password */}
             <div>
-              <h3 className="text-xl text-primary-black mb-3">Password*</h3>
+              <h3 className="label">Password*</h3>
               <div>
                 <PasswordInput
                   name="password"
@@ -106,9 +107,7 @@ const Register = () => {
 
             {/* Confirm password */}
             <div>
-              <h3 className="text-xl text-primary-black mb-3">
-                Confirm Password*
-              </h3>
+              <h3 className="label">Confirm Password*</h3>
               <div>
                 <PasswordInput
                   name="password_confirmation"
@@ -123,14 +122,12 @@ const Register = () => {
 
             {/* Role */}
             <div>
-              <h3 className="text-xl text-primary-black mb-3">
-                Choose Your Role*
-              </h3>
+              <h3 className="label">Choose Your Role*</h3>
               <div>
-                <p className="border border-[#00000029] bg-[#f5f5f7] pe-3 rounded-2xl">
+                <p className="border border-[#00000029] bg-[#f5f5f7] pe-3 rounded-xl xl:rounded-2xl">
                   <select
                     {...register("role", { required: true })}
-                    className="w-full h-full border-none outline-none capitalize py-5 px-6"
+                    className="w-full h-full border-none outline-none capitalize py-2.5 xl:py-5 px-3 xl:px-6"
                   >
                     <option value="">Choose your role</option>
                     <option value="5">artisan</option>
@@ -146,14 +143,14 @@ const Register = () => {
             </div>
           </div>
 
-          <div className="mt-1 text-primary-black">
+          <div className="mt-1 text-primary-black text-sm md:text-base">
             Use at least 8 characters with a mix of letters & numbers
           </div>
 
           <button
             type="submit"
             disabled={isPending}
-            className="text-center rounded-2xl custom_shadow px-6 py-3 text-white text-xl bg-tertiary-blue w-full disabled:opacity-70 disabled:cursor-not-allowed flex justify-center items-center"
+            className="text-center xl:text-xl rounded-xl xl:rounded-2xl custom_shadow px-6 py-2.5 xl:py-3 text-white bg-tertiary-blue w-full disabled:opacity-70 disabled:cursor-not-allowed flex justify-center items-center"
           >
             {isPending ? (
               <span className="flex gap-2 items-center">
@@ -165,8 +162,8 @@ const Register = () => {
           </button>
         </form>
 
-        <div className="h-[1px] my-5 bg-[#00000029] max-w-[482px] w-full mx-auto" />
-        <p className="text-center text-lg text-secondary-black">
+        <div className="h-[1px] my-3 xl:my-5 bg-[#00000029] max-w-[482px] w-full mx-auto" />
+        <p className="text-center xl:text-lg text-secondary-black">
           Already have an account?{" "}
           <Link
             href={"/auth/login"}
