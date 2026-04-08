@@ -1,10 +1,11 @@
 "use client";
 import { useForm, Controller } from "react-hook-form";
-import Link from "next/link";
 import { MdKeyboardArrowLeft } from "react-icons/md";
 import AuthFlexBox from "../_components/AuthFlexBox";
 import { useRouter, useSearchParams } from "next/navigation";
 import OTPInput from "react-otp-input";
+import { useOtpVerification, useResendOtp } from "@/Hooks/api/auth_api";
+import { TbLoader2 } from "react-icons/tb";
 
 type OtpForm = {
   otp: string;
@@ -16,6 +17,9 @@ const Page = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const email = searchParams.get("email");
+  const { mutateAsync: otpVerificationMutation, isPending } =
+    useOtpVerification();
+  const { mutate: resendOtpMutation, isPending: isResending } = useResendOtp();
 
   const {
     control,
@@ -23,8 +27,9 @@ const Page = () => {
     formState: { errors },
   } = useForm<OtpForm>();
 
-  const onSubmit = (data: OtpForm) => {
+  const onSubmit = async (data: OtpForm) => {
     const payload = { ...data, email };
+    await otpVerificationMutation(payload);
   };
 
   return (
@@ -34,13 +39,13 @@ const Page = () => {
     >
       <div>
         {/* Back Button */}
-        <Link
-          href="/auth/login"
+        <button
+          onClick={() => router.back()}
           className="absolute -top-5 left-0 flex items-center text-2xl"
         >
           <MdKeyboardArrowLeft className="size-10" />
           Back
-        </Link>
+        </button>
 
         {/* Heading */}
         <h5 className="text-[56px] text-primary-black capitalize">
@@ -100,9 +105,16 @@ const Page = () => {
           {/* Submit */}
           <button
             type="submit"
-            className="w-full rounded-2xl bg-tertiary-blue py-4 text-xl text-white custom_shadow"
+            disabled={isPending}
+            className="w-full rounded-2xl bg-tertiary-blue py-4 text-xl text-white custom_shadow disabled:opacity-70 disabled:cursor-not-allowed flex justify-center items-center"
           >
-            Verify
+            {isPending ? (
+              <span className="flex gap-2 items-center">
+                <TbLoader2 className="animate-spin" /> Verifying...
+              </span>
+            ) : (
+              "Verify"
+            )}
           </button>
         </form>
 
@@ -112,8 +124,12 @@ const Page = () => {
         {/* Resend */}
         <p className="text-center text-lg text-secondary-black">
           Didn&apos;t receive code?{" "}
-          <button className="text-tertiary-blue font-medium hover:underline">
-            Resend Now
+          <button
+            disabled={isResending}
+            onClick={() => resendOtpMutation({ email })}
+            className="text-tertiary-blue font-medium enabled:hover:underline disabled:opacity-70 disabled:cursor-not-allowed"
+          >
+            {isResending ? "Resending..." : "Resend Now"}
           </button>
         </p>
       </div>

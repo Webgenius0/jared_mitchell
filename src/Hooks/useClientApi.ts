@@ -41,6 +41,7 @@ export default function useClientApi({
         return res.data;
       },
       enabled,
+      retry: false,
       ...queryOptions,
     });
   }

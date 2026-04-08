@@ -10,7 +10,7 @@ export const useGetUserData = (token: any) => {
     method: "get",
     key: ["user", token],
     enabled: !!token,
-    endpoint: "/api/users/data",
+    endpoint: "/v1/profile",
     isPrivate: true,
     queryOptions: {
       refetchInterval: 1000 * 60 * 60, // refetch every hour
@@ -24,6 +24,45 @@ export const useRegister = () => {
     method: "post",
     key: ["register"],
     endpoint: "/v1/register",
+    onSuccess: (res: any) => {
+      if (res?.success) {
+        toast.success(res?.message);
+      }
+    },
+    onError: (err: any) => {
+      toast.error(err?.response?.data?.message);
+    },
+  });
+};
+
+// OTP verification
+export const useOtpVerification = () => {
+  const router = useRouter();
+  const { setToken } = useAuth();
+
+  return useClientApi({
+    method: "post",
+    key: ["otp-verification"],
+    endpoint: "/v1/verify-email",
+    onSuccess: (res: any) => {
+      if (res?.success) {
+        toast.success(res?.message);
+        setToken(res?.data?.token);
+        router.push("/");
+      }
+    },
+    onError: (err: any) => {
+      toast.error(err?.response?.data?.message);
+    },
+  });
+};
+
+// OTP resend
+export const useResendOtp = () => {
+  return useClientApi({
+    method: "post",
+    key: ["resend-otp"],
+    endpoint: "/v1/resend-otp",
     onSuccess: (res: any) => {
       if (res?.success) {
         toast.success(res?.message);
