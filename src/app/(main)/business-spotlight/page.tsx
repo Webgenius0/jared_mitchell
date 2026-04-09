@@ -47,13 +47,7 @@ const Page = () => {
   const methods = useForm({
     mode: "onBlur",
     defaultValues: {
-      first_name: "",
-      last_name: "",
-      email: "",
-      category: "",
-      story: "",
-      media: null,
-      consent: false,
+      permission_feature_on_osi: 0,
     },
   });
 
@@ -62,7 +56,57 @@ const Page = () => {
       onNext();
     } else {
       console.log("Final Submit Data:", data);
-      await businessSpotlightMutation(data);
+
+      const formData = new FormData();
+
+      formData.append("business_name", data?.business_name);
+      formData.append("owner_founder_name", data?.owner_founder_name);
+      formData.append("business_category", data?.business_category);
+      formData.append("year_founded", data?.year_founded);
+      formData.append("business_website", data?.business_website);
+      formData.append("city", data?.city);
+      formData.append("state", data?.state);
+      formData.append("business_story", data?.business_story);
+      formData.append("products_services", data?.products_services);
+      formData.append("challenges_overcome", data?.challenges_overcome);
+      formData.append("unique_factor", data?.unique_factor);
+      formData.append("target_customer", data?.target_customer);
+      formData.append("email", data?.email);
+      formData.append("phone_number", data?.phone_number);
+      formData.append("best_contact_time", data?.best_contact_time);
+      formData.append("instagram_url", data?.instagram_url);
+      formData.append("tiktok_url", data?.tiktok_url);
+      formData.append("facebook_url", data?.facebook_url);
+      formData.append("youtube_url", data?.youtube_url);
+      formData.append(
+        "google_business_profile_url",
+        data?.google_business_profile_url,
+      );
+      formData.append("linkedin_url", data?.linkedin_url);
+      formData.append("portrait_photo", data?.portrait_photo);
+      formData.append(
+        "storefront_workspace_photo",
+        data?.storefront_workspace_photo,
+      );
+      formData.append("product_service_photos", data?.product_service_photos);
+      formData.append("team_photo", data?.team_photo);
+      formData.append("service_type", data?.service_type);
+      formData.append("why_featured", data?.why_featured);
+      formData.append("growth_vision", data?.growth_vision);
+      formData.append(
+        "permission_feature_on_osi",
+        data?.permission_feature_on_osi ? "1" : "0",
+      );
+      formData.append(
+        "permission_use_submitted_photos",
+        data?.permission_use_submitted_photos ? "1" : "0",
+      );
+      formData.append(
+        "permission_share_business_story",
+        data?.permission_share_business_story ? "1" : "0",
+      );
+
+      await businessSpotlightMutation(formData);
     }
   };
 

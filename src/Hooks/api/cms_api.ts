@@ -7,6 +7,9 @@ export const useCreateBusinessSpotlight = () => {
     method: "post",
     key: ["business-spotlight"],
     endpoint: "/v1/business-spotlight",
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
     onSuccess: (res: any) => {
       if (res?.success) {
         toast.success(res?.message);
