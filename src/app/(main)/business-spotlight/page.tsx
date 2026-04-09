@@ -29,7 +29,7 @@ const steps: StepItem[] = [
   { title: "Media", component: StepFour },
   { title: "Consent", component: StepFive },
   { title: "Optional", component: StepSix },
-  // { title: "Success", component: StepSeven },
+  { title: "Success", component: StepSeven },
 ];
 
 const Page = () => {
@@ -50,7 +50,7 @@ const Page = () => {
   });
 
   const onSubmit = async (data: any) => {
-    if (step < totalSteps - 1) {
+    if (step < totalSteps - 2) {
       onNext();
     } else {
       const formData = new FormData();
@@ -109,7 +109,13 @@ const Page = () => {
         data?.permission_share_business_story ? "1" : "0",
       );
 
-      await businessSpotlightMutation(formData);
+      await businessSpotlightMutation(formData, {
+        onSuccess: (res: any) => {
+          if (res?.success) {
+            onNext();
+          }
+        },
+      });
     }
   };
 
@@ -222,7 +228,7 @@ const Page = () => {
                   disabled={isPending}
                   className="flex items-center gap-3 px-12 py-4 bg-primary-blue text-white rounded-full disabled:opacity-70 disabled:cursor-not-allowed"
                 >
-                  {step === totalSteps - 1 ? (
+                  {step === totalSteps - 2 ? (
                     isPending ? (
                       <span className="flex gap-2 items-center">
                         <TbLoader2 className="animate-spin" /> Submitting...
