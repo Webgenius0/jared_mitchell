@@ -44,24 +44,24 @@ const StepTwo = () => {
         {/* Product Offer */}
         <div className="col-span-2">
           <p className="flex justify-between items-center mb-2">
-            <label htmlFor="product_offer" className="auth_label">
+            <label htmlFor="products_services" className="auth_label">
               2. What products or services do you offer? <span>*</span>
             </label>
-            {errors.product_offer?.message && (
+            {errors.products_services?.message && (
               <p className="text-red-500">
-                {errors.product_offer.message as string}
+                {errors.products_services.message as string}
               </p>
             )}
           </p>
 
           <textarea
-            id="product_offer"
+            id="products_services"
             rows={5}
             className={`step_input !rounded-xl ${
-              errors.product_offer ? "border-red-500" : "border-[#D1D5DC] "
+              errors.products_services ? "border-red-500" : "border-[#D1D5DC] "
             }`}
             placeholder="List what customers can purchase or experience..."
-            {...register("product_offer", {
+            {...register("products_services", {
               required: "Product Offer is required",
             })}
           ></textarea>
@@ -70,24 +70,26 @@ const StepTwo = () => {
         {/* Business Outcome */}
         <div className="col-span-2">
           <p className="flex justify-between items-center mb-2">
-            <label htmlFor="business_outcome" className="auth_label">
+            <label htmlFor="challenges_overcome" className="auth_label">
               3. What challenges has your business overcome? <span>*</span>
             </label>
-            {errors.business_outcome?.message && (
+            {errors.challenges_overcome?.message && (
               <p className="text-red-500">
-                {errors.business_outcome.message as string}
+                {errors.challenges_overcome.message as string}
               </p>
             )}
           </p>
 
           <textarea
-            id="business_outcome"
+            id="challenges_overcome"
             rows={5}
             className={`step_input !rounded-xl ${
-              errors.business_outcome ? "border-red-500" : "border-[#D1D5DC] "
+              errors.challenges_overcome
+                ? "border-red-500"
+                : "border-[#D1D5DC] "
             }`}
             placeholder="Share the milestones, struggles, or turning points..."
-            {...register("business_outcome", {
+            {...register("challenges_overcome", {
               required: "Business outcome is required",
             })}
           ></textarea>
@@ -96,30 +98,29 @@ const StepTwo = () => {
         {/* Business Unique */}
         <div className="col-span-2">
           <p className="flex justify-between items-center mb-2">
-            <label htmlFor="business_unique" className="auth_label">
+            <label htmlFor="unique_factor" className="auth_label">
               4. What makes your business unique?<span>*</span>
             </label>
-            {errors.business_unique?.message && (
+            {errors.unique_factor?.message && (
               <p className="text-red-500">
-                {errors.business_unique.message as string}
+                {errors.unique_factor.message as string}
               </p>
             )}
           </p>
 
           <textarea
-            id="business_unique"
+            id="unique_factor"
             rows={5}
             className={`step_input !rounded-xl ${
-              errors.business_unique ? "border-red-500" : "border-[#D1D5DC] "
+              errors.unique_factor ? "border-red-500" : "border-[#D1D5DC] "
             }`}
             placeholder="What separates you from competitors..."
-            {...register("business_unique", {
+            {...register("unique_factor", {
               required: "Business unique is required",
             })}
           ></textarea>
         </div>
 
-        
         {/* Target Customer */}
         <div className="col-span-2">
           <p className="flex justify-between items-center mb-2">

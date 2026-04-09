@@ -1,20 +1,19 @@
-import { useServerApi } from "@/Hooks/useServerApi";
+import toast from "react-hot-toast";
+import useClientApi from "../useClientApi";
 
-// =======================================================
-//  CSR (Client Side Rendering)
-// =======================================================
-
-// All CSR here.....
-
-// =======================================================
-//  SSR (Server Side Rendering)
-// =======================================================
-
-// Site Settings
-// export async function getSiteSettings() {
-//   return useServerApi({
-//     mode: "ISR",
-//     revalidate: 86400,
-//     endpoint: "/api/site-settings",
-//   });
-// }
+// Create Business Spotlight
+export const useCreateBusinessSpotlight = () => {
+  return useClientApi({
+    method: "post",
+    key: ["business-spotlight"],
+    endpoint: "/v1/business-spotlight",
+    onSuccess: (res: any) => {
+      if (res?.success) {
+        toast.success(res?.message);
+      }
+    },
+    onError: (err: any) => {
+      toast.error(err?.response?.data?.message);
+    },
+  });
+};

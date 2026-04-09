@@ -44,23 +44,23 @@ const StepOne = () => {
         {/* Owner Name */}
         <div className="col-span-2">
           <p className="flex justify-between items-center mb-2">
-            <label htmlFor="owner_name" className="auth_label">
+            <label htmlFor="owner_founder_name" className="auth_label">
               Owner / Founder Name <span>*</span>
             </label>
-            {errors.owner_name?.message && (
+            {errors.owner_founder_name?.message && (
               <p className="text-red-500">
-                {errors.owner_name.message as string}
+                {errors.owner_founder_name.message as string}
               </p>
             )}
           </p>
           <input
             type="text"
-            id="owner_name"
+            id="owner_founder_name"
             className={`step_input ${
               errors.business_name ? "border-red-500" : "border-[#D1D5DC] "
             }`}
             placeholder="Your name"
-            {...register("owner_name", {
+            {...register("owner_founder_name", {
               required: "Owner Name is required",
             })}
           />
@@ -87,9 +87,7 @@ const StepOne = () => {
               required: "Business category is required",
             })}
           >
-            <option value="" disabled>
-              Select a category
-            </option>
+            <option value="">Select a category</option>
             <option value="1">Category 1</option>
             <option value="2">Category 2</option>
             <option value="3">Category 3</option>
@@ -99,23 +97,23 @@ const StepOne = () => {
         {/* Year Foundation */}
         <div>
           <p className="flex justify-between items-center mb-2">
-            <label htmlFor="founded_year" className="auth_label">
+            <label htmlFor="year_founded" className="auth_label">
               Year Founded <span>*</span>
             </label>
-            {errors.founded_year?.message && (
+            {errors.year_founded?.message && (
               <p className="text-red-500">
-                {errors.founded_year.message as string}
+                {errors.year_founded.message as string}
               </p>
             )}
           </p>
           <input
-            type="text"
-            id="founded_year"
+            type="number"
+            id="year_founded"
             className={`step_input ${
               errors.business_name ? "border-red-500" : "border-[#D1D5DC] "
             }`}
             placeholder="2020"
-            {...register("founded_year", {
+            {...register("year_founded", {
               required: "Founded year is required",
             })}
           />
@@ -134,7 +132,7 @@ const StepOne = () => {
             )}
           </p>
           <input
-            type="text"
+            type="url"
             id="business_website"
             className={`step_input ${
               errors.business_name ? "border-red-500" : "border-[#D1D5DC] "
@@ -162,7 +160,7 @@ const StepOne = () => {
             className={`step_input ${
               errors.business_name ? "border-red-500" : "border-[#D1D5DC] "
             }`}
-            placeholder="https://yourbusiness.com"
+            placeholder="Enter city"
             {...register("city", {
               required: "City is required",
             })}
@@ -185,7 +183,7 @@ const StepOne = () => {
             className={`step_input ${
               errors.business_name ? "border-red-500" : "border-[#D1D5DC] "
             }`}
-            placeholder="https://yourbusiness.com"
+            placeholder="Enter state"
             {...register("state", {
               required: "State is required",
             })}

@@ -14,6 +14,8 @@ import StepFour from "./_Components/StepFour";
 import StepFive from "./_Components/StepFive";
 import StepSix from "./_Components/StepSix";
 import StepSeven from "./_Components/StepSeven";
+import { useCreateBusinessSpotlight } from "@/Hooks/api/cms_api";
+import { TbLoader2 } from "react-icons/tb";
 
 type StepItem = {
   title: string;
@@ -27,7 +29,7 @@ const steps: StepItem[] = [
   { title: "Media", component: StepFour },
   { title: "Consent", component: StepFive },
   { title: "Optional", component: StepSix },
-  { title: "Success", component: StepSeven },
+  // { title: "Success", component: StepSeven },
 ];
 
 const Page = () => {
@@ -38,6 +40,9 @@ const Page = () => {
   const progressPercent = ((step + 1) / totalSteps) * 100;
   const onNext = () => setStep(prev => Math.min(prev + 1, totalSteps - 1));
   const onPrev = () => setStep(prev => Math.max(prev - 1, 0));
+
+  const { mutateAsync: businessSpotlightMutation, isPending } =
+    useCreateBusinessSpotlight();
 
   const methods = useForm({
     mode: "onBlur",
@@ -57,6 +62,7 @@ const Page = () => {
       onNext();
     } else {
       console.log("Final Submit Data:", data);
+      await businessSpotlightMutation(data);
     }
   };
 
@@ -72,7 +78,7 @@ const Page = () => {
         style={{ backgroundImage: `url(${submissionBg.src})` }}
       >
         <span className="text-2xl text-white">
-          <span className="font-semibold">Service</span> / Artist Spotlight
+          <span className="font-semibold">Service</span> / Business Spotlight
         </span>
 
         <h2 className="text-white font-semibold text-6xl py-7">
@@ -151,6 +157,7 @@ const Page = () => {
                 totalSteps={totalSteps}
               />
             </div>
+
             {step < 6 && (
               <div className="flex justify-between">
                 <button
@@ -165,9 +172,20 @@ const Page = () => {
 
                 <button
                   type="submit"
-                  className="flex items-center gap-3 px-12 py-4 bg-primary-blue text-white rounded-full"
+                  disabled={isPending}
+                  className="flex items-center gap-3 px-12 py-4 bg-primary-blue text-white rounded-full disabled:opacity-70 disabled:cursor-not-allowed"
                 >
-                  {step === totalSteps - 1 ? "Submit" : "Next Section"}
+                  {step === totalSteps - 1 ? (
+                    isPending ? (
+                      <span className="flex gap-2 items-center">
+                        <TbLoader2 className="animate-spin" /> Submitting...
+                      </span>
+                    ) : (
+                      "Submit"
+                    )
+                  ) : (
+                    "Next Section"
+                  )}
                   <RightArrowSvg />
                 </button>
               </div>
