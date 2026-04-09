@@ -43,7 +43,7 @@ const StepFour = () => {
                 required: "Owner portrait is required",
               })}
               onChange={e => {
-                register("owner_portrait").onChange(e);
+                register("portrait_photo").onChange(e);
               }}
             />
 
@@ -139,6 +139,7 @@ const StepFour = () => {
           <label htmlFor="product_service_photos">
             <input
               type="file"
+              multiple
               id="product_service_photos"
               className="hidden"
               {...register("product_service_photos", {

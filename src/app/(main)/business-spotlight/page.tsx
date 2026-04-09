@@ -46,19 +46,16 @@ const Page = () => {
 
   const methods = useForm({
     mode: "onBlur",
-    defaultValues: {
-      permission_feature_on_osi: 0,
-    },
+    defaultValues: {},
   });
 
   const onSubmit = async (data: any) => {
     if (step < totalSteps - 1) {
       onNext();
     } else {
-      console.log("Final Submit Data:", data);
-
       const formData = new FormData();
 
+      // String
       formData.append("business_name", data?.business_name);
       formData.append("owner_founder_name", data?.owner_founder_name);
       formData.append("business_category", data?.business_category);
@@ -83,16 +80,22 @@ const Page = () => {
         data?.google_business_profile_url,
       );
       formData.append("linkedin_url", data?.linkedin_url);
-      formData.append("portrait_photo", data?.portrait_photo);
-      formData.append(
-        "storefront_workspace_photo",
-        data?.storefront_workspace_photo,
-      );
-      formData.append("product_service_photos", data?.product_service_photos);
-      formData.append("team_photo", data?.team_photo);
       formData.append("service_type", data?.service_type);
       formData.append("why_featured", data?.why_featured);
       formData.append("growth_vision", data?.growth_vision);
+
+      // File
+      formData.append("team_photo", data?.team_photo?.[0]);
+      formData.append("portrait_photo", data?.portrait_photo?.[0]);
+      formData.append(
+        "storefront_workspace_photo",
+        data?.storefront_workspace_photo?.[0],
+      );
+      Array.from(data.product_service_photos).forEach((file: any) => {
+        formData.append("product_service_photos[]", file);
+      });
+
+      // Boolean
       formData.append(
         "permission_feature_on_osi",
         data?.permission_feature_on_osi ? "1" : "0",
