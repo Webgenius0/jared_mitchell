@@ -1,11 +1,7 @@
 import { ImportantSvg } from "@/Components/Svg/SvgContainer";
-import { useFormContext } from "react-hook-form";
+import { useFormContext, useWatch } from "react-hook-form";
 
 const data = [
-  {
-    title: "Important Legal Information",
-    desc: "By checking the boxes below, you grant OSI (Our Spotlight Initiative) permission to feature your work and story across our platform, social media, and promotional materials. You retain all ownership rights to your original work.",
-  },
   {
     title: "Public Release Agreement:",
     desc: "I agree that OSI can publish my photos, videos, story, interview, name, and likeness for spotlight features, social media posts, and promotional materials. I understand this content may be shared across multiple platforms.",
@@ -23,11 +19,18 @@ const data = [
 const StepFive = () => {
   const {
     register,
-    watch,
     formState: { errors },
   } = useFormContext();
 
-  const selectedCategory = watch("artistCategory");
+  const selectedCategory = useWatch({
+    name: "artistCategory",
+  });
+
+  const selectedArray = Array.isArray(selectedCategory)
+    ? selectedCategory
+    : selectedCategory
+      ? [selectedCategory]
+      : [];
 
   return (
     <div className="step_box">
@@ -35,6 +38,7 @@ const StepFive = () => {
         <p className="size-10 rounded-full grid place-items-center bg-[#EFF6FF] text-2xl text-primary-blue">
           5
         </p>
+
         <h2 className="text-3xl font-semibold mb-2">Consent & Rights</h2>
       </div>
 
@@ -61,14 +65,13 @@ const StepFive = () => {
         <div className="space-y-5">
           {data.map((item, idx) => {
             const id = `artistCategory-${idx}`;
-            const isActive = selectedCategory === item?.title;
+            const isActive = selectedArray.includes(item?.title);
 
             return (
               <label
                 key={id}
                 htmlFor={id}
-                className={`border shadow py-3 px-4 rounded-lg flex flex-col gap-2 justify-center cursor-pointer transition-all min-h-[80px] hover:bg-[#EFF6FF]
-                ${
+                className={`border shadow py-3 px-4 rounded-lg flex flex-col gap-2 justify-center cursor-pointer transition-all min-h-[80px] ${
                   isActive
                     ? "border-primary-blue bg-[#EFF6FF]"
                     : "border-gray-100 hover:border-primary-blue bg-white"
@@ -76,12 +79,14 @@ const StepFive = () => {
               >
                 <div className="flex gap-2 items-center">
                   <input
-                    type="radio"
+                    type="checkbox"
                     id={id}
                     value={item?.title}
                     className="size-4"
                     {...register("artistCategory", {
-                      required: "Please select a category",
+                      validate: value =>
+                        value?.length > 0 ||
+                        "Please select at least one option",
                     })}
                   />
 
