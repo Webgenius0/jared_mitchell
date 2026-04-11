@@ -41,15 +41,7 @@ const Page = () => {
 
   const methods = useForm({
     mode: "onBlur",
-    defaultValues: {
-      first_name: "",
-      last_name: "",
-      email: "",
-      category: "",
-      story: "",
-      media: null,
-      consent: false,
-    },
+    defaultValues: {},
   });
 
   const onSubmit = async (data: any) => {
