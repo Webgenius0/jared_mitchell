@@ -14,6 +14,8 @@ import StepFour from "./_Components/StepFour";
 import StepFive from "./_Components/StepFive";
 import StepSix from "./_Components/StepSix";
 import StepSeven from "./_Components/StepSeven";
+import { useCreateArtistSpotlight } from "@/Hooks/api/cms_api";
+import { TbLoader2 } from "react-icons/tb";
 
 type StepItem = {
   title: string;
@@ -39,16 +41,69 @@ const Page = () => {
   const onNext = () => setStep(prev => Math.min(prev + 1, totalSteps - 1));
   const onPrev = () => setStep(prev => Math.max(prev - 1, 0));
 
+  const { mutateAsync: artistSpotlightMutation, isPending } =
+    useCreateArtistSpotlight();
+
   const methods = useForm({
     mode: "onBlur",
     defaultValues: {},
   });
 
   const onSubmit = async (data: any) => {
-    if (step < totalSteps - 1) {
+    if (step < totalSteps - 2) {
       onNext();
     } else {
-      console.log("Final Submit Data:", data);
+      const formData = new FormData();
+
+      // String
+      formData.append("full_legal_name", data?.full_legal_name);
+      formData.append("artist_stage_name", data?.artist_stage_name);
+      formData.append("email", data?.email);
+      formData.append("phone_number", data?.phone_number);
+      formData.append("date_of_birth", data?.date_of_birth);
+      formData.append("city", data?.city);
+      formData.append("state", data?.state);
+      formData.append("instagram_handle", data?.instagram_handle);
+      formData.append("tiktok_handle", data?.tiktok_handle);
+      formData.append("facebook_url", data?.facebook_url);
+      formData.append("youtube_url", data?.youtube_url);
+      formData.append("website_portfolio_url", data?.website_portfolio_url);
+      formData.append("artist_category_id", data?.artist_category_id);
+      formData.append("full_artist_story", data?.full_artist_story);
+      formData.append("short_bio", data?.short_bio);
+      formData.append("community_message", data?.community_message);
+      formData.append("why_spotlighted", data?.why_spotlighted);
+      formData.append("current_goals", data?.current_goals);
+
+      // File
+      formData.append("headshot", data?.headshot?.[0]);
+      formData.append("intro_video", data?.intro_video?.[0]);
+      formData.append("behind_scenes_photo", data?.behind_scenes_photo?.[0]);
+      Array.from(data.artwork_photos).forEach((file: any) => {
+        formData.append("artwork_photos[]", file);
+      });
+
+      // Boolean
+      formData.append(
+        "consent_public_release",
+        data?.consent_public_release ? "1" : "0",
+      );
+      formData.append(
+        "consent_ownership_declaration",
+        data?.consent_ownership_declaration ? "1" : "0",
+      );
+      formData.append(
+        "consent_interview_permission",
+        data?.consent_interview_permission ? "1" : "0",
+      );
+
+      await artistSpotlightMutation(formData, {
+        onSuccess: (res: any) => {
+          if (res?.success) {
+            onNext();
+          }
+        },
+      });
     }
   };
 
@@ -158,9 +213,20 @@ const Page = () => {
 
                 <button
                   type="submit"
-                  className="flex items-center gap-3 px-12 py-4 bg-primary-blue text-white rounded-full"
+                  disabled={isPending}
+                  className="flex items-center gap-3 px-12 py-4 bg-primary-blue text-white rounded-full disabled:opacity-70 disabled:cursor-not-allowed"
                 >
-                  {step === totalSteps - 1 ? "Submit" : "Next Section"}
+                  {step === totalSteps - 2 ? (
+                    isPending ? (
+                      <span className="flex gap-2 items-center">
+                        <TbLoader2 className="animate-spin" /> Submitting...
+                      </span>
+                    ) : (
+                      "Submit"
+                    )
+                  ) : (
+                    "Next Section"
+                  )}
                   <RightArrowSvg />
                 </button>
               </div>

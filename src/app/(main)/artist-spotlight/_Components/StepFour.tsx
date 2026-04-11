@@ -116,6 +116,7 @@ const StepFour = () => {
             <input
               type="file"
               id="artwork_photos"
+              multiple
               className="hidden"
               {...register("artwork_photos", {
                 required: "Workspace photo is required",
@@ -234,6 +235,7 @@ const StepFour = () => {
           <label htmlFor="intro_video">
             <input
               type="file"
+              accept="video/mp4"
               id="intro_video"
               className="hidden"
               {...register("intro_video", {
