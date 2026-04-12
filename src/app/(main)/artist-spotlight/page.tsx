@@ -53,6 +53,7 @@ const Page = () => {
     if (step < totalSteps - 2) {
       onNext();
     } else {
+      console.log(data);
       const formData = new FormData();
 
       // String
@@ -74,6 +75,16 @@ const Page = () => {
       formData.append("community_message", data?.community_message);
       formData.append("why_spotlighted", data?.why_spotlighted);
       formData.append("current_goals", data?.current_goals);
+      formData.append("talent_manager_contact", data?.talent_manager_contact);
+      formData.append("agent_contact", data?.agent_contact);
+      formData.append("press_kit_url", data?.press_kit_url);
+      formData.append("previous_interviews", data?.previous_interviews);
+      formData.append("awards_recognition", data?.awards_recognition);
+      formData.append("interview_availability", data?.interview_availability);
+      formData.append(
+        "preferred_contact_method",
+        data?.preferred_contact_method,
+      );
 
       // File
       formData.append("headshot", data?.headshot?.[0]);
