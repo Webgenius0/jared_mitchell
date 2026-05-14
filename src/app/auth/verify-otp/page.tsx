@@ -1,66 +1,56 @@
 "use client";
-import React, { useRef } from "react";
-import { useForm } from "react-hook-form";
-import Link from "next/link";
+import { useForm, Controller } from "react-hook-form";
 import { MdKeyboardArrowLeft } from "react-icons/md";
 import AuthFlexBox from "../_components/AuthFlexBox";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
+import OTPInput from "react-otp-input";
+import {
+  useOtpVerification,
+  useResendOtp,
+  useVerifyEmail,
+  useVerifyOtp,
+} from "@/Hooks/api/auth_api";
+import { TbLoader2 } from "react-icons/tb";
 
 type OtpForm = {
-  otp: string[];
+  otp: string;
 };
 
 const OTP_LENGTH = 4;
 
 const Page = () => {
-  const router = useRouter()
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const email = searchParams.get("email");
+  const type = searchParams.get("type");
+
+  const { mutateAsync: otpVerificationMutation, isPending } =
+    useOtpVerification();
+  const { mutateAsync: verifyOtp, isPending: isSending } = useVerifyOtp();
+  const { mutate: resendOtpMutation, isPending: isResending } = useResendOtp();
+  const { mutate: sendOtpMutation, isPending: isProcessing } = useVerifyEmail();
 
   const {
-    register,
+    control,
     handleSubmit,
-    setValue,
-    watch,
-  } = useForm<OtpForm>({
-    defaultValues: {
-      otp: Array(OTP_LENGTH).fill(""),
-    },
-  });
+    formState: { errors },
+  } = useForm<OtpForm>();
 
-  const inputsRef = useRef<HTMLInputElement[]>([]);
-  const otpValues = watch("otp");
+  const onSubmit = async (data: OtpForm) => {
+    const payload = { ...data, email };
 
-  const onSubmit = (data: OtpForm) => {
-    const otpCode = data.otp.join("");
-    console.log("OTP:", otpCode);
-    router.push("/dashboard")
-  };
-
-  const handleChange = (value: string, index: number) => {
-    if (!/^\d?$/.test(value)) return;
-
-    setValue(`otp.${index}`, value);
-
-    if (value && index < OTP_LENGTH - 1) {
-      inputsRef.current[index + 1]?.focus();
+    if (type === "create_account") {
+      return await otpVerificationMutation(payload);
     }
-  };
 
-  const handleKeyDown = (
-    e: React.KeyboardEvent<HTMLInputElement>,
-    index: number
-  ) => {
-    if (e.key === "Backspace" && !otpValues[index] && index > 0) {
-      inputsRef.current[index - 1]?.focus();
-    }
-  };
-
-  const handlePaste = (e: React.ClipboardEvent<HTMLInputElement>) => {
-    const pasteData = e.clipboardData.getData("text").slice(0, OTP_LENGTH);
-    if (!/^\d+$/.test(pasteData)) return;
-
-    pasteData.split("").forEach((char, index) => {
-      setValue(`otp.${index}`, char);
-      inputsRef.current[index]?.focus();
+    return await verifyOtp(payload, {
+      onSuccess: (res: any) => {
+        if (res?.success) {
+          router.push(
+            `/auth/reset-password?email=${email}&token=${res?.data?.reset_token}`,
+          );
+        }
+      },
     });
   };
 
@@ -70,60 +60,104 @@ const Page = () => {
       description="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
     >
       <div>
-        <Link
-          href="/auth/login"
-          className="absolute -top-5 left-0 flex items-center text-2xl"
+        {/* Back Button */}
+        <button
+          onClick={() => router.back()}
+          className="text-[17px] md:text-xl flex gap-0.5 md:gap-1 items-center mb-3 md:mb-5 2xl:mb-10"
         >
-          <MdKeyboardArrowLeft className="size-10" />
-          Back
-        </Link>
+          <MdKeyboardArrowLeft className="text-xl md:text-2xl" /> Back
+        </button>
 
-        <h5 className="text-[56px] text-primary-black capitalize">
+        {/* Heading */}
+        <h5 className="text-3xl md:text-4xl xl:text-5xl mb-2 xl:mb-3 text-primary-black capitalize">
           Verify your email
         </h5>
-        <p className="text-secondary-black text-xl">
-          We’ve sent a verification code to your email
+        <p className="text-secondary-black md:text-lg xl:text-xl capitalize">
+          We’ve sent a verification code to your email {email}
         </p>
 
+        {/* Form */}
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="mt-8 space-y-6"
+          className="mt-5 xl:mt-8 space-y-6"
         >
-          <div className="grid grid-cols-4 justify-center gap-4">
-            {Array.from({ length: OTP_LENGTH }).map((_, index) => (
-              <input
-                key={index}
-                type="text"
-                maxLength={1}
-                {...register(`otp.${index}`, { required: true })}
-                ref={(el) => {
-                  if (el) inputsRef.current[index] = el;
-                }}
-                onChange={(e) =>
-                  handleChange(e.target.value, index)
-                }
-                onKeyDown={(e) => handleKeyDown(e, index)}
-                onPaste={handlePaste}
-                className="h-[68px] rounded-xl border border-gray-300 text-center text-2xl font-semibold outline-none focus:border-tertiary-blue focus:ring-2 focus:ring-tertiary-blue/30"
+          {/* OTP Input */}
+          <Controller
+            name="otp"
+            control={control}
+            rules={{
+              required: "OTP is required",
+              minLength: {
+                value: OTP_LENGTH,
+                message: "OTP must be 4 digits",
+              },
+            }}
+            render={({ field }) => (
+              <OTPInput
+                {...field}
+                value={field.value || ""}
+                onChange={field.onChange}
+                numInputs={OTP_LENGTH}
+                shouldAutoFocus
+                inputType="tel"
+                renderInput={props => <input {...props} />}
+                containerStyle="flex justify-center gap-4"
+                inputStyle={`
+                  !w-full
+                  !h-[68px]
+                  rounded-xl
+                  border border-gray-300
+                  text-center
+                  text-2xl
+                  font-semibold
+                  outline-none
+                  focus:border-tertiary-blue
+                  focus:ring-2
+                  focus:ring-tertiary-blue/30
+                `}
               />
-            ))}
-          </div>
+            )}
+          />
 
+          {/* Error */}
+          {errors.otp && (
+            <p className="text-red-500 text-sm text-center">
+              {errors.otp.message}
+            </p>
+          )}
+
+          {/* Submit */}
           <button
             type="submit"
-            className="w-full rounded-2xl bg-tertiary-blue py-4 text-xl text-white custom_shadow">
-            Verify
+            disabled={isPending || isSending}
+            className="text-center xl:text-xl rounded-xl xl:rounded-2xl custom_shadow px-6 py-2.5 xl:py-3 text-white bg-tertiary-blue w-full disabled:opacity-70 disabled:cursor-not-allowed flex justify-center items-center"
+          >
+            {isPending || isSending ? (
+              <span className="flex gap-2 items-center">
+                <TbLoader2 className="animate-spin" /> Verifying...
+              </span>
+            ) : (
+              "Verify"
+            )}
           </button>
         </form>
 
-        <div className="h-[1px] my-6 bg-[#00000029] max-w-[482px] mx-auto" />
+        {/* Divider */}
+        <div className="h-[1px] my-3 xl:my-5 bg-[#00000029] max-w-[482px] mx-auto" />
 
-        <p className="text-center text-lg text-secondary-black">
+        <p className="text-center md:text-lg text-secondary-black">
           Didn&apos;t receive code?{" "}
           <button
-            className="text-tertiary-blue font-medium hover:underline"
+            disabled={isResending || isProcessing}
+            onClick={() => {
+              if (type === "create_account") {
+                return resendOtpMutation({ email });
+              }
+              sendOtpMutation({ email });
+            }}
+            className="text-tertiary-blue font-medium enabled:hover:underline disabled:opacity-70 disabled:cursor-not-allowed"
           >
-            Resend Now
+            {isResending || isProcessing ? "Resending..." : "Resend Now"}
           </button>
         </p>
       </div>

@@ -27,8 +27,8 @@ const page = () => {
       <OurImpact />
       <FounderMessage />
       <JoinMovement />
-      <section className="py-20">
-        <h2 className="text-primary-black text-5xl font-bold leading-[140%] text-center mb-10">
+      <section className="py-10 xl:py-20">
+        <h2 className="section_title">
           Our Event Sponsors
         </h2>
         <SponsorSlider logos={sponsorsData} />

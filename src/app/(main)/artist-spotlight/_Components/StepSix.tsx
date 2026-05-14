@@ -1,9 +1,6 @@
 import {
   AwardSvg,
-  BookSvg,
   DateSvg,
-  GoalSvg,
-  MsgSvg,
   StarSvg,
   UserIconSvg,
 } from "@/Components/Svg/SvgContainer";
@@ -21,6 +18,7 @@ const StepSix = () => {
         <p className="size-10 rounded-full grid place-items-center bg-[#EFF6FF] text-2xl text-primary-blue">
           6
         </p>
+
         <h2 className="text-3xl font-semibold =">Optional Information</h2>
       </div>
 
@@ -36,7 +34,7 @@ const StepSix = () => {
             <div className="flex justify-between items-center mb-2.5">
               <p className="artist_label">
                 <UserIconSvg />
-                <label htmlFor="talent_contact">
+                <label htmlFor="talent_manager_contact">
                   Talent Management Contact{" "}
                   <span className="text-sm !text-gray-300">(Optional)</span>
                 </label>
@@ -45,10 +43,10 @@ const StepSix = () => {
 
             <input
               type="text"
-              id="talent_contact"
+              id="talent_manager_contact"
               className={`step_input border-[#D1D5DC]`}
               placeholder="Manager name and email"
-              {...register("talent_contact")}
+              {...register("talent_manager_contact")}
             />
           </div>
 
@@ -78,7 +76,7 @@ const StepSix = () => {
         <div>
           <p className="artist_label mb-1">
             <StarSvg />
-            <label htmlFor="press_kit">
+            <label htmlFor="press_kit_url">
               Link to Press Kit{" "}
               <span className="text-sm !text-gray-300">(Optional)</span>
             </label>
@@ -89,11 +87,11 @@ const StepSix = () => {
           </p>
 
           <input
-            type="text"
-            id="press_kit"
+            type="url"
+            id="press_kit_url"
             className={`step_input border-[#D1D5DC]`}
             placeholder="https://yourportfolio.com"
-            {...register("press_kit")}
+            {...register("press_kit_url")}
           />
         </div>
 
@@ -124,7 +122,7 @@ const StepSix = () => {
         <div>
           <p className="artist_label mb-1">
             <AwardSvg />
-            <label htmlFor="award">
+            <label htmlFor="awards_recognition">
               Awards or Recognition{" "}
               <span className="text-sm !text-gray-300">(Optional)</span>
             </label>
@@ -135,11 +133,11 @@ const StepSix = () => {
           </p>
 
           <textarea
-            id="award"
+            id="awards_recognition"
             rows={5}
             className={`step_input !rounded-xl border-[#D1D5DC]`}
             placeholder="e.g., Best New Artist 2024, Featured in X Magazine..."
-            {...register("award")}
+            {...register("awards_recognition")}
           ></textarea>
         </div>
 
@@ -168,9 +166,9 @@ const StepSix = () => {
 
             <input
               type="text"
-              id="contact_method"
+              id="preferred_contact_method"
               className={`step_input border-[#D1D5DC]`}
-              {...register("contact_method")}
+              {...register("preferred_contact_method")}
             />
           </div>
         </div>
@@ -179,7 +177,7 @@ const StepSix = () => {
         <div>
           <p className="artist_label mb-1">
             <DateSvg />
-            <label htmlFor="availability">
+            <label htmlFor="interview_availability">
               Interview Availability{" "}
               <span className="text-sm !text-gray-300">(Optional)</span>
             </label>
@@ -190,11 +188,11 @@ const StepSix = () => {
           </p>
 
           <textarea
-            id="availability"
+            id="interview_availability"
             rows={5}
             className={`step_input !rounded-xl border-[#D1D5DC]`}
             placeholder="e.g., Available weekday evenings after 6pm, or weekend mornings..."
-            {...register("availability")}
+            {...register("interview_availability")}
           ></textarea>
         </div>
       </div>

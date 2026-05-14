@@ -8,9 +8,9 @@ const StepFour = () => {
     formState: { errors },
   } = useFormContext();
 
-  const ownerPhoto = watch("owner_portrait")?.[0];
-  const workspacePhoto = watch("workstation")?.[0];
-  const servicePhoto = watch("product_photos")?.[0];
+  const ownerPhoto = watch("portrait_photo")?.[0];
+  const workspacePhoto = watch("storefront_workspace_photo")?.[0];
+  const servicePhoto = watch("product_service_photos")?.[0];
   const teamPhoto = watch("team_photo")?.[0];
 
   return (
@@ -27,29 +27,29 @@ const StepFour = () => {
             <label htmlFor="" className="auth_label">
               Business Owner Portrait <span>*</span>
             </label>
-            {errors.owner_portrait?.message && (
+            {errors.portrait_photo?.message && (
               <p className="text-red-500">
-                {errors.owner_portrait.message as string}
+                {errors.portrait_photo.message as string}
               </p>
             )}
           </p>
 
-          <label htmlFor="owner_portrait">
+          <label htmlFor="portrait_photo">
             <input
               type="file"
-              id="owner_portrait"
+              id="portrait_photo"
               className="hidden"
-              {...register("owner_portrait", {
+              {...register("portrait_photo", {
                 required: "Owner portrait is required",
               })}
               onChange={e => {
-                register("owner_portrait").onChange(e);
+                register("portrait_photo").onChange(e);
               }}
             />
 
             <div
               className={`border rounded-xl w-full py-8 text-center flex flex-col gap-3.5 justify-center items-center cursor-pointer hover:bg-gray-100 duration-300 transition-all ${
-                errors.owner_portrait ? "border-red-500" : "border-[#99a1af8a] "
+                errors.portrait_photo ? "border-red-500" : "border-[#99a1af8a] "
               }`}
             >
               {ownerPhoto ? (
@@ -76,29 +76,31 @@ const StepFour = () => {
             <label htmlFor="" className="auth_label">
               Storefront / Workspace Photo <span>*</span>
             </label>
-            {errors.workstation?.message && (
+            {errors.storefront_workspace_photo?.message && (
               <p className="text-red-500">
-                {errors.workstation.message as string}
+                {errors.storefront_workspace_photo.message as string}
               </p>
             )}
           </p>
 
-          <label htmlFor="workstation">
+          <label htmlFor="storefront_workspace_photo">
             <input
               type="file"
-              id="workstation"
+              id="storefront_workspace_photo"
               className="hidden"
-              {...register("workstation", {
+              {...register("storefront_workspace_photo", {
                 required: "Workspace photo is required",
               })}
               onChange={e => {
-                register("workstation").onChange(e);
+                register("storefront_workspace_photo").onChange(e);
               }}
             />
 
             <div
               className={`border rounded-xl w-full py-8 text-center flex flex-col gap-3.5 justify-center items-center cursor-pointer hover:bg-gray-100 duration-300 transition-all ${
-                errors.workstation ? "border-red-500" : "border-[#99a1af8a] "
+                errors.storefront_workspace_photo
+                  ? "border-red-500"
+                  : "border-[#99a1af8a] "
               }`}
             >
               {workspacePhoto ? (
@@ -127,29 +129,32 @@ const StepFour = () => {
             <label htmlFor="" className="auth_label">
               Product or Service Photos <span>*</span>
             </label>
-            {errors.product_photos?.message && (
+            {errors.product_service_photos?.message && (
               <p className="text-red-500">
-                {errors.product_photos.message as string}
+                {errors.product_service_photos.message as string}
               </p>
             )}
           </p>
 
-          <label htmlFor="product_photos">
+          <label htmlFor="product_service_photos">
             <input
               type="file"
-              id="product_photos"
+              multiple
+              id="product_service_photos"
               className="hidden"
-              {...register("product_photos", {
+              {...register("product_service_photos", {
                 required: "Product photo is required",
               })}
               onChange={e => {
-                register("product_photos").onChange(e);
+                register("product_service_photos").onChange(e);
               }}
             />
 
             <div
               className={`border rounded-xl w-full py-8 text-center flex flex-col gap-3.5 justify-center items-center cursor-pointer hover:bg-gray-100 duration-300 transition-all ${
-                errors.product_photos ? "border-red-500" : "border-[#99a1af8a] "
+                errors.product_service_photos
+                  ? "border-red-500"
+                  : "border-[#99a1af8a] "
               }`}
             >
               {servicePhoto ? (

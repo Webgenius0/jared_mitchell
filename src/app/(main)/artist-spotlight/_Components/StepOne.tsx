@@ -36,26 +36,26 @@ const StepOne = () => {
           <div className="flex justify-between items-center mb-2.5">
             <p className="artist_label">
               <UserIconSvg />
-              <label htmlFor="full_name">
+              <label htmlFor="full_legal_name">
                 Full Legal Name <span>*</span>
               </label>
             </p>
 
-            {errors.full_name?.message && (
+            {errors.full_legal_name?.message && (
               <p className="text-red-500">
-                {errors.full_name.message as string}
+                {errors.full_legal_name.message as string}
               </p>
             )}
           </div>
 
           <input
             type="text"
-            id="full_name"
+            id="full_legal_name"
             className={`step_input ${
-              errors.full_name ? "border-red-500" : "border-[#D1D5DC] "
+              errors.full_legal_name ? "border-red-500" : "border-[#D1D5DC] "
             }`}
             placeholder="John Doe"
-            {...register("full_name", {
+            {...register("full_legal_name", {
               required: "Full name is required",
             })}
           />
@@ -66,26 +66,26 @@ const StepOne = () => {
           <div className="flex justify-between items-center mb-2.5">
             <p className="artist_label">
               <UserIconSvg />
-              <label htmlFor="artist_name">
+              <label htmlFor="artist_stage_name">
                 Artist / Stage Name <span>*</span>
               </label>
             </p>
 
-            {errors.artist_name?.message && (
+            {errors.artist_stage_name?.message && (
               <p className="text-red-500">
-                {errors.artist_name.message as string}
+                {errors.artist_stage_name.message as string}
               </p>
             )}
           </div>
 
           <input
             type="text"
-            id="artist_name"
+            id="artist_stage_name"
             className={`step_input ${
-              errors.artist_name ? "border-red-500" : "border-[#D1D5DC] "
+              errors.artist_stage_name ? "border-red-500" : "border-[#D1D5DC] "
             }`}
             placeholder="The name that will appear publicly"
-            {...register("artist_name", {
+            {...register("artist_stage_name", {
               required: "Artist name is required",
             })}
           />
@@ -124,24 +124,26 @@ const StepOne = () => {
           <div className="flex justify-between items-center mb-2.5">
             <p className="artist_label">
               <PhoneSvg />
-              <label htmlFor="phone">
+              <label htmlFor="phone_number">
                 Phone <span>*</span>
               </label>
             </p>
 
-            {errors.phone?.message && (
-              <p className="text-red-500">{errors.phone.message as string}</p>
+            {errors.phone_number?.message && (
+              <p className="text-red-500">
+                {errors.phone_number.message as string}
+              </p>
             )}
           </div>
 
           <input
             type="text"
-            id="phone"
+            id="phone_number"
             className={`step_input ${
-              errors.phone ? "border-red-500" : "border-[#D1D5DC] "
+              errors.phone_number ? "border-red-500" : "border-[#D1D5DC] "
             }`}
             placeholder="(555) 123-4567"
-            {...register("phone", {
+            {...register("phone_number", {
               required: "Phone number is required",
             })}
           />
@@ -153,24 +155,26 @@ const StepOne = () => {
             <div className="flex justify-between items-center mb-2.5">
               <p className="artist_label">
                 <DOBSvg />
-                <label htmlFor="dob">
+                <label htmlFor="date_of_birth">
                   Date of Birth <span>*</span>
                 </label>
               </p>
 
-              {errors.dob?.message && (
-                <p className="text-red-500">{errors.dob.message as string}</p>
+              {errors.date_of_birth?.message && (
+                <p className="text-red-500">
+                  {errors.date_of_birth.message as string}
+                </p>
               )}
             </div>
 
             <input
               type="text"
-              id="dob"
+              id="date_of_birth"
               className={`step_input ${
-                errors.dob ? "border-red-500" : "border-[#D1D5DC] "
+                errors.date_of_birth ? "border-red-500" : "border-[#D1D5DC] "
               }`}
               placeholder="01/01/25"
-              {...register("dob", {
+              {...register("date_of_birth", {
                 required: "Date of Birth is required",
               })}
             />
@@ -248,72 +252,72 @@ const StepOne = () => {
 
         {/* Instagram */}
         <div>
-          <label htmlFor="instagram" className="auth_label mb-2">
+          <label htmlFor="instagram_handle" className="auth_label mb-2">
             Instagram <span className="text-sm !text-gray-300">(Optional)</span>
           </label>
           <input
             type="text"
-            id="instagram"
+            id="instagram_handle"
             className={`step_input border-[#D1D5DC]`}
             placeholder="@yourbusiness"
-            {...register("instagram")}
+            {...register("instagram_handle")}
           />
         </div>
 
         {/* TikTok */}
         <div>
-          <label htmlFor="tiktok" className="auth_label mb-2">
+          <label htmlFor="tiktok_handle" className="auth_label mb-2">
             TikTok <span className="text-sm !text-gray-300">(Optional)</span>
           </label>
           <input
             type="text"
-            id="tiktok"
+            id="tiktok_handle"
             className={`step_input border-[#D1D5DC]`}
             placeholder="@yourbusiness"
-            {...register("tiktok")}
+            {...register("tiktok_handle")}
           />
         </div>
 
         {/* Facebook */}
         <div>
-          <label htmlFor="facebook" className="auth_label mb-2">
+          <label htmlFor="facebook_url" className="auth_label mb-2">
             Facebook <span className="text-sm !text-gray-300">(Optional)</span>
           </label>
           <input
-            type="text"
-            id="facebook"
+            type="url"
+            id="facebook_url"
             className={`step_input border-[#D1D5DC]`}
             placeholder="facebook.com/yourbusiness"
-            {...register("facebook")}
+            {...register("facebook_url")}
           />
         </div>
 
         {/* YouTube */}
         <div>
-          <label htmlFor="youtube" className="auth_label mb-2">
+          <label htmlFor="youtube_url" className="auth_label mb-2">
             YouTube <span className="text-sm !text-gray-300">(Optional)</span>
           </label>
           <input
-            type="text"
-            id="youtube"
+            type="url"
+            id="youtube_url"
             className={`step_input border-[#D1D5DC]`}
             placeholder="youtube.com/@yourchannel"
-            {...register("youtube")}
+            {...register("youtube_url")}
           />
         </div>
 
         {/* Website */}
         <div className="col-span-2">
-          <label htmlFor="website" className="auth_label mb-2">
+          <label htmlFor="website_portfolio_url" className="auth_label mb-2">
             Website or Portfolio Link
             <span className="text-sm !text-gray-300">(Optional)</span>
           </label>
           <input
-            type="text"
-            id="website"
+            type="url"
+            id="website_portfolio_url"
             className={`step_input border-[#D1D5DC]`}
             placeholder="https://yourportfolio.com"
-            {...register("website")}
+            {...register("website_portfolio_url")}
           />
         </div>
       </div>

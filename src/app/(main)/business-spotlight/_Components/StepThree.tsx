@@ -41,47 +41,47 @@ const StepThree = () => {
         {/* Phone Number */}
         <div>
           <p className="flex justify-between items-center mb-2">
-            <label htmlFor="phone" className="auth_label">
+            <label htmlFor="phone_number" className="auth_label">
               Phone Number{" "}
               <span className="!text-gray-500 text-sm">(Optional)</span>
             </label>
           </p>
           <input
             type="text"
-            id="phone"
+            id="phone_number"
             className={`step_input ${
               errors.business_name ? "border-red-500" : "border-[#D1D5DC] "
             }`}
             placeholder="Your name"
-            {...register("phone")}
+            {...register("phone_number")}
           />
         </div>
 
         {/* Contact Time */}
         <div className="col-span-2">
           <p className="flex justify-between items-center mb-2">
-            <label htmlFor="contact_time" className="auth_label">
+            <label htmlFor="best_contact_time" className="auth_label">
               Best time to contact you <span>*</span>
             </label>
-            {errors.contact_time?.message && (
+            {errors.best_contact_time?.message && (
               <p className="text-red-500">
-                {errors.contact_time.message as string}
+                {errors.best_contact_time.message as string}
               </p>
             )}
           </p>
           <select
-            id="contact_time"
+            id="best_contact_time"
             className={`step_input ${
-              errors.contact_time ? "border-red-500" : "border-[#D1D5DC] "
+              errors.best_contact_time ? "border-red-500" : "border-[#D1D5DC] "
             }`}
-            {...register("contact_time", {
+            {...register("best_contact_time", {
               required: "Contact time is required",
             })}
           >
             <option value="">Select a time</option>
-            <option value="1">10 PM</option>
-            <option value="2">11 PM</option>
-            <option value="3">12 PM</option>
+            <option value="morning">Morning</option>
+            <option value="afternoon">Afternoon</option>
+            <option value="evening">Evening</option>
           </select>
         </div>
 
@@ -99,146 +99,97 @@ const StepThree = () => {
         {/* Instagram */}
         <div>
           <p className="flex justify-between items-center mb-2">
-            <label htmlFor="instagram" className="auth_label">
-              Instagram <span>*</span>
+            <label htmlFor="instagram_url" className="auth_label">
+              Instagram
             </label>
-            {errors.instagram?.message && (
-              <p className="text-red-500">
-                {errors.instagram.message as string}
-              </p>
-            )}
           </p>
+
           <input
-            type="text"
-            id="instagram"
-            className={`step_input ${
-              errors.instagram ? "border-red-500" : "border-[#D1D5DC] "
-            }`}
+            type="url"
+            id="instagram_url"
+            className={`step_input border-[#D1D5DC]`}
             placeholder="@yourbusiness"
-            {...register("instagram", {
-              required: "Instagram is required",
-            })}
+            {...register("instagram_url")}
           />
         </div>
 
         {/* TikTok */}
         <div>
           <p className="flex justify-between items-center mb-2">
-            <label htmlFor="tiktok" className="auth_label">
-              TikTok <span>*</span>
+            <label htmlFor="tiktok_url" className="auth_label">
+              TikTok
             </label>
-            {errors.tiktok?.message && (
-              <p className="text-red-500">{errors.tiktok.message as string}</p>
-            )}
           </p>
           <input
-            type="text"
-            id="tiktok"
-            className={`step_input ${
-              errors.tiktok ? "border-red-500" : "border-[#D1D5DC] "
-            }`}
+            type="url"
+            id="tiktok_url"
+            className={`step_input border-[#D1D5DC]`}
             placeholder="@yourbusiness"
-            {...register("tiktok", {
-              required: "TikTok is required",
-            })}
+            {...register("tiktok_url")}
           />
         </div>
 
         {/* Facebook */}
         <div>
           <p className="flex justify-between items-center mb-2">
-            <label htmlFor="facebook" className="auth_label">
-              Facebook <span>*</span>
+            <label htmlFor="facebook_url" className="auth_label">
+              Facebook
             </label>
-            {errors.facebook?.message && (
-              <p className="text-red-500">
-                {errors.facebook.message as string}
-              </p>
-            )}
           </p>
           <input
-            type="text"
-            id="facebook"
-            className={`step_input ${
-              errors.facebook ? "border-red-500" : "border-[#D1D5DC] "
-            }`}
+            type="url"
+            id="facebook_url"
+            className={`step_input border-[#D1D5DC]`}
             placeholder="facebook.com/yourbusiness"
-            {...register("facebook", {
-              required: "Facebook is required",
-            })}
+            {...register("facebook_url")}
           />
         </div>
 
         {/* YouTube */}
         <div>
           <p className="flex justify-between items-center mb-2">
-            <label htmlFor="youtube" className="auth_label">
-              YouTube <span>*</span>
+            <label htmlFor="youtube_url" className="auth_label">
+              YouTube
             </label>
-            {errors.youtube?.message && (
-              <p className="text-red-500">{errors.youtube.message as string}</p>
-            )}
           </p>
           <input
-            type="text"
-            id="youtube"
-            className={`step_input ${
-              errors.youtube ? "border-red-500" : "border-[#D1D5DC] "
-            }`}
+            type="url"
+            id="youtube_url"
+            className={`step_input border-[#D1D5DC]`}
             placeholder="youtube.com/@yourchannel"
-            {...register("youtube", {
-              required: "YouTube is required",
-            })}
+            {...register("youtube_url")}
           />
         </div>
 
         {/* Google Business Profile */}
         <div>
           <p className="flex justify-between items-center mb-2">
-            <label htmlFor="google_profile" className="auth_label">
-              Google Business Profile <span>*</span>
+            <label htmlFor="google_business_profile_url" className="auth_label">
+              Google Business Profile
             </label>
-            {errors.google_profile?.message && (
-              <p className="text-red-500">
-                {errors.google_profile.message as string}
-              </p>
-            )}
           </p>
           <input
-            type="text"
-            id="google_profile"
-            className={`step_input ${
-              errors.google_profile ? "border-red-500" : "border-[#D1D5DC] "
-            }`}
+            type="url"
+            id="google_business_profile_url"
+            className={`step_input border-[#D1D5DC]`}
             placeholder="Google Business URL"
-            {...register("google_profile", {
-              required: "Google business profile is required",
-            })}
+            {...register("google_business_profile_url")}
           />
         </div>
 
         {/* LinkedIn */}
         <div>
           <p className="flex justify-between items-center mb-2">
-            <label htmlFor="linkedin" className="auth_label">
-              LinkedIn <span>*</span>
+            <label htmlFor="linkedin_url" className="auth_label">
+              LinkedIn
             </label>
-            {errors.linkedin?.message && (
-              <p className="text-red-500">
-                {errors.linkedin.message as string}
-              </p>
-            )}
           </p>
           <input
-            type="text"
-            id="linkedin"
-            className={`step_input ${
-              errors.linkedin ? "border-red-500" : "border-[#D1D5DC] "
-            }`}
+            type="url"
+            id="linkedin_url"
+            className={`step_input border-[#D1D5DC]`}
             placeholder="linkedin.com/company/yourbusiness"
-            {...register("linkedin", {
-              required: "LinkedIn is required",
-            })}
+            {...register("linkedin_url")}
           />
         </div>
       </div>

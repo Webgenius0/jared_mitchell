@@ -1,6 +1,6 @@
 "use client";
-import Container from "@/Components/Common/Container";
-import { ProfileSvg, SearchSvg } from "@/Components/Svg/SvgContainer";
+import { SearchSvg } from "@/Components/Svg/SvgContainer";
+import useAuth from "@/Hooks/useAuth";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
@@ -31,10 +31,11 @@ const Navbar = () => {
   const [openSubmenu, setOpenSubmenu] = useState<boolean>(false);
   const [lang, setLang] = useState<string>("en");
   const pathname = usePathname();
+  const { user } = useAuth();
 
   return (
-    <nav className="py-3 md:py-4 xl:py-6 border-b border-[#0000001C] sticky top-0 z-50 bg-white">
-      <Container>
+    <nav className="py-3 md:py-4 xl:py-5 border-b border-[#0000001C] sticky top-0 z-50 bg-white">
+      <div className="container">
         <div className="flex justify-between items-center">
           {/* Left */}
           <div className="flex gap-10 2xl:gap-14 items-center">
@@ -126,9 +127,19 @@ const Navbar = () => {
               <button>
                 <SearchSvg />
               </button>
-              <Link href={"/auth/choose-role"}>
-                <ProfileSvg />
-              </Link>
+
+              {user ? (
+                <p className="size-11 rounded-full grid place-items-center bg-blue-500/20 font-bold text-black capitalize text-lg">
+                  {user?.profile?.name?.at(0)}
+                </p>
+              ) : (
+                <Link
+                  href="/auth/register"
+                  className="bg-primary-blue text-white py-1.5 px-4 rounded-lg cursor-pointer"
+                >
+                  Sign Up
+                </Link>
+              )}
 
               <button
                 onClick={() => setOpen(!isOpen)}
@@ -139,7 +150,7 @@ const Navbar = () => {
             </div>
           </div>
         </div>
-      </Container>
+      </div>
 
       {/* Blur Overlay */}
       <div
@@ -157,6 +168,7 @@ const Navbar = () => {
       >
         <Link
           href="/"
+          onClick={() => setOpen(false)}
           className="text-[#2A2929] font-poppins text-xl font-semibold cursor-pointer"
         >
           OSI

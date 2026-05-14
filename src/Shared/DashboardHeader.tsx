@@ -16,15 +16,29 @@ const DashboardHeader = ({
   dashboardNavLinks: {
     label: string;
     path: string;
+    subMenu?: { label: string; path: string }[];
   }[];
 }) => {
   const pathname = usePathname();
-  const activeLink = dashboardNavLinks?.find(link => link?.path === pathname);
+
+  const activeLink = dashboardNavLinks.find(link => {
+    if (link.path === pathname) return true;
+
+    if (link.subMenu) {
+      return link.subMenu.some(sub => sub.path === pathname);
+    }
+
+    return false;
+  });
+
+  const activeSubMenuLink = activeLink?.subMenu?.find(
+    sub => sub.path === pathname,
+  );
 
   return (
     <header className="flex justify-between items-center pt-4 px-5 sticky top-0 bg-[#F8F8FA] z-50">
       <h3 className="text-3xl font-medium text-black capitalize">
-        {activeLink?.label}
+        {activeSubMenuLink?.label || activeLink?.label || "Dashboard"}
       </h3>
 
       <div className="flex gap-3 items-center bg-white px-3 py-3.5 rounded-xl shadow">

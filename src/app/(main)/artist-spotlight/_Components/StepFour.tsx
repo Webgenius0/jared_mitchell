@@ -12,10 +12,10 @@ const StepFour = () => {
     formState: { errors },
   } = useFormContext();
 
-  const ownerPhoto = watch("owner_portrait")?.[0];
-  const workspacePhoto = watch("workstation")?.[0];
-  const servicePhoto = watch("product_photos")?.[0];
-  const teamPhoto = watch("team_photo")?.[0];
+  const ownerPhoto = watch("headshot")?.[0];
+  const workspacePhoto = watch("artwork_photos")?.[0];
+  const servicePhoto = watch("behind_scenes_photo")?.[0];
+  const teamPhoto = watch("intro_video")?.[0];
 
   return (
     <div className="step_box">
@@ -47,29 +47,29 @@ const StepFour = () => {
               spotlight image.
             </p>
 
-            {errors.owner_portrait?.message && (
+            {errors.headshot?.message && (
               <p className="text-red-500">
-                {errors.owner_portrait.message as string}
+                {errors.headshot.message as string}
               </p>
             )}
           </div>
 
-          <label htmlFor="owner_portrait">
+          <label htmlFor="headshot">
             <input
               type="file"
-              id="owner_portrait"
+              id="headshot"
               className="hidden"
-              {...register("owner_portrait", {
+              {...register("headshot", {
                 required: "Owner portrait is required",
               })}
               onChange={e => {
-                register("owner_portrait").onChange(e);
+                register("headshot").onChange(e);
               }}
             />
 
             <div
               className={`border rounded-xl w-full py-8 text-center flex flex-col gap-3.5 justify-center items-center cursor-pointer hover:bg-gray-100 duration-300 transition-all ${
-                errors.owner_portrait ? "border-red-500" : "border-[#99a1af8a] "
+                errors.headshot ? "border-red-500" : "border-[#99a1af8a] "
               }`}
             >
               {ownerPhoto ? (
@@ -105,29 +105,30 @@ const StepFour = () => {
               in your spotlight gallery.
             </p>
 
-            {errors.workstation?.message && (
+            {errors.artwork_photos?.message && (
               <p className="text-red-500">
-                {errors.workstation.message as string}
+                {errors.artwork_photos.message as string}
               </p>
             )}
           </div>
 
-          <label htmlFor="workstation">
+          <label htmlFor="artwork_photos">
             <input
               type="file"
-              id="workstation"
+              id="artwork_photos"
+              multiple
               className="hidden"
-              {...register("workstation", {
+              {...register("artwork_photos", {
                 required: "Workspace photo is required",
               })}
               onChange={e => {
-                register("workstation").onChange(e);
+                register("artwork_photos").onChange(e);
               }}
             />
 
             <div
               className={`border rounded-xl w-full py-8 text-center flex flex-col gap-3.5 justify-center items-center cursor-pointer hover:bg-gray-100 duration-300 transition-all ${
-                errors.workstation ? "border-red-500" : "border-[#99a1af8a] "
+                errors.artwork_photos ? "border-red-500" : "border-[#99a1af8a] "
               }`}
             >
               {workspacePhoto ? (
@@ -164,29 +165,31 @@ const StepFour = () => {
               Show your creative process! This adds authenticity to your story.
             </p>
 
-            {errors.product_photos?.message && (
+            {errors.behind_scenes_photo?.message && (
               <p className="text-red-500">
-                {errors.product_photos.message as string}
+                {errors.behind_scenes_photo.message as string}
               </p>
             )}
           </div>
 
-          <label htmlFor="product_photos">
+          <label htmlFor="behind_scenes_photo">
             <input
               type="file"
-              id="product_photos"
+              id="behind_scenes_photo"
               className="hidden"
-              {...register("product_photos", {
+              {...register("behind_scenes_photo", {
                 required: "Product photo is required",
               })}
               onChange={e => {
-                register("product_photos").onChange(e);
+                register("behind_scenes_photo").onChange(e);
               }}
             />
 
             <div
               className={`border rounded-xl w-full py-8 text-center flex flex-col gap-3.5 justify-center items-center cursor-pointer hover:bg-gray-100 duration-300 transition-all ${
-                errors.product_photos ? "border-red-500" : "border-[#99a1af8a] "
+                errors.behind_scenes_photo
+                  ? "border-red-500"
+                  : "border-[#99a1af8a] "
               }`}
             >
               {servicePhoto ? (
@@ -222,29 +225,30 @@ const StepFour = () => {
               with you.
             </p>
 
-            {errors.team_photo?.message && (
+            {errors.intro_video?.message && (
               <p className="text-red-500">
-                {errors.team_photo.message as string}
+                {errors.intro_video.message as string}
               </p>
             )}
           </div>
 
-          <label htmlFor="team_photo">
+          <label htmlFor="intro_video">
             <input
               type="file"
-              id="team_photo"
+              accept="video/mp4"
+              id="intro_video"
               className="hidden"
-              {...register("team_photo", {
+              {...register("intro_video", {
                 required: "Team photo is required",
               })}
               onChange={e => {
-                register("team_photo").onChange(e);
+                register("intro_video").onChange(e);
               }}
             />
 
             <div
               className={`border rounded-xl w-full py-8 text-center flex flex-col gap-3.5 justify-center items-center cursor-pointer hover:bg-gray-100 duration-300 transition-all ${
-                errors.team_photo ? "border-red-500" : "border-[#99a1af8a] "
+                errors.intro_video ? "border-red-500" : "border-[#99a1af8a] "
               }`}
             >
               {teamPhoto ? (

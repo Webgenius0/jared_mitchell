@@ -14,6 +14,8 @@ import StepFour from "./_Components/StepFour";
 import StepFive from "./_Components/StepFive";
 import StepSix from "./_Components/StepSix";
 import StepSeven from "./_Components/StepSeven";
+import { useCreateBusinessSpotlight } from "@/Hooks/api/cms_api";
+import { TbLoader2 } from "react-icons/tb";
 
 type StepItem = {
   title: string;
@@ -39,24 +41,81 @@ const Page = () => {
   const onNext = () => setStep(prev => Math.min(prev + 1, totalSteps - 1));
   const onPrev = () => setStep(prev => Math.max(prev - 1, 0));
 
+  const { mutateAsync: businessSpotlightMutation, isPending } =
+    useCreateBusinessSpotlight();
+
   const methods = useForm({
     mode: "onBlur",
-    defaultValues: {
-      first_name: "",
-      last_name: "",
-      email: "",
-      category: "",
-      story: "",
-      media: null,
-      consent: false,
-    },
+    defaultValues: {},
   });
 
   const onSubmit = async (data: any) => {
-    if (step < totalSteps - 1) {
+    if (step < totalSteps - 2) {
       onNext();
     } else {
-      console.log("Final Submit Data:", data);
+      const formData = new FormData();
+
+      // String
+      formData.append("business_name", data?.business_name);
+      formData.append("owner_founder_name", data?.owner_founder_name);
+      formData.append("business_category", data?.business_category);
+      formData.append("year_founded", data?.year_founded);
+      formData.append("business_website", data?.business_website);
+      formData.append("city", data?.city);
+      formData.append("state", data?.state);
+      formData.append("business_story", data?.business_story);
+      formData.append("products_services", data?.products_services);
+      formData.append("challenges_overcome", data?.challenges_overcome);
+      formData.append("unique_factor", data?.unique_factor);
+      formData.append("target_customer", data?.target_customer);
+      formData.append("email", data?.email);
+      formData.append("phone_number", data?.phone_number);
+      formData.append("best_contact_time", data?.best_contact_time);
+      formData.append("instagram_url", data?.instagram_url);
+      formData.append("tiktok_url", data?.tiktok_url);
+      formData.append("facebook_url", data?.facebook_url);
+      formData.append("youtube_url", data?.youtube_url);
+      formData.append(
+        "google_business_profile_url",
+        data?.google_business_profile_url,
+      );
+      formData.append("linkedin_url", data?.linkedin_url);
+      formData.append("service_type", data?.service_type);
+      formData.append("why_featured", data?.why_featured);
+      formData.append("growth_vision", data?.growth_vision);
+
+      // File
+      formData.append("team_photo", data?.team_photo?.[0]);
+      formData.append("portrait_photo", data?.portrait_photo?.[0]);
+      formData.append(
+        "storefront_workspace_photo",
+        data?.storefront_workspace_photo?.[0],
+      );
+      Array.from(data.product_service_photos).forEach((file: any) => {
+        formData.append("product_service_photos[]", file);
+      });
+
+      // Boolean
+      formData.append(
+        "permission_feature_on_osi",
+        data?.permission_feature_on_osi ? "1" : "0",
+      );
+      formData.append(
+        "permission_use_submitted_photos",
+        data?.permission_use_submitted_photos ? "1" : "0",
+      );
+      formData.append(
+        "permission_share_business_story",
+        data?.permission_share_business_story ? "1" : "0",
+      );
+
+      await businessSpotlightMutation(formData, {
+        onSuccess: (res: any) => {
+          if (res?.success) {
+            onNext();
+          }
+        },
+      });
     }
   };
 
@@ -72,7 +131,7 @@ const Page = () => {
         style={{ backgroundImage: `url(${submissionBg.src})` }}
       >
         <span className="text-2xl text-white">
-          <span className="font-semibold">Service</span> / Artist Spotlight
+          <span className="font-semibold">Service</span> / Business Spotlight
         </span>
 
         <h2 className="text-white font-semibold text-6xl py-7">
@@ -151,6 +210,7 @@ const Page = () => {
                 totalSteps={totalSteps}
               />
             </div>
+
             {step < 6 && (
               <div className="flex justify-between">
                 <button
@@ -165,9 +225,20 @@ const Page = () => {
 
                 <button
                   type="submit"
-                  className="flex items-center gap-3 px-12 py-4 bg-primary-blue text-white rounded-full"
+                  disabled={isPending}
+                  className="flex items-center gap-3 px-12 py-4 bg-primary-blue text-white rounded-full disabled:opacity-70 disabled:cursor-not-allowed"
                 >
-                  {step === totalSteps - 1 ? "Submit" : "Next Section"}
+                  {step === totalSteps - 2 ? (
+                    isPending ? (
+                      <span className="flex gap-2 items-center">
+                        <TbLoader2 className="animate-spin" /> Submitting...
+                      </span>
+                    ) : (
+                      "Submit"
+                    )
+                  ) : (
+                    "Next Section"
+                  )}
                   <RightArrowSvg />
                 </button>
               </div>
