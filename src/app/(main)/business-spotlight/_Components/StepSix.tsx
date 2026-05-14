@@ -18,24 +18,24 @@ const StepSix = () => {
         {/* Business featured? */}
         <div className="col-span-2">
           <p className="flex justify-between items-center mb-2">
-            <label htmlFor="business_featured" className="auth_label">
+            <label htmlFor="why_featured" className="auth_label">
               1. Why do you want your business featured? <span>*</span>
             </label>
-            {errors.business_featured?.message && (
+            {errors.why_featured?.message && (
               <p className="text-red-500">
-                {errors.business_featured.message as string}
+                {errors.why_featured.message as string}
               </p>
             )}
           </p>
 
           <textarea
-            id="business_featured"
+            id="why_featured"
             rows={5}
             className={`step_input !rounded-xl ${
-              errors.business_featured ? "border-red-500" : "border-[#D1D5DC] "
+              errors.why_featured ? "border-red-500" : "border-[#D1D5DC] "
             }`}
             placeholder="Tell us what drives your interest in being featured..."
-            {...register("business_featured", {
+            {...register("why_featured", {
               required: "Business featured is required",
             })}
           ></textarea>
@@ -44,24 +44,24 @@ const StepSix = () => {
         {/* Business grow? */}
         <div className="col-span-2">
           <p className="flex justify-between items-center mb-2">
-            <label htmlFor="business_grow" className="auth_label">
+            <label htmlFor="growth_vision" className="auth_label">
               2. How would a spotlight help your business grow? <span>*</span>
             </label>
-            {errors.business_grow?.message && (
+            {errors.growth_vision?.message && (
               <p className="text-red-500">
-                {errors.business_grow.message as string}
+                {errors.growth_vision.message as string}
               </p>
             )}
           </p>
 
           <textarea
-            id="business_grow"
+            id="growth_vision"
             rows={5}
             className={`step_input !rounded-xl ${
-              errors.business_grow ? "border-red-500" : "border-[#D1D5DC] "
+              errors.growth_vision ? "border-red-500" : "border-[#D1D5DC] "
             }`}
             placeholder="Share your vision for how this exposure could benefit you..."
-            {...register("business_grow", {
+            {...register("growth_vision", {
               required: "Business grow is required",
             })}
           ></textarea>
@@ -79,6 +79,7 @@ const StepSix = () => {
             Please review and accept the following
           </p>
         </div>
+
         <hr className="text-gray-200 mb-10 block" />
 
         <div className="space-y-4">
@@ -86,7 +87,7 @@ const StepSix = () => {
             <input
               type="checkbox"
               className="size-4"
-              {...register("permission_one")}
+              {...register("permission_feature_on_osi")}
             />
             <span>I give permission to feature my business on OSI</span>
           </p>
@@ -95,7 +96,7 @@ const StepSix = () => {
             <input
               type="checkbox"
               className="size-4"
-              {...register("osi_channels")}
+              {...register("permission_use_submitted_photos")}
             />
             <span>
               I give permission to use submitted photos on OSI channels
@@ -106,7 +107,7 @@ const StepSix = () => {
             <input
               type="checkbox"
               className="size-4"
-              {...register("newsletter")}
+              {...register("permission_share_business_story")}
             />
             <span>
               I give permission to share my business story on OSI channels

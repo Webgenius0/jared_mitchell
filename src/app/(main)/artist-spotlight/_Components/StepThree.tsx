@@ -63,7 +63,7 @@ const StepThree = () => {
         <div>
           <p className="artist_label mb-1">
             <BookSvg />
-            <label htmlFor="artist_story">
+            <label htmlFor="full_artist_story">
               Full Artist Story (5-20 sentences) <span>*</span>
             </label>
           </p>
@@ -75,21 +75,21 @@ const StepThree = () => {
               stand for? How do you want your art to impact the community?
             </p>
 
-            {errors.artist_story?.message && (
+            {errors.full_artist_story?.message && (
               <p className="text-red-500">
-                {errors.artist_story.message as string}
+                {errors.full_artist_story.message as string}
               </p>
             )}
           </div>
 
           <textarea
-            id="artist_story"
+            id="full_artist_story"
             rows={5}
             className={`step_input !rounded-xl ${
-              errors.artist_story ? "border-red-500" : "border-[#D1D5DC] "
+              errors.full_artist_story ? "border-red-500" : "border-[#D1D5DC] "
             }`}
             placeholder="My journey as an artist began when I was 15 years old..."
-            {...register("artist_story", {
+            {...register("full_artist_story", {
               required: "Artist story is required",
             })}
           ></textarea>
@@ -99,7 +99,7 @@ const StepThree = () => {
         <div>
           <p className="artist_label mb-1">
             <GoalSvg />
-            <label htmlFor="why_story">
+            <label htmlFor="why_spotlighted">
               Why Should Your Story Be Spotlighted? (3-6 sentences)
               <span>*</span>
             </label>
@@ -110,21 +110,21 @@ const StepThree = () => {
               Explain your uniqueness, impact, message, and authenticity.
             </p>
 
-            {errors.why_story?.message && (
+            {errors.why_spotlighted?.message && (
               <p className="text-red-500">
-                {errors.why_story.message as string}
+                {errors.why_spotlighted.message as string}
               </p>
             )}
           </div>
 
           <textarea
-            id="why_story"
+            id="why_spotlighted"
             rows={5}
             className={`step_input !rounded-xl ${
-              errors.why_story ? "border-red-500" : "border-[#D1D5DC] "
+              errors.why_spotlighted ? "border-red-500" : "border-[#D1D5DC] "
             }`}
             placeholder="My work deserves to be spotlighted because..."
-            {...register("why_story", {
+            {...register("why_spotlighted", {
               required: "Why story is required",
             })}
           ></textarea>
@@ -134,7 +134,7 @@ const StepThree = () => {
         <div>
           <p className="artist_label mb-1">
             <MsgSvg />
-            <label htmlFor="what_story">
+            <label htmlFor="community_message">
               What Message Do You Want to Share with the Community?
               <span>*</span>
             </label>
@@ -145,21 +145,21 @@ const StepThree = () => {
               This will be used for the "pull quote" section of your spotlight.
             </p>
 
-            {errors.what_story?.message && (
+            {errors.community_message?.message && (
               <p className="text-red-500">
-                {errors.what_story.message as string}
+                {errors.community_message.message as string}
               </p>
             )}
           </div>
 
           <textarea
-            id="what_story"
+            id="community_message"
             rows={5}
             className={`step_input !rounded-xl ${
-              errors.what_story ? "border-red-500" : "border-[#D1D5DC] "
+              errors.community_message ? "border-red-500" : "border-[#D1D5DC] "
             }`}
             placeholder="I want to inspire others to..."
-            {...register("what_story", {
+            {...register("community_message", {
               required: "What story is required",
             })}
           ></textarea>
@@ -169,7 +169,7 @@ const StepThree = () => {
         <div>
           <p className="artist_label mb-1">
             <GoalSvg />
-            <label htmlFor="current_goal">
+            <label htmlFor="current_goals">
               What Are Your Current Goals as an Artist?
               <span>*</span>
             </label>
@@ -180,21 +180,21 @@ const StepThree = () => {
               This creates the "what's next" section of your spotlight page.
             </p>
 
-            {errors.current_goal?.message && (
+            {errors.current_goals?.message && (
               <p className="text-red-500">
-                {errors.current_goal.message as string}
+                {errors.current_goals.message as string}
               </p>
             )}
           </div>
 
           <textarea
-            id="current_goal"
+            id="current_goals"
             rows={5}
             className={`step_input !rounded-xl ${
-              errors.current_goal ? "border-red-500" : "border-[#D1D5DC] "
+              errors.current_goals ? "border-red-500" : "border-[#D1D5DC] "
             }`}
             placeholder="In the next year, I plan to..."
-            {...register("current_goal", {
+            {...register("current_goals", {
               required: "Current goal is required",
             })}
           ></textarea>

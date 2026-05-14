@@ -11,10 +11,10 @@ const AboutBanner = () => {
           url(${aboutBg.src})
         `,
       }}
-      className="h-[500px] bg-no-repeat bg-center bg-cover"
+      className="h-[300px] md:h-[400px] xl:h-[500px] bg-no-repeat bg-center bg-cover"
     >
       <div className="h-full container flex flex-col items-center justify-center">
-        <figure className="w-[238px] h-[161px]">
+        <figure className="w-[170px] md:w-[200px] xl:w-[238px] xl:h-[161px]">
           <Image
             src={about_us_logo}
             alt="about_us_logo"
@@ -23,9 +23,11 @@ const AboutBanner = () => {
           />
         </figure>
 
-        <h2 className="text-[70px] font-bold text-white">About Us</h2>
+        <h2 className="text-3xl md:text-5xl xl:text-[70px] font-bold text-white">
+          About Us
+        </h2>
 
-        <p className="text-[#F5F5F7] text-[26px] pt-5">
+        <p className="text-[#F5F5F7] text-center md:text-xl xl:text-[26px] pt-3 md:pt-5">
           Building bridges between business, art, and community
         </p>
       </div>

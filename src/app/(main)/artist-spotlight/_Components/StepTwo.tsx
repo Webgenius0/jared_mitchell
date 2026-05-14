@@ -1,17 +1,13 @@
+import { ArtistCategorySkeleton } from "@/Components/Loader/Loader";
 import { SelectSvg } from "@/Components/Svg/SvgContainer";
+import { getArtistCategories } from "@/Hooks/api/cms_api";
 import { useFormContext } from "react-hook-form";
 
-const data = [
-  { title: "Musician", desc: "Rap / R&B / Hip-Hop / Pop / Indie / Other" },
-  { title: "Visual Artist", desc: "Painter / Sketch / Mixed Media / etc." },
-  { title: "Photographer" },
-  { title: "Model" },
-  { title: "Videographer" },
-  { title: "Digital Creator" },
-  { title: "Designer", desc: "Fashion / Graphic" },
-  { title: "Poet / Writer" },
-  { title: "Other", desc: "Please describe below" },
-];
+type categoryItem = {
+  id: number;
+  name: string;
+  description: string;
+};
 
 const StepTwo = () => {
   const {
@@ -20,7 +16,8 @@ const StepTwo = () => {
     formState: { errors },
   } = useFormContext();
 
-  const selectedCategory = watch("artistCategory");
+  const selectedCategory = watch("artist_category_id");
+  const { data: categories, isLoading } = getArtistCategories();
 
   return (
     <div className="step_box">
@@ -50,44 +47,49 @@ const StepTwo = () => {
       </div>
 
       <div className="grid grid-cols-2 gap-5">
-        {data.map((item, idx) => {
-          const id = `artistCategory-${idx}`;
-          const isActive = selectedCategory === item?.title;
+        {isLoading
+          ? Array.from({ length: 4 })?.map((_, idx) => (
+              <ArtistCategorySkeleton key={idx} />
+            ))
+          : categories?.data?.map((item: categoryItem) => {
+              const isActive = Number(selectedCategory) === item?.id;
 
-          return (
-            <label
-              key={id}
-              htmlFor={id}
-              className={`border shadow py-3 px-4 rounded-lg flex flex-col gap-2 justify-center cursor-pointer transition-all min-h-[80px] hover:bg-[#EFF6FF] relative
+              return (
+                <label
+                  key={item?.id}
+                  htmlFor={item?.name}
+                  className={`border shadow py-3 px-4 rounded-lg flex flex-col gap-2 justify-center cursor-pointer transition-all min-h-[80px] hover:bg-[#EFF6FF] relative
                 ${
                   isActive
                     ? "border-primary-blue bg-[#EFF6FF]"
                     : "border-gray-200 hover:border-primary-blue bg-white"
                 }`}
-            >
-              <h3 className="text-xl font-medium text-[#101828]">
-                {item.title}
-              </h3>
+                >
+                  <h3 className="text-xl font-medium text-[#101828]">
+                    {item?.name}
+                  </h3>
 
-              {item.desc && <p className="text-[#6A7282]">{item.desc}</p>}
+                  {item?.description && (
+                    <p className="text-[#6A7282]">{item?.description}</p>
+                  )}
 
-              <input
-                type="radio"
-                id={id}
-                value={item?.title}
-                className="absolute top-3 right-3"
-                {...register("artistCategory", {
-                  required: "Please select a category",
-                })}
-              />
-            </label>
-          );
-        })}
+                  <input
+                    type="radio"
+                    id={item?.name}
+                    value={item?.id}
+                    className="absolute top-3 right-3"
+                    {...register("artist_category_id", {
+                      required: "Please select a category",
+                    })}
+                  />
+                </label>
+              );
+            })}
       </div>
 
-      {errors.artistCategory && (
+      {errors.artist_category_id && (
         <p className="text-red-500 mt-4">
-          {errors.artistCategory.message as string}
+          {errors.artist_category_id.message as string}
         </p>
       )}
     </div>

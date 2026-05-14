@@ -3,8 +3,8 @@ import osi from "@/Assets/osi.png";
 
 const WhyChoose = () => {
   return (
-    <div className="container py-20">
-      <div className="mb-10">
+    <div className="container py-7 md:py-10 xl:py-20">
+      <div className="mb-7 md:mb-10">
         <h2 className="section_title uppercase">Why Choose OSI?</h2>
 
         <p className="section_sub_title">
@@ -12,11 +12,10 @@ const WhyChoose = () => {
         </p>
       </div>
 
-      <section className="w-full max-h-[580px] h-full overflow-hidden flex items-center relative rounded">
+      <section className="w-full h-[380px] lg:h-[450px] xl:h-[580px] overflow-hidden flex items-center relative rounded">
         <Image
           src={osi}
-          width={1920}
-          height={580}
+          fill
           alt="home banner"
           className="object-cover w-full rounded"
         />
@@ -25,7 +24,7 @@ const WhyChoose = () => {
           <div className="flex flex-col w-full mx-auto h-full items-center justify-center">
             <h2 className="section_title !text-white">Creators</h2>
 
-            <h4 className="text-white text-3xl font-medium mb-4">
+            <h4 className="text-white text-xl md:text-3xl text-center font-medium mb-2 md:mb-4">
               Build exposure without chasing algorithms
             </h4>
 

@@ -1,17 +1,15 @@
 import { StaticImageData } from "next/image";
 
-export type LoginProps = {
+export interface LoginProps {
   email: string;
   password: string;
-  rememberMe: boolean;
-};
+}
 
-export type RegisterProps = {
+export interface RegisterProps extends LoginProps {
   name: string;
-  email: string;
-  password: string;
-  confirmPassword: string;
-};
+  password_confirmation: string;
+  role: string;
+}
 
 export type Card = {
   id: number;

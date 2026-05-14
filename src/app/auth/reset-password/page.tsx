@@ -1,67 +1,109 @@
 "use client";
-import React from "react";
-import { useLogin } from "@/Hooks/api/auth_api";
 import AuthFlexBox from "../_components/AuthFlexBox";
-import { useForm } from 'react-hook-form'
-import { MailSvg } from "@/Components/Svg/SvgContainer";
-import Link from "next/link";
+import { useForm } from "react-hook-form";
 import PasswordInput from "@/Components/Common/PasswordInput";
-import { LoginProps } from "@/Types/type";
 import { MdKeyboardArrowLeft } from "react-icons/md";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useResetPassword } from "@/Hooks/api/auth_api";
+import { TbLoader2 } from "react-icons/tb";
 
 const Page = () => {
-  const router = useRouter()
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const email = searchParams.get("email");
+  const token = searchParams.get("token");
+  const { mutateAsync: resetPasswordMutation, isPending } = useResetPassword();
 
-  const { register, handleSubmit, formState: { errors } } = useForm({
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
     defaultValues: {
       password: "",
-      confirmPassword: "",
-    }
-  })
+      password_confirmation: "",
+    },
+  });
 
-  const onSubmit = async (data: { password: string; confirmPassword: string }) => {
-    console.log("login data", data)
-    const formData = new FormData();
-
-    formData.append("password", data?.password)
-    formData.append("password_confirmation", data?.confirmPassword)
-
-    router.push("/auth/login")
-    // await loginMutation(data as any);
+  const onSubmit = async (data: {
+    password: string;
+    password_confirmation: string;
+  }) => {
+    const payload = { ...data, email, token };
+    await resetPasswordMutation(payload);
   };
 
   return (
-    <AuthFlexBox title={"Welcome Back"} description={"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud."}>
+    <AuthFlexBox
+      title={"Welcome Back"}
+      description={
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud."
+      }
+    >
       <div>
-        <Link href={`/auth/login`} className="absolute -top-5 left-0 flex items-center gap- text-2xl">
-          <MdKeyboardArrowLeft className="size-10" />
-          Back
-        </Link>
-        <h5 className="text-[56px] text-primary-black capitalize">Create new password</h5>
-        <p className="text-secondary-black text-xl capitalize">Choose a strong password to secure your account</p>
-        <form onSubmit={handleSubmit(onSubmit)} className="mt-8 space-y-3">
+        <button
+          onClick={() => router.back()}
+          className="text-[17px] md:text-xl flex gap-0.5 md:gap-1 items-center mb-3 md:mb-5 2xl:mb-10"
+        >
+          <MdKeyboardArrowLeft className="text-xl md:text-2xl" /> Back
+        </button>
+
+        <h5 className="text-3xl md:text-4xl xl:text-5xl mb-2 xl:mb-3 text-primary-black capitalize">
+          Create new password
+        </h5>
+
+        <p className="text-secondary-black md:text-lg xl:text-xl capitalize">
+          Choose a strong password to secure your account
+        </p>
+
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="mt-5 xl:mt-8 space-y-3"
+        >
           <div className="space-y-5">
             <div className="space-y-2">
-              <div className="text-xl text-primary-black">Password*</div>
+              <div className="label">Password*</div>
               <div>
-                <PasswordInput name="password" placeholder="Password..." register={register} />
+                <PasswordInput
+                  name="password"
+                  placeholder="Password..."
+                  register={register}
+                />
                 {errors?.password && (
                   <p className="text-red-600">Password is required</p>
                 )}
               </div>
             </div>
             <div className="space-y-2">
-              <div className="text-xl text-primary-black">Confirm Password*</div>
+              <div className="label">Confirm Password*</div>
               <div>
-                <PasswordInput name="confirmPassword" placeholder="Confirm Password..." register={register} />
-                {errors?.confirmPassword && (
-                  <p className="text-red-600">Password confirmation is required</p>
+                <PasswordInput
+                  name="password_confirmation"
+                  placeholder="Confirm Password..."
+                  register={register}
+                />
+                {errors?.password_confirmation && (
+                  <p className="text-red-600">
+                    Password confirmation is required
+                  </p>
                 )}
               </div>
             </div>
           </div>
-          <button type="submit" className="text-center rounded-2xl custom_shadow px-6 py-3 mt-3 text-white text-xl bg-tertiary-blue w-full">Reset Password</button>
+
+          <button
+            type="submit"
+            disabled={isPending}
+            className="text-center xl:text-xl rounded-xl xl:rounded-2xl custom_shadow px-6 py-2.5 xl:py-3 text-white bg-tertiary-blue w-full disabled:opacity-70 disabled:cursor-not-allowed flex justify-center items-center"
+          >
+            {isPending ? (
+              <span className="flex gap-2 items-center">
+                <TbLoader2 className="animate-spin" /> Resetting...
+              </span>
+            ) : (
+              "Reset Password"
+            )}
+          </button>
         </form>
       </div>
     </AuthFlexBox>

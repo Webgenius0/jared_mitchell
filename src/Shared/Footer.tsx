@@ -1,120 +1,62 @@
-import Container from "@/Components/Common/Container";
 import {
   FacebookSvg,
   InstagramSvg,
   LinkedinSvg,
   MusicSvg,
-  TwitterSvg,
-  YoutubeSvg,
 } from "@/Components/Svg/SvgContainer";
 
 const exploreData = [
   "Home",
   "About",
   "Services",
-  "Spotlight Hub",
+  "Spotlight",
   "Events",
   "Shop",
-  "Sponsorships",
-  "Boss Beginnings",
-  "Contact",
-  "Member Dashboard",
 ];
 
 const helpData = [
-  "Frequently Asked Questions (FAQ)",
-  "Getting Started Guide",
-  "OSI Membership Handbook",
-  "Event Submission Guidelines",
-  "Spotlight Submission Rules",
-  "Creator & Business Resource Center",
-  "Report an Issue",
-  "Contact Support: admin@oursocialimage.net",
-  "Phone: 1-800-OSI-HELP",
-];
-
-const legalData = [
-  "Terms & Conditions",
-  "Privacy Policy",
-  "Cookie Policy",
-  "Refund & Return Policy",
-  "Data Processing & GDPR Compliance",
-  "Accessibility Statement (ADA Compliance)",
-  "Community & User Conduct Policy",
-  "Sponsorship Agreement Terms",
-  "Content Ownership & Licensing",
-  "AI Disclosure & Transparency Policy",
+  "Help Center",
+  "FAQ",
+  "Getting Started",
+  "Contact Support",
+  "admin@oursocialimage.net",
 ];
 
 const businessData = [
-  "Our Social Image LLC",
-  "Indianapolis, IN",
-  "Hours of Operation:Mon–Fri, 9am–6pm EST",
-  "Media & Press Inquiries : press@oursocialimage.net",
-  "Partnership Inquiries : partners@oursocialimage.net",
-  "Shop",
   "Sponsorships",
+  "Partner With OSI",
   "Boss Beginnings",
-  "Contact",
-  "Member Dashboard",
+  "Event Submissions",
+  "partners@oursocialimage.net",
 ];
 
 const Footer = () => {
   return (
     <footer className="bg-[#18181B] text-white pt-7 md:pt-10 lg:pt-14 pb-5 md:pb-7 xl:pb-8">
-      <Container>
-        <div className="flex flex-wrap xl:flex-nowrap gap-5 md:gap-8 lg:gap-12">
+      <div className="container">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-5 md:gap-8 xl:gap-12">
           {/* First Column */}
-          <div className="space-y-3 md:space-y-5 lg:w-[373px]">
-            <div>
-              <h3 className="text-white font-medium text-lg md:text-x xl:text-2xl mb-3">
-                Our Social Image (OSI)
-              </h3>
-              <p className="text-[#99A1AF] xl:text-lg">
-                Empowering creators, small businesses, and community leaders
-                through digital storytelling, technology, and culture-driven
-                visibility.
-              </p>
-            </div>
+          <div className="xl:col-span-2 space-y-3 md:space-y-5 ">
+            <h3 className="text-white font-medium text-lg xl:text-xl mb-3">
+              Image Features & Visibility
+            </h3>
 
-            <hr className="text-[#99A1AF]" />
+            <p className="text-[#99A1AF] xl:text-lg max-w-md">
+              OSI is a digital platform supporting creators, entrepreneurs, and
+              community-driven businesses through curated visibility,
+              storytelling, and exposure.
+            </p>
 
-            <div>
-              <h3 className="text-white font-medium text-lg md:text-x xl:text-2xl mb-3">
-                Our Mission
-              </h3>
-              <p className="text-[#99A1AF] xl:text-lg">
-                To elevate the voices of entrepreneurs, artists, and community
-                innovators by providing tools, exposure, and automated digital
-                support that turn vision into opportunity.
-              </p>
-            </div>
-
-            <div className="flex gap-3 items-center mt-5 md:mt-8 xl:mt-12">
-              <button className="cursor-pointer">
-                <InstagramSvg />
-              </button>
-              <button className="cursor-pointer">
-                <YoutubeSvg />
-              </button>
-              <button className="cursor-pointer">
-                <FacebookSvg />
-              </button>
-              <button className="cursor-pointer">
-                <TwitterSvg />
-              </button>
-              <button className="cursor-pointer">
-                <MusicSvg />
-              </button>
-              <button className="cursor-pointer">
-                <LinkedinSvg />
-              </button>
-            </div>
+            <p className="text-[#99A1AF] xl:text-lg max-w-md">
+              Features are not guaranteed and selection varies. Our Social Image
+              LLC is not a talent agency, financial advisor, or legal
+              representative. Platform services are promotional in nature.
+            </p>
           </div>
 
           {/* Second Column */}
-          <div className="shrink-0">
-            <h3 className="text-white font-medium text-lg md:text-x xl:text-2xl mb-3">
+          <div className="">
+            <h3 className="text-white font-medium text-lg xl:text-xl mb-3">
               Explore OSI
             </h3>
             <ul className="space-y-2 md:space-y-3">
@@ -127,8 +69,8 @@ const Footer = () => {
           </div>
 
           {/* Third Column */}
-          <div className="md:w-[235px]">
-            <h3 className="text-white font-medium text-lg md:text-x xl:text-2xl mb-3">
+          <div className="">
+            <h3 className="text-white font-medium text-lg xl:text-xl mb-3">
               Help & Support
             </h3>
             <ul className="space-y-2 md:space-y-3">
@@ -141,26 +83,12 @@ const Footer = () => {
           </div>
 
           {/* Forth Column */}
-          <div>
-            <h3 className="text-white font-medium text-lg md:text-xl xl:text-2xl mb-3">
-              Legal
-            </h3>
-            <ul className="space-y-2 md:space-y-3">
-              {legalData?.map((item, idx) => (
-                <li key={idx} className="text-[#99A1AF] xl:text-lg">
-                  {item}
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Fifth Column */}
-          <div className="space-y-8 xl:w-[273px]">
+          <div className="space-y-7">
             <div>
-              <h3 className="text-white font-medium text-lg md:text-xl xl:text-2xl mb-3">
-                Business Details
+              <h3 className="text-white font-medium text-lg xl:text-xl mb-3">
+                For Creators & Businesses
               </h3>
-              <ul className="space-y-2 md:space-y-3">
+              <ul className="space-y-2">
                 {businessData?.map((item, idx) => (
                   <li key={idx} className="text-[#99A1AF] xl:text-lg">
                     {item}
@@ -170,24 +98,33 @@ const Footer = () => {
             </div>
 
             <div>
-              <h3 className="text-white font-medium text-lg md:text-xl xl:text-2xl mb-3">
-                Newsletter Signup
+              <h3 className="text-white font-medium text-lg xl:text-xl  mb-1">
+                Our Social Image LLC
               </h3>
+              <p className="text-[#99A1AF] xl:text-lg">Indianapolis, IN</p>
+            </div>
 
+            <div>
+              <h3 className="text-white font-medium text-lg xl:text-xl mb-1">
+                Media & Press
+              </h3>
               <p className="text-[#99A1AF] xl:text-lg">
-                Stay connected. Receive stories, events, spotlights, and growth
-                tools directly to your inbox.
+                press@oursocialimage.net
               </p>
             </div>
 
-            <div className="space-y-3">
-              <input
-                type="text"
-                placeholder="Enter your email"
-                className="block w-full rounded-full bg-[#1D293D] px-4 py-2 outline-none border border-[#314158] placeholder:text-center"
-              />
-              <button className="bg-secondary-blue text-white px-4 py-2 rounded-full block w-full cursor-pointer">
-                Subscribe
+            <div className="flex gap-3 xl:gap-5 items-center mt-5 md:mt-8">
+              <button className="cursor-pointer">
+                <InstagramSvg />
+              </button>
+              <button className="cursor-pointer">
+                <FacebookSvg />
+              </button>
+              <button className="cursor-pointer">
+                <MusicSvg />
+              </button>
+              <button className="cursor-pointer">
+                <LinkedinSvg />
               </button>
             </div>
           </div>
@@ -195,10 +132,19 @@ const Footer = () => {
 
         <hr className="text-[#99A1AF] mt-5 md:mt-12" />
 
-        <p className="text-center pt-4 md:pt-7 text-gray-300 text-sm md:text-base">
-          &copy; 2025 Our Social Image LLC. All rights reserved.
-        </p>
-      </Container>
+        <div className="flex flex-col lg:flex-row gap-3 lg:gap-5 items-center justify-between pt-4 md:pt-6">
+          <p className="flex flex-wrap justify-center gap-2 md:gap-3 items-center text-[#99A1AF] text-sm lg:text-base">
+            <span>Privacy Policy</span>
+            <span>Terms of Use</span>
+            <span>Cookie Policy</span>
+            <span>Accessibility</span>
+          </p>
+
+          <p className="text-gray-300 text-sm lg:text-base">
+            &copy; 2025 Our Social Image LLC. All rights reserved.
+          </p>
+        </div>
+      </div>
     </footer>
   );
 };

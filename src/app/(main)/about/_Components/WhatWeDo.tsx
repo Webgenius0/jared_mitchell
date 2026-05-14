@@ -51,12 +51,12 @@ const data = [
 
 const WhatWeDo = () => {
   return (
-    <section className="container py-20">
-      <h2 className="text-primary-black text-5xl font-bold leading-[140%] text-center mb-12">
+    <section className="container md:py-10 xl:py-20">
+      <h2 className="text-primary-black text-3xl md:text-4xl xl:text-5xl font-bold leading-[140%] text-center mb-7 xl:mb-12">
         Mission & Purpose
       </h2>
 
-      <div className="grid grid-cols-3 gap-5">
+      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">
         {data?.map(item => (
           <div className="border border-[#00000013] rounded-xl px-5 py-10 shadow-[0_4px_20px_0_rgba(0,0,0,0.07)] flex flex-col gap-4 justify-between">
             <div className="space-y-4">
@@ -64,12 +64,12 @@ const WhatWeDo = () => {
                 {item?.icon}
               </span>
 
-              <h3 className="font-medium text-2xl text-[#1D1D1F] max-w-[350px] leading-[150%]">
+              <h3 className="font-medium text-xl xl:text-2xl text-[#1D1D1F] max-w-[350px] leading-[150%]">
                 {item?.title}
               </h3>
             </div>
 
-            <p className="text-[#1D1D1F] text-xl leading-[150%]">
+            <p className="text-[#1D1D1F] text-lg xl:text-xl leading-[150%]">
               {item?.description}
             </p>
           </div>

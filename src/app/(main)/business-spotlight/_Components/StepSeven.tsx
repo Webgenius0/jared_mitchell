@@ -16,7 +16,10 @@ const StepSeven = () => {
         excited to review your brand, story, and the work you’re building
       </p>
 
-      <button className="px-12 py-3 text-lg rounded-full bg-primary-blue text-white cursor-pointer">
+      <button
+        type="button"
+        className="px-12 py-3 text-lg rounded-full bg-primary-blue text-white cursor-pointer"
+      >
         Done
       </button>
     </div>
