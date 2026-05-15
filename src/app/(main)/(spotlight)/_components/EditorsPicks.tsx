@@ -1,11 +1,18 @@
+"use client"
 import { Button } from '@/Components/Common/Button'
 import Container from '@/Components/Common/Container'
-import { editorPicks } from '@/Components/Data/data'
 import Image from 'next/image'
 import Link from 'next/link'
 import { BsArrowRight } from 'react-icons/bs'
+import { getArtistSpotlights, getBusinessSpotlights } from '@/Hooks/api/cms_api'
 
-const EditorsPicks = () => {
+const EditorsPicks = ({ type = 'artist' }: { type?: 'artist' | 'business' }) => {
+  const { data: artistData, isLoading: artistLoading } = getArtistSpotlights();
+  const { data: businessData, isLoading: businessLoading } = getBusinessSpotlights();
+
+  const data = type === 'artist' ? artistData?.data?.slice(0, 3) : businessData?.data?.slice(0, 3);
+  const isLoading = type === 'artist' ? artistLoading : businessLoading;
+
   return (
     <>
       <section className="section">
@@ -18,49 +25,54 @@ const EditorsPicks = () => {
               Celebrating our community&apos;s achievements and creative milestones
             </p>
           </div>
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 mt-11">
-            {editorPicks.map(({ name,
-              role,
-              description,
-              image,
-              href, }, index) => (
-              <div key={index} className="bg-white p-[30px] rounded-xl custom_border custom_shadow">
-                <figure className="w-full">
-                  <Image
-                    src={image}
-                    alt={name}
-                    width={500}
-                    height={290}
-                    className="w-full object-cover rounded-3xl"
-                  />
-                </figure>
+          
+          {isLoading ? (
+            <div className='grid gap-6 sm:grid-cols-2 lg:grid-cols-3 mt-11'>
+              {Array.from({ length: 3 }).map((_, idx) => (
+                <div key={idx} className="h-[400px] bg-gray-100 animate-pulse rounded-xl" />
+              ))}
+            </div>
+          ) : (
+            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 mt-11">
+              {data?.map((item: any, index: number) => (
+                <div key={item.id || index} className="bg-white p-[30px] rounded-xl custom_border custom_shadow">
+                  <figure className="w-full">
+                    <Image
+                      src={type === 'artist' ? item.media?.headshot : item.images?.portrait_photo}
+                      alt={type === 'artist' ? item.artist_stage_name : item.business_name}
+                      width={500}
+                      height={290}
+                      className="w-full h-[290px] object-cover rounded-3xl"
+                    />
+                  </figure>
 
-                {/* Content */}
-                <div className="pt-6 space-y-6">
-                  <h3 className="text-2xl font-bold text-primary-black">
-                    {name}
-                  </h3>
+                  {/* Content */}
+                  <div className="pt-6 space-y-6">
+                    <h3 className="text-2xl font-bold text-primary-black">
+                      {type === 'artist' ? item.artist_stage_name : item.business_name}
+                    </h3>
 
-                  <div className="bg-[#8F8F8F2E] px-3.5 py-[7px] rounded-full inline-block">
-                    {role}
-                  </div>
+                    <div className="bg-[#8F8F8F2E] px-3.5 py-[7px] rounded-full inline-block">
+                      {type === 'artist' ? item.city : item.business_category}
+                    </div>
 
-                  <p className="text-xl text-[#909090]">
-                    {description}
-                  </p>
+                    <p className="text-xl text-[#909090] line-clamp-2">
+                      {type === 'artist' ? item.short_bio : item.business_story}
+                    </p>
 
-                  <div className="pt-2">
-                    <Button asChild size="xl">
-                      <Link href={href}>
-                        View Spotlight
-                        <BsArrowRight className='text-2xl' />
-                      </Link>
-                    </Button>
+                    <div className="pt-2">
+                      <Button asChild size="xl">
+                        <Link href={`#`}>
+                          View Spotlight
+                          <BsArrowRight className='text-2xl' />
+                        </Link>
+                      </Button>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
         </Container>
       </section>
     </>

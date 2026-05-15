@@ -20,6 +20,12 @@ const nextConfig = {
         port: "",
         pathname: "/**",
       },
+      {
+        protocol: "https",
+        hostname: "jaredmitchell.thewarriors.team",
+        port: "",
+        pathname: "/**",
+      },
     ],
     domains: ["i.ibb.co.com"],
   },

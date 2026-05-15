@@ -192,6 +192,22 @@ const StepThree = () => {
             {...register("linkedin_url")}
           />
         </div>
+
+        {/* Fanbase */}
+        <div>
+          <p className="flex justify-between items-center mb-2">
+            <label htmlFor="fanbase_url" className="auth_label">
+              Fanbase
+            </label>
+          </p>
+          <input
+            type="url"
+            id="fanbase_url"
+            className={`step_input border-[#D1D5DC]`}
+            placeholder="fanbase.app/yourbusiness"
+            {...register("fanbase_url")}
+          />
+        </div>
       </div>
     </div>
   );

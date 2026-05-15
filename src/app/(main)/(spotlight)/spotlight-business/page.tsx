@@ -15,9 +15,9 @@ const page = () => {
     <>
       <BusinessSpotlightBanner />
       <SpotlightHero />
-      <DiscoverArtists />
+      <DiscoverArtists type="business" />
       <CommunityAchievements />
-      <EditorsPicks />
+      <EditorsPicks type="business" />
       <SpotlightLadder
         title="OSI Spotlight Ladder"
         subTitle="Community-driven weekly recognition"

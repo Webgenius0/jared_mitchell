@@ -15,9 +15,9 @@ const page = () => {
     <>
       <ArtistSpotlightBanner />
       <SpotlightHero />
-      <DiscoverArtists />
+      <DiscoverArtists type="artist" />
       <CommunityAchievements />
-      <EditorsPicks />
+      <EditorsPicks type="artist" />
       <SpotlightLadder
         title="Weekly Spotlight Ladder"
         subTitle="Community-driven recognition for outstanding developers"

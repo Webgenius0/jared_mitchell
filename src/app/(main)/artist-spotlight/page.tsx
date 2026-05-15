@@ -53,60 +53,34 @@ const Page = () => {
     if (step < totalSteps - 2) {
       onNext();
     } else {
-      console.log(data);
       const formData = new FormData();
 
-      // String
-      formData.append("full_legal_name", data?.full_legal_name);
-      formData.append("artist_stage_name", data?.artist_stage_name);
-      formData.append("email", data?.email);
-      formData.append("phone_number", data?.phone_number);
-      formData.append("date_of_birth", data?.date_of_birth);
-      formData.append("city", data?.city);
-      formData.append("state", data?.state);
-      formData.append("instagram_handle", data?.instagram_handle);
-      formData.append("tiktok_handle", data?.tiktok_handle);
-      formData.append("facebook_url", data?.facebook_url);
-      formData.append("youtube_url", data?.youtube_url);
-      formData.append("website_portfolio_url", data?.website_portfolio_url);
-      formData.append("artist_category_id", data?.artist_category_id);
-      formData.append("full_artist_story", data?.full_artist_story);
-      formData.append("short_bio", data?.short_bio);
-      formData.append("community_message", data?.community_message);
-      formData.append("why_spotlighted", data?.why_spotlighted);
-      formData.append("current_goals", data?.current_goals);
-      formData.append("talent_manager_contact", data?.talent_manager_contact);
-      formData.append("agent_contact", data?.agent_contact);
-      formData.append("press_kit_url", data?.press_kit_url);
-      formData.append("previous_interviews", data?.previous_interviews);
-      formData.append("awards_recognition", data?.awards_recognition);
-      formData.append("interview_availability", data?.interview_availability);
-      formData.append(
-        "preferred_contact_method",
-        data?.preferred_contact_method,
-      );
+      Object.keys(data).forEach(key => {
+        const value = data[key];
 
-      // File
-      formData.append("headshot", data?.headshot?.[0]);
-      formData.append("intro_video", data?.intro_video?.[0]);
-      formData.append("behind_scenes_photo", data?.behind_scenes_photo?.[0]);
-      Array.from(data.artwork_photos).forEach((file: any) => {
-        formData.append("artwork_photos[]", file);
+        if (value === undefined || value === null) return;
+
+        // Handle Files
+        if (value instanceof FileList || (Array.isArray(value) && value[0] instanceof File)) {
+          if (key === "artwork_photos") {
+            Array.from(value as FileList).forEach(file => {
+              formData.append("artwork_photos[]", file);
+            });
+          } else {
+            formData.append(key, value[0]);
+          }
+          return;
+        }
+
+        // Handle Booleans (Consent)
+        if (key.startsWith("consent_")) {
+          formData.append(key, value ? "1" : "0");
+          return;
+        }
+
+        // Handle Everything else
+        formData.append(key, value);
       });
-
-      // Boolean
-      formData.append(
-        "consent_public_release",
-        data?.consent_public_release ? "1" : "0",
-      );
-      formData.append(
-        "consent_ownership_declaration",
-        data?.consent_ownership_declaration ? "1" : "0",
-      );
-      formData.append(
-        "consent_interview_permission",
-        data?.consent_interview_permission ? "1" : "0",
-      );
 
       await artistSpotlightMutation(formData, {
         onSuccess: (res: any) => {
