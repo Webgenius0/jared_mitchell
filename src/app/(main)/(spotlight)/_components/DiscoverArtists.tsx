@@ -73,7 +73,7 @@ const DiscoverArtists = ({
           neighborhoods.
           <br />
           From innovative startups to community anchors, these stories highlight
-          the courage, creativity, and commitment behind every brand.{" "}
+          the courage, creativity, and commitment behind every brand.
         </p>
         <div className="flex items-center justify-between mt-20">
           <div className="w-full max-w-[370px] py-4 pl-5 flex items-center gap-3 pr-4 custom_border bg-white rounded-full">

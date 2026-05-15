@@ -12,7 +12,7 @@ const SpotlightHero = () => {
           <CustomVideoPlayer videoSrc="/home/hero-video.mp4" className={"!rounded-[40px]"} />
         </div>
         <h2 className='text-[40px] font-bold text-center mt-16'>Taste of Indy Street Kitchen: A Family Legacy of Flavor and Heart</h2>
-        <div className='max-w-[1181px] custom_border mx-auto mt-16 mb-[54px] py-10 px-9 rounded-xl'>
+        {/* <div className='max-w-[1181px] custom_border mx-auto mt-16 mb-[54px] py-10 px-9 rounded-xl'>
           <h3 className='text-3xl font-semibold mb-4'>Summary</h3>
           <p className='text-2xl font-medium'>Aaliyah Monet blends abstract creativity with deeply personal storytelling to illuminate themes of identity, community, and healing. This feature explores the meaning behind her work, the evolution of her craft, and the message she hopes to share with the world.
           </p>
@@ -36,7 +36,7 @@ const SpotlightHero = () => {
               View Full Spotlight
               <BsArrowRight className='text-2xl'/>
             </Button>
-          </div>
+          </div> */}
       </Container>
     </section>
   )
