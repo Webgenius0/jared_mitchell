@@ -17,7 +17,7 @@ const page = () => {
       <SpotlightHero />
       <DiscoverArtists type="artist" />
       <CommunityAchievements />
-      <EditorsPicks type="artist" />
+      {/* <EditorsPicks type="artist" /> */}
       <SpotlightLadder
         title="Weekly Spotlight Ladder"
         subTitle="Community-driven recognition for outstanding developers"
