@@ -9,6 +9,7 @@ export interface RegisterProps extends LoginProps {
   name: string;
   password_confirmation: string;
   role: string;
+  artist_category_id?: string;
 }
 
 export type Card = {

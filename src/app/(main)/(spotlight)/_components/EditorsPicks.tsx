@@ -1,17 +1,28 @@
-"use client"
-import { Button } from '@/Components/Common/Button'
-import Container from '@/Components/Common/Container'
-import Image from 'next/image'
-import Link from 'next/link'
-import { BsArrowRight } from 'react-icons/bs'
-import { getArtistSpotlights, getBusinessSpotlights } from '@/Hooks/api/cms_api'
+"use client";
+import { Button } from "@/Components/Common/Button";
+import Container from "@/Components/Common/Container";
+import Image from "next/image";
+import Link from "next/link";
+import { BsArrowRight } from "react-icons/bs";
+import {
+  getArtistSpotlights,
+  getBusinessSpotlights,
+} from "@/Hooks/api/cms_api";
 
-const EditorsPicks = ({ type = 'artist' }: { type?: 'artist' | 'business' }) => {
+const EditorsPicks = ({
+  type = "artist",
+}: {
+  type?: "artist" | "business";
+}) => {
   const { data: artistData, isLoading: artistLoading } = getArtistSpotlights();
-  const { data: businessData, isLoading: businessLoading } = getBusinessSpotlights();
+  const { data: businessData, isLoading: businessLoading } =
+    getBusinessSpotlights();
 
-  const data = type === 'artist' ? artistData?.data?.slice(0, 3) : businessData?.data?.slice(0, 3);
-  const isLoading = type === 'artist' ? artistLoading : businessLoading;
+  const data =
+    type === "artist"
+      ? artistData?.data?.slice(0, 3)
+      : businessData?.data?.slice(0, 3);
+  const isLoading = type === "artist" ? artistLoading : businessLoading;
 
   return (
     <>
@@ -22,24 +33,39 @@ const EditorsPicks = ({ type = 'artist' }: { type?: 'artist' | 'business' }) => 
               Editor&apos;s Picks
             </h2>
             <p className="section_sub_title">
-              Celebrating our community&apos;s achievements and creative milestones
+              Celebrating our community&apos;s achievements and creative
+              milestones
             </p>
           </div>
-          
+
           {isLoading ? (
-            <div className='grid gap-6 sm:grid-cols-2 lg:grid-cols-3 mt-11'>
+            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 mt-11">
               {Array.from({ length: 3 }).map((_, idx) => (
-                <div key={idx} className="h-[400px] bg-gray-100 animate-pulse rounded-xl" />
+                <div
+                  key={idx}
+                  className="h-[400px] bg-gray-100 animate-pulse rounded-xl"
+                />
               ))}
             </div>
           ) : (
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 mt-11">
               {data?.map((item: any, index: number) => (
-                <div key={item.id || index} className="bg-white p-[30px] rounded-xl custom_border custom_shadow">
+                <div
+                  key={item.id || index}
+                  className="bg-white p-[30px] rounded-xl custom_border custom_shadow"
+                >
                   <figure className="w-full">
                     <Image
-                      src={type === 'artist' ? item.media?.headshot : item.images?.portrait_photo}
-                      alt={type === 'artist' ? item.artist_stage_name : item.business_name}
+                      src={
+                        type === "artist"
+                          ? item.media?.headshot
+                          : item.images?.portrait_photo
+                      }
+                      alt={
+                        type === "artist"
+                          ? item.artist_stage_name
+                          : item.business_name
+                      }
                       width={500}
                       height={290}
                       className="w-full h-[290px] object-cover rounded-3xl"
@@ -49,22 +75,24 @@ const EditorsPicks = ({ type = 'artist' }: { type?: 'artist' | 'business' }) => 
                   {/* Content */}
                   <div className="pt-6 space-y-6">
                     <h3 className="text-2xl font-bold text-primary-black">
-                      {type === 'artist' ? item.artist_stage_name : item.business_name}
+                      {type === "artist"
+                        ? item.artist_stage_name
+                        : item.business_name}
                     </h3>
 
                     <div className="bg-[#8F8F8F2E] px-3.5 py-[7px] rounded-full inline-block">
-                      {type === 'artist' ? item.city : item.business_category}
+                      {type === "artist" ? item.city : item.business_category}
                     </div>
 
                     <p className="text-xl text-[#909090] line-clamp-2">
-                      {type === 'artist' ? item.short_bio : item.business_story}
+                      {type === "artist" ? item.short_bio : item.business_story}
                     </p>
 
                     <div className="pt-2">
                       <Button asChild size="xl">
                         <Link href={`#`}>
                           View Spotlight
-                          <BsArrowRight className='text-2xl' />
+                          <BsArrowRight className="text-2xl" />
                         </Link>
                       </Button>
                     </div>
@@ -76,7 +104,7 @@ const EditorsPicks = ({ type = 'artist' }: { type?: 'artist' | 'business' }) => 
         </Container>
       </section>
     </>
-  )
-}
+  );
+};
 
-export default EditorsPicks
+export default EditorsPicks;
