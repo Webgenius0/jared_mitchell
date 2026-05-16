@@ -4,11 +4,14 @@ import VoteNow from "../../_components/VoteNow";
 import WeeklyTimeline from "../../_components/WeeklyTimeline";
 import NewsLetter from "@/Components/Common/NewsLetter";
 import ArtistSpotlightBanner from "../../_components/ArtistSpotlightBanner";
+import { getCMSSpotlightLadderData } from "@/lib/Services/cms_service";
 
-const page = () => {
+const page = async () => {
+  const cmsData = await getCMSSpotlightLadderData();
+
   return (
     <>
-      <ArtistSpotlightBanner />
+      <ArtistSpotlightBanner data={cmsData?.spotlight_ladder_hero} />
       <SpotlightOfTheWeek />
       <VoteNow />
       <WeeklyTimeline />

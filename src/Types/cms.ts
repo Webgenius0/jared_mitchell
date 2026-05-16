@@ -223,3 +223,9 @@ export interface CMSBusinessSpotlight {
   business_spotlight_interview: CMSBusinessSpotlightInterview;
   business_spotlight_why_exists: CMSBusinessSpotlightWhyExists;
 }
+
+export interface CMSSpotlightLadderHero extends CMSBase {}
+
+export interface CMSSpotlightLadder {
+  spotlight_ladder_hero: CMSSpotlightLadderHero;
+}

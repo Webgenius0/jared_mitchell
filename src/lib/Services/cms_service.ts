@@ -4,6 +4,7 @@ import {
   CMSBusinessSpotlight,
   CMSHomepage,
   CMSServices,
+  CMSSpotlightLadder,
 } from "@/Types/cms";
 
 export const getCMSHomepageData = async (): Promise<CMSHomepage> => {
@@ -73,6 +74,22 @@ export const getCMSArtistSpotlightData = async (): Promise<CMSArtistSpotlight> =
 export const getCMSBusinessSpotlightData = async (): Promise<CMSBusinessSpotlight> => {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_SITE_URL}/v1/cms/business-spotlight`,
+    {
+      next: { revalidate: 60 },
+    }
+  );
+
+  if (!res.ok) {
+    throw new Error("Failed to fetch CMS data");
+  }
+
+  const result = await res.json();
+  return result.data;
+};
+
+export const getCMSSpotlightLadderData = async (): Promise<CMSSpotlightLadder> => {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_SITE_URL}/v1/cms/spotlight-ladder`,
     {
       next: { revalidate: 60 },
     }
