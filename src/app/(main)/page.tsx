@@ -20,7 +20,7 @@ import PoweredByOSI from "./_components/PoweredByOSI";
 import FeaturedEvent from "./_components/FeaturedEvent";
 import NewsLetter from "@/Components/Common/NewsLetter";
 
-import { getCMSHomepageData } from "@/Services/cms_service";
+import { getCMSHomepageData } from "@/lib/Services/cms_service";
 
 const Page = async () => {
   const cmsData = await getCMSHomepageData();
