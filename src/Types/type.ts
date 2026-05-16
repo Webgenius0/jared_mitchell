@@ -21,7 +21,9 @@ export type Card = {
 export type LogoSliderProps = {
   logos: {
     id: number;
-    icon: () => React.ReactNode;
+    icon?: () => React.ReactNode;
+    image?: string;
+    link?: string;
   }[];
   reverse?: boolean;
 };

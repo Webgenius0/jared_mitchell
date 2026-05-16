@@ -6,16 +6,17 @@ import { Pagination, Autoplay } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
 import { LuArrowRight } from "react-icons/lu";
+import { CMSHighlight } from "@/Types/cms";
 
-const CommunityAchievements = () => {
+const CommunityAchievements = ({ data }: { data?: CMSHighlight }) => {
   return (
     <section className="section">
       <h2 className="section_title 2xl:text-6xl 2xl:font-semibold">
-        Past Six Months Highlights
+        {data?.title || "Past Six Months Highlights"}
       </h2>
 
       <p className="section_sub_title">
-        Celebrating our community's achievements and creative milestones
+        {data?.sub_title || "Celebrating our community's achievements and creative milestones"}
       </p>
 
       <div className="my-6 md:mt-12">

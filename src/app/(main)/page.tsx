@@ -20,35 +20,35 @@ import PoweredByOSI from "./_components/PoweredByOSI";
 import FeaturedEvent from "./_components/FeaturedEvent";
 import NewsLetter from "@/Components/Common/NewsLetter";
 
-const Page = () => {
+import { getCMSHomepageData } from "@/Services/cms_service";
+
+const Page = async () => {
+  const cmsData = await getCMSHomepageData();
+
   return (
     <>
-      <Hero />
-      <Sponsors />
+      <Hero data={cmsData?.hero} />
+      <Sponsors data={cmsData?.partners} />
       <PoweredByOSI />
-      <WhyChoose />
-      <CoreValues />
+      <WhyChoose data={cmsData?.why_choose} />
+      <CoreValues data={cmsData?.core_values} />
       <PricingPlan />
       <PricingTable />
-      <WhatYouAreGetting />
-      <Features />
-      <BossBeginnings />
+      <WhatYouAreGetting data={cmsData?.what_you_get} />
+      <Features data={cmsData?.features} />
+      <BossBeginnings data={cmsData?.boss_beginnings} />
       <SuccessStories />
-      <ArtistSpotlightCard />
-      <CommunityAchievements />
-      <ArtistSpotlightCard />
-      <CommunityAchievements />
-      <EventBanner />
+      <ArtistSpotlightCard data={cmsData?.spotlight} />
+      <CommunityAchievements data={cmsData?.highlights} />
+      <EventBanner data={cmsData?.cta} />
       <Countdown />
       <FeaturedEvent />
       <UpcomingEvents />
       <PastEvents />
-      <CommunityAchievements />
-      <OSIApparel />
+      <OSIApparel data={cmsData?.shop} />
       <CommunityPartner />
       <NewsLetter
-        title="Stay inspired. Get the latest spotlights and events delivered to your inbox."
-        sub_title="Be the first to hear about new creators, rising businesses, upcoming events, and OSI announcements."
+        data={cmsData?.newsletter}
       />
     </>
   );

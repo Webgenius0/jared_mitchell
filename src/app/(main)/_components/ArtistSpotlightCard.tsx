@@ -3,22 +3,23 @@ import Image from "next/image";
 import { FaRegHeart } from "react-icons/fa6";
 import { FiBookmark } from "react-icons/fi";
 import { RxShare1 } from "react-icons/rx";
+import { CMSSpotlight } from "@/Types/cms";
 
-export default function ArtistSpotlightCard() {
+export default function ArtistSpotlightCard({ data }: { data?: CMSSpotlight }) {
   return (
     <div className="container">
       <h2 className="section_title 2xl:text-7xl 2xl:font-bold">
-        Featured Spotlight
+        {data?.title || "Featured Spotlight"}
       </h2>
 
       <p className="section_sub_title">
-        A story from our community making an impact.
+        {data?.sub_title || "A story from our community making an impact."}
       </p>
 
       <div className="overflow-hidden max-w-[1396px] w-full mx-auto rounded-2xl bg-[#F5F5F7] custom_shadow custom_border mt-7">
         <figure className="w-full h-[250px] md:h-[400px] xl:h-[600px] 2xl:h-[700px] overflow-hidden relative">
           <Image
-            src="/home/artist-spotlight-img.jpg"
+            src={data?.image || "/home/artist-spotlight-img.jpg"}
             fill
             alt="Artist painting"
             className="object-cover size-full"
@@ -31,15 +32,15 @@ export default function ArtistSpotlightCard() {
           </span>
 
           <h2 className="section_title !text-left mb-4 mt-1.5 md:mt-3 lg:mt-6 2xl:font-semibold 2xl:text-[56px]">
-            How Aaliyah Monet Uses Art to Heal and Inspire
+            {data?.description ? data.description.split('.')[0] : "How Aaliyah Monet Uses Art to Heal and Inspire"}
           </h2>
 
           <p className="lg:text-xl xl:text-2xl text-secondary-black">
-            Aaliyah Monet blends abstract artistry with personal storytelling to
+            {data?.description || `Aaliyah Monet blends abstract artistry with personal storytelling to
             amplify voices often unheard. Her journey is a powerful reminder how
             creativity can heal and unite a community. Through vibrant murals
             and intimate portraits, she creates spaces for connection and
-            healing.
+            healing.`}
           </p>
 
           <div className="md:mt-3 xl:mt-8 mb-6 py-5 border-b border-gray-200 flex items-center justify-between">
