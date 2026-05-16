@@ -9,6 +9,7 @@ export interface RegisterProps extends LoginProps {
   name: string;
   password_confirmation: string;
   role: string;
+  artist_category_id?: string;
 }
 
 export type Card = {
@@ -20,7 +21,9 @@ export type Card = {
 export type LogoSliderProps = {
   logos: {
     id: number;
-    icon: () => React.ReactNode;
+    icon?: () => React.ReactNode;
+    image?: string;
+    link?: string;
   }[];
   reverse?: boolean;
 };

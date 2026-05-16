@@ -6,8 +6,9 @@ import {
   WThreeSvg,
   WTwoSvg,
 } from "@/Components/Svg/SvgContainer";
+import { CMSAboutWhatWeDo } from "@/Types/cms";
 
-const data = [
+const defaultData = [
   {
     id: 1,
     icon: <WOneSvg />,
@@ -49,16 +50,23 @@ const data = [
   },
 ];
 
-const WhatWeDo = () => {
+const WhatWeDo = ({ data: cmsData }: { data?: CMSAboutWhatWeDo }) => {
+  const items = cmsData?.metadata?.map((m, i) => ({
+    id: i + 1,
+    icon: m.icon ? <i className={`${m.icon} text-3xl text-primary-blue`} /> : defaultData[i % defaultData.length].icon,
+    title: m.title,
+    description: m.description
+  })) || defaultData;
+
   return (
     <section className="container md:py-10 xl:py-20">
       <h2 className="text-primary-black text-3xl md:text-4xl xl:text-5xl font-bold leading-[140%] text-center mb-7 xl:mb-12">
-        Mission & Purpose
+        {cmsData?.title || "What We Do"}
       </h2>
 
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">
-        {data?.map(item => (
-          <div className="border border-[#00000013] rounded-xl px-5 py-10 shadow-[0_4px_20px_0_rgba(0,0,0,0.07)] flex flex-col gap-4 justify-between">
+        {items?.map(item => (
+          <div key={item.id} className="border border-[#00000013] rounded-xl px-5 py-10 shadow-[0_4px_20px_0_rgba(0,0,0,0.07)] flex flex-col gap-4 justify-between">
             <div className="space-y-4">
               <span className="size-16 grid place-items-center rounded-xl border border-[#00000013]">
                 {item?.icon}

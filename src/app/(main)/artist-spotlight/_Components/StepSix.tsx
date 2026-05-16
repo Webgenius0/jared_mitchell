@@ -151,9 +151,9 @@ const StepSix = () => {
 
             <input
               type="text"
-              id="pronounce"
+              id="preferred_pronouns"
               className={`step_input border-[#D1D5DC]`}
-              {...register("pronounce")}
+              {...register("preferred_pronouns")}
             />
           </div>
 

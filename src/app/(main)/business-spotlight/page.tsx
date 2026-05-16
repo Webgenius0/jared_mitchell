@@ -55,59 +55,32 @@ const Page = () => {
     } else {
       const formData = new FormData();
 
-      // String
-      formData.append("business_name", data?.business_name);
-      formData.append("owner_founder_name", data?.owner_founder_name);
-      formData.append("business_category", data?.business_category);
-      formData.append("year_founded", data?.year_founded);
-      formData.append("business_website", data?.business_website);
-      formData.append("city", data?.city);
-      formData.append("state", data?.state);
-      formData.append("business_story", data?.business_story);
-      formData.append("products_services", data?.products_services);
-      formData.append("challenges_overcome", data?.challenges_overcome);
-      formData.append("unique_factor", data?.unique_factor);
-      formData.append("target_customer", data?.target_customer);
-      formData.append("email", data?.email);
-      formData.append("phone_number", data?.phone_number);
-      formData.append("best_contact_time", data?.best_contact_time);
-      formData.append("instagram_url", data?.instagram_url);
-      formData.append("tiktok_url", data?.tiktok_url);
-      formData.append("facebook_url", data?.facebook_url);
-      formData.append("youtube_url", data?.youtube_url);
-      formData.append(
-        "google_business_profile_url",
-        data?.google_business_profile_url,
-      );
-      formData.append("linkedin_url", data?.linkedin_url);
-      formData.append("service_type", data?.service_type);
-      formData.append("why_featured", data?.why_featured);
-      formData.append("growth_vision", data?.growth_vision);
+      Object.keys(data).forEach(key => {
+        const value = data[key];
 
-      // File
-      formData.append("team_photo", data?.team_photo?.[0]);
-      formData.append("portrait_photo", data?.portrait_photo?.[0]);
-      formData.append(
-        "storefront_workspace_photo",
-        data?.storefront_workspace_photo?.[0],
-      );
-      Array.from(data.product_service_photos).forEach((file: any) => {
-        formData.append("product_service_photos[]", file);
+        if (value === undefined || value === null) return;
+
+        // Handle Files
+        if (value instanceof FileList || (Array.isArray(value) && value[0] instanceof File)) {
+          if (key === "product_service_photos") {
+            Array.from(value as FileList).forEach(file => {
+              formData.append("product_service_photos[]", file);
+            });
+          } else {
+            formData.append(key, value[0]);
+          }
+          return;
+        }
+
+        // Handle Booleans (Permissions)
+        if (key.startsWith("permission_")) {
+          formData.append(key, value ? "1" : "0");
+          return;
+        }
+
+        // Handle Everything else
+        formData.append(key, value);
       });
-
-      // Boolean
-      formData.append(
-        "permission_feature_on_osi",
-        data?.permission_feature_on_osi ? "1" : "0",
-      );
-      formData.append(
-        "permission_use_submitted_photos",
-        data?.permission_use_submitted_photos ? "1" : "0",
-      );
-      formData.append(
-        "permission_share_business_story",
-        data?.permission_share_business_story ? "1" : "0",
-      );
 
       await businessSpotlightMutation(formData, {
         onSuccess: (res: any) => {

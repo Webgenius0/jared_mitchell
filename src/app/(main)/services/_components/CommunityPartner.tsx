@@ -4,8 +4,15 @@ import SponsorSlider from "@/Components/Common/SponsorSlider";
 import { sponsorsData } from "@/Components/Data/data";
 import { HandShakeSvg } from "@/Components/Svg/SvgContainer";
 import { BsArrowRight } from "react-icons/bs";
+import { CMSServicesPartners } from "@/Types/cms";
 
-const CommunityPartner = () => {
+const CommunityPartner = ({ data }: { data?: CMSServicesPartners }) => {
+  const logos = data?.metadata?.map((m, i) => ({
+    id: i + 1,
+    image: m.image,
+    link: m.link
+  })) || sponsorsData;
+
   return (
     <section className="section">
       <div className="container">
@@ -15,18 +22,18 @@ const CommunityPartner = () => {
             Community Partners
           </div>
           <h2 className="section_title 2xl:text-7xl 2xl:font-bold">
-            Our Members Grow With the Support of Our Partners and Sponsors
+            {data?.title || "Our Members Grow With the Support of Our Partners and Sponsors"}
           </h2>
           <p className="section_sub_title">
-            We collaborate with a growing network of small businesses, community
+            {data?.description || `We collaborate with a growing network of small businesses, community
             leaders, creative professionals, and brands committed to uplifting
-            culture, entrepreneurship, and artistic expression.
+            culture, entrepreneurship, and artistic expression.`}
           </p>
         </div>
       </div>
       <div className="flex flex-col gap-y-2 mt-6 md:mt-10">
-        <SponsorSlider logos={sponsorsData} />
-        <SponsorSlider logos={sponsorsData} reverse={true} />
+        <SponsorSlider logos={logos} />
+        <SponsorSlider logos={logos} reverse={true} />
       </div>
       <div className="text-center mt-8 space-x-4">
         <Button>

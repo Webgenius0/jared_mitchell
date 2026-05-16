@@ -1,6 +1,7 @@
 import { VisibilitySvg } from "@/Components/Svg/SvgContainer";
+import { CMSAboutOurImpact } from "@/Types/cms";
 
-const data = [
+const defaultData = [
   "Visibility",
   "Encouragement",
   "Motivation",
@@ -12,55 +13,38 @@ const data = [
   "Sense of belonging",
 ];
 
-const OurImpact = () => {
+const OurImpact = ({ data: cmsData }: { data?: CMSAboutOurImpact }) => {
+  const items = cmsData?.metadata || defaultData;
+  const chunkedItems = [];
+  for (let i = 0; i < items.length; i += Math.ceil(items.length / 3)) {
+    chunkedItems.push(items.slice(i, i + Math.ceil(items.length / 3)));
+  }
+
   return (
     <section className="py-10 xl:py-20 container">
       <div className="max-w-[1200px] mx-auto">
         <h2 className="text-primary-black text-3xl md:text-4xl xl:text-5xl font-bold leading-[140%] text-center mb-3">
-          Our Impact
+          {cmsData?.title || "Our Impact"}
         </h2>
 
         <p className="text-[#1D1D1F] text-center text-lg md:text-xl leading-[150%] max-w-[900px] mx-auto mb-7 xl:mb-12">
-          Every story shared, every business spotlighted, and every celebration
-          hosted contributes to a stronger, more connected community.
+          {cmsData?.sub_title || "Every story shared, every business spotlighted, and every celebration hosted contributes to a stronger, more connected community."}
         </p>
 
-        <div className="flex flex-col gap-5 md:gap-0 justify-between md:items-center">
-          <div className="space-y-4 md:space-y-5">
-            {data?.slice(0, 3)?.map((item, idx) => (
-              <div
-                key={idx}
-                className="flex items-center gap-2.5 text-[#364153] md:text-lg xl:text-xl"
-              >
-                <VisibilitySvg />
-                <span>{item}</span>
-              </div>
-            ))}
-          </div>
-
-          <div className="space-y-4 md:space-y-5">
-            {data?.slice(3, 6)?.map((item, idx) => (
-              <div
-                key={idx}
-                className="flex items-center gap-2.5 text-[#364153] md:text-lg xl:text-xl"
-              >
-                <VisibilitySvg />
-                <span>{item}</span>
-              </div>
-            ))}
-          </div>
-
-          <div className="space-y-4 md:space-y-5">
-            {data?.slice(6, 9)?.map((item, idx) => (
-              <div
-                key={idx}
-                className="flex items-center gap-2.5 text-[#364153] md:text-lg xl:text-xl"
-              >
-                <VisibilitySvg />
-                <span>{item}</span>
-              </div>
-            ))}
-          </div>
+        <div className="grid md:grid-cols-3 gap-5 md:gap-0 justify-between md:items-center">
+          {chunkedItems.map((chunk, chunkIdx) => (
+            <div key={chunkIdx} className="space-y-4 md:space-y-5">
+              {chunk.map((item, idx) => (
+                <div
+                  key={idx}
+                  className="flex items-center gap-2.5 text-[#364153] md:text-lg xl:text-xl"
+                >
+                  <VisibilitySvg />
+                  <span>{item}</span>
+                </div>
+              ))}
+            </div>
+          ))}
         </div>
       </div>
     </section>

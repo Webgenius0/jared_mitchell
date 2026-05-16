@@ -92,6 +92,23 @@ const StepTwo = () => {
           {errors.artist_category_id.message as string}
         </p>
       )}
+
+      {/* Category Other Description */}
+      <div className="mt-10">
+        <label htmlFor="category_other_description" className="artist_label mb-2.5">
+          <SelectSvg />
+          <span>
+            Other Category Description <span className="text-sm !text-gray-300">(Optional)</span>
+          </span>
+        </label>
+        <textarea
+          id="category_other_description"
+          rows={3}
+          className="step_input !rounded-xl border-[#D1D5DC]"
+          placeholder="If you selected 'Other' or want to provide more detail about your category..."
+          {...register("category_other_description")}
+        ></textarea>
+      </div>
     </div>
   );
 };
