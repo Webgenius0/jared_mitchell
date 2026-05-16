@@ -30,23 +30,23 @@ export const sponsorsData = [
     icon: WooCommerce,
   },
   {
-    id: 1,
+    id: 2,
     icon: AmazonSvg,
   },
   {
-    id: 1,
+    id: 3,
     icon: WooCommerce,
   },
   {
-    id: 1,
+    id: 4,
     icon: AmazonSvg,
   },
   {
-    id: 1,
+    id: 5,
     icon: WooCommerce,
   },
   {
-    id: 1,
+    id: 6,
     icon: AmazonSvg,
   },
 ];

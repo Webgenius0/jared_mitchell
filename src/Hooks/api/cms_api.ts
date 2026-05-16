@@ -49,3 +49,23 @@ export const getArtistCategories = () => {
     endpoint: "/v1/artist-categories",
   });
 };
+
+// Get Business Spotlights
+export const getBusinessSpotlights = (params?: any) => {
+  return useClientApi({
+    method: "get",
+    key: ["business-spotlights", params],
+    endpoint: "/v1/business-spotlight",
+    params,
+  });
+};
+
+// Get Artist Spotlights
+export const getArtistSpotlights = (params?: any) => {
+  return useClientApi({
+    method: "get",
+    key: ["artist-spotlights", params],
+    endpoint: "/v1/artist-spotlight",
+    params,
+  });
+};

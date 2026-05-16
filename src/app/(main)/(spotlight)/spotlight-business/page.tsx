@@ -9,23 +9,33 @@ import BecomeAPart from "../_components/BecomeAPart";
 import CreativeJourney from "../_components/CreativeJourney";
 import SpotlightLadder from "../_components/SpotlightLadder";
 import BusinessSpotlightBanner from "../_components/BusinessSpotlightBanner";
+import { getCMSBusinessSpotlightData } from "@/lib/Services/cms_service";
 
-const page = () => {
+const page = async () => {
+  const cmsData = await getCMSBusinessSpotlightData();
+
   return (
     <>
-      <BusinessSpotlightBanner />
-      <SpotlightHero />
-      <DiscoverArtists />
-      <CommunityAchievements />
-      <EditorsPicks />
-      <SpotlightLadder
-        title="OSI Spotlight Ladder"
-        subTitle="Community-driven weekly recognition"
-        buttonHref="/spotlight-business/spotlight-ladder"
+      <BusinessSpotlightBanner data={cmsData?.business_spotlight_hero} />
+      <SpotlightHero data={cmsData?.business_spotlight_video} />
+      <DiscoverArtists 
+        type="business" 
+        data={cmsData?.business_spotlight_list} 
       />
-      <BecomeAPart />
-      <CreativeJourney />
-      <WhatExist />
+      <CommunityAchievements data={cmsData?.business_spotlight_highlights} />
+      <EditorsPicks 
+        type="business" 
+        data={cmsData?.business_spotlight_picks} 
+      />
+      <SpotlightLadder
+        title={cmsData?.business_spotlight_ladder?.title || "OSI Spotlight Ladder"}
+        subTitle={cmsData?.business_spotlight_ladder?.sub_title || "Community-driven weekly recognition"}
+        buttonHref="/spotlight-business/spotlight-ladder"
+        data={cmsData?.business_spotlight_ladder}
+      />
+      <BecomeAPart data={cmsData?.business_spotlight_join} />
+      <CreativeJourney data={cmsData?.business_spotlight_interview} />
+      <WhatExist data={cmsData?.business_spotlight_why_exists} />
       <EventSponsors />
       <NewsLetter title="Stay connected with new spotlights, events, and creative tools." />
     </>

@@ -7,7 +7,9 @@ import {
   OTwoSvg,
 } from "@/Components/Svg/SvgContainer";
 import Image from "next/image";
-const data = [
+import { CMSCoreValue } from "@/Types/cms";
+
+const defaultData = [
   {
     id: 1,
     icon: OOneSvg,
@@ -58,43 +60,55 @@ const data = [
   },
 ];
 
-const CoreValues = () => {
+const CoreValues = ({ data: cmsData }: { data?: CMSCoreValue }) => {
+  const values = cmsData?.metadata?.map((m, i) => ({
+    id: i + 1,
+    icon: m.icon,
+    title: m.title,
+    sub_title: m.sub_title,
+    description: m.description,
+  })) || defaultData;
+
   return (
     <section className="bg-[#FAFAFA] section">
       <div className="container">
-        <h2 className="section_title !mb-5 md:!mb-8 lg:!mb-12">Our Core Values</h2>
+        <h2 className="section_title !mb-5 md:!mb-8 lg:!mb-12">{cmsData?.title || "Our Core Values"}</h2>
 
-        <div className="w-full h-[680px] overflow-hidden hidden md:flex items-center justify-center rounded-2xl relative">
+        <div className="w-full h-auto min-h-[680px] overflow-hidden hidden md:flex items-center justify-center rounded-2xl relative">
           <Image
-            src={coreValueBg}
+            src={cmsData?.bg || coreValueBg}
             fill
             alt="home banner"
             className="object-cover w-full rounded-2xl"
           />
 
-          <div className="w-full h-full absolute top-0 bg-[linear-gradient(0deg,rgba(255,255,255,0.40),rgba(255,255,255,0.40)),url('/path-to-image')] rounded-2xl">
+          <div className="w-full h-full absolute top-0 bg-[linear-gradient(0deg,rgba(255,255,255,0.40),rgba(255,255,255,0.40))] rounded-2xl">
             <div className="grid grid-cols-3 gap-3 lg:gap-5 2xl:gap-10 p-5 lg:p-8 2xl:p-12">
-              {data?.map(data => (
+              {values?.map(val => (
                 <div
-                  key={data.id}
+                  key={val.id}
                   className="rounded-2xl border space-y-4 border-[rgba(0,0,0,0.16)] bg-white shadow-[0_4px_20px_0_rgba(0,0,0,0.07)] p-3 lg:py-4 2xl:py-6 lg:px-6 2xl:px-8"
                 >
                   <div className="flex gap-3 items-center">
                     <p className="size-10 xl:size-13 rounded-full border border-[#D6E5F5] shadow-[0_4px_20px_0_rgba(0,0,0,0.07)] bg-[#D6E5F5] grid place-items-center shrink-0">
-                      <data.icon />
+                      {typeof val.icon === 'string' ? (
+                        <i className={`${val.icon} text-xl xl:text-2xl text-primary-blue`} />
+                      ) : (
+                        <val.icon />
+                      )}
                     </p>
 
                     <h3 className="lg:text-lg xl:text-xl 2xl:text-2xl text-primary-black font-semibold">
-                      {data?.title}
+                      {val?.title}
                     </h3>
                   </div>
 
                   <h4 className="lg:text-lg xl:text-xl font-medium text-primary-black">
-                    {data?.sub_title}
+                    {val?.sub_title}
                   </h4>
 
                   <p className="xl:text-lg text-secondary-black">
-                    {data?.description}
+                    {val?.description}
                   </p>
                 </div>
               ))}
@@ -103,27 +117,31 @@ const CoreValues = () => {
         </div>
 
         <div className="space-y-3 md:hidden">
-          {data?.map(data => (
+          {values?.map(val => (
             <div
-              key={data.id}
+              key={val.id}
               className="rounded-2xl border space-y-4 border-[rgba(0,0,0,0.16)] bg-white shadow-[0_4px_20px_0_rgba(0,0,0,0.07)] p-3 lg:py-4 2xl:py-6 lg:px-6 2xl:px-8"
             >
               <div className="flex gap-3 items-center">
                 <p className="size-10 xl:size-13 rounded-full border border-[#D6E5F5] shadow-[0_4px_20px_0_rgba(0,0,0,0.07)] bg-[#D6E5F5] grid place-items-center shrink-0">
-                  <data.icon />
+                  {typeof val.icon === 'string' ? (
+                    <i className={`${val.icon} text-xl xl:text-2xl text-primary-blue`} />
+                  ) : (
+                    <val.icon />
+                  )}
                 </p>
 
                 <h3 className="lg:text-lg xl:text-xl 2xl:text-2xl text-primary-black font-semibold">
-                  {data?.title}
+                  {val?.title}
                 </h3>
               </div>
 
               <h4 className="lg:text-lg xl:text-xl font-medium text-primary-black">
-                {data?.sub_title}
+                {val?.sub_title}
               </h4>
 
               <p className="xl:text-lg text-secondary-black">
-                {data?.description}
+                {val?.description}
               </p>
             </div>
           ))}

@@ -1,17 +1,19 @@
-const WhatExist = () => {
+import { CMSAboutWhyExists } from "@/Types/cms";
+
+const WhatExist = ({ data }: { data?: CMSAboutWhyExists }) => {
   return (
     <section className="py-12 md:py-20 bg-primary-blue text-center">
       <div className="container">
         <h2 className="text-white text-3xl md:text-4xl xl:text-5xl font-bold leading-[140%] mb-5">
-          Why OSI Exists
+          {data?.title || "Why OSI Exists"}
         </h2>
 
         <p className="text-lg md:text-xl xl:text-2xl text-white leading-[150%] max-w-[1200px] mx-auto">
-          Because visibility matters. Because support changes lives. Because
+          {data?.description || `Because visibility matters. Because support changes lives. Because
           community creates opportunity. OSI exists to break the cycle of being
           overlooked — and to replace it with recognition, collaboration, and
           growth. We believe that when one person rises, the entire community
-          rises with them.
+          rises with them.`}
         </p>
       </div>
     </section>

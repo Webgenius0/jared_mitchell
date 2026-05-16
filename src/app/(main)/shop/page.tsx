@@ -9,8 +9,11 @@ import OurSponsors from "./_components/OurSponsors";
 import FAQAccordion from "../services/_components/FAQAccordion";
 import VendorWithOSI from "./_components/VendorWithOSI";
 import ShopBanner from "./_components/ShopBanner";
+import { getCMSFAQs } from "@/lib/Services/cms_service";
 
-const page = () => {
+const page = async () => {
+  const faqData = await getCMSFAQs();
+
   return (
     <>
       <ShopBanner />
@@ -21,7 +24,7 @@ const page = () => {
       <VendorWithOSI />
       <LimitedDrops />
       <TrustFeatures />
-      <FAQAccordion />
+      <FAQAccordion data={faqData} />
       <OurSponsors />
       <NewsLetter title="Be part of the movement. Get stories, updates, and opportunities straight to your inbox." />
     </>

@@ -5,8 +5,9 @@ import {
   GrowthSvg,
   PeopleSvg,
 } from "@/Components/Svg/SvgContainer";
+import { CMSWhatYouGet } from "@/Types/cms";
 
-const data = [
+const defaultData = [
   {
     id: 1,
     icon: AnnouncementSvg,
@@ -29,32 +30,42 @@ const data = [
   },
 ];
 
-const WhatYouAreGetting = () => {
+const WhatYouAreGetting = ({ data: cmsData }: { data?: CMSWhatYouGet }) => {
+  const items = cmsData?.metadata?.map((m, i) => ({
+    id: i + 1,
+    icon: m.icon,
+    title: m.title
+  })) || defaultData;
+
   return (
     <section className="section">
       <div className="container">
         <h2 className="section_title md:font-bold 2xl:text-7xl">
-          What You're Really Getting
+          {cmsData?.title || "What You're Really Getting"}
         </h2>
 
         <p className="text-lg md:text-xl lg:text-2xl text-center text-secondary-black mt-2 md:mt-4">
-          You're not buying a membership — you're buying:
+          {cmsData?.sub_title || "You're not buying a membership — you're buying:"}
         </p>
 
         <div className="grid md:grid-cols-2 xl:grid-cols-4 gap-4 xl:gap-6 mt-7 md:mt-11">
-          {data?.map(data => (
+          {items?.map(item => (
             <div
-              key={data.id}
+              key={item.id}
               className="rounded-xl w-full py-10 2xl:py-20 px-5 2xl:px-7 flex items-center flex-col border space-y-4 border-[rgba(0,0,0,0.16)] shadow"
             >
               <div className="flex items-center justify-center aspect-square bg-[rgba(25,119,221,0.16)] size-14 md:size-[100px] rounded-full">
                 <div className="md:scale-[130%] 2xl:scale-[160%]">
-                  <data.icon />
+                  {typeof item.icon === 'string' ? (
+                    <i className={`${item.icon} text-4xl text-primary-blue`} />
+                  ) : (
+                    <item.icon />
+                  )}
                 </div>
               </div>
 
               <h4 className="text-lg md:text-xl 2xl:text-[22px] text-center self-stretch font-semibold text-primary-black">
-                {data.title}
+                {item.title}
               </h4>
             </div>
           ))}

@@ -7,8 +7,11 @@ import FAQAccordion from "../services/_components/FAQAccordion";
 import EventSponsors from "../services/_components/EventSponsors";
 import NewsLetter from "@/Components/Common/NewsLetter";
 import SponsorshipBanner from "./_components/SponsorshipBanner";
+import { getCMSFAQs } from "@/lib/Services/cms_service";
 
-const page = () => {
+const page = async () => {
+  const faqData = await getCMSFAQs();
+
   return (
     <>
       <SponsorshipBanner />
@@ -24,7 +27,7 @@ const page = () => {
       <HowSponsorshipWorks />
       <SponsorshipLevel />
       <BecomeSponsor />
-      <FAQAccordion />
+      <FAQAccordion data={faqData} />
       <EventSponsors />
       <NewsLetter title="Be part of the movement. Get stories, updates, and opportunities straight to your inbox." />
     </>

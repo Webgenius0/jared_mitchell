@@ -8,14 +8,17 @@ import PasswordInput from "@/Components/Common/PasswordInput";
 import { RegisterProps } from "@/Types/type";
 import { useRouter } from "next/navigation";
 import { TbLoader2 } from "react-icons/tb";
+import { getArtistCategories } from "@/Hooks/api/cms_api";
 
 const Register = () => {
   const router = useRouter();
   const { mutateAsync: registrationMutation, isPending } = useRegister();
+  const { data: categories, isLoading: categoriesLoading } = getArtistCategories();
 
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors },
   } = useForm<RegisterProps>();
 
@@ -141,6 +144,37 @@ const Register = () => {
                 )}
               </div>
             </div>
+
+            {/* Artist Category (only for artisans) */}
+            {watch("role") === "5" && (
+              <div>
+                <h3 className="label">Artist Category*</h3>
+                <div>
+                  <p className="border border-[#00000029] bg-[#f5f5f7] pe-3 rounded-xl xl:rounded-2xl">
+                    <select
+                      {...register("artist_category_id", {
+                        required: watch("role") === "5",
+                      })}
+                      className="w-full h-full border-none outline-none capitalize py-2.5 xl:py-5 px-3 xl:px-6"
+                    >
+                      <option value="">Choose your category</option>
+                      {categoriesLoading ? (
+                        <option disabled>Loading categories...</option>
+                      ) : (
+                        categories?.data?.map((cat: any) => (
+                          <option key={cat.id} value={cat.id}>
+                            {cat.name}
+                          </option>
+                        ))
+                      )}
+                    </select>
+                  </p>
+                  {errors?.artist_category_id && (
+                    <p className="text-red-600">Category is required</p>
+                  )}
+                </div>
+              </div>
+            )}
           </div>
 
           <div className="mt-1 text-primary-black text-sm md:text-base">
