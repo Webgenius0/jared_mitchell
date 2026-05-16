@@ -35,7 +35,7 @@ const Page = async () => {
       <PricingPlan />
       <PricingTable />
       <WhatYouAreGetting data={cmsData?.what_you_get} />
-      <Features data={cmsData?.features} />
+      {/* <Features data={cmsData?.features} /> */}
       <BossBeginnings data={cmsData?.boss_beginnings} />
       <SuccessStories />
       <ArtistSpotlightCard data={cmsData?.spotlight} />
@@ -46,7 +46,7 @@ const Page = async () => {
       <UpcomingEvents />
       <PastEvents />
       <OSIApparel data={cmsData?.shop} />
-      <CommunityPartner />
+      {/* <CommunityPartner /> */}
       <NewsLetter
         data={cmsData?.newsletter}
       />

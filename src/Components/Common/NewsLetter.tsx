@@ -9,7 +9,7 @@ type NewsletterProps = {
 
 const NewsLetter = ({ title, sub_title, data }: NewsletterProps) => {
   return (
-    <section className="bg-[#F5F5F7] section">
+    <section className="bg-[#F5F5F7] section mt-14">
       <div className="container space-y-8">
         <h2 className="section_title font-bold leading-[130%] max-w-[1200px] mx-auto">
           {data?.title || title}
