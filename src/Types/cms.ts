@@ -73,3 +73,68 @@ export interface CMSHomepage {
   cta: CMSCTA;
   newsletter: CMSNewsletter;
 }
+
+export interface CMSAboutHero extends CMSBase {}
+export interface CMSAboutSociety extends CMSBase {}
+export interface CMSAboutOrigin extends CMSBase {}
+export interface CMSAboutMission extends CMSBase {
+  metadata: {
+    image: string;
+    title: string;
+    description: string;
+  }[];
+}
+export interface CMSAboutWhatWeDo extends CMSBase {
+  metadata: {
+    title: string;
+    description: string;
+    icon: string;
+    image: string;
+  }[];
+}
+export interface CMSAboutHowItWorks extends CMSBase {
+  metadata: {
+    title: string;
+    description: string;
+    icon: string;
+    image: string;
+  }[];
+}
+export interface CMSAboutWhoWeServe extends CMSBase {}
+export interface CMSAboutWhyExists extends CMSBase {}
+export interface CMSAboutOurImpact extends CMSBase {
+  metadata: string[];
+}
+export interface CMSAboutFounderMessage extends CMSBase {
+  metadata: {
+    name: string;
+    designation: string;
+    message: string;
+    sub_label: string;
+    image: string;
+  }[];
+}
+export interface CMSAboutJoin extends CMSBase {}
+export interface CMSAboutNewsletter extends CMSBase {}
+export interface CMSAboutSponsors extends CMSBase {
+  metadata: {
+    image: string;
+    link: string;
+  }[];
+}
+
+export interface CMSAbout {
+  about_hero: CMSAboutHero;
+  about_society: CMSAboutSociety;
+  about_origin: CMSAboutOrigin;
+  about_mission: CMSAboutMission;
+  about_what_we_do: CMSAboutWhatWeDo;
+  about_how_it_works: CMSAboutHowItWorks;
+  about_who_we_serve: CMSAboutWhoWeServe;
+  about_why_exists: CMSAboutWhyExists;
+  about_our_impact: CMSAboutOurImpact;
+  about_founder_message: CMSAboutFounderMessage;
+  about_join: CMSAboutJoin;
+  about_newsletter: CMSAboutNewsletter;
+  about_sponsors: CMSAboutSponsors;
+}

@@ -1,8 +1,10 @@
-const JoinMovement = () => {
+import { CMSAboutJoin } from "@/Types/cms";
+
+const JoinMovement = ({ data }: { data?: CMSAboutJoin }) => {
   return (
     <section className="pt-5 xl:pt-20 pb-10 container">
       <h2 className="section_title !mb-7 xl:!mb-10">
-        Join the Movement. Be Seen. Be Heard. Be Supported.
+        {data?.title || "Join the Movement. Be Seen. Be Heard. Be Supported."}
       </h2>
 
       <div className="flex justify-center items-center gap-4">
