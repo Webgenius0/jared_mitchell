@@ -11,8 +11,10 @@ import {
 
 const EditorsPicks = ({
   type = "artist",
+  data: cmsData
 }: {
   type?: "artist" | "business";
+  data?: any;
 }) => {
   const { data: artistData, isLoading: artistLoading } = getArtistSpotlights();
   const { data: businessData, isLoading: businessLoading } =
@@ -30,11 +32,10 @@ const EditorsPicks = ({
         <Container>
           <div className="">
             <h2 className="section_title 2xl:text-7xl 2xl:font-bold">
-              Editor&apos;s Picks
+              {cmsData?.title || "Editor's Picks"}
             </h2>
             <p className="section_sub_title">
-              Celebrating our community&apos;s achievements and creative
-              milestones
+              {cmsData?.sub_title || "Celebrating our community's achievements and creative milestones"}
             </p>
           </div>
 

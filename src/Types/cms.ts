@@ -197,3 +197,29 @@ export interface CMSArtistSpotlight {
   artist_spotlight_interview: CMSArtistSpotlightInterview;
   artist_spotlight_why_exists: CMSArtistSpotlightWhyExists;
 }
+
+export interface CMSBusinessSpotlightHero extends CMSBase {}
+export interface CMSBusinessSpotlightVideo extends CMSBase {}
+export interface CMSBusinessSpotlightList extends CMSBase {}
+export interface CMSBusinessSpotlightHighlights extends CMSBase {}
+export interface CMSBusinessSpotlightPicks extends CMSBase {}
+export interface CMSBusinessSpotlightLadder extends CMSBase {}
+export interface CMSBusinessSpotlightJoin extends CMSBase {}
+export interface CMSBusinessSpotlightInterview extends CMSBase {
+  metadata: {
+    card_title: string;
+  };
+}
+export interface CMSBusinessSpotlightWhyExists extends CMSBase {}
+
+export interface CMSBusinessSpotlight {
+  business_spotlight_hero: CMSBusinessSpotlightHero;
+  business_spotlight_video: CMSBusinessSpotlightVideo;
+  business_spotlight_list: CMSBusinessSpotlightList;
+  business_spotlight_highlights: CMSBusinessSpotlightHighlights;
+  business_spotlight_picks: CMSBusinessSpotlightPicks;
+  business_spotlight_ladder: CMSBusinessSpotlightLadder;
+  business_spotlight_join: CMSBusinessSpotlightJoin;
+  business_spotlight_interview: CMSBusinessSpotlightInterview;
+  business_spotlight_why_exists: CMSBusinessSpotlightWhyExists;
+}
