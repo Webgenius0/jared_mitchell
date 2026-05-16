@@ -1,42 +1,26 @@
 import { Button } from '@/Components/Common/Button'
 import Container from '@/Components/Common/Container'
 import CustomVideoPlayer from '@/Components/Common/CustomVideoPlayer'
-import { BookmarkSvg, LikeSvg, ShareSvg } from '@/Components/Svg/SvgContainer'
-import { BsArrowRight } from 'react-icons/bs'
+import { CMSArtistSpotlightVideo } from '@/Types/cms'
 
-const SpotlightHero = () => {
+const SpotlightHero = ({ data }: { data?: CMSArtistSpotlightVideo }) => {
   return (
     <section className='section'>
       <Container >
-        <div className='w-full h-[627px]'>
-          <CustomVideoPlayer videoSrc="/home/hero-video.mp4" className={"!rounded-[40px]"} />
+        <div className='w-full h-[300px] md:h-[500px] xl:h-[627px]'>
+          <CustomVideoPlayer 
+            videoSrc={data?.description || "/home/hero-video.mp4"} 
+            className={"!rounded-[20px] md:!rounded-[40px]"} 
+          />
         </div>
-        <h2 className='text-[40px] font-bold text-center mt-16'>Taste of Indy Street Kitchen: A Family Legacy of Flavor and Heart</h2>
-        {/* <div className='max-w-[1181px] custom_border mx-auto mt-16 mb-[54px] py-10 px-9 rounded-xl'>
-          <h3 className='text-3xl font-semibold mb-4'>Summary</h3>
-          <p className='text-2xl font-medium'>Aaliyah Monet blends abstract creativity with deeply personal storytelling to illuminate themes of identity, community, and healing. This feature explores the meaning behind her work, the evolution of her craft, and the message she hopes to share with the world.
+        <h2 className='text-2xl md:text-3xl xl:text-[40px] font-bold text-center mt-8 md:mt-16'>
+          {data?.title || "Taste of Indy Street Kitchen: A Family Legacy of Flavor and Heart"}
+        </h2>
+        {data?.sub_title && (
+          <p className="text-center text-lg md:text-xl text-secondary-black mt-4 max-w-[900px] mx-auto">
+            {data.sub_title}
           </p>
-          <div className='mt-8 px-6 py-4 flex justify-around items-start self-stretch rounded-[42px] custom_border'>
-            <div className='flex items-center gap-2.5'>
-              <LikeSvg size={38}/>
-              <p className='text-3xl font-medium text-[#939393]'>Like</p>
-            </div>
-            <div className='flex items-center gap-2.5'>
-              <BookmarkSvg size={38}/>
-              <p className='text-3xl font-medium text-[#939393]'>Save</p>
-            </div>
-            <div className='flex items-center gap-2.5'>
-              <ShareSvg size={38}/>
-              <p className='text-3xl font-medium text-[#939393]'>Share</p>
-            </div>
-          </div>
-        </div>
-          <div className='text-center'>
-            <Button>
-              View Full Spotlight
-              <BsArrowRight className='text-2xl'/>
-            </Button>
-          </div> */}
+        )}
       </Container>
     </section>
   )

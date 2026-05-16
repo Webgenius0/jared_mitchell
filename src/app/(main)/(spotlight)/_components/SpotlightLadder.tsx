@@ -7,10 +7,12 @@ const SpotlightLadder = ({
   title,
   subTitle,
   buttonHref,
+  data
 }: {
   title: string;
   subTitle: string;
   buttonHref: string;
+  data?: any;
 }) => {
   return (
     <section className="section bg-primary-gray">

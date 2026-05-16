@@ -8,7 +8,7 @@ import "swiper/css/pagination";
 import { LuArrowRight } from "react-icons/lu";
 import { CMSHighlight } from "@/Types/cms";
 
-const CommunityAchievements = ({ data }: { data?: CMSHighlight }) => {
+const CommunityAchievements = ({ data }: { data?: any }) => {
   return (
     <section className="section">
       <h2 className="section_title 2xl:text-6xl 2xl:font-semibold">

@@ -173,3 +173,27 @@ export interface CMSServices {
   services_newsletter: CMSServicesNewsletter;
   services_risk_free: CMSServicesRiskFree;
 }
+
+export interface CMSArtistSpotlightHero extends CMSBase {}
+export interface CMSArtistSpotlightVideo extends CMSBase {}
+export interface CMSArtistSpotlightList extends CMSBase {}
+export interface CMSArtistSpotlightHighlights extends CMSBase {}
+export interface CMSArtistSpotlightLadder extends CMSBase {}
+export interface CMSArtistSpotlightJoin extends CMSBase {}
+export interface CMSArtistSpotlightInterview extends CMSBase {
+  metadata: {
+    card_title: string;
+  };
+}
+export interface CMSArtistSpotlightWhyExists extends CMSBase {}
+
+export interface CMSArtistSpotlight {
+  artist_spotlight_hero: CMSArtistSpotlightHero;
+  artist_spotlight_video: CMSArtistSpotlightVideo;
+  artist_spotlight_list: CMSArtistSpotlightList;
+  artist_spotlight_highlights: CMSArtistSpotlightHighlights;
+  artist_spotlight_ladder: CMSArtistSpotlightLadder;
+  artist_spotlight_join: CMSArtistSpotlightJoin;
+  artist_spotlight_interview: CMSArtistSpotlightInterview;
+  artist_spotlight_why_exists: CMSArtistSpotlightWhyExists;
+}
