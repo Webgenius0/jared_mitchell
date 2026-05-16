@@ -2,6 +2,7 @@ import {
   CMSAbout,
   CMSArtistSpotlight,
   CMSBusinessSpotlight,
+  CMSFAQ,
   CMSHomepage,
   CMSServices,
   CMSSpotlightLadder,
@@ -90,6 +91,22 @@ export const getCMSBusinessSpotlightData = async (): Promise<CMSBusinessSpotligh
 export const getCMSSpotlightLadderData = async (): Promise<CMSSpotlightLadder> => {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_SITE_URL}/v1/cms/spotlight-ladder`,
+    {
+      next: { revalidate: 60 },
+    }
+  );
+
+  if (!res.ok) {
+    throw new Error("Failed to fetch CMS data");
+  }
+
+  const result = await res.json();
+  return result.data;
+};
+
+export const getCMSFAQs = async (): Promise<CMSFAQ[]> => {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_SITE_URL}/v1/cms/faq`,
     {
       next: { revalidate: 60 },
     }

@@ -8,11 +8,14 @@ import WhoOSIIsFor from "./_components/WhoOSIIsFor";
 import ServiceBanner from "./_components/ServiceBanner";
 import NewsLetter from "@/Components/Common/NewsLetter";
 import Link from "next/link";
-import { getCMSServicesData } from "@/lib/Services/cms_service";
+import { getCMSServicesData, getCMSFAQs } from "@/lib/Services/cms_service";
 import FAQAccordion from "./_components/FAQAccordion";
 
 const page = async () => {
-  const cmsData = await getCMSServicesData();
+  const [cmsData, faqData] = await Promise.all([
+    getCMSServicesData(),
+    getCMSFAQs(),
+  ]);
 
   return (
     <>
@@ -79,7 +82,7 @@ const page = async () => {
         </Link>
       </section>
 
-      <FAQAccordion />
+      <FAQAccordion data={faqData} />
 
       {/* Risk Free Guarantee / CTA Section */}
       {cmsData?.services_risk_free && (

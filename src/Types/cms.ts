@@ -229,3 +229,12 @@ export interface CMSSpotlightLadderHero extends CMSBase {}
 export interface CMSSpotlightLadder {
   spotlight_ladder_hero: CMSSpotlightLadderHero;
 }
+
+export interface CMSFAQ {
+  id: number;
+  question: string;
+  answer: string;
+  status: string;
+  created_at: string;
+  updated_at: string;
+}
