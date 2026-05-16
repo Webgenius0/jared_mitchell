@@ -138,3 +138,38 @@ export interface CMSAbout {
   about_newsletter: CMSAboutNewsletter;
   about_sponsors: CMSAboutSponsors;
 }
+
+export interface CMSServicesHero extends CMSBase {}
+export interface CMSServicesOverview extends CMSBase {}
+export interface CMSServicesGrow extends CMSBase {}
+export interface CMSServicesPartners extends CMSBase {
+  metadata: {
+    image: string;
+    link: string;
+  }[];
+}
+export interface CMSServicesWhoFor extends CMSBase {
+  metadata: {
+    title: string;
+    icon: string;
+    image: string;
+  }[];
+}
+export interface CMSServicesArtistSpotlight extends CMSBase {}
+export interface CMSServicesBusinessSpotlight extends CMSBase {}
+export interface CMSServicesNewsletter extends CMSBase {}
+export interface CMSServicesRiskFree extends CMSBase {
+  metadata: string[];
+}
+
+export interface CMSServices {
+  services_hero: CMSServicesHero;
+  services_overview: CMSServicesOverview;
+  services_grow: CMSServicesGrow;
+  services_partners: CMSServicesPartners;
+  services_who_for: CMSServicesWhoFor;
+  services_artist_spotlight: CMSServicesArtistSpotlight;
+  services_business_spotlight: CMSServicesBusinessSpotlight;
+  services_newsletter: CMSServicesNewsletter;
+  services_risk_free: CMSServicesRiskFree;
+}

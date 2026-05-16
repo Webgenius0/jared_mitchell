@@ -1,4 +1,4 @@
-import { CMSAbout, CMSHomepage } from "@/Types/cms";
+import { CMSAbout, CMSHomepage, CMSServices } from "@/Types/cms";
 
 export const getCMSHomepageData = async (): Promise<CMSHomepage> => {
   const res = await fetch(
@@ -19,6 +19,22 @@ export const getCMSHomepageData = async (): Promise<CMSHomepage> => {
 export const getCMSAboutData = async (): Promise<CMSAbout> => {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_SITE_URL}/v1/cms/about`,
+    {
+      next: { revalidate: 60 },
+    }
+  );
+
+  if (!res.ok) {
+    throw new Error("Failed to fetch CMS data");
+  }
+
+  const result = await res.json();
+  return result.data;
+};
+
+export const getCMSServicesData = async (): Promise<CMSServices> => {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_SITE_URL}/v1/cms/services`,
     {
       next: { revalidate: 60 },
     }
