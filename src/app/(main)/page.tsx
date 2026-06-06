@@ -24,7 +24,7 @@ import { getCMSHomepageData } from "@/lib/Services/cms_service";
 
 const Page = async () => {
   const cmsData = await getCMSHomepageData();
-
+  
   return (
     <>
       <Hero data={cmsData?.hero} />
