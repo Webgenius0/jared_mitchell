@@ -1,8 +1,52 @@
+"use client";
+
 import { Button } from "@/Components/Common/Button";
 import Container from "@/Components/Common/Container";
+import useAxiosPublic from "@/Hooks/useAxiosPublic";
+import { FormEvent, useState } from "react";
+import toast from "react-hot-toast";
 import { LuSend, LuUpload } from "react-icons/lu";
 
 const GetInTouch = () => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [fileName, setFileName] = useState<string | null>(null);
+  const axiosPublic = useAxiosPublic();
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const form = e.target as HTMLFormElement;
+    const formData = new FormData(form);
+
+    // Filter out empty file inputs if no file was selected
+    const file = formData.get("file") as File;
+    if (file && file.size === 0) {
+      formData.delete("file");
+    }
+
+    setIsLoading(true);
+    try {
+      const res = await axiosPublic.post("/v1/contact", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      if (res.data.success) {
+        toast.success(res.data.message || "Your message has been sent successfully.");
+        form.reset();
+        setFileName(null);
+      } else {
+        toast.error("Something went wrong. Please try again.");
+      }
+    } catch (error: any) {
+      toast.error(
+        error?.response?.data?.message || "Failed to send message. Please try again later."
+      );
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <section className="section">
       <Container>
@@ -12,13 +56,15 @@ const GetInTouch = () => {
           media inquiries, technical assistance, or billing concerns — use the
           form below. Our team typically responds within 24–48 hours.
         </p>
-        <form className="mt-[120px]">
+        <form onSubmit={handleSubmit} className="mt-[120px]">
           <div className="space-y-8">
             <div className="flex items-center gap-6">
               <div className="space-y-[18px] w-full">
                 <div className="text-primary-black text-2xl">First Name*</div>
                 <input
                   type="text"
+                  name="first_name"
+                  required
                   placeholder="John"
                   className="px-6 py-5 rounded-full bg-[#F5F5F7] border border-[#00000029] text-xl text-[#99A1AF] w-full"
                 />
@@ -27,6 +73,8 @@ const GetInTouch = () => {
                 <div className="text-primary-black text-2xl">Last Name *</div>
                 <input
                   type="text"
+                  name="last_name"
+                  required
                   placeholder="Doe"
                   className="px-6 py-5 rounded-full bg-[#F5F5F7] border border-[#00000029] text-xl text-[#99A1AF] w-full"
                 />
@@ -35,22 +83,35 @@ const GetInTouch = () => {
             <div className="space-y-[18px]">
               <div className="text-primary-black text-2xl">Email Address *</div>
               <input
-                type="text"
+                type="email"
+                name="email"
+                required
                 placeholder="Type your email..."
                 className="px-6 py-5 rounded-full bg-[#F5F5F7] border border-[#00000029] text-xl text-[#99A1AF] w-full"
               />
             </div>
             <div className="space-y-[18px]">
               <div className="text-primary-black text-2xl">Subject *</div>
-              <select className="px-6 py-5 rounded-full bg-[#F5F5F7] border border-[#00000029] text-xl text-[#99A1AF] w-full">
-                <option disabled>Select a subject</option>
-                <option value="">123454WSEDFG</option>
-                <option value="">123454WSEDFG</option>
+              <select
+                name="subject"
+                required
+                defaultValue=""
+                className="px-6 py-5 rounded-full bg-[#F5F5F7] border border-[#00000029] text-xl text-[#99A1AF] w-full"
+              >
+                <option disabled value="">Select a subject</option>
+                <option value="General Inquiry">General Inquiry</option>
+                <option value="Event Information">Event Information</option>
+                <option value="Partnerships">Partnerships</option>
+                <option value="Media Inquiries">Media Inquiries</option>
+                <option value="Technical Assistance">Technical Assistance</option>
+                <option value="Billing Concerns">Billing Concerns</option>
               </select>
             </div>
             <div className="space-y-[18px]">
               <div className="text-primary-black text-2xl">Message *</div>
               <textarea
+                name="message"
+                required
                 rows={5}
                 placeholder="Tell us how we can help..."
                 className="px-6 py-4 rounded-lg bg-[#F5F5F7] border border-[#00000029] text-xl text-[#99A1AF] w-full"
@@ -60,17 +121,35 @@ const GetInTouch = () => {
               <div className="text-primary-black text-2xl">
                 Optional Upload (Screenshots or Files)
               </div>
-              <label className="px-6 py-5 rounded-full flex items-center justify-center cursor-pointer gap-2 bg-white border border-[#00000029] text-xl text-[#364153] w-full">
-                <input type="file" className="hidden" />
+              <label className="px-6 py-5 rounded-full flex items-center justify-center cursor-pointer gap-2 bg-white border border-[#00000029] text-xl text-[#364153] w-full hover:bg-gray-50 transition-colors">
+                <input
+                  type="file"
+                  name="file"
+                  className="hidden"
+                  onChange={(e) => {
+                    const file = e.target.files?.[0];
+                    setFileName(file ? file.name : null);
+                  }}
+                />
                 <LuUpload className="text-[#99A1AF]" />
-                Click to upload file
+                {fileName ? (
+                  <span className="text-[#364153] truncate max-w-[80%]">{fileName}</span>
+                ) : (
+                  "Click to upload file"
+                )}
               </label>
             </div>
           </div>
           <div className="mt-[40px]">
-            <Button className="w-full">
-              <LuSend className="text-xl" />
-              Send Message
+            <Button disabled={isLoading} className="w-full">
+              {isLoading ? (
+                "Sending..."
+              ) : (
+                <>
+                  <LuSend className="text-xl" />
+                  Send Message
+                </>
+              )}
             </Button>
           </div>
         </form>
