@@ -61,7 +61,7 @@ button {
 }
 
 .section {
-  @apply py-6 md:pb-12 xl:py-20 2xl:py-24;
+  @apply py-6 md:pb-12 xl:py-15;
 }
 
 .custom_border {
