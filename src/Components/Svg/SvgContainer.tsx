@@ -46,7 +46,7 @@ export const PlayIcon = () => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      className="size-[60px] md:size-[90px] xl:size-[120px] 2xl:size-[150px]"
+      className="size-[50px] md:size-[70px] xl:size-[90px] 2xl:size-[120px]"
       viewBox="0 0 160 160"
       fill="none"
     >

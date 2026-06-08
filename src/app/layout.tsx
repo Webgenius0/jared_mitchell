@@ -17,17 +17,13 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  // let faviconUrl = "/favicon.svg";
-  // const siteSettings = await getSiteSettings();
-  // if (siteSettings?.data?.favicon) {
-  //   faviconUrl = `${process.env.NEXT_PUBLIC_SITE_URL}/${siteSettings.data.favicon}`;
-  // }
+  let faviconUrl = "/favicon.svg";
 
   return (
     <html lang="en">
-      {/* <head>
+      <head>
         <link rel="icon" href={faviconUrl} />
-      </head> */}
+      </head>
       <body>
         <QueryProvider>
           <AuthProvider>

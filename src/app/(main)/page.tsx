@@ -19,7 +19,6 @@ import EventBanner from "./_components/EventBanner";
 import PoweredByOSI from "./_components/PoweredByOSI";
 import FeaturedEvent from "./_components/FeaturedEvent";
 import NewsLetter from "@/Components/Common/NewsLetter";
-
 import { getCMSHomepageData } from "@/lib/Services/cms_service";
 
 const Page = async () => {
@@ -46,10 +45,8 @@ const Page = async () => {
       <UpcomingEvents />
       <PastEvents />
       <OSIApparel data={cmsData?.shop} />
-      {/* <CommunityPartner /> */}
-      <NewsLetter
-        data={cmsData?.newsletter}
-      />
+      <CommunityPartner />
+      <NewsLetter data={cmsData?.newsletter} />
     </>
   );
 };
