@@ -39,13 +39,16 @@ const Page = async () => {
       <SuccessStories />
       <ArtistSpotlightCard data={cmsData?.spotlight} />
       <CommunityAchievements data={cmsData?.highlights} />
+      <div className="pb-15">
+        <ArtistSpotlightCard data={cmsData?.spotlight} />
+      </div>
       <EventBanner data={cmsData?.cta} />
       <Countdown />
       <FeaturedEvent />
       <UpcomingEvents />
       <PastEvents />
       <OSIApparel data={cmsData?.shop} />
-      <CommunityPartner />
+      {/* <CommunityPartner /> */}
       <NewsLetter data={cmsData?.newsletter} />
     </>
   );

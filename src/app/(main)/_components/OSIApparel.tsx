@@ -48,19 +48,20 @@ const products = [
 const OSIApparel = ({ data }: { data?: CMSShop }) => {
   return (
     <>
-      <section className="pt-10 md:py-16 text-center bg-[#F5F5F7]">
+      <section className="pt-10  text-center bg-[#F5F5F7]">
         <div className="container">
           {/* Heading */}
-          <h2 className="text-xl md:text-4xl xl:text-5xl 2xl:text-7xl font-bold">
+          <h2 className="text-xl md:text-4xl xl:text-5xl 2xl:text-6xl font-bold">
             {data?.title || "Shop OSI Apparel, Ebooks, and Digital"}
           </h2>
 
           <p className="mt-3 md:mt-5 md:text-xl mx-auto text-secondary-black">
-            {data?.sub_title || "Explore exclusive merchandise, creative tools, and digital resources designed to help you build your brand and elevate your craft."}
+            {data?.sub_title ||
+              "Explore exclusive merchandise, creative tools, and digital resources designed to help you build your brand and elevate your craft."}
           </p>
 
           {/* Swiper */}
-          <div className="mt-7 md:mt-10 lg:mt-16 osi-swiper-wrapper">
+          <div className="mt-7 osi-swiper-wrapper">
             <Swiper
               effect="coverflow"
               grabCursor

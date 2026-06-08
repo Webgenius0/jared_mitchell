@@ -33,10 +33,10 @@ const page = async () => {
             built to help you rise, scale, and stay visible.`}
           </p>
 
-          <Button>
+          {/* <Button>
             Explore Membership Plans{" "}
             <BsArrowRight className="text-lg md:text-2xl" />
-          </Button>
+          </Button> */}
         </div>
       </section>
 
@@ -67,12 +67,10 @@ const page = async () => {
       {/* Business Spotlight Section */}
       <section className="section container">
         <h2 className="section_title 2xl:text-7xl 2xl:font-bold">
-          {cmsData?.services_business_spotlight?.title ||
-            "BUSINESS SPOTLIGHT Submission Form"}
+          {cmsData?.services_business_spotlight?.title}
         </h2>
         <p className="section_sub_title mt-8 mb-12 max-w-[1000px] mx-auto">
-          {cmsData?.services_business_spotlight?.sub_title ||
-            "Apply for our weekly Business Spotlight program. Share your brand story, showcase your business, and connect with the community."}
+          {cmsData?.services_business_spotlight?.sub_title}
         </p>
         <Link
           href="business-spotlight"
