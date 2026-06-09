@@ -17,7 +17,7 @@ export default function ArtistSpotlightCard({ data }: { data?: CMSSpotlight }) {
       </p>
 
       <div className="overflow-hidden max-w-[1396px] w-full mx-auto rounded-2xl bg-[#F5F5F7] custom_shadow custom_border mt-7">
-        <figure className="w-full h-[250px] md:h-[400px] xl:h-[600px] 2xl:h-[700px] overflow-hidden relative">
+        <figure className="w-full h-[250px] md:h-[400px] xl:h-[500px]  overflow-hidden relative">
           <Image
             src={data?.image || "/home/artist-spotlight-img.jpg"}
             fill

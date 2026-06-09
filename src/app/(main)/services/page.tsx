@@ -33,10 +33,10 @@ const page = async () => {
             built to help you rise, scale, and stay visible.`}
           </p>
 
-          <Button>
+          {/* <Button>
             Explore Membership Plans{" "}
             <BsArrowRight className="text-lg md:text-2xl" />
-          </Button>
+          </Button> */}
         </div>
       </section>
 

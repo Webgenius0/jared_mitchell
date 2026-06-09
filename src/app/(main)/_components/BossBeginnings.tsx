@@ -5,31 +5,41 @@ import { CMSBossBeginnings } from "@/Types/cms";
 
 const BossBeginnings = ({ data }: { data?: CMSBossBeginnings }) => {
   return (
-    <section className="text-center bg-[#F5F5F7] py-8 2xl:py-12">
+    // Kept standard vertical padding light
+    <section className="text-center bg-[#F5F5F7] py-8 2xl:py-10">
       <div className="container">
-        <h2 className="text-primary-black  text-3xl md:text-4xl lg:text-5xl 2xl:text-7xl font-bold xl:leading-[140px] tracking-[-1.28px]  mb-3 lg:mb-5">
+        {/* Reduced text line-height from xl:leading-[100px] to tight/snug options */}
+        <h2 className="text-primary-black text-3xl md:text-4xl lg:text-5xl 2xl:text-6xl font-bold leading-tight xl:leading-[1.1] tracking-[-1.28px]">
           {data?.title || "Boss Beginnings"}
         </h2>
 
-        <h3 className="section_title">{data?.sub_title || "A Business Shower"}</h3>
+        {/* Removed fallback extra margin if section_title has high defaults */}
+        <h3 className="section_title mt-1 md:mt-2">
+          {data?.sub_title || "A Business Shower"}
+        </h3>
 
-        <div className="relative flex items-center max-w-[1179px] w-full h-[300px] md:h-[400px] lg:h-[500px] xl:h-[682px] justify-center my-7 rounded-2xl md:rounded-[40px] overflow-hidden mx-auto">
+        {/* Scaled down the explicit heights across all responsive breakpoints and lowered vertical margin to my-4 md:my-5 */}
+        <div className="relative flex items-center max-w-[1179px] w-full h-[220px] sm:h-[280px] md:h-[350px] lg:h-[420px] xl:h-[480px] justify-center my-4 md:my-5 rounded-2xl md:rounded-[32px] overflow-hidden mx-auto">
           <div className="absolute top-0 left-0 size-full bg-black/40" />
           <Image
             src={data?.image || "/home/boss-beginnings-banner.jpg"}
             fill
             alt="boss beginnings"
             className="object-cover size-full"
+            priority // Added priority since it is a large key banner image
           />
         </div>
 
-        <p className="text-secondary-black md:text-lg xl:text-2xl">
-          {data?.description || `Boss Beginnings is our signature celebration for brand‑new
-          entrepreneurs. We highlight their story, support their launch, and
-          bring the community together to give resources and opportunities.`}
+        {/* Tuned down typography scale slightly for better tight spatial structure */}
+        <p className="text-secondary-black max-w-4xl mx-auto text-sm md:text-base xl:text-xl">
+          {data?.description ||
+            `Boss Beginnings is our signature celebration for brand‑new
+            entrepreneurs. We highlight their story, support their launch, and
+            bring the community together to give resources and opportunities.`}
         </p>
 
-        <div className="space-x-3 space-y-3 lg:space-x-8 xl:space-x-14 mt-8 xl:mt-12">
+        {/* Trimmed down top margins above the actions block */}
+        <div className="flex flex-wrap items-center justify-center gap-3 lg:gap-6 mt-5 md:mt-6 xl:mt-8">
           <Button>
             <div className="flex items-center justify-center size-6 shrink-0 aspect-square rounded-lg custom_border bg-gray-100">
               <GoGift className="text-primary-blue" />
