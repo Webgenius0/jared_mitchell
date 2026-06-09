@@ -19,7 +19,6 @@ import EventBanner from "./_components/EventBanner";
 import PoweredByOSI from "./_components/PoweredByOSI";
 import FeaturedEvent from "./_components/FeaturedEvent";
 import NewsLetter from "@/Components/Common/NewsLetter";
-
 import { getCMSHomepageData } from "@/lib/Services/cms_service";
 
 const Page = async () => {
@@ -40,6 +39,9 @@ const Page = async () => {
       <SuccessStories />
       <ArtistSpotlightCard data={cmsData?.spotlight} />
       <CommunityAchievements data={cmsData?.highlights} />
+      <div className="pb-15">
+        <ArtistSpotlightCard data={cmsData?.spotlight} />
+      </div>
       <EventBanner data={cmsData?.cta} />
       <Countdown />
       <FeaturedEvent />
@@ -47,9 +49,7 @@ const Page = async () => {
       <PastEvents />
       <OSIApparel data={cmsData?.shop} />
       {/* <CommunityPartner /> */}
-      <NewsLetter
-        data={cmsData?.newsletter}
-      />
+      <NewsLetter data={cmsData?.newsletter} />
     </>
   );
 };
