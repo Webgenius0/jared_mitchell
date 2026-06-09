@@ -5,11 +5,11 @@ const Hero = ({ data }: { data?: CMSHero }) => {
   return (
     <section className="container text-center pt-7 md:pt-10 xl:pt-5  2xl:pt-8">
       <h1 className="text-primary-black text-3xl md:text-4xl xl:text-[70px] font-bold xl:leading-[70px] tracking-[-1.28px] pb-3 xl:pb-0">
-        {data?.title || "Our Social Image"}
+        {data?.title}
       </h1>
 
       <p className="text-secondary-black text-xl md:text-xl xl:text-2xl lg:mt-5">
-        {data?.sub_title || "We are the image of our society."}
+        {data?.sub_title}
       </p>
 
       <div className="flex items-center justify-center my-5 md:my-7 rounded-2xl lg:rounded-4xl xl:rounded-[40px] overflow-hidden max-w-6xl mx-auto">

@@ -67,10 +67,12 @@ const page = async () => {
       {/* Business Spotlight Section */}
       <section className="section container">
         <h2 className="section_title 2xl:text-7xl 2xl:font-bold">
-          {cmsData?.services_business_spotlight?.title}
+          {cmsData?.services_business_spotlight?.title ||
+            "BUSINESS SPOTLIGHT Submission Form"}
         </h2>
         <p className="section_sub_title mt-8 mb-12 max-w-[1000px] mx-auto">
-          {cmsData?.services_business_spotlight?.sub_title}
+          {cmsData?.services_business_spotlight?.sub_title ||
+            "Apply for our weekly Business Spotlight program. Share your brand story, showcase your business, and connect with the community."}
         </p>
         <Link
           href="business-spotlight"
