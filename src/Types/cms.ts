@@ -238,3 +238,67 @@ export interface CMSFAQ {
   created_at: string;
   updated_at: string;
 }
+
+// ─── Events Page ─────────────────────────────────────────────────────────────
+
+export interface CMSEventsPageHero extends CMSBase {}
+
+export interface CMSEventsPageVideo extends CMSBase {
+  // description holds the video URL for this section
+  description: string | null;
+}
+
+export interface CMSEventsPageHost extends CMSBase {
+  metadata: {
+    icon: string;
+    title: string;
+    description: string;
+  }[];
+}
+
+export interface CMSEventsPageVendorMetadata {
+  pricing: {
+    icon: string;
+    title: string;
+    price: string;
+    description: string;
+  }[];
+  benefits: {
+    title: string;
+  };
+  member_perks_top: {
+    title: string;
+    condition: string;
+  };
+  member_perks_bottom: {
+    title: string;
+    description: string;
+  };
+  what_vendors_provide: {
+    title: string;
+  };
+  why_vendors_love: {
+    title: string;
+    description: string;
+  };
+}
+
+export interface CMSEventsPageVendor extends CMSBase {
+  metadata: CMSEventsPageVendorMetadata;
+}
+
+export interface CMSEventsPageBoothFeatures extends CMSBase {
+  metadata: {
+    icon: string;
+    title: string;
+    description: string;
+  }[];
+}
+
+export interface CMSEventsPage {
+  events_page_hero: CMSEventsPageHero;
+  events_page_video: CMSEventsPageVideo;
+  events_page_host: CMSEventsPageHost;
+  events_page_vendor: CMSEventsPageVendor;
+  events_page_booth_features: CMSEventsPageBoothFeatures;
+}

@@ -1,8 +1,6 @@
-import { Button } from "@/Components/Common/Button";
 import SponsorSlider from "@/Components/Common/SponsorSlider";
 import { sponsorsData } from "@/Components/Data/data";
 import { CMSPartner } from "@/Types/cms";
-import { FaArrowRightLong } from "react-icons/fa6";
 
 const Sponsors = ({ data }: { data?: CMSPartner }) => {
   const logos =
