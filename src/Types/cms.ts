@@ -302,3 +302,40 @@ export interface CMSEventsPage {
   events_page_vendor: CMSEventsPageVendor;
   events_page_booth_features: CMSEventsPageBoothFeatures;
 }
+
+// ─── Shop Page ───────────────────────────────────────────────────────────────
+
+export interface CMSShopPageHero extends CMSBase {
+  // bg holds the hero background image URL for this section
+  bg: string | null;
+}
+
+export interface CMSShopPageFooterFeatures extends CMSBase {
+  metadata: {
+    title: string;
+    description: string;
+  }[];
+}
+
+export interface CMSShopPageSupport extends CMSBase {
+  metadata: {
+    icon: string;
+    title: string;
+    description: string;
+  }[];
+}
+
+export interface CMSShopPageFeatures extends CMSBase {
+  metadata: {
+    icon: string;
+    title: string;
+    description: string;
+  }[];
+}
+
+export interface CMSShopPage {
+  shop_page_hero: CMSShopPageHero;
+  shop_page_footer_features: CMSShopPageFooterFeatures;
+  shop_page_support: CMSShopPageSupport;
+  shop_page_features: CMSShopPageFeatures;
+}

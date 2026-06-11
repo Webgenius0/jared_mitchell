@@ -9,21 +9,22 @@ import OurSponsors from "./_components/OurSponsors";
 import FAQAccordion from "../services/_components/FAQAccordion";
 import VendorWithOSI from "./_components/VendorWithOSI";
 import ShopBanner from "./_components/ShopBanner";
-import { getCMSFAQs } from "@/lib/Services/cms_service";
+import { getCMSFAQs, getShopPageCms } from "@/lib/Services/cms_service";
 
 const page = async () => {
   const faqData = await getCMSFAQs();
+  const shopData = await getShopPageCms();
 
   return (
     <>
-      <ShopBanner />
-      <IconSection />
+      <ShopBanner data={shopData?.shop_page_hero} />
+      <IconSection data={shopData?.shop_page_features} />
       <FeaturedShop />
-      <PurchaseSupports />
-      <DigitalResources />
+      <PurchaseSupports data={shopData?.shop_page_support} />
+      {/* <DigitalResources /> */}
       <VendorWithOSI />
       <LimitedDrops />
-      <TrustFeatures />
+      <TrustFeatures data={shopData?.shop_page_footer_features} />
       <FAQAccordion data={faqData} />
       <OurSponsors />
       <NewsLetter title="Be part of the movement. Get stories, updates, and opportunities straight to your inbox." />

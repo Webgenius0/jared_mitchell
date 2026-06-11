@@ -15,7 +15,7 @@ const EventSchedule = ({ video }: EventScheduleProps) => {
 
   return (
     <section className="py-20 container">
-      {video?.description && (
+      {/* {video?.description && (
         <div className="mb-10">
           <video
             src={video.description}
@@ -23,7 +23,7 @@ const EventSchedule = ({ video }: EventScheduleProps) => {
             className="w-full rounded-xl"
           />
         </div>
-      )}
+      )} */}
 
       <h2 className="section_title 2xl:text-7xl 2xl:font-bold">
         Upcoming Events
