@@ -340,7 +340,6 @@ export interface CMSShopPage {
   shop_page_features: CMSShopPageFeatures;
 }
 
-
 // Add these interfaces to your @/Types/cms.ts file
 
 export interface CMSBossBeginningsHero extends CMSBase {}
@@ -391,4 +390,43 @@ export interface CMSBossBeginnings {
   boss_beginnings_steps: CMSBossBeginningsSteps;
   boss_beginnings_section5: CMSBossBeginningsSection5;
   boss_beginnings_dynamic: CMSBossBeginningsDynamic;
+}
+
+export interface CMSSponsorshipPageHero extends CMSBase {}
+
+export interface CMSSponsorshipPageVideo extends CMSBase {
+  // sub_title holds the video URL for this section
+  // image holds the thumbnail
+}
+
+export interface CMSSponsorshipPageWhy extends CMSBase {
+  metadata: {
+    supports: string[];
+    features: {
+      icon: string;
+      title: string;
+      description: string;
+    }[];
+  };
+}
+
+export interface CMSSponsorshipPageSteps extends CMSBase {
+  metadata: {
+    title: string;
+    description: string;
+    list: string[];
+  }[];
+}
+
+export interface CMSSponsorshipPageLevelsHeader extends CMSBase {}
+
+export interface CMSSponsorshipPageFooter extends CMSBase {}
+
+export interface CMSSponsorshipPage {
+  sponsorship_page_hero: CMSSponsorshipPageHero;
+  sponsorship_page_video: CMSSponsorshipPageVideo;
+  sponsorship_page_why: CMSSponsorshipPageWhy;
+  sponsorship_page_steps: CMSSponsorshipPageSteps;
+  sponsorship_page_levels_header: CMSSponsorshipPageLevelsHeader;
+  sponsorship_page_footer: CMSSponsorshipPageFooter;
 }

@@ -7,26 +7,31 @@ import FAQAccordion from "../services/_components/FAQAccordion";
 import EventSponsors from "../services/_components/EventSponsors";
 import NewsLetter from "@/Components/Common/NewsLetter";
 import SponsorshipBanner from "./_components/SponsorshipBanner";
-import { getCMSFAQs } from "@/lib/Services/cms_service";
+import { getCMSFAQs, getSponsorshipPageCms } from "@/lib/Services/cms_service";
+import { CMSSponsorshipPage } from "@/Types/cms";
 
 const page = async () => {
   const faqData = await getCMSFAQs();
+  const pageData = (await getSponsorshipPageCms()) as CMSSponsorshipPage;
 
   return (
     <>
-      <SponsorshipBanner />
+      <SponsorshipBanner data={pageData?.sponsorship_page_hero} />
       <section className="section container">
         <div className="w-full h-[627px]">
           <CustomVideoPlayer
-            videoSrc="/home/hero-video.mp4"
+            videoSrc={
+              pageData?.sponsorship_page_video?.sub_title ??
+              "/home/hero-video.mp4"
+            }
             className={"!rounded-[40px]"}
           />
         </div>
       </section>
-      <SponsorshipMatters />
-      <HowSponsorshipWorks />
-      <SponsorshipLevel />
-      <BecomeSponsor />
+      <SponsorshipMatters data={pageData?.sponsorship_page_why} />
+      <HowSponsorshipWorks data={pageData?.sponsorship_page_steps} />
+      <SponsorshipLevel data={pageData?.sponsorship_page_levels_header} />
+      <BecomeSponsor data={pageData?.sponsorship_page_footer} />
       <FAQAccordion data={faqData} />
       <EventSponsors />
       <NewsLetter title="Be part of the movement. Get stories, updates, and opportunities straight to your inbox." />

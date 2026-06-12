@@ -9,6 +9,7 @@ import {
   CMSHomepage,
   CMSServices,
   CMSShopPage,
+  CMSSponsorshipPage,
   CMSSpotlightLadder,
 } from "@/Types/cms";
 
@@ -161,4 +162,21 @@ export const getBossCms = async (): Promise<CMSBossBeginnings> => {
 
   const result = await res.json();
   return result.data as CMSBossBeginnings;
+};
+
+export const getSponsorshipPageCms = async (): Promise<CMSSponsorshipPage> => {
+  const url = `${process.env.NEXT_PUBLIC_SITE_URL}/v1/cms/sponsorsip`;
+
+  const res = await fetch(url, {
+    next: { revalidate: 60 },
+  });
+
+  if (!res.ok) {
+    throw new Error(
+      `Failed to fetch sponsorship CMS data — URL: ${url} | Status: ${res.status} ${res.statusText}`,
+    );
+  }
+
+  const result = await res.json();
+  return result.data as CMSSponsorshipPage;
 };
