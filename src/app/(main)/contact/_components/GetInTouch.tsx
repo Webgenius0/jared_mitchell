@@ -17,7 +17,6 @@ const GetInTouch = () => {
     const form = e.target as HTMLFormElement;
     const formData = new FormData(form);
 
-    // Filter out empty file inputs if no file was selected
     const file = formData.get("file") as File;
     if (file && file.size === 0) {
       formData.delete("file");

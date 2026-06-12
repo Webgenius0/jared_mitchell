@@ -28,7 +28,7 @@ const Page = async () => {
     <>
       <Hero data={cmsData?.hero} />
       <Sponsors data={cmsData?.partners} />
-      <PoweredByOSI />
+      <PoweredByOSI data={cmsData?.features} />
       <WhyChoose data={cmsData?.why_choose} />
       <CoreValues data={cmsData?.core_values} />
       <PricingPlan />

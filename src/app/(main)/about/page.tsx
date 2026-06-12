@@ -40,8 +40,10 @@ const page = async () => {
         <h2 className="section_title">
           {cmsData?.about_sponsors?.title || "Our Event Sponsors"}
         </h2>
-        <SponsorSlider logos={logos} />
-        <SponsorSlider logos={logos} reverse={true} />
+        <div className="flex flex-col gap-5">
+          <SponsorSlider logos={logos} />
+          <SponsorSlider logos={logos} reverse={true} />
+        </div>
       </section>
       <NewsLetter
         data={cmsData?.about_newsletter}
