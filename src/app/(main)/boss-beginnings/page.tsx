@@ -8,11 +8,21 @@ import PartnerWithBossBeginnings from "./_components/PartnerWithBossBeginnings";
 import NewsLetter from "@/Components/Common/NewsLetter";
 import BossBeginningBanner from "./_components/BossBeginningBanner";
 import BusinessChosenChart from "./_components/BusinessChosenChart";
-import { getBossCms } from "@/lib/Services/cms_service";
+import { getBossCms, getCMSAboutData } from "@/lib/Services/cms_service";
 import { CMSBossBeginnings } from "@/Types/cms";
+import SponsorSlider from "@/Components/Common/SponsorSlider";
+import { sponsorsData } from "@/Components/Data/data";
 
 const page = async () => {
   const pageData = (await getBossCms()) as CMSBossBeginnings;
+  const CmsData = await getCMSAboutData();
+
+  const logos =
+    CmsData?.about_sponsors?.metadata?.map((m, i) => ({
+      id: i + 1,
+      image: m.image,
+      link: m.link,
+    })) || sponsorsData;
 
   return (
     <>
@@ -34,7 +44,14 @@ const page = async () => {
       <HowVotingWorks data={pageData?.boss_beginnings_steps} />
       <BusinessChosenChart data={pageData?.boss_beginnings_steps} />
       <WinnerReceives data={pageData?.boss_beginnings_dynamic} />
-      <PartnerWithBossBeginnings />
+      {/* <PartnerWithBossBeginnings /> */}
+      <section className="py-10 xl:py-20">
+        <h2 className="section_title">{"Partner With Boss Beginnings"}</h2>
+        <div className="flex flex-col gap-5">
+          <SponsorSlider logos={logos} />
+          <SponsorSlider logos={logos} reverse={true} />
+        </div>
+      </section>
       <NewsLetter title="Be part of the movement. Get stories, updates, and opportunities straight to your inbox." />
     </>
   );

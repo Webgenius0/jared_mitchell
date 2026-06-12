@@ -11,11 +11,21 @@ import EventHighlight from "./_Components/EventHighlight";
 import NewsLetter from "@/Components/Common/NewsLetter";
 import Sponsors from "../_components/Sponsors";
 import EventHero from "./_Components/EventHero";
-import { getEventsPageCms } from "@/lib/Services/cms_service";
+import { getCMSAboutData, getEventsPageCms } from "@/lib/Services/cms_service";
 import { CMSEventsPage } from "@/Types/cms";
+import SponsorSlider from "@/Components/Common/SponsorSlider";
+import { sponsorsData } from "@/Components/Data/data";
 
 const Page = async () => {
   const pageData = (await getEventsPageCms()) as CMSEventsPage;
+  const CmsData = await getCMSAboutData();
+
+  const logos =
+    CmsData?.about_sponsors?.metadata?.map((m, i) => ({
+      id: i + 1,
+      image: m.image,
+      link: m.link,
+    })) || sponsorsData;
 
   return (
     <>
@@ -30,7 +40,16 @@ const Page = async () => {
       <WhatYouGet data={pageData?.events_page_booth_features} />
       <EventGallery />
       <EventHighlight />
-      <Sponsors />
+      {/* <Sponsors /> */}
+      <section className="py-10 xl:py-20">
+        <h2 className="section_title">
+          {CmsData?.about_sponsors?.title || "Our Event Sponsors"}
+        </h2>
+        <div className="flex flex-col gap-5">
+          <SponsorSlider logos={logos} />
+          <SponsorSlider logos={logos} reverse={true} />
+        </div>
+      </section>
       <NewsLetter title="Be part of the movement. Get stories, updates, and opportunities straight to your inbox." />
     </>
   );

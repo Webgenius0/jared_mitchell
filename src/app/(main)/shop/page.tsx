@@ -10,17 +10,28 @@ import FAQAccordion from "../services/_components/FAQAccordion";
 import VendorWithOSI from "./_components/VendorWithOSI";
 import ShopBanner from "./_components/ShopBanner";
 import {
+  getCMSAboutData,
   getCMSFAQs,
   getEventsPageCms,
   getShopPageCms,
 } from "@/lib/Services/cms_service";
 import VendorOsi from "../events/_Components/VendorOsi";
 import { CMSEventsPage } from "@/Types/cms";
+import SponsorSlider from "@/Components/Common/SponsorSlider";
+import { sponsorsData } from "@/Components/Data/data";
 
 const page = async () => {
   const faqData = await getCMSFAQs();
   const shopData = await getShopPageCms();
   const pageData = (await getEventsPageCms()) as CMSEventsPage;
+  const CmsData = await getCMSAboutData();
+
+  const logos =
+    CmsData?.about_sponsors?.metadata?.map((m, i) => ({
+      id: i + 1,
+      image: m.image,
+      link: m.link,
+    })) || sponsorsData;
 
   return (
     <>
@@ -34,7 +45,14 @@ const page = async () => {
       <LimitedDrops />
       <TrustFeatures data={shopData?.shop_page_footer_features} />
       <FAQAccordion data={faqData} />
-      <OurSponsors />
+      {/* <OurSponsors /> */}
+      <section className="py-10 xl:py-20">
+        <h2 className="section_title">{"Our  Sponsors"}</h2>
+        <div className="flex flex-col gap-5">
+          <SponsorSlider logos={logos} />
+          <SponsorSlider logos={logos} reverse={true} />
+        </div>
+      </section>
       <NewsLetter title="Be part of the movement. Get stories, updates, and opportunities straight to your inbox." />
     </>
   );
