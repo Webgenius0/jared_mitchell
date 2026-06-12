@@ -339,3 +339,56 @@ export interface CMSShopPage {
   shop_page_support: CMSShopPageSupport;
   shop_page_features: CMSShopPageFeatures;
 }
+
+
+// Add these interfaces to your @/Types/cms.ts file
+
+export interface CMSBossBeginningsHero extends CMSBase {}
+
+export interface CMSBossBeginningsVideoGallery extends CMSBase {
+  metadata: {
+    gallery: string[];
+  } | null;
+}
+
+export interface CMSBossBeginningsFeatures extends CMSBase {
+  metadata: {
+    features: {
+      title: string;
+      description: string;
+      image: string;
+    }[];
+  };
+}
+
+export interface CMSBossBeginningsSteps extends CMSBase {
+  metadata: {
+    steps: {
+      small_text: string;
+      title: string;
+      description: string;
+      image: string;
+    }[];
+  };
+}
+
+export interface CMSBossBeginningsSection5 extends CMSBase {}
+
+export interface CMSBossBeginningsDynamic extends CMSBase {
+  metadata: {
+    items: {
+      title: string;
+      description: string;
+      image: string;
+    }[];
+  };
+}
+
+export interface CMSBossBeginnings {
+  boss_beginnings_hero: CMSBossBeginningsHero;
+  boss_beginnings_video_gallery: CMSBossBeginningsVideoGallery;
+  boss_beginnings_features: CMSBossBeginningsFeatures;
+  boss_beginnings_steps: CMSBossBeginningsSteps;
+  boss_beginnings_section5: CMSBossBeginningsSection5;
+  boss_beginnings_dynamic: CMSBossBeginningsDynamic;
+}

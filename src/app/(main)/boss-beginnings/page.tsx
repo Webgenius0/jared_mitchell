@@ -8,25 +8,32 @@ import PartnerWithBossBeginnings from "./_components/PartnerWithBossBeginnings";
 import NewsLetter from "@/Components/Common/NewsLetter";
 import BossBeginningBanner from "./_components/BossBeginningBanner";
 import BusinessChosenChart from "./_components/BusinessChosenChart";
+import { getBossCms } from "@/lib/Services/cms_service";
+import { CMSBossBeginnings } from "@/Types/cms";
 
-const page = () => {
+const page = async () => {
+  const pageData = (await getBossCms()) as CMSBossBeginnings;
+
   return (
     <>
-      <BossBeginningBanner />
+      <BossBeginningBanner data={pageData?.boss_beginnings_hero} />
       <section className="section container">
         <div className="w-full h-[627px]">
           <CustomVideoPlayer
-            videoSrc="/home/hero-video.mp4"
+            videoSrc={
+              pageData?.boss_beginnings_video_gallery?.video ??
+              "/home/hero-video.mp4"
+            }
             className={"!rounded-[40px]"}
           />
         </div>
       </section>
-      <BusinessShower />
-      <BossBeginningWinner />
-      <NewBusiness />
-      <HowVotingWorks />
-      <BusinessChosenChart />
-      <WinnerReceives />
+      <BusinessShower data={pageData?.boss_beginnings_features} />
+      <BossBeginningWinner data={pageData?.boss_beginnings_video_gallery} />
+      <NewBusiness data={pageData?.boss_beginnings_section5} />
+      <HowVotingWorks data={pageData?.boss_beginnings_steps} />
+      <BusinessChosenChart data={pageData?.boss_beginnings_steps} />
+      <WinnerReceives data={pageData?.boss_beginnings_dynamic} />
       <PartnerWithBossBeginnings />
       <NewsLetter title="Be part of the movement. Get stories, updates, and opportunities straight to your inbox." />
     </>

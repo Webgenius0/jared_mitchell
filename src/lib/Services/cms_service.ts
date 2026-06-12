@@ -1,6 +1,7 @@
 import {
   CMSAbout,
   CMSArtistSpotlight,
+  CMSBossBeginnings,
   CMSBusinessSpotlight,
   CMSEvent,
   CMSEventsPage,
@@ -144,4 +145,20 @@ export const getEventsPageCms = async (): Promise<CMSEventsPage> => {
 
   const result = await res.json();
   return result.data as CMSEventsPage;
+};
+
+export const getBossCms = async (): Promise<CMSBossBeginnings> => {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_SITE_URL}/v1/cms/boss-beginnings`,
+    {
+      next: { revalidate: 60 },
+    },
+  );
+
+  if (!res.ok) {
+    throw new Error("Failed to fetch CMS data");
+  }
+
+  const result = await res.json();
+  return result.data as CMSBossBeginnings;
 };

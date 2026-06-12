@@ -9,11 +9,18 @@ import OurSponsors from "./_components/OurSponsors";
 import FAQAccordion from "../services/_components/FAQAccordion";
 import VendorWithOSI from "./_components/VendorWithOSI";
 import ShopBanner from "./_components/ShopBanner";
-import { getCMSFAQs, getShopPageCms } from "@/lib/Services/cms_service";
+import {
+  getCMSFAQs,
+  getEventsPageCms,
+  getShopPageCms,
+} from "@/lib/Services/cms_service";
+import VendorOsi from "../events/_Components/VendorOsi";
+import { CMSEventsPage } from "@/Types/cms";
 
 const page = async () => {
   const faqData = await getCMSFAQs();
   const shopData = await getShopPageCms();
+  const pageData = (await getEventsPageCms()) as CMSEventsPage;
 
   return (
     <>
@@ -22,7 +29,8 @@ const page = async () => {
       <FeaturedShop />
       <PurchaseSupports data={shopData?.shop_page_support} />
       {/* <DigitalResources /> */}
-      <VendorWithOSI />
+      {/* <VendorWithOSI /> */}
+      <VendorOsi data={pageData?.events_page_vendor} />
       <LimitedDrops />
       <TrustFeatures data={shopData?.shop_page_footer_features} />
       <FAQAccordion data={faqData} />
