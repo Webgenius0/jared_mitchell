@@ -2,6 +2,8 @@ import {
   CMSAbout,
   CMSArtistSpotlight,
   CMSBusinessSpotlight,
+  CMSEvent,
+  CMSEventsPage,
   CMSFAQ,
   CMSHomepage,
   CMSServices,
@@ -129,4 +131,17 @@ export const getShopPageCms = async (): Promise<CMSShopPage> => {
 
   const result = await res.json();
   return result.data as CMSShopPage;
+};
+
+export const getEventsPageCms = async (): Promise<CMSEventsPage> => {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/v1/cms/events`, {
+    next: { revalidate: 60 },
+  });
+
+  if (!res.ok) {
+    throw new Error("Failed to fetch CMS data");
+  }
+
+  const result = await res.json();
+  return result.data as CMSEventsPage;
 };

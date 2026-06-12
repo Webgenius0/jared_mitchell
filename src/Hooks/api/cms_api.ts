@@ -70,12 +70,4 @@ export const getArtistSpotlights = (params?: any) => {
   });
 };
 
-// Get Events page Data
-export const getEventsPage = (params?: any) => {
-  return useClientApi({
-    method: "get",
-    key: ["Events", params],
-    endpoint: "/v1/cms/events",
-    params,
-  });
-};
+
