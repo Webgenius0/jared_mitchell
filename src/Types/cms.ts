@@ -430,3 +430,63 @@ export interface CMSSponsorshipPage {
   sponsorship_page_levels_header: CMSSponsorshipPageLevelsHeader;
   sponsorship_page_footer: CMSSponsorshipPageFooter;
 }
+
+
+export interface EventTicketTier {
+  id: number;
+  event_id: number;
+  name: string;
+  description: string;
+  price: string;
+  service_fee: string;
+  quantity_available: number;
+  quantity_sold: number;
+  sale_starts_at: string | null;
+  sale_ends_at: string | null;
+  is_active: boolean;
+  sort_order: number;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface Event {
+  id: number;
+  title: string;
+  slug: string;
+  description: string;
+  starts_at: string;
+  ends_at: string;
+  timezone: string;
+  venue_name: string;
+  address: string;
+  city: string;
+  state: string;
+  hosted_by: string;
+  cover_image_url: string;
+  promo_video_url: string | null;
+  event_type: "featured" | "pop_up" | "workshop" | "networking" | string;
+  is_featured: boolean;
+  like_count: number;
+  ticket_url: string;
+  tickets_available: boolean;
+  status: string;
+  ticket_tiers: EventTicketTier[];
+  likes_count: number;
+  bookmarks_count: number;
+  shares_count: number;
+  is_liked: boolean;
+  is_bookmarked: boolean;
+  created_at: string;
+}
+
+export interface EventsPagination {
+  current_page: number;
+  per_page: number;
+  total: number;
+  last_page: number;
+}
+
+export interface EventsResponse {
+  events: Event[];
+  pagination: EventsPagination;
+}
