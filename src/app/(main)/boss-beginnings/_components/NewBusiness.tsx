@@ -10,7 +10,7 @@ const NewBusiness = ({ data }: NewBusinessProps) => {
   return (
     <section className="section">
       <Container>
-        <h2 className="section_title 2xl:!text-[76px]">
+        <h2 className="section_title ">
           {data?.title ?? "Know a New Business That Deserves Recognition?"}
         </h2>
         <p className="section_sub_title">

@@ -54,7 +54,7 @@ const HowVotingWorks = ({ data }: HowVotingWorksProps) => {
 
   return (
     <section className="section">
-      <h2 className="section_title 2xl:!text-[76px]">
+      <h2 className="section_title">
         {data?.title ?? "Vote for the Next Honoree"}
       </h2>
       <p className="section_sub_title">

@@ -14,7 +14,8 @@ const BusinessShower = ({ data }: BusinessShowerProps) => {
   return (
     <section className="section">
       <Container>
-        <h2 className="section_title 2xl:!text-[76px]">
+        <h2 className="section_title">
+        {/* <h2 className="section_title 2xl:!text-[76px]"> */}
           {data?.title ?? "What Is a Business Shower?"}
         </h2>
         <p className="text-center text-primary-black text-2xl max-w-[1414px] mx-auto">

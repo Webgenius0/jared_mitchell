@@ -20,14 +20,15 @@ const BossBeginningWinner = ({ data }: BossBeginningWinnerProps) => {
 
   return (
     <section className="container">
-      <h2 className="section_title 2xl:!text-[76px]">
+      <h2 className="section_title">
+        {/* <h2 className="section_title 2xl:!text-[76px]"> */}
         {data?.title ?? "BOSS BEGINNINGS Winner"}
       </h2>
       <p className="text-3xl text-center text-primary-black">
         {data?.sub_title ??
           "See the joy, support, and community love from our previous Boss Beginnings events."}
       </p>
-      <div className="w-full h-[808px] mt-12">
+      <div className="w-full  mt-12">
         <CustomVideoPlayer videoSrc={videoSrc} className={"!rounded-none"} />
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 items-center my-6 gap-6">

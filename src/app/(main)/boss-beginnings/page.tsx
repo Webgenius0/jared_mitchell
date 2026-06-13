@@ -47,7 +47,9 @@ const page = async () => {
       <WinnerReceives data={pageData?.boss_beginnings_dynamic} />
       {/* <PartnerWithBossBeginnings /> */}
       <section className="py-10 xl:py-20">
-        <h2 className="section_title">{"Partner With Boss Beginnings"}</h2>
+        <h2 className="section_title pb-10">
+          {"Partner With Boss Beginnings"}
+        </h2>
         <div className="flex flex-col gap-5">
           <SponsorSlider logos={logos} />
           <SponsorSlider logos={logos} reverse={true} />

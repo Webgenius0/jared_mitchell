@@ -19,7 +19,8 @@ const SponsorshipMatters = ({ data }: SponsorshipMattersProps) => {
   return (
     <section className="section bg-[#F5F5F7]">
       <Container>
-        <h2 className="section_title 2xl:!text-[76px]">
+        <h2 className="section_title ">
+          {/* <h2 className="section_title 2xl:!text-[76px]"> */}
           {data?.title ?? "Why Your Sponsorship Matters"}
         </h2>
         <p className="text-center text-primary-black text-2xl max-w-[1414px] mx-auto">

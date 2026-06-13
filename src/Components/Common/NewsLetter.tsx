@@ -60,7 +60,7 @@ const NewsLetter = ({ title, sub_title, data }: NewsletterProps) => {
 
         <form
           onSubmit={handleSubmit}
-          className="flex items-center justify-between max-w-[870px] w-full py-1 md:py-3 px-3 md:px-5 rounded-full bg-white mx-auto"
+          className="flex items-center justify-between max-w-[870px] w-full py-1 md:py-3 px-3 md:px-5 rounded-full bg-white mx-auto mt-20"
         >
           <input
             type="email"

@@ -60,7 +60,8 @@ const HowSponsorshipWorks = ({ data }: HowSponsorshipWorksProps) => {
   return (
     <section className="section">
       <Container>
-        <h2 className="section_title 2xl:!text-[76px]">
+        <h2 className="section_title ">
+        {/* <h2 className="section_title 2xl:!text-[76px]"> */}
           {data?.title ?? "How Sponsorship Works"}
         </h2>
         <div className="grid grid-cols-2 gap-6 items-center mt-11">

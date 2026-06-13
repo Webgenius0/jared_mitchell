@@ -8,7 +8,8 @@ interface SponsorshipLevelProps {
 const SponsorshipLevel = ({ data }: SponsorshipLevelProps) => {
   return (
     <section className="section container">
-      <h2 className="section_title 2xl:!text-[76px]">
+      <h2 className="section_title">
+        {/* <h2 className="section_title 2xl:!text-[76px]"> */}
         {data?.title ?? "Choose Your Sponsorship Level"}
       </h2>
 
