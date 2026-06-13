@@ -61,10 +61,10 @@ export default function Countdown() {
             <Item value={timeLeft.seconds} label="Sec" />
           </div>
 
-          <Button>
+          {/* <Button>
             Get Tickets
             <BsArrowRight />
-          </Button>
+          </Button> */}
         </div>
       </Container>
     </section>

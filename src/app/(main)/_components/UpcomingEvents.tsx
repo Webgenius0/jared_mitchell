@@ -14,7 +14,7 @@ import "swiper/css";
 import "swiper/css/pagination";
 import { getEvents } from "@/lib/Services/cms_service";
 import { Event } from "@/Types/cms";
-
+import Link from "next/link";
 
 const formatDate = (dateStr: string) => {
   return new Date(dateStr).toLocaleDateString("en-US", {
@@ -129,7 +129,9 @@ const UpcomingEvents = () => {
                     </div>
                   </div>
 
-                  <Button size={"lg"}>View Event Details</Button>
+                  <Link key={event.id} href={`/events/${event.id}`}>
+                    <Button size="lg">View Event Details</Button>
+                  </Link>
                 </div>
               </div>
             </SwiperSlide>

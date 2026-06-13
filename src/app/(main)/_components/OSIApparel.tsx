@@ -7,6 +7,7 @@ import "swiper/css/effect-coverflow";
 import "swiper/css/pagination";
 import { EffectCoverflow, Pagination } from "swiper/modules";
 import { CMSShop } from "@/Types/cms";
+import { useState, useEffect } from "react";
 
 import a1 from "@/Assets/a1.png";
 import a2 from "@/Assets/a2.png";
@@ -46,17 +47,26 @@ const products = [
 ];
 
 const OSIApparel = ({ data }: { data?: CMSShop }) => {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 640);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
+
   return (
     <>
-      <section className="pt-10  text-center bg-[#F5F5F7]">
-        <div className="container">
+      <section className="pt-10 text-center bg-[#F5F5F7]">
+        <div className="">
           {/* Heading */}
           <h2 className="text-xl md:text-4xl xl:text-5xl 2xl:text-6xl font-bold">
-            {data?.title }
+            {data?.title}
           </h2>
 
           <p className="mt-3 md:mt-5 md:text-xl mx-auto text-secondary-black">
-            {data?.sub_title }
+            {data?.sub_title}
           </p>
 
           {/* Swiper */}
@@ -70,8 +80,8 @@ const OSIApparel = ({ data }: { data?: CMSShop }) => {
               pagination={{ clickable: true }}
               coverflowEffect={{
                 rotate: 0,
-                stretch: 80,
-                depth: 200,
+                stretch: isMobile ? 30 : 80,
+                depth: isMobile ? 120 : 200,
                 modifier: 1,
                 slideShadows: false,
               }}
@@ -93,26 +103,31 @@ const OSIApparel = ({ data }: { data?: CMSShop }) => {
 
                     {/* Tag */}
                     {item.tag && (
-                      <span className="absolute top-4 right-4 bg-white text-black text-xs font-medium px-3 py-1 rounded-full z-10">
+                      <span className="absolute top-3 right-3 sm:top-4 sm:right-4 bg-white text-black text-xs font-medium px-2 py-0.5 sm:px-3 sm:py-1 rounded-full z-10">
                         {item.tag}
                       </span>
                     )}
 
                     {/* Content */}
-                    <div className="absolute bottom-0 left-0 right-0 p-6 text-left text-white z-10">
-                      <h4 className="text-lg font-semibold leading-tight">
-                        {item.title}
-                      </h4>
-                      <p className="text-sm mt-1 opacity-80 leading-snug">
-                        {item.description}
-                      </p>
-                      <div className="mt-3 flex items-center gap-3">
-                        <span className="text-base font-bold">
-                          {item.price}
-                        </span>
-                        <button className="bg-[#0066FF] hover:bg-[#0052CC] transition-colors text-white px-4 py-2 rounded-full text-sm font-medium flex items-center gap-1">
-                          🛒 Add to Cart
-                        </button>
+                    <div className="absolute bottom-0 left-0 right-0 p-3 sm:p-4 md:p-6 text-left text-white z-10">
+                      <div className="flex justify-between items-end gap-2">
+                        <div className="flex-1 min-w-0">
+                          <h4 className="text-sm sm:text-base md:text-lg font-semibold leading-tight line-clamp-1">
+                            {item.title}
+                          </h4>
+                          <p className="text-xs sm:text-sm mt-0.5 sm:mt-1 opacity-80 leading-snug line-clamp-2">
+                            {item.description}
+                          </p>
+                        </div>
+                        <div className="flex flex-col items-center gap-1.5 sm:gap-3 shrink-0">
+                          <span className="text-sm sm:text-base font-bold">
+                            {item.price}
+                          </span>
+                          <button className="bg-[#0066FF] hover:bg-[#0052CC] transition-colors text-white px-2.5 py-1 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm font-medium flex items-center gap-1 whitespace-nowrap">
+                            🛒 <span className="hidden xs:inline">Add to </span>
+                            Cart
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -149,10 +164,10 @@ const OSIApparel = ({ data }: { data?: CMSShop }) => {
           padding-bottom: 40px !important;
         }
 
-        /* Each slide */
+        /* Each slide — fluid sizing */
         .osi-slide {
-          width: 340px !important;
-          height: 420px !important;
+          width: min(640px, 88vw) !important;
+          height: clamp(200px, 56vw, 420px) !important;
           border-radius: 20px;
           overflow: hidden;
           transition:
@@ -217,6 +232,46 @@ const OSIApparel = ({ data }: { data?: CMSShop }) => {
           background: #000;
           width: 24px;
           border-radius: 4px;
+        }
+
+        /* ── Mobile tweaks ── */
+        @media (max-width: 639px) {
+          .osi-slide {
+            border-radius: 14px;
+          }
+
+          .osi-card {
+            border-radius: 14px;
+          }
+
+          .osi-coverflow {
+            padding-bottom: 30px !important;
+          }
+
+          /* Slightly tighter pagination on mobile */
+          .osi-coverflow .swiper-pagination-bullet {
+            width: 6px;
+            height: 6px;
+          }
+
+          .osi-coverflow .swiper-pagination-bullet-active {
+            width: 18px;
+          }
+        }
+
+        /* ── Extra-small screens (< 375px) ── */
+        @media (max-width: 374px) {
+          .osi-slide {
+            width: 92vw !important;
+            height: clamp(180px, 60vw, 240px) !important;
+          }
+        }
+
+        /* xs breakpoint helper for the "Add to" text */
+        @media (min-width: 480px) {
+          .xs\\:inline {
+            display: inline;
+          }
         }
       `}</style>
     </>
