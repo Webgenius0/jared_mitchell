@@ -52,7 +52,7 @@ import { ArtistCategorySkeleton } from "@/Components/Loader/Loader";
 
 const DiscoverArtists = ({
   type = "artist",
-  data: cmsData
+  data: cmsData,
 }: {
   type?: "artist" | "business";
   data?: any;
@@ -68,16 +68,18 @@ const DiscoverArtists = ({
     <section className="section">
       <Container>
         <h2 className="section_title">
-          {cmsData?.title || `Discover More ${type === "artist" ? "Artists" : "Businesses"}`}
+          {cmsData?.title ||
+            `Discover More ${type === "artist" ? "Artists" : "Businesses"}`}
         </h2>
         <p className="section_sub_title">
           {cmsData?.sub_title || (
             <>
-              Meet the {type === "artist" ? "creatives" : "businesses"} shaping our
-              neighborhoods.
+              Meet the {type === "artist" ? "creatives" : "businesses"} shaping
+              our neighborhoods.
               <br />
-              From innovative startups to community anchors, these stories highlight
-              the courage, creativity, and commitment behind every brand.
+              From innovative startups to community anchors, these stories
+              highlight the courage, creativity, and commitment behind every
+              brand.
             </>
           )}
         </p>
@@ -172,6 +174,9 @@ const DiscoverArtists = ({
             ))}
           </div>
         )}
+        <div className="flex justify-center pt-10">
+          <Button>Explore More</Button>
+        </div>
       </Container>
     </section>
   );
