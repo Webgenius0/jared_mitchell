@@ -12,6 +12,7 @@ import { getBossCms, getCMSAboutData } from "@/lib/Services/cms_service";
 import { CMSBossBeginnings } from "@/Types/cms";
 import SponsorSlider from "@/Components/Common/SponsorSlider";
 import { sponsorsData } from "@/Components/Data/data";
+import { Button } from "@/Components/Common/Button";
 
 const page = async () => {
   const pageData = (await getBossCms()) as CMSBossBeginnings;
@@ -50,6 +51,9 @@ const page = async () => {
         <div className="flex flex-col gap-5">
           <SponsorSlider logos={logos} />
           <SponsorSlider logos={logos} reverse={true} />
+        </div>
+        <div className="flex justify-center mt-10">
+          <Button>Become a Sponsor</Button>
         </div>
       </section>
       <NewsLetter title="Be part of the movement. Get stories, updates, and opportunities straight to your inbox." />
