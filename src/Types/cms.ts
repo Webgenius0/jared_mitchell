@@ -238,3 +238,255 @@ export interface CMSFAQ {
   created_at: string;
   updated_at: string;
 }
+
+// ─── Events Page ─────────────────────────────────────────────────────────────
+
+export interface CMSEventsPageHero extends CMSBase {}
+
+export interface CMSEventsPageVideo extends CMSBase {
+  // description holds the video URL for this section
+  description: string | null;
+}
+
+export interface CMSEventsPageHost extends CMSBase {
+  metadata: {
+    icon: string;
+    title: string;
+    description: string;
+  }[];
+}
+
+export interface CMSEventsPageVendorMetadata {
+  pricing: {
+    icon: string;
+    title: string;
+    price: string;
+    description: string;
+  }[];
+  benefits: {
+    title: string;
+  };
+  member_perks_top: {
+    title: string;
+    condition: string;
+  };
+  member_perks_bottom: {
+    title: string;
+    description: string;
+  };
+  what_vendors_provide: {
+    title: string;
+  };
+  why_vendors_love: {
+    title: string;
+    description: string;
+  };
+}
+
+export interface CMSEventsPageVendor extends CMSBase {
+  metadata: CMSEventsPageVendorMetadata;
+}
+
+export interface CMSEventsPageBoothFeatures extends CMSBase {
+  metadata: {
+    icon: string;
+    title: string;
+    description: string;
+  }[];
+}
+
+export interface CMSEventsPage {
+  events_page_hero: CMSEventsPageHero;
+  events_page_video: CMSEventsPageVideo;
+  events_page_host: CMSEventsPageHost;
+  events_page_vendor: CMSEventsPageVendor;
+  events_page_booth_features: CMSEventsPageBoothFeatures;
+}
+
+// ─── Shop Page ───────────────────────────────────────────────────────────────
+
+export interface CMSShopPageHero extends CMSBase {
+  // bg holds the hero background image URL for this section
+  bg: string | null;
+}
+
+export interface CMSShopPageFooterFeatures extends CMSBase {
+  metadata: {
+    title: string;
+    description: string;
+  }[];
+}
+
+export interface CMSShopPageSupport extends CMSBase {
+  metadata: {
+    icon: string;
+    title: string;
+    description: string;
+  }[];
+}
+
+export interface CMSShopPageFeatures extends CMSBase {
+  metadata: {
+    icon: string;
+    title: string;
+    description: string;
+  }[];
+}
+
+export interface CMSShopPage {
+  shop_page_hero: CMSShopPageHero;
+  shop_page_footer_features: CMSShopPageFooterFeatures;
+  shop_page_support: CMSShopPageSupport;
+  shop_page_features: CMSShopPageFeatures;
+}
+
+// Add these interfaces to your @/Types/cms.ts file
+
+export interface CMSBossBeginningsHero extends CMSBase {}
+
+export interface CMSBossBeginningsVideoGallery extends CMSBase {
+  metadata: {
+    gallery: string[];
+  } | null;
+}
+
+export interface CMSBossBeginningsFeatures extends CMSBase {
+  metadata: {
+    features: {
+      title: string;
+      description: string;
+      image: string;
+    }[];
+  };
+}
+
+export interface CMSBossBeginningsSteps extends CMSBase {
+  metadata: {
+    steps: {
+      small_text: string;
+      title: string;
+      description: string;
+      image: string;
+    }[];
+  };
+}
+
+export interface CMSBossBeginningsSection5 extends CMSBase {}
+
+export interface CMSBossBeginningsDynamic extends CMSBase {
+  metadata: {
+    items: {
+      title: string;
+      description: string;
+      image: string;
+    }[];
+  };
+}
+
+export interface CMSBossBeginnings {
+  boss_beginnings_hero: CMSBossBeginningsHero;
+  boss_beginnings_video_gallery: CMSBossBeginningsVideoGallery;
+  boss_beginnings_features: CMSBossBeginningsFeatures;
+  boss_beginnings_steps: CMSBossBeginningsSteps;
+  boss_beginnings_section5: CMSBossBeginningsSection5;
+  boss_beginnings_dynamic: CMSBossBeginningsDynamic;
+}
+
+export interface CMSSponsorshipPageHero extends CMSBase {}
+
+export interface CMSSponsorshipPageVideo extends CMSBase {
+  // sub_title holds the video URL for this section
+  // image holds the thumbnail
+}
+
+export interface CMSSponsorshipPageWhy extends CMSBase {
+  metadata: {
+    supports: string[];
+    features: {
+      icon: string;
+      title: string;
+      description: string;
+    }[];
+  };
+}
+
+export interface CMSSponsorshipPageSteps extends CMSBase {
+  metadata: {
+    title: string;
+    description: string;
+    list: string[];
+  }[];
+}
+
+export interface CMSSponsorshipPageLevelsHeader extends CMSBase {}
+
+export interface CMSSponsorshipPageFooter extends CMSBase {}
+
+export interface CMSSponsorshipPage {
+  sponsorship_page_hero: CMSSponsorshipPageHero;
+  sponsorship_page_video: CMSSponsorshipPageVideo;
+  sponsorship_page_why: CMSSponsorshipPageWhy;
+  sponsorship_page_steps: CMSSponsorshipPageSteps;
+  sponsorship_page_levels_header: CMSSponsorshipPageLevelsHeader;
+  sponsorship_page_footer: CMSSponsorshipPageFooter;
+}
+
+
+export interface EventTicketTier {
+  id: number;
+  event_id: number;
+  name: string;
+  description: string;
+  price: string;
+  service_fee: string;
+  quantity_available: number;
+  quantity_sold: number;
+  sale_starts_at: string | null;
+  sale_ends_at: string | null;
+  is_active: boolean;
+  sort_order: number;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface Event {
+  id: number;
+  title: string;
+  slug: string;
+  description: string;
+  starts_at: string;
+  ends_at: string;
+  timezone: string;
+  venue_name: string;
+  address: string;
+  city: string;
+  state: string;
+  hosted_by: string;
+  cover_image_url: string;
+  promo_video_url: string | null;
+  event_type: "featured" | "pop_up" | "workshop" | "networking" | string;
+  is_featured: boolean;
+  like_count: number;
+  ticket_url: string;
+  tickets_available: boolean;
+  status: string;
+  ticket_tiers: EventTicketTier[];
+  likes_count: number;
+  bookmarks_count: number;
+  shares_count: number;
+  is_liked: boolean;
+  is_bookmarked: boolean;
+  created_at: string;
+}
+
+export interface EventsPagination {
+  current_page: number;
+  per_page: number;
+  total: number;
+  last_page: number;
+}
+
+export interface EventsResponse {
+  events: Event[];
+  pagination: EventsPagination;
+}

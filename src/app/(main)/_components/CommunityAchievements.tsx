@@ -16,7 +16,8 @@ const CommunityAchievements = ({ data }: { data?: any }) => {
       </h2>
 
       <p className="section_sub_title">
-        {data?.sub_title || "Celebrating our community's achievements and creative milestones"}
+        {data?.sub_title ||
+          "Celebrating our community's achievements and creative milestones"}
       </p>
 
       <div className="my-6 md:mt-12">

@@ -21,7 +21,7 @@ const OurImpact = ({ data: cmsData }: { data?: CMSAboutOurImpact }) => {
   }
 
   return (
-    <section className="py-10 xl:py-20 container">
+    <section className="py-10 xl:py-30 container">
       <div className="max-w-[1200px] mx-auto">
         <h2 className="text-primary-black text-3xl md:text-4xl xl:text-5xl font-bold leading-[140%] text-center mb-3">
           {cmsData?.title || "Our Impact"}

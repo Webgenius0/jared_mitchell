@@ -6,21 +6,28 @@ import {
   HiOutlinePresentationChartLine,
   HiOutlineLightBulb,
 } from "react-icons/hi";
+import { CMSBossBeginningsSteps } from "@/Types/cms";
 
-const data = [
+interface BusinessChosenChartProps {
+  data: CMSBossBeginningsSteps;
+}
+
+const pieData = [
   { name: "OSI Judging Panel", value: 50 },
   { name: "Community Votes", value: 50 },
 ];
 
 const COLORS = ["#3B82F6", "#E5E7EB"];
 
-const BusinessChosenChart = () => {
+const BusinessChosenChart = ({ data }: BusinessChosenChartProps) => {
   return (
     <section className="container py-20">
-      <h2 className="section_title">How Businesses Are Chosen</h2>
+      <h2 className="section_title">
+        {data?.title ?? "How Businesses Are Chosen"}
+      </h2>
       <p className="section_sub_title">
-        Our selection process combines community support with professional
-        evaluation.
+        {data?.sub_title ??
+          "Our selection process combines community support with professional evaluation."}
       </p>
 
       <div className="flex flex-col lg:flex-row items-center justify-center gap-16 mt-16">
@@ -30,7 +37,7 @@ const BusinessChosenChart = () => {
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
                 <Pie
-                  data={data}
+                  data={pieData}
                   cx="50%"
                   cy="50%"
                   innerRadius={70}
@@ -39,7 +46,7 @@ const BusinessChosenChart = () => {
                   endAngle={-270}
                   dataKey="value"
                 >
-                  {data.map((_, index) => (
+                  {pieData.map((_, index) => (
                     <Cell key={index} fill={COLORS[index]} stroke="none" />
                   ))}
                 </Pie>
@@ -101,7 +108,7 @@ const Criteria = ({
   title,
   desc,
 }: {
-  icon: any;
+  icon: React.ReactNode;
   title: string;
   desc: string;
 }) => (

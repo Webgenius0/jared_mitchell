@@ -1,18 +1,24 @@
 import { membershipPlans } from "@/Components/Data/data";
+import { CMSSponsorshipPageLevelsHeader } from "@/Types/cms";
 
-const SponsorshipLevel = () => {
+interface SponsorshipLevelProps {
+  data: CMSSponsorshipPageLevelsHeader;
+}
+
+const SponsorshipLevel = ({ data }: SponsorshipLevelProps) => {
   return (
     <section className="section container">
-      <h2 className="section_title 2xl:!text-[76px]">
-        Choose Your Sponsorship Level
+      <h2 className="section_title">
+        {/* <h2 className="section_title 2xl:!text-[76px]"> */}
+        {data?.title ?? "Choose Your Sponsorship Level"}
       </h2>
 
       <p className="text-2xl text-primary-black max-w-[1025px] w-full mx-auto text-center">
-        Every tier is designed to promote your business, increase visibility,
-        and support community events — choose the plan that fits your goals.
+        {data?.sub_title ??
+          "Every tier is designed to promote your business, increase visibility, and support community events — choose the plan that fits your goals."}
       </p>
 
-      <div className="mt-10 grid gap-6 grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 ">
+      <div className="mt-10 grid gap-6 grid-cols-1 sm:grid-cols-2 xl:grid-cols-4">
         {membershipPlans?.map((plan, idx) => (
           <div
             key={idx}
@@ -22,11 +28,10 @@ const SponsorshipLevel = () => {
               <div className="flex gap-3 items-center mb-4">
                 <p
                   style={{ backgroundColor: plan.iconBgColor }}
-                  className={`size-8 rounded-full flex items-center justify-center`}
+                  className="size-8 rounded-full flex items-center justify-center"
                 >
                   <plan.icon />
                 </p>
-
                 <h6 className="text-xl font-medium text-center text-[#637381]">
                   {plan.name}
                 </h6>

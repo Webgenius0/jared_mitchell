@@ -17,7 +17,6 @@ const GetInTouch = () => {
     const form = e.target as HTMLFormElement;
     const formData = new FormData(form);
 
-    // Filter out empty file inputs if no file was selected
     const file = formData.get("file") as File;
     if (file && file.size === 0) {
       formData.delete("file");
@@ -32,7 +31,9 @@ const GetInTouch = () => {
       });
 
       if (res.data.success) {
-        toast.success(res.data.message || "Your message has been sent successfully.");
+        toast.success(
+          res.data.message || "Your message has been sent successfully.",
+        );
         form.reset();
         setFileName(null);
       } else {
@@ -40,7 +41,8 @@ const GetInTouch = () => {
       }
     } catch (error: any) {
       toast.error(
-        error?.response?.data?.message || "Failed to send message. Please try again later."
+        error?.response?.data?.message ||
+          "Failed to send message. Please try again later.",
       );
     } finally {
       setIsLoading(false);
@@ -50,14 +52,15 @@ const GetInTouch = () => {
   return (
     <section className="section">
       <Container>
-        <h2 className="section_title 2xl:!text-[70px]">Get In Touch</h2>
+        <h2 className="section_title ">Get In Touch</h2>
+        {/* <h2 className="section_title 2xl:!text-[70px]">Get In Touch</h2> */}
         <p className="section_sub_title">
           For general questions about OSI, event information, partnerships,
           media inquiries, technical assistance, or billing concerns — use the
           form below. Our team typically responds within 24–48 hours.
         </p>
         <form onSubmit={handleSubmit} className="mt-[120px]">
-          <div className="space-y-8">
+          <div className="space-y-5">
             <div className="flex items-center gap-6">
               <div className="space-y-[18px] w-full">
                 <div className="text-primary-black text-2xl">First Name*</div>
@@ -66,7 +69,7 @@ const GetInTouch = () => {
                   name="first_name"
                   required
                   placeholder="John"
-                  className="px-6 py-5 rounded-full bg-[#F5F5F7] border border-[#00000029] text-xl text-[#99A1AF] w-full"
+                  className="px-6 py-3 rounded-full bg-[#F5F5F7] border border-[#00000029] text-xl text-[#99A1AF] w-full"
                 />
               </div>
               <div className="space-y-[18px] w-full">
@@ -76,7 +79,7 @@ const GetInTouch = () => {
                   name="last_name"
                   required
                   placeholder="Doe"
-                  className="px-6 py-5 rounded-full bg-[#F5F5F7] border border-[#00000029] text-xl text-[#99A1AF] w-full"
+                  className="px-6 py-3 rounded-full bg-[#F5F5F7] border border-[#00000029] text-xl text-[#99A1AF] w-full"
                 />
               </div>
             </div>
@@ -87,7 +90,7 @@ const GetInTouch = () => {
                 name="email"
                 required
                 placeholder="Type your email..."
-                className="px-6 py-5 rounded-full bg-[#F5F5F7] border border-[#00000029] text-xl text-[#99A1AF] w-full"
+                className="px-6 py-3 rounded-full bg-[#F5F5F7] border border-[#00000029] text-xl text-[#99A1AF] w-full"
               />
             </div>
             <div className="space-y-[18px]">
@@ -96,14 +99,18 @@ const GetInTouch = () => {
                 name="subject"
                 required
                 defaultValue=""
-                className="px-6 py-5 rounded-full bg-[#F5F5F7] border border-[#00000029] text-xl text-[#99A1AF] w-full"
+                className="px-6 py-3 rounded-full bg-[#F5F5F7] border border-[#00000029] text-xl text-[#99A1AF] w-full"
               >
-                <option disabled value="">Select a subject</option>
+                <option disabled value="">
+                  Select a subject
+                </option>
                 <option value="General Inquiry">General Inquiry</option>
                 <option value="Event Information">Event Information</option>
                 <option value="Partnerships">Partnerships</option>
                 <option value="Media Inquiries">Media Inquiries</option>
-                <option value="Technical Assistance">Technical Assistance</option>
+                <option value="Technical Assistance">
+                  Technical Assistance
+                </option>
                 <option value="Billing Concerns">Billing Concerns</option>
               </select>
             </div>
@@ -114,26 +121,28 @@ const GetInTouch = () => {
                 required
                 rows={5}
                 placeholder="Tell us how we can help..."
-                className="px-6 py-4 rounded-lg bg-[#F5F5F7] border border-[#00000029] text-xl text-[#99A1AF] w-full"
+                className="px-6 py-3 rounded-lg bg-[#F5F5F7] border border-[#00000029] text-xl text-[#99A1AF] w-full"
               ></textarea>
             </div>
             <div className="space-y-[18px]">
               <div className="text-primary-black text-2xl">
                 Optional Upload (Screenshots or Files)
               </div>
-              <label className="px-6 py-5 rounded-full flex items-center justify-center cursor-pointer gap-2 bg-white border border-[#00000029] text-xl text-[#364153] w-full hover:bg-gray-50 transition-colors">
+              <label className="px-6 py-3 rounded-full flex items-center justify-center cursor-pointer gap-2 bg-white border border-[#00000029] text-xl text-[#364153] w-full hover:bg-gray-50 transition-colors">
                 <input
                   type="file"
                   name="file"
                   className="hidden"
-                  onChange={(e) => {
+                  onChange={e => {
                     const file = e.target.files?.[0];
                     setFileName(file ? file.name : null);
                   }}
                 />
                 <LuUpload className="text-[#99A1AF]" />
                 {fileName ? (
-                  <span className="text-[#364153] truncate max-w-[80%]">{fileName}</span>
+                  <span className="text-[#364153] truncate max-w-[80%]">
+                    {fileName}
+                  </span>
                 ) : (
                   "Click to upload file"
                 )}

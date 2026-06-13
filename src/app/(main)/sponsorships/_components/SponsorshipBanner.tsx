@@ -1,27 +1,33 @@
 import sponsorshipBg from "@/Assets/sponsership.png";
 import { RightSvg } from "@/Components/Svg/SvgContainer";
+import { CMSSponsorshipPageHero } from "@/Types/cms";
 
-const SponsorshipBanner = () => {
+interface SponsorshipBannerProps {
+  data: CMSSponsorshipPageHero;
+}
+
+const SponsorshipBanner = ({ data }: SponsorshipBannerProps) => {
+  const bgImage = data?.bg ?? sponsorshipBg.src;
+
   return (
     <section
       style={{
         backgroundImage: `
           linear-gradient(0deg, rgba(0,0,0,0.1), rgba(0,0,0,0.1)),
-          url(${sponsorshipBg.src})
+          url(${bgImage})
         `,
       }}
       className="h-[500px] bg-no-repeat bg-center bg-cover"
     >
       <div className="h-full container flex flex-col items-center justify-center">
         <h2 className="text-5xl font-bold leading-[130%] text-white text-center max-w-[968px] mx-auto">
-          Partner With Us — Empower Creativity, Community, and Culture
+          {data?.title ??
+            "Partner With Us — Empower Creativity, Community, and Culture"}
         </h2>
 
         <p className="text-white text-xl text-center max-w-4xl mx-auto leading-[150%] py-7">
-          At Our Social Image, every sponsorship fuels real opportunities for
-          creators, small businesses, and local communities. Your support helps
-          us host events, produce digital media, spotlight entrepreneurs, and
-          empower the culture that drives our city forward.
+          {data?.sub_title ??
+            "At Our Social Image, every sponsorship fuels real opportunities for creators, small businesses, and local communities. Your support helps us host events, produce digital media, spotlight entrepreneurs, and empower the culture that drives our city forward."}
         </p>
 
         <div className="flex justify-center items-center gap-4">

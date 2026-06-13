@@ -73,13 +73,13 @@ const CreatorMarket = () => {
             auction, and special guest speakers from across the region.
           </p>
 
-          <div className="flex gap-5 items-center max-w-[80%]">
-            <button className="flex-1 rounded-full cursor-pointer bg-primary-blue text-white py-3 font-medium text-lg">
-              RSVP Now
+          <div className="">
+            <button className="flex-1 rounded-full cursor-pointer bg-primary-blue text-white py-3 font-normal text-lg !w-fit px-5">
+              Booking Event Ticket
             </button>
-            <button className="flex-1 rounded-full cursor-pointer text-primary-blue bg-transparent border-2 border-[#1977DD] py-3 font-bold text-lg">
+            {/* <button className="flex-1 rounded-full cursor-pointer text-primary-blue bg-transparent border-2 border-[#1977DD] py-3 font-bold text-lg">
               Apply as Vendor
-            </button>
+            </button> */}
           </div>
         </div>
       </div>

@@ -7,8 +7,18 @@ import {
   PowerSvg,
   TshirtSvg,
 } from "@/Components/Svg/SvgContainer";
+import { CMSShopPageFeatures } from "@/Types/cms";
 
-const iconData = [
+const iconMap = [
+  TshirtSvg,
+  DownloadSvg,
+  BagSvg,
+  CalendarSvg,
+  HeartSvg,
+  PowerSvg,
+];
+
+const fallbackData = [
   {
     icon: TshirtSvg,
     title: "Apparel",
@@ -41,23 +51,35 @@ const iconData = [
   },
 ];
 
-const IconSection = () => {
+interface IconSectionProps {
+  data?: CMSShopPageFeatures;
+}
+
+const IconSection = ({ data }: IconSectionProps) => {
+  const items = data?.metadata?.length
+    ? data.metadata.map((item, idx) => ({
+        icon: iconMap[idx] ?? TshirtSvg,
+        title: item.title,
+        description: item.description,
+      }))
+    : fallbackData;
+
   return (
     <div className="section">
       <Container>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {iconData?.map((data, index) => (
+          {items.map((item, index) => (
             <div
               key={index}
               className="space-y-2 py-10 px-[94px] rounded-xl custom_border custom_shadow bg-secondary-gray flex flex-col items-center justify-center text-center"
             >
               <div className="size-[100px] flex items-center justify-center rounded-full bg-primary-blue/15 text-primary-blue mb-3">
-                {<data.icon />}
+                <item.icon />
               </div>
               <p className="text-2xl text-primary-black font-medium">
-                {data.title}
+                {item.title}
               </p>
-              <p className="text-xl text-[#4A5565]">{data.description}</p>
+              <p className="text-xl text-[#4A5565]">{item.description}</p>
             </div>
           ))}
         </div>
