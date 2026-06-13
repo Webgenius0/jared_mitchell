@@ -2,6 +2,7 @@ import { Button } from "@/Components/Common/Button";
 import Image from "next/image";
 import { GoGift } from "react-icons/go";
 import { CMSBossBeginnings } from "@/Types/cms";
+import Link from "next/link";
 
 const BossBeginnings = ({ data }: { data?: CMSBossBeginnings }) => {
   return (
@@ -39,16 +40,18 @@ const BossBeginnings = ({ data }: { data?: CMSBossBeginnings }) => {
         </p>
 
         {/* Trimmed down top margins above the actions block */}
-        <div className="flex flex-wrap items-center justify-center gap-3 lg:gap-6 mt-5 md:mt-6 xl:mt-8">
-          <Button>
-            <div className="flex items-center justify-center size-6 shrink-0 aspect-square rounded-lg custom_border bg-gray-100">
-              <GoGift className="text-primary-blue" />
-            </div>
-            Learn More
-          </Button>
-          <Button variant={"outline"}>Nominate a Business</Button>
-          <Button variant={"outline"}>Sponsor Event</Button>
-        </div>
+        <Link href={"/boss-beginnings"}>
+          <div className="flex flex-wrap items-center justify-center gap-3 lg:gap-6 mt-5 md:mt-6 xl:mt-8">
+            <Button>
+              <div className="flex items-center justify-center size-6 shrink-0 aspect-square rounded-lg custom_border bg-gray-100">
+                <GoGift className="text-primary-blue" />
+              </div>
+              Learn More
+            </Button>
+            <Button variant={"outline"}>Nominate a Business</Button>
+            <Button variant={"outline"}>Sponsor Event</Button>
+          </div>
+        </Link>
       </div>
     </section>
   );

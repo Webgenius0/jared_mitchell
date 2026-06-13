@@ -13,9 +13,9 @@ const SpotlightHero = ({ data }: { data?: CMSArtistSpotlightVideo }) => {
             className={"!rounded-[20px] md:!rounded-[40px]"} 
           />
         </div>
-        <h2 className='text-2xl md:text-3xl xl:text-[40px] font-bold text-center mt-8 md:mt-16'>
+        {/* <h2 className='text-2xl md:text-3xl xl:text-[40px] font-bold text-center mt-8 md:mt-16'>
           {data?.title || "Taste of Indy Street Kitchen: A Family Legacy of Flavor and Heart"}
-        </h2>
+        </h2> */}
         {data?.sub_title && (
           <p className="text-center text-lg md:text-xl text-secondary-black mt-4 max-w-[900px] mx-auto">
             {data.sub_title}

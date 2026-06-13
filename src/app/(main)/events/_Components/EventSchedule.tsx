@@ -1,9 +1,34 @@
 "use client";
+
+import { useEffect, useState } from "react";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
+import { CMSEventsPageVideo, Event } from "@/Types/cms";
+import { getEvents } from "@/lib/Services/cms_service";
 
-const EventSchedule = () => {
+interface EventScheduleProps {
+  video?: CMSEventsPageVideo;
+}
+
+const EventSchedule = ({ video }: EventScheduleProps) => {
+  const [calendarEvents, setCalendarEvents] = useState<
+    { title: string; date: string; url?: string }[]
+  >([]);
+
+  useEffect(() => {
+    getEvents()
+      .then(res => {
+        const mapped = res.events.map((event: Event) => ({
+          title: event.title,
+          date: event.starts_at.split("T")[0],
+          url: event.ticket_url ?? undefined,
+        }));
+        setCalendarEvents(mapped);
+      })
+      .catch(console.error);
+  }, []);
+
   const handleDateClick = (arg: any) => {
     alert("Date clicked: " + arg.dateStr);
   };
@@ -25,12 +50,7 @@ const EventSchedule = () => {
         fixedWeekCount={false}
         dayMaxEventRows={1}
         dateClick={handleDateClick}
-        events={[
-          { title: "Business Leaders Summit", date: "2025-12-08" },
-          { title: "Annual Community Gala", date: "2025-12-15" },
-          { title: "Contemporary Art Showcase", date: "2025-12-22" },
-          { title: "Winter Networking Mixer", date: "2025-12-30" },
-        ]}
+        events={calendarEvents}
       />
     </section>
   );

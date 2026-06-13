@@ -1,8 +1,36 @@
-import { pastEvents } from "@/Components/Data/data";
+"use client";
+
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import { GoArrowRight } from "react-icons/go";
+import { getEvents } from "@/lib/Services/cms_service";
+import { Event } from "@/Types/cms";
+
 
 const PastEvents = () => {
+  const [events, setEvents] = useState<Event[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    getEvents("past")
+      .then(res => setEvents(res.events))
+      .catch(console.error)
+      .finally(() => setLoading(false));
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="container">
+        <h2 className="section_title 2xl:text-7xl 2xl:font-bold">
+          Past Event Highlights
+        </h2>
+        <div className="h-[300px] flex items-center justify-center text-xl text-gray-400">
+          Loading events...
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="container">
       <h2 className="section_title 2xl:text-7xl 2xl:font-bold">
@@ -10,27 +38,26 @@ const PastEvents = () => {
       </h2>
 
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5 md:gap-6 my-5 md:my-10">
-        {pastEvents?.map(data => (
-          <div className="rounded-[20px] custom_border custom_shadow bg-[#F5F5F7] overflow-hidden">
-            <div
-              key={data?.id}
-              className="relative flex items-center justify-center w-full h-[300px]"
-            >
+        {events.map(event => (
+          <div
+            key={event.id}
+            className="rounded-[20px] custom_border custom_shadow bg-[#F5F5F7] overflow-hidden"
+          >
+            <div className="relative flex items-center justify-center w-full h-[300px]">
               <Image
-                src={data.image}
+                src={event.cover_image_url}
                 width={500}
                 height={300}
-                alt="image"
+                alt={event.title}
                 className="size-full object-cover"
               />
               <div className="absolute flex items-end pl-6 pb-4 top-0 left-0 size-full bg-[linear-gradient(0deg,_rgba(0,0,0,0.5)_0%,_rgba(0,0,0,0.5)_100%)]">
                 <div className="space-y-2">
                   <h4 className="text-xl md:text-2xl font-semibold text-white">
-                    {data.title}
+                    {event.title}
                   </h4>
-
                   <p className="text-primary-gray text-lg md:text-xl tracking-wider">
-                    {data.description}
+                    {event.city}, {event.state}
                   </p>
                 </div>
               </div>

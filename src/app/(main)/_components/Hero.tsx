@@ -1,5 +1,6 @@
 import CustomVideoPlayer from "@/Components/Common/CustomVideoPlayer";
 import { CMSHero } from "@/Types/cms";
+import Link from "next/link";
 
 const Hero = ({ data }: { data?: CMSHero }) => {
   return (
