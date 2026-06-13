@@ -118,6 +118,9 @@ const UpcomingEvents = () => {
             </div>
           ))}
         </div>
+        <div className="flex justify-center mt-10">
+          <Button size="xl">Load More Events</Button>
+        </div>
       </div>
     </section>
   );

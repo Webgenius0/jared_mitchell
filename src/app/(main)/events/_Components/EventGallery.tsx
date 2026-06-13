@@ -3,6 +3,7 @@ import p2 from "@/Assets/p2.png";
 import p3 from "@/Assets/p3.png";
 import p4 from "@/Assets/p4.png";
 import p5 from "@/Assets/p5.png";
+import { Button } from "@/Components/Common/Button";
 import Image from "next/image";
 const data = [p1, p2, p3, p4, p5, p2];
 
@@ -28,6 +29,9 @@ const EventGallery = () => {
             />
           </figure>
         ))}
+      </div>
+      <div className="flex justify-center mt-10">
+        <Button size="xl">View Full Gallery</Button>
       </div>
     </section>
   );
