@@ -4,7 +4,8 @@ import ShopCard from "./ShopCard";
 const FeaturedShop = () => {
   return (
     <div className="container section rounded-[20px] custom_border bg-secondary-gray space-y-11">
-      <h2 className="section_title 2xl:!text-7xl">
+      <h2 className="section_title ">
+      {/* <h2 className="section_title 2xl:!text-7xl"> */}
         Featured from the OSI Shop
       </h2>
 
