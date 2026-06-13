@@ -24,7 +24,8 @@ const VendorOpportunities = () => {
   return (
     <section className='section'>
       <Container>
-        <h2 className='section_title 2xl:!text-[76px]'>Sponsorship & Vendor Opportunities</h2>
+        <h2 className='section_title '>Sponsorship & Vendor Opportunities</h2>
+        {/* <h2 className='section_title 2xl:!text-[76px]'>Sponsorship & Vendor Opportunities</h2> */}
         <p className='section_sub_title'>If you're interested in sponsoring OSI events, promoting your brand through our channels, securing vendor space at upcoming OSI events, or collaborating on community projects — our team would love to connect.</p>
         <div className='grid grid-cols-1 md:grid-cols-3 gap-6 mt-12'>
           {data?.map((data, index) => (
