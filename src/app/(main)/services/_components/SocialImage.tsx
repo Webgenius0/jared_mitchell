@@ -24,7 +24,7 @@ const SocialImage = ({ data }: { data?: CMSServicesGrow }) => {
               is built to help you thrive.`}
             </p>
 
-            <Button>Join the Movement</Button>
+            {/* <Button>Join the Movement</Button> */}
           </div>
 
           {/* Right */}
