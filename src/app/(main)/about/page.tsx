@@ -17,11 +17,12 @@ import { getCMSAboutData } from "@/lib/Services/cms_service";
 const page = async () => {
   const cmsData = await getCMSAboutData();
 
-  const logos = cmsData?.about_sponsors?.metadata?.map((m, i) => ({
-    id: i + 1,
-    image: m.image,
-    link: m.link
-  })) || sponsorsData;
+  const logos =
+    cmsData?.about_sponsors?.metadata?.map((m, i) => ({
+      id: i + 1,
+      image: m.image,
+      link: m.link,
+    })) || sponsorsData;
 
   return (
     <>
@@ -36,8 +37,8 @@ const page = async () => {
       <OurImpact data={cmsData?.about_our_impact} />
       <FounderMessage data={cmsData?.about_founder_message} />
       <JoinMovement data={cmsData?.about_join} />
-      <section className="py-10 xl:py-20">
-        <h2 className="section_title">
+      <section className="py-10 xl:py-30">
+        <h2 className="section_title pb-10">
           {cmsData?.about_sponsors?.title || "Our Event Sponsors"}
         </h2>
         <div className="flex flex-col gap-5">

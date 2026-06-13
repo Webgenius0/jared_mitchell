@@ -53,7 +53,7 @@ const NewsLetter = ({ title, sub_title, data }: NewsletterProps) => {
         </h2>
 
         {(data?.sub_title || sub_title) && (
-          <p className="section_sub_title 2xl:!my-8">
+          <p className="section_sub_title 2xl:!my-10">
             {data?.sub_title || sub_title}
           </p>
         )}
