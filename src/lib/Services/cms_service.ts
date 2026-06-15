@@ -4,6 +4,7 @@ import {
   CMSBossBeginnings,
   CMSBusinessSpotlight,
   CMSEvent,
+  CMSEventItem,
   CMSEventsPage,
   CMSFAQ,
   CMSHomepage,
@@ -205,4 +206,27 @@ export const getEvents = async (
 
   const result = await res.json();
   return result.data as EventsResponse;
+};
+
+export const getEventBySlug = async (
+  slug: string,
+  token?: string,
+): Promise<CMSEventItem> => {
+  const url = `${process.env.NEXT_PUBLIC_SITE_URL}/v1/events/${slug}`;
+
+  const res = await fetch(url, {
+    next: { revalidate: 60 },
+    headers: {
+      "Content-Type": "application/json",
+      ...(token && { Authorization: `Bearer ${token}` }),
+    },
+  });
+
+  if (!res.ok) {
+    const text = await res.text();
+    throw new Error(`Failed: ${res.status} — ${text}`);
+  }
+
+  const result = await res.json();
+  return result.data as CMSEventItem;
 };

@@ -4,11 +4,11 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import { GoArrowRight } from "react-icons/go";
 import { getEvents } from "@/lib/Services/cms_service";
-import { Event } from "@/Types/cms";
-
+import { CMSEventItem } from "@/Types/cms";
+import Link from "next/link";
 
 const PastEvents = () => {
-  const [events, setEvents] = useState<Event[]>([]);
+  const [events, setEvents] = useState<CMSEventItem[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -62,11 +62,12 @@ const PastEvents = () => {
                 </div>
               </div>
             </div>
-
-            <div className="text-lg md:text-xl text-primary-blue flex items-center gap-2 px-4 md:px-6 py-3 md:py-5">
-              View Recap
-              <GoArrowRight />
-            </div>
+            <Link key={event.slug} href={`/events/${event.slug}`}>
+              <div className="text-lg md:text-xl text-primary-blue flex items-center gap-2 px-4 md:px-6 py-3 md:py-5">
+                View Details
+                <GoArrowRight />
+              </div>
+            </Link>
           </div>
         ))}
       </div>

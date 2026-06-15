@@ -111,7 +111,7 @@ const UpcomingEvents = () => {
                     </div>
                   </div>
                 </div>
-                <Link key={event.id} href={`/events/${event.id}`}>
+                <Link key={event.id} href={`/events/${event.slug}`}>
                   <Button size="lg">View Event Details</Button>
                 </Link>
               </div>

@@ -449,7 +449,7 @@ export interface EventTicketTier {
   updated_at: string;
 }
 
-export interface Event {
+export interface CMSEventItem {
   id: number;
   title: string;
   slug: string;
@@ -487,6 +487,6 @@ export interface EventsPagination {
 }
 
 export interface EventsResponse {
-  events: Event[];
+  events: CMSEventItem[];
   pagination: EventsPagination;
 }
