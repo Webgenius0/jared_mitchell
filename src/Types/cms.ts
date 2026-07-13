@@ -525,3 +525,19 @@ export interface FeaturedEventItem {
 export interface FeaturedEventsResponse {
   events: FeaturedEventItem[];
 }
+
+// ─── Calendar Events ─────────────────────────────────────────────────────────
+
+// The /events/calendar-views endpoint returns events with start_date/end_date
+export interface CalendarEventItem {
+  id: number;
+  title: string;
+  description: string;
+  start_date: string;
+  end_date: string;
+}
+
+export interface CalendarEventsResponse {
+  events: CalendarEventItem[];
+  pagination: EventsPagination;
+}
