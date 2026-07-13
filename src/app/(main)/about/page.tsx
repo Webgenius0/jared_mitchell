@@ -12,10 +12,16 @@ import JoinMovement from "./_Components/JoinMovement";
 import SponsorSlider from "@/Components/Common/SponsorSlider";
 import { sponsorsData } from "@/Components/Data/data";
 import NewsLetter from "@/Components/Common/NewsLetter";
-import { getCMSAboutData } from "@/lib/Services/cms_service";
+import {
+  getCMSAboutData,
+  getCMSHomepageData,
+} from "@/lib/Services/cms_service";
+import Sponsors from "../_components/Sponsors";
+import { Button } from "@/Components/Common/Button";
 
 const page = async () => {
   const cmsData = await getCMSAboutData();
+  const sponsorsdata = await getCMSHomepageData();
 
   const logos =
     cmsData?.about_sponsors?.metadata?.map((m, i) => ({
@@ -46,6 +52,12 @@ const page = async () => {
           <SponsorSlider logos={logos} reverse={true} />
         </div>
       </section>
+      <div className="">
+        <Sponsors data={sponsorsdata?.partners} />
+        <div className="flex justify-center mt-5">
+          <Button>Become a Sponsor</Button>
+        </div>
+      </div>
       <NewsLetter
         data={cmsData?.about_newsletter}
         title="Stay inspired. Get the latest spotlights and events delivered to your inbox."
