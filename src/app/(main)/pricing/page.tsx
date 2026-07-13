@@ -1,19 +1,15 @@
-import EventSponsors from "@/app/(main)/services/_components/EventSponsors";
-import SpotlightOfTheWeek from "../../_components/SpotlightOfTheWeek";
-import VoteNow from "../../_components/VoteNow";
-import WeeklyTimeline from "../../_components/WeeklyTimeline";
+import React from "react";
+import PricingPlan from "../_components/PricingPlan";
+import PricingTable from "../_components/PricingTable";
+import { getCMSAboutData, getCMSFAQs } from "@/lib/Services/cms_service";
+import FAQAccordion from "../services/_components/FAQAccordion";
 import NewsLetter from "@/Components/Common/NewsLetter";
-import BusinessSpotlightBanner from "../../_components/BusinessSpotlightBanner";
-import {
-  getCMSAboutData,
-  getCMSSpotlightLadderData,
-} from "@/lib/Services/cms_service";
+import { Button } from "@/Components/Common/Button";
 import SponsorSlider from "@/Components/Common/SponsorSlider";
 import { sponsorsData } from "@/Components/Data/data";
-import { Button } from "@/Components/Common/Button";
 
 const page = async () => {
-  const cmsData = await getCMSSpotlightLadderData();
+  const faqData = await getCMSFAQs();
   const CmsData = await getCMSAboutData();
 
   const logos =
@@ -24,16 +20,12 @@ const page = async () => {
     })) || sponsorsData;
 
   return (
-    <>
-      <BusinessSpotlightBanner data={cmsData?.spotlight_ladder_hero} />
-      <SpotlightOfTheWeek />
-      <VoteNow />
-      <WeeklyTimeline />
-      {/* <EventSponsors /> */}
+    <div>
+      <PricingPlan />
+      <PricingTable />
+      <FAQAccordion data={faqData} />
       <section className="py-10 xl:py-20">
-        <h2 className="section_title">
-          {CmsData?.about_sponsors?.title || "Our Event Sponsors"}
-        </h2>
+        <h2 className="section_title">{"Our  Sponsors"}</h2>
         <div className="flex flex-col gap-5">
           <SponsorSlider logos={logos} />
           <SponsorSlider logos={logos} reverse={true} />
@@ -43,8 +35,7 @@ const page = async () => {
         </div>
       </section>
       <NewsLetter title="Be part of the movement. Get stories, updates, and opportunities straight to your inbox." />
-    </>
+    </div>
   );
 };
-
 export default page;

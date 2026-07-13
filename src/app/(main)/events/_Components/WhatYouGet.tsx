@@ -37,37 +37,37 @@ const WhatYouGet = ({ data }: WhatYouGetProps) => {
     : fallbackData;
 
   return (
-    <section className="bg-[#F5F5F7] py-12">
+    <section className="bg-[#F5F5F7] py-8 md:py-12">
       <div className="container">
-        <h2 className="section_title font-bold leading-[130%] max-w-[1200px] mx-auto">
+        <h2 className="section_title font-bold leading-[130%] max-w-[1200px] mx-auto text-xl md:text-3xl xl:text-5xl">
           {data?.title ?? "What You Get with Every Booth"}
         </h2>
 
-        <div className="grid grid-cols-3 gap-5 my-10">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-8 my-6 md:my-10">
           {items.map((item, idx) => (
             <div
               key={idx}
               className="space-y-3 text-center flex flex-col justify-center items-center"
             >
-              <span className="size-20 bg-[#1977DD29] rounded-full grid place-items-center">
+              <span className="size-16 md:size-20 bg-[#1977DD29] rounded-full grid place-items-center">
                 {item.icon}
               </span>
-              <h3 className="text-2xl font-semibold text-[#0A0A0A]">
+              <h3 className="text-lg md:text-xl xl:text-2xl font-semibold text-[#0A0A0A]">
                 {item.title}
               </h3>
-              <p className="text-[#4A5565] text-lg">{item.description}</p>
+              <p className="text-[#4A5565] text-sm md:text-base xl:text-lg">{item.description}</p>
             </div>
           ))}
         </div>
 
         <Link
           href="/"
-          className="w-fit block mx-auto px-7 rounded-full cursor-pointer bg-primary-blue text-white py-2.5 text-lg"
+          className="w-fit block mx-auto px-5 md:px-7 rounded-full cursor-pointer bg-primary-blue text-white py-2 md:py-2.5 text-sm md:text-lg"
         >
           Apply as Vendor
         </Link>
 
-        <p className="text-[#4A5565] text-lg text-center mt-5">
+        <p className="text-[#4A5565] text-sm md:text-lg text-center mt-4 md:mt-5">
           Limited spots available for each event
         </p>
       </div>

@@ -14,6 +14,7 @@ import {
 } from "@/lib/Services/cms_service";
 import SponsorSlider from "@/Components/Common/SponsorSlider";
 import { sponsorsData } from "@/Components/Data/data";
+import { Button } from "@/Components/Common/Button";
 
 const page = async () => {
   const cmsData = await getCMSArtistSpotlightData();
@@ -44,7 +45,7 @@ const page = async () => {
         data={cmsData?.artist_spotlight_ladder}
       />
       <BecomeAPart data={cmsData?.artist_spotlight_join} />
-      <CreativeJourney data={cmsData?.artist_spotlight_interview} />
+      {/* <CreativeJourney data={cmsData?.artist_spotlight_interview} /> */}
       <WhatExist data={cmsData?.artist_spotlight_why_exists} />
       {/* <EventSponsors /> */}
       <section className="py-10 xl:py-20">
@@ -53,6 +54,9 @@ const page = async () => {
         </h2>
         <SponsorSlider logos={logos} />
         <SponsorSlider logos={logos} reverse={true} />
+        <div className="flex justify-center mt-10">
+          <Button>Become a Sponsor</Button>
+        </div>
       </section>
       <NewsLetter title="Stay connected with new spotlights, events, and creative tools." />
     </>

@@ -32,17 +32,20 @@ export default function ArtistSpotlightCard({ data }: { data?: CMSSpotlight }) {
           </span>
 
           <h2 className="section_title !text-left mb-4 mt-1.5 md:mt-3 lg:mt-6 2xl:font-semibold 2xl:text-[56px]">
-            {data?.description ? data.description.split('.')[0] : "How Aaliyah Monet Uses Art to Heal and Inspire"}
+            {data?.description
+              ? data.description.split(".")[0]
+              : "How Aaliyah Monet Uses Art to Heal and Inspire"}
           </h2>
 
-          <p className="lg:text-xl xl:text-2xl text-secondary-black">
-            {data?.description || `Aaliyah Monet blends abstract artistry with personal storytelling to
+          <p className="lg:text-base xl:text-xl text-secondary-black">
+            {data?.description ||
+              `Aaliyah Monet blends abstract artistry with personal storytelling to
             amplify voices often unheard. Her journey is a powerful reminder how
             creativity can heal and unite a community. Through vibrant murals
             and intimate portraits, she creates spaces for connection and
             healing.`}
           </p>
-
+          {/* 
           <div className="md:mt-3 xl:mt-8 mb-6 py-5 border-b border-gray-200 flex items-center justify-between">
             <div className="flex items-center gap-4 md:gap-5 text-gray-500">
               <div className="flex items-center gap-2 md:gap-4 2xl:gap-6">
@@ -72,9 +75,10 @@ export default function ArtistSpotlightCard({ data }: { data?: CMSSpotlight }) {
                 </span>
               </div>
             </div>
+          </div> */}
+          <div className="mt-5">
+            <Button>View Spotlight</Button>
           </div>
-
-          <Button>View Spotlight</Button>
         </div>
       </div>
     </div>

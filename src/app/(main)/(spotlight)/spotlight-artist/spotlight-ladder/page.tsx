@@ -4,8 +4,14 @@ import VoteNow from "../../_components/VoteNow";
 import WeeklyTimeline from "../../_components/WeeklyTimeline";
 import NewsLetter from "@/Components/Common/NewsLetter";
 import ArtistSpotlightBanner from "../../_components/ArtistSpotlightBanner";
-import { getCMSAboutData, getCMSSpotlightLadderData } from "@/lib/Services/cms_service";
+import {
+  getCMSAboutData,
+  getCMSSpotlightLadderData,
+import { Button } from "@/Components/Common/Button";
+} from "@/lib/Services/cms_service";
 import { sponsorsData } from "@/Components/Data/data";
+import { Button } from "@/Components/Common/Button";
+import { Button } from "@/Components/Common/Button";
 import SponsorSlider from "@/Components/Common/SponsorSlider";
 
 const page = async () => {
@@ -33,6 +39,9 @@ const page = async () => {
         <div className="flex flex-col gap-5">
           <SponsorSlider logos={logos} />
           <SponsorSlider logos={logos} reverse={true} />
+          <div className="flex justify-center mt-5">
+            <Button>Become a Sponsor</Button>
+          </div>
         </div>
       </section>
       <NewsLetter title="Be part of the movement. Get stories, updates, and opportunities straight to your inbox." />

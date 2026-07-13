@@ -3,28 +3,33 @@
 import { useEffect, useState } from "react";
 import { Button } from "@/Components/Common/Button";
 import Image from "next/image";
-import { getEvents } from "@/lib/Services/cms_service";
-import { Event } from "@/Types/cms";
-
+import { getPastEvents } from "@/lib/Services/cms_service";
+import { CMSEventItem } from "@/Types/cms";
+import DOMPurify from "dompurify";
 
 const EventHighlight = () => {
-  const [events, setEvents] = useState<Event[]>([]);
+  const [events, setEvents] = useState<CMSEventItem[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    getEvents("past")
+    getPastEvents()
       .then(res => setEvents(res.events))
       .catch(console.error)
       .finally(() => setLoading(false));
   }, []);
+  const sanitizeToPlainText = (html: string) => {
+    if (typeof window === "undefined") return html;
+    const clean = DOMPurify.sanitize(html, { ALLOWED_TAGS: [] });
+    return clean;
+  };
 
   if (loading) {
     return (
-      <section className="container py-20">
-        <h2 className="section_title 2xl:text-7xl 2xl:font-bold">
+      <section className="container py-10 md:py-16 xl:py-20">
+        <h2 className="section_title text-2xl md:text-4xl xl:text-6xl 2xl:text-7xl 2xl:font-bold">
           Past Event Highlights
         </h2>
-        <div className="h-[300px] flex items-center justify-center text-xl text-gray-400">
+        <div className="h-[200px] md:h-[300px] flex items-center justify-center text-base md:text-xl text-gray-400">
           Loading events...
         </div>
       </section>
@@ -32,17 +37,17 @@ const EventHighlight = () => {
   }
 
   return (
-    <section className="container py-20">
-      <h2 className="section_title 2xl:text-7xl 2xl:font-bold">
+    <section className="container py-10 md:py-16 xl:py-20">
+      <h2 className="section_title text-2xl md:text-4xl xl:text-6xl 2xl:text-7xl 2xl:font-bold">
         Past Event Highlights
       </h2>
 
-      <p className="text-xl text-[#1D1D1F] text-center mb-12">
+      <p className="text-base md:text-lg xl:text-xl text-[#1D1D1F] text-center mb-6 md:mb-8 xl:mb-12 max-w-[90%] md:max-w-[70%] mx-auto">
         Take a look back at some of our most memorable events and celebrations.
       </p>
 
-      <div className="my-10">
-        <div className="grid grid-cols-2 gap-5">
+      <div className="my-6 md:my-10">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-5">
           {events.map(event => (
             <div
               key={event.id}
@@ -55,19 +60,24 @@ const EventHighlight = () => {
                   width={500}
                   height={300}
                   alt={event.title}
-                  className="object-cover w-full h-[380px]"
+                  className="object-cover w-full h-[200px] md:h-[280px] xl:h-[380px]"
                 />
               </div>
-              <div className="py-7 px-5">
-                <h2 className="text-2xl text-primary-black font-semibold mb-2">
+              <div className="py-4 md:py-7 px-4 md:px-5">
+                <h2 className="text-lg md:text-xl xl:text-2xl text-primary-black font-semibold mb-2 line-clamp-1">
                   {event.title}
                 </h2>
 
-                <p className="mb-12 text-xl line-clamp-2">
-                  {event.description}
-                </p>
+                {event.description && (
+                  <p className="text-sm md:text-base text-secondary-black mt-3 line-clamp-2">
+                    {sanitizeToPlainText(event.description)}
+                  </p>
+                )}
 
-                <Button size={"lg"} className="!px-12 !h-[45px]">
+                <Button
+                  size={"lg"}
+                  className="!px-8 md:!px-12 !h-[36px] md:!h-[45px] text-sm md:text-base mt-5"
+                >
                   View Recap
                 </Button>
               </div>

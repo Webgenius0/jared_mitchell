@@ -28,7 +28,7 @@ const page = async () => {
   return (
     <>
       <BossBeginningBanner data={pageData?.boss_beginnings_hero} />
-      <section className="section container">
+      {/* <section className="section container">
         <div className="w-full h-[627px]">
           <CustomVideoPlayer
             videoSrc={
@@ -38,12 +38,12 @@ const page = async () => {
             className={"!rounded-[40px]"}
           />
         </div>
-      </section>
+      </section> */}
       <BusinessShower data={pageData?.boss_beginnings_features} />
       <BossBeginningWinner data={pageData?.boss_beginnings_video_gallery} />
-      <NewBusiness data={pageData?.boss_beginnings_section5} />
-      <HowVotingWorks data={pageData?.boss_beginnings_steps} />
       <BusinessChosenChart data={pageData?.boss_beginnings_steps} />
+      <NewBusiness data={pageData?.boss_beginnings_section5} />
+      {/* <HowVotingWorks data={pageData?.boss_beginnings_steps} /> */}
       <WinnerReceives data={pageData?.boss_beginnings_dynamic} />
       {/* <PartnerWithBossBeginnings /> */}
       <section className="py-10 xl:py-20">
