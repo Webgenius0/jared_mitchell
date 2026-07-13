@@ -5,7 +5,7 @@ import { Button } from "@/Components/Common/Button";
 import Image from "next/image";
 import { getPastEvents } from "@/lib/Services/cms_service";
 import { CMSEventItem } from "@/Types/cms";
-
+import DOMPurify from "dompurify";
 
 const EventHighlight = () => {
   const [events, setEvents] = useState<CMSEventItem[]>([]);
@@ -17,6 +17,11 @@ const EventHighlight = () => {
       .catch(console.error)
       .finally(() => setLoading(false));
   }, []);
+  const sanitizeToPlainText = (html: string) => {
+    if (typeof window === "undefined") return html;
+    const clean = DOMPurify.sanitize(html, { ALLOWED_TAGS: [] });
+    return clean;
+  };
 
   if (loading) {
     return (
@@ -63,11 +68,16 @@ const EventHighlight = () => {
                   {event.title}
                 </h2>
 
-                <p className="mb-6 md:mb-12 text-sm md:text-base xl:text-xl line-clamp-2">
-                  {event.description}
-                </p>
+                {event.description && (
+                  <p className="text-sm md:text-base text-secondary-black mt-3 line-clamp-2">
+                    {sanitizeToPlainText(event.description)}
+                  </p>
+                )}
 
-                <Button size={"lg"} className="!px-8 md:!px-12 !h-[36px] md:!h-[45px] text-sm md:text-base">
+                <Button
+                  size={"lg"}
+                  className="!px-8 md:!px-12 !h-[36px] md:!h-[45px] text-sm md:text-base mt-5"
+                >
                   View Recap
                 </Button>
               </div>
