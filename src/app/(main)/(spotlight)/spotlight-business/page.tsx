@@ -9,9 +9,13 @@ import BecomeAPart from "../_components/BecomeAPart";
 import CreativeJourney from "../_components/CreativeJourney";
 import SpotlightLadder from "../_components/SpotlightLadder";
 import BusinessSpotlightBanner from "../_components/BusinessSpotlightBanner";
-import { getCMSAboutData, getCMSBusinessSpotlightData } from "@/lib/Services/cms_service";
+import {
+  getCMSAboutData,
+  getCMSBusinessSpotlightData,
+} from "@/lib/Services/cms_service";
 import SponsorSlider from "@/Components/Common/SponsorSlider";
 import { sponsorsData } from "@/Components/Data/data";
+import { Button } from "@/Components/Common/Button";
 
 const page = async () => {
   const cmsData = await getCMSBusinessSpotlightData();
@@ -33,7 +37,7 @@ const page = async () => {
         data={cmsData?.business_spotlight_list}
       />
       <CommunityAchievements data={cmsData?.business_spotlight_highlights} />
-      <EditorsPicks type="business" data={cmsData?.business_spotlight_picks} />
+      {/* <EditorsPicks type="business" data={cmsData?.business_spotlight_picks} /> */}
       <SpotlightLadder
         title={
           cmsData?.business_spotlight_ladder?.title || "OSI Spotlight Ladder"
@@ -46,7 +50,7 @@ const page = async () => {
         data={cmsData?.business_spotlight_ladder}
       />
       <BecomeAPart data={cmsData?.business_spotlight_join} />
-      <CreativeJourney data={cmsData?.business_spotlight_interview} />
+      {/* <CreativeJourney data={cmsData?.business_spotlight_interview} /> */}
       <WhatExist data={cmsData?.business_spotlight_why_exists} />
       {/* <EventSponsors /> */}
       <section className="py-10 xl:py-20">
@@ -56,6 +60,9 @@ const page = async () => {
         <div className="flex flex-col gap-5">
           <SponsorSlider logos={logos} />
           <SponsorSlider logos={logos} reverse={true} />
+          <div className="flex justify-center mt-5">
+            <Button>Become a Sponsor</Button>
+          </div>
         </div>
       </section>
       <NewsLetter title="Stay connected with new spotlights, events, and creative tools." />

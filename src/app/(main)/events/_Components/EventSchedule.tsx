@@ -4,8 +4,8 @@ import { useEffect, useState } from "react";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
-import { CMSEventsPageVideo, Event } from "@/Types/cms";
-import { getEvents } from "@/lib/Services/cms_service";
+import { CMSEventsPageVideo, CalendarEventItem } from "@/Types/cms";
+import { getCalendarEvents } from "@/lib/Services/cms_service";
 
 interface EventScheduleProps {
   video?: CMSEventsPageVideo;
@@ -17,12 +17,11 @@ const EventSchedule = ({ video }: EventScheduleProps) => {
   >([]);
 
   useEffect(() => {
-    getEvents()
+    getCalendarEvents()
       .then(res => {
-        const mapped = res.events.map((event: Event) => ({
+        const mapped = res.events.map((event: CalendarEventItem) => ({
           title: event.title,
-          date: event.starts_at.split("T")[0],
-          url: event.ticket_url ?? undefined,
+          date: event.start_date.split("T")[0],
         }));
         setCalendarEvents(mapped);
       })

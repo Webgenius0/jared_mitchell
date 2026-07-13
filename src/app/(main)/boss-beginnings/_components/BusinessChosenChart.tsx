@@ -1,126 +1,305 @@
 "use client";
-import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
+
+import { useRef } from "react";
+import Image, { StaticImageData } from "next/image";
+import { Swiper, SwiperSlide } from "swiper/react";
+import type { Swiper as SwiperType } from "swiper";
+import { Navigation, FreeMode } from "swiper/modules";
 import {
-  HiOutlineBriefcase,
-  HiOutlineUsers,
-  HiOutlinePresentationChartLine,
-  HiOutlineLightBulb,
+  HiOutlineThumbUp,
+  HiOutlineHeart,
+  HiOutlineFire,
+  HiChevronLeft,
+  HiChevronRight,
+  HiOutlineLocationMarker,
+  HiTrendingUp,
 } from "react-icons/hi";
 import { CMSBossBeginningsSteps } from "@/Types/cms";
+
+import "swiper/css";
+import "swiper/css/navigation";
+import brewBloomImg from "../../../../Assets/Image (Brew & Bloom Café).png";
+import techstartYouthImg from "../../../../Assets/d472ae9e704c53b818eec4a826a3881a074abd33.jpg";
+import rhythmThreadsImg from "../../../../Assets/e4ca7635affe18ca84c1cd05cf5c99860375ce4e.jpg";
 
 interface BusinessChosenChartProps {
   data: CMSBossBeginningsSteps;
 }
 
-const pieData = [
-  { name: "OSI Judging Panel", value: 50 },
-  { name: "Community Votes", value: 50 },
+interface PointRule {
+  icon: React.ReactNode;
+  label: string;
+  points: number;
+  frequency: string;
+}
+
+interface BusinessCard {
+  id: string;
+  name: string;
+  category: string;
+  description: string;
+  location: string;
+  image: string | StaticImageData;
+  totalPoints: number;
+  claps: number;
+  loves: number;
+  fires: number;
+}
+
+const pointRules: PointRule[] = [
+  {
+    icon: <HiOutlineThumbUp />,
+    label: "Clap",
+    points: 1,
+    frequency: "1 per nominee per day",
+  },
+  {
+    icon: <HiOutlineHeart />,
+    label: "Love",
+    points: 3,
+    frequency: "Once per nominee",
+  },
+  {
+    icon: <HiOutlineFire />,
+    label: "Fire",
+    points: 5,
+    frequency: "Once per day per platform",
+  },
 ];
 
-const COLORS = ["#3B82F6", "#E5E7EB"];
+// Replace with real CMS/API data
+const sampleBusinesses: BusinessCard[] = [
+  {
+    id: "1",
+    name: "Brew & Bloom Café",
+    category: "Nonprofit",
+    description: "Artisan coffee meets local florals",
+    location: "Fountain Square, Indianapolis",
+    image: brewBloomImg,
+    totalPoints: 1724,
+    claps: 1,
+    loves: 3,
+    fires: 5,
+  },
+  {
+    id: "2",
+    name: "TechStart Youth",
+    category: "Food & Beverage",
+    description: "Artisan coffee meets local florals",
+    location: "Fountain Square, Indianapolis",
+    image: techstartYouthImg,
+    totalPoints: 1004,
+    claps: 1,
+    loves: 3,
+    fires: 5,
+  },
+  {
+    id: "3",
+    name: "Rhythm Threads",
+    category: "Nonprofit",
+    description: "Handcrafted streetwear with soul",
+    location: "Mass Ave, Indianapolis",
+    image: rhythmThreadsImg,
+    totalPoints: 1724,
+    claps: 1,
+    loves: 3,
+    fires: 5,
+  },
+  {
+    id: "4",
+    name: "TechStart Youth",
+    category: "Fashion & Apparel",
+    description: "Artisan coffee meets local florals",
+    location: "Fountain Square, Indianapolis",
+    image: techstartYouthImg,
+    totalPoints: 839,
+    claps: 1,
+    loves: 3,
+    fires: 5,
+  },
+  {
+    id: "5",
+    name: "TechStart Youth",
+    category: "Fashion & Apparel",
+    description: "Artisan coffee meets local florals",
+    location: "Fountain Square, Indianapolis",
+    image: techstartYouthImg,
+    totalPoints: 839,
+    claps: 1,
+    loves: 3,
+    fires: 5,
+  },
+  {
+    id: "6",
+    name: "TechStart Youth",
+    category: "Fashion & Apparel",
+    description: "Artisan coffee meets local florals",
+    location: "Fountain Square, Indianapolis",
+    image: techstartYouthImg,
+    totalPoints: 839,
+    claps: 1,
+    loves: 3,
+    fires: 5,
+  },
+  {
+    id: "7",
+    name: "TechStart Youth",
+    category: "Fashion & Apparel",
+    description: "Artisan coffee meets local florals",
+    location: "Fountain Square, Indianapolis",
+    image: techstartYouthImg,
+    totalPoints: 839,
+    claps: 1,
+    loves: 3,
+    fires: 5,
+  },
+  {
+    id: "8",
+    name: "TechStart Youth",
+    category: "Fashion & Apparel",
+    description: "Artisan coffee meets local florals",
+    location: "Fountain Square, Indianapolis",
+    image: techstartYouthImg,
+    totalPoints: 839,
+    claps: 1,
+    loves: 3,
+    fires: 5,
+  },
+];
 
 const BusinessChosenChart = ({ data }: BusinessChosenChartProps) => {
+  const swiperRef = useRef<SwiperType | null>(null);
+
   return (
-    <section className="container py-20">
-      <h2 className="section_title">
-        {data?.title ?? "How Businesses Are Chosen"}
-      </h2>
-      <p className="section_sub_title">
-        {data?.sub_title ??
-          "Our selection process combines community support with professional evaluation."}
-      </p>
+    <section className="py-20 overflow-x-hidden">
+      <div className="container">
+        <h2 className="section_title text-center">
+          {data?.title ?? "How Winners Are Chosen"}
+        </h2>
+        <p className="section_sub_title text-center">
+          {data?.sub_title ??
+            "Boss Beginnings is decided by the community, with OSI guardrails for fairness."}
+        </p>
 
-      <div className="flex flex-col lg:flex-row items-center justify-center gap-16 mt-16">
-        {/* Left – Chart */}
-        <div className="flex flex-col items-center">
-          <div className="relative size-80">
-            <ResponsiveContainer width="100%" height="100%">
-              <PieChart>
-                <Pie
-                  data={pieData}
-                  cx="50%"
-                  cy="50%"
-                  innerRadius={70}
-                  outerRadius={150}
-                  startAngle={90}
-                  endAngle={-270}
-                  dataKey="value"
-                >
-                  {pieData.map((_, index) => (
-                    <Cell key={index} fill={COLORS[index]} stroke="none" />
-                  ))}
-                </Pie>
-              </PieChart>
-            </ResponsiveContainer>
-
-            {/* Center text */}
-            <div className="absolute inset-0 flex items-center justify-center">
-              <span className="text-lg font-semibold">50/50</span>
+        {/* Point rules */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mt-12 max-w-4xl mx-auto">
+          {pointRules.map(rule => (
+            <div
+              key={rule.label}
+              className="border border-slate-200 rounded-2xl p-6 flex flex-col items-center text-center"
+            >
+              <div className="size-12 rounded-full bg-blue-100 text-blue-500 grid place-items-center text-xl mb-3">
+                {rule.icon}
+              </div>
+              <p className="font-medium text-slate-700">{rule.label}</p>
+              <p className="text-2xl font-bold mt-1">{rule.points} PT</p>
+              <p className="text-sm text-slate-500 mt-1">{rule.frequency}</p>
             </div>
-          </div>
-
-          {/* Legend */}
-          <div className="flex gap-6 mt-6 text-sm">
-            <Legend color="#3B82F6" label="OSI Judging Panel" />
-            <Legend color="#E5E7EB" label="Community Votes" />
-          </div>
+          ))}
         </div>
+      </div>
 
-        {/* Right – Criteria */}
-        <div className="max-w-md space-y-6">
-          <h3 className="text-lg font-semibold">OSI Judging Panel Criteria</h3>
+      {/* Business carousel — Swiper, breaks out of container to bleed full width */}
+      <div className="relative mt-16 w-screen mx-[calc(50%-50vw)]">
+        <button
+          onClick={() => swiperRef.current?.slidePrev()}
+          aria-label="Scroll left"
+          className="hidden sm:grid absolute left-4 lg:left-8 top-1/2 -translate-y-1/2 z-10 size-9 rounded-full bg-white shadow-md place-items-center hover:bg-slate-50"
+        >
+          <HiChevronLeft className="text-lg" />
+        </button>
 
-          <Criteria
-            icon={<HiOutlineBriefcase />}
-            title="Business Mission & Vision"
-            desc="Clear purpose and long-term goals"
-          />
-          <Criteria
-            icon={<HiOutlineUsers />}
-            title="Community Benefit"
-            desc="Cultural impact and social value"
-          />
-          <Criteria
-            icon={<HiOutlinePresentationChartLine />}
-            title="Presentation Quality"
-            desc="Story, photos, and video submission"
-          />
-          <Criteria
-            icon={<HiOutlineLightBulb />}
-            title="Originality & Execution"
-            desc="Unique approach and growth potential"
-          />
-        </div>
+        <Swiper
+          modules={[Navigation, FreeMode]}
+          onSwiper={swiper => (swiperRef.current = swiper)}
+          slidesPerView="auto"
+          spaceBetween={24}
+          freeMode
+          className="!px-4 sm:!px-8 lg:!pl-[max(2rem,calc((100vw-1280px)/2+2rem))] lg:!pr-8"
+        >
+          {sampleBusinesses.map(biz => (
+            <SwiperSlide key={biz.id} className="!w-[320px]">
+              <BusinessCardItem biz={biz} />
+            </SwiperSlide>
+          ))}
+        </Swiper>
+
+        <button
+          onClick={() => swiperRef.current?.slideNext()}
+          aria-label="Scroll right"
+          className="hidden sm:grid absolute right-4 lg:right-8 top-1/2 -translate-y-1/2 z-10 size-9 rounded-full bg-white shadow-md place-items-center hover:bg-slate-50"
+        >
+          <HiChevronRight className="text-lg" />
+        </button>
       </div>
     </section>
   );
 };
 
-const Legend = ({ color, label }: { color: string; label: string }) => (
-  <div className="flex items-center gap-2">
-    <span className="w-3 h-3 rounded-full" style={{ backgroundColor: color }} />
-    {label}
+const BusinessCardItem = ({ biz }: { biz: BusinessCard }) => (
+  <div className="rounded-2xl border border-slate-200 overflow-hidden bg-white">
+    {/* Image */}
+    <div className="relative h-44 w-full">
+      <Image src={biz.image} alt={biz.name} fill className="object-cover" />
+      <span className="absolute top-3 left-3 text-xs font-medium bg-white/90 rounded-full px-3 py-1">
+        {biz.category}
+      </span>
+    </div>
+
+    {/* Content */}
+    <div className="p-4">
+      <p className="font-semibold text-lg">{biz.name}</p>
+      <p className="text-sm text-slate-500">{biz.description}</p>
+      <p className="flex items-center gap-1 text-xs text-slate-400 mt-1">
+        <HiOutlineLocationMarker />
+        {biz.location}
+      </p>
+
+      {/* Total points */}
+      <div className="flex items-center justify-between mt-4 bg-slate-50 rounded-xl px-3 py-2">
+        <span className="text-sm text-slate-500">Total Points</span>
+        <span className="flex items-center gap-1 font-semibold">
+          {biz.totalPoints.toLocaleString()}
+          <HiTrendingUp className="text-green-500" />
+        </span>
+      </div>
+
+      {/* Actions */}
+      <div className="grid grid-cols-3 gap-2 mt-3">
+        <ActionButton
+          icon={<HiOutlineThumbUp />}
+          label="Clap"
+          count={biz.claps}
+        />
+        <ActionButton
+          icon={<HiOutlineHeart />}
+          label="Love"
+          count={biz.loves}
+        />
+        <ActionButton icon={<HiOutlineFire />} label="Fire" count={biz.fires} />
+      </div>
+
+      <button className="text-blue-500 text-sm font-normal mt-3 flex items-center gap-1 hover:underline mx-auto">
+        Learn More <span aria-hidden>→</span>
+      </button>
+    </div>
   </div>
 );
 
-const Criteria = ({
+const ActionButton = ({
   icon,
-  title,
-  desc,
+  label,
+  count,
 }: {
   icon: React.ReactNode;
-  title: string;
-  desc: string;
+  label: string;
+  count: number;
 }) => (
-  <div className="flex gap-4">
-    <div className="text-blue-500 text-xl mt-1 size-14 rounded-lg grid place-items-center bg-[#155DFC29]">
-      {icon}
-    </div>
-    <div>
-      <p className="font-medium text-xl">{title}</p>
-      <p className="text-lg text-slate-500">{desc}</p>
-    </div>
-  </div>
+  <button className="flex flex-col items-center justify-center gap-1 border border-slate-200 rounded-lg py-2 hover:bg-slate-50">
+    <span className="text-slate-500">{icon}</span>
+    <span className="text-[10px] text-slate-500">{label}</span>
+    <span className="text-xs font-semibold">{count}</span>
+  </button>
 );
 
 export default BusinessChosenChart;

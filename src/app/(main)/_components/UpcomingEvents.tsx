@@ -12,8 +12,8 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, Autoplay } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
-import { getEvents } from "@/lib/Services/cms_service";
-import { Event } from "@/Types/cms";
+import { getUpcomingEvents } from "@/lib/Services/cms_service";
+import { CMSEventItem } from "@/Types/cms";
 import Link from "next/link";
 
 const formatDate = (dateStr: string) => {
@@ -25,11 +25,11 @@ const formatDate = (dateStr: string) => {
 };
 
 const UpcomingEvents = () => {
-  const [events, setEvents] = useState<Event[]>([]);
+  const [events, setEvents] = useState<CMSEventItem[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    getEvents("upcoming")
+    getUpcomingEvents()
       .then(res => setEvents(res.events))
       .catch(console.error)
       .finally(() => setLoading(false));

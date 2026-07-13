@@ -20,6 +20,7 @@ import PoweredByOSI from "./_components/PoweredByOSI";
 import FeaturedEvent from "./_components/FeaturedEvent";
 import NewsLetter from "@/Components/Common/NewsLetter";
 import { getCMSHomepageData } from "@/lib/Services/cms_service";
+import { Button } from "@/Components/Common/Button";
 
 const Page = async () => {
   const cmsData = await getCMSHomepageData();
@@ -31,17 +32,17 @@ const Page = async () => {
       <PoweredByOSI data={cmsData?.features} />
       <WhyChoose data={cmsData?.why_choose} />
       <CoreValues data={cmsData?.core_values} />
-      <PricingPlan />
-      <PricingTable />
       <WhatYouAreGetting data={cmsData?.what_you_get} />
+      {/* <PricingPlan /> */}
+      {/* <PricingTable /> */}
       {/* <Features data={cmsData?.features} /> */}
       <BossBeginnings data={cmsData?.boss_beginnings} />
       <SuccessStories />
       <ArtistSpotlightCard data={cmsData?.spotlight} />
-      <CommunityAchievements data={cmsData?.highlights} />
-      <div className="pb-15">
+      {/* <CommunityAchievements data={cmsData?.highlights} /> */}
+      {/* <div className="pb-15">
         <ArtistSpotlightCard data={cmsData?.spotlight} />
-      </div>
+      </div> */}
       <CommunityAchievements data={cmsData?.highlights} />
       <EventBanner data={cmsData?.cta} />
       <Countdown />
@@ -51,6 +52,12 @@ const Page = async () => {
       <CommunityAchievements data={cmsData?.highlights} />
       <OSIApparel data={cmsData?.shop} />
       {/* <CommunityPartner /> */}
+      <div className="">
+        <Sponsors data={cmsData?.partners} />
+        <div className="flex justify-center mt-5">
+          <Button>Become a Sponsor</Button>
+        </div>
+      </div>
       <NewsLetter data={cmsData?.newsletter} />
     </>
   );

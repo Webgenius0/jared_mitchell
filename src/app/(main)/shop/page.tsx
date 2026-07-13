@@ -19,6 +19,7 @@ import VendorOsi from "../events/_Components/VendorOsi";
 import { CMSEventsPage } from "@/Types/cms";
 import SponsorSlider from "@/Components/Common/SponsorSlider";
 import { sponsorsData } from "@/Components/Data/data";
+import { Button } from "@/Components/Common/Button";
 
 const page = async () => {
   const faqData = await getCMSFAQs();
@@ -41,9 +42,9 @@ const page = async () => {
       <PurchaseSupports data={shopData?.shop_page_support} />
       {/* <DigitalResources /> */}
       {/* <VendorWithOSI /> */}
-      <VendorOsi data={pageData?.events_page_vendor} />
+      {/* <VendorOsi data={pageData?.events_page_vendor} /> */}
       <LimitedDrops />
-      <TrustFeatures data={shopData?.shop_page_footer_features} />
+      {/* <TrustFeatures data={shopData?.shop_page_footer_features} /> */}
       <FAQAccordion data={faqData} />
       {/* <OurSponsors /> */}
       <section className="py-10 xl:py-20">
@@ -51,6 +52,9 @@ const page = async () => {
         <div className="flex flex-col gap-5">
           <SponsorSlider logos={logos} />
           <SponsorSlider logos={logos} reverse={true} />
+          <div className="flex justify-center mt-5">
+            <Button>Become a Sponsor</Button>
+          </div>
         </div>
       </section>
       <NewsLetter title="Be part of the movement. Get stories, updates, and opportunities straight to your inbox." />

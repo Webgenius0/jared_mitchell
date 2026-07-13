@@ -20,6 +20,7 @@ const navLinks = [
   },
   { label: "Events", path: "/events" },
   { label: "Shop", path: "/shop" },
+  { label: "Pricing", path: "/pricing" },
   { label: "Sponsorships", path: "/sponsorships" },
   { label: "Boss Beginnings", path: "/boss-beginnings" },
   { label: "Dashboard", path: "" },

@@ -37,7 +37,7 @@ const VoteNow = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
             {topPerformers?.map(user => (
               <>
-                <div className="space-y-14 bg-white custom_border rounded-2xl custom_shadow py-14 px-12">
+                <div className="space-y-14 bg-white custom_border rounded-2xl custom_shadow p-10">
                   <div className="flex gap-5">
                     <figure className="size-[60px] shrink-0 relative">
                       <Image

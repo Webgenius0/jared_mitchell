@@ -3,7 +3,9 @@ import {
   CMSArtistSpotlight,
   CMSBossBeginnings,
   CMSBusinessSpotlight,
+  CalendarEventsResponse,
   CMSEvent,
+  CMSEventItem,
   CMSEventsPage,
   CMSFAQ,
   CMSHomepage,
@@ -11,6 +13,8 @@ import {
   CMSShopPage,
   CMSSponsorshipPage,
   CMSSpotlightLadder,
+  EventGalleryResponse,
+  FeaturedEventsResponse,
   EventsResponse,
 } from "@/Types/cms";
 
@@ -184,6 +188,62 @@ export const getSponsorshipPageCms = async (): Promise<CMSSponsorshipPage> => {
 
 export type EventTimeFilter = "upcoming" | "past";
 
+export const getFeaturedEvents = async (): Promise<FeaturedEventsResponse> => {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_SITE_URL}/v1/events/featured`,
+    { next: { revalidate: 60 } },
+  );
+
+  if (!res.ok) {
+    throw new Error(`Failed to fetch featured events — Status: ${res.status}`);
+  }
+
+  const result = await res.json();
+  return result.data as FeaturedEventsResponse;
+};
+
+export const getEventGallery = async (): Promise<EventGalleryResponse> => {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_SITE_URL}/v1/events/galary`,
+    { next: { revalidate: 60 } },
+  );
+
+  if (!res.ok) {
+    throw new Error(`Failed to fetch event gallery — Status: ${res.status}`);
+  }
+
+  const result = await res.json();
+  return result.data as EventGalleryResponse;
+};
+
+export const getUpcomingEvents = async (): Promise<EventsResponse> => {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_SITE_URL}/v1/events/upcomming-events`,
+    { next: { revalidate: 60 } },
+  );
+
+  if (!res.ok) {
+    throw new Error(`Failed to fetch upcoming events — Status: ${res.status}`);
+  }
+
+  const result = await res.json();
+  return result.data as EventsResponse;
+};
+
+export const getPastEvents = async (): Promise<EventsResponse> => {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_SITE_URL}/v1/events/past-events`,
+    { next: { revalidate: 60 } },
+  );
+
+  if (!res.ok) {
+    throw new Error(`Failed to fetch past events — Status: ${res.status}`);
+  }
+
+  const result = await res.json();
+  return result.data as EventsResponse;
+};
+
 export const getEvents = async (
   time?: EventTimeFilter,
   page: number = 1,
@@ -205,4 +265,43 @@ export const getEvents = async (
 
   const result = await res.json();
   return result.data as EventsResponse;
+};
+
+export const getCalendarEvents = async (): Promise<CalendarEventsResponse> => {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_SITE_URL}/v1/events/calendar-views`,
+    { next: { revalidate: 60 } },
+  );
+
+  if (!res.ok) {
+    throw new Error(
+      `Failed to fetch calendar events — Status: ${res.status}`,
+    );
+  }
+
+  const result = await res.json();
+  return result.data as CalendarEventsResponse;
+};
+
+export const getEventBySlug = async (
+  slug: string,
+  token?: string,
+): Promise<CMSEventItem> => {
+  const url = `${process.env.NEXT_PUBLIC_SITE_URL}/v1/events/${slug}`;
+
+  const res = await fetch(url, {
+    next: { revalidate: 60 },
+    headers: {
+      "Content-Type": "application/json",
+      ...(token && { Authorization: `Bearer ${token}` }),
+    },
+  });
+
+  if (!res.ok) {
+    const text = await res.text();
+    throw new Error(`Failed: ${res.status} — ${text}`);
+  }
+
+  const result = await res.json();
+  return result.data as CMSEventItem;
 };
