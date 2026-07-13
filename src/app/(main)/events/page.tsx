@@ -15,6 +15,7 @@ import { getCMSAboutData, getEventsPageCms } from "@/lib/Services/cms_service";
 import { CMSEventsPage } from "@/Types/cms";
 import SponsorSlider from "@/Components/Common/SponsorSlider";
 import { sponsorsData } from "@/Components/Data/data";
+import { Button } from "@/Components/Common/Button";
 
 const Page = async () => {
   const pageData = (await getEventsPageCms()) as CMSEventsPage;
@@ -32,12 +33,12 @@ const Page = async () => {
       <EventsBanner data={pageData?.events_page_hero} />
       <EventHero data={pageData?.events_page_hero} />
       <CreatorMarket />
-      <FilterSection />
+      {/* <FilterSection /> */}
       <UpcomingEvents />
       <EventSchedule video={pageData?.events_page_video} />
       <EventHost data={pageData?.events_page_host} />
-      <VendorOsi data={pageData?.events_page_vendor} />
-      <WhatYouGet data={pageData?.events_page_booth_features} />
+      {/* <VendorOsi data={pageData?.events_page_vendor} /> */}
+      {/* <WhatYouGet data={pageData?.events_page_booth_features} /> */}
       <EventGallery />
       <EventHighlight />
       {/* <Sponsors /> */}
@@ -48,6 +49,9 @@ const Page = async () => {
         <div className="flex flex-col gap-5">
           <SponsorSlider logos={logos} />
           <SponsorSlider logos={logos} reverse={true} />
+          <div className="flex justify-center mt-5">
+            <Button>Become a Sponsor</Button>
+          </div>
         </div>
       </section>
       <NewsLetter title="Be part of the movement. Get stories, updates, and opportunities straight to your inbox." />
