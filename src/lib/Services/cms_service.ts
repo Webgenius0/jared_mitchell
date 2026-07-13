@@ -13,6 +13,7 @@ import {
   CMSShopPage,
   CMSSponsorshipPage,
   CMSSpotlightLadder,
+  EventGalleryResponse,
   FeaturedEventsResponse,
   EventsResponse,
 } from "@/Types/cms";
@@ -201,18 +202,18 @@ export const getFeaturedEvents = async (): Promise<FeaturedEventsResponse> => {
   return result.data as FeaturedEventsResponse;
 };
 
-export const getEventGallery = async (): Promise<FeaturedEventsResponse> => {
+export const getEventGallery = async (): Promise<EventGalleryResponse> => {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_SITE_URL}/v1/events/galary`,
     { next: { revalidate: 60 } },
   );
 
   if (!res.ok) {
-    throw new Error(`Failed to fetch featured events — Status: ${res.status}`);
+    throw new Error(`Failed to fetch event gallery — Status: ${res.status}`);
   }
 
   const result = await res.json();
-  return result.data as FeaturedEventsResponse;
+  return result.data as EventGalleryResponse;
 };
 
 export const getUpcomingEvents = async (): Promise<EventsResponse> => {
@@ -223,6 +224,20 @@ export const getUpcomingEvents = async (): Promise<EventsResponse> => {
 
   if (!res.ok) {
     throw new Error(`Failed to fetch upcoming events — Status: ${res.status}`);
+  }
+
+  const result = await res.json();
+  return result.data as EventsResponse;
+};
+
+export const getPastEvents = async (): Promise<EventsResponse> => {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_SITE_URL}/v1/events/past-events`,
+    { next: { revalidate: 60 } },
+  );
+
+  if (!res.ok) {
+    throw new Error(`Failed to fetch past events — Status: ${res.status}`);
   }
 
   const result = await res.json();

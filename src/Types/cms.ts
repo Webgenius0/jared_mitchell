@@ -493,7 +493,7 @@ export interface EventsResponse {
 
 // ─── Featured Events ─────────────────────────────────────────────────────────
 
-// The /events/featured endpoint returns cover_image_path (not cover_image_url)
+// The /events/featured endpoint returns cover_image_url and promo_video_url
 export interface FeaturedEventItem {
   id: number;
   title: string;
@@ -507,8 +507,8 @@ export interface FeaturedEventItem {
   city: string;
   state: string;
   hosted_by: string;
-  cover_image_path: string;
-  promo_video_path: string | null;
+  cover_image_url: string;
+  promo_video_url: string | null;
   event_type: "featured" | "pop_up" | "workshop" | "networking" | string;
   is_spotlight_eligible: boolean;
   is_featured: boolean;
@@ -539,5 +539,23 @@ export interface CalendarEventItem {
 
 export interface CalendarEventsResponse {
   events: CalendarEventItem[];
+  pagination: EventsPagination;
+}
+
+// ─── Event Gallery ───────────────────────────────────────────────────────────
+
+export interface EventGalleryItem {
+  id: number;
+  event_id: number;
+  media_type: "image" | "video";
+  mime_type: string;
+  file_name: string;
+  file_size: number;
+  full_url: string;
+  created_at: string;
+}
+
+export interface EventGalleryResponse {
+  gallery: EventGalleryItem[];
   pagination: EventsPagination;
 }

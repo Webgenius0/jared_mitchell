@@ -95,11 +95,11 @@ const FeaturedEventsCarousel = ({ events }: FeaturedEventsCarouselProps) => {
           key={event.id}
           className="w-full lg:w-[500px] xl:w-[600px] h-[280px] sm:h-[350px] md:h-[450px] xl:h-[550px] rounded-lg relative overflow-hidden shrink-0 bg-black"
         >
-          {event.promo_video_path ? (
+          {event.promo_video_url ? (
             <>
               <video
                 ref={videoRef}
-                src={event.promo_video_path}
+                src={event.promo_video_url}
                 muted={isMuted}
                 playsInline
                 className="w-full h-full object-cover rounded-lg"
@@ -114,16 +114,16 @@ const FeaturedEventsCarousel = ({ events }: FeaturedEventsCarouselProps) => {
                   <PlayIcon />
                 </div>
               )}
-            </>
-          ) : (
-            <Image
-              src={event.cover_image_path}
-              alt={event.title}
-              fill
-              className="object-cover rounded-lg"
-              sizes="(max-width: 1024px) 100vw, 600px"
-            />
-          )}
+            </>            ) : event.cover_image_url ? (
+              <Image
+                src={event.cover_image_url}
+                alt={event.title}
+                fill
+                className="object-cover rounded-lg"
+                sizes="(max-width: 768px) 100vw, 600px"
+                priority
+              />
+            ) : null}
         </div>
 
         {/* Right - Content */}
@@ -141,7 +141,7 @@ const FeaturedEventsCarousel = ({ events }: FeaturedEventsCarouselProps) => {
               <CalenderSvg />
               <span>{formatDate(event.starts_at)}</span>
             </p>
-            {event.promo_video_path && (
+            {event.promo_video_url && (
               <p className="flex gap-2 items-center">
                 <VideoSvg />
                 <span>Highlight Video Available</span>

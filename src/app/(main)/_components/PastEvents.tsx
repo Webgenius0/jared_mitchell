@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { GoArrowRight } from "react-icons/go";
-import { getEvents } from "@/lib/Services/cms_service";
+import { getPastEvents } from "@/lib/Services/cms_service";
 import { CMSEventItem } from "@/Types/cms";
 import Link from "next/link";
 
@@ -12,7 +12,7 @@ const PastEvents = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    getEvents("past")
+    getPastEvents()
       .then(res => setEvents(res.events))
       .catch(console.error)
       .finally(() => setLoading(false));

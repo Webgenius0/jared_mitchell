@@ -3,16 +3,16 @@
 import { useEffect, useState } from "react";
 import { Button } from "@/Components/Common/Button";
 import Image from "next/image";
-import { getEvents } from "@/lib/Services/cms_service";
-import { Event } from "@/Types/cms";
+import { getPastEvents } from "@/lib/Services/cms_service";
+import { CMSEventItem } from "@/Types/cms";
 
 
 const EventHighlight = () => {
-  const [events, setEvents] = useState<Event[]>([]);
+  const [events, setEvents] = useState<CMSEventItem[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    getEvents("past")
+    getPastEvents()
       .then(res => setEvents(res.events))
       .catch(console.error)
       .finally(() => setLoading(false));
