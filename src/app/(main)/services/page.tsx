@@ -8,14 +8,20 @@ import WhoOSIIsFor from "./_components/WhoOSIIsFor";
 import ServiceBanner from "./_components/ServiceBanner";
 import NewsLetter from "@/Components/Common/NewsLetter";
 import Link from "next/link";
-import { getCMSServicesData, getCMSFAQs } from "@/lib/Services/cms_service";
+import {
+  getCMSServicesData,
+  getCMSFAQs,
+  getCMSHomepageData,
+} from "@/lib/Services/cms_service";
 import FAQAccordion from "./_components/FAQAccordion";
+import Sponsors from "../_components/Sponsors";
 
 const page = async () => {
   const [cmsData, faqData] = await Promise.all([
     getCMSServicesData(),
     getCMSFAQs(),
   ]);
+  const sponsorsdata = await getCMSHomepageData();
 
   return (
     <>
@@ -40,8 +46,8 @@ const page = async () => {
         </div>
       </section>
 
-      <PricingPlan />
-      <PlanComparison />
+      {/* <PricingPlan /> */}
+      {/* <PlanComparison /> */}
       <SocialImage data={cmsData?.services_grow} />
       <CommunityPartner data={cmsData?.services_partners} />
       <WhoOSIIsFor data={cmsData?.services_who_for} />
@@ -146,6 +152,12 @@ const page = async () => {
           </div>
         </section>
       )}
+      <div className="">
+        <Sponsors data={sponsorsdata?.partners} />
+        <div className="flex justify-center mt-5">
+          <Button>Become a Sponsor</Button>
+        </div>
+      </div>
 
       <NewsLetter
         data={cmsData?.services_newsletter}
