@@ -10,6 +10,7 @@ import {
 } from "@/lib/Services/cms_service";
 import SponsorSlider from "@/Components/Common/SponsorSlider";
 import { sponsorsData } from "@/Components/Data/data";
+import { Button } from "@/Components/Common/Button";
 
 const page = async () => {
   const cmsData = await getCMSSpotlightLadderData();
@@ -27,7 +28,7 @@ const page = async () => {
       <BusinessSpotlightBanner data={cmsData?.spotlight_ladder_hero} />
       <SpotlightOfTheWeek />
       <VoteNow />
-      {/* <WeeklyTimeline /> */}
+      <WeeklyTimeline />
       {/* <EventSponsors /> */}
       <section className="py-10 xl:py-20">
         <h2 className="section_title">
@@ -36,6 +37,9 @@ const page = async () => {
         <div className="flex flex-col gap-5">
           <SponsorSlider logos={logos} />
           <SponsorSlider logos={logos} reverse={true} />
+          <div className="flex justify-center mt-5">
+            <Button>Become a Sponsor</Button>
+          </div>
         </div>
       </section>
       <NewsLetter title="Be part of the movement. Get stories, updates, and opportunities straight to your inbox." />
