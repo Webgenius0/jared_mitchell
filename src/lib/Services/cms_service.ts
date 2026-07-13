@@ -12,6 +12,7 @@ import {
   CMSShopPage,
   CMSSponsorshipPage,
   CMSSpotlightLadder,
+  FeaturedEventsResponse,
   EventsResponse,
 } from "@/Types/cms";
 
@@ -184,6 +185,20 @@ export const getSponsorshipPageCms = async (): Promise<CMSSponsorshipPage> => {
 };
 
 export type EventTimeFilter = "upcoming" | "past";
+
+export const getFeaturedEvents = async (): Promise<FeaturedEventsResponse> => {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_SITE_URL}/v1/events/featured`,
+    { next: { revalidate: 60 } },
+  );
+
+  if (!res.ok) {
+    throw new Error(`Failed to fetch featured events — Status: ${res.status}`);
+  }
+
+  const result = await res.json();
+  return result.data as FeaturedEventsResponse;
+};
 
 export const getEvents = async (
   time?: EventTimeFilter,

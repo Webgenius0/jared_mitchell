@@ -490,3 +490,38 @@ export interface EventsResponse {
   events: CMSEventItem[];
   pagination: EventsPagination;
 }
+
+// ─── Featured Events ─────────────────────────────────────────────────────────
+
+// The /events/featured endpoint returns cover_image_path (not cover_image_url)
+export interface FeaturedEventItem {
+  id: number;
+  title: string;
+  slug: string;
+  description: string;
+  starts_at: string;
+  ends_at: string;
+  timezone: string;
+  venue_name: string;
+  address: string;
+  city: string;
+  state: string;
+  hosted_by: string;
+  cover_image_path: string;
+  promo_video_path: string | null;
+  event_type: "featured" | "pop_up" | "workshop" | "networking" | string;
+  is_spotlight_eligible: boolean;
+  is_featured: boolean;
+  like_count: number;
+  ticket_url: string;
+  tickets_available: boolean;
+  status: string;
+  created_by: number;
+  created_at: string;
+  updated_at: string;
+  deleted_at: string | null;
+}
+
+export interface FeaturedEventsResponse {
+  events: FeaturedEventItem[];
+}

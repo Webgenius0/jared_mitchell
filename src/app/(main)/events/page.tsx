@@ -8,11 +8,16 @@ import VendorOsi from "./_Components/VendorOsi";
 import WhatYouGet from "./_Components/WhatYouGet";
 import EventGallery from "./_Components/EventGallery";
 import EventHighlight from "./_Components/EventHighlight";
+import FeaturedEventsCarousel from "./_Components/FeaturedEventsCarousel";
 import NewsLetter from "@/Components/Common/NewsLetter";
 import Sponsors from "../_components/Sponsors";
 import EventHero from "./_Components/EventHero";
-import { getCMSAboutData, getEventsPageCms } from "@/lib/Services/cms_service";
-import { CMSEventsPage } from "@/Types/cms";
+import {
+  getCMSAboutData,
+  getEventsPageCms,
+  getFeaturedEvents,
+} from "@/lib/Services/cms_service";
+import { CMSEventsPage, FeaturedEventItem } from "@/Types/cms";
 import SponsorSlider from "@/Components/Common/SponsorSlider";
 import { sponsorsData } from "@/Components/Data/data";
 import { Button } from "@/Components/Common/Button";
@@ -28,11 +33,20 @@ const Page = async () => {
       link: m.link,
     })) || sponsorsData;
 
+  let featuredEvents: FeaturedEventItem[] = [];
+  try {
+    const featuredRes = await getFeaturedEvents();
+    featuredEvents = featuredRes?.events || [];
+  } catch (err) {
+    console.error("Failed to fetch featured events:", err);
+  }
+
   return (
     <>
       <EventsBanner data={pageData?.events_page_hero} />
       <EventHero data={pageData?.events_page_hero} />
-      <CreatorMarket />
+      <FeaturedEventsCarousel events={featuredEvents} />
+      {/* <CreatorMarket /> */}
       {/* <FilterSection /> */}
       <UpcomingEvents />
       <EventSchedule video={pageData?.events_page_video} />
