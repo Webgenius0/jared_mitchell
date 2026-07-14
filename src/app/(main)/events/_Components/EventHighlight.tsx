@@ -6,6 +6,7 @@ import Image from "next/image";
 import { getPastEvents } from "@/lib/Services/cms_service";
 import { CMSEventItem } from "@/Types/cms";
 import DOMPurify from "dompurify";
+import Link from "next/link";
 
 const EventHighlight = () => {
   const [events, setEvents] = useState<CMSEventItem[]>([]);
@@ -73,13 +74,14 @@ const EventHighlight = () => {
                     {sanitizeToPlainText(event.description)}
                   </p>
                 )}
-
-                <Button
-                  size={"lg"}
-                  className="!px-8 md:!px-12 !h-[36px] md:!h-[45px] text-sm md:text-base mt-5"
-                >
-                  View Recap
-                </Button>
+                <Link href={`/events/${event.slug}`} className="block">
+                  <Button
+                    size={"lg"}
+                    className="!px-8 md:!px-12 !h-[36px] md:!h-[45px] text-sm md:text-base mt-5"
+                  >
+                    View Recap
+                  </Button>
+                </Link>
               </div>
             </div>
           ))}

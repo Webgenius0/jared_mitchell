@@ -52,13 +52,13 @@ export default function EventDetailsBanner({ event }: EventDetailsBannerProps) {
     return `${formattedStart} - ${formattedEnd} ${tz}`;
   };
 
-  const eventTypeLabel = event.event_type.replace("_", " ").replace(/\b\w/g, (c) =>
-    c.toUpperCase()
-  );
+  const eventTypeLabel = event.event_type
+    .replace("_", " ")
+    .replace(/\b\w/g, c => c.toUpperCase());
 
   return (
     <section
-      className="relative py-100 lg:py-[250px] bg-primary-blue bg-cover bg-center bg-no-repeat before:absolute before:inset-0 before:bg-black/60"
+      className="relative py-20 lg:py-[200px] bg-primary-blue bg-cover bg-center bg-no-repeat before:absolute before:inset-0 before:bg-black/60"
       role="img"
       aria-label={`${event.title} cover image`}
       style={{
