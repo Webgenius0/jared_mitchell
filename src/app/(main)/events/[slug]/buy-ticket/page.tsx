@@ -2,13 +2,19 @@
 
 import React, { useState, useMemo } from "react";
 import { useParams, useRouter } from "next/navigation";
-import { getEventBySlug, useEventRegister } from "@/Hooks/api/cms_api";
+import {
+  getCMSAboutData,
+  getEventBySlug,
+  useEventRegister,
+} from "@/Hooks/api/cms_api";
 import { CMSEventItem, EventTicketTier } from "@/Types/cms";
 import { PageLoader } from "@/Shared/PageLoader";
 import EventDetailsBanner from "../../_Components/Eventsdetails/EventDetailsBanner";
 import { GrLocation } from "react-icons/gr";
 import { PiCalendarBlank, PiUser } from "react-icons/pi";
 import toast from "react-hot-toast";
+import Sponsors from "@/app/(main)/_components/Sponsors";
+import NewsLetter from "@/Components/Common/NewsLetter";
 
 export default function BuyTicketPage() {
   const params = useParams();
@@ -22,26 +28,30 @@ export default function BuyTicketPage() {
 
   // ── Form state ──────────────────────────────────────────────────────────────
   const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName]   = useState("");
-  const [email, setEmail]         = useState("");
-  const [phone, setPhone]         = useState("");
-  const [tierId, setTierId]       = useState<number | "">("");
-  const [quantity, setQuantity]   = useState(1);
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [tierId, setTierId] = useState<number | "">("");
+  const [quantity, setQuantity] = useState(1);
 
   // ── Derived helpers ──────────────────────────────────────────────────────────
   const activeTiers = useMemo(
     () => event?.ticket_tiers?.filter(t => t.is_active) ?? [],
-    [event]
+    [event],
   );
 
   const selectedTier: EventTicketTier | undefined = useMemo(
     () => activeTiers.find(t => t.id === tierId),
-    [activeTiers, tierId]
+    [activeTiers, tierId],
   );
+  const { data: cmsRes } = getCMSAboutData();
+  const CmsData = cmsRes?.data;
 
-  const subtotal   = selectedTier ? parseFloat(selectedTier.price) * quantity : 0;
-  const serviceFee = selectedTier ? parseFloat(selectedTier.service_fee) * quantity : 0;
-  const total      = subtotal + serviceFee;
+  const subtotal = selectedTier ? parseFloat(selectedTier.price) * quantity : 0;
+  const serviceFee = selectedTier
+    ? parseFloat(selectedTier.service_fee) * quantity
+    : 0;
+  const total = subtotal + serviceFee;
 
   const formatDateRange = (start: string, end: string, tz: string) => {
     const s = new Date(start);
@@ -78,12 +88,12 @@ export default function BuyTicketPage() {
     }
 
     const payload: Record<string, any> = {
-      event_id:       event?.id,
+      event_id: event?.id,
       ticket_tier_id: tierId,
-      first_name:     firstName,
-      last_name:      lastName,
+      first_name: firstName,
+      last_name: lastName,
       email,
-      phone_number:   phone,
+      phone_number: phone,
       quantity,
     };
 
@@ -103,14 +113,22 @@ export default function BuyTicketPage() {
     return (
       <section className="flex items-center justify-center min-h-[60vh]">
         <div className="text-center px-6">
-          <h2 className="text-2xl font-bold text-gray-800 mb-3">Event Not Found</h2>
-          <a href="/events" className="text-[#1977DD] underline">Browse Events</a>
+          <h2 className="text-2xl font-bold text-gray-800 mb-3">
+            Event Not Found
+          </h2>
+          <a href="/events" className="text-[#1977DD] underline">
+            Browse Events
+          </a>
         </div>
       </section>
     );
   }
 
-  const { date, timeRange } = formatDateRange(event.starts_at, event.ends_at, event.timezone);
+  const { date, timeRange } = formatDateRange(
+    event.starts_at,
+    event.ends_at,
+    event.timezone,
+  );
 
   return (
     <>
@@ -118,12 +136,11 @@ export default function BuyTicketPage() {
       <EventDetailsBanner event={event} />
 
       {/* ── Main booking body ─────────────────────────────────────────────── */}
-      <section className="py-10 xl:py-16 bg-gray-50 min-h-[60vh]">
+      <section className="py-10 xl:py-16 ">
         <div className="container mx-auto px-4 max-w-5xl">
           <div className="flex flex-col lg:flex-row gap-8 items-start">
-
             {/* ── LEFT: Attendee form ───────────────────────────────────────── */}
-            <div className="w-full lg:w-[60%] bg-white rounded-2xl shadow-sm border border-gray-100 p-6 sm:p-8">
+            <div className="w-full lg:w-[70%] bg-gray-100 rounded-2xl shadow-sm border border-gray-100 p-6 sm:p-8">
               <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-7">
                 Attendee Information
               </h2>
@@ -195,89 +212,34 @@ export default function BuyTicketPage() {
 
                 {/* Ticket type — selectable cards */}
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Ticket Type <span className="text-red-500">*</span>
+                  <label className="block text-[15px] font-semibold text-gray-800 mb-2">
+                    Ticket type <span className="text-red-500">*</span>
                   </label>
-
-                  {activeTiers.length === 0 ? (
-                    <p className="text-sm text-gray-500 italic">No ticket tiers available.</p>
-                  ) : (
-                    <div className="flex flex-col gap-3">
-                      {activeTiers.map(tier => {
-                        const seatsLeft = tier.quantity_available - tier.quantity_sold;
-                        const isSoldOut = seatsLeft <= 0;
-                        const isSelected = tierId === tier.id;
-                        const priceLabel =
-                          parseFloat(tier.price) === 0
+                  <div className="relative">
+                    <select
+                      id="ticket_tier"
+                      value={tierId}
+                      onChange={e =>
+                        setTierId(e.target.value ? Number(e.target.value) : "")
+                      }
+                      className="w-full appearance-none px-4 py-3 rounded-xl border border-gray-200 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 text-gray-800 text-sm transition pr-10 cursor-pointer"
+                    >
+                      <option value="" disabled>
+                        Select ticket type
+                      </option>
+                      {activeTiers.map(tier => (
+                        <option key={tier.id} value={tier.id}>
+                          {tier.name} —{" "}
+                          {parseFloat(tier.price) === 0
                             ? "Free"
-                            : `$${parseFloat(tier.price).toFixed(2)}`;
-
-                        return (
-                          <button
-                            key={tier.id}
-                            type="button"
-                            disabled={isSoldOut}
-                            onClick={() => setTierId(tier.id)}
-                            className={[
-                              "w-full text-left rounded-xl border-2 px-4 py-3.5 transition-all",
-                              isSelected
-                                ? "border-[#1977DD] bg-[#EBF4FF] shadow-sm"
-                                : "border-gray-200 bg-gray-50 hover:border-[#1977DD]/40 hover:bg-blue-50/30",
-                              isSoldOut ? "opacity-50 cursor-not-allowed" : "cursor-pointer",
-                            ]
-                              .filter(Boolean)
-                              .join(" ")}
-                          >
-                            <div className="flex items-center justify-between gap-3">
-                              {/* Radio circle + name */}
-                              <div className="flex items-center gap-3 min-w-0">
-                                <span
-                                  className={[
-                                    "shrink-0 w-4 h-4 rounded-full border-2 flex items-center justify-center transition-colors",
-                                    isSelected
-                                      ? "border-[#1977DD] bg-[#1977DD]"
-                                      : "border-gray-300 bg-white",
-                                  ].join(" ")}
-                                >
-                                  {isSelected && (
-                                    <span className="w-1.5 h-1.5 rounded-full bg-white block" />
-                                  )}
-                                </span>
-                                <div className="min-w-0">
-                                  <p className="font-semibold text-gray-900 text-sm truncate">
-                                    {tier.name}
-                                  </p>
-                                  {tier.description && (
-                                    <p className="text-xs text-gray-500 line-clamp-1 mt-0.5">
-                                      {tier.description}
-                                    </p>
-                                  )}
-                                </div>
-                              </div>
-
-                              {/* Price + seats */}
-                              <div className="text-right shrink-0">
-                                <p
-                                  className={[
-                                    "font-bold text-base",
-                                    isSelected ? "text-[#1977DD]" : "text-gray-800",
-                                  ].join(" ")}
-                                >
-                                  {priceLabel}
-                                </p>
-                                <p className="text-xs text-gray-400 mt-0.5">
-                                  {isSoldOut ? "Sold out" : `${seatsLeft} left`}
-                                </p>
-                              </div>
-                            </div>
-                          </button>
-                        );
-                      })}
-                    </div>
-                  )}
-
-                  {/* Hidden input keeps the value in the form for validation feedback */}
-                  <input type="hidden" name="ticket_tier_id" value={tierId} />
+                            : `$${parseFloat(tier.price).toFixed(2)}`}
+                        </option>
+                      ))}
+                    </select>
+                    <span className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 text-xs">
+                      ▼
+                    </span>
+                  </div>
                 </div>
 
                 {/* Quantity */}
@@ -292,8 +254,10 @@ export default function BuyTicketPage() {
                       onChange={e => setQuantity(Number(e.target.value))}
                       className="w-full appearance-none px-4 py-2.5 rounded-lg border border-gray-200 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-[#1977DD] focus:border-transparent text-gray-800 text-sm transition pr-10 cursor-pointer"
                     >
-                      {Array.from({ length: 10 }, (_, i) => i + 1).map(n => (
-                        <option key={n} value={n}>{n}</option>
+                      {Array.from({ length: 20 }, (_, i) => i + 1).map(n => (
+                        <option key={n} value={n}>
+                          {n}
+                        </option>
                       ))}
                     </select>
                     <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-gray-400">
@@ -315,7 +279,7 @@ export default function BuyTicketPage() {
             </div>
 
             {/* ── RIGHT: Order summary ──────────────────────────────────────── */}
-            <div className="w-full lg:w-[40%] bg-white rounded-2xl shadow-sm border border-gray-100 p-6 sm:p-8 lg:sticky lg:top-28">
+            <div className="w-full lg:w-[30%] bg-gray-100 rounded-2xl shadow-sm border border-gray-100 p-6 sm:p-8 lg:sticky lg:top-28">
               <h3 className="text-xl font-bold text-gray-900 mb-5">
                 Order Summary
               </h3>
@@ -323,17 +287,23 @@ export default function BuyTicketPage() {
               <div className="space-y-3 text-sm text-gray-600">
                 {/* Date */}
                 <div className="flex justify-between items-start gap-4">
-                  <span className="font-medium text-gray-500 shrink-0">Date</span>
+                  <span className="font-medium text-gray-500 shrink-0">
+                    Date
+                  </span>
                   <span className="text-gray-800 text-right">{date}</span>
                 </div>
                 {/* Time */}
                 <div className="flex justify-between items-start gap-4">
-                  <span className="font-medium text-gray-500 shrink-0">Time</span>
+                  <span className="font-medium text-gray-500 shrink-0">
+                    Time
+                  </span>
                   <span className="text-gray-800 text-right">{timeRange}</span>
                 </div>
                 {/* Location */}
                 <div className="flex justify-between items-start gap-4">
-                  <span className="font-medium text-gray-500 shrink-0">Location</span>
+                  <span className="font-medium text-gray-500 shrink-0">
+                    Location
+                  </span>
                   <span className="text-gray-800 text-right">
                     {event.city}, {event.state}
                   </span>
@@ -349,7 +319,9 @@ export default function BuyTicketPage() {
                         <span className="font-medium text-gray-800">
                           {selectedTier.name}
                         </span>
-                        <p className="text-xs text-gray-400 mt-0.5">Qty: {quantity}</p>
+                        <p className="text-xs text-gray-400 mt-0.5">
+                          Qty: {quantity}
+                        </p>
                       </div>
                       <span className="font-semibold text-gray-900 shrink-0">
                         {parseFloat(selectedTier.price) === 0
@@ -392,27 +364,12 @@ export default function BuyTicketPage() {
                   </span>
                 </div>
               </div>
-
-              {/* Mini event meta */}
-              <div className="mt-6 pt-5 border-t border-gray-100 space-y-2 text-xs text-gray-500">
-                <div className="flex items-center gap-2">
-                  <PiCalendarBlank className="shrink-0 text-[#1977DD]" />
-                  <span>{date}</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <GrLocation className="shrink-0 text-[#1977DD]" />
-                  <span>{event.venue_name} — {event.city}, {event.state}</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <PiUser className="shrink-0 text-[#1977DD]" />
-                  <span>Hosted by {event.hosted_by}</span>
-                </div>
-              </div>
             </div>
-
           </div>
         </div>
       </section>
+      <Sponsors data={CmsData?.about_sponsors} />
+      <NewsLetter title="Be part of the movement. Get stories, updates, and opportunities straight to your inbox." />
     </>
   );
 }

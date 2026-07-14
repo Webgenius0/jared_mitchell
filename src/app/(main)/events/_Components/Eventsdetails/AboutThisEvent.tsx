@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import { CiCircleCheck } from "react-icons/ci";
 import { PiUser } from "react-icons/pi";
 import { CMSEventItem } from "@/Types/cms";
@@ -12,29 +12,28 @@ interface AboutThisEventProps {
 
 export default function AboutThisEvent({ event }: AboutThisEventProps) {
   const router = useRouter();
-
   const activeTiers = event.ticket_tiers?.filter(t => t.is_active) ?? [];
-  const [selectedTierId, setSelectedTierId] = useState<number | null>(null);
 
   const eventTypeLabel = event.event_type
     ? event.event_type.replace("_", " ").replace(/\b\w/g, c => c.toUpperCase())
     : "Event";
 
   const handleProceed = () => {
-    if (!selectedTierId) return;
-    router.push(`/events/${event.slug}/buy-ticket?tier=${selectedTierId}`);
+    router.push(`/events/${event.slug}/buy-ticket`);
   };
 
   return (
     <section className="py-10 xl:py-20">
       <div className="container mx-auto flex flex-col lg:flex-row gap-6 px-4">
-        {/* ── Left Column ─────────────────────────────────────────────────── */}
+        {/* ── Left Column: Event Details ──────────────────────────────────── */}
         <div className="w-full lg:w-3/4 p-6 sm:p-8 rounded-[20px] bg-[#F5F5F7] flex flex-col gap-6">
           <div className="flex flex-wrap justify-between items-center gap-4">
             <h3 className="section_title m-0">About This Event</h3>
             <div className="rounded-[30px] px-6 py-2 h-fit border-[0.5px] border-[#1977DD29] bg-[#1977DD1A] shadow-[0_4px_20px_0_rgba(0,0,0,0.07)] flex gap-2 items-center">
               <div className="h-4 w-4 rounded-full bg-[#1977DD]" />
-              <p className="text-base font-normal text-[#1977DD]">{eventTypeLabel}</p>
+              <p className="text-base font-normal text-[#1977DD]">
+                {eventTypeLabel}
+              </p>
             </div>
           </div>
 
@@ -52,13 +51,17 @@ export default function AboutThisEvent({ event }: AboutThisEventProps) {
 
           {/* Quick Details */}
           <div className="py-6 border-y border-gray-200">
-            <h3 className="text-2xl font-semibold text-black mb-4">Event Details</h3>
+            <h3 className="text-2xl font-semibold text-black mb-4">
+              Event Details
+            </h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="flex gap-2 items-center">
                 <CiCircleCheck className="text-[#1977DD] size-5 shrink-0" />
                 <p className="text-base text-[#364153]">
                   <strong>Status:</strong>{" "}
-                  <span className="capitalize">{event.status || "Published"}</span>
+                  <span className="capitalize">
+                    {event.status || "Published"}
+                  </span>
                 </p>
               </div>
               <div className="flex gap-2 items-center">
@@ -102,8 +105,12 @@ export default function AboutThisEvent({ event }: AboutThisEventProps) {
                       className="rounded-full object-cover w-[60px] h-[60px] shrink-0"
                     />
                     <div className="flex flex-col min-w-0">
-                      <h4 className="text-lg font-bold text-black truncate">{artist.name}</h4>
-                      <p className="text-sm text-gray-500 line-clamp-2">{artist.designation}</p>
+                      <h4 className="text-lg font-bold text-black truncate">
+                        {artist.name}
+                      </h4>
+                      <p className="text-sm text-gray-500 line-clamp-2">
+                        {artist.designation}
+                      </p>
                     </div>
                   </div>
                 ))}
@@ -112,125 +119,67 @@ export default function AboutThisEvent({ event }: AboutThisEventProps) {
           )}
         </div>
 
-        {/* ── Right Column: Ticket picker ──────────────────────────────────── */}
+        {/* ── Right Column: Static Ticket Options Info + Action Button ── */}
         <div className="w-full lg:w-1/4 p-6 sm:p-8 rounded-[20px] bg-[#F5F5F7] h-fit flex flex-col gap-5">
-          <h3 className="text-2xl font-semibold text-black">Select a Ticket</h3>
+          <h3 className="text-2xl font-semibold text-black">Ticket Options</h3>
 
           {activeTiers.length === 0 ? (
-            <p className="text-gray-500 text-sm italic">No tickets available.</p>
+            <p className="text-gray-500 text-sm italic">
+              No ticket options available.
+            </p>
           ) : (
             <div className="flex flex-col gap-3">
               {activeTiers.map(tier => {
                 const seatsLeft = tier.quantity_available - tier.quantity_sold;
                 const isSoldOut = seatsLeft <= 0;
-                const isSelected = selectedTierId === tier.id;
                 const priceLabel =
                   parseFloat(tier.price) === 0
                     ? "Free"
                     : `$${parseFloat(tier.price).toFixed(2)}`;
 
                 return (
-                  <button
+                  <div
                     key={tier.id}
-                    type="button"
-                    disabled={isSoldOut}
-                    onClick={() => !isSoldOut && setSelectedTierId(tier.id)}
-                    className={[
-                      "w-full text-left rounded-xl border-2 p-4 transition-all duration-200",
-                      isSelected
-                        ? "border-[#1977DD] bg-white shadow-md"
-                        : "border-gray-200 bg-white hover:border-[#1977DD]/50 hover:shadow-sm",
-                      isSoldOut ? "opacity-50 cursor-not-allowed" : "cursor-pointer",
-                    ]
-                      .filter(Boolean)
-                      .join(" ")}
+                    className={`w-full rounded-xl border border-gray-200/60 bg-white p-4 shadow-sm flex items-start justify-between gap-3 ${
+                      isSoldOut ? "opacity-60" : ""
+                    }`}
                   >
-                    <div className="flex items-start justify-between gap-2">
-                      {/* Radio + name */}
-                      <div className="flex items-center gap-2.5 min-w-0">
-                        {/* custom radio */}
-                        <span
-                          className={[
-                            "mt-0.5 shrink-0 w-4 h-4 rounded-full border-2 flex items-center justify-center transition-colors",
-                            isSelected
-                              ? "border-[#1977DD] bg-[#1977DD]"
-                              : "border-gray-300 bg-white",
-                          ].join(" ")}
-                        >
-                          {isSelected && (
-                            <span className="w-1.5 h-1.5 rounded-full bg-white block" />
-                          )}
-                        </span>
-
-                        <div className="min-w-0">
-                          <p
-                            className={[
-                              "font-semibold text-sm leading-tight",
-                              isSelected ? "text-[#1977DD]" : "text-gray-900",
-                            ].join(" ")}
-                          >
-                            {tier.name}
-                          </p>
-                          {tier.description && (
-                            <p className="text-xs text-gray-500 mt-0.5 line-clamp-2">
-                              {tier.description}
-                            </p>
-                          )}
-                        </div>
-                      </div>
-
-                      {/* Price */}
-                      <div className="text-right shrink-0">
-                        <p
-                          className={[
-                            "font-bold text-base leading-tight",
-                            isSelected ? "text-[#1977DD]" : "text-gray-800",
-                          ].join(" ")}
-                        >
-                          {priceLabel}
+                    <div className="min-w-0">
+                      <p className="font-bold text-sm leading-tight text-gray-900">
+                        {tier.name}
+                      </p>
+                      {tier.description && (
+                        <p className="text-xs text-gray-500 mt-1 line-clamp-2">
+                          {tier.description}
                         </p>
-                        <div className="flex gap-1 items-center justify-end mt-1">
-                          <PiUser
-                            className={[
-                              "size-3.5",
-                              isSelected ? "text-[#1977DD]" : "text-gray-400",
-                            ].join(" ")}
-                          />
-                          <p className="text-xs text-gray-400">
-                            {isSoldOut ? "Sold out" : `${seatsLeft} left`}
-                          </p>
-                        </div>
+                      )}
+                    </div>
+
+                    <div className="text-right shrink-0">
+                      <p className="font-extrabold text-base leading-tight text-[#1977DD]">
+                        {priceLabel}
+                      </p>
+                      <div className="flex gap-1 items-center justify-end mt-1.5">
+                        <PiUser className="size-3.5 text-gray-400" />
+                        <p className="text-xs text-gray-400 font-medium">
+                          {isSoldOut ? "Sold out" : `${seatsLeft} left`}
+                        </p>
                       </div>
                     </div>
-                  </button>
+                  </div>
                 );
               })}
             </div>
           )}
 
-          {/* Proceed button */}
-          {event.tickets_available && activeTiers.length > 0 && (
-            <div className="flex flex-col gap-2 mt-1">
-              {!selectedTierId && (
-                <p className="text-xs text-gray-400 text-center">
-                  ↑ Select a ticket type above to continue
-                </p>
-              )}
-              <button
-                type="button"
-                disabled={!selectedTierId}
-                onClick={handleProceed}
-                className={[
-                  "w-full text-center py-3 rounded-xl font-semibold transition-all duration-200 shadow-sm",
-                  selectedTierId
-                    ? "bg-[#1977DD] text-white hover:bg-[#1565C0] active:scale-[0.98]"
-                    : "bg-gray-200 text-gray-400 cursor-not-allowed",
-                ].join(" ")}
-              >
-                Next — Proceed to Buy Ticket
-              </button>
-            </div>
-          )}
+          {/* Active Action Button to proceed directly to the registration page */}
+          <button
+            type="button"
+            onClick={handleProceed}
+            className="w-full text-center py-3.5 bg-[#1977DD] text-white rounded-xl font-semibold hover:bg-[#1565C0] active:scale-[0.98] transition-all duration-200 shadow-sm mt-2"
+          >
+            Proceed to Buy Ticket
+          </button>
         </div>
       </div>
     </section>
