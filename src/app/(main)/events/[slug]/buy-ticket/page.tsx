@@ -86,7 +86,7 @@ export default function BuyTicketPage() {
     e.preventDefault();
 
     if (!tierId) {
-      toast.error("Please select a ticket type.");
+      toast.error("Please select a Ticket type.");
       return;
     }
     if (!firstName || !lastName || !email || !phone) {
@@ -272,7 +272,9 @@ export default function BuyTicketPage() {
                           type="button"
                           onClick={() => setShowPassword(prev => !prev)}
                           className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
-                          aria-label={showPassword ? "Hide password" : "Show password"}
+                          aria-label={
+                            showPassword ? "Hide password" : "Show password"
+                          }
                         >
                           {showPassword ? (
                             <IoEyeOutline className="size-5" />
@@ -301,7 +303,11 @@ export default function BuyTicketPage() {
                           type="button"
                           onClick={() => setShowConfirmPassword(prev => !prev)}
                           className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
-                          aria-label={showConfirmPassword ? "Hide password" : "Show password"}
+                          aria-label={
+                            showConfirmPassword
+                              ? "Hide password"
+                              : "Show password"
+                          }
                         >
                           {showConfirmPassword ? (
                             <IoEyeOutline className="size-5" />
@@ -329,7 +335,7 @@ export default function BuyTicketPage() {
                       className="w-full appearance-none px-4 py-3 rounded-xl border border-gray-200 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 text-gray-800 text-sm transition pr-10 cursor-pointer"
                     >
                       <option value="" disabled>
-                        Select ticket type
+                        Select Ticket type
                       </option>
                       {activeTiers.map(tier => (
                         <option key={tier.id} value={tier.id}>
@@ -341,7 +347,7 @@ export default function BuyTicketPage() {
                       ))}
                     </select>
                     <span className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 text-xs">
-                     <IoIosArrowDown/>
+                      <IoIosArrowDown />
                     </span>
                   </div>
                 </div>
@@ -365,7 +371,7 @@ export default function BuyTicketPage() {
                       ))}
                     </select>
                     <span className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 text-xs">
-                      <IoIosArrowDown/>
+                      <IoIosArrowDown />
                     </span>
                   </div>
                 </div>

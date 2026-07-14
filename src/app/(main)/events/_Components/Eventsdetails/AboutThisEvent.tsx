@@ -119,13 +119,13 @@ export default function AboutThisEvent({ event }: AboutThisEventProps) {
           )}
         </div>
 
-        {/* ── Right Column: Static Ticket Options Info + Action Button ── */}
+        {/* ── Right Column: Static Ticket type Info + Action Button ── */}
         <div className="w-full lg:w-1/4 p-6 sm:p-8 rounded-[20px] bg-[#F5F5F7] h-fit flex flex-col gap-5">
-          <h3 className="text-2xl font-semibold text-black">Ticket Options</h3>
+          <h3 className="text-2xl font-semibold text-black">Ticket type</h3>
 
           {activeTiers.length === 0 ? (
             <p className="text-gray-500 text-sm italic">
-              No ticket options available.
+              No Ticket type available.
             </p>
           ) : (
             <div className="flex flex-col gap-3">
