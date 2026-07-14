@@ -9,26 +9,16 @@ import WhatExist from "./_Components/WhatExist";
 import OurImpact from "./_Components/OurImpact";
 import FounderMessage from "./_Components/FounderMessage";
 import JoinMovement from "./_Components/JoinMovement";
-import SponsorSlider from "@/Components/Common/SponsorSlider";
-import { sponsorsData } from "@/Components/Data/data";
 import NewsLetter from "@/Components/Common/NewsLetter";
 import {
   getCMSAboutData,
   getCMSHomepageData,
 } from "@/lib/Services/cms_service";
 import Sponsors from "../_components/Sponsors";
-import { Button } from "@/Components/Common/Button";
 
 const page = async () => {
   const cmsData = await getCMSAboutData();
   const sponsorsdata = await getCMSHomepageData();
-
-  const logos =
-    cmsData?.about_sponsors?.metadata?.map((m, i) => ({
-      id: i + 1,
-      image: m.image,
-      link: m.link,
-    })) || sponsorsData;
 
   return (
     <>
@@ -43,21 +33,8 @@ const page = async () => {
       <OurImpact data={cmsData?.about_our_impact} />
       <FounderMessage data={cmsData?.about_founder_message} />
       <JoinMovement data={cmsData?.about_join} />
-      <section className="py-10 xl:py-30">
-        <h2 className="section_title pb-10">
-          {cmsData?.about_sponsors?.title || "Our Event Sponsors"}
-        </h2>
-        <div className="flex flex-col gap-5">
-          <SponsorSlider logos={logos} />
-          <SponsorSlider logos={logos} reverse={true} />
-        </div>
-      </section>
-      <div className="">
-        <Sponsors data={sponsorsdata?.partners} />
-        <div className="flex justify-center mt-5">
-          <Button>Become a Sponsor</Button>
-        </div>
-      </div>
+      <Sponsors data={cmsData?.about_sponsors} showButton={false} />
+      <Sponsors data={sponsorsdata?.partners} />
       <NewsLetter
         data={cmsData?.about_newsletter}
         title="Stay inspired. Get the latest spotlights and events delivered to your inbox."
@@ -67,3 +44,4 @@ const page = async () => {
 };
 
 export default page;
+

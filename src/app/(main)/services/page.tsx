@@ -152,12 +152,8 @@ const page = async () => {
           </div>
         </section>
       )}
-      <div className="">
-        <Sponsors data={sponsorsdata?.partners} />
-        <div className="flex justify-center mt-5">
-          <Button>Become a Sponsor</Button>
-        </div>
-      </div>
+      <Sponsors data={sponsorsdata?.partners} />
+
 
       <NewsLetter
         data={cmsData?.services_newsletter}

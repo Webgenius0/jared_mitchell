@@ -8,10 +8,8 @@ import { CMSEventItem } from "@/Types/cms";
 import { PageLoader } from "@/Shared/PageLoader";
 import AboutThisEvent from "../_Components/Eventsdetails/AboutThisEvent";
 import ThisEventGallery from "../_Components/Eventsdetails/ThisEventGallery";
-import SponsorSlider from "@/Components/Common/SponsorSlider";
-import { Button } from "@/Components/Common/Button";
-import { sponsorsData } from "@/Components/Data/data";
 import NewsLetter from "@/Components/Common/NewsLetter";
+import Sponsors from "../../_components/Sponsors";
 
 export default function Page() {
   const params = useParams();
@@ -22,13 +20,6 @@ export default function Page() {
 
   const event = data?.data as CMSEventItem | undefined;
   const CmsData = cmsRes?.data;
-
-  const logos =
-    CmsData?.about_sponsors?.metadata?.map((m: any, i: number) => ({
-      id: i + 1,
-      image: m.image,
-      link: m.link,
-    })) || sponsorsData;
 
   if (isEventLoading) {
     return <PageLoader />;
@@ -64,13 +55,7 @@ export default function Page() {
         media={event.event_media}
         promoVideoUrl={event.promo_video_url}
       />
-      <div className="flex flex-col gap-5">
-        <SponsorSlider logos={logos} />
-        <SponsorSlider logos={logos} reverse={true} />
-        <div className="flex justify-center mt-5">
-          <Button>Become a Sponsor</Button>
-        </div>
-      </div>
+      <Sponsors data={CmsData?.about_sponsors} />
       <NewsLetter title="Be part of the movement. Get stories, updates, and opportunities straight to your inbox." />
     </>
   );

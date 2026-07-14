@@ -12,20 +12,11 @@ import {
   getCMSAboutData,
   getCMSArtistSpotlightData,
 } from "@/lib/Services/cms_service";
-import SponsorSlider from "@/Components/Common/SponsorSlider";
-import { sponsorsData } from "@/Components/Data/data";
-import { Button } from "@/Components/Common/Button";
+import Sponsors from "../../_components/Sponsors";
 
 const page = async () => {
   const cmsData = await getCMSArtistSpotlightData();
   const CmsData = await getCMSAboutData();
-
-  const logos =
-    CmsData?.about_sponsors?.metadata?.map((m, i) => ({
-      id: i + 1,
-      image: m.image,
-      link: m.link,
-    })) || sponsorsData;
 
   return (
     <>
@@ -48,19 +39,11 @@ const page = async () => {
       {/* <CreativeJourney data={cmsData?.artist_spotlight_interview} /> */}
       <WhatExist data={cmsData?.artist_spotlight_why_exists} />
       {/* <EventSponsors /> */}
-      <section className="py-10 xl:py-20">
-        <h2 className="section_title">
-          {CmsData?.about_sponsors?.title || "Our Event Sponsors"}
-        </h2>
-        <SponsorSlider logos={logos} />
-        <SponsorSlider logos={logos} reverse={true} />
-        <div className="flex justify-center mt-10">
-          <Button>Become a Sponsor</Button>
-        </div>
-      </section>
+      <Sponsors data={CmsData?.about_sponsors} />
       <NewsLetter title="Stay connected with new spotlights, events, and creative tools." />
     </>
   );
 };
 
 export default page;
+

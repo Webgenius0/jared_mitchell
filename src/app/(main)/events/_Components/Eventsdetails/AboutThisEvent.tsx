@@ -9,7 +9,7 @@ interface AboutThisEventProps {
 
 export default function AboutThisEvent({ event }: AboutThisEventProps) {
   const eventTypeLabel = event.event_type
-    ? event.event_type.replace("_", " ").replace(/\b\w/g, (c) => c.toUpperCase())
+    ? event.event_type.replace("_", " ").replace(/\b\w/g, c => c.toUpperCase())
     : "Event";
 
   return (
@@ -48,7 +48,10 @@ export default function AboutThisEvent({ event }: AboutThisEventProps) {
               <div className="flex gap-2 items-center">
                 <CiCircleCheck className="text-[#1977DD] size-5 shrink-0" />
                 <p className="text-base text-[#364153]">
-                  <strong>Status:</strong> <span className="capitalize">{event.status || "Published"}</span>
+                  <strong>Status:</strong>{" "}
+                  <span className="capitalize">
+                    {event.status || "Published"}
+                  </span>
                 </p>
               </div>
               <div className="flex gap-2 items-center">
@@ -79,7 +82,7 @@ export default function AboutThisEvent({ event }: AboutThisEventProps) {
                 Featured Speakers & Artists
               </h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {event.event_artists.map((artist) => (
+                {event.event_artists.map(artist => (
                   <div
                     key={artist.id}
                     className="bg-white rounded-xl p-4 flex gap-4 items-center shadow-sm border border-gray-100"
@@ -109,13 +112,14 @@ export default function AboutThisEvent({ event }: AboutThisEventProps) {
         {/* Right Column: Ticket tiers */}
         <div className="w-full lg:w-1/4 p-6 sm:p-8 rounded-[20px] bg-[#F5F5F7] h-fit flex flex-col gap-6">
           <h3 className="text-2xl font-semibold text-black">Tickets</h3>
-          
+
           <div className="flex flex-col gap-4">
             {event.ticket_tiers && event.ticket_tiers.length > 0 ? (
               event.ticket_tiers
-                .filter((tier) => tier.is_active)
-                .map((tier) => {
-                  const seatsLeft = tier.quantity_available - tier.quantity_sold;
+                .filter(tier => tier.is_active)
+                .map(tier => {
+                  const seatsLeft =
+                    tier.quantity_available - tier.quantity_sold;
                   return (
                     <div
                       key={tier.id}
@@ -126,10 +130,12 @@ export default function AboutThisEvent({ event }: AboutThisEventProps) {
                           {tier.name}
                         </h4>
                         <span className="font-bold text-[#1977DD] text-base shrink-0">
-                          {parseFloat(tier.price) === 0 ? "Free" : `$${tier.price}`}
+                          {parseFloat(tier.price) === 0
+                            ? "Free"
+                            : `$${tier.price}`}
                         </span>
                       </div>
-                      
+
                       {tier.description && (
                         <p className="text-sm text-gray-600 font-normal line-clamp-3">
                           {tier.description}
@@ -139,7 +145,9 @@ export default function AboutThisEvent({ event }: AboutThisEventProps) {
                       <div className="flex gap-2 items-center text-gray-500 mt-1">
                         <PiUser className="shrink-0 size-4 text-[#1977DD]" />
                         <p className="text-xs font-normal">
-                          {seatsLeft > 0 ? `${seatsLeft} tickets left` : "Sold Out"}
+                          {seatsLeft > 0
+                            ? `${seatsLeft} tickets left`
+                            : "Sold Out"}
                         </p>
                       </div>
                     </div>
@@ -159,7 +167,7 @@ export default function AboutThisEvent({ event }: AboutThisEventProps) {
                 rel="noopener noreferrer"
                 className="w-full text-center bg-[#1977DD] text-white py-3 rounded-xl font-semibold hover:bg-[#1565C0] transition-colors mt-2 inline-block shadow-sm"
               >
-                Get Tickets
+                Next proceeded
               </a>
             )}
           </div>
@@ -168,4 +176,3 @@ export default function AboutThisEvent({ event }: AboutThisEventProps) {
     </section>
   );
 }
-
