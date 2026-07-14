@@ -176,7 +176,7 @@ export default function BuyTicketPage() {
         <div className="container mx-auto px-4 max-w-5xl">
           <div className="flex flex-col lg:flex-row gap-8 items-start">
             <div className="w-full lg:w-[70%] bg-gray-100 rounded-2xl shadow-sm border border-gray-100 p-6 sm:p-8">
-              <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-7">
+              <h2 className="text-2xl sm:text-5xl font-bold text-gray-900 mb-7">
                 Attendee Information
               </h2>
 
@@ -390,21 +390,21 @@ export default function BuyTicketPage() {
               <div className="space-y-3 text-sm text-gray-600">
                 {/* Date */}
                 <div className="flex justify-between items-start gap-4">
-                  <span className="font-medium text-gray-500 shrink-0">
+                  <span className="font-medium text-black shrink-0">
                     Date
                   </span>
                   <span className="text-gray-800 text-right">{date}</span>
                 </div>
                 {/* Time */}
                 <div className="flex justify-between items-start gap-4">
-                  <span className="font-medium text-gray-500 shrink-0">
+                  <span className="font-medium text-black shrink-0">
                     Time
                   </span>
                   <span className="text-gray-800 text-right">{timeRange}</span>
                 </div>
                 {/* Location */}
                 <div className="flex justify-between items-start gap-4">
-                  <span className="font-medium text-gray-500 shrink-0">
+                  <span className="font-medium text-black  shrink-0">
                     Location
                   </span>
                   <span className="text-gray-800 text-right">
@@ -437,13 +437,13 @@ export default function BuyTicketPage() {
                 )}
 
                 {/* Subtotal */}
-                <div className="flex justify-between items-center gap-4 text-gray-600">
+                <div className="flex justify-between items-center gap-4 text-black">
                   <span>Subtotal</span>
                   <span>${subtotal.toFixed(2)}</span>
                 </div>
 
                 {/* Service fee */}
-                <div className="flex justify-between items-center gap-4 text-gray-600">
+                <div className="flex justify-between items-center gap-4 text-black">
                   <span>
                     Service Fee{" "}
                     {selectedTier && parseFloat(selectedTier.service_fee) > 0

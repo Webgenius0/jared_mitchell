@@ -35,7 +35,7 @@ export default function ThisEventGallery({
   }));
 
   if (galleryItems.length === 0 && !promoVideoUrl) {
-    return null; // Don't render the gallery section if there's no media
+    return null;
   }
 
   return (
@@ -55,7 +55,7 @@ export default function ThisEventGallery({
         <div className="space-y-6">
           {/* Main Top Promo Video/Featured Media */}
           {promoVideoUrl && (
-            <div className="w-full max-w-6xl overflow-hidden rounded-2xl shadow-md max-h-[350px] aspect-video relative group">
+            <div className="w-full max-w-6xl overflow-hidden rounded-2xl shadow-md max-h-[650px] aspect-video relative group">
               <video
                 src={promoVideoUrl}
                 controls

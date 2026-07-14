@@ -77,14 +77,14 @@ export default function EventDetailsBanner({ event }: EventDetailsBannerProps) {
         </h3>
         <div className="flex flex-wrap justify-center mt-5 gap-x-8 gap-y-3">
           <div className="flex gap-2 items-center">
-            <PiCalendarBlank className="text-white shrink-0 size-5" />
-            <p className="text-lg sm:text-xl text-white font-normal">
+            <PiCalendarBlank className="text-white shrink-0 size-5 md:block hidden" />
+            <p className="text-lg sm:text-xl text-white font-normal text-center">
               {formatDateRange(event.starts_at, event.ends_at, event.timezone)}
             </p>
           </div>
           <div className="flex gap-2 items-center">
-            <GrLocation className="text-white shrink-0 size-5" />
-            <p className="text-lg sm:text-xl text-white font-normal">
+            <GrLocation className="text-white shrink-0 size-5 md:block hidden" />
+            <p className="text-lg sm:text-xl text-white font-normal text-center">
               {event.venue_name}
               {event.address && ` — ${event.address}`}
               {` • ${event.city}, ${event.state}`}
