@@ -52,9 +52,9 @@ export default function AboutThisEvent({ event }: AboutThisEventProps) {
           {/* Quick Details */}
           <div className="py-6 border-y border-gray-200">
             <h3 className="text-2xl font-semibold text-black mb-4">
-              Event Details
+              Event Highlights
             </h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 gap-4">
               <div className="flex gap-2 items-center">
                 <CiCircleCheck className="text-[#1977DD] size-5 shrink-0" />
                 <p className="text-base text-[#364153]">
@@ -140,31 +140,33 @@ export default function AboutThisEvent({ event }: AboutThisEventProps) {
                 return (
                   <div
                     key={tier.id}
-                    className={`w-full rounded-xl border border-gray-200/60 bg-white p-4 shadow-sm flex items-start justify-between gap-3 ${
+                    className={`w-full rounded-xl border border-gray-200/60 bg-white p-4 shadow-sm flex items-center justify-between gap-5 ${
                       isSoldOut ? "opacity-60" : ""
                     }`}
                   >
                     <div className="min-w-0">
-                      <p className="font-bold text-sm leading-tight text-gray-900">
+                      <p className="font-bold text-lg leading-tight text-gray-900">
                         {tier.name}
                       </p>
                       {tier.description && (
-                        <p className="text-xs text-gray-500 mt-1 line-clamp-2">
+                        <p className="text-base py-4 text-[#364153] line-clamp-2 font-normal">
                           {tier.description}
                         </p>
                       )}
+                      <div className="flex gap-1 items-center">
+                        <PiUser className="size-3.5 text-gray-400" />
+                        <p className="text-lg text-gray-400 font-normal">
+                          {isSoldOut
+                            ? "Sold out"
+                            : `${seatsLeft} seats available`}
+                        </p>
+                      </div>
                     </div>
 
                     <div className="text-right shrink-0">
                       <p className="font-extrabold text-base leading-tight text-[#1977DD]">
                         {priceLabel}
                       </p>
-                      <div className="flex gap-1 items-center justify-end mt-1.5">
-                        <PiUser className="size-3.5 text-gray-400" />
-                        <p className="text-xs text-gray-400 font-medium">
-                          {isSoldOut ? "Sold out" : `${seatsLeft} left`}
-                        </p>
-                      </div>
                     </div>
                   </div>
                 );

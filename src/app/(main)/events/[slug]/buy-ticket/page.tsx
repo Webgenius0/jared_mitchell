@@ -129,13 +129,11 @@ export default function BuyTicketPage() {
     registerEvent(payload, {
       onSuccess: (res: any) => {
         if (res?.success) {
-          // If a token is returned (guest user was auto-registered),
-          // save it so they're logged in
+
           if (res?.data?.token) {
             setToken(res.data.token);
           }
 
-          // Redirect to Stripe checkout or to the event page
           const checkoutUrl = res?.data?.checkout_url;
           if (checkoutUrl) {
             window.location.href = checkoutUrl;
@@ -147,7 +145,6 @@ export default function BuyTicketPage() {
     });
   };
 
-  // ── Loading / error states ───────────────────────────────────────────────────
   if (isLoading) return <PageLoader />;
 
   if (error || !event) {
@@ -173,14 +170,11 @@ export default function BuyTicketPage() {
 
   return (
     <>
-      {/* ── Same Banner as Event Details page ─────────────────────────────── */}
       <EventDetailsBanner event={event} />
 
-      {/* ── Main booking body ─────────────────────────────────────────────── */}
       <section className="py-10 xl:py-16 ">
         <div className="container mx-auto px-4 max-w-5xl">
           <div className="flex flex-col lg:flex-row gap-8 items-start">
-            {/* ── LEFT: Attendee form ───────────────────────────────────────── */}
             <div className="w-full lg:w-[70%] bg-gray-100 rounded-2xl shadow-sm border border-gray-100 p-6 sm:p-8">
               <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-7">
                 Attendee Information
@@ -388,7 +382,6 @@ export default function BuyTicketPage() {
               </form>
             </div>
 
-            {/* ── RIGHT: Order summary ──────────────────────────────────────── */}
             <div className="w-full lg:w-[30%] bg-gray-100 rounded-2xl shadow-sm border border-gray-100 p-6 sm:p-8 lg:sticky lg:top-28">
               <h3 className="text-xl font-bold text-gray-900 mb-5">
                 Order Summary
