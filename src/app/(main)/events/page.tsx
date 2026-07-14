@@ -18,20 +18,10 @@ import {
   getFeaturedEvents,
 } from "@/lib/Services/cms_service";
 import { CMSEventsPage, FeaturedEventItem } from "@/Types/cms";
-import SponsorSlider from "@/Components/Common/SponsorSlider";
-import { sponsorsData } from "@/Components/Data/data";
-import { Button } from "@/Components/Common/Button";
 
 const Page = async () => {
   const pageData = (await getEventsPageCms()) as CMSEventsPage;
   const CmsData = await getCMSAboutData();
-
-  const logos =
-    CmsData?.about_sponsors?.metadata?.map((m, i) => ({
-      id: i + 1,
-      image: m.image,
-      link: m.link,
-    })) || sponsorsData;
 
   let featuredEvents: FeaturedEventItem[] = [];
   try {
@@ -55,22 +45,11 @@ const Page = async () => {
       {/* <WhatYouGet data={pageData?.events_page_booth_features} /> */}
       <EventGallery />
       <EventHighlight />
-      {/* <Sponsors /> */}
-      <section className="py-10 xl:py-20">
-        <h2 className="section_title">
-          {CmsData?.about_sponsors?.title || "Our Event Sponsors"}
-        </h2>
-        <div className="flex flex-col gap-5">
-          <SponsorSlider logos={logos} />
-          <SponsorSlider logos={logos} reverse={true} />
-          <div className="flex justify-center mt-5">
-            <Button>Become a Sponsor</Button>
-          </div>
-        </div>
-      </section>
+      <Sponsors data={CmsData?.about_sponsors} />
       <NewsLetter title="Be part of the movement. Get stories, updates, and opportunities straight to your inbox." />
     </>
   );
 };
 
 export default Page;
+

@@ -1,35 +1,62 @@
 "use client";
-import { use, useEffect, useState, useContext } from "react";
-import { getEventBySlug } from "@/lib/Services/cms_service";
+
+import React from "react";
+import { useParams } from "next/navigation";
+import EventDetailsBanner from "../_Components/Eventsdetails/EventDetailsBanner";
+import { getEventBySlug, getCMSAboutData } from "@/Hooks/api/cms_api";
 import { CMSEventItem } from "@/Types/cms";
-import { AuthContextProvider } from "@/Provider/AuthProvider/AuthProvider";
 import { PageLoader } from "@/Shared/PageLoader";
+import AboutThisEvent from "../_Components/Eventsdetails/AboutThisEvent";
+import ThisEventGallery from "../_Components/Eventsdetails/ThisEventGallery";
+import NewsLetter from "@/Components/Common/NewsLetter";
+import Sponsors from "../../_components/Sponsors";
 
-export default function page({
-  params,
-}: {
-  params: Promise<{ slug: string }>;
-}) {
-  const { slug } = use(params);
-  const { token } = useContext(AuthContextProvider);
-  const [eventDetails, setEventDetails] = useState<CMSEventItem | null>(null);
+export default function Page() {
+  const params = useParams();
+  const slug = Array.isArray(params.slug) ? params.slug[0] : params.slug;
 
-  useEffect(() => {
-    if (slug && token) {
-      getEventBySlug(slug, token).then(setEventDetails);
-    }
-  }, [slug, token]);
+  const { data, isLoading: isEventLoading, error } = getEventBySlug(slug ?? "");
+  const { data: cmsRes } = getCMSAboutData();
 
-  if (!eventDetails)
+  const event = data?.data as CMSEventItem | undefined;
+  const CmsData = cmsRes?.data;
+
+  if (isEventLoading) {
+    return <PageLoader />;
+  }
+
+  if (error || !event) {
     return (
-      <div className="">
-        <PageLoader />
-      </div>
+      <section className="flex items-center justify-center min-h-screen bg-gray-50">
+        <div className="text-center px-6">
+          <h2 className="text-3xl font-bold text-gray-800 mb-4">
+            Event Not Found
+          </h2>
+          <p className="text-gray-600 mb-8">
+            {(error as Error)?.message ||
+              "The event you are looking for does not exist or has been removed."}
+          </p>
+          <a
+            href="/events"
+            className="inline-block bg-primary-blue text-white px-8 py-3 rounded-lg hover:opacity-90 transition-opacity"
+          >
+            Browse Events
+          </a>
+        </div>
+      </section>
     );
+  }
 
   return (
-    <section className="lg:py-25 py-15">
-      <div className="container mx-auto"></div>
-    </section>
+    <>
+      <EventDetailsBanner event={event} />
+      <AboutThisEvent event={event} />
+      <ThisEventGallery
+        media={event.event_media}
+        promoVideoUrl={event.promo_video_url}
+      />
+      <Sponsors data={CmsData?.about_sponsors} />
+      <NewsLetter title="Be part of the movement. Get stories, updates, and opportunities straight to your inbox." />
+    </>
   );
 }

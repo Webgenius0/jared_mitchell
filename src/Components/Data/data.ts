@@ -850,13 +850,27 @@ export const topPerformers: User[] = [
   },
 ];
 
-export const featuredShopData: ShopCardProps[] = [
+export const featuredShopData: (ShopCardProps & {
+  images?: string[];
+  originalPrice?: string;
+  brand?: string;
+  longDetails?: string;
+})[] = [
   {
     id: "1",
     image: f1,
     title: "OSI Signature Hoodie",
     description: "Premium quality hoodie that represents the culture.",
     price: "$65",
+    originalPrice: "$89",
+    brand: "OSI Apparel",
+    longDetails:
+      "Premium heavyweight cotton-blend hoodie with embroidered OSI logo. Features a relaxed fit, ribbed cuffs and hem, and a kangaroo pocket. Machine washable. Available in sizes S-3XL.",
+    images: [
+      "https://i.ibb.co.com/V0TXvhy4/3b1a85c852f585e5f2ef2f75cc735a4ce893aa76.jpg",
+      "https://i.ibb.co.com/hFf4n28R/Frame-2147230524.png",
+      "https://i.ibb.co.com/V0TXvhy4/3b1a85c852f585e5f2ef2f75cc735a4ce893aa76.jpg",
+    ],
   },
   {
     id: "2",
@@ -865,6 +879,14 @@ export const featuredShopData: ShopCardProps[] = [
     description: "Complete toolkit to launch and grow your business.",
     price: "$49",
     tag: "Digital",
+    originalPrice: "$79",
+    brand: "OSI Digital",
+    longDetails:
+      "Comprehensive digital toolkit including business plan templates, financial worksheets, marketing calendars, and social media starter guides. Instant download after purchase.",
+    images: [
+      "https://i.ibb.co.com/hFf4n28R/Frame-2147230524.png",
+      "https://i.ibb.co.com/V0TXvhy4/3b1a85c852f585e5f2ef2f75cc735a4ce893aa76.jpg",
+    ],
   },
   {
     id: "3",
@@ -872,6 +894,13 @@ export const featuredShopData: ShopCardProps[] = [
     title: "Vendor Starter Pack",
     description: "Everything needed for your first vendor event.",
     price: "$129",
+    brand: "OSI Events",
+    longDetails:
+      "Includes branded tablecloth, banner, 100 business cards, product display risers, pricing signage, and a vendor checklist guide. Perfect for first-time event vendors.",
+    images: [
+      "https://i.ibb.co.com/V0TXvhy4/3b1a85c852f585e5f2ef2f75cc735a4ce893aa76.jpg",
+      "https://i.ibb.co.com/hFf4n28R/Frame-2147230524.png",
+    ],
   },
   {
     id: "4",
@@ -880,6 +909,28 @@ export const featuredShopData: ShopCardProps[] = [
     title: "Spotlight Promotion Credit",
     description: "Get your business featured on OSI platforms.",
     price: "$99",
+    brand: "OSI Marketing",
+    longDetails:
+      "One-time Spotlight Promotion Credit that gets your business featured across OSI's social media channels, newsletter, and website. Includes professionally designed graphics and caption.",
+    images: [
+      "https://i.ibb.co.com/hFf4n28R/Frame-2147230524.png",
+      "https://i.ibb.co.com/V0TXvhy4/3b1a85c852f585e5f2ef2f75cc735a4ce893aa76.jpg",
+    ],
+  },
+  {
+    id: "5",
+    image:
+      "https://i.ibb.co.com/hFf4n28R/Frame-2147230524.png",
+    title: "OSI Media Kit",
+    description: "Press-ready media kit for influencers and content creators.",
+    price: "$35",
+    tag: "Digital",
+    brand: "OSI Media",
+    longDetails:
+      "Professional media kit template package including brand guidelines template, press release template, media list, and social media one-sheet. Fully customizable in Canva.",
+    images: [
+      "https://i.ibb.co.com/V0TXvhy4/3b1a85c852f585e5f2ef2f75cc735a4ce893aa76.jpg",
+    ],
   },
 ];
 
@@ -902,6 +953,14 @@ export const limitedDrops: ShopCardProps[] = [
   },
   {
     id: "3",
+    image: "https://i.ibb.co.com/hFf4n28R/Frame-2147230524.png",
+    title: "Vendor Starter Pack",
+    description: "Everything needed for your first vendor event.",
+    price: "$129",
+    EndsIn: "5d 8h 45m",
+  },
+  {
+    id: "4",
     image: "https://i.ibb.co.com/hFf4n28R/Frame-2147230524.png",
     title: "Vendor Starter Pack",
     description: "Everything needed for your first vendor event.",
