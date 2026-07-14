@@ -70,4 +70,14 @@ export const getArtistSpotlights = (params?: any) => {
   });
 };
 
+// Get Event By Slug
+export const getEventBySlug = (slug: string) => {
+  return useClientApi({
+    method: "get",
+    key: ["event-by-slug", slug],
+    endpoint: `/v1/events/${slug}`,
+    enabled: !!slug,
+  });
+};
+
 
