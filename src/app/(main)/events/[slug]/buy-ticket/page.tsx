@@ -10,16 +10,19 @@ import {
 import { CMSEventItem, EventTicketTier } from "@/Types/cms";
 import { PageLoader } from "@/Shared/PageLoader";
 import EventDetailsBanner from "../../_Components/Eventsdetails/EventDetailsBanner";
-import { GrLocation } from "react-icons/gr";
-import { PiCalendarBlank, PiUser } from "react-icons/pi";
+import { IoIosArrowDown } from "react-icons/io";
 import toast from "react-hot-toast";
 import Sponsors from "@/app/(main)/_components/Sponsors";
 import NewsLetter from "@/Components/Common/NewsLetter";
+import useAuth from "@/Hooks/useAuth";
+import { IoEyeOutline } from "react-icons/io5";
+import { VscEyeClosed } from "react-icons/vsc";
 
 export default function BuyTicketPage() {
   const params = useParams();
   const router = useRouter();
   const slug = Array.isArray(params.slug) ? params.slug[0] : params.slug;
+  const { user, token, setToken } = useAuth();
 
   const { data, isLoading, error } = getEventBySlug(slug ?? "");
   const { mutate: registerEvent, isPending } = useEventRegister();
@@ -33,6 +36,10 @@ export default function BuyTicketPage() {
   const [phone, setPhone] = useState("");
   const [tierId, setTierId] = useState<number | "">("");
   const [quantity, setQuantity] = useState(1);
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   // ── Derived helpers ──────────────────────────────────────────────────────────
   const activeTiers = useMemo(
@@ -87,6 +94,21 @@ export default function BuyTicketPage() {
       return;
     }
 
+    if (!user) {
+      if (!password || !confirmPassword) {
+        toast.error("Please enter a password.");
+        return;
+      }
+      if (password !== confirmPassword) {
+        toast.error("Passwords do not match.");
+        return;
+      }
+      if (password.length < 6) {
+        toast.error("Password must be at least 6 characters.");
+        return;
+      }
+    }
+
     const payload: Record<string, any> = {
       event_id: event?.id,
       ticket_tier_id: tierId,
@@ -97,10 +119,29 @@ export default function BuyTicketPage() {
       quantity,
     };
 
+    if (user && token) {
+      payload.token = token;
+    } else {
+      payload.password = password;
+      payload.password_confirmation = confirmPassword;
+    }
+
     registerEvent(payload, {
       onSuccess: (res: any) => {
         if (res?.success) {
-          router.push(`/events/${slug}`);
+          // If a token is returned (guest user was auto-registered),
+          // save it so they're logged in
+          if (res?.data?.token) {
+            setToken(res.data.token);
+          }
+
+          // Redirect to Stripe checkout or to the event page
+          const checkoutUrl = res?.data?.checkout_url;
+          if (checkoutUrl) {
+            window.location.href = checkoutUrl;
+          } else {
+            router.push(`/events/${slug}`);
+          }
         }
       },
     });
@@ -210,6 +251,69 @@ export default function BuyTicketPage() {
                   />
                 </div>
 
+                {/* ── Password fields for guest users ──────────────────────── */}
+                {!user && (
+                  <>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                        Password <span className="text-red-500">*</span>
+                      </label>
+                      <div className="relative">
+                        <input
+                          id="password"
+                          type={showPassword ? "text" : "password"}
+                          required={!user}
+                          placeholder="Create a password"
+                          value={password}
+                          onChange={e => setPassword(e.target.value)}
+                          className="w-full px-4 py-2.5 pr-10 rounded-lg border border-gray-200 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-[#1977DD] focus:border-transparent text-gray-800 text-sm transition"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => setShowPassword(prev => !prev)}
+                          className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
+                          aria-label={showPassword ? "Hide password" : "Show password"}
+                        >
+                          {showPassword ? (
+                            <IoEyeOutline className="size-5" />
+                          ) : (
+                            <VscEyeClosed className="size-5" />
+                          )}
+                        </button>
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                        Confirm Password <span className="text-red-500">*</span>
+                      </label>
+                      <div className="relative">
+                        <input
+                          id="confirm_password"
+                          type={showConfirmPassword ? "text" : "password"}
+                          required={!user}
+                          placeholder="Confirm your password"
+                          value={confirmPassword}
+                          onChange={e => setConfirmPassword(e.target.value)}
+                          className="w-full px-4 py-2.5 pr-10 rounded-lg border border-gray-200 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-[#1977DD] focus:border-transparent text-gray-800 text-sm transition"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => setShowConfirmPassword(prev => !prev)}
+                          className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
+                          aria-label={showConfirmPassword ? "Hide password" : "Show password"}
+                        >
+                          {showConfirmPassword ? (
+                            <IoEyeOutline className="size-5" />
+                          ) : (
+                            <VscEyeClosed className="size-5" />
+                          )}
+                        </button>
+                      </div>
+                    </div>
+                  </>
+                )}
+
                 {/* Ticket type — selectable cards */}
                 <div>
                   <label className="block text-[15px] font-semibold text-gray-800 mb-2">
@@ -237,7 +341,7 @@ export default function BuyTicketPage() {
                       ))}
                     </select>
                     <span className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 text-xs">
-                      ▼
+                     <IoIosArrowDown/>
                     </span>
                   </div>
                 </div>
@@ -260,8 +364,8 @@ export default function BuyTicketPage() {
                         </option>
                       ))}
                     </select>
-                    <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-gray-400">
-                      ▾
+                    <span className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 text-xs">
+                      <IoIosArrowDown/>
                     </span>
                   </div>
                 </div>
@@ -271,7 +375,7 @@ export default function BuyTicketPage() {
                   id="complete_booking_btn"
                   type="submit"
                   disabled={isPending}
-                  className="w-full bg-[#1977DD] text-white py-3.5 rounded-xl font-semibold text-base hover:bg-[#1565C0] active:scale-[0.98] transition-all disabled:opacity-60 disabled:cursor-not-allowed mt-1 shadow-md"
+                  className="w-full bg-[#1977DD] text-white py-3.5 rounded-xl font-normal text-base hover:bg-[#1565C0] active:scale-[0.98] transition-all disabled:opacity-60 disabled:cursor-not-allowed mt-1 shadow-md"
                 >
                   {isPending ? "Processing…" : "Complete Booking"}
                 </button>
