@@ -1,33 +1,44 @@
-import React from "react";
+"use client";
+
+import React, { useState } from "react";
 import { CiCircleCheck } from "react-icons/ci";
 import { PiUser } from "react-icons/pi";
 import { CMSEventItem } from "@/Types/cms";
+import { useRouter } from "next/navigation";
 
 interface AboutThisEventProps {
   event: CMSEventItem;
 }
 
 export default function AboutThisEvent({ event }: AboutThisEventProps) {
+  const router = useRouter();
+
+  const activeTiers = event.ticket_tiers?.filter(t => t.is_active) ?? [];
+  const [selectedTierId, setSelectedTierId] = useState<number | null>(null);
+
   const eventTypeLabel = event.event_type
     ? event.event_type.replace("_", " ").replace(/\b\w/g, c => c.toUpperCase())
     : "Event";
 
+  const handleProceed = () => {
+    if (!selectedTierId) return;
+    router.push(`/events/${event.slug}/buy-ticket?tier=${selectedTierId}`);
+  };
+
   return (
     <section className="py-10 xl:py-20">
       <div className="container mx-auto flex flex-col lg:flex-row gap-6 px-4">
-        {/* Left Column: Description, Details & Artists */}
+        {/* ── Left Column ─────────────────────────────────────────────────── */}
         <div className="w-full lg:w-3/4 p-6 sm:p-8 rounded-[20px] bg-[#F5F5F7] flex flex-col gap-6">
           <div className="flex flex-wrap justify-between items-center gap-4">
             <h3 className="section_title m-0">About This Event</h3>
             <div className="rounded-[30px] px-6 py-2 h-fit border-[0.5px] border-[#1977DD29] bg-[#1977DD1A] shadow-[0_4px_20px_0_rgba(0,0,0,0.07)] flex gap-2 items-center">
-              <div className="h-4 w-4 rounded-full bg-[#1977DD]"></div>
-              <p className="text-base font-normal text-[#1977DD]">
-                {eventTypeLabel}
-              </p>
+              <div className="h-4 w-4 rounded-full bg-[#1977DD]" />
+              <p className="text-base font-normal text-[#1977DD]">{eventTypeLabel}</p>
             </div>
           </div>
 
-          {/* HTML Description */}
+          {/* Description */}
           {event.description ? (
             <div
               className="text-base md:text-lg xl:text-xl text-[#1D1D1F] leading-relaxed prose max-w-none [&>p]:mb-4 last:[&>p]:mb-0"
@@ -39,19 +50,15 @@ export default function AboutThisEvent({ event }: AboutThisEventProps) {
             </p>
           )}
 
-          {/* Event Features / Quick Details */}
+          {/* Quick Details */}
           <div className="py-6 border-y border-gray-200">
-            <h3 className="text-2xl font-semibold text-black mb-4">
-              Event Details
-            </h3>
+            <h3 className="text-2xl font-semibold text-black mb-4">Event Details</h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="flex gap-2 items-center">
                 <CiCircleCheck className="text-[#1977DD] size-5 shrink-0" />
                 <p className="text-base text-[#364153]">
                   <strong>Status:</strong>{" "}
-                  <span className="capitalize">
-                    {event.status || "Published"}
-                  </span>
+                  <span className="capitalize">{event.status || "Published"}</span>
                 </p>
               </div>
               <div className="flex gap-2 items-center">
@@ -75,11 +82,11 @@ export default function AboutThisEvent({ event }: AboutThisEventProps) {
             </div>
           </div>
 
-          {/* Featured Artists/Speakers */}
+          {/* Artists */}
           {event.event_artists && event.event_artists.length > 0 && (
             <div className="pb-2">
               <h3 className="text-2xl font-semibold text-black mb-4">
-                Featured Speakers & Artists
+                Featured Speakers &amp; Artists
               </h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {event.event_artists.map(artist => (
@@ -95,12 +102,8 @@ export default function AboutThisEvent({ event }: AboutThisEventProps) {
                       className="rounded-full object-cover w-[60px] h-[60px] shrink-0"
                     />
                     <div className="flex flex-col min-w-0">
-                      <h4 className="text-lg font-bold text-black truncate">
-                        {artist.name}
-                      </h4>
-                      <p className="text-sm text-gray-500 line-clamp-2">
-                        {artist.designation}
-                      </p>
+                      <h4 className="text-lg font-bold text-black truncate">{artist.name}</h4>
+                      <p className="text-sm text-gray-500 line-clamp-2">{artist.designation}</p>
                     </div>
                   </div>
                 ))}
@@ -109,68 +112,125 @@ export default function AboutThisEvent({ event }: AboutThisEventProps) {
           )}
         </div>
 
-        {/* Right Column: Ticket tiers */}
-        <div className="w-full lg:w-1/4 p-6 sm:p-8 rounded-[20px] bg-[#F5F5F7] h-fit flex flex-col gap-6">
-          <h3 className="text-2xl font-semibold text-black">Tickets</h3>
+        {/* ── Right Column: Ticket picker ──────────────────────────────────── */}
+        <div className="w-full lg:w-1/4 p-6 sm:p-8 rounded-[20px] bg-[#F5F5F7] h-fit flex flex-col gap-5">
+          <h3 className="text-2xl font-semibold text-black">Select a Ticket</h3>
 
-          <div className="flex flex-col gap-4">
-            {event.ticket_tiers && event.ticket_tiers.length > 0 ? (
-              event.ticket_tiers
-                .filter(tier => tier.is_active)
-                .map(tier => {
-                  const seatsLeft =
-                    tier.quantity_available - tier.quantity_sold;
-                  return (
-                    <div
-                      key={tier.id}
-                      className="bg-white p-4 rounded-xl border border-gray-100 shadow-sm flex flex-col gap-2"
-                    >
-                      <div className="flex justify-between items-start gap-2">
-                        <h4 className="text-lg font-semibold text-black truncate">
-                          {tier.name}
-                        </h4>
-                        <span className="font-bold text-[#1977DD] text-base shrink-0">
-                          {parseFloat(tier.price) === 0
-                            ? "Free"
-                            : `$${tier.price}`}
+          {activeTiers.length === 0 ? (
+            <p className="text-gray-500 text-sm italic">No tickets available.</p>
+          ) : (
+            <div className="flex flex-col gap-3">
+              {activeTiers.map(tier => {
+                const seatsLeft = tier.quantity_available - tier.quantity_sold;
+                const isSoldOut = seatsLeft <= 0;
+                const isSelected = selectedTierId === tier.id;
+                const priceLabel =
+                  parseFloat(tier.price) === 0
+                    ? "Free"
+                    : `$${parseFloat(tier.price).toFixed(2)}`;
+
+                return (
+                  <button
+                    key={tier.id}
+                    type="button"
+                    disabled={isSoldOut}
+                    onClick={() => !isSoldOut && setSelectedTierId(tier.id)}
+                    className={[
+                      "w-full text-left rounded-xl border-2 p-4 transition-all duration-200",
+                      isSelected
+                        ? "border-[#1977DD] bg-white shadow-md"
+                        : "border-gray-200 bg-white hover:border-[#1977DD]/50 hover:shadow-sm",
+                      isSoldOut ? "opacity-50 cursor-not-allowed" : "cursor-pointer",
+                    ]
+                      .filter(Boolean)
+                      .join(" ")}
+                  >
+                    <div className="flex items-start justify-between gap-2">
+                      {/* Radio + name */}
+                      <div className="flex items-center gap-2.5 min-w-0">
+                        {/* custom radio */}
+                        <span
+                          className={[
+                            "mt-0.5 shrink-0 w-4 h-4 rounded-full border-2 flex items-center justify-center transition-colors",
+                            isSelected
+                              ? "border-[#1977DD] bg-[#1977DD]"
+                              : "border-gray-300 bg-white",
+                          ].join(" ")}
+                        >
+                          {isSelected && (
+                            <span className="w-1.5 h-1.5 rounded-full bg-white block" />
+                          )}
                         </span>
+
+                        <div className="min-w-0">
+                          <p
+                            className={[
+                              "font-semibold text-sm leading-tight",
+                              isSelected ? "text-[#1977DD]" : "text-gray-900",
+                            ].join(" ")}
+                          >
+                            {tier.name}
+                          </p>
+                          {tier.description && (
+                            <p className="text-xs text-gray-500 mt-0.5 line-clamp-2">
+                              {tier.description}
+                            </p>
+                          )}
+                        </div>
                       </div>
 
-                      {tier.description && (
-                        <p className="text-sm text-gray-600 font-normal line-clamp-3">
-                          {tier.description}
+                      {/* Price */}
+                      <div className="text-right shrink-0">
+                        <p
+                          className={[
+                            "font-bold text-base leading-tight",
+                            isSelected ? "text-[#1977DD]" : "text-gray-800",
+                          ].join(" ")}
+                        >
+                          {priceLabel}
                         </p>
-                      )}
-
-                      <div className="flex gap-2 items-center text-gray-500 mt-1">
-                        <PiUser className="shrink-0 size-4 text-[#1977DD]" />
-                        <p className="text-xs font-normal">
-                          {seatsLeft > 0
-                            ? `${seatsLeft} tickets left`
-                            : "Sold Out"}
-                        </p>
+                        <div className="flex gap-1 items-center justify-end mt-1">
+                          <PiUser
+                            className={[
+                              "size-3.5",
+                              isSelected ? "text-[#1977DD]" : "text-gray-400",
+                            ].join(" ")}
+                          />
+                          <p className="text-xs text-gray-400">
+                            {isSoldOut ? "Sold out" : `${seatsLeft} left`}
+                          </p>
+                        </div>
                       </div>
                     </div>
-                  );
-                })
-            ) : (
-              <p className="text-gray-500 text-sm italic">
-                No tickets details available.
-              </p>
-            )}
+                  </button>
+                );
+              })}
+            </div>
+          )}
 
-            {/* Get Tickets Button */}
-            {event.ticket_url && (
-              <a
-                href={event.ticket_url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-full text-center bg-[#1977DD] text-white py-3 rounded-xl font-semibold hover:bg-[#1565C0] transition-colors mt-2 inline-block shadow-sm"
+          {/* Proceed button */}
+          {event.tickets_available && activeTiers.length > 0 && (
+            <div className="flex flex-col gap-2 mt-1">
+              {!selectedTierId && (
+                <p className="text-xs text-gray-400 text-center">
+                  ↑ Select a ticket type above to continue
+                </p>
+              )}
+              <button
+                type="button"
+                disabled={!selectedTierId}
+                onClick={handleProceed}
+                className={[
+                  "w-full text-center py-3 rounded-xl font-semibold transition-all duration-200 shadow-sm",
+                  selectedTierId
+                    ? "bg-[#1977DD] text-white hover:bg-[#1565C0] active:scale-[0.98]"
+                    : "bg-gray-200 text-gray-400 cursor-not-allowed",
+                ].join(" ")}
               >
-                Next proceeded
-              </a>
-            )}
-          </div>
+                Next — Proceed to Buy Ticket
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </section>

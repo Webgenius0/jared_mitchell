@@ -55,7 +55,7 @@ export default function ThisEventGallery({
         <div className="space-y-6">
           {/* Main Top Promo Video/Featured Media */}
           {promoVideoUrl && (
-            <div className="w-full max-w-6xl overflow-hidden rounded-2xl shadow-md bg-black aspect-video relative group">
+            <div className="w-full max-w-6xl overflow-hidden rounded-2xl shadow-md max-h-[350px] aspect-video relative group">
               <video
                 src={promoVideoUrl}
                 controls
