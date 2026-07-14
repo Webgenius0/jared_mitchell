@@ -80,4 +80,13 @@ export const getEventBySlug = (slug: string) => {
   });
 };
 
+// Get CMS About Data
+export const getCMSAboutData = () => {
+  return useClientApi({
+    method: "get",
+    key: ["cms-about"],
+    endpoint: "/v1/cms/about",
+  });
+};
+
 

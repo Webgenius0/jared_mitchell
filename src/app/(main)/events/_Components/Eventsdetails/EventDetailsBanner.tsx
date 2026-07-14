@@ -53,8 +53,8 @@ export default function EventDetailsBanner({ event }: EventDetailsBannerProps) {
   };
 
   const eventTypeLabel = event.event_type
-    .replace("_", " ")
-    .replace(/\b\w/g, c => c.toUpperCase());
+    ? event.event_type.replace("_", " ").replace(/\b\w/g, c => c.toUpperCase())
+    : "Event";
 
   return (
     <section

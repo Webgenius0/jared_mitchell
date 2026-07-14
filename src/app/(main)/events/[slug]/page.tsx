@@ -3,20 +3,34 @@
 import React from "react";
 import { useParams } from "next/navigation";
 import EventDetailsBanner from "../_Components/Eventsdetails/EventDetailsBanner";
-import { getEventBySlug } from "@/Hooks/api/cms_api";
+import { getEventBySlug, getCMSAboutData } from "@/Hooks/api/cms_api";
 import { CMSEventItem } from "@/Types/cms";
 import { PageLoader } from "@/Shared/PageLoader";
 import AboutThisEvent from "../_Components/Eventsdetails/AboutThisEvent";
+import ThisEventGallery from "../_Components/Eventsdetails/ThisEventGallery";
+import SponsorSlider from "@/Components/Common/SponsorSlider";
+import { Button } from "@/Components/Common/Button";
+import { sponsorsData } from "@/Components/Data/data";
+import NewsLetter from "@/Components/Common/NewsLetter";
 
 export default function Page() {
   const params = useParams();
   const slug = Array.isArray(params.slug) ? params.slug[0] : params.slug;
 
-  const { data, isLoading, error } = getEventBySlug(slug ?? "");
+  const { data, isLoading: isEventLoading, error } = getEventBySlug(slug ?? "");
+  const { data: cmsRes } = getCMSAboutData();
 
   const event = data?.data as CMSEventItem | undefined;
+  const CmsData = cmsRes?.data;
 
-  if (isLoading) {
+  const logos =
+    CmsData?.about_sponsors?.metadata?.map((m: any, i: number) => ({
+      id: i + 1,
+      image: m.image,
+      link: m.link,
+    })) || sponsorsData;
+
+  if (isEventLoading) {
     return <PageLoader />;
   }
 
@@ -45,7 +59,19 @@ export default function Page() {
   return (
     <>
       <EventDetailsBanner event={event} />
-      <AboutThisEvent />
+      <AboutThisEvent event={event} />
+      <ThisEventGallery
+        media={event.event_media}
+        promoVideoUrl={event.promo_video_url}
+      />
+      <div className="flex flex-col gap-5">
+        <SponsorSlider logos={logos} />
+        <SponsorSlider logos={logos} reverse={true} />
+        <div className="flex justify-center mt-5">
+          <Button>Become a Sponsor</Button>
+        </div>
+      </div>
+      <NewsLetter title="Be part of the movement. Get stories, updates, and opportunities straight to your inbox." />
     </>
   );
 }
