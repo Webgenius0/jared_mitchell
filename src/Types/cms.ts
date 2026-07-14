@@ -471,6 +471,18 @@ export interface CMSEventItem {
   tickets_available: boolean;
   status: string;
   ticket_tiers: EventTicketTier[];
+  event_artists?: {
+    id: number;
+    name: string;
+    photo: string;
+    designation: string;
+  }[];
+  event_media?: {
+    id: number;
+    event_id: number;
+    full_url: string;
+    created_at: string;
+  }[];
   likes_count: number;
   bookmarks_count: number;
   shares_count: number;

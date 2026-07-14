@@ -20,7 +20,7 @@ import PoweredByOSI from "./_components/PoweredByOSI";
 import FeaturedEvent from "./_components/FeaturedEvent";
 import NewsLetter from "@/Components/Common/NewsLetter";
 import { getCMSHomepageData } from "@/lib/Services/cms_service";
-import { Button } from "@/Components/Common/Button";
+
 
 const Page = async () => {
   const cmsData = await getCMSHomepageData();
@@ -28,7 +28,7 @@ const Page = async () => {
   return (
     <>
       <Hero data={cmsData?.hero} />
-      <Sponsors data={cmsData?.partners} />
+      <Sponsors data={cmsData?.partners} showButton={false} />
       <PoweredByOSI data={cmsData?.features} />
       <WhyChoose data={cmsData?.why_choose} />
       <CoreValues data={cmsData?.core_values} />
@@ -52,15 +52,11 @@ const Page = async () => {
       <CommunityAchievements data={cmsData?.highlights} />
       <OSIApparel data={cmsData?.shop} />
       {/* <CommunityPartner /> */}
-      <div className="">
-        <Sponsors data={cmsData?.partners} />
-        <div className="flex justify-center mt-5">
-          <Button>Become a Sponsor</Button>
-        </div>
-      </div>
+      <Sponsors data={cmsData?.partners} />
       <NewsLetter data={cmsData?.newsletter} />
     </>
   );
 };
 
 export default Page;
+

@@ -70,4 +70,46 @@ export const getArtistSpotlights = (params?: any) => {
   });
 };
 
+// Get Event By Slug
+export const getEventBySlug = (slug: string) => {
+  return useClientApi({
+    method: "get",
+    key: ["event-by-slug", slug],
+    endpoint: `/v1/events/${slug}`,
+    enabled: !!slug,
+  });
+};
+
+// Get CMS About Data
+export const getCMSAboutData = () => {
+  return useClientApi({
+    method: "get",
+    key: ["cms-about"],
+    endpoint: "/v1/cms/about",
+  });
+};
+
+// Register / Buy Ticket for an Event
+export const useEventRegister = () => {
+  return useClientApi({
+    method: "post",
+    key: ["event-register"],
+    endpoint: "/v1/events/register",
+    onSuccess: (res: any) => {
+      if (res?.success) {
+        import("react-hot-toast").then(({ default: toast }) =>
+          toast.success(res?.message || "Booking confirmed!")
+        );
+      }
+    },
+    onError: (err: any) => {
+      import("react-hot-toast").then(({ default: toast }) =>
+        toast.error(
+          err?.response?.data?.message || "Booking failed. Please try again."
+        )
+      );
+    },
+  });
+};
+
 
