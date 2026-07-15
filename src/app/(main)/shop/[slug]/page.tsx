@@ -1,6 +1,6 @@
 "use client";
 
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import React, { useState } from "react";
 import {
   FiShoppingCart,
@@ -42,6 +42,8 @@ interface ProductDisplay {
 import TopProductSection from "../_components/TopProductSection";
 import SuggestedSection from "../_components/SuggestedSection";
 import { PageLoader } from "@/Shared/PageLoader";
+import useAuth from "@/Hooks/useAuth";
+import toast from "react-hot-toast";
 
 type CartItem = {
   id: string;
@@ -53,7 +55,9 @@ type CartItem = {
 
 export default function ProductDetailsPage() {
   const params = useParams();
+  const router = useRouter();
   const slug = Array.isArray(params.slug) ? params.slug[0] : params.slug;
+  const { user } = useAuth();
 
   // Fetch product by slug and all products for suggestions
   const { data: apiResponse, isLoading } = getProductBySlug(slug || "");
@@ -126,7 +130,17 @@ export default function ProductDetailsPage() {
     .slice(0, 4);
   const alsoLikeProducts = suggestedProducts.slice(0, 2);
 
+  const requireAuth = () => {
+    if (!user) {
+      toast.error("Please sign in to continue");
+      router.push("/auth/login");
+      return false;
+    }
+    return true;
+  };
+
   const handleAddToCart = () => {
+    if (!requireAuth()) return;
     setCartItems(prev => {
       const existing = prev.find(c => c.id === product.id);
       if (existing) return prev;
@@ -158,6 +172,7 @@ export default function ProductDetailsPage() {
   };
 
   const addAlsoLikeToCart = (item: any) => {
+    if (!requireAuth()) return;
     const price = item.displayPrice || 0;
     const imageSrc = item.thumbnail || "/fallback-product.png";
     setCartItems(prev => {
@@ -178,6 +193,11 @@ export default function ProductDetailsPage() {
         },
       ];
     });
+  };
+
+  const handleBuyNow = () => {
+    if (!requireAuth()) return;
+    handleAddToCart();
   };
 
   const cartTotal = cartItems.reduce(
@@ -213,6 +233,7 @@ export default function ProductDetailsPage() {
           isDetailsOpen={isDetailsOpen}
           setIsDetailsOpen={setIsDetailsOpen}
           handleAddToCart={handleAddToCart}
+          handleBuyNow={handleBuyNow}
           currentPrice={currentPrice}
           originalPrice={originalPrice}
           images={images}

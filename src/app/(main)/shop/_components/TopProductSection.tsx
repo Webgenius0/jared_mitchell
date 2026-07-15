@@ -23,6 +23,7 @@ interface TopProductSectionProps {
   isDetailsOpen: boolean;
   setIsDetailsOpen: (open: boolean) => void;
   handleAddToCart: () => void;
+  handleBuyNow: () => void;
   currentPrice: number;
   originalPrice: number | null;
   images: string[];
@@ -37,6 +38,7 @@ export default function TopProductSection({
   isDetailsOpen,
   setIsDetailsOpen,
   handleAddToCart,
+  handleBuyNow,
   currentPrice,
   originalPrice,
   images,
@@ -157,6 +159,7 @@ export default function TopProductSection({
           </button>
           <button
             type="button"
+            onClick={handleBuyNow}
             className="flex-1 bg-[#121620] text-white py-3.5 rounded-xl font-semibold hover:bg-black transition shadow-sm"
           >
             Buy Now

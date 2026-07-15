@@ -2,7 +2,10 @@
 
 import React from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { FiShoppingCart } from "react-icons/fi";
+import useAuth from "@/Hooks/useAuth";
+import toast from "react-hot-toast";
 import { ShopCardProps } from "@/Types/type";
 
 interface SuggestedProduct extends ShopCardProps {
@@ -18,7 +21,19 @@ export default function SuggestedSection({
   suggestedProducts,
   onAddToCart,
 }: SuggestedSectionProps) {
+  const router = useRouter();
+  const { user } = useAuth();
+
   if (suggestedProducts.length === 0) return null;
+
+  const handleAddToCart = (item: SuggestedProduct) => {
+    if (!user) {
+      toast.error("Please sign in to continue");
+      router.push("/auth/login");
+      return;
+    }
+    onAddToCart(item);
+  };
 
   return (
     <div className="bg-[#F5F5F7] py-15">
@@ -71,7 +86,7 @@ export default function SuggestedSection({
                     type="button"
                     onClick={e => {
                       e.stopPropagation();
-                      onAddToCart(item);
+                      handleAddToCart(item);
                     }}
                     className="bg-[#1977DD] text-white text-xs font-semibold px-3 py-1.5 rounded-xl hover:bg-[#1565C0] transition flex items-center gap-1"
                   >
