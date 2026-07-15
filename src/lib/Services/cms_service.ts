@@ -15,6 +15,8 @@ import {
   CMSSpotlightLadder,
   EventGalleryResponse,
   FeaturedEventsResponse,
+  FeaturedProductDetail,
+  FeaturedProductItem,
   EventsResponse,
 } from "@/Types/cms";
 
@@ -281,6 +283,56 @@ export const getCalendarEvents = async (): Promise<CalendarEventsResponse> => {
 
   const result = await res.json();
   return result.data as CalendarEventsResponse;
+};
+
+export const getFeaturedProducts = async (): Promise<FeaturedProductItem[]> => {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_SITE_URL}/v1/products/featured`,
+    { next: { revalidate: 60 } },
+  );
+
+  if (!res.ok) {
+    throw new Error(
+      `Failed to fetch featured products — Status: ${res.status}`,
+    );
+  }
+
+  const result = await res.json();
+  return result.data as FeaturedProductItem[];
+};
+
+export const getAllProducts = async (): Promise<FeaturedProductItem[]> => {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_SITE_URL}/v1/products`,
+    { next: { revalidate: 60 } },
+  );
+
+  if (!res.ok) {
+    throw new Error(
+      `Failed to fetch products — Status: ${res.status}`,
+    );
+  }
+
+  const result = await res.json();
+  return result.data as FeaturedProductItem[];
+};
+
+export const getProductBySlug = async (
+  slug: string,
+): Promise<FeaturedProductDetail> => {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_SITE_URL}/v1/products/${slug}`,
+    { next: { revalidate: 60 } },
+  );
+
+  if (!res.ok) {
+    throw new Error(
+      `Failed to fetch product by slug — Status: ${res.status}`,
+    );
+  }
+
+  const result = await res.json();
+  return result.data as FeaturedProductDetail;
 };
 
 export const getEventBySlug = async (

@@ -71,6 +71,36 @@ export const getArtistSpotlights = (params?: any) => {
 };
 
 // Get Event By Slug
+// Get Featured Products
+export const getFeaturedProducts = (params?: any) => {
+  return useClientApi({
+    method: "get",
+    key: ["featured-products", params],
+    endpoint: "/v1/products/featured",
+    params,
+  });
+};
+
+// Get All Products
+export const getAllProducts = (params?: any) => {
+  return useClientApi({
+    method: "get",
+    key: ["all-products", params],
+    endpoint: "/v1/products",
+    params,
+  });
+};
+
+// Get Product By Slug
+export const getProductBySlug = (slug: string) => {
+  return useClientApi({
+    method: "get",
+    key: ["product-by-slug", slug],
+    endpoint: `/v1/products/${slug}`,
+    enabled: !!slug,
+  });
+};
+
 export const getEventBySlug = (slug: string) => {
   return useClientApi({
     method: "get",

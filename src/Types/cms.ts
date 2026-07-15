@@ -571,3 +571,79 @@ export interface EventGalleryResponse {
   gallery: EventGalleryItem[];
   pagination: EventsPagination;
 }
+
+// ─── Featured Products ────────────────────────────────────────────────────────
+
+export interface FeaturedProductImage {
+  id: number;
+  image: string;
+}
+
+export interface FeaturedProductCategory {
+  id: number;
+  name: string;
+}
+
+export interface FeaturedProductStock {
+  tracked: boolean;
+  quantity: number;
+  in_stock: boolean;
+}
+
+export interface FeaturedProductVendor {
+  name: string;
+  email: string;
+  phone: string;
+}
+
+export interface FeaturedProductVendorDetail extends FeaturedProductVendor {
+  address: string;
+  details: string;
+}
+
+export interface FeaturedProductDetail {
+  id: number;
+  name: string;
+  slug: string;
+  short_description: string;
+  description: string | null;
+  price: number;
+  sale_price: number;
+  display_price: number;
+  discount_percentage: number;
+  type: string;
+  brand: string;
+  is_featured: boolean;
+  thumbnail: string;
+  images: {
+    id: number;
+    image: string;
+    sort_order: number;
+  }[];
+  category: FeaturedProductCategory;
+  stock: FeaturedProductStock;
+  vendor: FeaturedProductVendorDetail;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface FeaturedProductItem {
+  id: number;
+  name: string;
+  slug: string;
+  short_description: string;
+  price: number;
+  sale_price: number;
+  display_price: number;
+  discount_percentage: number;
+  type: string;
+  brand: string;
+  is_featured: boolean;
+  thumbnail: string;
+  images: FeaturedProductImage[];
+  category: FeaturedProductCategory;
+  stock: FeaturedProductStock;
+  vendor: FeaturedProductVendor;
+  created_at: string;
+  updated_at: string;
+}
