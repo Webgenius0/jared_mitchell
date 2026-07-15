@@ -11,14 +11,14 @@ interface InputProps {
 function Input({ label, placeholder, required }: InputProps) {
   return (
     <div className="flex flex-col gap-1.5">
-      <label className="text-sm text-gray-700">
+      <label className="text-base text-gray-700">
         {label}
         {required && <span className="text-red-500">*</span>}
       </label>
       <input
         type="text"
         placeholder={placeholder}
-        className="w-full rounded-lg border border-gray-200 px-3.5 py-2.5 text-sm text-gray-700 placeholder-gray-400 outline-none transition-colors focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+        className="w-full rounded-full border border-gray-200 px-4 py-3 text-base text-gray-700 placeholder-gray-400 outline-none transition-colors focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
       />
     </div>
   );
@@ -33,14 +33,14 @@ interface SelectProps {
 function Select({ label, required, value }: SelectProps) {
   return (
     <div className="flex flex-col gap-1.5">
-      <label className="text-sm text-gray-700">
+      <label className="text-base text-gray-700">
         {label}
         {required && <span className="text-red-500">*</span>}
       </label>
       <div className="relative">
         <select
           defaultValue={value}
-          className="w-full appearance-none rounded-lg border border-gray-200 bg-white px-3.5 py-2.5 text-sm text-gray-700 outline-none transition-colors focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+          className="w-full appearance-none rounded-full border border-gray-200 bg-white px-4 py-3 text-base text-gray-700 outline-none transition-colors focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
         >
           <option>{value}</option>
         </select>
@@ -83,16 +83,16 @@ export default function ShippingBillingForm(): React.JSX.Element {
       <div className="mx-auto grid container grid-cols-1 gap-6 lg:grid-cols-[1fr_360px]">
         {/* Left card */}
         <div className="rounded-2xl border border-gray-100 bg-white p-8 shadow-sm">
-          <h1 className="text-xl font-semibold text-gray-900">
+          <h1 className="text-2xl font-semibold text-gray-900">
             Check-out information
           </h1>
-          <p className="mt-1 text-sm text-gray-500">
+          <p className="mt-1 text-base text-gray-500">
             Tell us the basics about your business
           </p>
 
           <div className="my-6 h-px bg-gray-100" />
 
-          <h2 className="mb-4 text-base font-semibold text-gray-900">
+          <h2 className="mb-4 text-lg font-semibold text-gray-900">
             Shipping name
           </h2>
           <div className="grid grid-cols-1 gap-x-4 gap-y-5 sm:grid-cols-2">
@@ -115,7 +115,7 @@ export default function ShippingBillingForm(): React.JSX.Element {
             <Select label="Shipping Zip" value="2020" required />
           </div>
 
-          <label className="mt-5 flex items-center gap-2 text-sm text-gray-700">
+          <label className="mt-5 flex items-center gap-2 text-base text-gray-700">
             <input
               type="checkbox"
               checked={addBilling}
@@ -127,7 +127,7 @@ export default function ShippingBillingForm(): React.JSX.Element {
 
           {addBilling && (
             <>
-              <h2 className="mb-4 mt-6 text-base font-semibold text-gray-900">
+              <h2 className="mb-4 mt-6 text-lg font-semibold text-gray-900">
                 Billing Address
               </h2>
               <div className="grid grid-cols-1 gap-x-4 gap-y-5 sm:grid-cols-2">
@@ -155,11 +155,11 @@ export default function ShippingBillingForm(): React.JSX.Element {
 
         {/* Right summary */}
         <div className="h-fit rounded-2xl border border-gray-100 bg-white p-6 shadow-sm">
-          <h2 className="text-base font-semibold text-gray-900">
+          <h2 className="text-lg font-semibold text-gray-900">
             Order Summary
           </h2>
 
-          <p className="mt-4 text-sm font-medium text-gray-900">Total order:</p>
+          <p className="mt-4 text-base font-medium text-gray-900">Total order:</p>
           <div className="mt-3 flex flex-col gap-4">
             {products.map((p, i) => (
               <div key={i} className="flex items-center gap-3">
@@ -169,34 +169,34 @@ export default function ShippingBillingForm(): React.JSX.Element {
                   {p.img}
                 </div>
                 <div className="flex-1">
-                  <p className="text-sm font-medium text-gray-900">{p.name}</p>
-                  <p className="text-xs text-gray-400">Quantity : {p.qty}</p>
+                  <p className="text-base font-medium text-gray-900">{p.name}</p>
+                  <p className="text-sm text-gray-400">Quantity : {p.qty}</p>
                 </div>
-                <p className="text-sm font-semibold text-gray-900">{p.price}</p>
+                <p className="text-base font-semibold text-gray-900">{p.price}</p>
               </div>
             ))}
           </div>
 
           <div className="my-5 h-px bg-gray-100" />
 
-          <p className="text-sm font-medium text-gray-900">
+          <p className="text-base font-medium text-gray-900">
             Order Information:
           </p>
-          <div className="mt-2 space-y-1.5 text-xs text-gray-500">
+          <div className="mt-2 space-y-1.5 text-sm text-gray-500">
             <p>Order ID: #124639abaf21</p>
             <p>Order Date: 12 Jun 2025</p>
             <p>Phone Number: 013991121-129212</p>
           </div>
 
-          <p className="mt-5 text-sm font-medium text-gray-900">
+          <p className="mt-5 text-base font-medium text-gray-900">
             Payment Information:
           </p>
-          <div className="mt-2 space-y-2 text-sm">
-            <div className="flex justify-between text-gray-500">
+          <div className="mt-2 space-y-2 text-base">
+            <div className="flex justify-between text-gray-600">
               <span>Product</span>
               <span>1*12</span>
             </div>
-            <div className="flex justify-between text-gray-500">
+            <div className="flex justify-between text-gray-600">
               <span>Subtotal</span>
               <span>$872.00</span>
             </div>
@@ -204,26 +204,26 @@ export default function ShippingBillingForm(): React.JSX.Element {
 
           <div className="my-4 h-px bg-gray-100" />
 
-          <div className="flex justify-between text-sm font-semibold text-gray-900">
+          <div className="flex justify-between text-base font-semibold text-gray-900">
             <span>Total Payable</span>
             <span>$872.00</span>
           </div>
 
-          <p className="mt-5 text-xs text-gray-500">We accept</p>
-          <div className="mt-2 inline-flex items-center gap-2 rounded-lg border border-gray-200 px-3 py-2 text-sm text-gray-700">
-            <FiCreditCard className="h-4 w-4" />
+          <p className="mt-5 text-sm text-gray-500">We accept</p>
+          <div className="mt-2 inline-flex items-center gap-2 rounded-lg border border-gray-200 px-4 py-2.5 text-base text-gray-700">
+            <FiCreditCard className="h-5 w-5" />
             COD
           </div>
 
           <div className="mt-5 flex items-center justify-between rounded-lg bg-gray-50 px-3 py-2.5">
-            <span className="text-xs text-gray-500">Need Help?</span>
-            <span className="flex items-center gap-1.5 text-xs font-medium text-gray-900">
+            <span className="text-sm text-gray-500">Need Help?</span>
+            <span className="flex items-center gap-1.5 text-sm font-medium text-gray-900">
               <FiPhone className="h-3.5 w-3.5" />
               +1800-123-4567
             </span>
           </div>
 
-          <button className="mt-5 w-full rounded-lg bg-blue-600 py-3 text-sm font-medium text-white transition-colors hover:bg-blue-700">
+          <button className="mt-5 w-full rounded-lg bg-blue-600 py-3.5 text-base font-medium text-white transition-colors hover:bg-blue-700">
             Payment Now
           </button>
         </div>
