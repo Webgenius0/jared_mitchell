@@ -4,9 +4,16 @@ import Link from "next/link";
 import { FiShoppingCart } from "react-icons/fi";
 import { LuClock } from "react-icons/lu";
 
-const ShopCard = ({ data, key }: { data: ShopCardProps; key: number }) => {
+interface ShopCardExtended extends ShopCardProps {
+  slug?: string;
+  categoryName?: string;
+}
+
+const ShopCard = ({ data, key }: { data: ShopCardExtended; key: number }) => {
+  const linkHref = data.slug ? `shop/${data.slug}` : `shop/${data?.id}`;
+
   return (
-    <Link href={`shop/${data?.id}`}>
+    <Link href={linkHref}>
       <div
         key={key}
         className="pb-5 rounded-2xl overflow-hidden custom_border custom_shadow bg-white"
@@ -31,7 +38,9 @@ const ShopCard = ({ data, key }: { data: ShopCardProps; key: number }) => {
             <h5 className="text-2xl text-primary-black font-medium">
               {data.title}
             </h5>
-            <p className="text-xl text-secondary-black">{data.description}</p>
+            <p className="text-xl text-secondary-black line-clamp-1">
+              {data.description}
+            </p>
           </div>
           {data?.EndsIn && (
             <div className="custom_border bg-[#F1F5F9] px-3 py-4 flex items-center gap-2 text-lg rounded-md text-primary-black">
