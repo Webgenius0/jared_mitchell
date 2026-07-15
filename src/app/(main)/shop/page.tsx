@@ -13,6 +13,8 @@ import {
   getCMSAboutData,
   getCMSFAQs,
   getEventsPageCms,
+  getFeaturedProducts,
+  getAllProducts,
   getShopPageCms,
 } from "@/lib/Services/cms_service";
 import VendorOsi from "../events/_Components/VendorOsi";
@@ -24,13 +26,16 @@ const page = async () => {
   const shopData = await getShopPageCms();
   const pageData = (await getEventsPageCms()) as CMSEventsPage;
   const CmsData = await getCMSAboutData();
+  const featuredProducts = await getFeaturedProducts();
+  const allProducts = await getAllProducts();
 
   return (
     <>
       <ShopBanner data={shopData?.shop_page_hero} />
       <IconSection data={shopData?.shop_page_features} />
-      <FeaturedShop />
+      <FeaturedShop products={featuredProducts} />
       <PurchaseSupports data={shopData?.shop_page_support} />
+      <LimitedDrops products={allProducts} />
       {/* <DigitalResources /> */}
       {/* <VendorWithOSI /> */}
       {/* <VendorOsi data={pageData?.events_page_vendor} /> */}

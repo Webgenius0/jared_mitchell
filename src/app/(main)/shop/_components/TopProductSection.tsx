@@ -7,6 +7,11 @@ import {
   FiChevronDown,
   FiChevronUp,
   FiShoppingCart,
+  FiTag,
+  FiUser,
+  FiMail,
+  FiPhone,
+  FiMapPin,
 } from "react-icons/fi";
 
 interface TopProductSectionProps {
@@ -18,6 +23,7 @@ interface TopProductSectionProps {
   isDetailsOpen: boolean;
   setIsDetailsOpen: (open: boolean) => void;
   handleAddToCart: () => void;
+  handleBuyNow: () => void;
   currentPrice: number;
   originalPrice: number | null;
   images: string[];
@@ -32,23 +38,37 @@ export default function TopProductSection({
   isDetailsOpen,
   setIsDetailsOpen,
   handleAddToCart,
+  handleBuyNow,
   currentPrice,
   originalPrice,
   images,
 }: TopProductSectionProps) {
+  const discountPercentage = product.discountPercentage || 0;
+  const categoryName = product.categoryName || "";
+  const longDescription =
+    product.longDescription || product.shortDescription || "";
+  const inStock = product.inStock ?? true;
+  const stockQuantity = product.stockQuantity ?? 0;
+
   return (
-    <div className=" p-6 sm:p-8  grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12 container mx-auto">
+    <div className="p-6 sm:p-8 grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12 container mx-auto">
       {/* Gallery Column */}
       <div className="flex flex-col gap-4 w-full">
-        <div className="w-full aspect-[4/5] bg-[#F5F5F7] h-[650px] rounded-2xl overflow-hidden flex items-center justify-center border border-gray-100">
+        <div className="relative w-full aspect-[4/5] bg-[#F5F5F7] h-[650px] rounded-2xl overflow-hidden flex items-center justify-center border border-gray-100">
+          {/* Discount Badge */}
+          {discountPercentage > 0 && (
+            <div className="absolute top-4 left-4 z-10 bg-red-500 text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-lg">
+              -{discountPercentage}% OFF
+            </div>
+          )}
           <img
             src={activeImage}
             alt={product.title}
-            className="w-full h-full object-cover transition-all duration-300 aspect-video"
+            className="w-full h-full object-cover transition-all duration-300"
           />
         </div>
 
-        {/* Thumbnails list */}
+        {/* Thumbnails */}
         {images.length > 1 && (
           <div className="flex flex-wrap gap-3">
             {images.map((img, idx) => (
@@ -73,19 +93,19 @@ export default function TopProductSection({
         )}
       </div>
 
-      {/* Configuration & Purchase Details Column */}
+      {/* Details Column */}
       <div className="flex flex-col gap-6 justify-start">
         <div>
-          <h1 className="text-3xl font-bold text-black tracking-tight mb-2">
+          <h1 className="text-5xl font-semibold font-sf text-black tracking-tight mb-2">
             {product.title}
           </h1>
-          <p className="text-sm text-gray-500 leading-relaxed">
-            {product.description ||
+          <p className="text-xl text-gray-500 leading-relaxed">
+            {product.shortDescription ||
               "Premium quality that represents the culture."}
           </p>
         </div>
 
-        {/* Pricing Section */}
+        {/* Pricing */}
         <div className="flex items-baseline gap-3 py-2 border-b border-gray-100">
           <span className="text-3xl font-extrabold text-[#1977DD]">
             ${currentPrice.toFixed(2)}
@@ -95,10 +115,15 @@ export default function TopProductSection({
               ${originalPrice.toFixed(2)}
             </span>
           )}
+          {discountPercentage > 0 && (
+            <span className="text-xs font-semibold text-red-500 bg-red-50 px-2 py-0.5 rounded">
+              Save {discountPercentage}%
+            </span>
+          )}
         </div>
 
-        {/* Quantity Controller */}
-        <div className="flex flex-col gap-2">
+        {/* Quantity */}
+        <div className="flex items-center gap-5">
           <span className="text-xs font-semibold text-gray-500 uppercase tracking-wider">
             Quantity:
           </span>
@@ -123,7 +148,7 @@ export default function TopProductSection({
           </div>
         </div>
 
-        {/* Checkout Primary Buttons */}
+        {/* Buttons */}
         <div className="flex flex-col sm:flex-row gap-3 mt-2">
           <button
             type="button"
@@ -134,23 +159,22 @@ export default function TopProductSection({
           </button>
           <button
             type="button"
+            onClick={handleBuyNow}
             className="flex-1 bg-[#121620] text-white py-3.5 rounded-xl font-semibold hover:bg-black transition shadow-sm"
           >
             Buy Now
           </button>
         </div>
 
-        {/* Brand */}
-        {product.brand && (
-          <div className="text-sm border-t border-gray-100 pt-4 flex gap-2 items-center">
-            <span className="text-gray-400">Brand:</span>
-            <span className="px-3 py-1 text-xs font-medium border border-gray-200 bg-gray-50 rounded-md text-gray-700">
-              {product.brand}
-            </span>
+        {/* Product Type / Brand */}
+        {product.type && (
+          <div className="text-xl text-gray-500 border border-gray-200 rounded-lg px-5 py-3 w-fit">
+            Brand:{" "}
+            <span className="font-semibold text-gray-800">{product.type}</span>
           </div>
         )}
 
-        {/* Accordion Details */}
+        {/* Details Accordion */}
         <div className="border-t border-gray-100">
           <button
             type="button"
@@ -165,9 +189,78 @@ export default function TopProductSection({
             )}
           </button>
           {isDetailsOpen && (
-            <div className="pb-4 text-sm text-gray-600 leading-relaxed transition-all">
-              {product.longDetails ||
-                "No additional parameters provided for this item listing details structure."}
+            <div className="pb-4 space-y-4 text-base flex justify-between text-gray-600 leading-relaxed transition-all">
+              {/* Category */}
+              {categoryName && (
+                <div>
+                  <h4 className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">
+                    Category
+                  </h4>
+                  <span className="inline-block px-2.5 py-1 text-xs font-medium bg-blue-50 text-blue-700 rounded-lg">
+                    {categoryName}
+                  </span>
+                </div>
+              )}
+
+              {/* Stock Status */}
+              <div>
+                <h4 className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">
+                  Stock
+                </h4>
+                <div className="flex items-center gap-2 text-sm text-gray-700">
+                  <span
+                    className={`w-2 h-2 rounded-full ${
+                      inStock ? "bg-green-500" : "bg-red-500"
+                    }`}
+                  />
+                  <span>{inStock ? "In Stock" : "Out of Stock"}</span>
+                  {stockQuantity > 0 && (
+                    <span className="text-gray-400">
+                      ({stockQuantity} available)
+                    </span>
+                  )}
+                </div>
+              </div>
+
+              {/* Vendor Info */}
+              {product.vendorName && (
+                <div>
+                  <h4 className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">
+                    Vendor
+                  </h4>
+                  <div className="space-y-1.5 text-sm text-gray-700">
+                    <p className="flex items-center gap-2">
+                      <FiUser className="size-3.5 text-gray-400 shrink-0" />
+                      {product.vendorName}
+                    </p>
+                    {product.vendorEmail && (
+                      <p className="flex items-center gap-2">
+                        <FiMail className="size-3.5 text-gray-400 shrink-0" />
+                        <span className="truncate">{product.vendorEmail}</span>
+                      </p>
+                    )}
+                    {product.vendorPhone && (
+                      <p className="flex items-center gap-2">
+                        <FiPhone className="size-3.5 text-gray-400 shrink-0" />
+                        {product.vendorPhone}
+                      </p>
+                    )}
+                    {product.vendorAddress && (
+                      <p className="flex items-center gap-2">
+                        <FiMapPin className="size-3.5 text-gray-400 shrink-0" />
+                        <span className="truncate">
+                          {product.vendorAddress}
+                        </span>
+                      </p>
+                    )}
+                    {product.vendorDetails && (
+                      <p className="pt-1 text-xs text-gray-400 italic">
+                        {product.vendorDetails}
+                      </p>
+                    )}
+                  </div>
+                </div>
+              )}
             </div>
           )}
         </div>
