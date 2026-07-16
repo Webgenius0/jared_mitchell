@@ -5,6 +5,8 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { FiShoppingCart } from "react-icons/fi";
 import useAuth from "@/Hooks/useAuth";
+import { useAddToCart } from "@/Hooks/api/cart_api";
+import { useCart } from "@/Provider/CartProvider/CartProvider";
 import toast from "react-hot-toast";
 import { ShopCardProps } from "@/Types/type";
 
@@ -14,15 +16,15 @@ interface SuggestedProduct extends ShopCardProps {
 
 interface SuggestedSectionProps {
   suggestedProducts: SuggestedProduct[];
-  onAddToCart: (item: SuggestedProduct) => void;
 }
 
 export default function SuggestedSection({
   suggestedProducts,
-  onAddToCart,
 }: SuggestedSectionProps) {
   const router = useRouter();
   const { user } = useAuth();
+  const { openCart, refetchCart } = useCart();
+  const { mutate: addToCart } = useAddToCart();
 
   if (suggestedProducts.length === 0) return null;
 
@@ -32,7 +34,17 @@ export default function SuggestedSection({
       router.push("/auth/login");
       return;
     }
-    onAddToCart(item);
+
+    const productId = item.id?.replace(/[^0-9]/g, "") || item.id;
+    addToCart(
+      { product_id: productId, quantity: 1 },
+      {
+        onSuccess: () => {
+          refetchCart();
+          openCart();
+        },
+      },
+    );
   };
 
   return (

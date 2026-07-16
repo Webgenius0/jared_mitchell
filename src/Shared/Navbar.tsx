@@ -1,10 +1,12 @@
 "use client";
 import { SearchSvg } from "@/Components/Svg/SvgContainer";
 import useAuth from "@/Hooks/useAuth";
+import { useCart } from "@/Provider/CartProvider/CartProvider";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { FaBars } from "react-icons/fa";
+import { FiShoppingCart } from "react-icons/fi";
 
 const navLinks = [
   { label: "Home", path: "/" },
@@ -33,6 +35,7 @@ const Navbar = () => {
   const [lang, setLang] = useState<string>("en");
   const pathname = usePathname();
   const { user } = useAuth();
+  const { openCart, cartCount } = useCart();
 
   return (
     <nav className="py-3 md:py-4 xl:py-5 border-b border-[#0000001C] sticky top-0 z-50 bg-white">
@@ -127,6 +130,19 @@ const Navbar = () => {
             <div className="flex gap-3 md:gap-4 xl:gap-5 items-center">
               <button>
                 <SearchSvg />
+              </button>
+
+              {/* Cart Icon */}
+              <button
+                onClick={openCart}
+                className="relative p-2 text-gray-700 hover:text-black transition"
+              >
+                <FiShoppingCart className="size-5" />
+                {cartCount > 0 && (
+                  <span className="absolute -top-1 -right-1 bg-[#1977DD] text-white text-[10px] font-bold rounded-full size-4.5 flex items-center justify-center leading-none">
+                    {cartCount > 99 ? "99+" : cartCount}
+                  </span>
+                )}
               </button>
 
               {user ? (
