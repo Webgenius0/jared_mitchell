@@ -14,7 +14,10 @@ export const useGetCart = (enabled: boolean = true) => {
   });
 };
 
-export const useAddToCart = (onSuccessOverride?: (res: any) => void, onErrorOverride?: (err: any) => void) => {
+export const useAddToCart = (
+  onSuccessOverride?: (res: any) => void,
+  onErrorOverride?: (err: any) => void,
+) => {
   return useClientApi({
     method: "post",
     key: ["add-to-cart"],
@@ -27,14 +30,11 @@ export const useAddToCart = (onSuccessOverride?: (res: any) => void, onErrorOver
       }
     },
     onError: (err: any) => {
-      toast.error(
-        err?.response?.data?.message || "Failed to add to cart",
-      );
+      toast.error(err?.response?.data?.message || "Failed to add to cart");
       onErrorOverride?.(err);
     },
   });
 };
-
 
 export const useUpdateCartItem = () => {
   return useClientApi({
@@ -48,13 +48,10 @@ export const useUpdateCartItem = () => {
       }
     },
     onError: (err: any) => {
-      toast.error(
-        err?.response?.data?.message || "Failed to update cart",
-      );
+      toast.error(err?.response?.data?.message || "Failed to update cart");
     },
   });
 };
-
 
 export const useDeleteCartItem = () => {
   return useClientApi({
@@ -69,16 +66,47 @@ export const useDeleteCartItem = () => {
     },
     onError: (err: any) => {
       toast.error(
-        err?.response?.data?.message ||
-          "Failed to remove item from cart",
+        err?.response?.data?.message || "Failed to remove item from cart",
       );
     },
   });
 };
 
-// Clear Cart
-// DELETE /v1/cart/clear — body: { quantity }
-// Note: For DELETE requests, pass body via { data: { data: { quantity } } } in the mutation call
+
+export const useBuyNow = () => {
+  return useClientApi({
+    method: "post",
+    key: ["buy-now"],
+    endpoint: "/v1/orders/buy-now",
+    isPrivate: true,
+    onSuccess: (res: any) => {
+      if (res?.success) {
+        toast.success(res?.message || "Order placed!");
+      }
+    },
+    onError: (err: any) => {
+      toast.error(err?.response?.data?.message || "Failed to place order");
+    },
+  });
+};
+
+export const usePlaceOrder = () => {
+  return useClientApi({
+    method: "post",
+    key: ["place-order"],
+    endpoint: "/v1/orders/place",
+    isPrivate: true,
+    onSuccess: (res: any) => {
+      if (res?.success) {
+        toast.success(res?.message || "Order placed successfully!");
+      }
+    },
+    onError: (err: any) => {
+      toast.error(err?.response?.data?.message || "Failed to place order");
+    },
+  });
+};
+
 export const useClearCart = () => {
   return useClientApi({
     method: "delete",
@@ -91,9 +119,7 @@ export const useClearCart = () => {
       }
     },
     onError: (err: any) => {
-      toast.error(
-        err?.response?.data?.message || "Failed to clear cart",
-      );
+      toast.error(err?.response?.data?.message || "Failed to clear cart");
     },
   });
 };

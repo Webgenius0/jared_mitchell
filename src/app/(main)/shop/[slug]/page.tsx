@@ -40,7 +40,7 @@ import SuggestedSection from "../_components/SuggestedSection";
 import { PageLoader } from "@/Shared/PageLoader";
 import useAuth from "@/Hooks/useAuth";
 import toast from "react-hot-toast";
-import { useAddToCart } from "@/Hooks/api/cart_api";
+import { useAddToCart, useBuyNow } from "@/Hooks/api/cart_api";
 import { useCart } from "@/Provider/CartProvider/CartProvider";
 
 export default function ProductDetailsPage() {
@@ -85,9 +85,10 @@ export default function ProductDetailsPage() {
       }
     : null;
 
-  // Cart API hook
+  // Cart API hooks
   const { mutate: addToCartMutation, isPending: isAddingToCart } =
     useAddToCart();
+  const { mutate: buyNowMutation, isPending: isBuyingNow } = useBuyNow();
 
   // States
   const [quantity, setQuantity] = useState<number>(1);
@@ -154,7 +155,16 @@ export default function ProductDetailsPage() {
 
   const handleBuyNow = () => {
     if (!requireAuth()) return;
-    handleAddToCart();
+
+    buyNowMutation(
+      { product_id: product.id, quantity },
+      {
+        onSuccess: () => {
+          refetchCart();
+          router.push("/shipping-billing");
+        },
+      },
+    );
   };
 
   return (
