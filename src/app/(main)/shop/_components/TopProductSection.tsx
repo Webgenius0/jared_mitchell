@@ -27,6 +27,7 @@ interface TopProductSectionProps {
   currentPrice: number;
   originalPrice: number | null;
   images: string[];
+  isAddingToCart?: boolean;
 }
 
 export default function TopProductSection({
@@ -42,6 +43,7 @@ export default function TopProductSection({
   currentPrice,
   originalPrice,
   images,
+  isAddingToCart,
 }: TopProductSectionProps) {
   const discountPercentage = product.discountPercentage || 0;
   const categoryName = product.categoryName || "";
@@ -153,9 +155,38 @@ export default function TopProductSection({
           <button
             type="button"
             onClick={handleAddToCart}
-            className="flex-1 bg-[#1977DD] text-white py-3.5 rounded-xl font-semibold hover:bg-[#1565C0] transition flex items-center justify-center gap-2 shadow-sm"
+            disabled={isAddingToCart}
+            className="flex-1 bg-[#1977DD] text-white py-3.5 rounded-xl font-semibold hover:bg-[#1565C0] transition flex items-center justify-center gap-2 shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            <FiShoppingCart className="size-4" /> Add to Cart
+            {isAddingToCart ? (
+              <>
+                <svg
+                  className="animate-spin size-4"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <circle
+                    className="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    strokeWidth="4"
+                  />
+                  <path
+                    className="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                  />
+                </svg>
+                Adding...
+              </>
+            ) : (
+              <>
+                <FiShoppingCart className="size-4" /> Add to Cart
+              </>
+            )}
           </button>
           <button
             type="button"

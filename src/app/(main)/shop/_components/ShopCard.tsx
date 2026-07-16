@@ -1,8 +1,15 @@
+"use client";
+
 import { ShopCardProps } from "@/Types/type";
 import Image from "next/image";
 import Link from "next/link";
 import { FiShoppingCart } from "react-icons/fi";
 import { LuClock } from "react-icons/lu";
+import { useAddToCart } from "@/Hooks/api/cart_api";
+import { useCart } from "@/Provider/CartProvider/CartProvider";
+import useAuth from "@/Hooks/useAuth";
+import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 interface ShopCardExtended extends ShopCardProps {
   slug?: string;
@@ -11,6 +18,33 @@ interface ShopCardExtended extends ShopCardProps {
 
 const ShopCard = ({ data, key }: { data: ShopCardExtended; key: number }) => {
   const linkHref = data.slug ? `shop/${data.slug}` : `shop/${data?.id}`;
+  const { user } = useAuth();
+  const router = useRouter();
+  const { openCart, refetchCart } = useCart();
+  const { mutate: addToCart } = useAddToCart();
+
+  const handleAddToCart = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (!user) {
+      toast.error("Please sign in to continue");
+      router.push("/auth/login");
+      return;
+    }
+
+    // Extract numeric product ID from data.id (e.g., "123" -> 123)
+    const productId = data.id?.replace(/[^0-9]/g, "") || data.id;
+
+    addToCart(
+      { product_id: productId, quantity: 1 },
+      {
+        onSuccess: () => {
+          refetchCart();
+        },
+      },
+    );
+  };
 
   return (
     <Link href={linkHref}>
@@ -49,7 +83,10 @@ const ShopCard = ({ data, key }: { data: ShopCardExtended; key: number }) => {
           )}
           <div className="flex items-center justify-between">
             <div className="text-2xl text-primary-black">{data.price}</div>
-            <button className="px-4 py-2 flex items-center gap-3 text-lg text-nowrap bg-primary-blue text-white rounded-full cursor-pointer hover:bg-secondary-blue">
+            <button
+              onClick={handleAddToCart}
+              className="px-4 py-2 flex items-center gap-3 text-lg text-nowrap bg-primary-blue text-white rounded-full cursor-pointer hover:bg-secondary-blue"
+            >
               <FiShoppingCart className="text-xl" />
               Add to Cart
             </button>
