@@ -4,7 +4,7 @@ import useAuth from "@/Hooks/useAuth";
 import { useCart } from "@/Provider/CartProvider/CartProvider";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { FaBars } from "react-icons/fa";
 import { FiShoppingCart } from "react-icons/fi";
 
@@ -24,18 +24,49 @@ const navLinks = [
   { label: "Shop", path: "/shop" },
   { label: "Pricing", path: "/pricing" },
   { label: "Sponsorships", path: "/sponsorships" },
-  { label: "Boss Beginnings", path: "/boss-beginnings" },
+  {
+    label: "Boss Beginnings",
+    path: "",
+    subMenu: [
+      { label: "Boss Beginnings", path: "/boss-beginnings" },
+      {
+        label: "How Winners Are Chosen",
+        path: "/how-winners-are-chosen",
+      },
+    ],
+  },
   { label: "Dashboard", path: "" },
   { label: "Contact", path: "/contact" },
 ];
 
 const Navbar = () => {
   const [isOpen, setOpen] = useState<boolean>(false);
-  const [openSubmenu, setOpenSubmenu] = useState<boolean>(false);
+  // Tracks which nav link's submenu is open, by label. null = none open.
+  const [openSubmenu, setOpenSubmenu] = useState<string | null>(null);
   const [lang, setLang] = useState<string>("en");
   const pathname = usePathname();
   const { user } = useAuth();
   const { openCart, cartCount } = useCart();
+
+  // Ref around the desktop nav links so we can detect outside clicks
+  // and close whichever submenu is open.
+  const navListRef = useRef<HTMLUListElement>(null);
+
+  useEffect(() => {
+    if (!openSubmenu) return;
+
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        navListRef.current &&
+        !navListRef.current.contains(event.target as Node)
+      ) {
+        setOpenSubmenu(null);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [openSubmenu]);
 
   return (
     <nav className="py-3 md:py-4 xl:py-5 border-b border-[#0000001C] sticky top-0 z-50 bg-white">
@@ -50,52 +81,61 @@ const Navbar = () => {
               OSI
             </Link>
 
-            <ul className="hidden xl:flex gap-7 items-center">
+            <ul ref={navListRef} className="hidden xl:flex gap-7 items-center">
               {navLinks?.map(link => {
                 const isActive = pathname === link?.path;
+                const hasSubMenu = Boolean(link?.subMenu?.length);
+                const isSubmenuOpen = openSubmenu === link?.label;
 
                 return (
-                  <Link
-                    key={link?.path}
-                    href={link?.path}
-                    onClick={() => {
-                      if (link?.label === "Spotlight") {
-                        setOpenSubmenu(!openSubmenu);
-                      } else {
-                        setOpenSubmenu(false);
-                      }
-                    }}
-                    className={`relative ${
-                      isActive
-                        ? "text-secondary-blue font-medium"
-                        : "text-[#2A2929]"
-                    }`}
-                  >
-                    {link?.label}
-
-                    {/* For Sub Menu */}
-                    {openSubmenu && (
-                      <div className="absolute -bottom-32 left-0  bg-white z-50 shadow rounded-xl px-4 w-44">
-                        {link?.subMenu?.map(subItem => {
-                          const isActiveSubmenu = pathname === subItem?.path;
-
-                          return (
-                            <Link
-                              key={subItem?.path}
-                              href={subItem?.path}
-                              className={`block py-3 border-b border-gray-300 last:border-b-0 duration-300 transition-all hover:text-primary-blue ${
-                                isActiveSubmenu
-                                  ? "text-secondary-blue"
-                                  : "text-[#2A2929]"
-                              }`}
-                            >
-                              {subItem?.label}
-                            </Link>
+                  <li key={link?.label} className="relative">
+                    <Link
+                      href={link?.path}
+                      onClick={e => {
+                        if (hasSubMenu) {
+                          // Submenu links don't navigate anywhere themselves,
+                          // they just toggle their dropdown.
+                          e.preventDefault();
+                          setOpenSubmenu(prev =>
+                            prev === link?.label ? null : link?.label,
                           );
-                        })}
-                      </div>
-                    )}
-                  </Link>
+                        } else {
+                          setOpenSubmenu(null);
+                        }
+                      }}
+                      className={`relative ${
+                        isActive
+                          ? "text-secondary-blue font-medium"
+                          : "text-[#2A2929]"
+                      }`}
+                    >
+                      {link?.label}
+
+                      {/* Sub Menu */}
+                      {hasSubMenu && isSubmenuOpen && (
+                        <div className="absolute top-full mt-3 left-0 bg-white z-50 shadow rounded-xl px-4 w-52">
+                          {link?.subMenu?.map(subItem => {
+                            const isActiveSubmenu = pathname === subItem?.path;
+
+                            return (
+                              <Link
+                                key={subItem?.path}
+                                href={subItem?.path}
+                                onClick={() => setOpenSubmenu(null)}
+                                className={`block py-3 border-b border-gray-300 last:border-b-0 duration-300 transition-all hover:text-primary-blue ${
+                                  isActiveSubmenu
+                                    ? "text-secondary-blue"
+                                    : "text-[#2A2929]"
+                                }`}
+                              >
+                                {subItem?.label}
+                              </Link>
+                            );
+                          })}
+                        </div>
+                      )}
+                    </Link>
+                  </li>
                 );
               })}
             </ul>
@@ -194,20 +234,59 @@ const Navbar = () => {
         <ul className="flex flex-col gap-5 mt-7">
           {navLinks?.map(link => {
             const isActive = pathname === link?.path;
+            const hasSubMenu = Boolean(link?.subMenu?.length);
+            const isSubmenuOpen = openSubmenu === link?.label;
 
             return (
-              <Link
-                key={link?.path}
-                href={link?.path}
-                onClick={() => setOpen(false)}
-                className={`${
-                  isActive
-                    ? "text-secondary-blue font-medium"
-                    : "text-[#2A2929]"
-                }`}
-              >
-                {link?.label}
-              </Link>
+              <li key={link?.label}>
+                <Link
+                  href={link?.path}
+                  onClick={e => {
+                    if (hasSubMenu) {
+                      e.preventDefault();
+                      setOpenSubmenu(prev =>
+                        prev === link?.label ? null : link?.label,
+                      );
+                    } else {
+                      setOpen(false);
+                    }
+                  }}
+                  className={`${
+                    isActive
+                      ? "text-secondary-blue font-medium"
+                      : "text-[#2A2929]"
+                  }`}
+                >
+                  {link?.label}
+                </Link>
+
+                {hasSubMenu && isSubmenuOpen && (
+                  <ul className="flex flex-col gap-3 mt-3 ml-3 border-l border-gray-200 pl-3">
+                    {link?.subMenu?.map(subItem => {
+                      const isActiveSubmenu = pathname === subItem?.path;
+
+                      return (
+                        <li key={subItem?.path}>
+                          <Link
+                            href={subItem?.path}
+                            onClick={() => {
+                              setOpenSubmenu(null);
+                              setOpen(false);
+                            }}
+                            className={`text-sm ${
+                              isActiveSubmenu
+                                ? "text-secondary-blue"
+                                : "text-[#2A2929]"
+                            }`}
+                          >
+                            {subItem?.label}
+                          </Link>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                )}
+              </li>
             );
           })}
         </ul>

@@ -21,6 +21,7 @@ import "swiper/css/navigation";
 import brewBloomImg from "../../../../Assets/Image (Brew & Bloom Café).png";
 import techstartYouthImg from "../../../../Assets/d472ae9e704c53b818eec4a826a3881a074abd33.jpg";
 import rhythmThreadsImg from "../../../../Assets/e4ca7635affe18ca84c1cd05cf5c99860375ce4e.jpg";
+import Link from "next/link";
 
 interface BusinessChosenChartProps {
   data: CMSBossBeginningsSteps;
@@ -278,10 +279,11 @@ const BusinessCardItem = ({ biz }: { biz: BusinessCard }) => (
         />
         <ActionButton icon={<HiOutlineFire />} label="Fire" count={biz.fires} />
       </div>
-
-      <button className="text-blue-500 text-sm font-normal mt-3 flex items-center gap-1 hover:underline mx-auto">
-        Learn More <span aria-hidden>→</span>
-      </button>
+      <Link href={`/how-winners-are-chosen/${biz.id}`}>
+        <button className="text-blue-500 text-sm font-normal mt-3 flex items-center gap-1 hover:underline mx-auto">
+          Learn More <span aria-hidden>→</span>
+        </button>
+      </Link>
     </div>
   </div>
 );
