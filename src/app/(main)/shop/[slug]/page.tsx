@@ -40,8 +40,9 @@ import SuggestedSection from "../_components/SuggestedSection";
 import { PageLoader } from "@/Shared/PageLoader";
 import useAuth from "@/Hooks/useAuth";
 import toast from "react-hot-toast";
-import { useAddToCart, useBuyNow } from "@/Hooks/api/cart_api";
+import { useAddToCart } from "@/Hooks/api/cart_api";
 import { useCart } from "@/Provider/CartProvider/CartProvider";
+import { setBuyNowItem } from "@/lib/localStorage";
 
 export default function ProductDetailsPage() {
   const params = useParams();
@@ -88,7 +89,6 @@ export default function ProductDetailsPage() {
   // Cart API hooks
   const { mutate: addToCartMutation, isPending: isAddingToCart } =
     useAddToCart();
-  const { mutate: buyNowMutation, isPending: isBuyingNow } = useBuyNow();
 
   // States
   const [quantity, setQuantity] = useState<number>(1);
@@ -156,15 +156,17 @@ export default function ProductDetailsPage() {
   const handleBuyNow = () => {
     if (!requireAuth()) return;
 
-    buyNowMutation(
-      { product_id: product.id, quantity },
-      {
-        onSuccess: () => {
-          refetchCart();
-          router.push("/shipping-billing");
-        },
-      },
-    );
+    // Save product info to localStorage for the shipping-billing page
+    setBuyNowItem({
+      product_id: product.id,
+      quantity,
+      name: product.title,
+      thumbnail: product.thumbnail,
+      price: currentPrice,
+      slug: product.slug,
+    });
+    
+    router.push("/shipping-billing");
   };
 
   return (

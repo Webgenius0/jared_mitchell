@@ -1,16 +1,20 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
-  FiChevronDown,
   FiCreditCard,
   FiPhone,
   FiShoppingCart,
 } from "react-icons/fi";
 import { useCart } from "@/Provider/CartProvider/CartProvider";
-import { usePlaceOrder } from "@/Hooks/api/cart_api";
+import { usePlaceOrder, useBuyNow } from "@/Hooks/api/cart_api";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
+import {
+  getBuyNowItem,
+  clearBuyNowItem,
+  type BuyNowItem,
+} from "@/lib/localStorage";
 
 interface InputProps {
   label: string;
@@ -123,9 +127,20 @@ export default function ShippingBillingForm(): React.JSX.Element {
   const router = useRouter();
   const { cartItems, cartSubtotal, cartCount, isLoading: cartLoading, refetchCart } = useCart();
   const { mutate: placeOrder, isPending: isPlacing } = usePlaceOrder();
+  const { mutate: buyNowOrder, isPending: isBuyingNow } = useBuyNow();
 
   const [addBilling, setAddBilling] = useState<boolean>(true);
   const [formValues, setFormValues] = useState<Record<string, string>>({});
+  const [buyNowItem, setBuyNowItem] = useState<BuyNowItem | null>(null);
+  const [paymentMethod, setPaymentMethod] = useState<"cod" | "stripe">("cod");
+
+  // Read buy-now item from localStorage on mount
+  useEffect(() => {
+    const item = getBuyNowItem();
+    if (item) {
+      setBuyNowItem(item);
+    }
+  }, []);
 
   const updateField = (field: string, value: string) => {
     setFormValues(prev => ({ ...prev, [field]: value }));
@@ -151,16 +166,17 @@ export default function ShippingBillingForm(): React.JSX.Element {
       return;
     }
 
-    if (cartItems.length === 0) {
+    const hasBuyNow = !!buyNowItem;
+
+    if (!hasBuyNow && cartItems.length === 0) {
       toast.error("Your cart is empty");
       return;
     }
 
-    const payload: any = { shipping };
+    const payload: any = { shipping, payment_method: paymentMethod };
 
     if (addBilling) {
       const billing = getAddressObj("billing");
-      // Billing only requires name, phone, email, address_line1, city, state per the schema
       payload.billing = {
         name: billing.name,
         phone: billing.phone,
@@ -172,12 +188,38 @@ export default function ShippingBillingForm(): React.JSX.Element {
       };
     }
 
-    placeOrder(payload, {
-      onSuccess: () => {
-        refetchCart();
-        router.push("/");
-      },
-    });
+    if (hasBuyNow) {
+      // Add buy-now product info to payload
+      payload.product_id = buyNowItem.product_id;
+      payload.quantity = buyNowItem.quantity;
+
+      buyNowOrder(payload, {
+        onSuccess: (res: any) => {
+          clearBuyNowItem();
+          refetchCart();
+          
+          const checkoutUrl = res?.data?.checkout_url;
+          if (paymentMethod === "stripe" && checkoutUrl) {
+            window.location.href = checkoutUrl;
+          } else {
+            router.push("/");
+          }
+        },
+      });
+    } else {
+      placeOrder(payload, {
+        onSuccess: (res: any) => {
+          refetchCart();
+          
+          const checkoutUrl = res?.data?.checkout_url;
+          if (paymentMethod === "stripe" && checkoutUrl) {
+            window.location.href = checkoutUrl;
+          } else {
+            router.push("/");
+          }
+        },
+      });
+    }
   };
 
   // Show loading state while cart is loading
@@ -234,7 +276,28 @@ export default function ShippingBillingForm(): React.JSX.Element {
 
           {/* Cart items */}
           <div className="mt-4 flex flex-col gap-4">
-            {cartItems.length === 0 ? (
+            {buyNowItem ? (
+              <div className="flex items-center gap-3">
+                <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-lg bg-gray-100 overflow-hidden">
+                  <img
+                    src={buyNowItem.thumbnail || "/fallback-product.png"}
+                    alt={buyNowItem.name || "Product"}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-medium text-gray-900 line-clamp-1">
+                    {buyNowItem.name || "Product"}
+                  </p>
+                  <p className="text-xs text-gray-400">
+                    Qty: {buyNowItem.quantity}
+                  </p>
+                </div>
+                <p className="text-sm font-semibold text-gray-900 whitespace-nowrap">
+                  ${((buyNowItem.price || 0) * buyNowItem.quantity).toFixed(2)}
+                </p>
+              </div>
+            ) : cartItems.length === 0 ? (
               <div className="flex flex-col items-center gap-3 py-6 text-center">
                 <FiShoppingCart className="size-8 text-gray-300" />
                 <p className="text-sm text-gray-400">Your cart is empty</p>
@@ -276,8 +339,8 @@ export default function ShippingBillingForm(): React.JSX.Element {
           {/* Totals */}
           <div className="space-y-2 text-sm">
             <div className="flex justify-between text-gray-600">
-              <span>Items ({cartCount})</span>
-              <span>${cartSubtotal.toFixed(2)}</span>
+              <span>Items {buyNowItem ? `(${buyNowItem.quantity})` : `(${cartCount})`}</span>
+              <span>${buyNowItem ? ((buyNowItem.price || 0) * buyNowItem.quantity).toFixed(2) : cartSubtotal.toFixed(2)}</span>
             </div>
             <div className="flex justify-between text-gray-600">
               <span>Shipping</span>
@@ -289,13 +352,39 @@ export default function ShippingBillingForm(): React.JSX.Element {
 
           <div className="flex justify-between text-base font-semibold text-gray-900">
             <span>Total Payable</span>
-            <span>${cartSubtotal.toFixed(2)}</span>
+            <span>${buyNowItem ? ((buyNowItem.price || 0) * buyNowItem.quantity).toFixed(2) : cartSubtotal.toFixed(2)}</span>
           </div>
 
-          <p className="mt-5 text-sm text-gray-500">We accept</p>
-          <div className="mt-2 inline-flex items-center gap-2 rounded-lg border border-gray-200 px-4 py-2.5 text-base text-gray-700">
-            <FiCreditCard className="h-5 w-5" />
-            COD
+          {/* Payment Methods */}
+          <p className="mt-5 text-sm text-gray-500">Payment Method</p>
+          <div className="mt-2 flex flex-wrap gap-3">
+            <button
+              type="button"
+              onClick={() => setPaymentMethod("cod")}
+              className={`inline-flex items-center gap-2 rounded-lg border px-4 py-2.5 text-base transition-all ${
+                paymentMethod === "cod"
+                  ? "border-blue-500 bg-blue-50 text-blue-700 ring-1 ring-blue-500"
+                  : "border-gray-200 text-gray-700 hover:border-gray-300"
+              }`}
+            >
+              <FiCreditCard className="h-5 w-5" />
+              COD
+            </button>
+            <button
+              type="button"
+              onClick={() => setPaymentMethod("stripe")}
+              className={`inline-flex items-center gap-2 rounded-lg border px-4 py-2.5 text-base transition-all ${
+                paymentMethod === "stripe"
+                  ? "border-blue-500 bg-blue-50 text-blue-700 ring-1 ring-blue-500"
+                  : "border-gray-200 text-gray-700 hover:border-gray-300"
+              }`}
+            >
+              <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M13.976 9.15c-2.172-.538-2.986-1.023-2.986-1.963 0-.978.979-1.64 2.416-1.64 1.633 0 2.415.664 2.633 1.67l2.14-.806c-.525-1.626-1.966-2.647-4.773-2.647-2.873 0-4.772 1.488-4.772 3.603 0 2.322 1.633 3.358 4.222 4.02 2.172.539 2.987 1.024 2.987 1.964 0 .978-.86 1.64-2.416 1.64-1.633 0-2.711-.645-3.015-1.963l-2.14.806c.525 1.724 2.14 2.922 5.155 2.922 3.174 0 5.155-1.49 5.155-3.896 0-2.284-1.633-3.452-4.606-4.02z" fill="currentColor"/>
+                <path d="M3 12c0 4.97 4.03 9 9 9s9-4.03 9-9-4.03-9-9-9-9 4.03-9 9z" stroke="currentColor" strokeWidth="1.5" fill="none" opacity="0.3"/>
+              </svg>
+              Stripe
+            </button>
           </div>
 
           <div className="mt-5 flex items-center justify-between rounded-lg bg-gray-50 px-3 py-2.5">
@@ -309,10 +398,10 @@ export default function ShippingBillingForm(): React.JSX.Element {
           <button
             type="button"
             onClick={handlePlaceOrder}
-            disabled={isPlacing || cartItems.length === 0}
+            disabled={isPlacing || isBuyingNow || (cartItems.length === 0 && !buyNowItem)}
             className="mt-5 w-full rounded-lg bg-blue-600 py-3.5 text-base font-medium text-white transition-colors hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
           >
-            {isPlacing ? (
+            {isPlacing || isBuyingNow ? (
               <>
                 <svg
                   className="animate-spin size-4"
