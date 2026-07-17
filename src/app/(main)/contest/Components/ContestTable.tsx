@@ -233,7 +233,7 @@ export default function ContestTable() {
                   </td>
                   <td className="px-3 sm:px-4 lg:px-6 py-3 sm:py-4 text-right">
                     <Link
-                      href={c.type === "artist" ? `/spotlight-artist/${c.id}` : `/spotlight-business/${c.id}`}
+                      href={`/contest/${c.id}`}
                       className="inline-flex items-center gap-1.5 bg-blue-600 hover:bg-blue-700 text-white text-[10px] sm:text-xs font-medium px-2.5 sm:px-4 py-1.5 sm:py-2 rounded-sm transition-colors whitespace-nowrap"
                     >
                       <FiEye className="h-3 w-3 sm:h-3.5 sm:w-3.5" />
