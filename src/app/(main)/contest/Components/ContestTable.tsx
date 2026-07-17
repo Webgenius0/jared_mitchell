@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import { FiTrendingUp, FiEye } from "react-icons/fi";
+import Link from "next/link";
 
 type Contestant = {
   id: number;
@@ -162,7 +163,7 @@ export default function ContestTable() {
   return (
     <div className="container mx-auto">
       {/* Tabs */}
-      <div className="rounded-2xl border border-black/15 bg-white shadow-[0_4px_20px_0_rgba(0,0,0,0.07)] p-5 flex gap-2 mt-8 mb-15">
+      <div className="rounded-2xl border border-black/15 bg-white shadow-[0_4px_20px_0_rgba(0,0,0,0.07)] p-3 sm:p-5 flex flex-wrap gap-2 mt-6 sm:mt-8 mb-8 sm:mb-15">
         {TABS.map(tab => (
           <button
             key={tab.key}
@@ -181,60 +182,63 @@ export default function ContestTable() {
       {/* Table */}
       <div className="bg-white  shadow-sm ">
         <div className="overflow-x-auto">
-          <table className="w-full min-w-[720px]">
+          <table className="w-full min-w-[500px] sm:min-w-[720px]">
             <thead>
-              <tr className="bg-blue-600 text-white text-lg">
-                <th className="text-left font-medium px-6 py-4">Rank</th>
-                <th className="text-left font-medium px-6 py-4">Business</th>
-                <th className="text-left font-medium px-6 py-4">Category</th>
-                <th className="text-left font-medium px-6 py-4">Total Score</th>
-                <th className="text-left font-medium px-6 py-4">Trend</th>
-                <th className="text-left font-medium px-6 py-4"></th>
+              <tr className="bg-blue-600 text-white text-sm sm:text-base lg:text-lg">
+                <th className="text-left font-medium px-3 sm:px-4 lg:px-6 py-3 sm:py-4">Rank</th>
+                <th className="text-left font-medium px-3 sm:px-4 lg:px-6 py-3 sm:py-4">Business</th>
+                <th className="text-left font-medium px-3 sm:px-4 lg:px-6 py-3 sm:py-4 hidden sm:table-cell">Category</th>
+                <th className="text-left font-medium px-3 sm:px-4 lg:px-6 py-3 sm:py-4">Total Score</th>
+                <th className="text-left font-medium px-3 sm:px-4 lg:px-6 py-3 sm:py-4 hidden sm:table-cell">Trend</th>
+                <th className="text-left font-medium px-3 sm:px-4 lg:px-6 py-3 sm:py-4"></th>
               </tr>
             </thead>
             <tbody>
               {filtered.map((c, idx) => (
                 <tr
                   key={c.id}
-                  className={`text-base ${
+                  className={`text-sm sm:text-base ${
                     idx !== filtered.length - 1
                       ? "border-b border-gray-100"
                       : ""
                   } hover:bg-gray-50 transition-colors`}
                 >
-                  <td className="px-6 py-4">
+                  <td className="px-3 sm:px-4 lg:px-6 py-3 sm:py-4">
                     <span
-                      className={`inline-flex items-center justify-center h-8 w-8 rounded-lg text-xs font-semibold ${rankBadgeStyle(
+                      className={`inline-flex items-center justify-center h-7 w-7 sm:h-8 sm:w-8 rounded-lg text-[10px] sm:text-xs font-semibold ${rankBadgeStyle(
                         c.rank,
                       )}`}
                     >
                       #{c.rank}
                     </span>
                   </td>
-                  <td className="px-6 py-4">
-                    <div className="font-medium text-gray-900">
+                  <td className="px-3 sm:px-4 lg:px-6 py-3 sm:py-4">
+                    <div className="font-medium text-gray-900 text-sm sm:text-base">
                       {c.business}
                     </div>
-                    <div className="text-gray-400 text-xs">{c.owner}</div>
+                    <div className="text-gray-400 text-[10px] sm:text-xs">{c.owner}</div>
                   </td>
-                  <td className="px-6 py-4 text-gray-600">{c.category}</td>
-                  <td className="px-6 py-4">
-                    <div className="text-blue-600 font-semibold">
+                  <td className="px-3 sm:px-4 lg:px-6 py-3 sm:py-4 text-gray-600 text-sm hidden sm:table-cell">{c.category}</td>
+                  <td className="px-3 sm:px-4 lg:px-6 py-3 sm:py-4">
+                    <div className="text-blue-600 font-semibold text-sm sm:text-base">
                       {c.score.toLocaleString()}
                     </div>
-                    <div className="text-gray-400 text-xs">points</div>
+                    <div className="text-gray-400 text-[10px] sm:text-xs">points</div>
                   </td>
-                  <td className="px-6 py-4">
-                    <span className="inline-flex items-center gap-1 text-emerald-500 font-medium text-sm">
-                      <FiTrendingUp className="h-4 w-4" />
+                  <td className="px-3 sm:px-4 lg:px-6 py-3 sm:py-4 hidden sm:table-cell">
+                    <span className="inline-flex items-center gap-1 text-emerald-500 font-medium text-xs sm:text-sm">
+                      <FiTrendingUp className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
                       {c.trend}
                     </span>
                   </td>
-                  <td className="px-6 py-4 flex justify-end">
-                    <button className="inline-flex items-center gap-1.5 bg-blue-600 hover:bg-blue-700 text-white text-xs font-medium px-4 py-2 rounded-sm transition-colors whitespace-nowrap">
-                      <FiEye className="h-3.5 w-3.5" />
+                  <td className="px-3 sm:px-4 lg:px-6 py-3 sm:py-4 text-right">
+                    <Link
+                      href={c.type === "artist" ? `/spotlight-artist/${c.id}` : `/spotlight-business/${c.id}`}
+                      className="inline-flex items-center gap-1.5 bg-blue-600 hover:bg-blue-700 text-white text-[10px] sm:text-xs font-medium px-2.5 sm:px-4 py-1.5 sm:py-2 rounded-sm transition-colors whitespace-nowrap"
+                    >
+                      <FiEye className="h-3 w-3 sm:h-3.5 sm:w-3.5" />
                       View Profile
-                    </button>
+                    </Link>
                   </td>
                 </tr>
               ))}
