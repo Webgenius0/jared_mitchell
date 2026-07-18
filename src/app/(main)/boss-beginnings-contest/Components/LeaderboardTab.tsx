@@ -5,13 +5,17 @@ import {
   Clock,
   Trophy,
   TrendingUp,
+  Heart,
   Users,
+  Briefcase,
+  ShoppingBag,
+  Award,
   CheckCircle,
-  ArrowUpRight,
 } from "lucide-react";
 
 interface TimelineEvent {
   id: number;
+  icon: React.ElementType;
   title: string;
   date: string;
   status: "completed" | "active" | "upcoming";
@@ -21,6 +25,7 @@ interface TimelineEvent {
 const TIMELINE_EVENTS: TimelineEvent[] = [
   {
     id: 1,
+    icon: Users,
     title: "Open Nominations",
     date: "Weeks 1–2 (2 Weeks Total)",
     status: "completed",
@@ -29,35 +34,48 @@ const TIMELINE_EVENTS: TimelineEvent[] = [
   },
   {
     id: 2,
+    icon: Heart,
     title: "Momentum Round",
-    date: "Weeks 3–4 (2 Weeks Total)",
-    status: "active",
+    date: "Weeks 3–5 (3 Weeks Total)",
+    status: "completed",
     description:
       "Community engagement determines which businesses build enough momentum to advance. Top 60 move forward.",
   },
   {
     id: 3,
+    icon: Users,
     title: "Community Impact Round",
-    date: "Weeks 5–6 (2 Weeks Total)",
-    status: "upcoming",
+    date: "Weeks 6–7 (2 Weeks Total)",
+    status: "completed",
     description:
       "Businesses demonstrate how they serve the community. Top 30 advance based on impact and engagement.",
   },
   {
     id: 4,
-    title: "Innovation Showcase",
-    date: "Weeks 7–8 (2 Weeks Total)",
-    status: "upcoming",
+    icon: Briefcase,
+    title: "Business Pitch and Journey Round",
+    date: "Weeks 8–9 (2 Weeks Total)",
+    status: "completed",
     description:
-      "Businesses present their unique value proposition. Top 15 advance to the expert review stage.",
+      "Businesses present their mission, vision, and story. Top 15 advance to the customer experience stage.",
   },
   {
     id: 5,
-    title: "Final Championship",
-    date: "Weeks 9–10 (2 Weeks Total)",
+    icon: ShoppingBag,
+    title: "OSI Customer Experience Round",
+    date: "Weeks 10–11 (2 Weeks Total)",
+    status: "active",
+    description:
+      "OSI experiences each business firsthand by purchasing a product or service. Top 3 are selected.",
+  },
+  {
+    id: 6,
+    icon: Trophy,
+    title: "Final Decision & Announcement",
+    date: "Week 12 (1 Week Total)",
     status: "upcoming",
     description:
-      "The top 8 businesses present their complete vision. Winners are selected by judges and community.",
+      "Judges finalize scores across all rounds and the Boss Beginnings Winner is announced.",
   },
 ];
 
@@ -77,123 +95,123 @@ const QUARTERLY_CYCLES: QuarterlyCycle[] = [
 
 const statusConfig = {
   completed: {
-    bg: "bg-emerald-50 border-emerald-500",
+    // bg: "bg-emerald-50/40 border-emerald-500",
     badge: "bg-emerald-100 text-emerald-700",
-    badgeText: "Completed",
-    icon: CheckCircle,
+    badgeText: "Complete",
     iconColor: "text-emerald-600",
   },
   active: {
-    bg: "bg-blue-50 border-blue-500",
+    bg: "bg-blue-50/50 border-blue-500",
     badge: "bg-blue-100 text-blue-700",
     badgeText: "Active Now",
-    icon: TrendingUp,
     iconColor: "text-blue-600",
   },
   upcoming: {
     bg: "bg-gray-50 border-gray-200",
     badge: "bg-gray-100 text-gray-500",
     badgeText: "Upcoming",
-    icon: Clock,
     iconColor: "text-gray-400",
   },
 };
+
+const KEY_DATES = [
+  { date: "January 1, 2025", event: "Q1 quarter begins, nominations open" },
+  { date: "January 15, 2025", event: "Nominations close, voting begins" },
+  { date: "March 17, 2025", event: "Community voting closes" },
+  { date: "March 24, 2025", event: "Nomination and OSI review complete" },
+  { date: "March 31, 2025", event: "Winner announced and celebration planned" },
+];
 
 export default function LeaderboardTab() {
   const [selectedQuarter, setSelectedQuarter] = useState(1);
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 mt-10">
       {/* Timeline header card */}
-      <div className="rounded-2xl border border-black/10 bg-white">
-        <div className="bg-[#2563EB] rounded-t-2xl px-6 py-6 text-white">
-          <div className="flex items-center gap-3 mb-2">
-            <Calendar className="size-7" />
-            <h2 className="text-xl font-semibold">Q1 2025 Timeline</h2>
-          </div>
-          <p className="text-sm text-white/80">
-            Track the current quarter's progress and see what's happening when.
-          </p>
+      <div className="bg-[#2563EB]  px-6 py-6 text-white">
+        <div className="flex items-center gap-3 mb-2">
+          <Calendar className="size-7" />
+          <h2 className="text-xl font-semibold">Q1 2025 Timeline</h2>
         </div>
+        <p className="text-sm text-white/80">
+          Track the current quarter's progress and see what's happening when.
+        </p>
+      </div>
 
-        {/* Quarter progress */}
-        <div className="p-6 border-b border-black/5">
-          <div className="flex items-center justify-between mb-4">
-            <div>
-              <h3 className="text-base font-semibold text-black">
-                Quarter Progress
-              </h3>
-              <p className="text-[13px] text-black/50">
-                January 1 - March 31, 2025
-              </p>
-            </div>
-            <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-blue-50 text-[#2563EB] text-[12px] font-medium">
-              <Clock size={14} />
-              -258 days remaining
-            </div>
+      <div className="p-6 rounded-2xl border border-black/15 bg-white shadow-[0_4px_20px_0_rgba(0,0,0,0.07)] mt-10">
+        <div className="flex items-center justify-between mb-4">
+          <div>
+            <h3 className="text-base font-semibold text-black">
+              Quarter Progress
+            </h3>
+            <p className="text-[13px] text-black/50">
+              January 1 - March 31, 2025
+            </p>
           </div>
-          <div className="flex items-center justify-between gap-4 text-sm text-black mb-2">
-            <span>Overall Progress</span>
-            <span className="text-[#2563EB] font-medium">100%</span>
+          <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-blue-50 text-[#2563EB] text-[12px] font-medium">
+            <Clock size={14} />
+            12 days remaining
           </div>
-          <div className="w-full h-2.5 bg-[#2563EB] rounded-full mb-2" />
-          <p className="text-[12px] text-black/45">Week 50 of 12</p>
         </div>
+        <div className="flex items-center justify-between gap-4 text-sm text-black mb-2">
+          <span>Overall Progress</span>
+          <span className="text-[#2563EB] font-medium">86%</span>
+        </div>
+        <div className="w-full h-2.5 bg-gray-100 rounded-full mb-2 overflow-hidden">
+          <div className="h-full w-[86%] bg-[#2563EB] rounded-full" />
+        </div>
+        <p className="text-[12px] text-black/45">Week 10 of 12</p>
+      </div>
 
-        {/* Timeline events */}
-        <div className="p-6 space-y-4">
-          {TIMELINE_EVENTS.map((event) => {
-            const cfg = statusConfig[event.status];
-            const StatusIcon = cfg.icon;
-            return (
-              <div
-                key={event.id}
-                className={`p-4 rounded-xl border-2 ${cfg.bg} transition-all hover:shadow-md`}
-              >
-                <div className="flex items-start justify-between gap-3">
-                  <div className="flex items-start gap-3">
-                    <div
-                      className={`size-10 flex items-center justify-center rounded-xl ${cfg.iconColor} bg-white/80`}
-                    >
-                      <StatusIcon className="size-5" />
-                    </div>
-                    <div>
-                      <h4 className="text-[14px] font-medium text-black">
-                        {event.title}
-                      </h4>
-                      <p className="text-[12px] text-black/45">{event.date}</p>
-                      <p className="text-[13px] text-black/60 mt-1">
-                        {event.description}
-                      </p>
-                    </div>
-                  </div>
-                  <span
-                    className={`shrink-0 px-3 py-1 rounded-md text-[11px] font-medium ${cfg.badge}`}
+      {/* Timeline events */}
+      <div className="space-y-4">
+        {TIMELINE_EVENTS.map(event => {
+          const cfg = statusConfig[event.status];
+          const EventIcon = event.icon;
+          return (
+            <div
+              key={event.id}
+              className={`p-4 rounded-xl border ${cfg} transition-all hover:shadow-md`}
+            >
+              <div className="flex items-start justify-between gap-3">
+                <div className="flex items-start gap-3">
+                  <div
+                    className={`size-10 flex items-center justify-center rounded-xl ${cfg.iconColor} bg-white shrink-0`}
                   >
-                    {cfg.badgeText}
-                  </span>
+                    <EventIcon className="size-5" />
+                  </div>
+                  <div>
+                    <h4 className="text-[14px] font-medium text-black">
+                      {event.title}
+                    </h4>
+                    <p className="text-[12px] text-black/45">{event.date}</p>
+                    <p className="text-[13px] text-black/60 mt-1">
+                      {event.description}
+                    </p>
+                  </div>
                 </div>
+                <span
+                  className={`shrink-0 px-3 py-1 rounded-md text-[11px] font-medium ${cfg.badge}`}
+                >
+                  {cfg.badgeText}
+                </span>
               </div>
-            );
-          })}
-        </div>
+            </div>
+          );
+        })}
       </div>
 
       {/* Key Dates */}
       <div className="rounded-2xl border border-black/10 bg-white p-6">
         <h3 className="text-base font-semibold text-black mb-4">Key Dates</h3>
         <div className="space-y-0 divide-y divide-black/5">
-          {[
-            { date: "January 1, 2025", event: "Q1 quarter begins, nominations open" },
-            { date: "February 15, 2025", event: "Nominations close, voting begins" },
-            { date: "March 15, 2025", event: "Final round voting ends" },
-            { date: "March 25, 2025", event: "Winner announced" },
-            { date: "March 31, 2025", event: "Q1 quarter ends" },
-          ].map((item, idx) => (
+          {KEY_DATES.map((item, idx) => (
             <div key={idx} className="py-4 flex items-start gap-3">
               <Calendar className="size-5 text-[#2563EB] shrink-0 mt-0.5" />
               <div>
-                <p className="text-[14px] font-medium text-black">{item.date}</p>
+                <p className="text-[14px] font-medium text-black">
+                  {item.date}
+                </p>
                 <p className="text-[13px] text-black/60">{item.event}</p>
               </div>
             </div>
@@ -214,7 +232,10 @@ export default function LeaderboardTab() {
             "Dedicated social media promotion across OSI channels",
             "One-year Growth Plan membership at no cost",
           ].map((item, idx) => (
-            <div key={idx} className="flex items-center gap-2 text-[13px] text-black/70">
+            <div
+              key={idx}
+              className="flex items-center gap-2 text-base text-black/70"
+            >
               <Trophy className="size-4 text-[#2563EB] shrink-0" />
               {item}
             </div>
@@ -223,12 +244,11 @@ export default function LeaderboardTab() {
       </div>
 
       {/* Quarterly cycles */}
-      <div className="rounded-2xl border border-black/10 bg-white p-6">
         <h3 className="text-base font-semibold text-black mb-4">
           2025 Quarterly Cycle
         </h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          {QUARTERLY_CYCLES.map((cycle) => (
+          {QUARTERLY_CYCLES.map(cycle => (
             <div
               key={cycle.id}
               className={`p-5 rounded-xl border transition-all ${
@@ -251,15 +271,18 @@ export default function LeaderboardTab() {
               >
                 {cycle.dateRange}
               </p>
-              {cycle.isActive && (
-                <div className="mt-3 inline-flex items-center gap-1.5 bg-white/20 px-3 py-1 rounded-lg text-[11px] font-medium">
+              {cycle.isActive ? (
+                <div className="mt-3 inline-flex items-center gap-1.5 bg-white/20 px-3 py-2 rounded-lg text-[11px] font-medium">
                   <span className="size-2 rounded-full bg-white animate-pulse" />
                   Active Now
                 </div>
+              ) : (
+                <p className="mt-3 text-black/40 border px-3 py-2 rounded-lg text-[12px] w-fit">
+                  Upcoming
+                </p>
               )}
             </div>
           ))}
-        </div>
       </div>
     </div>
   );

@@ -1,7 +1,13 @@
 "use client";
-import React, { useState } from "react";
-import { FiUsers, FiAward, FiTarget, FiCheckCircle, FiStar, FiTrendingUp } from "react-icons/fi";
-import { FaArrowTrendUp } from "react-icons/fa6";
+import React from "react";
+import {
+  FiUsers,
+  FiAward,
+  FiTarget,
+  FiCheckCircle,
+  FiHeart,
+  FiBriefcase,
+} from "react-icons/fi";
 
 interface OsiRound {
   id: number;
@@ -28,7 +34,7 @@ const OSI_ROUNDS: OsiRound[] = [
   },
   {
     id: 2,
-    icon: FaArrowTrendUp,
+    icon: FiHeart,
     roundNumber: "2",
     title: "MOMENTUM ROUND",
     sub_title: "Top 60 Advance",
@@ -40,94 +46,60 @@ const OSI_ROUNDS: OsiRound[] = [
   },
   {
     id: 3,
-    icon: FiTarget,
+    icon: FiHeart,
     roundNumber: "3",
     title: "COMMUNITY IMPACT ROUND",
     sub_title: "Top 30 Advance",
-    goal: ["Demonstrate meaningful community involvement and impact."],
+    goal: ["Prove how your business serves the community."],
     requirements: [
-      "Submit a 60-90 second video or 3-5 bullet points explaining how your business serves the community.",
-      "Submissions are reviewed for authenticity and community value.",
+      "Explain how their business positively impacts customers, neighborhoods, or the local economy.",
+      "This may include: Who they serve, How they help, Why they matter beyond profit.",
+      "Businesses that cannot clearly demonstrate community impact do not advance.",
     ],
   },
   {
     id: 4,
-    icon: FiStar,
+    icon: FiBriefcase,
     roundNumber: "4",
-    title: "INNOVATION SHOWCASE",
+    title: "BUSINESS PITCH & JOURNEY ROUND",
     sub_title: "Top 15 Advance",
-    goal: ["Highlight unique value proposition and market differentiation."],
+    goal: ["Show vision, strategy, and resilience."],
     requirements: [
-      "Present your innovative approach or product differentiator.",
-      "Demonstrate scalability and long-term growth potential.",
+      "Submit a business pitch and story that explains: their mission and long-term vision, how the business operates or plans to scale, the challenges they've overcome to get here, and why they believe they deserve to win.",
+      "Businesses that lack clarity, preparation, or storytelling are eliminated.",
     ],
   },
   {
     id: 5,
     icon: FiAward,
     roundNumber: "5",
-    title: "FINAL CHAMPIONSHIP",
-    sub_title: "Top 8 Compete",
-    goal: ["Present your complete business vision for the grand prize."],
+    title: "OSI CUSTOMER EXPERIENCE ROUND",
+    sub_title: "Top 3 Selected",
+    goal: ["Deliver a real, high-quality customer experience."],
     requirements: [
-      "Full business pitch to judges and community panel.",
-      "Demonstrate readiness, impact, and excellence across all previous rounds.",
+      "OSI must experience the business firsthand by purchasing a product or service.",
+      "OSI evaluates: communication, professionalism, product or service quality, delivery or execution, and overall customer experience.",
+      "The business that performs best in real-world conditions, combined with prior scores, is crowned the Boss Beginnings Winner.",
     ],
   },
 ];
 
 export default function OSIPanelTab() {
-  const [activeRound, setActiveRound] = useState(1);
-
   return (
-    <div>
-      {/* Round selector */}
-      <div className="rounded-2xl border border-black/10 bg-white p-6 mb-6">
-        <div className="flex items-center justify-between mb-4">
-          <div>
-            <h2 className="text-[20px] font-semibold text-black">
-              OSI Panel Evaluation
-            </h2>
-            <p className="text-[13px] text-black/50 mt-0.5">
-              Multi-round evaluation system
-            </p>
-          </div>
-          <div className="flex items-center gap-2">
-            {OSI_ROUNDS.map((round) => (
-              <button
-                key={round.id}
-                onClick={() => setActiveRound(round.id)}
-                className={`px-4 py-1.5 rounded-lg text-[13px] font-medium transition-colors ${
-                  activeRound === round.id
-                    ? "bg-[#2563EB] text-white"
-                    : "bg-[#EEF1F6] text-black/50 hover:bg-black/10"
-                }`}
-              >
-                Round {round.roundNumber}
-              </button>
-            ))}
-          </div>
-        </div>
-        <p className="text-[14px] text-black/60 max-w-2xl">
-          Track how businesses progress through each evaluation stage. Each round
-          raises the bar and filters for excellence.
-        </p>
-      </div>
-
-      {/* Active round detail */}
-      {OSI_ROUNDS.filter((r) => r.id === activeRound).map((round) => (
+    <div className="space-y-6">
+      {OSI_ROUNDS.map(round => (
         <div
           key={round.id}
-          className="rounded-2xl border border-black/10 bg-white overflow-hidden mb-6"
+          className="rounded-2xl border border-black/10 bg-white overflow-hidden"
         >
           {/* Round header */}
           <div className="bg-[#2563EB] px-6 py-5 flex items-center gap-5 text-white">
-            <div className="bg-white/20 size-14 flex items-center justify-center rounded-full">
+            <div className="bg-white/20 size-14 flex items-center justify-center rounded-full shrink-0">
               <round.icon className="size-6" />
             </div>
             <div>
               <h4 className="text-lg font-medium uppercase flex items-center gap-3">
-                <span className="text-sm font-normal bg-white/20 px-3 py-1 rounded-full">
+                <span className="text-sm font-normal  py-1 ">
                   ROUND {round.roundNumber}
                 </span>
                 {round.title}
@@ -141,7 +113,7 @@ export default function OSIPanelTab() {
             {/* Goal */}
             <div>
               <h6 className="text-[#2563EB] text-base font-medium mb-2 flex items-center gap-2">
-                <FiCheckCircle className="size-4" />
+                {/* <FiCheckCircle className="size-4" /> */}
                 Goal:
               </h6>
               {round.goal.map((g, idx) => (
@@ -154,7 +126,7 @@ export default function OSIPanelTab() {
             {/* Requirements */}
             <div>
               <h6 className="text-[#2563EB] text-base font-medium mb-2 flex items-center gap-2">
-                <FiTarget className="size-4" />
+                {/* <FiTarget className="size-4" /> */}
                 Requirements:
               </h6>
               <ul className="space-y-2">
@@ -174,8 +146,8 @@ export default function OSIPanelTab() {
       ))}
 
       {/* Why this system is fair */}
-      <div className="rounded-2xl bg-[#2563EB] p-6 text-white">
-        <h3 className="text-lg font-bold mb-4 text-center uppercase tracking-wider">
+      <div className=" bg-[#306FDC] py-20 text-white">
+        <h3 className="text-5xl  font-bold mb-4 text-center uppercase tracking-wider  text-white">
           WHY THIS SYSTEM IS FAIR
         </h3>
         <div className="space-y-3 border-b border-white/20 pb-5 mb-5">
@@ -186,13 +158,13 @@ export default function OSIPanelTab() {
             "Quality and experience matter at the end",
             "Businesses grow stronger at every stage",
           ].map((item, idx) => (
-            <div key={idx} className="flex items-center gap-3 text-[13px]">
+            <div key={idx} className="flex items-center justify-center gap-3 ">
               <FiCheckCircle className="size-4 shrink-0" />
-              {item}
+              <p className="text-base font-normal">{item}</p>
             </div>
           ))}
         </div>
-        <p className="text-[14px] text-center text-white/80">
+        <p className="text-[24px] text-center text-white/80 max-w-3xl mx-auto">
           Boss Beginnings isn't just about winning — it's about proving
           readiness, impact, and excellence step by step.
         </p>
