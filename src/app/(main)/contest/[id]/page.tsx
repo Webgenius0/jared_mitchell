@@ -1,10 +1,12 @@
 import React from "react";
 import SpotlightDetails from "../Components/SpotlightDetails";
+import ArtistStory from "../Components/ArtistStory";
 
 export default function page() {
   return (
-    <section>
+    <>
       <SpotlightDetails />
-    </section>
+      <ArtistStory />
+    </>
   );
 }

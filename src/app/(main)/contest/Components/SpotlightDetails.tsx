@@ -10,12 +10,13 @@ export default function SpotlightDetails() {
       <div className="container mx-auto">
         <div className="flex gap-8 ">
           <div className="flex gap-8 w-[70%]">
-            <div className="w-25 h-25 rounded-full">
+            <div className="w-30 h-30 rounded-full shrink-0">
               <Image
                 src={"/profile.png"}
                 alt="profile"
                 width={100}
                 height={100}
+                className="h-full w-full shrink-0"
               />
             </div>
             <div className="">
@@ -117,7 +118,7 @@ export default function SpotlightDetails() {
               </div>
             </div>
           </div>
-          <div className="w-[30%] rounded-[14.205px] border-[0.5px] border-black/15 bg-[#F9FAFB] p-6 flex flex-col gap-5">
+          <div className="w-[30%] rounded-[14.205px] border-[0.5px] border-black/15 bg-[#F9FAFB] p-5 flex flex-col gap-5">
             <h3 className="text-xl font-bold text-[#364153]">
               Support This Business
             </h3>
