@@ -18,7 +18,7 @@ import { CMSBossBeginningsSteps } from "@/Types/cms";
 
 import "swiper/css";
 import "swiper/css/navigation";
-import brewBloomImg from "../../../../Assets/Image (Brew & Bloom Café).png";
+import brewBloomImg from "../../../../Assets/roundbg.png";
 import techstartYouthImg from "../../../../Assets/d472ae9e704c53b818eec4a826a3881a074abd33.jpg";
 import rhythmThreadsImg from "../../../../Assets/e4ca7635affe18ca84c1cd05cf5c99860375ce4e.jpg";
 import Link from "next/link";
