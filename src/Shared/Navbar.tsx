@@ -18,6 +18,7 @@ const navLinks = [
     subMenu: [
       { label: "Artist Spotlight", path: "/spotlight-artist" },
       { label: "Businesses Spotlight", path: "/spotlight-business" },
+      { label: "Contest", path: "/contest" },
     ],
   },
   { label: "Events", path: "/events" },
@@ -33,6 +34,10 @@ const navLinks = [
         label: "How Winners Are Chosen",
         path: "/how-winners-are-chosen",
       },
+      {
+        label: "Boss Beginnings Contest",
+        path: "/boss-beginnings-contest",
+      },
     ],
   },
   { label: "Dashboard", path: "" },
@@ -41,7 +46,6 @@ const navLinks = [
 
 const Navbar = () => {
   const [isOpen, setOpen] = useState<boolean>(false);
-  // Tracks which nav link's submenu is open, by label. null = none open.
   const [openSubmenu, setOpenSubmenu] = useState<string | null>(null);
   const [lang, setLang] = useState<string>("en");
   const pathname = usePathname();
@@ -67,6 +71,12 @@ const Navbar = () => {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [openSubmenu]);
+
+  // Safety net: close the submenu and mobile sidebar whenever the route changes
+  useEffect(() => {
+    setOpenSubmenu(null);
+    setOpen(false);
+  }, [pathname]);
 
   return (
     <nav className="py-3 md:py-4 xl:py-5 border-b border-[#0000001C] sticky top-0 z-50 bg-white">
@@ -113,7 +123,7 @@ const Navbar = () => {
 
                       {/* Sub Menu */}
                       {hasSubMenu && isSubmenuOpen && (
-                        <div className="absolute top-full mt-3 left-0 bg-white z-50 shadow rounded-xl px-4 w-52">
+                        <div className="absolute top-full mt-3 left-0 bg-white z-50 shadow rounded-xl px-4 w-55">
                           {link?.subMenu?.map(subItem => {
                             const isActiveSubmenu = pathname === subItem?.path;
 

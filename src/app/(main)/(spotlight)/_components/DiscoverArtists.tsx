@@ -1,54 +1,15 @@
 "use client";
-import { Button } from "@/Components/Common/Button";
-import Container from "@/Components/Common/Container";
-import { artists } from "@/Components/Data/data";
-import { BookmarkSvg, LikeSvg, ShareSvg } from "@/Components/Svg/SvgContainer";
 import Image from "next/image";
-import { Swiper, SwiperSlide } from "swiper/react";
-import "swiper/css";
-import "swiper/css/free-mode";
-import { FreeMode } from "swiper/modules";
-import { BsArrowRight } from "react-icons/bs";
-import { LuSearch } from "react-icons/lu";
+import Container from "@/Components/Common/Container";
+import { BookmarkSvg, LikeSvg, ShareSvg } from "@/Components/Svg/SvgContainer";
 
-const tabs = [
-  {
-    id: "1",
-    tab: "All",
-    isActive: true,
-  },
-  {
-    id: "2",
-    tab: "Visual Artists",
-    isActive: false,
-  },
-  {
-    id: "3",
-    tab: "Photographers",
-    isActive: false,
-  },
-  {
-    id: "4",
-    tab: "Models",
-    isActive: false,
-  },
-  {
-    id: "5",
-    tab: "Digital Creators",
-    isActive: false,
-  },
-  {
-    id: "6",
-    tab: "Mixed Media",
-    isActive: false,
-  },
-];
+
+
 
 import {
   getArtistSpotlights,
   getBusinessSpotlights,
 } from "@/Hooks/api/cms_api";
-import { ArtistCategorySkeleton } from "@/Components/Loader/Loader";
 
 const DiscoverArtists = ({
   type = "artist",
@@ -83,7 +44,7 @@ const DiscoverArtists = ({
             </>
           )}
         </p>
-        <div className="flex items-center justify-between mt-20">
+        {/* <div className="flex items-center justify-between mt-20">
           <div className="w-full max-w-[370px] py-4 pl-5 flex items-center gap-3 pr-4 custom_border bg-white rounded-full">
             <LuSearch className="text-2xl" />
             <input
@@ -116,7 +77,7 @@ const DiscoverArtists = ({
               ))}
             </Swiper>
           </div>
-        </div>
+        </div> */}
 
         {isLoading ? (
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">
@@ -174,9 +135,9 @@ const DiscoverArtists = ({
             ))}
           </div>
         )}
-        <div className="flex justify-center pt-10">
+        {/* <div className="flex justify-center pt-10">
           <Button>Explore More</Button>
-        </div>
+        </div> */}
       </Container>
     </section>
   );

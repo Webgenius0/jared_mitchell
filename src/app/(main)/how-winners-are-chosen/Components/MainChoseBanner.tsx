@@ -1,5 +1,4 @@
 import sponsorshipBg from "@/Assets/boss.png";
-import { RightSvg } from "@/Components/Svg/SvgContainer";
 import { CMSBossBeginningsHero } from "@/Types/cms";
 
 interface BossBeginningBannerProps {
