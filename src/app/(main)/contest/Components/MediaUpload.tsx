@@ -7,7 +7,7 @@ import Media3 from "../../../../Assets/Rectangle 4438.png";
 export default function MediaUpload() {
   return (
     <section className="py-20">
-      <div className="container mx-auto">
+      <div className="container">
         <div className="grid grid-cols-3 gap-6">
           {[Media1, Media2, Media3, Media2, Media1, Media3].map(
             (image, index) => (
