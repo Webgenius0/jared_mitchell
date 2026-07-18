@@ -1,7 +1,9 @@
 "use client";
 import { useState } from "react";
-import { FiTrendingUp, FiEye } from "react-icons/fi";
+import { FiEye } from "react-icons/fi";
 import Link from "next/link";
+
+type Trend = "Up" | "Natural" | "Down";
 
 type Contestant = {
   id: number;
@@ -10,7 +12,7 @@ type Contestant = {
   owner: string;
   category: string;
   score: number;
-  trend: number;
+  trend: Trend;
   type: "business" | "artist";
 };
 
@@ -22,7 +24,7 @@ const CONTESTANTS: Contestant[] = [
     owner: "David Smith",
     category: "Professional Services",
     score: 4821,
-    trend: 385,
+    trend: "Up",
     type: "business",
   },
   {
@@ -32,7 +34,7 @@ const CONTESTANTS: Contestant[] = [
     owner: "Emily Williams",
     category: "Home & Garden",
     score: 4497,
-    trend: 385,
+    trend: "Natural",
     type: "business",
   },
   {
@@ -41,8 +43,8 @@ const CONTESTANTS: Contestant[] = [
     business: "Chic & Co Boutique",
     owner: "Michael Taylor",
     category: "Retail & Fashion",
-    score: 4470,
-    trend: 385,
+    score: 4497,
+    trend: "Down",
     type: "artist",
   },
   {
@@ -51,8 +53,8 @@ const CONTESTANTS: Contestant[] = [
     business: "Urban Threads Boutique",
     owner: "Michael Johnson",
     category: "Retail & Fashion",
-    score: 4459,
-    trend: 385,
+    score: 4497,
+    trend: "Up",
     type: "business",
   },
   {
@@ -61,8 +63,8 @@ const CONTESTANTS: Contestant[] = [
     business: "Urban Threads Boutique",
     owner: "Michael Johnson",
     category: "Retail & Fashion",
-    score: 4459,
-    trend: 385,
+    score: 4497,
+    trend: "Up",
     type: "artist",
   },
   {
@@ -71,8 +73,8 @@ const CONTESTANTS: Contestant[] = [
     business: "Urban Threads Boutique",
     owner: "Michael Johnson",
     category: "Retail & Fashion",
-    score: 4459,
-    trend: 385,
+    score: 4497,
+    trend: "Up",
     type: "business",
   },
   {
@@ -81,8 +83,8 @@ const CONTESTANTS: Contestant[] = [
     business: "Urban Threads Boutique",
     owner: "Michael Johnson",
     category: "Retail & Fashion",
-    score: 4459,
-    trend: 385,
+    score: 4497,
+    trend: "Natural",
     type: "artist",
   },
   {
@@ -91,8 +93,8 @@ const CONTESTANTS: Contestant[] = [
     business: "Urban Threads Boutique",
     owner: "Michael Johnson",
     category: "Retail & Fashion",
-    score: 4459,
-    trend: 385,
+    score: 4497,
+    trend: "Up",
     type: "business",
   },
   {
@@ -101,8 +103,8 @@ const CONTESTANTS: Contestant[] = [
     business: "Urban Threads Boutique",
     owner: "Michael Johnson",
     category: "Retail & Fashion",
-    score: 4459,
-    trend: 385,
+    score: 4497,
+    trend: "Up",
     type: "artist",
   },
   {
@@ -111,8 +113,8 @@ const CONTESTANTS: Contestant[] = [
     business: "Urban Threads Boutique",
     owner: "Michael Johnson",
     category: "Retail & Fashion",
-    score: 4459,
-    trend: 385,
+    score: 4497,
+    trend: "Up",
     type: "business",
   },
   {
@@ -121,8 +123,8 @@ const CONTESTANTS: Contestant[] = [
     business: "Urban Threads Boutique",
     owner: "Michael Johnson",
     category: "Retail & Fashion",
-    score: 4459,
-    trend: 385,
+    score: 4497,
+    trend: "Up",
     type: "artist",
   },
   {
@@ -131,8 +133,8 @@ const CONTESTANTS: Contestant[] = [
     business: "Urban Threads Boutique",
     owner: "Michael Johnson",
     category: "Retail & Fashion",
-    score: 4459,
-    trend: 385,
+    score: 4497,
+    trend: "Up",
     type: "business",
   },
 ];
@@ -149,7 +151,13 @@ const rankBadgeStyle = (rank: number) => {
   if (rank === 1) return "bg-amber-400 text-white";
   if (rank === 2) return "bg-gray-400 text-white";
   if (rank === 3) return "bg-orange-500 text-white";
-  return "bg-rose-100 text-rose-500";
+  return "bg-blue-50 text-blue-600";
+};
+
+const trendStyle = (trend: Trend) => {
+  if (trend === "Up") return "text-emerald-500";
+  if (trend === "Down") return "text-red-500";
+  return "text-blue-500";
 };
 
 export default function ContestTable() {
@@ -180,17 +188,23 @@ export default function ContestTable() {
       </div>
 
       {/* Table */}
-      <div className="bg-white  shadow-sm ">
+      <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full min-w-[500px] sm:min-w-[720px]">
             <thead>
-              <tr className="bg-blue-600 text-white text-sm sm:text-base lg:text-lg">
-                <th className="text-left font-medium px-3 sm:px-4 lg:px-6 py-3 sm:py-4">Rank</th>
-                <th className="text-left font-medium px-3 sm:px-4 lg:px-6 py-3 sm:py-4">Business</th>
-                <th className="text-left font-medium px-3 sm:px-4 lg:px-6 py-3 sm:py-4 hidden sm:table-cell">Category</th>
-                <th className="text-left font-medium px-3 sm:px-4 lg:px-6 py-3 sm:py-4">Total Score</th>
-                <th className="text-left font-medium px-3 sm:px-4 lg:px-6 py-3 sm:py-4 hidden sm:table-cell">Trend</th>
-                <th className="text-left font-medium px-3 sm:px-4 lg:px-6 py-3 sm:py-4"></th>
+              <tr className="bg-blue-600 text-white text-sm sm:text-base ">
+                <th className="text-left font-medium px-3 sm:px-4 lg:px-6 py-3 sm:py-4 w-1/5">
+                  Rank
+                </th>
+                <th className="text-left font-medium px-3 sm:px-4 lg:px-6 py-3 sm:py-4 w-1/4">
+                  Business
+                </th>
+                <th className="text-left font-medium px-3 sm:px-4 lg:px-6 py-3 sm:py-4 w-1/4">
+                  Total Score
+                </th>
+                <th className="text-left font-medium px-3 sm:px-4 lg:px-6 py-3 sm:py-4 w-1/4">
+                  Trend
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -216,22 +230,27 @@ export default function ContestTable() {
                     <div className="font-medium text-gray-900 text-sm sm:text-base">
                       {c.business}
                     </div>
-                    <div className="text-gray-400 text-[10px] sm:text-xs">{c.owner}</div>
+                    <div className="text-gray-400 text-[10px] sm:text-xs">
+                      {c.owner}
+                    </div>
                   </td>
-                  <td className="px-3 sm:px-4 lg:px-6 py-3 sm:py-4 text-gray-600 text-sm hidden sm:table-cell">{c.category}</td>
+
                   <td className="px-3 sm:px-4 lg:px-6 py-3 sm:py-4">
                     <div className="text-blue-600 font-semibold text-sm sm:text-base">
                       {c.score.toLocaleString()}
                     </div>
-                    <div className="text-gray-400 text-[10px] sm:text-xs">points</div>
+                    <div className="text-gray-400 text-[10px] sm:text-xs">
+                      points
+                    </div>
                   </td>
-                  <td className="px-3 sm:px-4 lg:px-6 py-3 sm:py-4 hidden sm:table-cell">
-                    <span className="inline-flex items-center gap-1 text-emerald-500 font-medium text-xs sm:text-sm">
-                      <FiTrendingUp className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+                  <td className="px-3 sm:px-4 lg:px-6 py-3 sm:py-4 flex items-center gap-20">
+                    <span
+                      className={`font-medium text-xs sm:text-sm w-10 ${trendStyle(
+                        c.trend,
+                      )}`}
+                    >
                       {c.trend}
                     </span>
-                  </td>
-                  <td className="px-3 sm:px-4 lg:px-6 py-3 sm:py-4 text-right">
                     <Link
                       href={`/contest/${c.id}`}
                       className="inline-flex items-center gap-1.5 bg-blue-600 hover:bg-blue-700 text-white text-[10px] sm:text-xs font-medium px-2.5 sm:px-4 py-1.5 sm:py-2 rounded-sm transition-colors whitespace-nowrap"
