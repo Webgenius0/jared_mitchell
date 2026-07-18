@@ -1,7 +1,8 @@
 "use client";
 import { useState } from "react";
-import { FiEye } from "react-icons/fi";
+import { FiEye, FiUsers } from "react-icons/fi";
 import Link from "next/link";
+import { PiSuitcaseSimple, PiPalette } from "react-icons/pi";
 
 type Trend = "Up" | "Natural" | "Down";
 
@@ -140,12 +141,33 @@ const CONTESTANTS: Contestant[] = [
 ];
 
 const TABS = [
-  { key: "all", label: "All" },
-  { key: "business", label: "Business Spotlights" },
-  { key: "artist", label: "Artist Spotlights" },
+  { key: "all", label: "All", icon: FiUsers },
+  { key: "business", label: "Business Spotlights", icon: PiSuitcaseSimple },
+  { key: "artist", label: "Artist Spotlights", icon: PiPalette },
 ] as const;
 
 type TabKey = (typeof TABS)[number]["key"];
+
+const TAB_CONTENT = {
+  all: {
+    title: "All Contestants",
+    description:
+      "Browse all businesses and artists competing in this season's spotlight contest. Vote for your favorites and help them rise to the top.",
+    totalLabel: "Total Contestants",
+  },
+  business: {
+    title: "Business Spotlights",
+    description:
+      "Discover innovative local businesses making an impact in their communities. Support them with your votes and engagement.",
+    totalLabel: "Total Businesses",
+  },
+  artist: {
+    title: "Artist Spotlights",
+    description:
+      "Explore talented artists showcasing their craft. From visual arts to performing arts — discover and support creative excellence.",
+    totalLabel: "Total Artists",
+  },
+} as const;
 
 const rankBadgeStyle = (rank: number) => {
   if (rank === 1) return "bg-amber-400 text-white";
@@ -168,27 +190,58 @@ export default function ContestTable() {
       ? CONTESTANTS
       : CONTESTANTS.filter(c => c.type === activeTab);
 
+  const tabContent = TAB_CONTENT[activeTab];
+  const TabIcon = TABS.find(t => t.key === activeTab)!.icon;
+
   return (
     <div className="container mx-auto">
       {/* Tabs */}
-      <div className="rounded-2xl border border-black/15 bg-white shadow-[0_4px_20px_0_rgba(0,0,0,0.07)] p-3 sm:p-5 flex flex-wrap gap-2 mt-6 sm:mt-8 mb-8 sm:mb-15">
-        {TABS.map(tab => (
-          <button
-            key={tab.key}
-            onClick={() => setActiveTab(tab.key)}
-            className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-              activeTab === tab.key
-                ? "bg-blue-50 text-blue-600 border border-blue-200"
-                : "text-gray-500 hover:bg-gray-50 border border-transparent"
-            }`}
-          >
-            {tab.label}
-          </button>
-        ))}
+      <div className="rounded-2xl border border-black/15 bg-white shadow-[0_4px_20px_0_rgba(0,0,0,0.07)] p-3 sm:p-5 flex flex-wrap gap-2 mt-6 sm:mt-8">
+        {TABS.map(tab => {
+          const Icon = tab.icon;
+          return (
+            <button
+              key={tab.key}
+              onClick={() => setActiveTab(tab.key)}
+              className={`inline-flex items-center gap-2 px-4 py-2 rounded text-sm font-medium transition-colors ${
+                activeTab === tab.key
+                  ? "bg-blue-50 text-blue-600 border border-blue-200"
+                  : "text-gray-500 hover:bg-gray-50 border border-transparent"
+              }`}
+            >
+              <Icon className="size-4" />
+              {tab.label}
+            </button>
+          );
+        })}
+      </div>
+
+      {/* Tab content card */}
+      <div className="rounded-2xl border border-black/10 bg-white p-6 mb-6">
+        <div className="flex items-start justify-between">
+          <div>
+            <div className="flex items-center gap-3 mb-2">
+              <div className="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center">
+                <TabIcon className="size-5 text-blue-600" />
+              </div>
+              <div>
+                <h3 className="text-xl sm:text-2xl font-semibold text-[#101828]">
+                  {tabContent.title}
+                </h3>
+                <p className="text-sm text-black/50">
+                  {tabContent.totalLabel}: {filtered.length}
+                </p>
+              </div>
+            </div>
+            <p className="text-sm sm:text-base text-[#1D1D1F] max-w-2xl mt-3">
+              {tabContent.description}
+            </p>
+          </div>
+        </div>
       </div>
 
       {/* Table */}
-      <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+      <div className="bg-white border border-gray-100 shadow-sm overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full min-w-[500px] sm:min-w-[720px]">
             <thead>
@@ -197,7 +250,7 @@ export default function ContestTable() {
                   Rank
                 </th>
                 <th className="text-left font-medium px-3 sm:px-4 lg:px-6 py-3 sm:py-4 w-1/4">
-                  Business
+                  {activeTab === "artist" ? "Artist" : "Business"}
                 </th>
                 <th className="text-left font-medium px-3 sm:px-4 lg:px-6 py-3 sm:py-4 w-1/4">
                   Total Score
