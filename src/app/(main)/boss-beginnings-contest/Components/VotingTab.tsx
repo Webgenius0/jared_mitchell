@@ -332,10 +332,10 @@ export default function VotingTab({
                 <th className="text-left font-medium px-3 sm:px-4 lg:px-6 py-3 sm:py-4 w-1/4">
                   Business
                 </th>
-                <th className="text-left font-medium px-3 sm:px-4 lg:px-6 py-3 sm:py-4 w-1/4">
+                <th className="text-center font-medium px-3 sm:px-4 lg:px-6 py-3 sm:py-4 w-1/4">
                   Total Score
                 </th>
-                <th className="text-left font-medium px-3 sm:px-4 lg:px-6 py-3 sm:py-4 w-1/4">
+                <th className="text-enter font-medium px-3 sm:px-4 lg:px-6 py-3 sm:py-4 w-1/4 ">
                   Trend
                 </th>
               </tr>
@@ -366,7 +366,7 @@ export default function VotingTab({
                     </div>
                   </td>
 
-                  <td className="px-3 sm:px-4 lg:px-6 py-3 sm:py-4">
+                  <td className="px-3 sm:px-4 lg:px-6 py-3 sm:py-4 text-center">
                     <div className="text-blue-600 font-semibold text-sm sm:text-base">
                       {b.score.toLocaleString()}
                     </div>
@@ -374,7 +374,7 @@ export default function VotingTab({
                       points
                     </div>
                   </td>
-                  <td className="px-3 sm:px-4 lg:px-6 py-3 sm:py-4 flex items-center gap-20">
+                  <td className="px-3 sm:px-4 lg:px-6 py-3 sm:py-4 flex items-center gap-20 justify-end">
                     <span
                       className={`font-medium text-xs sm:text-sm w-10 ${trendStyle(
                         b.trend,

@@ -95,19 +95,19 @@ const QUARTERLY_CYCLES: QuarterlyCycle[] = [
 
 const statusConfig = {
   completed: {
-    // bg: "bg-emerald-50/40 border-emerald-500",
+    bg: "bg-white border-emerald-500",
     badge: "bg-emerald-100 text-emerald-700",
     badgeText: "Complete",
     iconColor: "text-emerald-600",
   },
   active: {
-    bg: "bg-blue-50/50 border-blue-500",
+    bg: "bg-white border-blue-500",
     badge: "bg-blue-100 text-blue-700",
     badgeText: "Active Now",
     iconColor: "text-blue-600",
   },
   upcoming: {
-    bg: "bg-gray-50 border-gray-200",
+    bg: "bg-white border-gray-300",
     badge: "bg-gray-100 text-gray-500",
     badgeText: "Upcoming",
     iconColor: "text-gray-400",
@@ -171,7 +171,7 @@ export default function LeaderboardTab() {
           return (
             <div
               key={event.id}
-              className={`p-4 rounded-xl border ${cfg} transition-all hover:shadow-md`}
+              className={`p-4 rounded-xl border ${cfg.bg} transition-all hover:shadow-md`}
             >
               <div className="flex items-start justify-between gap-3">
                 <div className="flex items-start gap-3">
@@ -244,45 +244,45 @@ export default function LeaderboardTab() {
       </div>
 
       {/* Quarterly cycles */}
-        <h3 className="text-base font-semibold text-black mb-4">
-          2025 Quarterly Cycle
-        </h3>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          {QUARTERLY_CYCLES.map(cycle => (
-            <div
-              key={cycle.id}
-              className={`p-5 rounded-xl border transition-all ${
-                cycle.isActive
-                  ? "bg-[#2563EB] text-white border-[#2563EB]"
-                  : "bg-[#F5F5F7] text-black border-transparent"
+      <h3 className="text-base font-semibold text-black mb-4">
+        2025 Quarterly Cycle
+      </h3>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        {QUARTERLY_CYCLES.map(cycle => (
+          <div
+            key={cycle.id}
+            className={`p-5 rounded-xl border transition-all ${
+              cycle.isActive
+                ? "bg-[#2563EB] text-white border-[#2563EB]"
+                : "bg-[#F5F5F7] text-black border-transparent"
+            }`}
+          >
+            <h4
+              className={`text-base font-semibold mb-1 ${
+                cycle.isActive ? "text-white" : "text-black"
               }`}
             >
-              <h4
-                className={`text-base font-semibold mb-1 ${
-                  cycle.isActive ? "text-white" : "text-black"
-                }`}
-              >
-                {cycle.label}
-              </h4>
-              <p
-                className={`text-[12px] ${
-                  cycle.isActive ? "text-white/70" : "text-black/50"
-                }`}
-              >
-                {cycle.dateRange}
+              {cycle.label}
+            </h4>
+            <p
+              className={`text-[12px] ${
+                cycle.isActive ? "text-white/70" : "text-black/50"
+              }`}
+            >
+              {cycle.dateRange}
+            </p>
+            {cycle.isActive ? (
+              <div className="mt-3 inline-flex items-center gap-1.5 bg-white/20 px-3 py-2 rounded-lg text-[11px] font-medium">
+                <span className="size-2 rounded-full bg-white animate-pulse" />
+                Active Now
+              </div>
+            ) : (
+              <p className="mt-3 text-black/40 border px-3 py-2 rounded-lg text-[12px] w-fit">
+                Upcoming
               </p>
-              {cycle.isActive ? (
-                <div className="mt-3 inline-flex items-center gap-1.5 bg-white/20 px-3 py-2 rounded-lg text-[11px] font-medium">
-                  <span className="size-2 rounded-full bg-white animate-pulse" />
-                  Active Now
-                </div>
-              ) : (
-                <p className="mt-3 text-black/40 border px-3 py-2 rounded-lg text-[12px] w-fit">
-                  Upcoming
-                </p>
-              )}
-            </div>
-          ))}
+            )}
+          </div>
+        ))}
       </div>
     </div>
   );

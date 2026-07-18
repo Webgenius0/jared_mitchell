@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { FiEye, FiUsers } from "react-icons/fi";
-import Link from "next/link";
 import { PiSuitcaseSimple, PiPalette } from "react-icons/pi";
 
 type Trend = "Up" | "Natural" | "Down";
@@ -182,7 +182,15 @@ const trendStyle = (trend: Trend) => {
   return "text-blue-500";
 };
 
+const slugify = (value: string) =>
+  value
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "");
+
 export default function ContestTable() {
+  const router = useRouter();
   const [activeTab, setActiveTab] = useState<TabKey>("all");
 
   const filtered =
@@ -192,6 +200,10 @@ export default function ContestTable() {
 
   const tabContent = TAB_CONTENT[activeTab];
   const TabIcon = TABS.find(t => t.key === activeTab)!.icon;
+
+  const handleViewProfile = (businessName: string) => {
+    router.push(`/contest/${slugify(businessName)}`);
+  };
 
   return (
     <div className="container mx-auto">
@@ -241,7 +253,7 @@ export default function ContestTable() {
       </div>
 
       {/* Table */}
-      <div className="bg-white border border-gray-100 shadow-sm overflow-hidden">
+      <div className="bg-white  border border-gray-100 shadow-sm overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full min-w-[500px] sm:min-w-[720px]">
             <thead>
@@ -250,12 +262,12 @@ export default function ContestTable() {
                   Rank
                 </th>
                 <th className="text-left font-medium px-3 sm:px-4 lg:px-6 py-3 sm:py-4 w-1/4">
-                  {activeTab === "artist" ? "Artist" : "Business"}
+                  Business
                 </th>
-                <th className="text-left font-medium px-3 sm:px-4 lg:px-6 py-3 sm:py-4 w-1/4">
+                <th className="text-center font-medium px-3 sm:px-4 lg:px-6 py-3 sm:py-4 w-1/4">
                   Total Score
                 </th>
-                <th className="text-left font-medium px-3 sm:px-4 lg:px-6 py-3 sm:py-4 w-1/4">
+                <th className="text-center font-medium px-3 sm:px-4 lg:px-6 py-3 sm:py-4 w-1/4">
                   Trend
                 </th>
               </tr>
@@ -288,7 +300,7 @@ export default function ContestTable() {
                     </div>
                   </td>
 
-                  <td className="px-3 sm:px-4 lg:px-6 py-3 sm:py-4">
+                  <td className="px-3 sm:px-4 lg:px-6 py-3 sm:py-4 text-center">
                     <div className="text-blue-600 font-semibold text-sm sm:text-base">
                       {c.score.toLocaleString()}
                     </div>
@@ -296,7 +308,7 @@ export default function ContestTable() {
                       points
                     </div>
                   </td>
-                  <td className="px-3 sm:px-4 lg:px-6 py-3 sm:py-4 flex items-center gap-20">
+                  <td className="px-3 sm:px-4 lg:px-6 py-3 sm:py-4 flex items-center gap-20 justify-end">
                     <span
                       className={`font-medium text-xs sm:text-sm w-10 ${trendStyle(
                         c.trend,
@@ -304,13 +316,13 @@ export default function ContestTable() {
                     >
                       {c.trend}
                     </span>
-                    <Link
-                      href={`/contest/${c.id}`}
+                    <button
+                      onClick={() => handleViewProfile(c.business)}
                       className="inline-flex items-center gap-1.5 bg-blue-600 hover:bg-blue-700 text-white text-[10px] sm:text-xs font-medium px-2.5 sm:px-4 py-1.5 sm:py-2 rounded-sm transition-colors whitespace-nowrap"
                     >
                       <FiEye className="h-3 w-3 sm:h-3.5 sm:w-3.5" />
                       View Profile
-                    </Link>
+                    </button>
                   </td>
                 </tr>
               ))}
