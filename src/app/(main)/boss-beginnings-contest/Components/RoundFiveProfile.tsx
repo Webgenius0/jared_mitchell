@@ -1,289 +1,63 @@
 "use client";
 
-import React from "react";
-import {
-  ArrowLeft,
-  MapPin,
-  TrendingUp,
-  Users,
-  Award,
-  Calendar,
-  Share2,
-  Bookmark,
-  ThumbsUp,
-  Crown,
-  Trophy,
-  Flame,
-  Medal,
-  Star,
-  Gem,
-} from "lucide-react";
-import { useRouter } from "next/navigation";
+import React, { useEffect, useState } from "react";
+import RoundBanner from "./RoundBanner";
+import { CMSBossBeginnings } from "@/Types/cms";
+import { getBossCms, getCMSAboutData } from "@/lib/Services/cms_service";
+import { PageLoader } from "@/Shared/PageLoader";
+import WinnersDetails from "../../how-winners-are-chosen/Components/WinnersDetails";
+import Sponsors from "../../_components/Sponsors";
+import NewsLetter from "@/Components/Common/NewsLetter";
 
 interface RoundFiveProfileProps {
   businessSlug: string;
 }
 
-export default function RoundFiveProfile({ businessSlug }: RoundFiveProfileProps) {
-  const router = useRouter();
+export default function RoundFiveProfile({
+  businessSlug,
+}: RoundFiveProfileProps) {
+  const [pageData, setPageData] = useState<CMSBossBeginnings | null>(null);
+  const [cmsData, setCmsData] = useState<Awaited<
+    ReturnType<typeof getCMSAboutData>
+  > | null>(null);
+  const [loading, setLoading] = useState(true);
 
-  const businessName = businessSlug
-    ? businessSlug
-        .split("-")
-        .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
-        .join(" ")
-    : "Business";
+  useEffect(() => {
+    let isMounted = true;
+
+    async function loadData() {
+      try {
+        const [bossCms, aboutCms] = await Promise.all([
+          getBossCms() as Promise<CMSBossBeginnings>,
+          getCMSAboutData(),
+        ]);
+        if (isMounted) {
+          setPageData(bossCms);
+          setCmsData(aboutCms);
+        }
+      } catch (err) {
+        console.error("Failed to load CMS data:", err);
+      } finally {
+        if (isMounted) setLoading(false);
+      }
+    }
+
+    loadData();
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  if (loading) {
+    return <PageLoader />;
+  }
 
   return (
-    <div className="min-h-screen bg-[#FFFAF0]">
-      {/* Top Navigation Bar */}
-      <div className="bg-white border-b border-yellow-100 sticky top-0 z-10">
-        <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
-          <button
-            onClick={() => router.back()}
-            className="flex items-center gap-2 text-[14px] text-slate-500 hover:text-amber-600 transition-colors group"
-          >
-            <ArrowLeft size={18} className="group-hover:-translate-x-1 transition-transform" />
-            Back to Contest
-          </button>
-          <div className="flex items-center gap-2">
-            <span className="inline-flex items-center gap-1.5 px-2 sm:px-3 py-1.5 rounded-full bg-gradient-to-r from-yellow-50 to-amber-50 text-[10px] sm:text-[12px] text-amber-700 font-medium border border-yellow-200 shadow-sm">
-              <Crown className="size-[10px] sm:size-3 text-amber-500" />
-              Round 5
-            </span>
-            <span className="inline-flex items-center gap-1.5 px-2 sm:px-3 py-1.5 rounded-full bg-gradient-to-r from-amber-50 to-orange-50 text-[10px] sm:text-[12px] text-orange-700 font-medium border border-amber-200 shadow-sm">
-              <Trophy className="size-[10px] sm:size-3 text-orange-500" />
-              Finals
-            </span>
-          </div>
-        </div>
-      </div>
-
-      <div className="max-w-7xl mx-auto px-4 py-8">
-        {/* Business Header Card */}
-        <div className="rounded-2xl border border-yellow-200 bg-white overflow-hidden mb-6 shadow-lg shadow-yellow-200/30">
-          <div className="bg-gradient-to-br from-amber-500 via-yellow-500 to-orange-500 px-4 sm:px-6 md:px-8 py-8 sm:py-10 md:py-12 text-white relative overflow-hidden">
-            {/* Championship glow effect */}
-            <div className="absolute inset-0">
-              <div className="absolute -top-40 -right-40 w-80 h-80 bg-yellow-300 rounded-full opacity-20 blur-3xl" />
-              <div className="absolute -bottom-20 -left-20 w-60 h-60 bg-orange-300 rounded-full opacity-20 blur-3xl" />
-              <div className="absolute top-1/2 left-1/2 w-40 h-40 bg-amber-300 rounded-full opacity-10 blur-2xl -translate-x-1/2 -translate-y-1/2" />
-            </div>
-            {/* Decorative stars */}
-            <div className="absolute inset-0 opacity-[0.08]">
-              <Star className="absolute top-8 left-12 size-6 fill-white" />
-              <Star className="absolute top-16 right-20 size-4 fill-white" />
-              <Star className="absolute bottom-12 left-24 size-5 fill-white" />
-              <Star className="absolute bottom-20 right-12 size-3 fill-white" />
-            </div>
-            <div className="relative z-10 text-center">
-              <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 mb-4">
-                <span className="inline-flex items-center gap-1.5 px-2.5 sm:px-4 py-1 rounded-full bg-white/20 text-[10px] sm:text-[12px] font-medium backdrop-blur-sm border border-white/30">
-                  <Crown className="size-[12px] sm:size-3.5" />
-                  Finalist
-                </span>
-                <span className="inline-flex items-center gap-1.5 px-2.5 sm:px-4 py-1 rounded-full bg-white/20 text-[10px] sm:text-[12px] font-medium backdrop-blur-sm border border-white/30">
-                  <Trophy className="size-[12px] sm:size-3.5" />
-                  Championship Contender
-                </span>
-              </div>
-              <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-2">{businessName}</h1>
-              <p className="text-amber-100 text-[14px] flex items-center justify-center gap-1.5">
-                <MapPin size={14} />
-                Indianapolis, IN
-              </p>
-              <div className="mt-6 flex items-center justify-center gap-3">
-                <button className="p-3 rounded-xl bg-white/20 hover:bg-white/30 transition-all hover:scale-105 active:scale-95 backdrop-blur-sm">
-                  <ThumbsUp size={18} />
-                </button>
-                <button className="p-3 rounded-xl bg-white/20 hover:bg-white/30 transition-all hover:scale-105 active:scale-95 backdrop-blur-sm">
-                  <Bookmark size={18} />
-                </button>
-                <button className="p-3 rounded-xl bg-white/20 hover:bg-white/30 transition-all hover:scale-105 active:scale-95 backdrop-blur-sm">
-                  <Share2 size={18} />
-                </button>
-              </div>
-            </div>
-          </div>
-
-          {/* Stats Grid */}
-          <div className="p-4 sm:p-6 md:p-8">
-            <h2 className="text-[13px] font-semibold text-amber-600 uppercase tracking-wider mb-5 flex items-center justify-center gap-2">
-              <Trophy size={14} />
-              Championship Scoreboard
-            </h2>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 md:gap-5">
-              <div className="p-3 sm:p-4 md:p-5 rounded-xl bg-gradient-to-br from-amber-50 to-white border border-amber-200 text-center">
-                <p className="text-[12px] text-amber-600/70 font-medium mb-1">Final Score</p>
-                <p className="text-3xl font-bold text-amber-700">96</p>
-                <p className="text-[11px] text-amber-600 flex items-center justify-center gap-1 mt-1.5">
-                  <TrendingUp size={12} />
-                  +4 pts this round
-                </p>
-              </div>
-              <div className="p-3 sm:p-4 md:p-5 rounded-xl bg-gradient-to-br from-yellow-50 to-white border border-yellow-200 text-center">
-                <p className="text-[12px] text-yellow-600/70 font-medium mb-1">OSI Rating</p>
-                <p className="text-3xl font-bold text-yellow-700">9.8</p>
-                <p className="text-[11px] text-yellow-600 mt-1.5">Exceptional experience</p>
-              </div>
-              <div className="p-3 sm:p-4 md:p-5 rounded-xl bg-gradient-to-br from-orange-50 to-white border border-orange-200 text-center">
-                <p className="text-[12px] text-orange-600/70 font-medium mb-1">Experience Score</p>
-                <p className="text-3xl font-bold text-orange-700">98</p>
-                <p className="text-[11px] text-orange-600 mt-1.5">Customer delight</p>
-              </div>
-              <div className="p-3 sm:p-4 md:p-5 rounded-xl bg-gradient-to-br from-amber-50 to-white border border-amber-200 text-center">
-                <p className="text-[12px] text-amber-600/70 font-medium mb-1">Final Rank</p>
-                <div className="flex items-center justify-center gap-1">
-                  <p className="text-3xl font-bold text-amber-700">#1</p>
-                  <Gem className="size-6 text-amber-500" />
-                </div>
-                <p className="text-[11px] text-amber-600 mt-1.5">Championship leader</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Round Context Card */}
-        <div className="rounded-2xl border border-yellow-200 bg-white p-4 sm:p-6 mb-6 shadow-lg shadow-yellow-200/20">
-          <div className="flex items-start gap-4">
-            <div className="w-14 h-14 rounded-full bg-gradient-to-br from-amber-100 to-yellow-100 flex items-center justify-center shrink-0 border border-yellow-200">
-              <Crown className="size-6 text-amber-600" />
-            </div>
-            <div>
-              <h2 className="text-[15px] sm:text-[18px] font-semibold text-slate-800 mb-1">
-                Round 5 — Final Championship
-              </h2>
-              <p className="text-[13px] text-slate-500 leading-relaxed">
-                The ultimate round. OSI experiences each finalist firsthand by purchasing a product
-                or service. Evaluations are based on communication, quality, delivery, and overall
-                customer experience. The highest combined score wins the Boss Beginnings title.
-              </p>
-              <div className="mt-4 flex flex-wrap items-center gap-3 sm:gap-4 text-[11px] sm:text-[12px] text-slate-500">
-                <span className="flex items-center gap-1">
-                  <Users size={13} className="text-amber-500" />
-                  8 Finalists
-                </span>
-                <span className="flex items-center gap-1">
-                  <Trophy size={13} className="text-amber-500" />
-                  1 Winner
-                </span>
-                <span className="flex items-center gap-1">
-                  <Star size={13} className="text-amber-500" />
-                  OSI Customer Experience
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* OSI Customer Experience Evaluation */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 mb-6">
-          <div className="rounded-2xl border border-yellow-200 bg-white p-4 sm:p-6 shadow-lg shadow-yellow-200/20">
-            <h2 className="text-[16px] font-semibold text-slate-800 mb-4 flex items-center gap-2">
-              <Flame size={18} className="text-amber-500" />
-              OSI Experience Evaluation
-            </h2>
-            <div className="space-y-4">
-              {[
-                { criterion: "Communication", score: 98, detail: "Prompt, professional responses" },
-                { criterion: "Product/Service Quality", score: 96, detail: "Exceeded expectations" },
-                { criterion: "Delivery & Execution", score: 95, detail: "On time, flawless" },
-                { criterion: "Professionalism", score: 97, detail: "Exceptional service" },
-              ].map((item) => (
-                <div key={item.criterion}>
-                  <div className="flex items-center justify-between mb-1">
-                    <span className="text-[12px] text-slate-600">{item.criterion}</span>
-                    <span className="flex items-center gap-1.5">
-                      <span className="text-[12px] text-amber-600 font-semibold">{item.score}%</span>
-                      <span className="text-[11px] text-slate-400">{item.detail}</span>
-                    </span>
-                  </div>
-                  <div className="w-full h-2.5 bg-amber-50 rounded-full overflow-hidden">
-                    <div
-                      className="h-full rounded-full bg-gradient-to-r from-amber-400 via-yellow-500 to-orange-500"
-                      style={{ width: `${item.score}%` }}
-                    />
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="rounded-2xl border border-yellow-200 bg-white p-4 sm:p-6 shadow-lg shadow-yellow-200/20">
-            <h2 className="text-[16px] font-semibold text-slate-800 mb-4 flex items-center gap-2">
-              <Medal size={18} className="text-amber-500" />
-              Championship Standings
-            </h2>
-            <div className="space-y-3">
-              {[
-                { rank: 1, name: businessName, score: "96.2", highlight: true },
-                { rank: 2, name: "Business Two", score: "93.8", highlight: false },
-                { rank: 3, name: "Business Three", score: "91.5", highlight: false },
-              ].map((finalist) => (
-                <div
-                  key={finalist.rank}
-                  className={`flex items-center gap-4 p-3 rounded-xl border transition-all ${
-                    finalist.highlight
-                      ? "bg-gradient-to-r from-amber-50 to-yellow-50 border-amber-300 shadow-sm"
-                      : "bg-slate-50 border-slate-200"
-                  }`}
-                >
-                  <div className={`w-8 h-8 rounded-lg flex items-center justify-center text-sm font-bold ${
-                    finalist.rank === 1 ? "bg-amber-400 text-white" :
-                    finalist.rank === 2 ? "bg-slate-400 text-white" :
-                    "bg-orange-400 text-white"
-                  }`}>
-                    #{finalist.rank}
-                  </div>
-                  <div className="flex-1">
-                    <span className={`text-[13px] font-medium ${
-                      finalist.highlight ? "text-amber-800" : "text-slate-600"
-                    }`}>
-                      {finalist.name}
-                    </span>
-                  </div>
-                  <div className={`text-[14px] font-bold ${
-                    finalist.highlight ? "text-amber-700" : "text-slate-500"
-                  }`}>
-                    {finalist.score}
-                  </div>
-                  {finalist.highlight && (
-                    <Crown size={16} className="text-amber-500" />
-                  )}
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        {/* About Section */}
-        <div className="rounded-2xl border border-yellow-200 bg-white p-4 sm:p-6 shadow-lg shadow-yellow-200/20">
-          <h2 className="text-[16px] font-semibold text-slate-800 mb-3 flex items-center gap-2">
-            <Award size={18} className="text-amber-500" />
-            Why {businessName} Deserves the Crown
-          </h2>
-          <p className="text-[12px] sm:text-[13px] text-slate-500 leading-relaxed">
-            {businessName} has demonstrated exceptional performance across all rounds of the Boss
-            Beginnings competition. From community engagement to business storytelling, and now to
-            the final OSI customer experience evaluation — they have proven that they have what it
-            takes to be crowned the champion.
-          </p>
-          <div className="mt-4 flex flex-wrap gap-2">
-            {["Champion Material", "Community Loved", "Quality Focused", "Investment Ready", "Future Leader"].map(
-              (tag) => (
-                <span
-                  key={tag}
-                  className="px-3 py-1.5 rounded-full bg-gradient-to-r from-amber-50 to-yellow-50 text-[12px] text-amber-700 font-medium border border-amber-200 shadow-sm"
-                >
-                  {tag}
-                </span>
-              )
-            )}
-          </div>
-        </div>
-
-        <div className="h-12" />
-      </div>
-    </div>
+    <>
+      <RoundBanner data={pageData?.boss_beginnings_hero} />
+      <WinnersDetails hideVotingSections={true} />
+      <Sponsors data={cmsData?.about_sponsors} title="Our Event Sponsors" />
+      <NewsLetter title="Be part of the movement. Get stories, updates, and opportunities straight to your inbox." />
+    </>
   );
 }
