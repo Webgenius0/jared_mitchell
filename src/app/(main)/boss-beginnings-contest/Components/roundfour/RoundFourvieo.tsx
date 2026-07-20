@@ -21,7 +21,7 @@ const defaultItems: VideoItem[] = [
 ];
 
 const VideoTile = ({ item }: { item: VideoItem }) => {
-  const [playing, setPlaying] = useState(false);
+  const [playing, setPlaying] = useState(true);
 
   if (playing) {
     return (

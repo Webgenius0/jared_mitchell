@@ -155,6 +155,66 @@ const BASE_BUSINESSES: Omit<Business, "score" | "trend">[] = [
     owner: "Maya Thompson",
     category: "Health & Wellness",
   },
+  {
+    rank: 11,
+    name: "Pinnacle Consulting",
+    owner: "Robert Chen",
+    category: "Professional Services",
+  },
+  {
+    rank: 12,
+    name: "Bloom & Grow Nursery",
+    owner: "Lisa Park",
+    category: "Home & Garden",
+  },
+  {
+    rank: 13,
+    name: "Velvet & Vine",
+    owner: "Daniel Garcia",
+    category: "Retail & Fashion",
+  },
+  {
+    rank: 14,
+    name: "Summit Coffee Roasters",
+    owner: "Amanda Lee",
+    category: "Food & Beverage",
+  },
+  {
+    rank: 15,
+    name: "CoreFit Studio",
+    owner: "Marcus Brown",
+    category: "Health & Wellness",
+  },
+  {
+    rank: 16,
+    name: "Harbor Bookshop",
+    owner: "Rachel Kim",
+    category: "Retail & Fashion",
+  },
+  {
+    rank: 17,
+    name: "Evergreen Landscaping",
+    owner: "Tom Wilson",
+    category: "Home & Garden",
+  },
+  {
+    rank: 18,
+    name: "Bright Ideas Agency",
+    owner: "Jessica Taylor",
+    category: "Professional Services",
+  },
+  {
+    rank: 19,
+    name: "Golden Wheat Bakery",
+    owner: "Omar Hassan",
+    category: "Food & Beverage",
+  },
+  {
+    rank: 20,
+    name: "Tranquil Spa & Wellness",
+    owner: "Sophie Martin",
+    category: "Health & Wellness",
+  },
 ];
 
 function seededScore(base: number, round: number, seed: number) {
@@ -171,8 +231,11 @@ function seededTrend(round: number, seed: number): Trend {
   return "Down";
 }
 
+const ROUND_LIMITS = [20, 16, 12, 8, 5];
+
 function getRoundData(roundIndex: number): Business[] {
-  return BASE_BUSINESSES.map((b, i) => ({
+  const limit = ROUND_LIMITS[roundIndex] ?? 20;
+  return BASE_BUSINESSES.slice(0, limit).map((b, i) => ({
     ...b,
     score: 4900 - i * 40 + (seededScore(4900, roundIndex, i) % 60),
     trend: seededTrend(roundIndex, i),
@@ -218,23 +281,23 @@ export default function VotingTab({
   return (
     <div>
       {/* Header card */}
-      <div className="rounded-2xl border border-black/10 bg-white p-6 mb-6">
-        <div className="flex items-start justify-between mb-1">
+      <div className="rounded-2xl border border-black/10 bg-white p-4 sm:p-6 mb-6">
+        <div className="flex flex-col sm:flex-row sm:items-start justify-between mb-1 gap-3">
           <div>
-            <h3 className="text-2xl sm:text-3xl font-medium text-[#101828]">
+            <h3 className="text-xl sm:text-2xl lg:text-3xl font-medium text-[#101828]">
               {roundContent.title}
             </h3>
-            <p className="text-[13px] text-black/50 mt-0.5">
+            <p className="text-[12px] sm:text-[13px] text-black/50 mt-0.5">
               {roundContent.phase}
             </p>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 overflow-x-auto pb-1 -mx-1 px-1">
             {ROUNDS.map((round, i) => (
               <button
                 key={round}
                 onClick={() => setActiveRound(i)}
-                className={`px-4 py-1.5 rounded-lg text-[13px] font-normal transition-colors ${
+                className={`shrink-0 px-3 sm:px-4 py-1.5 rounded-lg text-[11px] sm:text-[13px] font-normal transition-colors ${
                   activeRound === i
                     ? "bg-[#2563EB] text-white"
                     : "bg-[#EEF1F6] text-black/50 hover:bg-black/10"
@@ -262,7 +325,7 @@ export default function VotingTab({
             </div>
           )}
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 xl:gap-0 mt-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 mt-5">
             <div className="flex gap-3 sm:gap-4 items-center">
               <div className="w-14 h-14 sm:w-17 sm:h-17 rounded-full bg-[#1977DD29] flex justify-center items-center shrink-0">
                 <FiUsers className="size-5 sm:size-6 text-blue-400" />
@@ -382,13 +445,15 @@ export default function VotingTab({
                     >
                       {b.trend}
                     </span>
-                    <button
-                      onClick={() => handleViewProfile(b.name)}
-                      className="inline-flex items-center gap-1.5 bg-blue-600 hover:bg-blue-700 text-white text-[10px] sm:text-xs font-medium px-2.5 sm:px-4 py-1.5 sm:py-2 rounded-sm transition-colors whitespace-nowrap"
-                    >
-                      <FiEye className="h-3 w-3 sm:h-3.5 sm:w-3.5" />
-                      View Profile
-                    </button>
+                    {activeRound !== 4 && (
+                      <button
+                        onClick={() => handleViewProfile(b.name)}
+                        className="inline-flex items-center gap-1.5 bg-blue-600 hover:bg-blue-700 text-white text-[10px] sm:text-xs font-medium px-2.5 sm:px-4 py-1.5 sm:py-2 rounded-sm transition-colors whitespace-nowrap"
+                      >
+                        <FiEye className="h-3 w-3 sm:h-3.5 sm:w-3.5" />
+                        View Profile
+                      </button>
+                    )}
                   </td>
                 </tr>
               ))}
