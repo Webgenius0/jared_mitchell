@@ -61,18 +61,21 @@ const defaultData = [
 ];
 
 const CoreValues = ({ data: cmsData }: { data?: CMSCoreValue }) => {
-  const values = cmsData?.metadata?.map((m, i) => ({
-    id: i + 1,
-    icon: m.icon,
-    title: m.title,
-    sub_title: m.sub_title,
-    description: m.description,
-  })) || defaultData;
+  const values =
+    cmsData?.metadata?.map((m, i) => ({
+      id: i + 1,
+      icon: m.icon,
+      title: m.title,
+      sub_title: m.sub_title,
+      description: m.description,
+    })) || defaultData;
 
   return (
     <section className="bg-[#FAFAFA] section">
       <div className="container">
-        <h2 className="section_title !mb-5 md:!mb-8 lg:!mb-12">{cmsData?.title || "Our Core Values"}</h2>
+        <h2 className="section_title !mb-5 md:!mb-8 lg:!mb-12">
+          {cmsData?.title || "Our Core Values"}
+        </h2>
 
         <div className="w-full h-auto min-h-[680px] overflow-hidden hidden md:flex items-center justify-center rounded-2xl relative">
           <Image
@@ -91,11 +94,13 @@ const CoreValues = ({ data: cmsData }: { data?: CMSCoreValue }) => {
                 >
                   <div className="flex gap-3 items-center">
                     <p className="size-10 xl:size-13 rounded-full border border-[#D6E5F5] shadow-[0_4px_20px_0_rgba(0,0,0,0.07)] bg-[#D6E5F5] grid place-items-center shrink-0">
-                      {typeof val.icon === 'string' ? (
-                        <i className={`${val.icon} text-xl xl:text-2xl text-primary-blue`} />
-                      ) : (
+                      {typeof val.icon === "string" ? (
+                        <i
+                          className={`${val.icon} text-4xl text-primary-blue`}
+                        />
+                      ) : typeof val.icon === "function" ? (
                         <val.icon />
-                      )}
+                      ) : null}
                     </p>
 
                     <h3 className="lg:text-lg xl:text-xl 2xl:text-2xl text-primary-black font-semibold">
@@ -124,11 +129,13 @@ const CoreValues = ({ data: cmsData }: { data?: CMSCoreValue }) => {
             >
               <div className="flex gap-3 items-center">
                 <p className="size-10 xl:size-13 rounded-full border border-[#D6E5F5] shadow-[0_4px_20px_0_rgba(0,0,0,0.07)] bg-[#D6E5F5] grid place-items-center shrink-0">
-                  {typeof val.icon === 'string' ? (
-                    <i className={`${val.icon} text-xl xl:text-2xl text-primary-blue`} />
-                  ) : (
+                  {typeof val.icon === "string" ? (
+                    <i
+                      className={`${val.icon} text-xl xl:text-2xl text-primary-blue`}
+                    />
+                  ) : typeof val.icon === "function" ? (
                     <val.icon />
-                  )}
+                  ) : null}
                 </p>
 
                 <h3 className="lg:text-lg xl:text-xl 2xl:text-2xl text-primary-black font-semibold">
