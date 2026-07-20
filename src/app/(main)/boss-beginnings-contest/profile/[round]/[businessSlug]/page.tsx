@@ -34,6 +34,5 @@ export default function BusinessProfilePage() {
     return <RoundFiveProfile businessSlug={businessSlug} />;
   }
 
-  // Fallback if the round param doesn't match anything known
   return <RoundOneProfile businessSlug={businessSlug} />;
 }
