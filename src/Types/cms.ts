@@ -30,7 +30,7 @@ export interface CMSWhyChoose extends CMSBase {
 
 export interface CMSCoreValue extends CMSBase {
   metadata: {
-    icon: string;
+    image: string;
     title: string;
     sub_title: string;
     description: string;
@@ -39,7 +39,7 @@ export interface CMSCoreValue extends CMSBase {
 
 export interface CMSWhatYouGet extends CMSBase {
   metadata: {
-    icon: string;
+    image: string;
     title: string;
   }[];
 }
@@ -72,6 +72,7 @@ export interface CMSHomepage {
   shop: CMSShop;
   cta: CMSCTA;
   newsletter: CMSNewsletter;
+  static_banner: CMSFeature;
 }
 
 export interface CMSAboutHero extends CMSBase {}

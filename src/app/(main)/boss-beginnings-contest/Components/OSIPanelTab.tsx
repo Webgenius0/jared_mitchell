@@ -93,23 +93,23 @@ export default function OSIPanelTab() {
           className="rounded-2xl border border-black/10 bg-white overflow-hidden"
         >
           {/* Round header */}
-          <div className="bg-[#2563EB] px-6 py-5 flex items-center gap-5 text-white">
+          <div className="bg-[#2563EB] px-4 sm:px-6 py-4 sm:py-5 flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-5 text-white">
             <div className="bg-white/20 size-14 flex items-center justify-center rounded-full shrink-0">
               <round.icon className="size-6" />
             </div>
             <div>
-              <h4 className="text-lg font-medium uppercase flex items-center gap-3">
-                <span className="text-sm font-normal  py-1 ">
+              <h4 className="text-base sm:text-lg font-medium uppercase flex flex-wrap items-center gap-2 sm:gap-3">
+                <span className="text-xs sm:text-sm font-normal py-1">
                   ROUND {round.roundNumber}
                 </span>
                 {round.title}
               </h4>
-              <p className="text-sm text-white/80 mt-0.5">{round.sub_title}</p>
+              <p className="text-xs sm:text-sm text-white/80 mt-0.5">{round.sub_title}</p>
             </div>
           </div>
 
           {/* Round content */}
-          <div className="p-6 space-y-5">
+          <div className="p-4 sm:p-6 space-y-4 sm:space-y-5">
             {/* Goal */}
             <div>
               <h6 className="text-[#2563EB] text-base font-medium mb-2 flex items-center gap-2">
@@ -146,11 +146,11 @@ export default function OSIPanelTab() {
       ))}
 
       {/* Why this system is fair */}
-      <div className=" bg-[#306FDC] py-20 text-white">
-        <h3 className="text-5xl  font-bold mb-4 text-center uppercase tracking-wider  text-white">
+      <div className=" bg-[#306FDC] py-12 sm:py-16 lg:py-20 px-4 text-white">
+        <h3 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 text-center uppercase tracking-wider text-white">
           WHY THIS SYSTEM IS FAIR
         </h3>
-        <div className="space-y-3 border-b border-white/20 pb-5 mb-5">
+        <div className="space-y-3 border-b border-white/20 pb-5 mb-5 max-w-5xl mx-auto">
           {[
             "Every business knows exactly what is required each round",
             "Advancement is earned, not random",
@@ -164,7 +164,7 @@ export default function OSIPanelTab() {
             </div>
           ))}
         </div>
-        <p className="text-[24px] text-center text-white/80 max-w-3xl mx-auto">
+        <p className="text-lg sm:text-xl lg:text-[24px] text-center text-white/80 max-w-3xl mx-auto">
           Boss Beginnings isn't just about winning — it's about proving
           readiness, impact, and excellence step by step.
         </p>

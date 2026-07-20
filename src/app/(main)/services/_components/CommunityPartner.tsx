@@ -1,12 +1,15 @@
 "use client";
+import { useState } from "react";
 import { Button } from "@/Components/Common/Button";
 import SponsorSlider from "@/Components/Common/SponsorSlider";
 import { sponsorsData } from "@/Components/Data/data";
 import { HandShakeSvg } from "@/Components/Svg/SvgContainer";
 import { BsArrowRight } from "react-icons/bs";
 import { CMSServicesPartners } from "@/Types/cms";
+import { SponsorModal } from "@/Components/Common/BecomeSponsorModal";
 
 const CommunityPartner = ({ data }: { data?: CMSServicesPartners }) => {
+  const [isSponsorModalOpen, setIsSponsorModalOpen] = useState(false);
   const logos = data?.metadata?.map((m, i) => ({
     id: i + 1,
     image: m.image,
@@ -36,11 +39,15 @@ const CommunityPartner = ({ data }: { data?: CMSServicesPartners }) => {
         <SponsorSlider logos={logos} reverse={true} />
       </div>
       <div className="text-center mt-8 space-x-4">
-        <Button>
+        <Button onClick={() => setIsSponsorModalOpen(true)}>
           Become a Sponsor
           <BsArrowRight className="text-2xl" />
         </Button>
       </div>
+
+      {isSponsorModalOpen && (
+        <SponsorModal onClose={() => setIsSponsorModalOpen(false)} />
+      )}
     </section>
   );
 };

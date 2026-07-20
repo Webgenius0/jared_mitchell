@@ -1,18 +1,11 @@
 import coreValueBg from "@/Assets/core_values.jpg";
-import {
-  OFiveSvg,
-  OFourSvg,
-  OOneSvg,
-  OThreeSvg,
-  OTwoSvg,
-} from "@/Components/Svg/SvgContainer";
 import Image from "next/image";
 import { CMSCoreValue } from "@/Types/cms";
 
 const defaultData = [
   {
     id: 1,
-    icon: OOneSvg,
+    image: "",
     title: "Intentional Visibility",
     sub_title: "Visibility should be thoughtful, not random.",
     description:
@@ -20,7 +13,7 @@ const defaultData = [
   },
   {
     id: 2,
-    icon: OTwoSvg,
+    image: "",
     title: "Community Over Vanity Metrics",
     sub_title: "Real support matters more than likes.",
     description:
@@ -28,7 +21,7 @@ const defaultData = [
   },
   {
     id: 3,
-    icon: OTwoSvg,
+    image: "",
     title: "Accessibility Without Exploitation",
     sub_title: "Opportunity shouldn’t depend on privilege",
     description:
@@ -36,7 +29,7 @@ const defaultData = [
   },
   {
     id: 4,
-    icon: OThreeSvg,
+    image: "",
     title: "Respect for the Craft",
     sub_title: "Creative work deserves dignity.",
     description:
@@ -44,7 +37,7 @@ const defaultData = [
   },
   {
     id: 5,
-    icon: OFourSvg,
+    image: "",
     title: "Progress Over Perfection",
     sub_title: "Momentum creates growth.",
     description:
@@ -52,7 +45,7 @@ const defaultData = [
   },
   {
     id: 6,
-    icon: OFiveSvg,
+    image: "",
     title: "We Win When You Win",
     sub_title: "Success should be shared",
     description:
@@ -61,18 +54,21 @@ const defaultData = [
 ];
 
 const CoreValues = ({ data: cmsData }: { data?: CMSCoreValue }) => {
-  const values = cmsData?.metadata?.map((m, i) => ({
-    id: i + 1,
-    icon: m.icon,
-    title: m.title,
-    sub_title: m.sub_title,
-    description: m.description,
-  })) || defaultData;
+  const values =
+    cmsData?.metadata?.map((m, i) => ({
+      id: i + 1,
+      image: m.image,
+      title: m.title,
+      sub_title: m.sub_title,
+      description: m.description,
+    })) || defaultData;
 
   return (
     <section className="bg-[#FAFAFA] section">
       <div className="container">
-        <h2 className="section_title !mb-5 md:!mb-8 lg:!mb-12">{cmsData?.title || "Our Core Values"}</h2>
+        <h2 className="section_title !mb-5 md:!mb-8 lg:!mb-12">
+          {cmsData?.title || "Our Core Values"}
+        </h2>
 
         <div className="w-full h-auto min-h-[680px] overflow-hidden hidden md:flex items-center justify-center rounded-2xl relative">
           <Image
@@ -90,13 +86,19 @@ const CoreValues = ({ data: cmsData }: { data?: CMSCoreValue }) => {
                   className="rounded-2xl border space-y-4 border-[rgba(0,0,0,0.16)] bg-white shadow-[0_4px_20px_0_rgba(0,0,0,0.07)] p-3 lg:py-4 2xl:py-6 lg:px-6 2xl:px-8"
                 >
                   <div className="flex gap-3 items-center">
-                    <p className="size-10 xl:size-13 rounded-full border border-[#D6E5F5] shadow-[0_4px_20px_0_rgba(0,0,0,0.07)] bg-[#D6E5F5] grid place-items-center shrink-0">
-                      {typeof val.icon === 'string' ? (
-                        <i className={`${val.icon} text-xl xl:text-2xl text-primary-blue`} />
-                      ) : (
-                        <val.icon />
-                      )}
-                    </p>
+                    {val.image ? (
+                      <div className="size-10 xl:size-13 rounded-full overflow-hidden border border-[#D6E5F5] shadow-[0_4px_20px_0_rgba(0,0,0,0.07)] bg-[#D6E5F5] shrink-0 relative">
+                        <Image
+                          src={val.image}
+                          alt={val.title}
+                          fill
+                          sizes="(max-width: 768px) 40px, 52px"
+                          className="object-contain p-1.5"
+                        />
+                      </div>
+                    ) : (
+                      <div className="size-10 xl:size-13 rounded-full bg-[#D6E5F5] shrink-0" />
+                    )}
 
                     <h3 className="lg:text-lg xl:text-xl 2xl:text-2xl text-primary-black font-semibold">
                       {val?.title}
@@ -123,13 +125,19 @@ const CoreValues = ({ data: cmsData }: { data?: CMSCoreValue }) => {
               className="rounded-2xl border space-y-4 border-[rgba(0,0,0,0.16)] bg-white shadow-[0_4px_20px_0_rgba(0,0,0,0.07)] p-3 lg:py-4 2xl:py-6 lg:px-6 2xl:px-8"
             >
               <div className="flex gap-3 items-center">
-                <p className="size-10 xl:size-13 rounded-full border border-[#D6E5F5] shadow-[0_4px_20px_0_rgba(0,0,0,0.07)] bg-[#D6E5F5] grid place-items-center shrink-0">
-                  {typeof val.icon === 'string' ? (
-                    <i className={`${val.icon} text-xl xl:text-2xl text-primary-blue`} />
-                  ) : (
-                    <val.icon />
-                  )}
-                </p>
+                {val.image ? (
+                  <div className="size-10 xl:size-13 rounded-full overflow-hidden border border-[#D6E5F5] shadow-[0_4px_20px_0_rgba(0,0,0,0.07)] bg-[#D6E5F5] shrink-0 relative">
+                    <Image
+                      src={val.image}
+                      alt={val.title}
+                      fill
+                      sizes="(max-width: 768px) 40px, 52px"
+                      className="object-contain p-1.5"
+                    />
+                  </div>
+                ) : (
+                  <div className="size-10 xl:size-13 rounded-full bg-[#D6E5F5] shrink-0" />
+                )}
 
                 <h3 className="lg:text-lg xl:text-xl 2xl:text-2xl text-primary-black font-semibold">
                   {val?.title}

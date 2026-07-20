@@ -1,4 +1,4 @@
-import Container from "@/Components/Common/Container";
+import Image from "next/image";
 import {
   AnnouncementSvg,
   BlueHeartSvg,
@@ -7,35 +7,40 @@ import {
 } from "@/Components/Svg/SvgContainer";
 import { CMSWhatYouGet } from "@/Types/cms";
 
-const defaultData = [
+const defaultData: {
+  id: number;
+  image: (() => React.JSX.Element) | string;
+  title: string;
+}[] = [
   {
     id: 1,
-    icon: AnnouncementSvg,
+    image: AnnouncementSvg,
     title: "Business visibility",
   },
   {
     id: 2,
-    icon: PeopleSvg,
+    image: PeopleSvg,
     title: "A marketing team",
   },
   {
     id: 3,
-    icon: GrowthSvg,
+    image: GrowthSvg,
     title: "A platform promoting you",
   },
   {
     id: 4,
-    icon: BlueHeartSvg,
+    image: BlueHeartSvg,
     title: "A community supporting you",
   },
 ];
 
 const WhatYouAreGetting = ({ data: cmsData }: { data?: CMSWhatYouGet }) => {
-  const items = cmsData?.metadata?.map((m, i) => ({
-    id: i + 1,
-    icon: m.icon,
-    title: m.title
-  })) || defaultData;
+  const items =
+    cmsData?.metadata?.map((m, i) => ({
+      id: i + 1,
+      image: m.image,
+      title: m.title,
+    })) || defaultData;
 
   return (
     <section className="section">
@@ -45,7 +50,8 @@ const WhatYouAreGetting = ({ data: cmsData }: { data?: CMSWhatYouGet }) => {
         </h2>
 
         <p className="text-lg md:text-xl lg:text-2xl text-center text-secondary-black mt-2 md:mt-4">
-          {cmsData?.sub_title || "You're not buying a membership — you're buying:"}
+          {cmsData?.sub_title ||
+            "You're not buying a membership — you're buying:"}
         </p>
 
         <div className="grid md:grid-cols-2 xl:grid-cols-4 gap-4 xl:gap-6 mt-7 md:mt-11">
@@ -56,10 +62,20 @@ const WhatYouAreGetting = ({ data: cmsData }: { data?: CMSWhatYouGet }) => {
             >
               <div className="flex items-center justify-center aspect-square bg-[rgba(25,119,221,0.16)] size-14 md:size-[100px] rounded-full">
                 <div className="md:scale-[130%] 2xl:scale-[160%]">
-                  {typeof item.icon === 'string' ? (
-                    <i className={`${item.icon} text-4xl text-primary-blue`} />
+                  {typeof item.image === "string" && item.image ? (
+                    <div className="size-10 xl:size-13 rounded-full overflow-hidden border border-[#D6E5F5] shadow-[0_4px_20px_0_rgba(0,0,0,0.07)] bg-[#D6E5F5] shrink-0 relative">
+                      <Image
+                        src={item.image}
+                        alt={item.title}
+                        fill
+                        sizes="(max-width: 768px) 40px, 52px"
+                        className="object-contain p-1.5"
+                      />
+                    </div>
+                  ) : typeof item.image === "function" ? (
+                    <item.image />
                   ) : (
-                    <item.icon />
+                    <div className="size-10 xl:size-13 rounded-full bg-[#D6E5F5] shrink-0" />
                   )}
                 </div>
               </div>

@@ -4,7 +4,6 @@ import HowSponsorshipWorks from "./_components/HowSponsorshipWorks";
 import SponsorshipLevel from "./_components/SponsorshipLevel";
 import BecomeSponsor from "./_components/BecomeSponsor";
 import FAQAccordion from "../services/_components/FAQAccordion";
-import EventSponsors from "../services/_components/EventSponsors";
 import NewsLetter from "@/Components/Common/NewsLetter";
 import SponsorshipBanner from "./_components/SponsorshipBanner";
 import {

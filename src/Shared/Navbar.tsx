@@ -153,7 +153,7 @@ const Navbar = () => {
 
           {/* Right */}
           <div className="flex gap-7 md:gap-10 2xl:gap-16 items-center">
-            <div className="flex items-center rounded-lg border border-[#E4E4E7]">
+            <div className="hidden md:flex items-center rounded-lg border border-[#E4E4E7]">
               <button
                 onClick={() => setLang("en")}
                 className={`px-3 md:px-3.5 lg:px-4 py-1 lg:py-1.5 cursor-pointer rounded-lg text-sm md:text-base ${

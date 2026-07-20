@@ -8,6 +8,7 @@ import "swiper/css/pagination";
 import { EffectCoverflow, Pagination } from "swiper/modules";
 import { CMSShop } from "@/Types/cms";
 import { useState, useEffect } from "react";
+import { SponsorModal } from "@/Components/Common/BecomeSponsorModal";
 
 import a1 from "@/Assets/a1.png";
 import a2 from "@/Assets/a2.png";
@@ -48,6 +49,7 @@ const products = [
 
 const OSIApparel = ({ data }: { data?: CMSShop }) => {
   const [isMobile, setIsMobile] = useState(false);
+  const [isSponsorModalOpen, setIsSponsorModalOpen] = useState(false);
 
   useEffect(() => {
     const check = () => setIsMobile(window.innerWidth < 640);
@@ -147,9 +149,15 @@ const OSIApparel = ({ data }: { data?: CMSShop }) => {
 
         <div className="mt-5 md:mt-10 flex justify-center gap-4 md:gap-6">
           <Button>Join OSI</Button>
-          <Button variant="outline">Become a Sponsor</Button>
+          <Button variant="outline" onClick={() => setIsSponsorModalOpen(true)}>
+            Become a Sponsor
+          </Button>
         </div>
       </div>
+
+      {isSponsorModalOpen && (
+        <SponsorModal onClose={() => setIsSponsorModalOpen(false)} />
+      )}
 
       <style jsx global>{`
         /* Wrapper to control overflow */

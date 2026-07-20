@@ -1,12 +1,16 @@
+"use client";
+import { useState } from "react";
 import sponsorshipBg from "@/Assets/boss.png";
 import { RightSvg } from "@/Components/Svg/SvgContainer";
 import { CMSBossBeginningsHero } from "@/Types/cms";
+import { SponsorModal } from "@/Components/Common/BecomeSponsorModal";
 
 interface BossBeginningBannerProps {
   data: CMSBossBeginningsHero;
 }
 
 const BossBeginningBanner = ({ data }: BossBeginningBannerProps) => {
+  const [isSponsorModalOpen, setIsSponsorModalOpen] = useState(false);
   const bgImage = data?.image ?? sponsorshipBg.src;
 
   return (
@@ -39,12 +43,19 @@ const BossBeginningBanner = ({ data }: BossBeginningBannerProps) => {
             <RightSvg />
           </button>
 
-          <button className="bg-white text-[#101828] border border-[#D1D5DC] rounded-full px-12 py-3 text-xl flex gap-2.5 items-center">
+          <button
+            onClick={() => setIsSponsorModalOpen(true)}
+            className="bg-white text-[#101828] border border-[#D1D5DC] rounded-full px-12 py-3 text-xl flex gap-2.5 items-center"
+          >
             Become a Sponsor
             <RightSvg />
           </button>
         </div>
       </div>
+
+      {isSponsorModalOpen && (
+        <SponsorModal onClose={() => setIsSponsorModalOpen(false)} />
+      )}
     </section>
   );
 };

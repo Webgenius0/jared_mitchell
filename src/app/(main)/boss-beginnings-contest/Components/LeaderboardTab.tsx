@@ -128,7 +128,7 @@ export default function LeaderboardTab() {
   return (
     <div className="space-y-6 mt-10">
       {/* Timeline header card */}
-      <div className="bg-[#2563EB]  px-6 py-6 text-white">
+      <div className="bg-[#2563EB] px-4 sm:px-6 py-4 sm:py-6 text-white">
         <div className="flex items-center gap-3 mb-2">
           <Calendar className="size-7" />
           <h2 className="text-xl font-semibold">Q1 2025 Timeline</h2>
@@ -138,18 +138,18 @@ export default function LeaderboardTab() {
         </p>
       </div>
 
-      <div className="p-6 rounded-2xl border border-black/15 bg-white shadow-[0_4px_20px_0_rgba(0,0,0,0.07)] mt-10">
-        <div className="flex items-center justify-between mb-4">
+      <div className="p-4 sm:p-6 rounded-2xl border border-black/15 bg-white shadow-[0_4px_20px_0_rgba(0,0,0,0.07)] mt-8 sm:mt-10">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
           <div>
-            <h3 className="text-base font-semibold text-black">
+            <h3 className="text-sm sm:text-base font-semibold text-black">
               Quarter Progress
             </h3>
-            <p className="text-[13px] text-black/50">
+            <p className="text-[12px] sm:text-[13px] text-black/50">
               January 1 - March 31, 2025
             </p>
           </div>
-          <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-blue-50 text-[#2563EB] text-[12px] font-medium">
-            <Clock size={14} />
+          <div className="flex items-center gap-2 px-2.5 sm:px-3 py-1.5 rounded-lg bg-blue-50 text-[#2563EB] text-[11px] sm:text-[12px] font-medium w-fit">
+            <Clock className="size-[13px]" />
             12 days remaining
           </div>
         </div>
@@ -202,7 +202,7 @@ export default function LeaderboardTab() {
       </div>
 
       {/* Key Dates */}
-      <div className="rounded-2xl border border-black/10 bg-white p-6">
+      <div className="rounded-2xl border border-black/10 bg-white p-4 sm:p-6">
         <h3 className="text-base font-semibold text-black mb-4">Key Dates</h3>
         <div className="space-y-0 divide-y divide-black/5">
           {KEY_DATES.map((item, idx) => (
@@ -220,7 +220,7 @@ export default function LeaderboardTab() {
       </div>
 
       {/* What happens after winning */}
-      <div className="rounded-2xl border border-black/10 bg-blue-50 p-6">
+      <div className="rounded-2xl border border-black/10 bg-blue-50 p-4 sm:p-6">
         <h3 className="text-base font-semibold text-black mb-4">
           What Happens After the Winner is Announced?
         </h3>
@@ -234,9 +234,9 @@ export default function LeaderboardTab() {
           ].map((item, idx) => (
             <div
               key={idx}
-              className="flex items-center gap-2 text-base text-black/70"
+              className="flex items-center gap-2 text-sm sm:text-base text-black/70"
             >
-              <Trophy className="size-4 text-[#2563EB] shrink-0" />
+              <Trophy className="size-3.5 sm:size-4 text-[#2563EB] shrink-0" />
               {item}
             </div>
           ))}
@@ -244,14 +244,14 @@ export default function LeaderboardTab() {
       </div>
 
       {/* Quarterly cycles */}
-      <h3 className="text-base font-semibold text-black mb-4">
+      <h3 className="text-sm sm:text-base font-semibold text-black mb-4">
         2025 Quarterly Cycle
       </h3>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
         {QUARTERLY_CYCLES.map(cycle => (
           <div
             key={cycle.id}
-            className={`p-5 rounded-xl border transition-all ${
+            className={`p-4 sm:p-5 rounded-xl border transition-all ${
               cycle.isActive
                 ? "bg-[#2563EB] text-white border-[#2563EB]"
                 : "bg-[#F5F5F7] text-black border-transparent"
