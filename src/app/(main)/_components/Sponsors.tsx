@@ -1,8 +1,10 @@
-import React from "react";
+"use client";
+import React, { useState } from "react";
 import SponsorSlider from "@/Components/Common/SponsorSlider";
 import { sponsorsData } from "@/Components/Data/data";
 import { CMSPartner } from "@/Types/cms";
 import { Button } from "@/Components/Common/Button";
+import { SponsorModal } from "@/Components/Common/BecomeSponsorModal";
 
 interface SponsorsProps {
   data?: CMSPartner | any;
@@ -11,6 +13,7 @@ interface SponsorsProps {
 }
 
 const Sponsors = ({ data, title, showButton = true }: SponsorsProps) => {
+  const [isSponsorModalOpen, setIsSponsorModalOpen] = useState(false);
   const logos =
     data?.metadata?.map((m: any, i: number) => ({
       id: i + 1,
@@ -29,10 +32,13 @@ const Sponsors = ({ data, title, showButton = true }: SponsorsProps) => {
         <SponsorSlider logos={logos} reverse={true} />
         {showButton && (
           <div className="flex justify-center mt-5">
-            <Button>Become a Sponsor</Button>
+            <Button onClick={() => setIsSponsorModalOpen(true)}>Become a Sponsor</Button>
           </div>
         )}
       </div>
+      {isSponsorModalOpen && (
+        <SponsorModal onClose={() => setIsSponsorModalOpen(false)} />
+      )}
     </section>
   );
 };

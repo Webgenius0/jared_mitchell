@@ -1,11 +1,15 @@
+"use client";
+import { useState } from "react";
 import { BsArrowRight } from "react-icons/bs";
 import { CMSSponsorshipPageFooter } from "@/Types/cms";
+import { SponsorModal } from "@/Components/Common/BecomeSponsorModal";
 
 interface BecomeSponsorProps {
   data: CMSSponsorshipPageFooter;
 }
 
 const BecomeSponsor = ({ data }: BecomeSponsorProps) => {
+  const [isSponsorModalOpen, setIsSponsorModalOpen] = useState(false);
   return (
     <section className="py-20 bg-primary-blue text-center">
       <div className="container">
@@ -18,11 +22,18 @@ const BecomeSponsor = ({ data }: BecomeSponsorProps) => {
             "Partner with Our Social Image and let us broadcast your message across our community. Whether you want weekly promotion or full-scale visibility, our sponsorships give your brand a powerful place in culture, creativity, and community growth."}
         </p>
 
-        <button className="bg-white border-2 border-[#D1D5DC] rounded-full flex items-center justify-center px-12 py-4 gap-1 text-primary-blue text-xl font-medium mx-auto mt-6">
+        <button
+          onClick={() => setIsSponsorModalOpen(true)}
+          className="bg-white border-2 border-[#D1D5DC] rounded-full flex items-center justify-center px-12 py-4 gap-1 text-primary-blue text-xl font-medium mx-auto mt-6"
+        >
           Sign Up as a Sponsor
           <BsArrowRight className="size-6" />
         </button>
       </div>
+
+      {isSponsorModalOpen && (
+        <SponsorModal onClose={() => setIsSponsorModalOpen(false)} />
+      )}
     </section>
   );
 };

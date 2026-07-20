@@ -1,8 +1,11 @@
+"use client";
+import { useState } from "react";
 import CustomVideoPlayer from "@/Components/Common/CustomVideoPlayer";
 import { CMSHero } from "@/Types/cms";
-import Link from "next/link";
+import { SponsorModal } from "@/Components/Common/BecomeSponsorModal";
 
 const Hero = ({ data }: { data?: CMSHero }) => {
+  const [isSponsorModalOpen, setIsSponsorModalOpen] = useState(false);
   return (
     <section className="container text-center pt-7 md:pt-10 xl:pt-5  2xl:pt-8">
       <h1 className="text-primary-black text-3xl md:text-4xl xl:text-[70px] font-bold xl:leading-[70px] tracking-[-1.28px] pb-3 xl:pb-0">
@@ -26,10 +29,17 @@ const Hero = ({ data }: { data?: CMSHero }) => {
           Join OSI
         </button>
 
-        <button className="bg-white text-primary-blue border border-[#D1D5DC] rounded-full px-4 md:px-6 xl:px-8 py-1 md:py-1.5 xl:py-2 text-sm lg:text-xl font-medium transition-all">
+        <button
+          onClick={() => setIsSponsorModalOpen(true)}
+          className="bg-white text-primary-blue border border-[#D1D5DC] rounded-full px-4 md:px-6 xl:px-8 py-1 md:py-1.5 xl:py-2 text-sm lg:text-xl font-medium transition-all"
+        >
           Sponsor Us
         </button>
       </div>
+
+      {isSponsorModalOpen && (
+        <SponsorModal onClose={() => setIsSponsorModalOpen(false)} />
+      )}
     </section>
   );
 };
