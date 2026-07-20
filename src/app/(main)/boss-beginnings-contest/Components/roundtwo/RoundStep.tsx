@@ -65,36 +65,53 @@ const RatingRow = ({ question }: { question: Question }) => {
         {question.title}
       </h3>
 
-      {/* Scale row */}
+          {/* Scale row */}
       <div className="relative">
-        <div className="grid grid-cols-10">
+        <div className="grid grid-cols-10 gap-0">
           {SCALE.map(n => (
-            <div key={n} className="flex flex-col items-center gap-2">
-              <span className="w-6 h-6 rounded-full border border-gray-300" />
-              <span className="text-sm text-gray-400">{n}</span>
+            <div key={n} className="flex flex-col items-center gap-1 md:gap-2">
+              <span className="w-4 h-4 md:w-6 md:h-6 rounded-full border border-gray-300" />
+              <span className="text-[10px] md:text-sm text-gray-400">{n}</span>
             </div>
           ))}
         </div>
-        <div className="h-px bg-gray-200 mt-3" />
+        <div className="h-px bg-gray-200 mt-2 md:mt-3" />
       </div>
 
-      {/* Tags row */}
-      <div className="grid grid-cols-10 mt-3">
-        {SCALE.map(n => {
-          const tag = tagByPosition.get(n);
-          if (!tag) return <div key={n} />;
-          return (
-            <div
-              key={n}
-              className="col-span-1 flex items-start gap-1.5 pr-2 -ml-1"
-            >
-              <span className="mt-0.5 flex-shrink-0 w-5 h-5 rounded-full bg-blue-100 flex items-center justify-center">
-                <Check className="w-3 h-3 text-blue-600" strokeWidth={3} />
+      {/* Tags row - horizontal scroll on mobile, grid on desktop */}
+      <div className="mt-3 overflow-x-auto -mx-2 px-2 md:overflow-visible md:mx-0 md:px-0">
+        <div className="flex md:hidden gap-2 min-w-max pb-2">
+          {SCALE.map(n => {
+            const tag = tagByPosition.get(n);
+            if (!tag) return null;
+            return (
+              <span
+                key={n}
+                className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-full bg-blue-50 border border-blue-100 text-[11px] text-gray-700 whitespace-nowrap"
+              >
+                <Check className="w-2.5 h-2.5 text-blue-600 shrink-0" strokeWidth={3} />
+                {tag.label}
               </span>
-              <span className="text-sm  text-gray-700">{tag.label}</span>
-            </div>
-          );
-        })}
+            );
+          })}
+        </div>
+        <div className="hidden md:grid grid-cols-10">
+          {SCALE.map(n => {
+            const tag = tagByPosition.get(n);
+            if (!tag) return <div key={n} />;
+            return (
+              <div
+                key={n}
+                className="col-span-1 flex items-start gap-1.5 pr-2 -ml-1"
+              >
+                <span className="mt-0.5 flex-shrink-0 w-5 h-5 rounded-full bg-blue-100 flex items-center justify-center">
+                  <Check className="w-3 h-3 text-blue-600" strokeWidth={3} />
+                </span>
+                <span className="text-[11px] lg:text-sm text-gray-700">{tag.label}</span>
+              </div>
+            );
+          })}
+        </div>
       </div>
     </div>
   );

@@ -46,13 +46,13 @@ export default function RoundFiveProfile({ businessSlug }: RoundFiveProfileProps
             <ArrowLeft size={18} className="group-hover:-translate-x-1 transition-transform" />
             Back to Contest
           </button>
-          <div className="flex items-center gap-2.5">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gradient-to-r from-yellow-50 to-amber-50 text-[12px] text-amber-700 font-medium border border-yellow-200 shadow-sm">
-              <Crown size={12} className="text-amber-500" />
+          <div className="flex items-center gap-2">
+            <span className="inline-flex items-center gap-1.5 px-2 sm:px-3 py-1.5 rounded-full bg-gradient-to-r from-yellow-50 to-amber-50 text-[10px] sm:text-[12px] text-amber-700 font-medium border border-yellow-200 shadow-sm">
+              <Crown className="size-[10px] sm:size-3 text-amber-500" />
               Round 5
             </span>
-            <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gradient-to-r from-amber-50 to-orange-50 text-[12px] text-orange-700 font-medium border border-amber-200 shadow-sm">
-              <Trophy size={12} className="text-orange-500" />
+            <span className="inline-flex items-center gap-1.5 px-2 sm:px-3 py-1.5 rounded-full bg-gradient-to-r from-amber-50 to-orange-50 text-[10px] sm:text-[12px] text-orange-700 font-medium border border-amber-200 shadow-sm">
+              <Trophy className="size-[10px] sm:size-3 text-orange-500" />
               Finals
             </span>
           </div>
@@ -62,7 +62,7 @@ export default function RoundFiveProfile({ businessSlug }: RoundFiveProfileProps
       <div className="max-w-7xl mx-auto px-4 py-8">
         {/* Business Header Card */}
         <div className="rounded-2xl border border-yellow-200 bg-white overflow-hidden mb-6 shadow-lg shadow-yellow-200/30">
-          <div className="bg-gradient-to-br from-amber-500 via-yellow-500 to-orange-500 px-8 py-12 text-white relative overflow-hidden">
+          <div className="bg-gradient-to-br from-amber-500 via-yellow-500 to-orange-500 px-4 sm:px-6 md:px-8 py-8 sm:py-10 md:py-12 text-white relative overflow-hidden">
             {/* Championship glow effect */}
             <div className="absolute inset-0">
               <div className="absolute -top-40 -right-40 w-80 h-80 bg-yellow-300 rounded-full opacity-20 blur-3xl" />
@@ -77,17 +77,17 @@ export default function RoundFiveProfile({ businessSlug }: RoundFiveProfileProps
               <Star className="absolute bottom-20 right-12 size-3 fill-white" />
             </div>
             <div className="relative z-10 text-center">
-              <div className="flex items-center justify-center gap-3 mb-4">
-                <span className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-white/20 text-[12px] font-medium backdrop-blur-sm border border-white/30">
-                  <Crown size={14} />
+              <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 mb-4">
+                <span className="inline-flex items-center gap-1.5 px-2.5 sm:px-4 py-1 rounded-full bg-white/20 text-[10px] sm:text-[12px] font-medium backdrop-blur-sm border border-white/30">
+                  <Crown className="size-[12px] sm:size-3.5" />
                   Finalist
                 </span>
-                <span className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-white/20 text-[12px] font-medium backdrop-blur-sm border border-white/30">
-                  <Trophy size={14} />
+                <span className="inline-flex items-center gap-1.5 px-2.5 sm:px-4 py-1 rounded-full bg-white/20 text-[10px] sm:text-[12px] font-medium backdrop-blur-sm border border-white/30">
+                  <Trophy className="size-[12px] sm:size-3.5" />
                   Championship Contender
                 </span>
               </div>
-              <h1 className="text-4xl font-bold mb-2">{businessName}</h1>
+              <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-2">{businessName}</h1>
               <p className="text-amber-100 text-[14px] flex items-center justify-center gap-1.5">
                 <MapPin size={14} />
                 Indianapolis, IN
@@ -107,13 +107,13 @@ export default function RoundFiveProfile({ businessSlug }: RoundFiveProfileProps
           </div>
 
           {/* Stats Grid */}
-          <div className="p-8">
+          <div className="p-4 sm:p-6 md:p-8">
             <h2 className="text-[13px] font-semibold text-amber-600 uppercase tracking-wider mb-5 flex items-center justify-center gap-2">
               <Trophy size={14} />
               Championship Scoreboard
             </h2>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-5">
-              <div className="p-5 rounded-xl bg-gradient-to-br from-amber-50 to-white border border-amber-200 text-center">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 md:gap-5">
+              <div className="p-3 sm:p-4 md:p-5 rounded-xl bg-gradient-to-br from-amber-50 to-white border border-amber-200 text-center">
                 <p className="text-[12px] text-amber-600/70 font-medium mb-1">Final Score</p>
                 <p className="text-3xl font-bold text-amber-700">96</p>
                 <p className="text-[11px] text-amber-600 flex items-center justify-center gap-1 mt-1.5">
@@ -121,17 +121,17 @@ export default function RoundFiveProfile({ businessSlug }: RoundFiveProfileProps
                   +4 pts this round
                 </p>
               </div>
-              <div className="p-5 rounded-xl bg-gradient-to-br from-yellow-50 to-white border border-yellow-200 text-center">
+              <div className="p-3 sm:p-4 md:p-5 rounded-xl bg-gradient-to-br from-yellow-50 to-white border border-yellow-200 text-center">
                 <p className="text-[12px] text-yellow-600/70 font-medium mb-1">OSI Rating</p>
                 <p className="text-3xl font-bold text-yellow-700">9.8</p>
                 <p className="text-[11px] text-yellow-600 mt-1.5">Exceptional experience</p>
               </div>
-              <div className="p-5 rounded-xl bg-gradient-to-br from-orange-50 to-white border border-orange-200 text-center">
+              <div className="p-3 sm:p-4 md:p-5 rounded-xl bg-gradient-to-br from-orange-50 to-white border border-orange-200 text-center">
                 <p className="text-[12px] text-orange-600/70 font-medium mb-1">Experience Score</p>
                 <p className="text-3xl font-bold text-orange-700">98</p>
                 <p className="text-[11px] text-orange-600 mt-1.5">Customer delight</p>
               </div>
-              <div className="p-5 rounded-xl bg-gradient-to-br from-amber-50 to-white border border-amber-200 text-center">
+              <div className="p-3 sm:p-4 md:p-5 rounded-xl bg-gradient-to-br from-amber-50 to-white border border-amber-200 text-center">
                 <p className="text-[12px] text-amber-600/70 font-medium mb-1">Final Rank</p>
                 <div className="flex items-center justify-center gap-1">
                   <p className="text-3xl font-bold text-amber-700">#1</p>
@@ -144,13 +144,13 @@ export default function RoundFiveProfile({ businessSlug }: RoundFiveProfileProps
         </div>
 
         {/* Round Context Card */}
-        <div className="rounded-2xl border border-yellow-200 bg-white p-6 mb-6 shadow-lg shadow-yellow-200/20">
+        <div className="rounded-2xl border border-yellow-200 bg-white p-4 sm:p-6 mb-6 shadow-lg shadow-yellow-200/20">
           <div className="flex items-start gap-4">
             <div className="w-14 h-14 rounded-full bg-gradient-to-br from-amber-100 to-yellow-100 flex items-center justify-center shrink-0 border border-yellow-200">
               <Crown className="size-6 text-amber-600" />
             </div>
             <div>
-              <h2 className="text-[18px] font-semibold text-slate-800 mb-1">
+              <h2 className="text-[15px] sm:text-[18px] font-semibold text-slate-800 mb-1">
                 Round 5 — Final Championship
               </h2>
               <p className="text-[13px] text-slate-500 leading-relaxed">
@@ -158,7 +158,7 @@ export default function RoundFiveProfile({ businessSlug }: RoundFiveProfileProps
                 or service. Evaluations are based on communication, quality, delivery, and overall
                 customer experience. The highest combined score wins the Boss Beginnings title.
               </p>
-              <div className="mt-4 flex items-center gap-4 text-[12px] text-slate-500">
+              <div className="mt-4 flex flex-wrap items-center gap-3 sm:gap-4 text-[11px] sm:text-[12px] text-slate-500">
                 <span className="flex items-center gap-1">
                   <Users size={13} className="text-amber-500" />
                   8 Finalists
@@ -177,8 +177,8 @@ export default function RoundFiveProfile({ businessSlug }: RoundFiveProfileProps
         </div>
 
         {/* OSI Customer Experience Evaluation */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-          <div className="rounded-2xl border border-yellow-200 bg-white p-6 shadow-lg shadow-yellow-200/20">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 mb-6">
+          <div className="rounded-2xl border border-yellow-200 bg-white p-4 sm:p-6 shadow-lg shadow-yellow-200/20">
             <h2 className="text-[16px] font-semibold text-slate-800 mb-4 flex items-center gap-2">
               <Flame size={18} className="text-amber-500" />
               OSI Experience Evaluation
@@ -209,7 +209,7 @@ export default function RoundFiveProfile({ businessSlug }: RoundFiveProfileProps
             </div>
           </div>
 
-          <div className="rounded-2xl border border-yellow-200 bg-white p-6 shadow-lg shadow-yellow-200/20">
+          <div className="rounded-2xl border border-yellow-200 bg-white p-4 sm:p-6 shadow-lg shadow-yellow-200/20">
             <h2 className="text-[16px] font-semibold text-slate-800 mb-4 flex items-center gap-2">
               <Medal size={18} className="text-amber-500" />
               Championship Standings
@@ -257,12 +257,12 @@ export default function RoundFiveProfile({ businessSlug }: RoundFiveProfileProps
         </div>
 
         {/* About Section */}
-        <div className="rounded-2xl border border-yellow-200 bg-white p-6 shadow-lg shadow-yellow-200/20">
+        <div className="rounded-2xl border border-yellow-200 bg-white p-4 sm:p-6 shadow-lg shadow-yellow-200/20">
           <h2 className="text-[16px] font-semibold text-slate-800 mb-3 flex items-center gap-2">
             <Award size={18} className="text-amber-500" />
             Why {businessName} Deserves the Crown
           </h2>
-          <p className="text-[13px] text-slate-500 leading-relaxed">
+          <p className="text-[12px] sm:text-[13px] text-slate-500 leading-relaxed">
             {businessName} has demonstrated exceptional performance across all rounds of the Boss
             Beginnings competition. From community engagement to business storytelling, and now to
             the final OSI customer experience evaluation — they have proven that they have what it
