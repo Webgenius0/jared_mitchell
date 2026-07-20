@@ -21,15 +21,14 @@ import FeaturedEvent from "./_components/FeaturedEvent";
 import NewsLetter from "@/Components/Common/NewsLetter";
 import { getCMSHomepageData } from "@/lib/Services/cms_service";
 
-
 const Page = async () => {
   const cmsData = await getCMSHomepageData();
-  
+
   return (
     <>
       <Hero data={cmsData?.hero} />
       <Sponsors data={cmsData?.partners} showButton={false} />
-      <PoweredByOSI data={cmsData?.features} />
+      <PoweredByOSI data={cmsData?.static_banner} />
       <WhyChoose data={cmsData?.why_choose} />
       <CoreValues data={cmsData?.core_values} />
       <WhatYouAreGetting data={cmsData?.what_you_get} />
@@ -59,4 +58,3 @@ const Page = async () => {
 };
 
 export default Page;
-

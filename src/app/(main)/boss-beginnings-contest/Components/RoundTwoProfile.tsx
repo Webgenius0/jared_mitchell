@@ -2,12 +2,20 @@
 
 import React, { useEffect, useState } from "react";
 import RoundBanner from "./RoundBanner";
-import { CMSBossBeginnings } from "@/Types/cms";
-import { getBossCms, getCMSAboutData } from "@/lib/Services/cms_service";
+import { CMSBossBeginnings, CMSHomepage, CMSEventsPage } from "@/Types/cms";
+import {
+  getBossCms,
+  getCMSAboutData,
+  getCMSHomepageData,
+  getEventsPageCms,
+} from "@/lib/Services/cms_service";
 import { PageLoader } from "@/Shared/PageLoader";
 import Sponsors from "../../_components/Sponsors";
 import NewsLetter from "@/Components/Common/NewsLetter";
 import RoundTwoAbout from "./roundtwo/RoundTwoAbout";
+import RoundStep from "./roundtwo/RoundStep";
+import Roundhero from "./Roundhero";
+
 
 interface RoundOneProfileProps {
   businessSlug: string;
@@ -16,10 +24,12 @@ interface RoundOneProfileProps {
 export default function RoundTwoProfile({
   businessSlug,
 }: RoundOneProfileProps) {
-  const [pageData, setPageData] = useState<CMSBossBeginnings | null>(null);
+  const [bossData, setBossData] = useState<CMSBossBeginnings | null>(null);
   const [cmsData, setCmsData] = useState<Awaited<
     ReturnType<typeof getCMSAboutData>
   > | null>(null);
+  const [homepageData, setHomepageData] = useState<CMSHomepage | null>(null);
+  const [eventsData, setEventsData] = useState<CMSEventsPage | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -27,13 +37,17 @@ export default function RoundTwoProfile({
 
     async function loadData() {
       try {
-        const [bossCms, aboutCms] = await Promise.all([
+        const [bossCms, aboutCms, homepageCms, eventsCms] = await Promise.all([
           getBossCms() as Promise<CMSBossBeginnings>,
           getCMSAboutData(),
+          getCMSHomepageData() as Promise<CMSHomepage>,
+          getEventsPageCms() as Promise<CMSEventsPage>,
         ]);
         if (isMounted) {
-          setPageData(bossCms);
+          setBossData(bossCms);
           setCmsData(aboutCms);
+          setHomepageData(homepageCms);
+          setEventsData(eventsCms);
         }
       } catch (err) {
         console.error("Failed to load CMS data:", err);
@@ -48,13 +62,6 @@ export default function RoundTwoProfile({
     };
   }, []);
 
-  const businessName = businessSlug
-    ? businessSlug
-        .split("-")
-        .map(w => w.charAt(0).toUpperCase() + w.slice(1))
-        .join(" ")
-    : "Business";
-
   if (loading) {
     return (
       <>
@@ -65,9 +72,11 @@ export default function RoundTwoProfile({
 
   return (
     <>
-      <RoundBanner data={pageData?.boss_beginnings_hero} />
+      <RoundBanner data={bossData?.boss_beginnings_hero} />
       <RoundTwoAbout />
-      <Sponsors data={cmsData?.about_sponsors} title="Our Event Sponsors" />
+      <Roundhero data={eventsData?.events_page_hero} />
+      <RoundStep />
+      <Sponsors data={homepageData?.partners} />
       <NewsLetter title="Be part of the movement. Get stories, updates, and opportunities straight to your inbox." />
     </>
   );
