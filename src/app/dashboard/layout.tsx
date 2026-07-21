@@ -212,45 +212,33 @@ const bossLinks = [
   },
   {
     id: 21,
-    label: "Voting Center",
-    path: "/dashboard/boss_beginning/voting-center",
+    label: "Business",
+    path: "/dashboard/boss_beginning/business",
     icon: <NSeventeenSvg />,
   },
   {
     id: 22,
-    label: "Leaderboards",
+    label: "Spotlight",
     path: "/dashboard/boss_beginning/leaderboards",
     icon: <NEighteenSvg />,
   },
   {
     id: 23,
-    label: "Promotion Tools",
-    path: "/dashboard/boss_beginning/promotion-tools",
+    label: "Analytics",
+    path: "/dashboard/boss_beginning/analytics",
     icon: <NNineTeenSvg />,
   },
   {
     id: 24,
-    label: "Billing & Payments",
-    path: "/dashboard/boss_beginning/payments",
+    label: "Events",
+    path: "/dashboard/boss_beginning/events",
     icon: <NSixteenSvg />,
   },
   {
     id: 25,
-    label: "Events & Vendors",
-    path: "/dashboard/boss_beginning/events",
+    label: "Boss Beginning",
+    path: "/dashboard/boss_beginning/boss-beginning",
     icon: <NTwentySvg />,
-  },
-  {
-    id: 25,
-    label: "Community Hub",
-    path: "/dashboard/boss_beginning/community-hub",
-    icon: <NTwentyOneSvg />,
-  },
-  {
-    id: 25,
-    label: "Activity Log",
-    path: "/dashboard/boss_beginning/activity-log",
-    icon: <NTwentyTwoSvg />,
   },
   {
     id: 26,
@@ -271,25 +259,10 @@ export default function DashboardLayout({
 
   return (
     <PrivateLayout>
-    <section className="min-h-screen max-h-screen flex">
-      {/* Sidebar */}
-      <DashboardSidebar
-        open={open}
-        setOpen={setOpen}
-        dashboardNavLinks={
-          resolvedType === "artist_business"
-            ? artistLinks
-            : resolvedType === "community_member"
-              ? communityMemberLinks
-              : resolvedType === "sponsor"
-                ? sponsorLinks
-                : bossLinks
-        }
-      />
-
-      <section className="flex-1 bg-[#F8F8FA] overflow-y-auto">
-        {/* Dashboard Header */}
-        <DashboardHeader
+      <section className="min-h-screen max-h-screen flex">
+        {/* Sidebar */}
+        <DashboardSidebar
+          open={open}
           setOpen={setOpen}
           dashboardNavLinks={
             resolvedType === "artist_business"
@@ -302,18 +275,33 @@ export default function DashboardLayout({
           }
         />
 
-        {/* Dashboard Outlet */}
-        <main className="p-5">{children}</main>
-      </section>
+        <section className="flex-1 bg-[#F8F8FA] overflow-y-auto">
+          {/* Dashboard Header */}
+          <DashboardHeader
+            setOpen={setOpen}
+            dashboardNavLinks={
+              resolvedType === "artist_business"
+                ? artistLinks
+                : resolvedType === "community_member"
+                  ? communityMemberLinks
+                  : resolvedType === "sponsor"
+                    ? sponsorLinks
+                    : bossLinks
+            }
+          />
 
-      {/* Blur Overlay */}
-      <div
-        onClick={() => setOpen(false)}
-        className={`fixed inset-0 bg-black/30 backdrop-blur-[3px] transition-opacity duration-300 2xl:hidden z-50 ${
-          open ? "opacity-100" : "opacity-0 pointer-events-none"
-        }`}
-      />
-    </section>
+          {/* Dashboard Outlet */}
+          <main className="p-5">{children}</main>
+        </section>
+
+        {/* Blur Overlay */}
+        <div
+          onClick={() => setOpen(false)}
+          className={`fixed inset-0 bg-black/30 backdrop-blur-[3px] transition-opacity duration-300 2xl:hidden z-50 ${
+            open ? "opacity-100" : "opacity-0 pointer-events-none"
+          }`}
+        />
+      </section>
     </PrivateLayout>
   );
 }
