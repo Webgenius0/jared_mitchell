@@ -1,8 +1,10 @@
 "use client";
 
-import React from "react";
-import { Eye, Pencil, Trash2 } from "lucide-react";
+import React, { useState } from "react";
+import { Eye, Pencil, Trash2, Globe, Calendar, User, Building2, FileText } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import Modal from "@/Components/Common/Modal";
 
 type BusinessStatus = "Approved" | "Terminated" | "Pending";
 
@@ -21,7 +23,7 @@ const businesses: Business[] = [
     id: "1",
     businessName: "New Year Campaign",
     ownerName: "TechKori Ltd.",
-    story: "The Walt Disney Company...",
+    story: "The Walt Disney Company has been a global leader in entertainment for decades...",
     websiteLink: "http://www.abc.com",
     date: "2025-01-01",
     status: "Approved",
@@ -30,7 +32,7 @@ const businesses: Business[] = [
     id: "2",
     businessName: "EduLearn Beta Launch",
     ownerName: "EduLearn Hub",
-    story: "The Walt Disney Company...",
+    story: "An innovative platform transforming how students learn with AI-powered tools...",
     websiteLink: "http://www.abc.com",
     date: "2025-01-01",
     status: "Terminated",
@@ -39,7 +41,7 @@ const businesses: Business[] = [
     id: "3",
     businessName: "EduLearn Beta Launch",
     ownerName: "EduLearn Hub",
-    story: "The Walt Disney Company...",
+    story: "An innovative platform transforming how students learn with AI-powered tools...",
     websiteLink: "http://www.abc.com",
     date: "2025-01-01",
     status: "Pending",
@@ -48,7 +50,7 @@ const businesses: Business[] = [
     id: "4",
     businessName: "New Year Campaign",
     ownerName: "TechKori Ltd.",
-    story: "The Walt Disney Company...",
+    story: "The Walt Disney Company has been a global leader in entertainment for decades...",
     websiteLink: "http://www.abc.com",
     date: "2025-01-01",
     status: "Approved",
@@ -82,10 +84,29 @@ const columns = [
 ];
 
 export default function Page() {
-  const handleView = (b: Business) => console.log("View", b);
-  const handleEdit = (b: Business) => console.log("Edit", b);
+  const router = useRouter();
+  const [selectedBusiness, setSelectedBusiness] = useState<Business | null>(
+    null,
+  );
+
+  const handleView = (b: Business) => setSelectedBusiness(b);
+
+  const handleEdit = (b: Business) => {
+    const data = {
+      businessName: b.businessName,
+      ownerName: b.ownerName,
+      story: b.story,
+      mission: "",
+      website: b.websiteLink,
+      communityImpact: "",
+      revenueStage: "",
+      whyCompete: "",
+    };
+    const encoded = encodeURIComponent(JSON.stringify(data));
+    router.push(`/dashboard/boss_beginning/business/create-business?edit=${encoded}`);
+  };
+
   const handleDelete = (b: Business) => console.log("Delete", b);
-  const handleCreate = () => console.log("Create new business");
 
   return (
     <div className="min-h-screen bg-[#F5F6F8]">
@@ -98,7 +119,6 @@ export default function Page() {
           <Link href={"/dashboard/boss_beginning/business/create-business"}>
             <button
               type="button"
-              onClick={handleCreate}
               className="bg-blue-500 text-white text-xs md:text-sm font-medium px-5 py-2 md:px-6 md:py-2.5 rounded-full hover:bg-blue-600 transition-colors"
             >
               Create
@@ -179,6 +199,76 @@ export default function Page() {
           </table>
         </div>
       </div>
+
+      {/* View Modal */}
+      <Modal
+        open={!!selectedBusiness}
+        onClose={() => setSelectedBusiness(null)}
+        title="Business Details"
+      >
+        {selectedBusiness && (
+          <div className="space-y-4 mt-2">
+            <div className="flex items-center gap-2">
+              <Building2 className="w-4 h-4 text-slate-400" />
+              <span className="text-sm text-slate-500 min-w-[100px]">Name</span>
+              <span className="text-sm font-medium text-slate-800">
+                {selectedBusiness.businessName}
+              </span>
+            </div>
+
+            <div className="flex items-center gap-2">
+              <User className="w-4 h-4 text-slate-400" />
+              <span className="text-sm text-slate-500 min-w-[100px]">
+                Owner
+              </span>
+              <span className="text-sm font-medium text-slate-800">
+                {selectedBusiness.ownerName}
+              </span>
+            </div>
+
+            <div className="flex items-start gap-2">
+              <FileText className="w-4 h-4 text-slate-400 mt-0.5" />
+              <span className="text-sm text-slate-500 min-w-[100px]">
+                Story
+              </span>
+              <span className="text-sm text-slate-800">
+                {selectedBusiness.story}
+              </span>
+            </div>
+
+            <div className="flex items-center gap-2">
+              <Globe className="w-4 h-4 text-slate-400" />
+              <span className="text-sm text-slate-500 min-w-[100px]">
+                Website
+              </span>
+              <a
+                href={selectedBusiness.websiteLink}
+                target="_blank"
+                className="text-sm text-blue-500 hover:underline"
+              >
+                {selectedBusiness.websiteLink}
+              </a>
+            </div>
+
+            <div className="flex items-center gap-2">
+              <Calendar className="w-4 h-4 text-slate-400" />
+              <span className="text-sm text-slate-500 min-w-[100px]">
+                Date
+              </span>
+              <span className="text-sm font-medium text-slate-800">
+                {selectedBusiness.date}
+              </span>
+            </div>
+
+            <div className="flex items-center gap-2">
+              <span className="text-sm text-slate-500 min-w-[100px]">
+                Status
+              </span>
+              <StatusBadge status={selectedBusiness.status} />
+            </div>
+          </div>
+        )}
+      </Modal>
     </div>
   );
 }

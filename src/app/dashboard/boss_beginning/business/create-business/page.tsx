@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useRef, useState, ChangeEvent, MouseEvent } from "react";
+import React, { useRef, useState, ChangeEvent, MouseEvent, Suspense } from "react";
+import { useSearchParams, useRouter } from "next/navigation";
 import {
   Baseline,
   Eraser,
@@ -26,6 +27,7 @@ import {
   X,
   UploadCloud,
 } from "lucide-react";
+import Link from "next/link";
 
 const FONT_SIZES = [12, 13, 14, 16, 18, 20, 24, 28, 32];
 
@@ -123,7 +125,6 @@ function RichTextField({
     editableRef.current?.focus();
   };
 
-  // Prevent the toolbar button from stealing focus/selection away from the editor
   const preventFocusLoss = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
   };
@@ -401,6 +402,7 @@ function RichTextField({
           data-placeholder={placeholder}
           onInput={emitChange}
           style={{ fontSize: `${fontSize}px` }}
+          dangerouslySetInnerHTML={{ __html: value }}
           className="w-full min-h-[140px] md:min-h-[160px] px-3 md:px-4 py-3 text-slate-700 focus:outline-none
             empty:before:content-[attr(data-placeholder)] empty:before:text-slate-400
             [&_h1]:text-xl [&_h1]:font-bold [&_h1]:my-1
@@ -462,17 +464,35 @@ interface FormState {
   whyCompete: string;
 }
 
-export default function Page() {
-  const [form, setForm] = useState<FormState>({
-    businessName: "",
-    ownerName: "",
-    story: "",
-    mission: "",
-    website: "",
-    communityImpact: "",
-    revenueStage: "",
-    whyCompete: "",
-  });
+function CreateBusinessForm() {
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const editData = searchParams.get("edit");
+
+  const parseEditData = (): FormState | null => {
+    if (!editData) return null;
+    try {
+      return JSON.parse(decodeURIComponent(editData));
+    } catch {
+      return null;
+    }
+  };
+
+  const prefill = parseEditData();
+  const isEditing = !!prefill;
+
+  const [form, setForm] = useState<FormState>(
+    prefill ?? {
+      businessName: "",
+      ownerName: "",
+      story: "",
+      mission: "",
+      website: "",
+      communityImpact: "",
+      revenueStage: "",
+      whyCompete: "",
+    },
+  );
   const [photoName, setPhotoName] = useState<string | null>(null);
 
   const updateField = (key: keyof FormState) => (value: string) => {
@@ -486,10 +506,33 @@ export default function Page() {
 
   const handleSave = () => {
     console.log("Saving form", form, photoName);
+    router.push("/dashboard/boss_beginning/business");
   };
 
   return (
     <div className="min-h-screen bg-white rounded-xl py-4 px-8">
+      {/* Header */}
+      <div className="flex items-center justify-between mb-6">
+        <div>
+          <h1 className="text-lg md:text-xl font-semibold text-slate-900">
+            {isEditing ? "Edit Business" : "Create Business"}
+          </h1>
+          <p className="text-sm text-slate-500 mt-1">
+            {isEditing
+              ? "Update your business information below"
+              : "Fill in the details to register your business"}
+          </p>
+        </div>
+        <Link href="/dashboard/boss_beginning/business">
+          <button
+            type="button"
+            className="text-sm text-slate-500 hover:text-slate-700 border border-slate-200 px-4 py-2 rounded-full hover:bg-slate-50 transition-colors"
+          >
+            Back to list
+          </button>
+        </Link>
+      </div>
+
       <div className="space-y-5">
         <TextInputField
           label="Business Name"
@@ -566,14 +609,32 @@ export default function Page() {
           </label>
         </div>
 
-        <button
-          type="button"
-          onClick={handleSave}
-          className="bg-blue-500 text-white text-sm md:text-base font-medium px-6 py-2.5 md:px-10 md:py-3 rounded-full hover:bg-blue-600 transition-colors"
-        >
-          Save
-        </button>
+        <div className="flex items-center gap-3">
+          <button
+            type="button"
+            onClick={handleSave}
+            className="bg-blue-500 text-white text-sm md:text-base font-medium px-6 py-2.5 md:px-10 md:py-3 rounded-full hover:bg-blue-600 transition-colors"
+          >
+            {isEditing ? "Update" : "Save"}
+          </button>
+          <Link href="/dashboard/boss_beginning/business">
+            <button
+              type="button"
+              className="text-sm md:text-base font-medium px-6 py-2.5 md:px-10 md:py-3 rounded-full border border-slate-200 text-slate-600 hover:bg-slate-50 transition-colors"
+            >
+              Cancel
+            </button>
+          </Link>
+        </div>
       </div>
     </div>
+  );
+}
+
+export default function Page() {
+  return (
+    <Suspense fallback={<div className="p-8 text-slate-500">Loading...</div>}>
+      <CreateBusinessForm />
+    </Suspense>
   );
 }
