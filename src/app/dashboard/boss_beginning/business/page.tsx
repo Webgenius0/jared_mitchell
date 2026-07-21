@@ -1,7 +1,15 @@
 "use client";
 
 import React, { useState } from "react";
-import { Eye, Pencil, Trash2, Globe, Calendar, User, Building2, FileText } from "lucide-react";
+import {
+  Eye,
+  Pencil,
+  Trash2,
+  Globe,
+  Building2,
+  User,
+  Play,
+} from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import Modal from "@/Components/Common/Modal";
@@ -13,7 +21,13 @@ interface Business {
   businessName: string;
   ownerName: string;
   story: string;
+  mission?: string;
   websiteLink: string;
+  communityImpact?: string;
+  revenueStage?: string;
+  whyCompete?: string;
+  videoThumbnail?: string;
+  gallery?: string[];
   date: string;
   status: BusinessStatus;
 }
@@ -23,8 +37,23 @@ const businesses: Business[] = [
     id: "1",
     businessName: "New Year Campaign",
     ownerName: "TechKori Ltd.",
-    story: "The Walt Disney Company has been a global leader in entertainment for decades...",
+    story:
+      "The Walt Disney Company has been a global leader in entertainment for decades...",
+    mission:
+      "To bring joy and inspiration to families everywhere through timeless storytelling and innovative campaigns.",
     websiteLink: "http://www.abc.com",
+    communityImpact:
+      "Partnered with 12 local schools to run free creative-writing workshops for kids this year.",
+    revenueStage: "Profitable, growing 18% quarter over quarter since launch.",
+    whyCompete:
+      "A locally-run campaign with measurable community reach and strong repeat engagement.",
+    videoThumbnail:
+      "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=1200&q=80",
+    gallery: [
+      "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=400&q=80",
+      "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=400&q=80",
+      "https://images.unsplash.com/photo-1551836022-d5d88e9218df?w=400&q=80",
+    ],
     date: "2025-01-01",
     status: "Approved",
   },
@@ -32,7 +61,8 @@ const businesses: Business[] = [
     id: "2",
     businessName: "EduLearn Beta Launch",
     ownerName: "EduLearn Hub",
-    story: "An innovative platform transforming how students learn with AI-powered tools...",
+    story:
+      "An innovative platform transforming how students learn with AI-powered tools...",
     websiteLink: "http://www.abc.com",
     date: "2025-01-01",
     status: "Terminated",
@@ -41,7 +71,8 @@ const businesses: Business[] = [
     id: "3",
     businessName: "EduLearn Beta Launch",
     ownerName: "EduLearn Hub",
-    story: "An innovative platform transforming how students learn with AI-powered tools...",
+    story:
+      "An innovative platform transforming how students learn with AI-powered tools...",
     websiteLink: "http://www.abc.com",
     date: "2025-01-01",
     status: "Pending",
@@ -50,7 +81,8 @@ const businesses: Business[] = [
     id: "4",
     businessName: "New Year Campaign",
     ownerName: "TechKori Ltd.",
-    story: "The Walt Disney Company has been a global leader in entertainment for decades...",
+    story:
+      "The Walt Disney Company has been a global leader in entertainment for decades...",
     websiteLink: "http://www.abc.com",
     date: "2025-01-01",
     status: "Approved",
@@ -70,6 +102,19 @@ function StatusBadge({ status }: { status: BusinessStatus }) {
     >
       {status}
     </span>
+  );
+}
+
+function InfoCard({ title, body }: { title: string; body?: string }) {
+  return (
+    <div className="bg-white rounded-2xl border border-slate-200 p-4 md:p-5">
+      <h3 className="text-sm md:text-base font-semibold text-slate-900 mb-2">
+        {title}
+      </h3>
+      <p className="text-xs md:text-sm text-slate-600 leading-relaxed whitespace-pre-line">
+        {body && body.trim() ? body : "No data provided."}
+      </p>
+    </div>
   );
 }
 
@@ -96,14 +141,16 @@ export default function Page() {
       businessName: b.businessName,
       ownerName: b.ownerName,
       story: b.story,
-      mission: "",
+      mission: b.mission ?? "",
       website: b.websiteLink,
-      communityImpact: "",
-      revenueStage: "",
-      whyCompete: "",
+      communityImpact: b.communityImpact ?? "",
+      revenueStage: b.revenueStage ?? "",
+      whyCompete: b.whyCompete ?? "",
     };
     const encoded = encodeURIComponent(JSON.stringify(data));
-    router.push(`/dashboard/boss_beginning/business/create-business?edit=${encoded}`);
+    router.push(
+      `/dashboard/boss_beginning/business/create-business?edit=${encoded}`,
+    );
   };
 
   const handleDelete = (b: Business) => console.log("Delete", b);
@@ -207,64 +254,119 @@ export default function Page() {
         title="Business Details"
       >
         {selectedBusiness && (
-          <div className="space-y-4 mt-2">
-            <div className="flex items-center gap-2">
-              <Building2 className="w-4 h-4 text-slate-400" />
-              <span className="text-sm text-slate-500 min-w-[100px]">Name</span>
-              <span className="text-sm font-medium text-slate-800">
-                {selectedBusiness.businessName}
-              </span>
+          <div className="space-y-5 mt-2">
+            {/* Header: business + owner */}
+            <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
+              <div className="flex items-center gap-2">
+                <Building2 className="w-4 h-4 md:w-[18px] md:h-[18px] text-slate-400" />
+                <span className="text-sm md:text-base font-medium text-slate-800">
+                  {selectedBusiness.businessName}
+                </span>
+              </div>
+              <div className="flex items-center gap-2">
+                <User className="w-4 h-4 md:w-[18px] md:h-[18px] text-slate-400" />
+                <span className="text-sm md:text-base text-slate-600">
+                  {selectedBusiness.ownerName}
+                </span>
+              </div>
             </div>
 
-            <div className="flex items-center gap-2">
-              <User className="w-4 h-4 text-slate-400" />
-              <span className="text-sm text-slate-500 min-w-[100px]">
-                Owner
-              </span>
-              <span className="text-sm font-medium text-slate-800">
-                {selectedBusiness.ownerName}
-              </span>
+            {/* Story + Mission */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <InfoCard title="Story" body={selectedBusiness.story} />
+              <InfoCard title="Mission" body={selectedBusiness.mission} />
             </div>
 
-            <div className="flex items-start gap-2">
-              <FileText className="w-4 h-4 text-slate-400 mt-0.5" />
-              <span className="text-sm text-slate-500 min-w-[100px]">
-                Story
-              </span>
-              <span className="text-sm text-slate-800">
-                {selectedBusiness.story}
-              </span>
-            </div>
-
-            <div className="flex items-center gap-2">
-              <Globe className="w-4 h-4 text-slate-400" />
-              <span className="text-sm text-slate-500 min-w-[100px]">
-                Website
-              </span>
+            {/* Website / social media */}
+            <div>
+              <h3 className="text-sm md:text-base font-semibold text-slate-900 mb-1.5">
+                Website/social media
+              </h3>
               <a
                 href={selectedBusiness.websiteLink}
                 target="_blank"
-                className="text-sm text-blue-500 hover:underline"
+                rel="noreferrer"
+                className="flex items-center gap-1.5 text-xs md:text-sm text-blue-500 hover:underline"
               >
+                <Globe className="w-3.5 h-3.5 md:w-4 md:h-4" />
                 {selectedBusiness.websiteLink}
               </a>
             </div>
 
-            <div className="flex items-center gap-2">
-              <Calendar className="w-4 h-4 text-slate-400" />
-              <span className="text-sm text-slate-500 min-w-[100px]">
-                Date
-              </span>
-              <span className="text-sm font-medium text-slate-800">
-                {selectedBusiness.date}
-              </span>
-            </div>
+            {/* Video + gallery */}
+            {(selectedBusiness.videoThumbnail ||
+              (selectedBusiness.gallery &&
+                selectedBusiness.gallery.length > 0)) && (
+              <div>
+                <h3 className="text-sm md:text-base font-semibold text-slate-900 mb-2">
+                  Video
+                </h3>
 
-            <div className="flex items-center gap-2">
-              <span className="text-sm text-slate-500 min-w-[100px]">
-                Status
-              </span>
-              <StatusBadge status={selectedBusiness.status} />
+                {selectedBusiness.videoThumbnail && (
+                  <div className="relative rounded-2xl overflow-hidden border border-slate-200">
+                    <img
+                      src={selectedBusiness.videoThumbnail}
+                      alt="Video thumbnail"
+                      className="w-full  object-cover"
+                    />
+                    <button
+                      type="button"
+                      className="absolute inset-0 flex items-center justify-center group"
+                    >
+                      <span className="w-12 h-12 md:w-14 md:h-14 rounded-full bg-white/90 flex items-center justify-center shadow-lg group-hover:scale-105 transition-transform">
+                        <Play
+                          className="w-5 h-5 md:w-6 md:h-6 text-slate-800 ml-0.5"
+                          fill="currentColor"
+                        />
+                      </span>
+                    </button>
+                  </div>
+                )}
+
+                {selectedBusiness.gallery &&
+                  selectedBusiness.gallery.length > 0 && (
+                    <div className="grid grid-cols-3 gap-2 md:gap-3 mt-2 md:mt-3">
+                      {selectedBusiness.gallery.map((src, i) => (
+                        <img
+                          key={i}
+                          src={src}
+                          alt={`Gallery ${i + 1}`}
+                          className="w-full object-cover rounded-xl border border-slate-200"
+                        />
+                      ))}
+                    </div>
+                  )}
+              </div>
+            )}
+
+            {/* Stacked full-width sections */}
+            <InfoCard
+              title="Community impact statement"
+              body={selectedBusiness.communityImpact}
+            />
+            <InfoCard
+              title="Revenue stage"
+              body={selectedBusiness.revenueStage}
+            />
+            <InfoCard
+              title="Why they deserve to compete"
+              body={selectedBusiness.whyCompete}
+            />
+
+            {/* Date + Status */}
+            <div className="flex items-center gap-6 pt-1">
+              <div className="flex items-center gap-2">
+                <span className="text-xs md:text-sm text-slate-500">Date</span>
+                <span className="text-xs md:text-sm font-medium text-slate-800">
+                  {selectedBusiness.date}
+                </span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="text-xs md:text-sm text-slate-500">
+                  Status
+                </span>
+                <StatusBadge status={selectedBusiness.status} />
+              </div>
             </div>
           </div>
         )}
