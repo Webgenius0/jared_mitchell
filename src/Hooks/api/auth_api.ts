@@ -48,7 +48,7 @@ export const useOtpVerification = () => {
       if (res?.success) {
         toast.success(res?.message);
         setToken(res?.data?.token);
-        router.push("/");
+        router.push("/dashboard");
       }
     },
     onError: (err: any) => {
@@ -87,7 +87,7 @@ export const useLogin = () => {
       if (res?.success) {
         setToken(res?.data?.token);
         toast.success(res?.message);
-        router.push("/");
+        router.push("/dashboard");
       }
     },
     onError: (err: any) => {

@@ -1,5 +1,6 @@
 "use client";
 import React, { useState } from "react";
+import useAuth from "@/Hooks/useAuth";
 import PrivateLayout from "@/Private/PrivateLayout";
 import DashboardSidebar from "@/Shared/DashboardSidebar";
 import {
@@ -27,6 +28,7 @@ import {
   NTwoSvg,
 } from "@/Components/Svg/SvgContainer";
 import DashboardHeader from "@/Shared/DashboardHeader";
+import { getUserDashboardType } from "@/lib/utils";
 import { CanvaSvg } from "@/Components/Svg/SvgContainer2";
 
 const artistLinks = [
@@ -263,22 +265,23 @@ export default function DashboardLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const user = "artist_business"; // artist_business || boss_beginning || community_member || sponsor
   const [open, setOpen] = useState<boolean>(false);
+  const { user: authUser } = useAuth();
+  const resolvedType = getUserDashboardType(authUser);
 
   return (
-    // <PrivateLayout>
+    <PrivateLayout>
     <section className="min-h-screen max-h-screen flex">
       {/* Sidebar */}
       <DashboardSidebar
         open={open}
         setOpen={setOpen}
         dashboardNavLinks={
-          user === "artist_business"
+          resolvedType === "artist_business"
             ? artistLinks
-            : user === "community_member"
+            : resolvedType === "community_member"
               ? communityMemberLinks
-              : user === "sponsor"
+              : resolvedType === "sponsor"
                 ? sponsorLinks
                 : bossLinks
         }
@@ -289,11 +292,11 @@ export default function DashboardLayout({
         <DashboardHeader
           setOpen={setOpen}
           dashboardNavLinks={
-            user === "artist_business"
+            resolvedType === "artist_business"
               ? artistLinks
-              : user === "community_member"
+              : resolvedType === "community_member"
                 ? communityMemberLinks
-                : user === "sponsor"
+                : resolvedType === "sponsor"
                   ? sponsorLinks
                   : bossLinks
           }
@@ -311,6 +314,6 @@ export default function DashboardLayout({
         }`}
       />
     </section>
-    // </PrivateLayout>
+    </PrivateLayout>
   );
 }
