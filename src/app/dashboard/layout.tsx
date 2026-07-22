@@ -16,20 +16,15 @@ import {
   NOneSvg,
   NSevenSvg,
   NSeventeenSvg,
-  NSixSvg,
   NSixteenSvg,
   NTenSvg,
   NThirteenSvg,
-  NThreeSvg,
   NTwelveSvg,
-  NTwentyOneSvg,
   NTwentySvg,
-  NTwentyTwoSvg,
   NTwoSvg,
 } from "@/Components/Svg/SvgContainer";
 import DashboardHeader from "@/Shared/DashboardHeader";
 import { getUserDashboardType } from "@/lib/utils";
-import { CanvaSvg } from "@/Components/Svg/SvgContainer2";
 
 const artistLinks = [
   {
@@ -46,82 +41,38 @@ const artistLinks = [
   },
   {
     id: 3,
-    label: "Promotion Tools",
-    path: "/dashboard/artist_business/promotion-tools",
-    icon: <NThreeSvg />,
-  },
-  {
-    id: 4,
     label: "Analytics",
     path: "/dashboard/artist_business/analytics",
     icon: <NFourSvg />,
   },
+
   {
-    id: 5,
+    id: 4,
     label: "Events",
     path: "/dashboard/artist_business/events",
     icon: <NFiveSvg />,
   },
+
   {
-    id: 6,
-    label: "Billing",
-    path: "/dashboard/artist_business/billing",
-    icon: <NSixSvg />,
-  },
-  {
-    id: 6,
-    label: "Canva",
-    path: "/dashboard/artist_business/canva",
-    icon: <CanvaSvg />,
-  },
-  {
-    id: 77,
-    label: "Post",
-    path: "/dashboard/artist_business/post",
-    icon: <NSevenSvg />,
-    subMenu: [
-      {
-        label: "Create Post",
-        path: "/dashboard/artist_business/post",
-      },
-      {
-        label: "Save Draft",
-        path: "/dashboard/artist_business/post/draft",
-      },
-      {
-        label: "Schedule Post",
-        path: "/dashboard/artist_business/post/schedule",
-      },
-      {
-        label: "Publish",
-        path: "/dashboard/artist_business/post/publish",
-      },
-      {
-        label: "Ask OSI AI",
-        path: "/dashboard/artist_business/post/ask-osi",
-      },
-    ],
-  },
-  {
-    id: 7,
+    id: 5,
     label: "Setting",
     path: "/dashboard/artist_business/setting",
     icon: <NSevenSvg />,
-    subMenu: [
-      {
-        label: "Personal Settings",
-        path: "/dashboard/artist_business/setting",
-      },
-      {
-        label: "Notifications",
-        path: "/dashboard/artist_business/setting/notifications",
-      },
-      { label: "Privacy", path: "/dashboard/artist_business/setting/privacy" },
-      {
-        label: "Connected Accounts",
-        path: "/dashboard/artist_business/setting/connected-accounts",
-      },
-    ],
+    // subMenu: [
+    //   {
+    //     label: "Personal Settings",
+    //     path: "/dashboard/artist_business/setting",
+    //   },
+    //   {
+    //     label: "Notifications",
+    //     path: "/dashboard/artist_business/setting/notifications",
+    //   },
+    //   { label: "Privacy", path: "/dashboard/artist_business/setting/privacy" },
+    //   {
+    //     label: "Connected Accounts",
+    //     path: "/dashboard/artist_business/setting/connected-accounts",
+    //   },
+    // ],
   },
 ];
 
