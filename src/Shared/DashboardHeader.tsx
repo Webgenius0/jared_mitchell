@@ -5,8 +5,9 @@ import {
 } from "@/Components/Svg/SvgContainer";
 import { usePathname } from "next/navigation";
 import React from "react";
+import useAuth from "@/Hooks/useAuth";
+import Image from "next/image";
 import { FaBars } from "react-icons/fa";
-import { FaUser } from "react-icons/fa";
 
 const DashboardHeader = ({
   setOpen,
@@ -20,6 +21,7 @@ const DashboardHeader = ({
   }[];
 }) => {
   const pathname = usePathname();
+  const { user } = useAuth();
 
   const activeLink = dashboardNavLinks.find(link => {
     if (link.path === pathname) return true;
@@ -35,47 +37,76 @@ const DashboardHeader = ({
     sub => sub.path === pathname,
   );
 
-  return (
-    <header className="flex justify-between items-center pt-4 px-5 sticky top-0 bg-[#F8F8FA] z-50">
-      <h3 className="text-3xl font-medium text-black capitalize">
-        {activeSubMenuLink?.label || activeLink?.label}
-      </h3>
+  const profileName = user?.profile?.name || "User";
+  const profileEmail = user?.email || "";
+  const profileAvatar = user?.profile?.avatar || "";
+  const firstLetter = profileName?.charAt(0)?.toUpperCase() || "U";
 
-      <div className="flex gap-3 items-center bg-white px-3 py-3.5 rounded-xl shadow">
-        <button className="size-12 rounded-full grid place-items-center border border-gray-200">
+  return (
+    <header className="flex justify-between items-center pt-3 md:pt-4 px-3 md:px-5 sticky top-0 bg-[#F8F8FA] z-50">
+      {/* Left - Page Title + Hamburger */}
+      <div className="flex items-center gap-3 md:gap-4 min-w-0">
+        {/* Hamburger Menu - visible below xl */}
+        <button
+          onClick={() => setOpen(prev => !prev)}
+          className="xl:hidden size-9 md:size-10 rounded-lg grid place-items-center bg-primary-blue text-white hover:bg-primary-blue/90 transition-colors duration-200 cursor-pointer shrink-0"
+        >
+          <FaBars className="text-lg md:text-xl" />
+        </button>
+
+        <h3 className="text-xl md:text-2xl xl:text-3xl font-medium text-black capitalize truncate">
+          {activeSubMenuLink?.label || activeLink?.label}
+        </h3>
+      </div>
+
+      {/* Right - Actions */}
+      <div className="flex gap-2 md:gap-3 items-center bg-white px-2 md:px-3 py-2 md:py-3.5 rounded-xl shadow min-w-0">
+        {/* Search - hidden on smallest screens */}
+        <button className="hidden sm:grid size-9 md:size-12 rounded-full place-items-center border border-gray-200 hover:bg-gray-50 transition-colors duration-200 cursor-pointer shrink-0">
           <SearchIconSvg />
         </button>
 
-        <button className="size-12 rounded-full grid place-items-center border border-gray-200">
+        {/* Notification */}
+        <button className="size-9 md:size-12 rounded-full grid place-items-center border border-gray-200 hover:bg-gray-50 transition-colors duration-200 cursor-pointer shrink-0">
           <NotificationIconSvg />
         </button>
 
-        <button className="size-12 rounded-full grid place-items-center border border-gray-200">
-          <FaUser className="text-xl text-gray-500" />
-        </button>
+        {/* Profile Avatar */}
+        <div className="size-9 md:size-12 rounded-full grid place-items-center border border-gray-200 overflow-hidden shrink-0">
+          {profileAvatar ? (
+            <Image
+              src={profileAvatar}
+              alt={profileName}
+              width={48}
+              height={48}
+              className="size-full object-cover"
+            />
+          ) : (
+            <span className="text-sm md:text-lg font-semibold text-gray-600">
+              {firstLetter}
+            </span>
+          )}
+        </div>
 
-        <p className="flex flex-col">
-          <span className="text-[#1D1D1F] font-semibold flex gap-1 items-center">
-            Arthur Taylor
+        {/* Name & Email - hidden on mobile */}
+        <p className="hidden md:flex flex-col min-w-0">
+          <span className="text-[#1D1D1F] text-sm xl:text-base font-semibold flex gap-1 items-center truncate">
+            {profileName}
             <OkaySvg />
           </span>
-          <span className="text-sm  text-gray-500">arthur@alignui.com</span>
+          <span className="text-xs xl:text-sm text-gray-500 truncate">
+            {profileEmail}
+          </span>
         </p>
 
-        <button className="self-end px-4 text-sm py-1.5 font-medium rounded-full text-primary-blue bg-[#155DFC26] capitalize">
+        {/* Badges - hidden on smaller screens */}
+        <button className="hidden lg:inline-block self-end px-3 xl:px-4 text-xs xl:text-sm py-1.5 font-medium rounded-full text-primary-blue bg-[#155DFC26] capitalize shrink-0">
           Pro Plan
         </button>
-        <button className="self-end px-4 text-sm py-1.5 font-medium rounded-full text-[#1FC16B] bg-[#1FC16B1C] capitalize">
+        <button className="hidden lg:inline-block self-end px-3 xl:px-4 text-xs xl:text-sm py-1.5 font-medium rounded-full text-[#1FC16B] bg-[#1FC16B1C] capitalize shrink-0">
           Active
         </button>
       </div>
-
-      {/* <button
-        onClick={() => setOpen(!open)}
-        className="xl:hidden w-9 md:w-10 h-8.5 md:h-9.5 cursor-pointer grid place-items-center rounded text-white bg-secondary-blue"
-      >
-        <FaBars className="text-xl md:text-2xl" />
-      </button> */}
     </header>
   );
 };

@@ -130,6 +130,32 @@ export const useVerifyOtp = () => {
   });
 };
 
+// Logout
+export const useLogout = () => {
+  const router = useRouter();
+  const { clearToken } = useAuth();
+
+  return useClientApi({
+    method: "post",
+    key: ["logout"],
+    endpoint: "/v1/logout",
+    isPrivate: true,
+    onSuccess: (res: any) => {
+      if (res?.success) {
+        clearToken();
+        toast.success(res?.message || "Logged out successfully");
+        router.push("/");
+      }
+    },
+    onError: (err: any) => {
+      // Even if the API fails, clear the token and redirect
+      clearToken();
+      router.push("/");
+      toast.error(err?.response?.data?.message || "Something went wrong");
+    },
+  });
+};
+
 // Reset Password
 export const useResetPassword = () => {
   const router = useRouter();
