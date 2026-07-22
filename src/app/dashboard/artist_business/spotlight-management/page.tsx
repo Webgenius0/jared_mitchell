@@ -1,123 +1,190 @@
-import {
-  EyeSvg,
-  GonkSvg,
-  GroupSvg,
-  LeftSvg,
-  LoveSvg,
-  SaveSvg,
-  ShareSvg,
-  WatchSvg,
-} from "@/Components/Svg/SvgContainer2";
+"use client";
 
+import React from "react";
+import { Eye, Pencil, Trash2 } from "lucide-react";
+import Link from "next/link";
 
-const data2 = [
+type SpotlightStatus = "Approved" | "Terminated" | "Pending";
+
+interface SpotlightEntry {
+  id: string;
+  campaign: string;
+  business: string;
+  startDate: string;
+  endDate: string;
+  status: SpotlightStatus;
+  votes: number;
+  date: string;
+}
+
+const spotlightHistory: SpotlightEntry[] = [
   {
-    icon: <WatchSvg />,
-    title: "Current Status",
-    time: "Live Featured",
+    id: "1",
+    campaign: "New Year Campaign",
+    business: "TechKori Ltd.",
+    startDate: "2025-01-01",
+    endDate: "2025-01-31",
+    status: "Approved",
+    votes: 620,
+    date: "2025-01-31",
   },
   {
-    icon: <GonkSvg />,
-    title: "Submission Date",
-    time: "December 10, 2024",
+    id: "2",
+    campaign: "EduLearn Beta Launch",
+    business: "EduLearn Hub",
+    startDate: "2025-02-15",
+    endDate: "2025-03-01",
+    status: "Terminated",
+    votes: 180,
+    date: "2025-03-01",
   },
   {
-    icon: <GonkSvg />,
-    title: "Current Rank",
-    time: "15 min off, 247",
+    id: "3",
+    campaign: "EduLearn Beta Launch",
+    business: "EduLearn Hub",
+    startDate: "2025-02-15",
+    endDate: "2025-03-01",
+    status: "Pending",
+    votes: 180,
+    date: "2025-03-01",
+  },
+  {
+    id: "4",
+    campaign: "New Year Campaign",
+    business: "TechKori Ltd.",
+    startDate: "2025-01-01",
+    endDate: "2025-01-31",
+    status: "Approved",
+    votes: 620,
+    date: "2025-01-31",
   },
 ];
 
-const data3 = [
-  { icon: <EyeSvg />, title: "Views", count: "12,847" },
-  { icon: <LoveSvg />, title: "Claps", count: "23,42" },
-  { icon: <SaveSvg />, title: "Saved", count: "#12" },
-  { icon: <ShareSvg />, title: "Share", count: "#12" },
-];
-
-const page = () => {
-  return (
-    <>
-      <div className="p-5 rounded-lg bg-white border border-gray-100 flex gap-5 items-center mb-6">
-        <p className="grid place-items-center size-12 rounded-lg border border-gray-200">
-          <LeftSvg />
-        </p>
-
-        <div>
-          <h3 className="text-2xl mb-1 font-medium">
-            Congratulations! You're featured tHs week
-          </h3>
-
-          <p className="text-[#5C5C5C]">
-            Your spotlight is visible on the homepage. Feature period ends in 5
-            days
-          </p>
-        </div>
-      </div>
-
-      <h3 className="text-2xl font-medium mb-5">Performance Metrics</h3>
-
-      <div className="grid grid-cols-4 gap-5 mb-5">
-        {data3?.map(item => (
-          <div
-            key={item?.count}
-            className="bg-white border border-gray-100 p-5 rounded-lg"
-          >
-            <p className="bg-[#155DFC1A] size-12 rounded-full grid place-items-center mb-3">
-              {item?.icon}
-            </p>
-
-            <p className="text-gray-500 font-medium">{item?.title}</p>
-
-            <h2 className="text-3xl font-semibold pt-4 pb-3">{item?.count}</h2>
-          </div>
-        ))}
-      </div>
-
-      <div className="grid grid-cols-2 gap-5 mb-5">
-        <div className="bg-white border border-gray-100 p-5 rounded-lg">
-          <h3 className="text-2xl font-medium mb-5">Spotlight Status</h3>
-
-          <div className="space-y-5">
-            {data2?.map(item => (
-              <div
-                key={item?.title}
-                className="p-5 rounded-xl bg-[#E8EFFF] flex gap-5 items-center"
-              >
-                <p className="bg-[#155DFC1A] size-14 rounded-full grid place-items-center">
-                  {item?.icon}
-                </p>
-
-                <div className="space-y-1.5">
-                  <h3 className="text-lg">{item?.title}</h3>
-                  <p className="text-gray-500 text-sm">{item?.time}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div className="bg-white border border-gray-100 p-5 rounded-lg">
-          <h3 className="text-2xl font-medium mb-5">Promotion Checklist</h3>
-
-          <div className="space-y-5">
-            {data2?.map(item => (
-              <div
-                key={item?.title}
-                className="p-5 rounded-xl bg-[#E8EFFF] flex gap-5 items-center"
-              >
-                <p className="bg-[#155DFC1A] size-14 rounded-full grid place-items-center">
-                  {item?.icon}
-                </p>
-
-                <h3 className="text-lg">{item?.title}</h3>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-    </>
-  );
+const statusStyles: Record<SpotlightStatus, string> = {
+  Approved: "bg-emerald-50 text-emerald-600",
+  Terminated: "bg-red-50 text-red-500",
+  Pending: "bg-amber-50 text-amber-500",
 };
 
-export default page;
+function StatusBadge({ status }: { status: SpotlightStatus }) {
+  return (
+    <span
+      className={`inline-flex items-center px-3 py-1 rounded-full text-xs md:text-sm font-medium ${statusStyles[status]}`}
+    >
+      {status}
+    </span>
+  );
+}
+
+const columns = [
+  "Campaign",
+  "Business",
+  "Duration",
+  "Status",
+  "Votes",
+  "Date",
+  "Actions",
+];
+
+export default function Page() {
+  const handleView = (e: SpotlightEntry) => console.log("View", e);
+  const handleEdit = (e: SpotlightEntry) => console.log("Edit", e);
+  const handleDelete = (e: SpotlightEntry) => console.log("Delete", e);
+
+  return (
+    <div className="min-h-screen bg-[#F5F6F8]">
+      <div className=" bg-white rounded-2xl border border-slate-100 overflow-hidden">
+        {/* Header */}
+        <div className="flex items-center justify-between px-5 md:px-6 py-4 md:py-5">
+          <h1 className="text-base md:text-lg font-semibold text-slate-900">
+            Spotlight history
+          </h1>
+          <Link href="/dashboard/artist_business/spotlight-management/create-spotlight">
+            <button
+              type="button"
+              className="bg-blue-500 text-white text-xs md:text-sm font-medium px-5 py-2 md:px-6 md:py-2.5 rounded-full hover:bg-blue-600 transition-colors"
+            >
+              Create
+            </button>
+          </Link>
+        </div>
+
+        {/* Table */}
+        <div className="overflow-x-auto">
+          <table className="w-full min-w-[820px] border-collapse">
+            <thead>
+              <tr className="bg-slate-50">
+                {columns.map(col => (
+                  <th
+                    key={col}
+                    className="text-left text-xs md:text-sm font-medium text-slate-500 px-5 md:px-6 py-3 md:py-4 whitespace-nowrap"
+                  >
+                    {col}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-slate-100">
+              {spotlightHistory.map(entry => (
+                <tr
+                  key={entry.id}
+                  className="hover:bg-slate-50/60 transition-colors"
+                >
+                  <td className="px-5 md:px-6 py-3.5 md:py-4 text-sm md:text-base text-slate-800 whitespace-nowrap">
+                    {entry.campaign}
+                  </td>
+                  <td className="px-5 md:px-6 py-3.5 md:py-4 text-sm md:text-base text-slate-600 whitespace-nowrap">
+                    {entry.business}
+                  </td>
+                  <td className="px-5 md:px-6 py-3.5 md:py-4 text-sm md:text-base text-slate-600 whitespace-nowrap">
+                    <div className="leading-snug">
+                      <div>{entry.startDate}</div>
+                      <div>{entry.endDate}</div>
+                    </div>
+                  </td>
+                  <td className="px-5 md:px-6 py-3.5 md:py-4 whitespace-nowrap">
+                    <StatusBadge status={entry.status} />
+                  </td>
+                  <td className="px-5 md:px-6 py-3.5 md:py-4 text-sm md:text-base text-slate-600 whitespace-nowrap">
+                    {entry.votes}
+                  </td>
+                  <td className="px-5 md:px-6 py-3.5 md:py-4 text-sm md:text-base text-slate-600 whitespace-nowrap">
+                    {entry.date}
+                  </td>
+                  <td className="px-5 md:px-6 py-3.5 md:py-4 whitespace-nowrap">
+                    <div className="flex items-center gap-2 md:gap-3">
+                      <button
+                        type="button"
+                        title="View"
+                        onClick={() => handleView(entry)}
+                        className="text-slate-400 hover:text-blue-500 transition-colors"
+                      >
+                        <Eye className="w-4 h-4 md:w-[18px] md:h-[18px]" />
+                      </button>
+                      <button
+                        type="button"
+                        title="Edit"
+                        onClick={() => handleEdit(entry)}
+                        className="text-slate-400 hover:text-blue-500 transition-colors"
+                      >
+                        <Pencil className="w-4 h-4 md:w-[18px] md:h-[18px]" />
+                      </button>
+                      <button
+                        type="button"
+                        title="Delete"
+                        onClick={() => handleDelete(entry)}
+                        className="text-slate-400 hover:text-red-500 transition-colors"
+                      >
+                        <Trash2 className="w-4 h-4 md:w-[18px] md:h-[18px]" />
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  );
+}
