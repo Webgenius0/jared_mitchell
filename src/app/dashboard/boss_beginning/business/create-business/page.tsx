@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef, useState, ChangeEvent, MouseEvent, Suspense } from "react";
+import React, { useRef, useState, useEffect, ChangeEvent, MouseEvent, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import {
   Baseline,
@@ -58,6 +58,18 @@ function RichTextField({
   const [tags, setTags] = useState<string[]>([]);
   const [tagDraft, setTagDraft] = useState("");
   const [showTagInput, setShowTagInput] = useState(false);
+
+  // Set the editor's initial content ONCE on mount (e.g. prefilled edit data).
+  // We intentionally do NOT keep this in sync with `value` on every render —
+  // doing so (e.g. via dangerouslySetInnerHTML tied to `value`) resets the
+  // div's HTML on every keystroke, which resets the cursor to the start and
+  // makes typed text appear to insert backwards.
+  useEffect(() => {
+    if (editableRef.current && value) {
+      editableRef.current.innerHTML = value;
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const emitChange = () => {
     if (editableRef.current) onChange(editableRef.current.innerHTML);
@@ -402,7 +414,6 @@ function RichTextField({
           data-placeholder={placeholder}
           onInput={emitChange}
           style={{ fontSize: `${fontSize}px` }}
-          dangerouslySetInnerHTML={{ __html: value }}
           className="w-full min-h-[140px] md:min-h-[160px] px-3 md:px-4 py-3 text-slate-700 focus:outline-none
             empty:before:content-[attr(data-placeholder)] empty:before:text-slate-400
             [&_h1]:text-xl [&_h1]:font-bold [&_h1]:my-1
