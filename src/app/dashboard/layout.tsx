@@ -239,6 +239,16 @@ const bossLinks = [
     label: "Boss Beginning",
     path: "/dashboard/boss_beginning/boss-beginning",
     icon: <NTwentySvg />,
+    subMenu: [
+      {
+        label: "Round 1",
+        path: "/dashboard/boss_beginning/boss-beginning/round-1",
+      },
+      {
+        label: "Round 2",
+        path: "/dashboard/boss_beginning/boss-beginning/round-2",
+      },
+    ],
   },
   {
     id: 26,

@@ -30,7 +30,11 @@ const DashboardSidebar = ({
 }: SidebarProps) => {
   const router = useRouter();
   const pathname = usePathname();
-  const [openSubMenu, setOpenSubMenu] = useState<boolean>(false);
+  // Auto-expand submenu if current path is a submenu of any nav link
+  const hasActiveSubMenu = dashboardNavLinks.some(item =>
+    item?.subMenu?.some(sub => sub.path === pathname)
+  );
+  const [openSubMenu, setOpenSubMenu] = useState<boolean>(hasActiveSubMenu);
 
   return (
     <aside
@@ -54,6 +58,9 @@ const DashboardSidebar = ({
             item?.id === 21 &&
             (pathname === "/dashboard/boss_beginning/create-business" ||
               pathname?.startsWith("/dashboard/boss_beginning/business/"));
+          const isBossBeginningSubPage =
+            item?.id === 25 &&
+            pathname?.startsWith("/dashboard/boss_beginning/boss-beginning/");
 
           return (
             <Link
@@ -67,7 +74,7 @@ const DashboardSidebar = ({
             >
               <p
                 className={`flex justify-between items-center px-3 py-2 rounded-md duration-300 transition-all ${
-                  isActive || isActiveSubMenu || isBusinessSubPage
+                  isActive || isActiveSubMenu || isBusinessSubPage || isBossBeginningSubPage
                     ? "bg-primary-blue text-white"
                     : "hover:bg-gray-100 text-gray-700"
                 }`}
