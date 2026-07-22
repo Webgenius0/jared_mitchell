@@ -3,12 +3,7 @@
 import { ArrowLeft, ArrowRight, Check } from "lucide-react";
 import { useState, useMemo } from "react";
 
-import {
-  FormData,
-  initialFormData,
-  steps,
-  TOTAL_STEPS,
-} from "./types";
+import { FormData, initialFormData, steps, TOTAL_STEPS } from "./types";
 import { StepBusinessInfo } from "./step-business-info";
 import { StepContactInfo } from "./step-contact-info";
 import { StepBusinessStory } from "./step-business-story";
@@ -16,7 +11,6 @@ import { StepMedia } from "./step-media";
 import { StepServiceDetails } from "./step-service-details";
 import { StepSpotlightConsideration } from "./step-spotlight-consideration";
 import { SuccessScreen } from "./success-screen";
-
 
 export default function Page() {
   const [currentStep, setCurrentStep] = useState(0);
@@ -76,7 +70,7 @@ export default function Page() {
             </span>
           </div>
 
-          <div className="w-full h-1.5 bg-slate-100 rounded-full overflow-hidden mb-5">
+          <div className="w-full h-2 bg-slate-100 rounded-full overflow-hidden mb-5">
             <div
               className="h-full bg-blue-500 rounded-full transition-all duration-300"
               style={{ width: `${percentComplete}%` }}
@@ -95,7 +89,7 @@ export default function Page() {
                   className="flex flex-col items-center gap-1.5 flex-1 group"
                 >
                   <span
-                    className={`w-7 h-7 md:w-8 md:h-8 rounded-full flex items-center justify-center text-xs md:text-sm font-medium transition-colors
+                    className={`w-7 h-7 md:w-10 md:h-10 rounded-full flex items-center justify-center text-xs md:text-sm font-medium transition-colors
                       ${
                         isDone
                           ? "bg-blue-500 text-white"
@@ -138,9 +132,7 @@ export default function Page() {
               {currentStep === 2 && (
                 <StepBusinessStory form={form} update={update} />
               )}
-              {currentStep === 3 && (
-                <StepMedia form={form} update={update} />
-              )}
+              {currentStep === 3 && <StepMedia form={form} update={update} />}
               {currentStep === 4 && (
                 <StepServiceDetails form={form} update={update} />
               )}
@@ -155,7 +147,7 @@ export default function Page() {
                 type="button"
                 onClick={goPrevious}
                 disabled={currentStep === 0}
-                className="flex items-center gap-1.5 text-sm md:text-base font-medium text-slate-500 px-5 py-2.5 md:px-6 md:py-3 rounded-full border border-slate-200 hover:bg-slate-50 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+                className="flex items-center gap-1.5 text-sm md:text-base font-medium text-slate-500 px-5 py-2.5 md:px-10 md:py-3 rounded-full border border-slate-200 hover:bg-slate-50 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
               >
                 <ArrowLeft className="w-4 h-4" />
                 Previous
@@ -165,7 +157,7 @@ export default function Page() {
                 <button
                   type="button"
                   onClick={goNext}
-                  className="flex items-center gap-1.5 bg-blue-500 text-white text-sm md:text-base font-medium px-5 py-2.5 md:px-6 md:py-3 rounded-full hover:bg-blue-600 transition-colors"
+                  className="flex items-center gap-1.5 bg-blue-500 text-white text-sm md:text-base font-normal px-5 py-2.5 md:px-10 md:py-3 rounded-full hover:bg-blue-600 transition-colors"
                 >
                   Next Section
                   <ArrowRight className="w-4 h-4" />
@@ -174,7 +166,7 @@ export default function Page() {
                 <button
                   type="button"
                   onClick={handleSubmit}
-                  className="bg-blue-500 text-white text-sm md:text-base font-medium px-8 py-2.5 md:py-3 rounded-full hover:bg-blue-600 transition-colors"
+                  className="bg-blue-500 text-white text-sm md:text-base font-medium px-10 py-2.5 md:py-3 rounded-full hover:bg-blue-600 transition-colors"
                 >
                   Submit
                 </button>

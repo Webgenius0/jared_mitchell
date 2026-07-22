@@ -216,9 +216,6 @@ export function UploadField({
   );
 }
 
-/* ------------------------------------------------------------------ */
-/*  RadioOption                                                        */
-/* ------------------------------------------------------------------ */
 
 export interface RadioOptionProps {
   label: string;
