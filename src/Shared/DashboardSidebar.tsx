@@ -108,12 +108,12 @@ const DashboardSidebar = ({
           );
         })}
 
-        <button
+        {/* <button
           className={`px-3 py-2 rounded-md flex gap-2.5 items-center hover:bg-gray-100 text-gray-700`}
         >
           <LogoutSvg />
           <span>Log Out</span>
-        </button>
+        </button> */}
       </nav>
     </aside>
   );
