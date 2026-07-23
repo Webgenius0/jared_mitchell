@@ -1,0 +1,228 @@
+"use client";
+import React, { useState } from "react";
+import { SquarePen, X } from "lucide-react";
+
+type ProfileData = {
+  name: string;
+  username: string;
+  email: string;
+  phone: string;
+  location: string;
+  category1: string;
+  category2: string;
+  bio: string;
+  businessDescription: string;
+  websiteLink: string;
+  youtubeLink: string;
+  facebookLink: string;
+  instagramLink: string;
+  joinDate: string;
+  avatar: string;
+};
+
+const defaultProfile: ProfileData = {
+  name: "Arthur Taylor",
+  username: "arthooo11",
+  email: "john@example.com",
+  phone: "12434*******",
+  location: "7 Pepys Street, City of London, London, EC3N 4AF, United Kingdom",
+  category1: "Artist spotlight",
+  category2: "Artist spotlight",
+  bio: "Contemporary artist exploring the intersection of digital and traditional media.",
+  businessDescription: "Describe your business or creative practice...",
+  websiteLink: "www.XYZ.com",
+  youtubeLink: "www.abc.com",
+  facebookLink: "www.abc.com",
+  instagramLink: "www.abc.com",
+  joinDate: "12 Apr 2026",
+  avatar:
+    "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=256&auto=format&fit=crop",
+};
+
+type FieldConfig = {
+  key: keyof ProfileData;
+  label: string;
+  type: "text" | "email" | "textarea" | "readonly";
+};
+
+type DashboardProfileSettingsProps = {
+  title?: string;
+  initialData?: Partial<ProfileData>;
+  fields?: FieldConfig[];
+  onSave?: (data: ProfileData) => void;
+};
+
+const defaultFields: FieldConfig[] = [
+  { key: "name", label: "Name", type: "text" },
+  { key: "username", label: "Username", type: "text" },
+  { key: "email", label: "Email", type: "email" },
+  { key: "phone", label: "Phone", type: "text" },
+  { key: "location", label: "Location", type: "text" },
+  { key: "category1", label: "Category", type: "text" },
+  { key: "category2", label: "Category", type: "text" },
+  { key: "bio", label: "Bio", type: "textarea" },
+  { key: "businessDescription", label: "Business Description", type: "textarea" },
+  { key: "websiteLink", label: "Website link", type: "text" },
+  { key: "youtubeLink", label: "Youtube channel link", type: "text" },
+  { key: "facebookLink", label: "Facebook channel link", type: "text" },
+  { key: "instagramLink", label: "Instagram channel link", type: "text" },
+  { key: "joinDate", label: "Join Date", type: "readonly" },
+];
+
+const DashboardProfileSettings = ({
+  title = "Profile",
+  initialData,
+  fields = defaultFields,
+  onSave,
+}: DashboardProfileSettingsProps) => {
+  const [isEditing, setIsEditing] = useState(false);
+
+  const [profile, setProfile] = useState<ProfileData>({
+    ...defaultProfile,
+    ...initialData,
+  });
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
+    const { name, value } = e.target;
+    setProfile(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const imageUrl = URL.createObjectURL(file);
+      setProfile(prev => ({ ...prev, avatar: imageUrl }));
+    }
+  };
+
+  const handleSave = () => {
+    onSave?.(profile);
+    console.log("Updated Profile Data: ", profile);
+    setIsEditing(false);
+  };
+
+  return (
+    <div className="font-sans text-gray-800 flex flex-col justify-between">
+      <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden p-6 sm:p-8">
+        {/* Header Section */}
+        <div className="flex justify-between items-center pb-6 border-b border-gray-100">
+          <h1 className="text-2xl font-bold text-gray-900 tracking-tight">
+            {title}
+          </h1>
+
+          {!isEditing ? (
+            <button
+              onClick={() => setIsEditing(true)}
+              className="flex items-center space-x-1.5 text-sm font-semibold text-blue-600 hover:text-blue-700 transition cursor-pointer"
+            >
+              <SquarePen size={16} strokeWidth={2.25} />
+              <span>Edit</span>
+            </button>
+          ) : (
+            <button
+              onClick={() => setIsEditing(false)}
+              className="flex items-center space-x-1.5 text-sm font-semibold text-red-500 hover:text-red-600 transition cursor-pointer"
+            >
+              <X size={16} strokeWidth={2.25} />
+              <span>Cancel</span>
+            </button>
+          )}
+        </div>
+
+        {/* Avatar Section */}
+        <div className="py-6 flex">
+          <div className="relative inline-block group">
+            <img
+              className="w-20 h-20 rounded-full object-cover border border-gray-100 transition duration-200"
+              src={profile.avatar}
+              alt="Avatar"
+            />
+
+            {isEditing ? (
+              <label className="absolute inset-0 bg-black/40 rounded-full flex items-center justify-center cursor-pointer text-white opacity-90 hover:opacity-100 transition">
+                <SquarePen size={16} strokeWidth={2} />
+                <input
+                  type="file"
+                  accept="image/*"
+                  className="hidden"
+                  onChange={handleImageChange}
+                />
+              </label>
+            ) : (
+              <button
+                onClick={() => setIsEditing(true)}
+                className="absolute bottom-0 right-0 bg-blue-600 text-white p-1.5 rounded-full border-2 border-white shadow-sm hover:bg-blue-700 transition cursor-pointer"
+              >
+                <SquarePen size={12} strokeWidth={2.5} />
+              </button>
+            )}
+          </div>
+        </div>
+
+        {/* Details Fields Table */}
+        <div className="divide-y divide-gray-100">
+          {fields.map(field => (
+            <div
+              key={field.key}
+              className={`grid grid-cols-1 md:grid-cols-4 py-4 text-sm ${
+                field.type === "textarea" ? "items-start" : "items-center"
+              }`}
+            >
+              <span className={`font-semibold text-gray-600 md:col-span-1 ${field.type === "textarea" ? "pt-2" : ""}`}>
+                {field.label}
+              </span>
+              <div className="md:col-span-3">
+                {field.type === "readonly" ? (
+                  <span className={`text-gray-900 ${field.type === "textarea" ? "block pt-2" : ""}`}>
+                    {profile[field.key]}
+                  </span>
+                ) : isEditing ? (
+                  field.type === "textarea" ? (
+                    <textarea
+                      name={field.key}
+                      value={profile[field.key]}
+                      onChange={handleChange}
+                      rows={3}
+                      className="w-full max-w-xl px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 resize-none"
+                    />
+                  ) : (
+                    <input
+                      type={field.type}
+                      name={field.key}
+                      value={profile[field.key]}
+                      onChange={handleChange}
+                      className="w-full max-w-xl px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500"
+                    />
+                  )
+                ) : (
+                  <span className="text-gray-900">
+                    {profile[field.key]}
+                  </span>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Bottom Save Action Panel */}
+      <div className="flex justify-end mt-6">
+        <button
+          onClick={handleSave}
+          disabled={!isEditing}
+          className={`text-xs font-bold px-6 py-3 rounded-full transition shadow-md cursor-pointer ${
+            isEditing
+              ? "bg-blue-600 text-white hover:bg-blue-700 hover:shadow-lg"
+              : "bg-gray-200 text-gray-400 cursor-not-allowed shadow-none"
+          }`}
+        >
+          Save Change
+        </button>
+      </div>
+    </div>
+  );
+};
+
+export default DashboardProfileSettings;

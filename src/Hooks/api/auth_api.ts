@@ -48,7 +48,7 @@ export const useOtpVerification = () => {
       if (res?.success) {
         toast.success(res?.message);
         setToken(res?.data?.token);
-        router.push("/");
+        router.push("/dashboard");
       }
     },
     onError: (err: any) => {
@@ -87,7 +87,7 @@ export const useLogin = () => {
       if (res?.success) {
         setToken(res?.data?.token);
         toast.success(res?.message);
-        router.push("/");
+        router.push("/dashboard");
       }
     },
     onError: (err: any) => {
@@ -126,6 +126,32 @@ export const useVerifyOtp = () => {
     },
     onError: (err: any) => {
       toast.error(err?.response?.data?.message);
+    },
+  });
+};
+
+// Logout
+export const useLogout = () => {
+  const router = useRouter();
+  const { clearToken } = useAuth();
+
+  return useClientApi({
+    method: "post",
+    key: ["logout"],
+    endpoint: "/v1/logout",
+    isPrivate: true,
+    onSuccess: (res: any) => {
+      if (res?.success) {
+        clearToken();
+        toast.success(res?.message || "Logged out successfully");
+        router.push("/");
+      }
+    },
+    onError: (err: any) => {
+      // Even if the API fails, clear the token and redirect
+      clearToken();
+      router.push("/");
+      toast.error(err?.response?.data?.message || "Something went wrong");
     },
   });
 };
