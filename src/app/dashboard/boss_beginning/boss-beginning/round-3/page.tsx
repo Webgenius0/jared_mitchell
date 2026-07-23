@@ -67,7 +67,7 @@ export default function Round2Page() {
   };
 
   return (
-    <div className=" bg-[#F5F6F8]">
+    <div className=" bg-[#F5F6F8] ">
       <div className=" space-y-6">
         {/* Votes */}
         <div>
