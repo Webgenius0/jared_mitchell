@@ -2,6 +2,7 @@
 
 import useAuth from "@/Hooks/useAuth";
 import { getUserDashboardRoute } from "@/lib/utils";
+import { PageLoader } from "@/Shared/PageLoader";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
@@ -29,10 +30,7 @@ export default function DashboardPage() {
 
   return (
     <div className="h-full flex items-center justify-center">
-      <div className="text-center">
-        <div className="w-8 h-8 border-2 border-primary-blue border-t-transparent rounded-full animate-spin mx-auto mb-3" />
-        <p className="text-gray-500 text-sm">Redirecting to your dashboard...</p>
-      </div>
+      <PageLoader />
     </div>
   );
 }
