@@ -199,6 +199,18 @@ const bossLinks = [
         label: "Round 2",
         path: "/dashboard/boss_beginning/boss-beginning/round-2",
       },
+      {
+        label: "Round 3",
+        path: "/dashboard/boss_beginning/boss-beginning/round-3",
+      },
+      {
+        label: "Round 4",
+        path: "/dashboard/boss_beginning/boss-beginning/round-4",
+      },
+      {
+        label: "Round 5",
+        path: "/dashboard/boss_beginning/boss-beginning/round-5",
+      },
     ],
   },
   {
