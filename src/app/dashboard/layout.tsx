@@ -1,5 +1,6 @@
 "use client";
 import React, { useState } from "react";
+import useAuth from "@/Hooks/useAuth";
 import PrivateLayout from "@/Private/PrivateLayout";
 import DashboardSidebar from "@/Shared/DashboardSidebar";
 import {
@@ -15,19 +16,15 @@ import {
   NOneSvg,
   NSevenSvg,
   NSeventeenSvg,
-  NSixSvg,
   NSixteenSvg,
   NTenSvg,
   NThirteenSvg,
-  NThreeSvg,
   NTwelveSvg,
-  NTwentyOneSvg,
   NTwentySvg,
-  NTwentyTwoSvg,
   NTwoSvg,
 } from "@/Components/Svg/SvgContainer";
 import DashboardHeader from "@/Shared/DashboardHeader";
-import { CanvaSvg } from "@/Components/Svg/SvgContainer2";
+import { getUserDashboardType } from "@/lib/utils";
 
 const artistLinks = [
   {
@@ -44,82 +41,38 @@ const artistLinks = [
   },
   {
     id: 3,
-    label: "Promotion Tools",
-    path: "/dashboard/artist_business/promotion-tools",
-    icon: <NThreeSvg />,
-  },
-  {
-    id: 4,
     label: "Analytics",
     path: "/dashboard/artist_business/analytics",
     icon: <NFourSvg />,
   },
+
   {
-    id: 5,
+    id: 4,
     label: "Events",
     path: "/dashboard/artist_business/events",
     icon: <NFiveSvg />,
   },
+
   {
-    id: 6,
-    label: "Billing",
-    path: "/dashboard/artist_business/billing",
-    icon: <NSixSvg />,
-  },
-  {
-    id: 6,
-    label: "Canva",
-    path: "/dashboard/artist_business/canva",
-    icon: <CanvaSvg />,
-  },
-  {
-    id: 77,
-    label: "Post",
-    path: "/dashboard/artist_business/post",
-    icon: <NSevenSvg />,
-    subMenu: [
-      {
-        label: "Create Post",
-        path: "/dashboard/artist_business/post",
-      },
-      {
-        label: "Save Draft",
-        path: "/dashboard/artist_business/post/draft",
-      },
-      {
-        label: "Schedule Post",
-        path: "/dashboard/artist_business/post/schedule",
-      },
-      {
-        label: "Publish",
-        path: "/dashboard/artist_business/post/publish",
-      },
-      {
-        label: "Ask OSI AI",
-        path: "/dashboard/artist_business/post/ask-osi",
-      },
-    ],
-  },
-  {
-    id: 7,
+    id: 5,
     label: "Setting",
     path: "/dashboard/artist_business/setting",
     icon: <NSevenSvg />,
-    subMenu: [
-      {
-        label: "Personal Settings",
-        path: "/dashboard/artist_business/setting",
-      },
-      {
-        label: "Notifications",
-        path: "/dashboard/artist_business/setting/notifications",
-      },
-      { label: "Privacy", path: "/dashboard/artist_business/setting/privacy" },
-      {
-        label: "Connected Accounts",
-        path: "/dashboard/artist_business/setting/connected-accounts",
-      },
-    ],
+    // subMenu: [
+    //   {
+    //     label: "Personal Settings",
+    //     path: "/dashboard/artist_business/setting",
+    //   },
+    //   {
+    //     label: "Notifications",
+    //     path: "/dashboard/artist_business/setting/notifications",
+    //   },
+    //   { label: "Privacy", path: "/dashboard/artist_business/setting/privacy" },
+    //   {
+    //     label: "Connected Accounts",
+    //     path: "/dashboard/artist_business/setting/connected-accounts",
+    //   },
+    // ],
   },
 ];
 
@@ -131,22 +84,22 @@ const communityMemberLinks = [
     icon: <NOneSvg />,
   },
   {
-    id: 9,
-    label: "Voting Center",
-    path: "/dashboard/community_member/voting-center",
-    icon: <NEightSvg />,
+    id: 25,
+    label: "Boss Beginning",
+    path: "/dashboard/community_member/boss-beginning",
+    icon: <NTwentySvg />,
   },
   {
-    id: 10,
-    label: "Saved Content",
-    path: "/dashboard/community_member/saved-content",
-    icon: <NNineSvg />,
+    id: 22,
+    label: "Spotlight",
+    path: "/dashboard/community_member/leaderboards",
+    icon: <NEighteenSvg />,
   },
   {
-    id: 11,
-    label: "Support Votes",
-    path: "/dashboard/community_member/support-votes",
-    icon: <NTenSvg />,
+    id: 24,
+    label: "Events",
+    path: "/dashboard/community_member/events",
+    icon: <NSixteenSvg />,
   },
   {
     id: 12,
@@ -210,45 +163,55 @@ const bossLinks = [
   },
   {
     id: 21,
-    label: "Voting Center",
-    path: "/dashboard/boss_beginning/voting-center",
+    label: "Business",
+    path: "/dashboard/boss_beginning/business",
     icon: <NSeventeenSvg />,
   },
   {
     id: 22,
-    label: "Leaderboards",
+    label: "Spotlight",
     path: "/dashboard/boss_beginning/leaderboards",
     icon: <NEighteenSvg />,
   },
   {
     id: 23,
-    label: "Promotion Tools",
-    path: "/dashboard/boss_beginning/promotion-tools",
+    label: "Analytics",
+    path: "/dashboard/boss_beginning/analytics",
     icon: <NNineTeenSvg />,
   },
   {
     id: 24,
-    label: "Billing & Payments",
-    path: "/dashboard/boss_beginning/payments",
+    label: "Events",
+    path: "/dashboard/boss_beginning/events",
     icon: <NSixteenSvg />,
   },
   {
     id: 25,
-    label: "Events & Vendors",
-    path: "/dashboard/boss_beginning/events",
+    label: "Boss Beginning",
+    path: "/dashboard/boss_beginning/boss-beginning",
     icon: <NTwentySvg />,
-  },
-  {
-    id: 25,
-    label: "Community Hub",
-    path: "/dashboard/boss_beginning/community-hub",
-    icon: <NTwentyOneSvg />,
-  },
-  {
-    id: 25,
-    label: "Activity Log",
-    path: "/dashboard/boss_beginning/activity-log",
-    icon: <NTwentyTwoSvg />,
+    subMenu: [
+      {
+        label: "Round 1",
+        path: "/dashboard/boss_beginning/boss-beginning/round-1",
+      },
+      {
+        label: "Round 2",
+        path: "/dashboard/boss_beginning/boss-beginning/round-2",
+      },
+      {
+        label: "Round 3",
+        path: "/dashboard/boss_beginning/boss-beginning/round-3",
+      },
+      {
+        label: "Round 4",
+        path: "/dashboard/boss_beginning/boss-beginning/round-4",
+      },
+      {
+        label: "Round 5",
+        path: "/dashboard/boss_beginning/boss-beginning/round-5",
+      },
+    ],
   },
   {
     id: 26,
@@ -263,54 +226,55 @@ export default function DashboardLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const user = "artist_business"; // artist_business || boss_beginning || community_member || sponsor
   const [open, setOpen] = useState<boolean>(false);
+  const { user: authUser } = useAuth();
+  const resolvedType = getUserDashboardType(authUser);
 
   return (
-    // <PrivateLayout>
-    <section className="min-h-screen max-h-screen flex">
-      {/* Sidebar */}
-      <DashboardSidebar
-        open={open}
-        setOpen={setOpen}
-        dashboardNavLinks={
-          user === "artist_business"
-            ? artistLinks
-            : user === "community_member"
-              ? communityMemberLinks
-              : user === "sponsor"
-                ? sponsorLinks
-                : bossLinks
-        }
-      />
-
-      <section className="flex-1 bg-[#F8F8FA] overflow-y-auto">
-        {/* Dashboard Header */}
-        <DashboardHeader
+    <PrivateLayout>
+      <section className="min-h-screen max-h-screen flex">
+        {/* Sidebar */}
+        <DashboardSidebar
+          open={open}
           setOpen={setOpen}
           dashboardNavLinks={
-            user === "artist_business"
+            resolvedType === "artist_business"
               ? artistLinks
-              : user === "community_member"
+              : resolvedType === "community_member"
                 ? communityMemberLinks
-                : user === "sponsor"
+                : resolvedType === "sponsor"
                   ? sponsorLinks
                   : bossLinks
           }
         />
 
-        {/* Dashboard Outlet */}
-        <main className="p-5">{children}</main>
-      </section>
+        <section className="flex-1 bg-[#F8F8FA] overflow-y-auto">
+          {/* Dashboard Header */}
+          <DashboardHeader
+            setOpen={setOpen}
+            dashboardNavLinks={
+              resolvedType === "artist_business"
+                ? artistLinks
+                : resolvedType === "community_member"
+                  ? communityMemberLinks
+                  : resolvedType === "sponsor"
+                    ? sponsorLinks
+                    : bossLinks
+            }
+          />
 
-      {/* Blur Overlay */}
-      <div
-        onClick={() => setOpen(false)}
-        className={`fixed inset-0 bg-black/30 backdrop-blur-[3px] transition-opacity duration-300 2xl:hidden z-50 ${
-          open ? "opacity-100" : "opacity-0 pointer-events-none"
-        }`}
-      />
-    </section>
-    // </PrivateLayout>
+          {/* Dashboard Outlet */}
+          <main className="p-5">{children}</main>
+        </section>
+
+        {/* Blur Overlay */}
+        <div
+          onClick={() => setOpen(false)}
+          className={`fixed inset-0 bg-black/30 backdrop-blur-[3px] transition-opacity duration-300 2xl:hidden z-50 ${
+            open ? "opacity-100" : "opacity-0 pointer-events-none"
+          }`}
+        />
+      </section>
+    </PrivateLayout>
   );
 }

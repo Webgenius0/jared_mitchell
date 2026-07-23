@@ -1,7 +1,9 @@
-import React from 'react';
+"use client";
+import React from "react";
+import DashboardProfileSettings from "@/Components/Common/DashboardProfileSettings";
 
-const page = () => {
-  return <div>settings</div>;
+const ProfilePage = () => {
+  return <DashboardProfileSettings />;
 };
 
-export default page;
+export default ProfilePage;
