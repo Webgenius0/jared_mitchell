@@ -11,6 +11,7 @@ import BusinessChosenChart from "./_components/BusinessChosenChart";
 import { getBossCms, getCMSAboutData } from "@/lib/Services/cms_service";
 import { CMSBossBeginnings } from "@/Types/cms";
 import Sponsors from "../_components/Sponsors";
+import EventSponsors from "../events/_Components/EventSponsors";
 
 const page = async () => {
   const pageData = (await getBossCms()) as CMSBossBeginnings;
@@ -37,6 +38,7 @@ const page = async () => {
       {/* <HowVotingWorks data={pageData?.boss_beginnings_steps} /> */}
       <WinnerReceives data={pageData?.boss_beginnings_dynamic} />
       {/* <PartnerWithBossBeginnings /> */}
+      <EventSponsors />
       <Sponsors data={CmsData?.about_sponsors} title="Our Event Sponsors" />
       <NewsLetter title="Be part of the movement. Get stories, updates, and opportunities straight to your inbox." />
     </>
