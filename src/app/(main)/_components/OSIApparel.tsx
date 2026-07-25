@@ -6,50 +6,20 @@ import "swiper/css";
 import "swiper/css/effect-coverflow";
 import "swiper/css/pagination";
 import { EffectCoverflow, Pagination } from "swiper/modules";
-import { CMSShop } from "@/Types/cms";
-import { useState, useEffect } from "react";
+import { CMSShop, FeaturedProductItem } from "@/Types/cms";
+import { useState, useEffect, useMemo } from "react";
 import { SponsorModal } from "@/Components/Common/BecomeSponsorModal";
+import { useRouter } from "next/navigation";
 
-import a1 from "@/Assets/a1.png";
-import a2 from "@/Assets/a2.png";
-import a3 from "@/Assets/a3.png";
-import a4 from "@/Assets/about.jpg";
+interface OSIApparelProps {
+  data?: CMSShop;
+  featuredProducts?: FeaturedProductItem[];
+}
 
-const products = [
-  {
-    id: 1,
-    title: "Promotion Credit",
-    price: "$99",
-    image: a1,
-    description: "Boost your brand reach on OSI",
-  },
-  {
-    id: 2,
-    title: "Boss Beginnings Toolkit",
-    price: "$49",
-    image: a2,
-    tag: "Digital",
-    description: "Complete toolkit to launch and grow your business.",
-  },
-  {
-    id: 3,
-    title: "OSI Signature Hoodie",
-    price: "$79",
-    image: a3,
-    description: "Premium quality hoodie that represents the OSI brand.",
-  },
-  {
-    id: 4,
-    title: "OSI Cap",
-    price: "$39",
-    image: a4,
-    description: "Stylish cap for the modern entrepreneur.",
-  },
-];
-
-const OSIApparel = ({ data }: { data?: CMSShop }) => {
+const OSIApparel = ({ data, featuredProducts }: OSIApparelProps) => {
   const [isMobile, setIsMobile] = useState(false);
   const [isSponsorModalOpen, setIsSponsorModalOpen] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
     const check = () => setIsMobile(window.innerWidth < 640);
@@ -57,6 +27,22 @@ const OSIApparel = ({ data }: { data?: CMSShop }) => {
     window.addEventListener("resize", check);
     return () => window.removeEventListener("resize", check);
   }, []);
+
+  const products = useMemo(
+    () =>
+      featuredProducts && featuredProducts.length > 0
+        ? featuredProducts.map((p) => ({
+            id: p.id,
+            slug: p.slug,
+            title: p.name,
+            price: `$${p.display_price}`,
+            image: p.thumbnail,
+            tag: p.type === "digital" ? "Digital" : undefined,
+            description: p.short_description,
+          }))
+        : [],
+    [featuredProducts],
+  );
 
   return (
     <>
@@ -72,71 +58,79 @@ const OSIApparel = ({ data }: { data?: CMSShop }) => {
           </p>
 
           {/* Swiper */}
-          <div className="mt-7 osi-swiper-wrapper">
-            <Swiper
-              effect="coverflow"
-              grabCursor
-              centeredSlides
-              slidesPerView="auto"
-              initialSlide={1}
-              pagination={{ clickable: true }}
-              coverflowEffect={{
-                rotate: 0,
-                stretch: isMobile ? 30 : 80,
-                depth: isMobile ? 120 : 200,
-                modifier: 1,
-                slideShadows: false,
-              }}
-              modules={[EffectCoverflow, Pagination]}
-              className="osi-coverflow"
-            >
-              {products.map(item => (
-                <SwiperSlide key={item.id} className="osi-slide">
-                  <div className="osi-card">
-                    <Image
-                      src={item.image}
-                      alt={item.title}
-                      fill
-                      className="object-cover"
-                    />
+          {products.length > 0 && (
+            <div className="mt-7 osi-swiper-wrapper">
+              <Swiper
+                effect="coverflow"
+                grabCursor
+                centeredSlides
+                slidesPerView="auto"
+                initialSlide={1}
+                pagination={{ clickable: true }}
+                coverflowEffect={{
+                  rotate: 0,
+                  stretch: isMobile ? 30 : 80,
+                  depth: isMobile ? 120 : 200,
+                  modifier: 1,
+                  slideShadows: false,
+                }}
+                modules={[EffectCoverflow, Pagination]}
+                className="osi-coverflow"
+              >
+                {products.map((item) => (
+                  <SwiperSlide key={item.id} className="osi-slide">
+                    <div className="osi-card">
+                      <Image
+                        src={item.image}
+                        alt={item.title}
+                        fill
+                        className="object-cover"
+                      />
 
-                    {/* Dark overlay — lighter on active slide via CSS */}
-                    <div className="osi-overlay" />
+                      {/* Dark overlay — lighter on active slide via CSS */}
+                      <div className="osi-overlay" />
 
-                    {/* Tag */}
-                    {item.tag && (
-                      <span className="absolute top-3 right-3 sm:top-4 sm:right-4 bg-white text-black text-xs font-medium px-2 py-0.5 sm:px-3 sm:py-1 rounded-full z-10">
-                        {item.tag}
-                      </span>
-                    )}
+                      {/* Tag */}
+                      {item.tag && (
+                        <span className="absolute top-3 right-3 sm:top-4 sm:right-4 bg-white text-black text-xs font-medium px-2 py-0.5 sm:px-3 sm:py-1 rounded-full z-10">
+                          {item.tag}
+                        </span>
+                      )}
 
-                    {/* Content */}
-                    <div className="absolute bottom-0 left-0 right-0 p-3 sm:p-4 md:p-6 text-left text-white z-10">
-                      <div className="flex justify-between items-end gap-2">
-                        <div className="flex-1 min-w-0">
-                          <h4 className="text-sm sm:text-base md:text-lg font-semibold leading-tight line-clamp-1">
-                            {item.title}
-                          </h4>
-                          <p className="text-xs sm:text-sm mt-0.5 sm:mt-1 opacity-80 leading-snug line-clamp-2">
-                            {item.description}
-                          </p>
-                        </div>
-                        <div className="flex flex-col items-center gap-1.5 sm:gap-3 shrink-0">
-                          <span className="text-sm sm:text-base font-bold">
-                            {item.price}
-                          </span>
-                          <button className="bg-[#0066FF] hover:bg-[#0052CC] transition-colors text-white px-2.5 py-1 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm font-medium flex items-center gap-1 whitespace-nowrap">
-                            🛒 <span className="hidden xs:inline">Add to </span>
-                            Cart
-                          </button>
+                      {/* Content */}
+                      <div className="absolute bottom-0 left-0 right-0 p-3 sm:p-4 md:p-6 text-left text-white z-10">
+                        <div className="flex justify-between items-end gap-2">
+                          <div className="flex-1 min-w-0">
+                            <h4 className="text-sm sm:text-base md:text-lg font-semibold leading-tight line-clamp-1">
+                              {item.title}
+                            </h4>
+                            <p className="text-xs sm:text-sm mt-0.5 sm:mt-1 opacity-80 leading-snug line-clamp-2">
+                              {item.description}
+                            </p>
+                          </div>
+                          <div className="flex flex-col items-center gap-1.5 sm:gap-3 shrink-0">
+                            <span className="text-sm sm:text-base font-bold">
+                              {item.price}
+                            </span>
+                            <button
+                              onClick={(e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                router.push(`/shop/${item.slug}`);
+                              }}
+                              className="bg-[#0066FF] hover:bg-[#0052CC] transition-colors text-white px-2.5 py-1 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm font-medium flex items-center gap-1 whitespace-nowrap cursor-pointer"
+                            >
+                              View Details
+                            </button>
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                </SwiperSlide>
-              ))}
-            </Swiper>
-          </div>
+                  </SwiperSlide>
+                ))}
+              </Swiper>
+            </div>
+          )}
         </div>
       </section>
 

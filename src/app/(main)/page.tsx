@@ -19,10 +19,79 @@ import EventBanner from "./_components/EventBanner";
 import PoweredByOSI from "./_components/PoweredByOSI";
 import FeaturedEvent from "./_components/FeaturedEvent";
 import NewsLetter from "@/Components/Common/NewsLetter";
-import { getCMSHomepageData } from "@/lib/Services/cms_service";
+import {
+  getCMSHomepageData,
+  getCurrentContestWinner,
+  getFeaturedEvents,
+  getFeaturedProducts,
+  getRoundCountdown,
+  getHistoricalWinners,
+  getPastSixMonthsWinners,
+} from "@/lib/Services/cms_service";
+import {
+  FeaturedEventItem,
+  FeaturedProductItem,
+  HistoricalWinnersItem,
+  PastSixMonthsWinner,
+  RoundCountdownResponse,
+} from "@/Types/cms";
 
 const Page = async () => {
   const cmsData = await getCMSHomepageData();
+
+  let featuredEvents: FeaturedEventItem[] = [];
+  try {
+    const featuredRes = await getFeaturedEvents();
+    featuredEvents = featuredRes?.events || [];
+  } catch (err) {
+    console.error("Failed to fetch featured events:", err);
+  }
+
+  let featuredProducts: FeaturedProductItem[] = [];
+  try {
+    featuredProducts = await getFeaturedProducts();
+  } catch (err) {
+    console.error("Failed to fetch featured products:", err);
+  }
+
+  let countdownData: RoundCountdownResponse | null = null;
+  try {
+    countdownData = await getRoundCountdown();
+  } catch (err) {
+    console.error("Failed to fetch round countdown:", err);
+  }
+
+  let businessWinners: HistoricalWinnersItem[] = [];
+  try {
+    const res = await getHistoricalWinners("business");
+    businessWinners = res?.winners || [];
+  } catch (err) {
+    console.error("Failed to fetch business winners:", err);
+  }
+
+  let artistWinners: HistoricalWinnersItem[] = [];
+  try {
+    const res = await getHistoricalWinners("artist");
+    artistWinners = res?.winners || [];
+  } catch (err) {
+    console.error("Failed to fetch artist winners:", err);
+  }
+
+  let pastSixMonthsWinners: PastSixMonthsWinner[] = [];
+  try {
+    const res = await getPastSixMonthsWinners();
+    pastSixMonthsWinners = res?.winners || [];
+  } catch (err) {
+    console.error("Failed to fetch past six months winners:", err);
+  }
+
+  let currentWinner: PastSixMonthsWinner | null = null;
+  try {
+    const res = await getCurrentContestWinner();
+    currentWinner = res?.winner || null;
+  } catch (err) {
+    console.error("Failed to fetch current contest winner:", err);
+  }
 
   return (
     <>
@@ -36,20 +105,35 @@ const Page = async () => {
       {/* <PricingTable /> */}
       {/* <Features data={cmsData?.features} /> */}
       <BossBeginnings data={cmsData?.boss_beginnings} />
-      <SuccessStories />
-      <ArtistSpotlightCard data={cmsData?.spotlight} />
+      <SuccessStories
+        cmsData={cmsData?.celebrating_business_spotlight_winners}
+        winners={businessWinners}
+        type="business"
+      />
+      <ArtistSpotlightCard
+        data={cmsData?.spotlight}
+        currentWinner={currentWinner}
+      />
+      
       {/* <CommunityAchievements data={cmsData?.highlights} /> */}
       {/* <div className="pb-15">
         <ArtistSpotlightCard data={cmsData?.spotlight} />
       </div> */}
-      <CommunityAchievements data={cmsData?.highlights} />
+      <SuccessStories
+        cmsData={cmsData?.celebrating_artist_spotlight_winners}
+        winners={artistWinners}
+        type="artist"
+      />
       <EventBanner data={cmsData?.cta} />
-      <Countdown />
-      <FeaturedEvent />
+      <Countdown data={countdownData} />
+      <FeaturedEvent events={featuredEvents} />
       <UpcomingEvents />
       <PastEvents />
-      <CommunityAchievements data={cmsData?.highlights} />
-      <OSIApparel data={cmsData?.shop} />
+      <CommunityAchievements
+        data={cmsData?.past_6_month_boss_beginnings_highlight}
+        pastSixMonthsWinners={pastSixMonthsWinners}
+      />
+      <OSIApparel data={cmsData?.shop} featuredProducts={featuredProducts} />
       {/* <CommunityPartner /> */}
       <Sponsors data={cmsData?.partners} />
       <NewsLetter data={cmsData?.newsletter} />

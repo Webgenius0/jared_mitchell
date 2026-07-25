@@ -16,7 +16,7 @@ interface ShopCardExtended extends ShopCardProps {
   categoryName?: string;
 }
 
-const ShopCard = ({ data, key }: { data: ShopCardExtended; key: number }) => {
+const ShopCard = ({ data, itemKey }: { data: ShopCardExtended; itemKey: number }) => {
   const linkHref = data.slug ? `shop/${data.slug}` : `shop/${data?.id}`;
   const { user } = useAuth();
   const router = useRouter();
@@ -49,7 +49,7 @@ const ShopCard = ({ data, key }: { data: ShopCardExtended; key: number }) => {
   return (
     <Link href={linkHref}>
       <div
-        key={key}
+        key={itemKey}
         className="pb-5 rounded-2xl overflow-hidden custom_border custom_shadow bg-white"
       >
         <div className="relative w-full h-[378px]">
