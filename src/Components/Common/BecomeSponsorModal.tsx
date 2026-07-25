@@ -85,7 +85,7 @@ export const SponsorModal = ({ onClose }: { onClose: () => void }) => {
         >
           {/* Full Name */}
           <div>
-            <label className="block text-sm font-medium mb-1.5">
+            <label className="block text-sm font-medium mb-1.5 text-start">
               Full Name<span className="text-red-500">*</span>
             </label>
             <div className="relative">
@@ -103,7 +103,7 @@ export const SponsorModal = ({ onClose }: { onClose: () => void }) => {
 
           {/* Email */}
           <div>
-            <label className="block text-sm font-medium mb-1.5">
+            <label className="block text-sm font-medium mb-1.5 text-start">
               Email Address<span className="text-red-500">*</span>
             </label>
             <div className="relative">
@@ -121,7 +121,7 @@ export const SponsorModal = ({ onClose }: { onClose: () => void }) => {
 
           {/* Phone */}
           <div>
-            <label className="block text-sm font-medium mb-1.5">
+            <label className="block text-sm font-medium mb-1.5 text-start">
               Phone Number<span className="text-red-500">*</span>
             </label>
             <div className="relative">
@@ -139,7 +139,7 @@ export const SponsorModal = ({ onClose }: { onClose: () => void }) => {
 
           {/* Why Sponsor */}
           <div>
-            <label className="block text-sm font-medium mb-1.5">
+            <label className="block text-sm font-medium mb-1.5 text-start">
               Why Sponsor The All Contestant
               <span className="text-red-500">*</span>
             </label>
@@ -155,7 +155,7 @@ export const SponsorModal = ({ onClose }: { onClose: () => void }) => {
 
           {/* Sponsor Title */}
           <div>
-            <label className="block text-sm font-medium mb-1.5">
+            <label className="block text-sm font-medium mb-1.5 text-start">
               Sponsor Title<span className="text-red-500">*</span>
             </label>
             <input
@@ -170,7 +170,7 @@ export const SponsorModal = ({ onClose }: { onClose: () => void }) => {
 
           {/* Logo Upload */}
           <div>
-            <label className="block text-sm font-medium mb-1.5">
+            <label className="block text-sm font-medium mb-1.5 text-start">
               Sponsor Logo/Image<span className="text-red-500">*</span>
             </label>
             <input
