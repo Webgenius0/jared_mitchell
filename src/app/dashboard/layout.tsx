@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import useAuth from "@/Hooks/useAuth";
 import PrivateLayout from "@/Private/PrivateLayout";
 import DashboardSidebar from "@/Shared/DashboardSidebar";
+import { FaRegStar } from "react-icons/fa";
 import {
   NEighteenSvg,
   NEightSvg,
@@ -166,6 +167,18 @@ const bossLinks = [
     label: "Business",
     path: "/dashboard/boss_beginning/business",
     icon: <NSeventeenSvg />,
+  },
+  {
+    id: 31,
+    label: "Current Session",
+    path: "/dashboard/boss_beginning/current-session",
+    icon: <FaRegStar className="text-xl" />,
+    subMenu: [
+      {
+        label: " List Business",
+        path: "/dashboard/boss_beginning/listed-business",
+      },
+    ],
   },
   {
     id: 22,
