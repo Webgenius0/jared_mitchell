@@ -6,6 +6,7 @@ export function setItem(key: string, value: string) {
   }
 }
 
+
 export function getItem(key: string): string | undefined {
   if (typeof window === "undefined") {
     return undefined;
