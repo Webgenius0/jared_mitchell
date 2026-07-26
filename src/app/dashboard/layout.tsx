@@ -4,6 +4,8 @@ import useAuth from "@/Hooks/useAuth";
 import PrivateLayout from "@/Private/PrivateLayout";
 import DashboardSidebar from "@/Shared/DashboardSidebar";
 import { FaRegStar } from "react-icons/fa";
+import { LuShoppingCart } from "react-icons/lu";
+
 import {
   NEighteenSvg,
   NEightSvg,
@@ -175,7 +177,7 @@ const bossLinks = [
     icon: <FaRegStar className="text-xl" />,
     subMenu: [
       {
-        label: " List Business",
+        label: "List Business",
         path: "/dashboard/boss_beginning/listed-business",
       },
     ],
@@ -185,6 +187,18 @@ const bossLinks = [
     label: "Spotlight",
     path: "/dashboard/boss_beginning/leaderboards",
     icon: <NEighteenSvg />,
+    subMenu: [
+      {
+        label: "Vote Purchase",
+        path: "/dashboard/boss_beginning/vote-purchase",
+      },
+    ],
+  },
+  {
+    id: 42,
+    label: "Purchase List",
+    path: "/dashboard/boss_beginning/purchase-list",
+    icon: <LuShoppingCart className="text-xl" />,
   },
   {
     id: 23,

@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React, { useCallback, useState } from "react";
 import { FiLogOut } from "react-icons/fi";
+import { FaAngleDown } from "react-icons/fa6";
 
 type SubMenu = {
   label: string;
@@ -129,7 +130,7 @@ const DashboardSidebar = ({
                     <p
                       className={`duration-300 transition-transform ${isSubMenuOpen ? "rotate-0" : "rotate-180"}`}
                     >
-                      <DownArrowSvg />
+                      <FaAngleDown className="text-sm"/>
                     </p>
                   )}
                 </p>

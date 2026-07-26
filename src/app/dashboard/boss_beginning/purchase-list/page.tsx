@@ -1,7 +1,6 @@
 "use client";
 import { useState } from "react";
 import { Globe, Building2, User, Play } from "lucide-react";
-import Link from "next/link";
 import Modal from "@/Components/Common/Modal";
 import Image from "next/image";
 type BusinessStatus = "Approved" | "Terminated" | "Pending";
