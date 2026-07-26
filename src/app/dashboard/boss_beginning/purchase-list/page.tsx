@@ -92,7 +92,7 @@ function DetailRow({
   );
 }
 
-export default function Page() {
+export default function PurchaseList() {
   const [selectedOrder, setSelectedOrder] = useState<Business | null>(null);
 
   return (

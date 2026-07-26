@@ -55,7 +55,7 @@ function Row({ label, value }: { label: string; value: string | number }) {
   );
 }
 
-const Page = () => {
+const VotePurchase = () => {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
       {votePackages.map(pkg => (
@@ -89,4 +89,4 @@ const Page = () => {
   );
 };
 
-export default Page;
+export default VotePurchase;

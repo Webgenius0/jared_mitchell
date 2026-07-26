@@ -41,6 +41,18 @@ const artistLinks = [
     label: "Spotlight Management",
     path: "/dashboard/artist_business/spotlight-management",
     icon: <NTwoSvg />,
+    subMenu: [
+      {
+        label: "Vote Purchase",
+        path: "/dashboard/artist_business/vote-purchase",
+      },
+    ],
+  },
+  {
+    id: 42,
+    label: "Purchase List",
+    path: "/dashboard/artist_business/purchase-list",
+    icon: <LuShoppingCart className="text-xl" />,
   },
   {
     id: 3,
@@ -97,6 +109,12 @@ const communityMemberLinks = [
     label: "Spotlight",
     path: "/dashboard/community_member/leaderboards",
     icon: <NEighteenSvg />,
+  },
+  {
+    id: 42,
+    label: "Purchase List",
+    path: "/dashboard/community_member/purchase-list",
+    icon: <LuShoppingCart className="text-xl" />,
   },
   {
     id: 24,
