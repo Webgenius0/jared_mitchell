@@ -49,9 +49,36 @@
 
 // export default PricingTable;
 
-import { pricingTableData } from "@/Components/Data/data";
+import { pricingTableData as staticTableData } from "@/Components/Data/data";
 
-const PricingTable = () => {
+export interface TableRow {
+  feature: string;
+  basic: string | boolean;
+  growth: string | boolean;
+  pro: string | boolean;
+}
+
+export interface PricingTableProps {
+  data?: TableRow[];
+  headers?: {
+    basic: string;
+    growth: string;
+    pro: string;
+  };
+}
+
+const DEFAULT_HEADERS = {
+  basic: "Basic ($25)",
+  growth: "Growth ($50)",
+  pro: "Pro Business ($100)",
+};
+
+const PricingTable = ({ data, headers }: PricingTableProps) => {
+  const pricingTableData = data ?? staticTableData;
+  const tableHeaders = headers ?? DEFAULT_HEADERS;
+
+  if (!pricingTableData.length) return null;
+
   return (
     <section className="section py-8 md:py-12 bg-[#F5F5F7]">
       <div className="container">
@@ -62,10 +89,10 @@ const PricingTable = () => {
                 <th className="font-bold py-3 md:py-4 xl:py-5 rounded-tl-xl">
                   Feature
                 </th>
-                <th className="font-bold py-3 md:py-4 xl:py-5">Basic ($25)</th>
-                <th className="font-bold py-3 md:py-4 xl:py-5">Growth ($50)</th>
+                <th className="font-bold py-3 md:py-4 xl:py-5">{tableHeaders.basic}</th>
+                <th className="font-bold py-3 md:py-4 xl:py-5">{tableHeaders.growth}</th>
                 <th className="font-bold py-3 md:py-4 xl:py-5 rounded-tr-xl">
-                  Pro Business ($100)
+                  {tableHeaders.pro}
                 </th>
               </tr>
             </thead>
@@ -76,14 +103,18 @@ const PricingTable = () => {
                   key={index}
                   className="text-xs md:text-sm lg:text-base xl:text-lg border-b border-gray-200 text-center bg-white"
                 >
-                  <td className="px-2 py-2.5 lg:py-3.5 xl:py-4">
+                  <td className="px-2 py-2.5 lg:py-3.5 xl:py-4 text-left font-medium">
                     {row.feature}
                   </td>
-                  <td className="px-2 py-2.5 lg:py-3.5 xl:py-4">{row.basic}</td>
                   <td className="px-2 py-2.5 lg:py-3.5 xl:py-4">
-                    {row.growth}
+                    {typeof row.basic === "boolean" ? (row.basic ? "✓" : "—") : row.basic}
                   </td>
-                  <td className="px-2 py-2.5 lg:py-3.5 xl:py-4">{row.pro}</td>
+                  <td className="px-2 py-2.5 lg:py-3.5 xl:py-4">
+                    {typeof row.growth === "boolean" ? (row.growth ? "✓" : "—") : row.growth}
+                  </td>
+                  <td className="px-2 py-2.5 lg:py-3.5 xl:py-4">
+                    {typeof row.pro === "boolean" ? (row.pro ? "✓" : "—") : row.pro}
+                  </td>
                 </tr>
               ))}
             </tbody>

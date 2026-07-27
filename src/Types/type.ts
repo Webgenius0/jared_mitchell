@@ -41,6 +41,8 @@ export type PricingPlan = {
     items: string[];
   }[];
   outcome: string;
+  buttonLabel?: string;
+  buttonUrl?: string;
 };
 
 export interface FAQItem {

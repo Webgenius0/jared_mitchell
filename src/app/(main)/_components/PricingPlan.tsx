@@ -1,9 +1,12 @@
 import { Button } from "@/Components/Common/Button";
-import { pricingPlans } from "@/Components/Data/data";
+import { pricingPlans as staticPlans } from "@/Components/Data/data";
+import { PricingPlan as PricingPlanType } from "@/Types/type";
 import { GoArrowRight } from "react-icons/go";
 import { IoCheckmarkOutline } from "react-icons/io5";
 
-const PricingPlan = () => {
+const PricingPlan = ({ plans }: { plans?: PricingPlanType[] }) => {
+  const pricingPlans = plans ?? staticPlans;
+
   return (
     <section className="section">
       <div className="container">
@@ -21,7 +24,7 @@ const PricingPlan = () => {
                 }`}
               >
                 {plan.badge && (
-                  <span className="absolute -top-3 left-[20%] -translate-x-1/2 rounded-full bg-primary-blue px-3 py-1 text-sm font-medium text-white">
+                  <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-primary-blue px-3 py-1 text-sm font-medium text-white">
                     {plan.badge}
                   </span>
                 )}
@@ -36,14 +39,6 @@ const PricingPlan = () => {
                 </div>
                 <p className="mt-4 text-xl">Best for:</p>
                 <p className="">{plan.bestFor}</p>
-                {plan.id === "growth" && (
-                  <p className="text-xl mt-3 text-primary-blue">
-                    Everything in Basic, Plus:
-                  </p>
-                )}
-                {plan.id === "pro" && (
-                  <p className="text-xl mt-3">Everything in Growth, Plus:</p>
-                )}
                 <div className="mt-6 space-y-6">
                   {plan.sections.map(section => (
                     <div key={section.title}>
@@ -54,7 +49,7 @@ const PricingPlan = () => {
                         {section?.items?.map(item => (
                           <li key={item} className="flex gap-2">
                             <IoCheckmarkOutline
-                              className={`size-5 shrink-0 ${plan.id === "pro" ? "text-white" : "text-primary-blue"}`}
+                              className={`size-5 shrink-0 ${plan.highlighted ? "text-white" : "text-primary-blue"}`}
                             />
                             <span>{item}</span>
                           </li>
@@ -81,7 +76,7 @@ const PricingPlan = () => {
                         : "bg-primary-blue text-white hover:bg-blue-700"
                     }`}
                   >
-                    Get Started <GoArrowRight />
+                    {plan.buttonLabel ?? "Get Started"} <GoArrowRight />
                   </Button>
                 </div>
               </div>

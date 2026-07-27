@@ -19,7 +19,7 @@ const NewBusiness = ({ data }: NewBusinessProps) => {
         </p>
         <div className="text-center mt-9">
           <Link
-            href="/nomination"
+            href="/boss-beginnings-contest"
             className="py-3.5 px-[67px] bg-primary-blue text-white rounded-full text-xl font-medium"
           >
             Submit a Nomination

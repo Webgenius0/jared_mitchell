@@ -236,8 +236,36 @@ export interface CMSBusinessSpotlight {
 
 export interface CMSSpotlightLadderHero extends CMSBase {}
 
+export interface CMSSpotlightLadderTimelineItem {
+  heading: string;
+  description: string;
+}
+
+export interface CMSSpotlightLadderDetails extends CMSBase {
+  metadata: CMSSpotlightLadderTimelineItem[];
+}
+
+export interface CMSSpotlightLadderPartnersItem {
+  section: string;
+  title: string;
+  sub_title: string | null;
+  description: string | null;
+  metadata: {
+    image: string;
+    link: string;
+  }[];
+}
+
+export interface CMSSpotlightLadderPartners {
+  section: string;
+  items: CMSSpotlightLadderPartnersItem[];
+}
+
 export interface CMSSpotlightLadder {
+  spotlight_ladder_details: CMSSpotlightLadderDetails;
   spotlight_ladder_hero: CMSSpotlightLadderHero;
+  partners: CMSSpotlightLadderPartners;
+  newsletter: CMSBase;
 }
 
 export interface CMSFAQ {
@@ -535,6 +563,11 @@ export interface FeaturedEventItem {
   is_spotlight_eligible: boolean;
   is_featured: boolean;
   like_count: number;
+  likes_count: number;
+  bookmarks_count: number;
+  shares_count: number;
+  is_liked: boolean;
+  is_bookmarked: boolean;
   ticket_url: string;
   tickets_available: boolean;
   status: string;
@@ -747,6 +780,71 @@ export interface PastSixMonthsWinnersResponse {
   winners: PastSixMonthsWinner[];
 }
 
+// ─── Artist & Business Detail (from /v1/artists & /v1/businesses/list) ────
+
+export interface ArtistCategory {
+  id: number;
+  name: string;
+  slug: string;
+}
+
+export interface ArtistDetail {
+  id: number;
+  name: string;
+  username: string;
+  biography: string;
+  tagline: string;
+  avatar: string;
+  category: ArtistCategory;
+  likes_count: number;
+  bookmarks_count: number;
+  shares_count: number;
+  is_liked: boolean;
+  is_bookmarked: boolean;
+  created_at: string;
+}
+
+export interface ArtistDetailResponse {
+  success: boolean;
+  message: string;
+  data: {
+    artist: ArtistDetail;
+  };
+}
+
+export interface BusinessCategory {
+  id: number;
+  name: string;
+  slug: string;
+}
+
+export interface BusinessDetail {
+  id: number;
+  name: string;
+  owner_name: string;
+  description: string;
+  tagline: string;
+  logo: string;
+  category: BusinessCategory;
+  city: string;
+  state: string;
+  website: string;
+  likes_count: number;
+  bookmarks_count: number;
+  shares_count: number;
+  is_liked: boolean;
+  is_bookmarked: boolean;
+  created_at: string;
+}
+
+export interface BusinessDetailResponse {
+  success: boolean;
+  message: string;
+  data: {
+    business: BusinessDetail;
+  };
+}
+
 // ─── Spotlight Historical Winners (shared shape for artist & business) ──────
 
 export interface SpotlightHistoricalWinnerMedia {
@@ -805,4 +903,50 @@ export type BusinessHistoricalWinnersResponse = SpotlightHistoricalWinnersRespon
 
 export interface CurrentContestWinnerResponse {
   winner: PastSixMonthsWinner | null;
+}
+
+// ─── Subscription Plans (Pricing Page) ───────────────────────────────────────
+
+export interface SubscriptionFeatureItem {
+  id: number;
+  feature_group_id: number;
+  feature_text: string;
+  sort_order: number;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface SubscriptionFeatureGroup {
+  id: number;
+  price_plan_id: number;
+  title: string;
+  sort_order: number;
+  created_at: string;
+  updated_at: string;
+  items: SubscriptionFeatureItem[];
+}
+
+export interface SubscriptionPlan {
+  id: number;
+  stripe_product_id: string | null;
+  stripe_price_id: string | null;
+  plan_name: string;
+  badge_text: string | null;
+  price: string;
+  price_suffix: string;
+  best_for: string;
+  outcome_text: string;
+  button_label: string;
+  button_url: string;
+  is_featured: number;
+  is_visible: number;
+  sort_order: number;
+  created_at: string;
+  updated_at: string;
+  feature_groups: SubscriptionFeatureGroup[];
+}
+
+export interface SubscriptionPlansResponse {
+  status: string;
+  data: SubscriptionPlan[];
 }
