@@ -747,6 +747,62 @@ export interface PastSixMonthsWinnersResponse {
   winners: PastSixMonthsWinner[];
 }
 
+// ─── Spotlight Historical Winners (shared shape for artist & business) ──────
+
+export interface SpotlightHistoricalWinnerMedia {
+  headshot: string;
+  artwork_photos: string[];
+  behind_scenes_photo: string;
+}
+
+export interface SpotlightHistoricalWinnerSpotlight {
+  id: number;
+  type: string;
+  name: string;
+  city: string;
+  state: string;
+  media: SpotlightHistoricalWinnerMedia;
+}
+
+export interface SpotlightHistoricalWinnerOwner {
+  id: number;
+  name: string;
+}
+
+export interface SpotlightHistoricalWinnerItem {
+  id: number;
+  week_number: number;
+  year: number;
+  spotlight: SpotlightHistoricalWinnerSpotlight;
+  owner: SpotlightHistoricalWinnerOwner;
+  total_votes: number;
+  free_votes: number;
+  paid_votes: number;
+  announced_at: string;
+}
+
+export interface SpotlightHistoricalWinnersResponse {
+  type: string;
+  total: number;
+  winners: SpotlightHistoricalWinnerItem[];
+  pagination: {
+    current_page: number;
+    per_page: number;
+    last_page: number;
+    total: number;
+    has_more: boolean;
+  };
+}
+
+// Re-export as aliases for backward compatibility
+// (these share the same shape — just the `type` field value differs)
+export type ArtistHistoricalWinnerMedia = SpotlightHistoricalWinnerMedia;
+export type ArtistHistoricalWinnerSpotlight = SpotlightHistoricalWinnerSpotlight;
+export type ArtistHistoricalWinnerOwner = SpotlightHistoricalWinnerOwner;
+export type ArtistHistoricalWinnerItem = SpotlightHistoricalWinnerItem;
+export type ArtistHistoricalWinnersResponse = SpotlightHistoricalWinnersResponse;
+export type BusinessHistoricalWinnersResponse = SpotlightHistoricalWinnersResponse;
+
 export interface CurrentContestWinnerResponse {
   winner: PastSixMonthsWinner | null;
 }

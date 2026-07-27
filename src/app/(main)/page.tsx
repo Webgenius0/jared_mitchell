@@ -25,7 +25,8 @@ import {
   getFeaturedEvents,
   getFeaturedProducts,
   getRoundCountdown,
-  getHistoricalWinners,
+  getArtistHistoricalWinners,
+  getBusinessHistoricalWinners,
   getPastSixMonthsWinners,
 } from "@/lib/Services/cms_service";
 import {
@@ -63,16 +64,30 @@ const Page = async () => {
 
   let businessWinners: HistoricalWinnersItem[] = [];
   try {
-    const res = await getHistoricalWinners("business");
-    businessWinners = res?.winners || [];
+    const res = await getBusinessHistoricalWinners();
+    businessWinners = (res?.winners || []).map((w) => ({
+      id: w.id,
+      title: w.spotlight.name,
+      slug: "",
+      description: `${w.spotlight.city}, ${w.spotlight.state}`,
+      image: w.spotlight.media.headshot,
+      category: "Business",
+    }));
   } catch (err) {
     console.error("Failed to fetch business winners:", err);
   }
 
   let artistWinners: HistoricalWinnersItem[] = [];
   try {
-    const res = await getHistoricalWinners("artist");
-    artistWinners = res?.winners || [];
+    const res = await getArtistHistoricalWinners();
+    artistWinners = (res?.winners || []).map((w) => ({
+      id: w.id,
+      title: w.spotlight.name,
+      slug: "",
+      description: `${w.spotlight.city}, ${w.spotlight.state}`,
+      image: w.spotlight.media.headshot,
+      category: "Artist",
+    }));
   } catch (err) {
     console.error("Failed to fetch artist winners:", err);
   }

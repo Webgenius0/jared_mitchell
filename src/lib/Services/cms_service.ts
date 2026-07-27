@@ -19,7 +19,8 @@ import {
   FeaturedProductDetail,
   FeaturedProductItem,
   EventsResponse,
-  HistoricalWinnersResponse,
+  ArtistHistoricalWinnersResponse,
+  BusinessHistoricalWinnersResponse,
   PastSixMonthsWinnersResponse,
   RoundCountdownResponse,
 } from "@/Types/cms";
@@ -339,23 +340,39 @@ export const getProductBySlug = async (
   return result.data as FeaturedProductDetail;
 };
 
-export const getHistoricalWinners = async (
-  type: "business" | "artist",
-): Promise<HistoricalWinnersResponse> => {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_SITE_URL}/v1/spotlight/historical-winners?type=${type}`,
-    { next: { revalidate: 60 } },
-  );
-
-  if (!res.ok) {
-    throw new Error(
-      `Failed to fetch ${type} historical winners — Status: ${res.status}`,
+export const getArtistHistoricalWinners =
+  async (): Promise<ArtistHistoricalWinnersResponse> => {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_SITE_URL}/v1/spotlight/historical-winners?type=artist`,
+      { next: { revalidate: 60 } },
     );
-  }
 
-  const result = await res.json();
-  return result.data as HistoricalWinnersResponse;
-};
+    if (!res.ok) {
+      throw new Error(
+        `Failed to fetch artist historical winners — Status: ${res.status}`,
+      );
+    }
+
+    const result = await res.json();
+    return result.data as ArtistHistoricalWinnersResponse;
+  };
+
+export const getBusinessHistoricalWinners =
+  async (): Promise<BusinessHistoricalWinnersResponse> => {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_SITE_URL}/v1/spotlight/historical-winners?type=business`,
+      { next: { revalidate: 60 } },
+    );
+
+    if (!res.ok) {
+      throw new Error(
+        `Failed to fetch business historical winners — Status: ${res.status}`,
+      );
+    }
+
+    const result = await res.json();
+    return result.data as BusinessHistoricalWinnersResponse;
+  };
 
 export const getCurrentContestWinner = async (): Promise<CurrentContestWinnerResponse> => {
   const res = await fetch(
