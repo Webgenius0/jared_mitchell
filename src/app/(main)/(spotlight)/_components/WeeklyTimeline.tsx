@@ -1,14 +1,31 @@
-import { timelineData } from "@/Components/Data/data";
+import { timelineData as staticTimeline } from "@/Components/Data/data";
 
-const WeeklyTimeline = () => {
+interface TimelineEvent {
+  id: number;
+  time: string;
+  title: string;
+  points: string[];
+}
+
+interface WeeklyTimelineProps {
+  title?: string;
+  events?: TimelineEvent[];
+}
+
+const WeeklyTimeline = ({ title, events }: WeeklyTimelineProps) => {
+  const data = {
+    title: title || staticTimeline.title,
+    events: events || staticTimeline.events,
+  };
+
   return (
     <div className="bg-[#F5F5F7] custom_border rounded-2xl p-8 md:p-12 custom_shadow !space-y-8 container">
       <h2 className="section_title 2xl:!text-6xl text-center">
-        {timelineData.title}
+        {data.title}
       </h2>
 
       <div className="space-y-7 w-fit mx-auto">
-        {timelineData?.events.map(event => (
+        {data?.events.map(event => (
           <div
             key={event.id}
             className="grid grid-cols-1 md:grid-cols-[220px_1fr] gap-6"

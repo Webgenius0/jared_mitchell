@@ -208,7 +208,7 @@ export default function ContestTable() {
   return (
     <div className="container mx-auto">
       {/* Tabs */}
-      <div className="rounded-2xl border border-black/15 bg-white shadow-[0_4px_20px_0_rgba(0,0,0,0.07)] p-3 sm:p-5 flex flex-wrap gap-2 mt-6 sm:mt-8">
+      <div className="rounded-2xl border border-black/15 bg-white shadow-[0_4px_20px_0_rgba(0,0,0,0.07)] p-3 sm:p-5 flex flex-wrap gap-2 my-6 sm:my-8">
         {TABS.map(tab => {
           const Icon = tab.icon;
           return (

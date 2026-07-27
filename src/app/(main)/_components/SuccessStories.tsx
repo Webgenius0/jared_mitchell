@@ -79,7 +79,7 @@ const SuccessStories = ({ cmsData, winners, type }: SuccessStoriesProps) => {
                     {/* Bottom Content */}
                     <div className="absolute bottom-4 left-4 right-4 flex justify-between items-end">
                       <div className="space-y-1.5">
-                        <h4 className="text-lg xl:text-xl font-semibold text-white">
+                        <h4 className="text-lg xl:text-xl font-semibold text-white capitalize">
                           {item.title}
                         </h4>
                         <p className="text-primary-gray text-sm line-clamp-2">
@@ -87,12 +87,12 @@ const SuccessStories = ({ cmsData, winners, type }: SuccessStoriesProps) => {
                         </p>
                       </div>
 
-                      {item.slug && (
+                      {item.id && (
                         <Link
                           href={
                             type === "business"
-                              ? `/business-spotlight/${item.slug}`
-                              : `/artist-spotlight/${item.slug}`
+                              ? `/spotlight-business/${item.id}`
+                              : `/spotlight-artist/${item.id}`
                           }
                           className="text-white flex items-center gap-2 text-sm whitespace-nowrap hover:underline"
                         >

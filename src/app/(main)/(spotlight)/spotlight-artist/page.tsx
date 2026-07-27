@@ -13,6 +13,7 @@ import {
   getCMSAboutData,
   getCMSArtistSpotlightData,
   getArtistHistoricalWinners,
+  getCMSHomepageData,
 } from "@/lib/Services/cms_service";
 import { HistoricalWinnersItem } from "@/Types/cms";
 import Sponsors from "../../_components/Sponsors";
@@ -21,7 +22,8 @@ const FALLBACK_IMAGE = "https://placehold.co/400x600.png?text=No+Image";
 
 const page = async () => {
   const cmsData = await getCMSArtistSpotlightData();
-  const CmsData = await getCMSAboutData();
+  const partners = await getCMSHomepageData();
+  
 
   let artistWinners: HistoricalWinnersItem[] = [];
   try {
@@ -43,11 +45,8 @@ const page = async () => {
       <ArtistSpotlightBanner data={cmsData?.artist_spotlight_hero} />
       <SpotlightHero data={cmsData?.artist_spotlight_video} />
       <DiscoverArtists type="artist" data={cmsData?.artist_spotlight_list} />
-      <CommunityAchievements data={cmsData?.artist_spotlight_highlights} />
-      <SuccessStories
-        winners={artistWinners}
-        type="artist"
-      />
+      {/* <CommunityAchievements data={cmsData?.artist_spotlight_highlights} /> */}
+      <SuccessStories winners={artistWinners} type="artist" />
       <SpotlightLadder
         title={
           cmsData?.artist_spotlight_ladder?.title || "Weekly Spotlight Ladder"
@@ -63,7 +62,7 @@ const page = async () => {
       {/* <CreativeJourney data={cmsData?.artist_spotlight_interview} /> */}
       <WhatExist data={cmsData?.artist_spotlight_why_exists} />
       {/* <EventSponsors /> */}
-      <Sponsors data={CmsData?.about_sponsors} />
+      <Sponsors data={partners?.partners} showButton={false} />
       <NewsLetter title="Stay connected with new spotlights, events, and creative tools." />
     </>
   );

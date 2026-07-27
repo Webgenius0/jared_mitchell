@@ -236,8 +236,36 @@ export interface CMSBusinessSpotlight {
 
 export interface CMSSpotlightLadderHero extends CMSBase {}
 
+export interface CMSSpotlightLadderTimelineItem {
+  heading: string;
+  description: string;
+}
+
+export interface CMSSpotlightLadderDetails extends CMSBase {
+  metadata: CMSSpotlightLadderTimelineItem[];
+}
+
+export interface CMSSpotlightLadderPartnersItem {
+  section: string;
+  title: string;
+  sub_title: string | null;
+  description: string | null;
+  metadata: {
+    image: string;
+    link: string;
+  }[];
+}
+
+export interface CMSSpotlightLadderPartners {
+  section: string;
+  items: CMSSpotlightLadderPartnersItem[];
+}
+
 export interface CMSSpotlightLadder {
+  spotlight_ladder_details: CMSSpotlightLadderDetails;
   spotlight_ladder_hero: CMSSpotlightLadderHero;
+  partners: CMSSpotlightLadderPartners;
+  newsletter: CMSBase;
 }
 
 export interface CMSFAQ {
@@ -745,6 +773,71 @@ export interface PastSixMonthsWinner {
 
 export interface PastSixMonthsWinnersResponse {
   winners: PastSixMonthsWinner[];
+}
+
+// ─── Artist & Business Detail (from /v1/artists & /v1/businesses/list) ────
+
+export interface ArtistCategory {
+  id: number;
+  name: string;
+  slug: string;
+}
+
+export interface ArtistDetail {
+  id: number;
+  name: string;
+  username: string;
+  biography: string;
+  tagline: string;
+  avatar: string;
+  category: ArtistCategory;
+  likes_count: number;
+  bookmarks_count: number;
+  shares_count: number;
+  is_liked: boolean;
+  is_bookmarked: boolean;
+  created_at: string;
+}
+
+export interface ArtistDetailResponse {
+  success: boolean;
+  message: string;
+  data: {
+    artist: ArtistDetail;
+  };
+}
+
+export interface BusinessCategory {
+  id: number;
+  name: string;
+  slug: string;
+}
+
+export interface BusinessDetail {
+  id: number;
+  name: string;
+  owner_name: string;
+  description: string;
+  tagline: string;
+  logo: string;
+  category: BusinessCategory;
+  city: string;
+  state: string;
+  website: string;
+  likes_count: number;
+  bookmarks_count: number;
+  shares_count: number;
+  is_liked: boolean;
+  is_bookmarked: boolean;
+  created_at: string;
+}
+
+export interface BusinessDetailResponse {
+  success: boolean;
+  message: string;
+  data: {
+    business: BusinessDetail;
+  };
 }
 
 // ─── Spotlight Historical Winners (shared shape for artist & business) ──────

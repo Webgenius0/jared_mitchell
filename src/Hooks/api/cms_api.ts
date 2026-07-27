@@ -110,6 +110,26 @@ export const getEventBySlug = (slug: string) => {
   });
 };
 
+// Get Artist By ID
+export const getArtistById = (id: number) => {
+  return useClientApi({
+    method: "get",
+    key: ["artist-by-id", id],
+    endpoint: `/v1/artists/${id}`,
+    enabled: !!id,
+  });
+};
+
+// Get Business By ID
+export const getBusinessById = (id: number) => {
+  return useClientApi({
+    method: "get",
+    key: ["business-by-id", id],
+    endpoint: `/v1/businesses/list/${id}`,
+    enabled: !!id,
+  });
+};
+
 // Get CMS About Data
 export const getCMSAboutData = () => {
   return useClientApi({
