@@ -49,7 +49,7 @@ const LimitedDrops = ({ products, isLoading }: LimitedDropsProps) => {
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 px-8">
         {products.map((product) => (
-          <ShopCard data={mapProductToCardProps(product)} key={product.id} />
+          <ShopCard data={mapProductToCardProps(product)} key={product.id} itemKey={product.id} />
         ))}
       </div>
     </div>

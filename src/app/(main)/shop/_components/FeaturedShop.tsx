@@ -55,6 +55,7 @@ const FeaturedShop = ({ products, isLoading }: FeaturedShopProps) => {
           <ShopCard
             data={mapProductToCardProps(product)}
             key={product.id}
+            itemKey={product.id}
           />
         ))}
       </div>

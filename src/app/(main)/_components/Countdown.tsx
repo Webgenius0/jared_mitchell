@@ -3,6 +3,7 @@ import { Button } from "@/Components/Common/Button";
 import Container from "@/Components/Common/Container";
 import { useEffect, useState } from "react";
 import { BsArrowRight } from "react-icons/bs";
+import { RoundCountdownResponse } from "@/Types/cms";
 
 type TimeLeft = {
   days: number;
@@ -11,28 +12,38 @@ type TimeLeft = {
   seconds: number;
 };
 
-const getTimeLeft = (targetDate: Date): TimeLeft => {
-  const total = targetDate.getTime() - new Date().getTime();
-  const seconds = Math.max(Math.floor((total / 1000) % 60), 0);
-  const minutes = Math.max(Math.floor((total / 1000 / 60) % 60), 0);
-  const hours = Math.max(Math.floor((total / (1000 * 60 * 60)) % 24), 0);
-  const days = Math.max(Math.floor(total / (1000 * 60 * 60 * 24)), 0);
-
+const deriveTimeLeft = (totalSeconds: number): TimeLeft => {
+  const total = Math.max(totalSeconds, 0);
+  const days = Math.floor(total / 86400);
+  const hours = Math.floor((total % 86400) / 3600);
+  const minutes = Math.floor((total % 3600) / 60);
+  const seconds = total % 60;
   return { days, hours, minutes, seconds };
 };
 
-export default function Countdown() {
-  const targetDate = new Date("2025-01-01T00:00:00");
+interface CountdownProps {
+  data?: RoundCountdownResponse | null;
+}
 
-  const [timeLeft, setTimeLeft] = useState<TimeLeft>(getTimeLeft(targetDate));
+export default function Countdown({ data }: CountdownProps) {
+  const initialTotalSeconds = data?.countdown?.total_seconds ?? 0;
+
+  const [totalSeconds, setTotalSeconds] = useState(initialTotalSeconds);
+
+  const timeLeft = deriveTimeLeft(totalSeconds);
 
   useEffect(() => {
-    const timer = setInterval(() => {
-      setTimeLeft(getTimeLeft(targetDate));
-    }, 1000);
+    // Reset when API data changes
+    setTotalSeconds(initialTotalSeconds);
+  }, [initialTotalSeconds]);
 
+  useEffect(() => {
+    if (initialTotalSeconds <= 0) return;
+    const timer = setInterval(() => {
+      setTotalSeconds((prev) => Math.max(prev - 1, 0));
+    }, 1000);
     return () => clearInterval(timer);
-  }, [targetDate]);
+  }, [initialTotalSeconds]);
 
   const Item = ({ value, label }: { value: number; label: string }) => (
     <div className="flex flex-col gap-3 items-center">
@@ -48,7 +59,7 @@ export default function Countdown() {
       <Container>
         <div className="w-full bg-primary-gray rounded-[20px] py-10 text-center custom_border">
           <h2 className="text-xl md:text-2xl lg:text-3xl font-semibold md:font-bold text-primary-black mb-6 md:mb-8">
-            Next Boss Beginnings – Westside Beauty Lounge
+            {data?.season?.title || "Next Boss Beginnings – Westside Beauty Lounge"}
           </h2>
 
           <div className="flex justify-center gap-2 md:gap-4 mb-7">
