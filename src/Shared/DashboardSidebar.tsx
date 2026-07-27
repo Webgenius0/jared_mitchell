@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React, { useCallback, useState } from "react";
 import { FiLogOut } from "react-icons/fi";
+import { FaAngleDown } from "react-icons/fa6";
 
 type SubMenu = {
   label: string;
@@ -34,11 +35,29 @@ const DashboardSidebar = ({
   const { mutate: handleLogout, isPending: isLoggingOut } = useLogout();
   const [showConfirmModal, setShowConfirmModal] = useState(false);
 
-  // Auto-expand submenu if current path is a submenu of any nav link
-  const hasActiveSubMenu = dashboardNavLinks.some(item =>
-    item?.subMenu?.some(sub => sub.path === pathname)
+  const initialOpenIds = dashboardNavLinks
+    .filter(item => item?.subMenu?.some(sub => sub.path === pathname))
+    .map(item => item.id);
+
+  const [openSubMenuIds, setOpenSubMenuIds] = useState<Set<number>>(
+    () => new Set(initialOpenIds),
   );
-  const [openSubMenu, setOpenSubMenu] = useState<boolean>(hasActiveSubMenu);
+
+  const toggleSubMenu = useCallback((id: number) => {
+    setOpenSubMenuIds(prev => {
+      const next = new Set(prev);
+      if (next.has(id)) {
+        next.delete(id);
+      } else {
+        next.add(id);
+      }
+      return next;
+    });
+  }, []);
+
+  const forceOpenSubMenu = useCallback((id: number) => {
+    setOpenSubMenuIds(prev => new Set(prev).add(id));
+  }, []);
 
   const handleLogoutClick = useCallback(() => {
     setOpen(false);
@@ -81,19 +100,24 @@ const DashboardSidebar = ({
               item?.id === 25 &&
               pathname?.startsWith("/dashboard/boss_beginning/boss-beginning/");
 
+            const isSubMenuOpen = openSubMenuIds.has(item.id);
+
             return (
               <Link
                 key={item?.id}
                 href={item?.path}
                 onClick={() => {
                   setOpen(false);
-                  item?.subMenu && setOpenSubMenu(!openSubMenu);
+                  item?.subMenu && toggleSubMenu(item.id);
                 }}
                 className="duration-500 transition-all"
               >
                 <p
                   className={`flex justify-between items-center px-3 py-2 rounded-md duration-300 transition-all ${
-                    isActive || isActiveSubMenu || isBusinessSubPage || isBossBeginningSubPage
+                    isActive ||
+                    isActiveSubMenu ||
+                    isBusinessSubPage ||
+                    isBossBeginningSubPage
                       ? "bg-primary-blue text-white"
                       : "hover:bg-gray-100 text-gray-700"
                   }`}
@@ -104,9 +128,9 @@ const DashboardSidebar = ({
                   </p>
                   {item?.subMenu && (
                     <p
-                      className={`duration-300 transition-transform ${openSubMenu ? "rotate-0" : "rotate-180"}`}
+                      className={`duration-300 transition-transform ${isSubMenuOpen ? "rotate-0" : "rotate-180"}`}
                     >
-                      <DownArrowSvg />
+                      <FaAngleDown className="text-sm"/>
                     </p>
                   )}
                 </p>
@@ -115,9 +139,9 @@ const DashboardSidebar = ({
                   <div
                     onClick={e => {
                       e.stopPropagation();
-                      setOpenSubMenu(true);
+                      forceOpenSubMenu(item.id);
                     }}
-                    className={`w-fit mx-auto text-[15px] duration-300 transition-all space-y-1 pt-2 ${openSubMenu ? "opacity-100 h-auto" : "opacity-0 h-0"}`}
+                    className={`w-fit ps-5 text-[15px] duration-300 transition-all space-y-1 pt-2 ${isSubMenuOpen ? "opacity-100 h-auto" : "opacity-0 h-0"}`}
                   >
                     {item?.subMenu?.map(subItem => (
                       <Link
@@ -150,7 +174,6 @@ const DashboardSidebar = ({
         <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/50 backdrop-blur-sm">
           <div className="absolute inset-0" onClick={cancelLogout}></div>
           <div className="relative z-10 bg-white rounded-2xl shadow-2xl p-6 w-full max-w-sm mx-4">
-            {/* Icon */}
             <div className="mx-auto size-14 rounded-full bg-red-50 flex items-center justify-center mb-4">
               <FiLogOut className="text-2xl text-red-500" />
             </div>
