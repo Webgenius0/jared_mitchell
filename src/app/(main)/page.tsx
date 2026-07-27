@@ -72,7 +72,7 @@ const Page = async () => {
       title: w.spotlight.name,
       slug: "",
       description: `${w.spotlight.city}, ${w.spotlight.state}`,
-      image: w.spotlight.media.portrait_photo || FALLBACK_IMAGE,
+      image: w.spotlight.media.headshot || FALLBACK_IMAGE,
       category: "Business",
     }));
   } catch (err) {

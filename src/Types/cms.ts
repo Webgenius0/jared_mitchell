@@ -563,6 +563,11 @@ export interface FeaturedEventItem {
   is_spotlight_eligible: boolean;
   is_featured: boolean;
   like_count: number;
+  likes_count: number;
+  bookmarks_count: number;
+  shares_count: number;
+  is_liked: boolean;
+  is_bookmarked: boolean;
   ticket_url: string;
   tickets_available: boolean;
   status: string;

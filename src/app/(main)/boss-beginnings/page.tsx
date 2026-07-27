@@ -1,21 +1,18 @@
 import BusinessShower from "./_components/BusinessShower";
-import CustomVideoPlayer from "@/Components/Common/CustomVideoPlayer";
 import BossBeginningWinner from "./_components/BossBeginningWinner";
 import NewBusiness from "./_components/NewBusiness";
-import HowVotingWorks from "./_components/HowVotingWorks";
 import WinnerReceives from "./_components/WinnerReceives";
-import PartnerWithBossBeginnings from "./_components/PartnerWithBossBeginnings";
 import NewsLetter from "@/Components/Common/NewsLetter";
 import BossBeginningBanner from "./_components/BossBeginningBanner";
 import BusinessChosenChart from "./_components/BusinessChosenChart";
-import { getBossCms, getCMSAboutData } from "@/lib/Services/cms_service";
+import { getBossCms, getCMSHomepageData } from "@/lib/Services/cms_service";
 import { CMSBossBeginnings } from "@/Types/cms";
 import Sponsors from "../_components/Sponsors";
 import BossBeginningSponsor from "./_components/BossBeginningSponsor";
 
 const page = async () => {
   const pageData = (await getBossCms()) as CMSBossBeginnings;
-  const CmsData = await getCMSAboutData();
+  const cmsData = await getCMSHomepageData();
 
   return (
     <>
@@ -39,7 +36,7 @@ const page = async () => {
       <WinnerReceives data={pageData?.boss_beginnings_dynamic} />
       {/* <PartnerWithBossBeginnings /> */}
       <BossBeginningSponsor />
-      <Sponsors data={CmsData?.about_sponsors} title="Our Event Sponsors" />
+      <Sponsors data={cmsData?.partners} showButton={false} />
       <NewsLetter title="Be part of the movement. Get stories, updates, and opportunities straight to your inbox." />
     </>
   );

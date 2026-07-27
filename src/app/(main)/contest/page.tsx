@@ -1,7 +1,7 @@
 import React from "react";
 import { CMSBossBeginnings } from "@/Types/cms";
 import ContestBanner from "./Components/ContestBanner";
-import { getBossCms, getCMSAboutData, getCMSHomepageData } from "@/lib/Services/cms_service";
+import { getBossCms, getCMSHomepageData } from "@/lib/Services/cms_service";
 import ContestSpotlights from "./Components/ContestSpotlights";
 import ContestTable from "./Components/ContestTable";
 import Sponsors from "../_components/Sponsors";
