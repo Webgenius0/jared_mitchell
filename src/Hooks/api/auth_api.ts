@@ -175,3 +175,42 @@ export const useResetPassword = () => {
     },
   });
 };
+
+// Update Avatar
+export const useUpdateAvatar = () => {
+  return useClientApi({
+    method: "post",
+    key: ["update-avatar"],
+    endpoint: "/v1/update-avatar",
+    isPrivate: true,
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+    onSuccess: (res: any) => {
+      if (res?.success) {
+        toast.success(res?.message || "Avatar updated successfully");
+      }
+    },
+    onError: (err: any) => {
+      toast.error(err?.response?.data?.message || "Failed to update avatar");
+    },
+  });
+};
+
+// Update Profile
+export const useUpdateProfile = () => {
+  return useClientApi({
+    method: "post",
+    key: ["update-profile"],
+    endpoint: "/v1/update-profile",
+    isPrivate: true,
+    onSuccess: (res: any) => {
+      if (res?.success) {
+        toast.success(res?.message || "Profile updated successfully");
+      }
+    },
+    onError: (err: any) => {
+      toast.error(err?.response?.data?.message || "Failed to update profile");
+    },
+  });
+};

@@ -21,8 +21,11 @@ import {
   EventsResponse,
   ArtistHistoricalWinnersResponse,
   BusinessHistoricalWinnersResponse,
+  ArtistDetail,
+  BusinessDetail,
   PastSixMonthsWinnersResponse,
   RoundCountdownResponse,
+  SubscriptionPlan,
 } from "@/Types/cms";
 
 export const getCMSHomepageData = async (): Promise<CMSHomepage> => {
@@ -420,6 +423,34 @@ export const getRoundCountdown = async (): Promise<RoundCountdownResponse> => {
   return result.data as RoundCountdownResponse;
 };
 
+export const getArtistById = async (id: number) => {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_SITE_URL}/v1/artists/${id}`,
+    { next: { revalidate: 60 } },
+  );
+
+  if (!res.ok) {
+    throw new Error(`Failed to fetch artist by ID — Status: ${res.status}`);
+  }
+
+  const result = await res.json();
+  return result.data as { artist: ArtistDetail };
+};
+
+export const getBusinessById = async (id: number) => {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_SITE_URL}/v1/businesses/list/${id}`,
+    { next: { revalidate: 60 } },
+  );
+
+  if (!res.ok) {
+    throw new Error(`Failed to fetch business by ID — Status: ${res.status}`);
+  }
+
+  const result = await res.json();
+  return result.data as { business: BusinessDetail };
+};
+
 export const getEventBySlug = async (
   slug: string,
   token?: string,
@@ -441,4 +472,20 @@ export const getEventBySlug = async (
 
   const result = await res.json();
   return result.data as CMSEventItem;
+};
+
+export const getSubscriptionPlans = async (): Promise<SubscriptionPlan[]> => {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_SITE_URL}/v1/subscription-plans`,
+    { next: { revalidate: 60 } },
+  );
+
+  if (!res.ok) {
+    throw new Error(
+      `Failed to fetch subscription plans — Status: ${res.status}`,
+    );
+  }
+
+  const result = await res.json();
+  return result.data as SubscriptionPlan[];
 };

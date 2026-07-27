@@ -8,22 +8,45 @@ import CommunityAchievements from "../../_components/CommunityAchievements";
 import WhatExist from "../../about/_Components/WhatExist";
 import EventSponsors from "../../services/_components/EventSponsors";
 import ArtistSpotlightBanner from "../_components/ArtistSpotlightBanner";
+import SuccessStories from "../../_components/SuccessStories";
 import {
   getCMSAboutData,
   getCMSArtistSpotlightData,
+  getArtistHistoricalWinners,
+  getCMSHomepageData,
 } from "@/lib/Services/cms_service";
+import { HistoricalWinnersItem } from "@/Types/cms";
 import Sponsors from "../../_components/Sponsors";
+
+const FALLBACK_IMAGE = "https://placehold.co/400x600.png?text=No+Image";
 
 const page = async () => {
   const cmsData = await getCMSArtistSpotlightData();
-  const CmsData = await getCMSAboutData();
+  const partners = await getCMSHomepageData();
+  
+
+  let artistWinners: HistoricalWinnersItem[] = [];
+  try {
+    const res = await getArtistHistoricalWinners();
+    artistWinners = (res?.winners || []).map(w => ({
+      id: w.id,
+      title: w.spotlight.name,
+      slug: w.spotlight.name.toLowerCase().replace(/\s+/g, "-") || "",
+      description: `${w.spotlight.city}, ${w.spotlight.state}`,
+      image: w.spotlight.media.headshot || FALLBACK_IMAGE,
+      category: "Artist",
+    }));
+  } catch (err) {
+    console.error("Failed to fetch artist winners:", err);
+  }
 
   return (
     <>
       <ArtistSpotlightBanner data={cmsData?.artist_spotlight_hero} />
       <SpotlightHero data={cmsData?.artist_spotlight_video} />
       <DiscoverArtists type="artist" data={cmsData?.artist_spotlight_list} />
-      <CommunityAchievements data={cmsData?.artist_spotlight_highlights} />
+      {/* <CommunityAchievements data={cmsData?.artist_spotlight_highlights} /> */}
+      <SuccessStories winners={artistWinners} type="artist" />
       <SpotlightLadder
         title={
           cmsData?.artist_spotlight_ladder?.title || "Weekly Spotlight Ladder"
@@ -39,11 +62,10 @@ const page = async () => {
       {/* <CreativeJourney data={cmsData?.artist_spotlight_interview} /> */}
       <WhatExist data={cmsData?.artist_spotlight_why_exists} />
       {/* <EventSponsors /> */}
-      <Sponsors data={CmsData?.about_sponsors} />
+      <Sponsors data={partners?.partners} showButton={false} />
       <NewsLetter title="Stay connected with new spotlights, events, and creative tools." />
     </>
   );
 };
 
 export default page;
-

@@ -1,6 +1,9 @@
 "use client";
-import React, { useState } from "react";
-import { SquarePen, X } from "lucide-react";
+import React, { useState, useRef } from "react";
+import { useQueryClient } from "@tanstack/react-query";
+import { SquarePen, X, Loader2 } from "lucide-react";
+import { useUpdateAvatar, useUpdateProfile } from "@/Hooks/api/auth_api";
+import useAuth from "@/Hooks/useAuth";
 
 type ProfileData = {
   name: string;
@@ -76,6 +79,16 @@ const DashboardProfileSettings = ({
   onSave,
 }: DashboardProfileSettingsProps) => {
   const [isEditing, setIsEditing] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const selectedFileRef = useRef<File | null>(null);
+
+  const queryClient = useQueryClient();
+  const { token } = useAuth();
+
+  const { mutateAsync: updateAvatar } = useUpdateAvatar();
+  const { mutateAsync: updateProfile } = useUpdateProfile();
 
   const [profile, setProfile] = useState<ProfileData>({
     ...defaultProfile,
@@ -92,15 +105,73 @@ const DashboardProfileSettings = ({
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
+      selectedFileRef.current = file;
       const imageUrl = URL.createObjectURL(file);
       setProfile(prev => ({ ...prev, avatar: imageUrl }));
     }
   };
 
-  const handleSave = () => {
-    onSave?.(profile);
-    console.log("Updated Profile Data: ", profile);
-    setIsEditing(false);
+  const hasNewAvatar = selectedFileRef.current !== null;
+
+  /** Upload only the avatar — independent of profile save */
+  const handleUploadAvatar = async () => {
+    if (!selectedFileRef.current) return;
+
+    setIsUploading(true);
+    try {
+      const formData = new FormData();
+      formData.append("avatar", selectedFileRef.current);
+
+      const res = await updateAvatar({ data: formData });
+      if (res?.success && res?.data?.avatar) {
+        setProfile(prev => ({ ...prev, avatar: res.data.avatar }));
+        if (token) {
+          queryClient.invalidateQueries({ queryKey: ["user", token] });
+        }
+      }
+      selectedFileRef.current = null;
+      if (fileInputRef.current) {
+        fileInputRef.current.value = "";
+      }
+    } catch (err) {
+      console.error("Failed to upload avatar:", err);
+      selectedFileRef.current = null;
+    } finally {
+      setIsUploading(false);
+    }
+  };
+
+  /** Save only profile fields — avatar is uploaded separately */
+  const handleSave = async () => {
+    setIsSaving(true);
+    try {
+      const payload = {
+        name: profile.name,
+        username: profile.username,
+        address: profile.location,
+        biography: profile.bio,
+        business_description: profile.businessDescription,
+        website_link: profile.websiteLink,
+        social_links: {
+          youtube: profile.youtubeLink,
+          facebook: profile.facebookLink,
+          instagram: profile.instagramLink,
+        },
+      };
+
+      await updateProfile({ data: payload });
+
+      if (token) {
+        queryClient.invalidateQueries({ queryKey: ["user", token] });
+      }
+
+      onSave?.(profile);
+      setIsEditing(false);
+    } catch (err) {
+      console.error("Failed to save profile:", err);
+    } finally {
+      setIsSaving(false);
+    }
   };
 
   return (
@@ -132,8 +203,8 @@ const DashboardProfileSettings = ({
         </div>
 
         {/* Avatar Section */}
-        <div className="py-6 flex">
-          <div className="relative inline-block group">
+        <div className="py-6 flex items-center gap-6">
+          <div className="relative inline-block group shrink-0">
             <img
               className="w-20 h-20 rounded-full object-cover border border-gray-100 transition duration-200"
               src={profile.avatar}
@@ -144,6 +215,7 @@ const DashboardProfileSettings = ({
               <label className="absolute inset-0 bg-black/40 rounded-full flex items-center justify-center cursor-pointer text-white opacity-90 hover:opacity-100 transition">
                 <SquarePen size={16} strokeWidth={2} />
                 <input
+                  ref={fileInputRef}
                   type="file"
                   accept="image/*"
                   className="hidden"
@@ -159,6 +231,28 @@ const DashboardProfileSettings = ({
               </button>
             )}
           </div>
+
+          {/* Dedicated Upload Avatar button — appears when a new file is selected */}
+          {hasNewAvatar && (
+            <button
+              onClick={handleUploadAvatar}
+              disabled={isUploading}
+              className={`text-xs font-bold px-5 py-2.5 rounded-full transition shadow-md flex items-center gap-2 ${
+                isUploading
+                  ? "bg-gray-200 text-gray-400 cursor-not-allowed shadow-none"
+                  : "bg-green-600 text-white hover:bg-green-700 hover:shadow-lg"
+              }`}
+            >
+              {isUploading ? (
+                <>
+                  <Loader2 className="size-4 animate-spin" />
+                  Uploading Avatar...
+                </>
+              ) : (
+                "Upload Avatar"
+              )}
+            </button>
+          )}
         </div>
 
         {/* Details Fields Table */}
@@ -207,18 +301,25 @@ const DashboardProfileSettings = ({
         </div>
       </div>
 
-      {/* Bottom Save Action Panel */}
+      {/* Bottom Save Action Panel — only saves profile fields, avatar is uploaded separately */}
       <div className="flex justify-end mt-6">
         <button
           onClick={handleSave}
-          disabled={!isEditing}
-          className={`text-xs font-bold px-6 py-3 rounded-full transition shadow-md cursor-pointer ${
-            isEditing
-              ? "bg-blue-600 text-white hover:bg-blue-700 hover:shadow-lg"
-              : "bg-gray-200 text-gray-400 cursor-not-allowed shadow-none"
+          disabled={!isEditing || isSaving}
+          className={`text-xs font-bold px-6 py-3 rounded-full transition shadow-md cursor-pointer flex items-center gap-2 ${
+            isSaving
+              ? "bg-gray-200 text-gray-400 cursor-not-allowed shadow-none"
+              : "bg-blue-600 text-white hover:bg-blue-700 hover:shadow-lg"
           }`}
         >
-          Save Change
+          {isSaving ? (
+            <>
+              <Loader2 className="size-4 animate-spin" />
+              Saving...
+            </>
+          ) : (
+            "Save Changes"
+          )}
         </button>
       </div>
     </div>

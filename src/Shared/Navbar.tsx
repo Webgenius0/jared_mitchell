@@ -3,6 +3,7 @@ import { SearchSvg } from "@/Components/Svg/SvgContainer";
 import useAuth from "@/Hooks/useAuth";
 import { getUserDashboardRoute } from "@/lib/utils";
 import { useCart } from "@/Provider/CartProvider/CartProvider";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
@@ -219,9 +220,19 @@ const Navbar = () => {
                 >
                   <button
                     onClick={() => setUserDropdownOpen(!userDropdownOpen)}
-                    className="size-11 rounded-full grid place-items-center bg-blue-500/20 font-bold text-black capitalize text-lg cursor-pointer hover:bg-blue-500/30 transition-colors duration-200"
+                    className="size-11 rounded-full grid place-items-center overflow-hidden bg-blue-500/20 font-bold text-black capitalize text-lg cursor-pointer hover:bg-blue-500/30 transition-colors duration-200"
                   >
-                    {user?.profile?.name?.at(0)}
+                    {user?.profile?.avatar ? (
+                      <Image
+                        src={user.profile.avatar}
+                        alt={user?.profile?.name || "User"}
+                        width={44}
+                        height={44}
+                        className="size-full object-cover"
+                      />
+                    ) : (
+                      <span>{user?.profile?.name?.at(0)}</span>
+                    )}
                   </button>
 
                   {userDropdownOpen && (

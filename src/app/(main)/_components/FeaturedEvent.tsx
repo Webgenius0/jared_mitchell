@@ -5,13 +5,53 @@ import { Button } from "@/Components/Common/Button";
 import { FeaturedEventItem } from "@/Types/cms";
 import Image from "next/image";
 import Link from "next/link";
-import { FaRegHeart } from "react-icons/fa";
-import { FiBookmark } from "react-icons/fi";
+import { FaHeart, FaRegHeart, FaBookmark, FaRegBookmark } from "react-icons/fa";
 import { GrLocation } from "react-icons/gr";
 import { MdOutlineAccessTime } from "react-icons/md";
 import { PiCaretLeftBold, PiCaretRightBold } from "react-icons/pi";
 import { RxShare1 } from "react-icons/rx";
 import { CalenderSvg, VideoSvg, PlayIcon } from "@/Components/Svg/SvgContainer";
+import useAuth from "@/Hooks/useAuth";
+import {
+  apiGetFeaturedEvents,
+  apiToggleLike,
+  apiToggleBookmark,
+  apiShareEvent,
+} from "@/Hooks/api/events_api";
+import toast from "react-hot-toast";
+import { getItem, setItem } from "@/lib/localStorage";
+
+const ENGAGEMENT_STORAGE_KEY = "event_engagements";
+
+type EngagementValue = {
+  is_liked: boolean;
+  is_bookmarked: boolean;
+  like_count: number;
+  bookmarks_count: number;
+  shares_count: number;
+};
+
+type EngagementMap = Record<number, EngagementValue>;
+
+/** Load persisted engagement data from localStorage */
+const loadPersistedEngagements = (): EngagementMap => {
+  try {
+    const raw = getItem(ENGAGEMENT_STORAGE_KEY);
+    if (!raw) return {};
+    return JSON.parse(raw) as EngagementMap;
+  } catch {
+    return {};
+  }
+};
+
+/** Save engagement data to localStorage */
+const persistEngagements = (map: EngagementMap) => {
+  try {
+    setItem(ENGAGEMENT_STORAGE_KEY, JSON.stringify(map));
+  } catch {
+    // silently fail
+  }
+};
 
 interface FeaturedEventProps {
   events?: FeaturedEventItem[];
@@ -39,6 +79,187 @@ const FeaturedEvent = ({ events }: FeaturedEventProps) => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(true);
+  const [actionLoading, setActionLoading] = useState<Record<string, boolean>>({});
+  const { token } = useAuth();
+
+  // Use local engagement state so we can optimistically update counts
+  // Initialise from localStorage so liked/bookmarked state persists across refreshes
+  const [localEngagements, setLocalEngagements] = useState<EngagementMap>(() => loadPersistedEngagements());
+
+  const getEngagement = (eventId: number) => {
+    const event = events?.find((e) => e.id === eventId);
+    const local = localEngagements[eventId];
+    return {
+      is_liked: local?.is_liked ?? event?.is_liked ?? false,
+      is_bookmarked: local?.is_bookmarked ?? event?.is_bookmarked ?? false,
+      like_count: local?.like_count ?? event?.likes_count ?? event?.like_count ?? 0,
+      bookmarks_count: local?.bookmarks_count ?? event?.bookmarks_count ?? 0,
+      shares_count: local?.shares_count ?? event?.shares_count ?? 0,
+    };
+  };
+
+  const handleToggleLike = async (eventId: number) => {
+    if (!token) {
+      window.location.href = "/auth/login";
+      return;
+    }
+    const loadingKey = `like-${eventId}`;
+    if (actionLoading[loadingKey]) return;
+    setActionLoading((prev) => ({ ...prev, [loadingKey]: true }));
+
+    const prev = getEngagement(eventId);
+    // Optimistic update
+    setLocalEngagements((prevState) => ({
+      ...prevState,
+      [eventId]: {
+        is_liked: !prev.is_liked,
+        is_bookmarked: prev.is_bookmarked,
+        like_count: prev.is_liked ? prev.like_count - 1 : prev.like_count + 1,
+        bookmarks_count: prev.bookmarks_count,
+        shares_count: prev.shares_count,
+      },
+    }));
+
+    try {
+      const res = await apiToggleLike(eventId);
+      if (res?.success) {
+        // Sync with actual server state from response
+        setLocalEngagements((prevState) => ({
+          ...prevState,
+          [eventId]: {
+            is_liked: res.data.is_liked,
+            is_bookmarked: prev.is_bookmarked,
+            like_count: res.data.is_liked ? prev.like_count + 1 : Math.max(0, prev.like_count - 1),
+            bookmarks_count: prev.bookmarks_count,
+            shares_count: prev.shares_count,
+          },
+        }));
+        if (res.message) toast.success(res.message);
+      }
+    } catch {
+      // Revert on error
+      setLocalEngagements((prevState) => ({
+        ...prevState,
+        [eventId]: {
+          is_liked: prev.is_liked,
+          is_bookmarked: prev.is_bookmarked,
+          like_count: prev.like_count,
+          bookmarks_count: prev.bookmarks_count,
+          shares_count: prev.shares_count,
+        },
+      }));
+      toast.error("Failed to toggle like");
+    } finally {
+      // Persist the updated state to localStorage
+      setLocalEngagements((current) => {
+        persistEngagements(current);
+        return current;
+      });
+      setActionLoading((prev) => ({ ...prev, [loadingKey]: false }));
+    }
+  };
+
+  const handleToggleBookmark = async (eventId: number) => {
+    if (!token) {
+      window.location.href = "/auth/login";
+      return;
+    }
+    const loadingKey = `bookmark-${eventId}`;
+    if (actionLoading[loadingKey]) return;
+    setActionLoading((prev) => ({ ...prev, [loadingKey]: true }));
+
+    const prev = getEngagement(eventId);
+    // Optimistic update
+    setLocalEngagements((prevState) => ({
+      ...prevState,
+      [eventId]: {
+        is_liked: prev.is_liked,
+        is_bookmarked: !prev.is_bookmarked,
+        like_count: prev.like_count,
+        bookmarks_count: prev.is_bookmarked ? prev.bookmarks_count - 1 : prev.bookmarks_count + 1,
+        shares_count: prev.shares_count,
+      },
+    }));
+
+    try {
+      const res = await apiToggleBookmark(eventId);
+      if (res?.success) {
+        // Sync with actual server state from response
+        setLocalEngagements((prevState) => ({
+          ...prevState,
+          [eventId]: {
+            is_liked: prev.is_liked,
+            is_bookmarked: res.data.is_bookmarked,
+            like_count: prev.like_count,
+            bookmarks_count: res.data.is_bookmarked ? prev.bookmarks_count + 1 : Math.max(0, prev.bookmarks_count - 1),
+            shares_count: prev.shares_count,
+          },
+        }));
+        if (res.message) toast.success(res.message);
+      }
+    } catch {
+      // Revert on error
+      setLocalEngagements((prevState) => ({
+        ...prevState,
+        [eventId]: {
+          is_liked: prev.is_liked,
+          is_bookmarked: prev.is_bookmarked,
+          like_count: prev.like_count,
+          bookmarks_count: prev.bookmarks_count,
+          shares_count: prev.shares_count,
+        },
+      }));
+      toast.error("Failed to toggle bookmark");
+    } finally {
+      // Persist the updated state to localStorage
+      setLocalEngagements((current) => {
+        persistEngagements(current);
+        return current;
+      });
+      setActionLoading((prev) => ({ ...prev, [loadingKey]: false }));
+    }
+  };
+
+  const handleShare = async (eventId: number, eventTitle: string) => {
+    const loadingKey = `share-${eventId}`;
+    if (actionLoading[loadingKey]) return;
+    setActionLoading((prev) => ({ ...prev, [loadingKey]: true }));
+
+    // Try native Web Share API first
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: eventTitle,
+          text: `Check out this event: ${eventTitle}`,
+          url: window.location.origin + `/events/${events?.find((e) => e.id === eventId)?.slug || eventId}`,
+        });
+      } catch {
+        // User cancelled or error — do nothing
+      } finally {
+        setActionLoading((prev) => ({ ...prev, [loadingKey]: false }));
+      }
+      return;
+    }
+
+    // Fallback: copy to clipboard
+    try {
+      const url = window.location.origin + `/events/${events?.find((e) => e.id === eventId)?.slug || eventId}`;
+      await navigator.clipboard.writeText(url);
+    } catch {
+      // Clipboard not available
+    } finally {
+      setActionLoading((prev) => ({ ...prev, [loadingKey]: false }));
+    }
+
+    // Also fire the share API call (non-blocking)
+    if (token) {
+      try {
+        await apiShareEvent(eventId);
+      } catch {
+        // silently fail
+      }
+    }
+  };
 
   const togglePlay = () => {
     if (!videoRef.current) return;
@@ -64,6 +285,36 @@ const FeaturedEvent = ({ events }: FeaturedEventProps) => {
     setCurrentIndex((prev) => (prev - 1 + events.length) % events.length);
     setTimeout(() => setIsTransitioning(false), 500);
   }, [events, isTransitioning]);
+
+  // Fetch engagement state from authenticated endpoint on mount (overlays persisted data)
+  useEffect(() => {
+    if (!token || !events || events.length === 0) return;
+    let cancelled = false;
+    (async () => {
+      try {
+        const response = await apiGetFeaturedEvents();
+        if (cancelled || !response?.events) return;
+        const engagementMap: EngagementMap = {};
+        for (const evt of response.events) {
+          engagementMap[evt.id] = {
+            is_liked: evt.is_liked ?? false,
+            is_bookmarked: evt.is_bookmarked ?? false,
+            like_count: evt.likes_count ?? evt.like_count ?? 0,
+            bookmarks_count: evt.bookmarks_count ?? 0,
+            shares_count: evt.shares_count ?? 0,
+          };
+        }
+        setLocalEngagements((prev) => {
+          const merged = { ...prev, ...engagementMap };
+          persistEngagements(merged);
+          return merged;
+        });
+      } catch {
+        // silently fail — fall back to localStorage data
+      }
+    })();
+    return () => { cancelled = true; };
+  }, [token]);
 
   // Auto-rotate with pause on hover
   useEffect(() => {
@@ -185,28 +436,65 @@ const FeaturedEvent = ({ events }: FeaturedEventProps) => {
           </p>
 
           <div className="py-5 md:mt-3 mb-7 border-b border-gray-200 text-secondary-black flex items-center gap-7 md:gap-12">
-            <div className="flex items-center gap-2 md:gap-4 2xl:gap-6">
-              <div className="flex items-center justify-center size-7 md:size-10 xl:size-[48px] aspect-square rounded-full bg-white custom_shadow">
-                <FaRegHeart className="size-4 md:size-5 xl:size-[28px]" />
+            {/* Like Button */}
+            <button
+              onClick={() => handleToggleLike(event.id)}
+              disabled={actionLoading[`like-${event.id}`]}
+              className="flex items-center gap-2 md:gap-4 2xl:gap-6 group cursor-pointer"
+            >
+              <div
+                className={`flex items-center justify-center size-7 md:size-10 xl:size-[48px] aspect-square rounded-full bg-white custom_shadow transition-all duration-300 ${
+                  getEngagement(event.id).is_liked
+                    ? "!bg-red-50 !shadow-[0_0_0_2px_rgba(239,68,68,0.3)]"
+                    : "group-hover:!bg-red-50 group-hover:!shadow-[0_0_0_2px_rgba(239,68,68,0.15)]"
+                }`}
+              >
+                {getEngagement(event.id).is_liked ? (
+                  <FaHeart className="size-4 md:size-5 xl:size-[28px] text-red-500 transition-all duration-300 scale-110" />
+                ) : (
+                  <FaRegHeart className="size-4 md:size-5 xl:size-[28px] transition-all duration-300 group-hover:scale-110" />
+                )}
               </div>
               <span className="md:text-xl xl:text-2xl">
-                {event.like_count || 0}
+                {getEngagement(event.id).like_count}
               </span>
-            </div>
+            </button>
 
-            <div className="flex items-center gap-2 md:gap-4 2xl:gap-6">
-              <div className="flex items-center justify-center size-7 md:size-10 xl:size-[48px] aspect-square rounded-full bg-white custom_shadow">
-                <FiBookmark className="size-4 md:size-5 xl:size-[28px]" />
+            {/* Bookmark Button */}
+            <button
+              onClick={() => handleToggleBookmark(event.id)}
+              disabled={actionLoading[`bookmark-${event.id}`]}
+              className="flex items-center gap-2 md:gap-4 2xl:gap-6 group cursor-pointer"
+            >
+              <div
+                className={`flex items-center justify-center size-7 md:size-10 xl:size-[48px] aspect-square rounded-full bg-white custom_shadow transition-all duration-300 ${
+                  getEngagement(event.id).is_bookmarked
+                    ? "!bg-blue-50 !shadow-[0_0_0_2px_rgba(25,119,221,0.3)]"
+                    : "group-hover:!bg-blue-50 group-hover:!shadow-[0_0_0_2px_rgba(25,119,221,0.15)]"
+                }`}
+              >
+                {getEngagement(event.id).is_bookmarked ? (
+                  <FaBookmark className="size-4 md:size-5 xl:size-[28px] text-primary-blue transition-all duration-300 scale-110" />
+                ) : (
+                  <FaRegBookmark className="size-4 md:size-5 xl:size-[28px] transition-all duration-300 group-hover:scale-110" />
+                )}
               </div>
-              <span className="md:text-xl xl:text-2xl">Save</span>
-            </div>
+              <span className="md:text-xl xl:text-2xl">
+                {getEngagement(event.id).is_bookmarked ? "Saved" : "Save"}
+              </span>
+            </button>
 
-            <div className="flex items-center gap-2 md:gap-4 2xl:gap-6">
-              <div className="flex items-center justify-center size-7 md:size-10 xl:size-[48px] aspect-square rounded-full bg-white custom_shadow">
-                <RxShare1 className="size-4 md:size-5 xl:size-[28px]" />
+            {/* Share Button */}
+            <button
+              onClick={() => handleShare(event.id, event.title)}
+              disabled={actionLoading[`share-${event.id}`]}
+              className="flex items-center gap-2 md:gap-4 2xl:gap-6 group cursor-pointer"
+            >
+              <div className="flex items-center justify-center size-7 md:size-10 xl:size-[48px] aspect-square rounded-full bg-white custom_shadow group-hover:!bg-green-50 group-hover:!shadow-[0_0_0_2px_rgba(34,197,94,0.15)] transition-all duration-300">
+                <RxShare1 className="size-4 md:size-5 xl:size-[28px] transition-all duration-300 group-hover:scale-110 group-hover:text-green-600" />
               </div>
               <span className="md:text-xl xl:text-2xl">Share</span>
-            </div>
+            </button>
           </div>
 
           <div className="space-x-4">
