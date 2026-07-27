@@ -109,7 +109,7 @@ const SuccessStories = ({ cmsData, winners, type }: SuccessStoriesProps) => {
         </div>
       )}
 
-      <div className="text-center">
+      {/* <div className="text-center">
         <Link
           href={
             type === "business" ? "/business-spotlight" : "/artist-spotlight"
@@ -121,7 +121,7 @@ const SuccessStories = ({ cmsData, winners, type }: SuccessStoriesProps) => {
               : "Explore Artist Spotlights"}
           </Button>
         </Link>
-      </div>
+      </div> */}
     </section>
   );
 };
