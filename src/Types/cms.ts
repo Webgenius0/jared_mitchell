@@ -806,3 +806,49 @@ export type BusinessHistoricalWinnersResponse = SpotlightHistoricalWinnersRespon
 export interface CurrentContestWinnerResponse {
   winner: PastSixMonthsWinner | null;
 }
+
+// ─── Subscription Plans (Pricing Page) ───────────────────────────────────────
+
+export interface SubscriptionFeatureItem {
+  id: number;
+  feature_group_id: number;
+  feature_text: string;
+  sort_order: number;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface SubscriptionFeatureGroup {
+  id: number;
+  price_plan_id: number;
+  title: string;
+  sort_order: number;
+  created_at: string;
+  updated_at: string;
+  items: SubscriptionFeatureItem[];
+}
+
+export interface SubscriptionPlan {
+  id: number;
+  stripe_product_id: string | null;
+  stripe_price_id: string | null;
+  plan_name: string;
+  badge_text: string | null;
+  price: string;
+  price_suffix: string;
+  best_for: string;
+  outcome_text: string;
+  button_label: string;
+  button_url: string;
+  is_featured: number;
+  is_visible: number;
+  sort_order: number;
+  created_at: string;
+  updated_at: string;
+  feature_groups: SubscriptionFeatureGroup[];
+}
+
+export interface SubscriptionPlansResponse {
+  status: string;
+  data: SubscriptionPlan[];
+}

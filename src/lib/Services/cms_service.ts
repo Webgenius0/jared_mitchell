@@ -23,6 +23,7 @@ import {
   BusinessHistoricalWinnersResponse,
   PastSixMonthsWinnersResponse,
   RoundCountdownResponse,
+  SubscriptionPlan,
 } from "@/Types/cms";
 
 export const getCMSHomepageData = async (): Promise<CMSHomepage> => {
@@ -441,4 +442,20 @@ export const getEventBySlug = async (
 
   const result = await res.json();
   return result.data as CMSEventItem;
+};
+
+export const getSubscriptionPlans = async (): Promise<SubscriptionPlan[]> => {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_SITE_URL}/v1/subscription-plans`,
+    { next: { revalidate: 60 } },
+  );
+
+  if (!res.ok) {
+    throw new Error(
+      `Failed to fetch subscription plans — Status: ${res.status}`,
+    );
+  }
+
+  const result = await res.json();
+  return result.data as SubscriptionPlan[];
 };
