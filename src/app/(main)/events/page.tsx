@@ -14,14 +14,16 @@ import Sponsors from "../_components/Sponsors";
 import EventHero from "./_Components/EventHero";
 import {
   getCMSAboutData,
+  getCMSHomepageData,
   getEventsPageCms,
   getFeaturedEvents,
 } from "@/lib/Services/cms_service";
 import { CMSEventsPage, FeaturedEventItem } from "@/Types/cms";
+import EventSponsors from "./_Components/EventSponsors";
 
 const Page = async () => {
   const pageData = (await getEventsPageCms()) as CMSEventsPage;
-  const CmsData = await getCMSAboutData();
+  const cmsData = await getCMSHomepageData();
 
   let featuredEvents: FeaturedEventItem[] = [];
   try {
@@ -45,11 +47,11 @@ const Page = async () => {
       {/* <WhatYouGet data={pageData?.events_page_booth_features} /> */}
       <EventGallery />
       <EventHighlight />
-      <Sponsors data={CmsData?.about_sponsors} />
+      <EventSponsors />
+      <Sponsors data={cmsData?.partners} showButton={false} />
       <NewsLetter title="Be part of the movement. Get stories, updates, and opportunities straight to your inbox." />
     </>
   );
 };
 
 export default Page;
-

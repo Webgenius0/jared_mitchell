@@ -73,6 +73,15 @@ export interface CMSHomepage {
   cta: CMSCTA;
   newsletter: CMSNewsletter;
   static_banner: CMSFeature;
+  celebrating_business_spotlight_winners: CMSBase;
+  celebrating_artist_spotlight_winners: CMSBase;
+  boss_beginning_winners: CMSBase;
+  next_boss_beginnings_westside_beauty_lounge: CMSBase;
+  past_event_highlights: CMSBase;
+  upcoming_events: CMSBase;
+  past_6_month_boss_beginnings_highlight: CMSBase;
+  event_sponsors: CMSPartner;
+  become_a_part_of_our_community: CMSBase;
 }
 
 export interface CMSAboutHero extends CMSBase {}
@@ -628,6 +637,45 @@ export interface FeaturedProductDetail {
   updated_at: string;
 }
 
+// ─── Round Countdown ────────────────────────────────────────────────────────
+
+export interface RoundCountdownSeason {
+  id: number;
+  title: string;
+  starts_at: string;
+  current_time: string;
+}
+
+export interface RoundCountdownData {
+  days: string;
+  hours: string;
+  minutes: string;
+  seconds: string;
+  formatted: string;
+  short_formatted: string;
+  total_seconds: number;
+}
+
+export interface RoundCountdownResponse {
+  season: RoundCountdownSeason;
+  countdown: RoundCountdownData;
+}
+
+// ─── Historical Winners ───────────────────────────────────────────────────────
+
+export interface HistoricalWinnersItem {
+  id: number;
+  title: string;
+  slug: string;
+  description: string;
+  image: string;
+  category: string;
+}
+
+export interface HistoricalWinnersResponse {
+  winners: HistoricalWinnersItem[];
+}
+
 export interface FeaturedProductItem {
   id: number;
   name: string;
@@ -647,4 +695,114 @@ export interface FeaturedProductItem {
   vendor: FeaturedProductVendor;
   created_at: string;
   updated_at: string;
+}
+
+// ─── Past 6 Months Boss Beginnings Winners ──────────────────────────────────
+
+export interface ContestWinnerSeason {
+  id: number;
+  title: string;
+  slug: string;
+  contest_type: string;
+  status: string;
+  starts_at: string;
+  ends_at: string;
+  is_active: boolean;
+}
+
+export interface ContestableBusinessOrArtist {
+  id: number;
+  type: string;
+  business_name: string;
+  owner_founder_name: string;
+  slug: string;
+  story: string | null;
+  mission: string | null;
+  website_social_media: string | null;
+  community_impact_statement: string | null;
+  revenue_stage: string | null;
+  why_they_deserve_to_compete: string | null;
+  status: string;
+  total_claps: number;
+  total_saves: number;
+  total_shares: number;
+  total_points: number;
+  media: any[];
+}
+
+export interface PastSixMonthsWinner {
+  id: number;
+  display_name: string;
+  slug: string;
+  avatar_url: string;
+  status: string;
+  total_score: number;
+  entered_at: string;
+  created_at: string;
+  contestable: ContestableBusinessOrArtist;
+  season: ContestWinnerSeason;
+}
+
+export interface PastSixMonthsWinnersResponse {
+  winners: PastSixMonthsWinner[];
+}
+
+// ─── Spotlight Historical Winners (shared shape for artist & business) ──────
+
+export interface SpotlightHistoricalWinnerMedia {
+  headshot: string;
+  artwork_photos: string[];
+  behind_scenes_photo: string;
+}
+
+export interface SpotlightHistoricalWinnerSpotlight {
+  id: number;
+  type: string;
+  name: string;
+  city: string;
+  state: string;
+  media: SpotlightHistoricalWinnerMedia;
+}
+
+export interface SpotlightHistoricalWinnerOwner {
+  id: number;
+  name: string;
+}
+
+export interface SpotlightHistoricalWinnerItem {
+  id: number;
+  week_number: number;
+  year: number;
+  spotlight: SpotlightHistoricalWinnerSpotlight;
+  owner: SpotlightHistoricalWinnerOwner;
+  total_votes: number;
+  free_votes: number;
+  paid_votes: number;
+  announced_at: string;
+}
+
+export interface SpotlightHistoricalWinnersResponse {
+  type: string;
+  total: number;
+  winners: SpotlightHistoricalWinnerItem[];
+  pagination: {
+    current_page: number;
+    per_page: number;
+    last_page: number;
+    total: number;
+    has_more: boolean;
+  };
+}
+
+// Re-export as aliases for backward compatibility
+// (these share the same shape — just the `type` field value differs)
+export type ArtistHistoricalWinnerMedia = SpotlightHistoricalWinnerMedia;
+export type ArtistHistoricalWinnerSpotlight = SpotlightHistoricalWinnerSpotlight;
+export type ArtistHistoricalWinnerOwner = SpotlightHistoricalWinnerOwner;
+export type ArtistHistoricalWinnerItem = SpotlightHistoricalWinnerItem;
+export type ArtistHistoricalWinnersResponse = SpotlightHistoricalWinnersResponse;
+export type BusinessHistoricalWinnersResponse = SpotlightHistoricalWinnersResponse;
+
+export interface CurrentContestWinnerResponse {
+  winner: PastSixMonthsWinner | null;
 }

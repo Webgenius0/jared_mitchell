@@ -13,11 +13,16 @@ import {
   CMSShopPage,
   CMSSponsorshipPage,
   CMSSpotlightLadder,
+  CurrentContestWinnerResponse,
   EventGalleryResponse,
   FeaturedEventsResponse,
   FeaturedProductDetail,
   FeaturedProductItem,
   EventsResponse,
+  ArtistHistoricalWinnersResponse,
+  BusinessHistoricalWinnersResponse,
+  PastSixMonthsWinnersResponse,
+  RoundCountdownResponse,
 } from "@/Types/cms";
 
 export const getCMSHomepageData = async (): Promise<CMSHomepage> => {
@@ -333,6 +338,86 @@ export const getProductBySlug = async (
 
   const result = await res.json();
   return result.data as FeaturedProductDetail;
+};
+
+export const getArtistHistoricalWinners =
+  async (): Promise<ArtistHistoricalWinnersResponse> => {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_SITE_URL}/v1/spotlight/historical-winners?type=artist`,
+      { next: { revalidate: 60 } },
+    );
+
+    if (!res.ok) {
+      throw new Error(
+        `Failed to fetch artist historical winners — Status: ${res.status}`,
+      );
+    }
+
+    const result = await res.json();
+    return result.data as ArtistHistoricalWinnersResponse;
+  };
+
+export const getBusinessHistoricalWinners =
+  async (): Promise<BusinessHistoricalWinnersResponse> => {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_SITE_URL}/v1/spotlight/historical-winners?type=business`,
+      { next: { revalidate: 60 } },
+    );
+
+    if (!res.ok) {
+      throw new Error(
+        `Failed to fetch business historical winners — Status: ${res.status}`,
+      );
+    }
+
+    const result = await res.json();
+    return result.data as BusinessHistoricalWinnersResponse;
+  };
+
+export const getCurrentContestWinner = async (): Promise<CurrentContestWinnerResponse> => {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_SITE_URL}/v1/contest/winners/current`,
+    { next: { revalidate: 60 } },
+  );
+
+  if (!res.ok) {
+    throw new Error(
+      `Failed to fetch current contest winner — Status: ${res.status}`,
+    );
+  }
+
+  const result = await res.json();
+  return result.data as CurrentContestWinnerResponse;
+};
+
+export const getPastSixMonthsWinners = async (): Promise<PastSixMonthsWinnersResponse> => {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_SITE_URL}/v1/contest/winners/past-six-months`,
+    { next: { revalidate: 60 } },
+  );
+
+  if (!res.ok) {
+    throw new Error(
+      `Failed to fetch past six months winners — Status: ${res.status}`,
+    );
+  }
+
+  const result = await res.json();
+  return result.data as PastSixMonthsWinnersResponse;
+};
+
+export const getRoundCountdown = async (): Promise<RoundCountdownResponse> => {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_SITE_URL}/v1/round-countdown`,
+    { next: { revalidate: 60 } },
+  );
+
+  if (!res.ok) {
+    throw new Error(`Failed to fetch round countdown — Status: ${res.status}`);
+  }
+
+  const result = await res.json();
+  return result.data as RoundCountdownResponse;
 };
 
 export const getEventBySlug = async (
