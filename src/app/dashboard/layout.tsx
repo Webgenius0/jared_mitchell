@@ -3,6 +3,9 @@ import React, { useState } from "react";
 import useAuth from "@/Hooks/useAuth";
 import PrivateLayout from "@/Private/PrivateLayout";
 import DashboardSidebar from "@/Shared/DashboardSidebar";
+import { FaRegStar } from "react-icons/fa";
+import { LuShoppingCart } from "react-icons/lu";
+
 import {
   NEighteenSvg,
   NEightSvg,
@@ -38,6 +41,18 @@ const artistLinks = [
     label: "Spotlight Management",
     path: "/dashboard/artist_business/spotlight-management",
     icon: <NTwoSvg />,
+    subMenu: [
+      {
+        label: "Vote Purchase",
+        path: "/dashboard/artist_business/vote-purchase",
+      },
+    ],
+  },
+  {
+    id: 42,
+    label: "Purchase List",
+    path: "/dashboard/artist_business/purchase-list",
+    icon: <LuShoppingCart className="text-xl" />,
   },
   {
     id: 3,
@@ -94,6 +109,12 @@ const communityMemberLinks = [
     label: "Spotlight",
     path: "/dashboard/community_member/leaderboards",
     icon: <NEighteenSvg />,
+  },
+  {
+    id: 42,
+    label: "Purchase List",
+    path: "/dashboard/community_member/purchase-list",
+    icon: <LuShoppingCart className="text-xl" />,
   },
   {
     id: 24,
@@ -168,10 +189,34 @@ const bossLinks = [
     icon: <NSeventeenSvg />,
   },
   {
+    id: 31,
+    label: "Current Session",
+    path: "/dashboard/boss_beginning/current-session",
+    icon: <FaRegStar className="text-xl" />,
+    subMenu: [
+      {
+        label: "List Business",
+        path: "/dashboard/boss_beginning/listed-business",
+      },
+    ],
+  },
+  {
     id: 22,
     label: "Spotlight",
     path: "/dashboard/boss_beginning/leaderboards",
     icon: <NEighteenSvg />,
+    subMenu: [
+      {
+        label: "Vote Purchase",
+        path: "/dashboard/boss_beginning/vote-purchase",
+      },
+    ],
+  },
+  {
+    id: 42,
+    label: "Purchase List",
+    path: "/dashboard/boss_beginning/purchase-list",
+    icon: <LuShoppingCart className="text-xl" />,
   },
   {
     id: 23,
