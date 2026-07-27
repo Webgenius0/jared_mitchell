@@ -37,6 +37,8 @@ import {
   RoundCountdownResponse,
 } from "@/Types/cms";
 
+const FALLBACK_IMAGE = "https://placehold.co/400x600.png?text=No+Image";
+
 const Page = async () => {
   const cmsData = await getCMSHomepageData();
 
@@ -65,12 +67,12 @@ const Page = async () => {
   let businessWinners: HistoricalWinnersItem[] = [];
   try {
     const res = await getBusinessHistoricalWinners();
-    businessWinners = (res?.winners || []).map((w) => ({
+    businessWinners = (res?.winners || []).map(w => ({
       id: w.id,
       title: w.spotlight.name,
       slug: "",
       description: `${w.spotlight.city}, ${w.spotlight.state}`,
-      image: w.spotlight.media.headshot,
+      image: w.spotlight.media.portrait_photo || FALLBACK_IMAGE,
       category: "Business",
     }));
   } catch (err) {
@@ -80,12 +82,12 @@ const Page = async () => {
   let artistWinners: HistoricalWinnersItem[] = [];
   try {
     const res = await getArtistHistoricalWinners();
-    artistWinners = (res?.winners || []).map((w) => ({
+    artistWinners = (res?.winners || []).map(w => ({
       id: w.id,
       title: w.spotlight.name,
       slug: "",
       description: `${w.spotlight.city}, ${w.spotlight.state}`,
-      image: w.spotlight.media.headshot,
+      image: w.spotlight.media.headshot || FALLBACK_IMAGE,
       category: "Artist",
     }));
   } catch (err) {
@@ -129,7 +131,7 @@ const Page = async () => {
         data={cmsData?.spotlight}
         currentWinner={currentWinner}
       />
-      
+
       {/* <CommunityAchievements data={cmsData?.highlights} /> */}
       {/* <div className="pb-15">
         <ArtistSpotlightCard data={cmsData?.spotlight} />
