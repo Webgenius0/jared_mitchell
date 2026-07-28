@@ -26,3 +26,10 @@ export const apiShareEvent = async (eventId: number) => {
   const res = await axiosSecure.post(`/v1/events/${eventId}/share`);
   return res.data;
 };
+
+// ─── Artist Like ─────────────────────────────────────────────────────────
+
+export const apiToggleArtistLike = async (artistId: number) => {
+  const res = await axiosSecure.post(`/v1/artists/${artistId}/like`);
+  return res.data;
+};

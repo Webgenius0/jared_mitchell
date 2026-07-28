@@ -140,6 +140,16 @@ export const getBusinessById = (id: number) => {
   });
 };
 
+// Get Artist Spotlight Details (rich data with voting, media, contacts, story)
+export const getArtistSpotlightDetails = (id: number) => {
+  return useClientApi({
+    method: "get",
+    key: ["artist-spotlight-details", id],
+    endpoint: `/v1/spotlight/details/artist/${id}`,
+    enabled: !!id,
+  });
+};
+
 // Get CMS About Data
 export const getCMSAboutData = () => {
   return useClientApi({
