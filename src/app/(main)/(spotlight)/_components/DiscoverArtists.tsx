@@ -1,15 +1,10 @@
 "use client";
 import Image from "next/image";
+import Link from "next/link";
 import Container from "@/Components/Common/Container";
-import { BookmarkSvg, LikeSvg, ShareSvg } from "@/Components/Svg/SvgContainer";
+import { LikeSvg } from "@/Components/Svg/SvgContainer";
 
-
-
-
-import {
-  getArtistSpotlights,
-  getBusinessSpotlights,
-} from "@/Hooks/api/cms_api";
+import { getArtists, getBusinessSpotlights } from "@/Hooks/api/cms_api";
 
 const DiscoverArtists = ({
   type = "artist",
@@ -18,12 +13,19 @@ const DiscoverArtists = ({
   type?: "artist" | "business";
   data?: any;
 }) => {
-  const { data: artistData, isLoading: artistLoading } = getArtistSpotlights();
+  const { data: artistData, isLoading: artistLoading } = getArtists();
   const { data: businessData, isLoading: businessLoading } =
     getBusinessSpotlights();
 
-  const data = type === "artist" ? artistData?.data : businessData?.data;
+  const artists = artistData?.data?.artists;
+  const data = type === "artist" ? artists : businessData?.data;
   const isLoading = type === "artist" ? artistLoading : businessLoading;
+
+  const getDetailsHref = (item: any) => {
+    const basePath =
+      type === "artist" ? "/spotlight-artist" : "/spotlight-business";
+    return `${basePath}/${item.id}`;
+  };
 
   return (
     <section className="section">
@@ -44,100 +46,68 @@ const DiscoverArtists = ({
             </>
           )}
         </p>
-        {/* <div className="flex items-center justify-between mt-20">
-          <div className="w-full max-w-[370px] py-4 pl-5 flex items-center gap-3 pr-4 custom_border bg-white rounded-full">
-            <LuSearch className="text-2xl" />
-            <input
-              type="search"
-              className="w-full outline-none"
-              placeholder="Search"
-            />
-          </div>
-          <div className="max- w-[1000px] -full">
-            <Swiper
-              slidesPerView={"auto"}
-              spaceBetween={12}
-              watchOverflow={true}
-              freeMode={{
-                enabled: true,
-                momentum: false,
-              }}
-              modules={[FreeMode]}
-              className="w-full"
-            >
-              {tabs.map(tab => (
-                <SwiperSlide key={tab.id} className="!w-fit">
-                  <button
-                    className={`tracking-wide whitespace-nowrap font-medium transition-colors px-[34px] py-3.5 rounded-full text-xl ${tab.isActive ? "bg-primary-blue text-white border border-primary-blue" : "bg-[#F3F4F6] text-black border-current hover:bg-primary-blue/85 hover:text-white cursor-pointer"}`}
-                    disabled={tab.isActive}
-                  >
-                    {tab.tab}
-                  </button>
-                </SwiperSlide>
-              ))}
-            </Swiper>
-          </div>
-        </div> */}
 
         {isLoading ? (
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">
             {Array.from({ length: 3 }).map((_, idx) => (
               <div
                 key={idx}
-                className="h-[300px] bg-gray-100 animate-pulse rounded-xl"
+                className="h-[300px] bg-gray-100 animate-pulse rounded-2xl"
               />
             ))}
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">
-            {data?.map((item: any, index: number) => (
-              <div
-                key={item.id || index}
-                className="p-5 rounded-xl custom_border custom_shadow bg-white space-y-4"
-              >
-                <div className="flex  items-center gap-5">
-                  <figure className="size-[118px]">
+            {data?.map((item: any, index: number) => {
+              const image =
+                type === "artist" ? item.avatar : item.images?.portrait_photo;
+              const name = type === "artist" ? item.name : item.business_name;
+              const description =
+                type === "artist" ? item.biography : item.business_story;
+
+              return (
+                <Link
+                  key={item.id || index}
+                  href={getDetailsHref(item)}
+                  className="group relative block rounded-2xl overflow-hidden custom_shadow bg-white transition-shadow duration-300 hover:shadow-lg cursor-pointer"
+                >
+                  {/* Image */}
+                  <div className="relative w-full aspect-[4/3]">
                     <Image
-                      src={
-                        type === "artist"
-                          ? item.media?.headshot
-                          : item.images?.portrait_photo
-                      }
-                      width={118}
-                      height={118}
-                      alt=""
-                      className="size-full rounded-full object-cover"
+                      src={image}
+                      alt={name}
+                      fill
+                      className="object-cover transition-transform duration-500 group-hover:scale-105"
                     />
-                  </figure>
-                  <div className="space-y-3">
-                    <h4 className="text-2xl text-primary-black font-semibold">
-                      {type === "artist"
-                        ? item.artist_stage_name
-                        : item.business_name}
+
+                    {/* Overlay for text legibility - strongest at bottom, fades toward top */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
+                  </div>
+
+                  {/* Text content */}
+                  <div className="absolute inset-x-0 bottom-0 px-5 pb-4">
+                    <h4 className="text-lg text-white font-semibold drop-shadow-sm">
+                      {name}
                     </h4>
-                    <span className="px-3.5 py-1 rounded-full bg-[#8F8F8F2E] text-sm text-primary-black">
-                      {type === "artist" ? item.city : item.business_category}
-                    </span>
+                    <p className="text-sm text-white/85 line-clamp-2 mt-1 pr-8 drop-shadow-sm">
+                      {description}
+                    </p>
                   </div>
-                </div>
-                <p className="text-xl text-[#909090] line-clamp-3">
-                  {type === "artist" ? item.short_bio : item.business_story}
-                </p>
-                <div className="flex items-center justify-between mt-4">
-                  <div className="py-4 px-6 flex items-center gap-5 flex-1">
-                    <LikeSvg size={24} />
-                    <BookmarkSvg size={24} />
-                    <ShareSvg size={24} />
-                  </div>
-                  {/* <Button>View Spotlight <BsArrowRight className='text-2xl' /></Button> */}
-                </div>
-              </div>
-            ))}
+
+                  {/* Like icon - stopPropagation so click doesn't navigate */}
+                  <button
+                    type="button"
+                    onClick={(e) => e.stopPropagation()}
+                    className="absolute top-4 right-4 z-10 size-8 flex items-center justify-center rounded-full bg-white/20 backdrop-blur-sm hover:bg-white/40 transition-colors"
+                    aria-label="Like"
+                  >
+                    <LikeSvg size={18} className="text-white" />
+                  </button>
+                </Link>
+              );
+            })}
           </div>
         )}
-        {/* <div className="flex justify-center pt-10">
-          <Button>Explore More</Button>
-        </div> */}
       </Container>
     </section>
   );

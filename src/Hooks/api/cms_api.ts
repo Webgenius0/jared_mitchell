@@ -110,6 +110,16 @@ export const getEventBySlug = (slug: string) => {
   });
 };
 
+// Get All Artists (paginated list)
+export const getArtists = (params?: any) => {
+  return useClientApi({
+    method: "get",
+    key: ["artists", params],
+    endpoint: "/v1/artists",
+    params,
+  });
+};
+
 // Get Artist By ID
 export const getArtistById = (id: number) => {
   return useClientApi({
