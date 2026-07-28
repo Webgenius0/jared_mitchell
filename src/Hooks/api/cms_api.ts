@@ -54,7 +54,7 @@ export const getArtistSpotlights = (params?: any) => {
 };
 
 // Get Artist spotlight details
-export const getArtistSpotlightDetails = (id: number) => {
+export const getSingleArtistSpotlightDetails = (id: number) => {
   return useClientApi({
     method: "get",
     enabled: !!id,
