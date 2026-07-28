@@ -15,7 +15,7 @@ import StepFive from "./_Components/StepFive";
 import StepSix from "./_Components/StepSix";
 import StepSeven from "./_Components/StepSeven";
 import {
-  getArtistSpotlightDetails,
+  getSingleArtistSpotlightDetails,
   useCreateArtistSpotlight,
 } from "@/Hooks/api/cms_api";
 import { TbLoader2 } from "react-icons/tb";
@@ -51,7 +51,8 @@ const Page = ({ searchParams }: Props) => {
 
   const { mutateAsync: artistSpotlightMutation, isPending } =
     useCreateArtistSpotlight();
-  const { data: spotlightDetails, isLoading } = getArtistSpotlightDetails(id);
+  const { data: spotlightDetails, isLoading } =
+    getSingleArtistSpotlightDetails(id);
   console.log(spotlightDetails);
 
   const methods = useForm({

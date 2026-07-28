@@ -269,7 +269,7 @@ const DashboardProfileSettings = ({
               </span>
               <div className="md:col-span-3">
                 {field.type === "readonly" ? (
-                  <span className={`text-gray-900 ${field.type === "textarea" ? "block pt-2" : ""}`}>
+                  <span className={`text-gray-900`}>
                     {profile[field.key]}
                   </span>
                 ) : isEditing ? (
