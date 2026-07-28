@@ -1,4 +1,4 @@
-# OSI — Our Society Initiative
+# OSI
 
 A full-featured community platform built with **Next.js**, **TypeScript**, and **Tailwind CSS** that empowers artists, businesses, and community members through spotlights, events, e-commerce, sponsorships, and more.
 
