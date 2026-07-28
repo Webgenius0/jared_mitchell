@@ -25,6 +25,7 @@ export const useCreateBusinessSpotlight = () => {
 export const useCreateArtistSpotlight = () => {
   return useClientApi({
     method: "post",
+    isPrivate: true,
     key: ["artist-spotlight"],
     endpoint: "/v1/artist-spotlight",
     headers: {
@@ -38,6 +39,28 @@ export const useCreateArtistSpotlight = () => {
     onError: (err: any) => {
       toast.error(err?.response?.data?.message);
     },
+  });
+};
+
+// Get Artist Spotlights
+export const getArtistSpotlights = (params?: any) => {
+  return useClientApi({
+    method: "get",
+    isPrivate: true,
+    key: ["artist-spotlights", params],
+    endpoint: "/v1/artist-spotlight",
+    params,
+  });
+};
+
+// Get Artist spotlight details
+export const getArtistSpotlightDetails = (id: number) => {
+  return useClientApi({
+    method: "get",
+    enabled: !!id,
+    isPrivate: true,
+    key: ["artist-spotlight-details", id],
+    endpoint: `/v1/artist-spotlight/${id}`,
   });
 };
 
@@ -56,16 +79,6 @@ export const getBusinessSpotlights = (params?: any) => {
     method: "get",
     key: ["business-spotlights", params],
     endpoint: "/v1/business-spotlight",
-    params,
-  });
-};
-
-// Get Artist Spotlights
-export const getArtistSpotlights = (params?: any) => {
-  return useClientApi({
-    method: "get",
-    key: ["artist-spotlights", params],
-    endpoint: "/v1/artist-spotlight",
     params,
   });
 };
@@ -148,18 +161,16 @@ export const useEventRegister = () => {
     onSuccess: (res: any) => {
       if (res?.success) {
         import("react-hot-toast").then(({ default: toast }) =>
-          toast.success(res?.message || "Booking confirmed!")
+          toast.success(res?.message || "Booking confirmed!"),
         );
       }
     },
     onError: (err: any) => {
       import("react-hot-toast").then(({ default: toast }) =>
         toast.error(
-          err?.response?.data?.message || "Booking failed. Please try again."
-        )
+          err?.response?.data?.message || "Booking failed. Please try again.",
+        ),
       );
     },
   });
 };
-
-

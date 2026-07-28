@@ -5,7 +5,7 @@ import {
   LeftArrowSvg,
   RightArrowSvg,
 } from "@/Components/Svg/SvgContainer";
-import { useEffect, useRef, useState } from "react";
+import { use, useEffect, useRef, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import StepOne from "./_Components/StepOne";
 import StepTwo from "./_Components/StepTwo";
@@ -14,7 +14,10 @@ import StepFour from "./_Components/StepFour";
 import StepFive from "./_Components/StepFive";
 import StepSix from "./_Components/StepSix";
 import StepSeven from "./_Components/StepSeven";
-import { useCreateArtistSpotlight } from "@/Hooks/api/cms_api";
+import {
+  getArtistSpotlightDetails,
+  useCreateArtistSpotlight,
+} from "@/Hooks/api/cms_api";
 import { TbLoader2 } from "react-icons/tb";
 
 type StepItem = {
@@ -32,7 +35,12 @@ const steps: StepItem[] = [
   { title: "Success", component: StepSeven },
 ];
 
-const Page = () => {
+interface Props {
+  searchParams: Promise<{ id: number }>;
+}
+
+const Page = ({ searchParams }: Props) => {
+  const { id } = use(searchParams);
   const [step, setStep] = useState(0);
   const formRef = useRef<HTMLDivElement | null>(null);
   const totalSteps = steps.length;
@@ -43,6 +51,8 @@ const Page = () => {
 
   const { mutateAsync: artistSpotlightMutation, isPending } =
     useCreateArtistSpotlight();
+  const { data: spotlightDetails, isLoading } = getArtistSpotlightDetails(id);
+  console.log(spotlightDetails);
 
   const methods = useForm({
     mode: "onBlur",
@@ -61,7 +71,10 @@ const Page = () => {
         if (value === undefined || value === null) return;
 
         // Handle Files
-        if (value instanceof FileList || (Array.isArray(value) && value[0] instanceof File)) {
+        if (
+          value instanceof FileList ||
+          (Array.isArray(value) && value[0] instanceof File)
+        ) {
           if (key === "artwork_photos") {
             Array.from(value as FileList).forEach(file => {
               formData.append("artwork_photos[]", file);

@@ -1,9 +1,8 @@
 "use client";
-
-import React from "react";
-import { Eye, Pencil, Trash2 } from "lucide-react";
+import { SpotlightRowSkeleton } from "@/Components/Loader/Loader";
+import { getArtistSpotlights } from "@/Hooks/api/cms_api";
+import { Eye, Pencil } from "lucide-react";
 import Link from "next/link";
-
 type SpotlightStatus = "Approved" | "Terminated" | "Pending";
 
 interface SpotlightEntry {
@@ -77,8 +76,8 @@ function StatusBadge({ status }: { status: SpotlightStatus }) {
 }
 
 const columns = [
-  "Campaign",
-  "Business",
+  "Name",
+  "Category",
   "Duration",
   "Status",
   "Votes",
@@ -87,9 +86,8 @@ const columns = [
 ];
 
 export default function Page() {
-  const handleView = (e: SpotlightEntry) => console.log("View", e);
-  const handleEdit = (e: SpotlightEntry) => console.log("Edit", e);
-  const handleDelete = (e: SpotlightEntry) => console.log("Delete", e);
+  const { data: spotlights, isLoading } = getArtistSpotlights();
+  console.log(spotlights?.data);
 
   return (
     <div className="min-h-screen bg-[#F5F6F8]">
@@ -99,13 +97,12 @@ export default function Page() {
           <h1 className="text-base md:text-lg font-semibold text-slate-900">
             Spotlight history
           </h1>
-          <Link href="/dashboard/artist_business/spotlight-management/create-spotlight">
-            <button
-              type="button"
-              className="bg-blue-500 text-white text-xs md:text-sm font-medium px-5 py-2 md:px-6 md:py-2.5 rounded-full hover:bg-blue-600 transition-colors"
-            >
-              Create
-            </button>
+
+          <Link
+            href="/artist-spotlight"
+            className="bg-blue-500 text-white text-xs md:text-sm font-medium px-5 py-2 md:px-6 md:py-2.5 rounded-full hover:bg-blue-600 transition-colors"
+          >
+            Create
           </Link>
         </div>
 
@@ -125,62 +122,57 @@ export default function Page() {
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100">
-              {spotlightHistory.map(entry => (
-                <tr
-                  key={entry.id}
-                  className="hover:bg-slate-50/60 transition-colors"
-                >
-                  <td className="px-5 md:px-6 py-3.5 md:py-4 text-sm md:text-base text-slate-800 whitespace-nowrap">
-                    {entry.campaign}
-                  </td>
-                  <td className="px-5 md:px-6 py-3.5 md:py-4 text-sm md:text-base text-slate-600 whitespace-nowrap">
-                    {entry.business}
-                  </td>
-                  <td className="px-5 md:px-6 py-3.5 md:py-4 text-sm md:text-base text-slate-600 whitespace-nowrap">
-                    <div className="leading-snug">
-                      <div>{entry.startDate}</div>
-                      <div>{entry.endDate}</div>
-                    </div>
-                  </td>
-                  <td className="px-5 md:px-6 py-3.5 md:py-4 whitespace-nowrap">
-                    <StatusBadge status={entry.status} />
-                  </td>
-                  <td className="px-5 md:px-6 py-3.5 md:py-4 text-sm md:text-base text-slate-600 whitespace-nowrap">
-                    {entry.votes}
-                  </td>
-                  <td className="px-5 md:px-6 py-3.5 md:py-4 text-sm md:text-base text-slate-600 whitespace-nowrap">
-                    {entry.date}
-                  </td>
-                  <td className="px-5 md:px-6 py-3.5 md:py-4 whitespace-nowrap">
-                    <div className="flex items-center gap-2 md:gap-3">
-                      <button
-                        type="button"
-                        title="View"
-                        onClick={() => handleView(entry)}
-                        className="text-slate-400 hover:text-blue-500 transition-colors"
-                      >
-                        <Eye className="w-4 h-4 md:w-[18px] md:h-[18px]" />
-                      </button>
-                      <button
-                        type="button"
-                        title="Edit"
-                        onClick={() => handleEdit(entry)}
-                        className="text-slate-400 hover:text-blue-500 transition-colors"
-                      >
-                        <Pencil className="w-4 h-4 md:w-[18px] md:h-[18px]" />
-                      </button>
-                      <button
-                        type="button"
-                        title="Delete"
-                        onClick={() => handleDelete(entry)}
-                        className="text-slate-400 hover:text-red-500 transition-colors"
-                      >
-                        <Trash2 className="w-4 h-4 md:w-[18px] md:h-[18px]" />
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-              ))}
+              {isLoading ? (
+                <SpotlightRowSkeleton />
+              ) : (
+                spotlightHistory.map(entry => (
+                  <tr
+                    key={entry.id}
+                    className="hover:bg-slate-50/60 transition-colors"
+                  >
+                    <td className="px-5 md:px-6 py-3.5 md:py-4 text-sm md:text-base text-slate-800 whitespace-nowrap">
+                      {entry.campaign}
+                    </td>
+                    <td className="px-5 md:px-6 py-3.5 md:py-4 text-sm md:text-base text-slate-600 whitespace-nowrap">
+                      {entry.business}
+                    </td>
+                    <td className="px-5 md:px-6 py-3.5 md:py-4 text-sm md:text-base text-slate-600 whitespace-nowrap">
+                      <div className="leading-snug">
+                        <div>{entry.startDate}</div>
+                        <div>{entry.endDate}</div>
+                      </div>
+                    </td>
+                    <td className="px-5 md:px-6 py-3.5 md:py-4 whitespace-nowrap">
+                      <StatusBadge status={entry.status} />
+                    </td>
+                    <td className="px-5 md:px-6 py-3.5 md:py-4 text-sm md:text-base text-slate-600 whitespace-nowrap">
+                      {entry.votes}
+                    </td>
+                    <td className="px-5 md:px-6 py-3.5 md:py-4 text-sm md:text-base text-slate-600 whitespace-nowrap">
+                      {entry.date}
+                    </td>
+                    <td className="px-5 md:px-6 py-3.5 md:py-4 whitespace-nowrap">
+                      <div className="flex items-center gap-2 md:gap-4">
+                        <button
+                          type="button"
+                          title="View"
+                          className="text-slate-400 hover:text-blue-500 transition-colors"
+                        >
+                          <Eye className="w-4 h-4 md:w-[18px] md:h-[18px]" />
+                        </button>
+
+                        <Link
+                          href={`/artist-spotlight?id=${1}`}
+                          title="Edit"
+                          className="text-slate-400 hover:text-blue-500 transition-colors"
+                        >
+                          <Pencil className="w-4 h-4 md:w-[18px] md:h-[18px]" />
+                        </Link>
+                      </div>
+                    </td>
+                  </tr>
+                ))
+              )}
             </tbody>
           </table>
         </div>

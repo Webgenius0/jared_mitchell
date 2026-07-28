@@ -6,7 +6,7 @@ export const PageLoader = () => (
       <div className="w-3 h-3 rounded-full bg-black" />
     </div>
 
-    <div className="flex flex-col items-center gap-1">
+    <div className="flex flex-col items-center gap-1 pt-3">
       <span className="text-black font-semibold tracking-widest text-sm uppercase">
         Jared Mitchel
       </span>
