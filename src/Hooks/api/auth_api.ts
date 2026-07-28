@@ -214,3 +214,16 @@ export const useUpdateProfile = () => {
     },
   });
 };
+
+// Subscription Checkout
+export const useSubscriptionCheckout = () => {
+  return useClientApi({
+    method: "post",
+    key: ["subscription-checkout"],
+    endpoint: "/v1/subscription/checkout",
+    isPrivate: true,
+    onError: (err: any) => {
+      toast.error(err?.response?.data?.message || "Failed to initiate checkout");
+    },
+  });
+};
