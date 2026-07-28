@@ -42,6 +42,28 @@ export const useCreateArtistSpotlight = () => {
   });
 };
 
+// Get Artist Spotlights
+export const getArtistSpotlights = (params?: any) => {
+  return useClientApi({
+    method: "get",
+    isPrivate: true,
+    key: ["artist-spotlights", params],
+    endpoint: "/v1/artist-spotlight",
+    params,
+  });
+};
+
+// Get Artist spotlight details
+export const getArtistSpotlightDetails = (id: number) => {
+  return useClientApi({
+    method: "get",
+    enabled: !!id,
+    isPrivate: true,
+    key: ["artist-spotlight-details", id],
+    endpoint: `/v1/artist-spotlight/${id}`,
+  });
+};
+
 // Artist Categories
 export const getArtistCategories = () => {
   return useClientApi({
@@ -57,16 +79,6 @@ export const getBusinessSpotlights = (params?: any) => {
     method: "get",
     key: ["business-spotlights", params],
     endpoint: "/v1/business-spotlight",
-    params,
-  });
-};
-
-// Get Artist Spotlights
-export const getArtistSpotlights = (params?: any) => {
-  return useClientApi({
-    method: "get",
-    key: ["artist-spotlights", params],
-    endpoint: "/v1/artist-spotlight",
     params,
   });
 };
