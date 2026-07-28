@@ -123,6 +123,16 @@ export const getEventBySlug = (slug: string) => {
   });
 };
 
+// Get All Artists (paginated list)
+export const getArtists = (params?: any) => {
+  return useClientApi({
+    method: "get",
+    key: ["artists", params],
+    endpoint: "/v1/artists",
+    params,
+  });
+};
+
 // Get Artist By ID
 export const getArtistById = (id: number) => {
   return useClientApi({
@@ -139,6 +149,16 @@ export const getBusinessById = (id: number) => {
     method: "get",
     key: ["business-by-id", id],
     endpoint: `/v1/businesses/list/${id}`,
+    enabled: !!id,
+  });
+};
+
+// Get Artist Spotlight Details (rich data with voting, media, contacts, story)
+export const getArtistSpotlightDetails = (id: number) => {
+  return useClientApi({
+    method: "get",
+    key: ["artist-spotlight-details", id],
+    endpoint: `/v1/spotlight/details/artist/${id}`,
     enabled: !!id,
   });
 };
