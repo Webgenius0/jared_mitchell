@@ -1,9 +1,6 @@
 "use client";
-
-import React from "react";
 import { Eye, Pencil, Trash2 } from "lucide-react";
 import Link from "next/link";
-
 type SpotlightStatus = "Approved" | "Terminated" | "Pending";
 
 interface SpotlightEntry {
@@ -99,13 +96,13 @@ export default function Page() {
           <h1 className="text-base md:text-lg font-semibold text-slate-900">
             Spotlight history
           </h1>
-          <Link href="/dashboard/artist_business/spotlight-management/create-spotlight">
-            <button
-              type="button"
-              className="bg-blue-500 text-white text-xs md:text-sm font-medium px-5 py-2 md:px-6 md:py-2.5 rounded-full hover:bg-blue-600 transition-colors"
-            >
-              Create
-            </button>
+          {/* <Link href="/dashboard/artist_business/spotlight-management/create-spotlight"> */}
+
+          <Link
+            href="/artist-spotlight"
+            className="bg-blue-500 text-white text-xs md:text-sm font-medium px-5 py-2 md:px-6 md:py-2.5 rounded-full hover:bg-blue-600 transition-colors"
+          >
+            Create
           </Link>
         </div>
 

@@ -25,6 +25,7 @@ export const useCreateBusinessSpotlight = () => {
 export const useCreateArtistSpotlight = () => {
   return useClientApi({
     method: "post",
+    isPrivate: true,
     key: ["artist-spotlight"],
     endpoint: "/v1/artist-spotlight",
     headers: {
@@ -128,18 +129,16 @@ export const useEventRegister = () => {
     onSuccess: (res: any) => {
       if (res?.success) {
         import("react-hot-toast").then(({ default: toast }) =>
-          toast.success(res?.message || "Booking confirmed!")
+          toast.success(res?.message || "Booking confirmed!"),
         );
       }
     },
     onError: (err: any) => {
       import("react-hot-toast").then(({ default: toast }) =>
         toast.error(
-          err?.response?.data?.message || "Booking failed. Please try again."
-        )
+          err?.response?.data?.message || "Booking failed. Please try again.",
+        ),
       );
     },
   });
 };
-
-
