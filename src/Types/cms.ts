@@ -804,6 +804,24 @@ export interface ArtistDetail {
   created_at: string;
 }
 
+export interface ArtistListPagination {
+  current_page: number;
+  per_page: number;
+  total: number;
+  last_page: number;
+}
+
+export interface ArtistsListResponse {
+  success: boolean;
+  message: string;
+  data: {
+    artists: ArtistDetail[];
+    pagination: ArtistListPagination;
+  };
+  errors: null | any;
+  code: number;
+}
+
 export interface ArtistDetailResponse {
   success: boolean;
   message: string;

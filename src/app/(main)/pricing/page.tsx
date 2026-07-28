@@ -22,6 +22,7 @@ const transformPlans = (plans: SubscriptionPlan[]): PricingPlanType[] => {
     .sort((a, b) => a.sort_order - b.sort_order)
     .map(plan => ({
       id: String(plan.id),
+      stripe_price_id: plan.stripe_price_id,
       title: plan.plan_name,
       price: `$${parseFloat(plan.price).toString()}`,
       period: plan.price_suffix,

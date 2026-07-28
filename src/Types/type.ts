@@ -30,6 +30,7 @@ export type LogoSliderProps = {
 
 export type PricingPlan = {
   id: string;
+  stripe_price_id?: string | null;
   title: string;
   price: string;
   period: string;
