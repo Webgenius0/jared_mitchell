@@ -239,6 +239,16 @@ export const useGetNominatedSpotlights = (
   });
 };
 
+// Get Active Round Session (current contest season)
+export const useActiveRoundSession = () => {
+  return useClientApi({
+    method: "get",
+    isPrivate: true,
+    key: ["active-round-session"],
+    endpoint: "/v1/active-round-session",
+  });
+};
+
 // Register / Buy Ticket for an Event
 export const useEventRegister = () => {
   return useClientApi({
