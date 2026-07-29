@@ -968,3 +968,230 @@ export interface SubscriptionPlansResponse {
   status: string;
   data: SubscriptionPlan[];
 }
+
+// ─── Spotlight Details (Artist & Business) ─────────────────────────────────────
+
+export interface SpotlightDetailsCategory {
+  id: number;
+  name: string;
+}
+
+export interface SpotlightDetailsMedia {
+  headshot: string | null;
+  artwork_photos: string[];
+  behind_scenes_photo: string | null;
+}
+
+export interface SpotlightDetailsOwner {
+  id: number;
+  name: string;
+  email?: string;
+}
+
+export interface SpotlightDetailsInteractions {
+  likes_count: number;
+  bookmarks_count: number;
+  shares_count: number;
+}
+
+export interface SpotlightDetailsVotingSummary {
+  total_weeks_nominated: number;
+  total_wins: number;
+  total_votes_received: number;
+}
+
+export interface SpotlightDetailsWeek {
+  id: number;
+  week_number: number;
+  year: number;
+  status: string;
+  voting_starts_at?: string;
+  voting_ends_at?: string;
+}
+
+export interface SpotlightDetailsVotingHistoryEntry {
+  nominee_id: number;
+  week: SpotlightDetailsWeek;
+  rank: number | null;
+  is_winner: boolean;
+  votes: {
+    free: number;
+    paid: number;
+    total: number;
+  };
+}
+
+export interface SpotlightDetailsApplicationWeek {
+  id: number;
+  week_number: number;
+  year: number;
+  status: string;
+}
+
+export interface SpotlightDetailsApplicationHistoryEntry {
+  id: number;
+  week: SpotlightDetailsApplicationWeek;
+  status: string;
+  applied_at: string;
+  reviewed_at: string | null;
+  reviewer_notes: string | null;
+  reviewer: { id: number; name: string } | null;
+}
+
+export interface SpotlightDetailsReviewer {
+  id: number;
+  name: string;
+}
+
+export interface ArtistSpotlightDetail {
+  id: number;
+  full_legal_name: string;
+  artist_stage_name: string;
+  email: string;
+  phone_number: string;
+  date_of_birth: string;
+  city: string;
+  state: string;
+  instagram_handle: string;
+  tiktok_handle: string;
+  facebook_url: string;
+  youtube_url: string;
+  website_portfolio_url: string;
+  category: SpotlightDetailsCategory;
+  category_other_description: string | null;
+  short_bio: string;
+  full_artist_story: string;
+  why_spotlighted: string;
+  community_message: string;
+  current_goals: string;
+  media: SpotlightDetailsMedia;
+  talent_manager_contact: string;
+  agent_contact: string;
+  press_kit_url: string;
+  previous_interviews: string;
+  awards_recognition: string;
+  preferred_pronouns: string;
+  preferred_contact_method: string;
+  interview_availability: string;
+  consent_public_release: boolean;
+  consent_ownership_declaration: boolean;
+  consent_interview_permission: boolean;
+  status: string;
+  current_step: number;
+  submitted_at: string;
+  reviewer_notes: string | null;
+  reviewed_by: SpotlightDetailsReviewer | null;
+  owner: SpotlightDetailsOwner;
+  interactions: SpotlightDetailsInteractions;
+  voting_summary: SpotlightDetailsVotingSummary;
+  voting_history: SpotlightDetailsVotingHistoryEntry[];
+  application_history: SpotlightDetailsApplicationHistoryEntry[];
+  created_at: string;
+  updated_at: string;
+}
+
+export interface BusinessSpotlightDetail {
+  id: number;
+  business_name: string;
+  owner_name: string;
+  email: string;
+  phone_number: string;
+  city: string;
+  state: string;
+  instagram_handle: string;
+  facebook_url: string;
+  website_url: string;
+  category: SpotlightDetailsCategory;
+  category_other_description: string | null;
+  short_description: string;
+  full_story: string;
+  why_spotlighted: string;
+  community_message: string;
+  current_goals: string;
+  media: SpotlightDetailsMedia;
+  press_kit_url: string;
+  awards_recognition: string;
+  consent_public_release: boolean;
+  status: string;
+  current_step: number;
+  submitted_at: string;
+  reviewer_notes: string | null;
+  reviewed_by: SpotlightDetailsReviewer | null;
+  owner: SpotlightDetailsOwner;
+  interactions: SpotlightDetailsInteractions;
+  voting_summary: SpotlightDetailsVotingSummary;
+  voting_history: SpotlightDetailsVotingHistoryEntry[];
+  application_history: SpotlightDetailsApplicationHistoryEntry[];
+  created_at: string;
+  updated_at: string;
+}
+
+export interface ArtistSpotlightDetailsResponse {
+  success: boolean;
+  message: string;
+  data: {
+    spotlight: ArtistSpotlightDetail;
+  };
+  errors: null | any;
+  code: number;
+}
+
+export interface BusinessSpotlightDetailsResponse {
+  success: boolean;
+  message: string;
+  data: {
+    spotlight: BusinessSpotlightDetail;
+  };
+  errors: null | any;
+  code: number;
+}
+
+// ─── Spotlight Weeks Leaderboard ──────────────────────────────────────────────
+
+export interface LeaderboardSpotlight {
+  id: number;
+  type: "artist" | "business";
+  name: string;
+  city: string;
+  state: string;
+  email: string;
+  status: string;
+}
+
+export interface LeaderboardOwner {
+  id: number;
+  name: string;
+}
+
+export interface LeaderboardEntry {
+  rank: number;
+  nominee_id: number;
+  spotlight: LeaderboardSpotlight;
+  owner: LeaderboardOwner;
+  free_votes: number;
+  paid_votes: number;
+  total_votes: number;
+  paid_votes_cap: number;
+  paid_cap_reached: boolean;
+  is_winner: boolean;
+}
+
+export interface LeaderboardWeek {
+  id: number;
+  status: string;
+  is_voting_open: boolean;
+  voting_ends_at: string;
+}
+
+export interface LeaderboardResponse {
+  success: boolean;
+  message: string;
+  data: {
+    week: LeaderboardWeek;
+    type: string;
+    nominees_count: number;
+    leaderboard: LeaderboardEntry[];
+  };
+  errors: null | any;
+  code: number;
+}

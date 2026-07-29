@@ -401,12 +401,11 @@ export default function ArtistDetailsContent({ id }: { id: number }) {
           </div>
 
           {/* ─── Sidebar (30%) ────────────────────────────────────────── */}
-          <div className="w-full lg:w-[30%] rounded-[14.205px] border-[0.5px] border-black/15 bg-[#F9FAFB] p-4 md:p-5 flex flex-col gap-4 md:gap-5">
+          {/* <div className="w-full lg:w-[30%] rounded-[14.205px] border-[0.5px] border-black/15 bg-[#F9FAFB] p-4 md:p-5 flex flex-col gap-4 md:gap-5">
             <h3 className="text-lg md:text-xl font-bold text-[#364153]">
               Support This Artist
             </h3>
 
-            {/* Total Points / Likes */}
             <div className="bg-[#1977DD] p-4 md:p-6 w-full rounded-xl">
               <p className="text-white font-normal text-balance text-center text-sm md:text-base">
                 Total Likes
@@ -416,7 +415,6 @@ export default function ArtistDetailsContent({ id }: { id: number }) {
               </h3>
             </div>
 
-            {/* Like / Clap button */}
             <div className="flex gap-3 md:gap-5">
               <button
                 type="button"
@@ -442,7 +440,6 @@ export default function ArtistDetailsContent({ id }: { id: number }) {
               </button>
             </div>
 
-            {/* Voting Rules */}
             <div className="p-4 md:p-5 bg-white rounded-xl">
               <h3 className="text-base md:text-lg font-bold text-[#364153]">
                 Voting Rules:
@@ -459,7 +456,7 @@ export default function ArtistDetailsContent({ id }: { id: number }) {
                 </li>
               </ul>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </section>

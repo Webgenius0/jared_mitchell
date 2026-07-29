@@ -1,152 +1,24 @@
 "use client";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { FiEye, FiUsers } from "react-icons/fi";
 import { PiSuitcaseSimple, PiPalette } from "react-icons/pi";
+import type { LeaderboardEntry } from "@/Types/cms";
 
-type Trend = "Up" | "Natural" | "Down";
+type TabKey = "all" | "business" | "artist";
 
-type Contestant = {
-  id: number;
-  rank: number;
-  business: string;
-  owner: string;
-  category: string;
-  score: number;
-  trend: Trend;
-  type: "business" | "artist";
-};
-
-const CONTESTANTS: Contestant[] = [
-  {
-    id: 1,
-    rank: 1,
-    business: "Aspire Marketing",
-    owner: "David Smith",
-    category: "Professional Services",
-    score: 4821,
-    trend: "Up",
-    type: "business",
-  },
-  {
-    id: 2,
-    rank: 2,
-    business: "Oasis Outdoor Living",
-    owner: "Emily Williams",
-    category: "Home & Garden",
-    score: 4497,
-    trend: "Natural",
-    type: "business",
-  },
-  {
-    id: 3,
-    rank: 3,
-    business: "Chic & Co Boutique",
-    owner: "Michael Taylor",
-    category: "Retail & Fashion",
-    score: 4497,
-    trend: "Down",
-    type: "artist",
-  },
-  {
-    id: 4,
-    rank: 4,
-    business: "Urban Threads Boutique",
-    owner: "Michael Johnson",
-    category: "Retail & Fashion",
-    score: 4497,
-    trend: "Up",
-    type: "business",
-  },
-  {
-    id: 5,
-    rank: 5,
-    business: "Urban Threads Boutique",
-    owner: "Michael Johnson",
-    category: "Retail & Fashion",
-    score: 4497,
-    trend: "Up",
-    type: "artist",
-  },
-  {
-    id: 6,
-    rank: 6,
-    business: "Urban Threads Boutique",
-    owner: "Michael Johnson",
-    category: "Retail & Fashion",
-    score: 4497,
-    trend: "Up",
-    type: "business",
-  },
-  {
-    id: 7,
-    rank: 7,
-    business: "Urban Threads Boutique",
-    owner: "Michael Johnson",
-    category: "Retail & Fashion",
-    score: 4497,
-    trend: "Natural",
-    type: "artist",
-  },
-  {
-    id: 8,
-    rank: 8,
-    business: "Urban Threads Boutique",
-    owner: "Michael Johnson",
-    category: "Retail & Fashion",
-    score: 4497,
-    trend: "Up",
-    type: "business",
-  },
-  {
-    id: 9,
-    rank: 9,
-    business: "Urban Threads Boutique",
-    owner: "Michael Johnson",
-    category: "Retail & Fashion",
-    score: 4497,
-    trend: "Up",
-    type: "artist",
-  },
-  {
-    id: 10,
-    rank: 10,
-    business: "Urban Threads Boutique",
-    owner: "Michael Johnson",
-    category: "Retail & Fashion",
-    score: 4497,
-    trend: "Up",
-    type: "business",
-  },
-  {
-    id: 11,
-    rank: 11,
-    business: "Urban Threads Boutique",
-    owner: "Michael Johnson",
-    category: "Retail & Fashion",
-    score: 4497,
-    trend: "Up",
-    type: "artist",
-  },
-  {
-    id: 12,
-    rank: 12,
-    business: "Urban Threads Boutique",
-    owner: "Michael Johnson",
-    category: "Retail & Fashion",
-    score: 4497,
-    trend: "Up",
-    type: "business",
-  },
-];
+interface ContestTableProps {
+  leaderboard: LeaderboardEntry[];
+  weekStatus: string;
+  isVotingOpen: boolean;
+  votingEndsAt: string;
+}
 
 const TABS = [
   { key: "all", label: "All", icon: FiUsers },
   { key: "business", label: "Business Spotlights", icon: PiSuitcaseSimple },
   { key: "artist", label: "Artist Spotlights", icon: PiPalette },
 ] as const;
-
-type TabKey = (typeof TABS)[number]["key"];
 
 const TAB_CONTENT = {
   all: {
@@ -176,39 +48,59 @@ const rankBadgeStyle = (rank: number) => {
   return "bg-blue-50 text-blue-600";
 };
 
-const trendStyle = (trend: Trend) => {
-  if (trend === "Up") return "text-emerald-500";
-  if (trend === "Down") return "text-red-500";
-  return "text-blue-500";
-};
-
-const slugify = (value: string) =>
-  value
-    .toLowerCase()
-    .trim()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/(^-|-$)/g, "");
-
-export default function ContestTable() {
+export default function ContestTable({
+  leaderboard,
+  weekStatus,
+  isVotingOpen,
+  votingEndsAt,
+}: ContestTableProps) {
   const router = useRouter();
   const [activeTab, setActiveTab] = useState<TabKey>("all");
 
-  const filtered =
-    activeTab === "all"
-      ? CONTESTANTS
-      : CONTESTANTS.filter(c => c.type === activeTab);
+  const filtered = useMemo(
+    () =>
+      activeTab === "all"
+        ? leaderboard
+        : leaderboard.filter(c => c.spotlight.type === activeTab),
+    [activeTab, leaderboard],
+  );
 
   const tabContent = TAB_CONTENT[activeTab];
   const TabIcon = TABS.find(t => t.key === activeTab)!.icon;
 
-  const handleViewProfile = (businessName: string) => {
-    router.push(`/contest/${slugify(businessName)}`);
+  const handleViewProfile = (spotlightId: number, type: string) => {
+    router.push(`/contest/${spotlightId}?type=${type}`);
   };
 
   return (
     <div className="container mx-auto">
+      {/* Voting Status Banner */}
+      <div
+        className={`rounded-2xl border p-4 sm:p-5 my-6 sm:my-8 flex items-center justify-between ${
+          isVotingOpen
+            ? "bg-emerald-50 border-emerald-200"
+            : "bg-amber-50 border-amber-200"
+        }`}
+      >
+        <div className="flex items-center gap-3">
+          <span
+            className={`inline-block w-3 h-3 rounded-full ${
+              isVotingOpen ? "bg-emerald-500" : "bg-amber-500"
+            }`}
+          />
+          <span className="text-sm sm:text-base font-medium text-[#364153]">
+            {isVotingOpen
+              ? "Voting is currently open"
+              : 'Voting is currently closed'}
+          </span>
+        </div>
+        <span className="text-xs sm:text-sm text-black/50">
+          Status: <span className="capitalize">{weekStatus.replace(/_/g, " ")}</span>
+        </span>
+      </div>
+
       {/* Tabs */}
-      <div className="rounded-2xl border border-black/15 bg-white shadow-[0_4px_20px_0_rgba(0,0,0,0.07)] p-3 sm:p-5 flex flex-wrap gap-2 my-6 sm:my-8">
+      <div className="rounded-2xl border border-black/15 bg-white shadow-[0_4px_20px_0_rgba(0,0,0,0.07)] p-3 sm:p-5 flex flex-wrap gap-2 mb-6 sm:mb-8">
         {TABS.map(tab => {
           const Icon = tab.icon;
           return (
@@ -253,29 +145,35 @@ export default function ContestTable() {
       </div>
 
       {/* Table */}
-      <div className="bg-white  border border-gray-100 shadow-sm overflow-hidden">
+      <div className="bg-white border border-gray-100 shadow-sm overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full min-w-[500px] sm:min-w-[720px]">
             <thead>
-              <tr className="bg-blue-600 text-white text-sm sm:text-base ">
+              <tr className="bg-blue-600 text-white text-sm sm:text-base">
                 <th className="text-left font-medium px-3 sm:px-4 lg:px-6 py-3 sm:py-4 w-1/5">
                   Rank
                 </th>
                 <th className="text-left font-medium px-3 sm:px-4 lg:px-6 py-3 sm:py-4 w-1/4">
-                  Business
+                  Name
                 </th>
-                <th className="text-center font-medium px-3 sm:px-4 lg:px-6 py-3 sm:py-4 w-1/4">
+                <th className="text-center font-medium px-3 sm:px-4 lg:px-6 py-3 sm:py-4 w-1/5">
+                  Free Votes
+                </th>
+                <th className="text-center font-medium px-3 sm:px-4 lg:px-6 py-3 sm:py-4 w-1/5">
+                  Paid Votes
+                </th>
+                <th className="text-center font-medium px-3 sm:px-4 lg:px-6 py-3 sm:py-4 w-1/6">
                   Total Score
                 </th>
-                <th className="text-center font-medium px-3 sm:px-4 lg:px-6 py-3 sm:py-4 w-1/4">
-                  Trend
+                <th className="text-center font-medium px-3 sm:px-4 lg:px-6 py-3 sm:py-4">
+                  Action
                 </th>
               </tr>
             </thead>
             <tbody>
               {filtered.map((c, idx) => (
                 <tr
-                  key={c.id}
+                  key={c.nominee_id}
                   className={`text-sm sm:text-base ${
                     idx !== filtered.length - 1
                       ? "border-b border-gray-100"
@@ -283,45 +181,55 @@ export default function ContestTable() {
                   } hover:bg-gray-50 transition-colors`}
                 >
                   <td className="px-3 sm:px-4 lg:px-6 py-3 sm:py-4">
-                    <span
-                      className={`inline-flex items-center justify-center h-7 w-7 sm:h-8 sm:w-8 rounded-lg text-[10px] sm:text-xs font-semibold ${rankBadgeStyle(
-                        c.rank,
-                      )}`}
-                    >
-                      #{c.rank}
-                    </span>
+                    <div className="flex items-center gap-2">
+                      <span
+                        className={`inline-flex items-center justify-center h-7 w-7 sm:h-8 sm:w-8 rounded-lg text-[10px] sm:text-xs font-semibold ${rankBadgeStyle(
+                          c.rank,
+                        )}`}
+                      >
+                        #{c.rank}
+                      </span>
+                      <span className="text-[10px] sm:text-xs text-gray-400 uppercase tracking-wider">
+                        {c.spotlight.type}
+                      </span>
+                    </div>
                   </td>
                   <td className="px-3 sm:px-4 lg:px-6 py-3 sm:py-4">
                     <div className="font-medium text-gray-900 text-sm sm:text-base">
-                      {c.business}
+                      {c.spotlight.name}
                     </div>
                     <div className="text-gray-400 text-[10px] sm:text-xs">
-                      {c.owner}
+                      {c.spotlight.city}, {c.spotlight.state}
+                    </div>
+                    <div className="text-gray-400 text-[10px] sm:text-xs">
+                      {c.owner.name}
                     </div>
                   </td>
-
+                  <td className="px-3 sm:px-4 lg:px-6 py-3 sm:py-4 text-center">
+                    <div className="text-gray-700 font-medium text-sm sm:text-base">
+                      {c.free_votes.toLocaleString()}
+                    </div>
+                  </td>
+                  <td className="px-3 sm:px-4 lg:px-6 py-3 sm:py-4 text-center">
+                    <div className="text-gray-700 font-medium text-sm sm:text-base">
+                      {c.paid_votes.toLocaleString()}
+                    </div>
+                  </td>
                   <td className="px-3 sm:px-4 lg:px-6 py-3 sm:py-4 text-center">
                     <div className="text-blue-600 font-semibold text-sm sm:text-base">
-                      {c.score.toLocaleString()}
+                      {c.total_votes.toLocaleString()}
                     </div>
                     <div className="text-gray-400 text-[10px] sm:text-xs">
-                      points
+                      votes
                     </div>
                   </td>
-                  <td className="px-3 sm:px-4 lg:px-6 py-3 sm:py-4 flex items-center gap-20 justify-end">
-                    <span
-                      className={`font-medium text-xs sm:text-sm w-10 ${trendStyle(
-                        c.trend,
-                      )}`}
-                    >
-                      {c.trend}
-                    </span>
+                  <td className="px-3 sm:px-4 lg:px-6 py-3 sm:py-4 text-center">
                     <button
-                      onClick={() => handleViewProfile(c.business)}
+                      onClick={() => handleViewProfile(c.spotlight.id, c.spotlight.type)}
                       className="inline-flex items-center gap-1.5 bg-blue-600 hover:bg-blue-700 text-white text-[10px] sm:text-xs font-medium px-2.5 sm:px-4 py-1.5 sm:py-2 rounded-sm transition-colors whitespace-nowrap"
                     >
                       <FiEye className="h-3 w-3 sm:h-3.5 sm:w-3.5" />
-                      View Profile
+                      Profile
                     </button>
                   </td>
                 </tr>
@@ -330,6 +238,15 @@ export default function ContestTable() {
           </table>
         </div>
       </div>
+
+      {/* Winner indicator */}
+      {filtered.some(e => e.is_winner) && (
+        <div className="mt-4 p-3 bg-gradient-to-r from-amber-50 to-yellow-50 border border-amber-200 rounded-lg text-center">
+          <span className="text-amber-700 font-medium text-sm">
+            🏆 Winners have been announced for this week!
+          </span>
+        </div>
+      )}
     </div>
   );
 }
