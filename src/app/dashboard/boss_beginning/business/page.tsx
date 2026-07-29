@@ -21,6 +21,14 @@ import {
 } from "@/Hooks/api/dashboard_api";
 import { useQueryClient } from "@tanstack/react-query";
 
+interface MediaItem {
+  id: number;
+  url: string;
+  file_name: string;
+  mime_type: string;
+  file_size: number;
+}
+
 type BusinessStatus = string;
 
 interface ApiBusiness {
@@ -35,7 +43,7 @@ interface ApiBusiness {
   community_impact_statement: string | null;
   revenue_stage: string | null;
   why_they_deserve_to_compete: string | null;
-  media: string[];
+  media: MediaItem[];
   status: string;
   total_claps: number;
   total_saves: number;
@@ -90,8 +98,8 @@ function mapApiBusiness(api: ApiBusiness): Business {
     communityImpact: api.community_impact_statement || undefined,
     revenueStage: api.revenue_stage || undefined,
     whyCompete: api.why_they_deserve_to_compete || undefined,
-    videoThumbnail: api.media?.[0] || undefined,
-    gallery: api.media || undefined,
+    videoThumbnail: api.media?.[0]?.url || undefined,
+    gallery: api.media?.map(m => m.url) || undefined,
     date: api.created_at
       ? new Date(api.created_at).toLocaleDateString("en-US", {
           year: "numeric",
@@ -420,30 +428,33 @@ export default function Page() {
                   Media
                 </h3>
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-                  {details.media.map((src: string, i: number) => (
-                    <div
-                      key={i}
-                      className="aspect-video rounded-xl overflow-hidden border border-slate-200 bg-slate-50"
-                    >
-                      {src.match(/video/i) ? (
-                        <video
-                          src={src}
-                          className="w-full h-full object-cover"
-                          controls
-                        />
-                      ) : (
-                        <img
-                          src={src}
-                          alt={`Media ${i + 1}`}
-                          className="w-full h-full object-cover"
-                          onError={(e) => {
-                            (e.target as HTMLImageElement).style.display =
-                              "none";
-                          }}
-                        />
-                      )}
-                    </div>
-                  ))}
+                  {details.media.map((item: MediaItem, i: number) => {
+                    const src = item.url;
+                    return (
+                      <div
+                        key={item.id || i}
+                        className="aspect-video rounded-xl overflow-hidden border border-slate-200 bg-slate-50"
+                      >
+                        {item.mime_type?.startsWith("video/") ? (
+                          <video
+                            src={src}
+                            className="w-full h-full object-cover"
+                            controls
+                          />
+                        ) : (
+                          <img
+                            src={src}
+                            alt={item.file_name || `Media ${i + 1}`}
+                            className="w-full h-full object-cover"
+                            onError={(e) => {
+                              (e.target as HTMLImageElement).style.display =
+                                "none";
+                            }}
+                          />
+                        )}
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
             )}
