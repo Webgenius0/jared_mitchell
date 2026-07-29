@@ -20,10 +20,10 @@ const EditorsPicks = ({
   const { data: businessData, isLoading: businessLoading } =
     getBusinessSpotlights();
 
-  const data =
-    type === "artist"
-      ? artistData?.data?.slice(0, 3)
-      : businessData?.data?.slice(0, 3);
+  const rawData = type === "artist" ? artistData?.data : businessData?.data;
+  const data = Array.isArray(rawData)
+    ? rawData.slice(0, 3)
+    : rawData?.spotlights?.slice(0, 3);
   const isLoading = type === "artist" ? artistLoading : businessLoading;
 
   return (

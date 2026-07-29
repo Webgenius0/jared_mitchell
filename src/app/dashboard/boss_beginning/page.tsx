@@ -6,12 +6,15 @@ import {
   Rows3,
   ChevronRight,
   LucideIcon,
+  Loader2,
 } from "lucide-react";
 import { LineChart, Line, XAxis, ResponsiveContainer, Tooltip } from "recharts";
+import { useGetDashboardStats } from "@/Hooks/api/dashboard_api";
+import useAuth from "@/Hooks/useAuth";
 
 interface StatCard {
   label: string;
-  value: number;
+  value: number | string;
   icon: LucideIcon;
 }
 
@@ -37,13 +40,6 @@ interface EventItem {
   meta: string;
   price: string;
 }
-
-const statCards: StatCard[] = [
-  { label: "Total Business", value: 3, icon: Briefcase },
-  { label: "Total Spotlight", value: 3, icon: Sparkles },
-  { label: "Vote", value: 2496, icon: ThumbsUp },
-  { label: "Parching events", value: 4, icon: Rows3 },
-];
 
 const activity: ActivityItem[] = [
   { title: "New Business profile Crated", time: "2 hour ago" },
@@ -141,11 +137,41 @@ function ChartTooltip({ active, payload }: ChartTooltipProps) {
 }
 
 export default function Page() {
+  const { user } = useAuth();
+  const { data: statsData, isLoading } = useGetDashboardStats();
+
+  const stats = statsData?.data;
+
+  const statCards: StatCard[] = [
+    {
+      label: "Total Business",
+      value: stats?.total_businesses ?? "—",
+      icon: Briefcase,
+    },
+    {
+      label: "Total Spotlight",
+      value: stats?.total_spotlights ?? "—",
+      icon: Sparkles,
+    },
+    {
+      label: "Vote",
+      value: stats?.total_votes ?? "—",
+      icon: ThumbsUp,
+    },
+    {
+      label: "Parching events",
+      value: stats?.total_event_purchases ?? "—",
+      icon: Rows3,
+    },
+  ];
+
+  const displayName = user?.profile?.name || user?.profile?.username || "User";
+
   return (
     <div className="min-h-screen bg-[#F5F6F8] font-sans text-slate-800">
       <div className="space-y-6">
         <h1 className="text-lg md:text-xl text-slate-800">
-          Welcome back, <span className="font-medium">John</span>
+          Welcome back, <span className="font-medium">{displayName}</span>
         </h1>
 
         {/* Stat cards */}
@@ -157,14 +183,22 @@ export default function Page() {
             >
               <div className="flex items-center gap-2.5 mb-6">
                 <div className="w-9 h-9 md:w-10 md:h-10 rounded-full bg-blue-50 flex items-center justify-center">
-                  <Icon className="w-4 h-4 md:w-5 md:h-5 text-blue-500" />
+                  {isLoading ? (
+                    <Loader2 className="w-4 h-4 md:w-5 md:h-5 text-blue-300 animate-spin" />
+                  ) : (
+                    <Icon className="w-4 h-4 md:w-5 md:h-5 text-blue-500" />
+                  )}
                 </div>
                 <span className="text-sm md:text-base text-slate-500">
                   {label}
                 </span>
               </div>
               <div className="text-2xl md:text-3xl font-semibold text-slate-900">
-                {value}
+                {isLoading ? (
+                  <span className="text-slate-300">—</span>
+                ) : (
+                  value
+                )}
               </div>
             </div>
           ))}

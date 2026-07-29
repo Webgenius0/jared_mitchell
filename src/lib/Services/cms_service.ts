@@ -26,6 +26,9 @@ import {
   PastSixMonthsWinnersResponse,
   RoundCountdownResponse,
   SubscriptionPlan,
+  LeaderboardResponse,
+  ArtistSpotlightDetailsResponse,
+  BusinessSpotlightDetailsResponse,
 } from "@/Types/cms";
 
 export const getCMSHomepageData = async (): Promise<CMSHomepage> => {
@@ -472,6 +475,80 @@ export const getEventBySlug = async (
 
   const result = await res.json();
   return result.data as CMSEventItem;
+};
+
+export const getArtistSpotlightDetails = async (
+  spotlightId: number,
+): Promise<ArtistSpotlightDetailsResponse> => {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_SITE_URL}/v1/spotlight/details/artist/${spotlightId}`,
+    { next: { revalidate: 60 } },
+  );
+
+  if (!res.ok) {
+    throw new Error(
+      `Failed to fetch artist spotlight details — Status: ${res.status}`,
+    );
+  }
+
+  const result = await res.json();
+  return result as ArtistSpotlightDetailsResponse;
+};
+
+export const getBusinessSpotlightDetails = async (
+  spotlightId: number,
+): Promise<BusinessSpotlightDetailsResponse> => {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_SITE_URL}/v1/spotlight/details/business/${spotlightId}`,
+    { next: { revalidate: 60 } },
+  );
+
+  if (!res.ok) {
+    throw new Error(
+      `Failed to fetch business spotlight details — Status: ${res.status}`,
+    );
+  }
+
+  const result = await res.json();
+  return result as BusinessSpotlightDetailsResponse;
+};
+
+export const getLeaderboard = async (
+  weekId: number = 2,
+  types: ("artist" | "business")[] = ["artist", "business"],
+): Promise<LeaderboardResponse> => {
+  const params = new URLSearchParams();
+  types.forEach(t => params.append("type", t));
+
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_SITE_URL}/v1/spotlight/weeks/${weekId}/leaderboard?${params.toString()}`,
+    { next: { revalidate: 60 } },
+  );
+
+  if (!res.ok) {
+    throw new Error(`Failed to fetch leaderboard — Status: ${res.status}`);
+  }
+
+  const result = await res.json();
+  return result as LeaderboardResponse;
+};
+
+export const getContestantDetails = async (
+  contestantId: number,
+): Promise<any> => {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_SITE_URL}/v1/contest/contestants/${contestantId}`,
+    { next: { revalidate: 60 } },
+  );
+
+  if (!res.ok) {
+    throw new Error(
+      `Failed to fetch contestant details — Status: ${res.status}`,
+    );
+  }
+
+  const result = await res.json();
+  return result;
 };
 
 export const getSubscriptionPlans = async (): Promise<SubscriptionPlan[]> => {

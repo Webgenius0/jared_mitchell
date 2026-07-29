@@ -1,6 +1,6 @@
 "use client";
 
-import { FormData } from "./types";
+import { SpotlightFormData, FormErrors } from "./types";
 import { StepCard, WordCountTextField } from "./field-components";
 
 /* ------------------------------------------------------------------ */
@@ -8,11 +8,12 @@ import { StepCard, WordCountTextField } from "./field-components";
 /* ------------------------------------------------------------------ */
 
 export interface StepBusinessStoryProps {
-  form: FormData;
-  update: <K extends keyof FormData>(key: K) => (value: FormData[K]) => void;
+  form: SpotlightFormData;
+  update: <K extends keyof SpotlightFormData>(key: K) => (value: SpotlightFormData[K]) => void;
+  errors: FormErrors;
 }
 
-export function StepBusinessStory({ form, update }: StepBusinessStoryProps) {
+export function StepBusinessStory({ form, update, errors }: StepBusinessStoryProps) {
   return (
     <StepCard
       index={3}
@@ -25,8 +26,9 @@ export function StepBusinessStory({ form, update }: StepBusinessStoryProps) {
         placeholder="Where it started, why it exists, and the mission behind it..."
         value={form.businessStory}
         onChange={update("businessStory")}
-        maxChars={500}
-        rows={4}
+        maxChars={3000}
+        rows={5}
+        error={errors.businessStory}
       />
       <WordCountTextField
         index={2}
@@ -36,6 +38,7 @@ export function StepBusinessStory({ form, update }: StepBusinessStoryProps) {
         onChange={update("productsServices")}
         maxChars={3000}
         rows={5}
+        error={errors.productsServices}
       />
       <WordCountTextField
         index={3}
@@ -45,15 +48,17 @@ export function StepBusinessStory({ form, update }: StepBusinessStoryProps) {
         onChange={update("challengesOvercome")}
         maxChars={3000}
         rows={5}
+        error={errors.challengesOvercome}
       />
       <WordCountTextField
         index={4}
-        label="What makes your business unique?"
+        label="What makes your business unique? (Unique Factor)"
         placeholder="What separates you from competitors..."
-        value={form.uniqueValue}
-        onChange={update("uniqueValue")}
+        value={form.uniqueFactor}
+        onChange={update("uniqueFactor")}
         maxChars={2000}
         rows={3}
+        error={errors.uniqueFactor}
       />
       <WordCountTextField
         index={5}
@@ -63,6 +68,7 @@ export function StepBusinessStory({ form, update }: StepBusinessStoryProps) {
         onChange={update("targetCustomer")}
         maxChars={2000}
         rows={3}
+        error={errors.targetCustomer}
       />
     </StepCard>
   );

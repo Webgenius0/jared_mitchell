@@ -2,9 +2,9 @@
 /*  Types                                                              */
 /* ------------------------------------------------------------------ */
 
-export type ServiceMode = "in-person" | "online" | "both" | "";
+export type ServiceType = "in-person" | "online" | "both" | "";
 
-export interface FormData {
+export interface SpotlightFormData {
   // Step 1 — Identification
   businessName: string;
   ownerName: string;
@@ -13,7 +13,7 @@ export interface FormData {
   businessWebsite: string;
   city: string;
   state: string;
-  // Step 2 — Category (Contact Information)
+  // Step 2 — Contact Information
   email: string;
   phone: string;
   bestTimeToContact: string;
@@ -23,29 +23,64 @@ export interface FormData {
   youtube: string;
   googleBusinessProfile: string;
   linkedin: string;
-  websiteUrl: string;
+  fanbaseUrl: string;
   // Step 3 — Your Story
   businessStory: string;
   productsServices: string;
   challengesOvercome: string;
-  uniqueValue: string;
+  uniqueFactor: string;
   targetCustomer: string;
   // Step 4 — Media (Images)
-  ownerPortrait: string | null;
-  storefrontPhoto: string | null;
-  productPhotos: string | null;
+  portraitPhoto: string | null;
+  storefrontWorkspacePhoto: string | null;
+  productPhoto1: string | null;
+  productPhoto2: string | null;
   teamPhoto: string | null;
-  // Step 5 — Consent (Service Details)
-  serviceMode: ServiceMode;
-  // Step 6 — Optional (Spotlight Consideration)
+  // Step 5 — Service Details
+  serviceType: ServiceType;
+  // Step 6 — Spotlight Consideration
   whyFeatured: string;
-  howHelpGrow: string;
-  permissionFeature: boolean;
-  permissionPhotos: boolean;
-  permissionShareStory: boolean;
+  growthVision: string;
+  permissionFeaturedOnOsi: boolean;
+  permissionUseSubmittedPhotos: boolean;
+  permissionShareBusinessStory: boolean;
 }
 
-export const initialFormData: FormData = {
+export interface FormErrors {
+  // Step 1
+  businessName?: string;
+  ownerName?: string;
+  businessCategory?: string;
+  yearFounded?: string;
+  businessWebsite?: string;
+  city?: string;
+  state?: string;
+  // Step 2
+  email?: string;
+  phone?: string;
+  // Step 3
+  businessStory?: string;
+  productsServices?: string;
+  challengesOvercome?: string;
+  uniqueFactor?: string;
+  targetCustomer?: string;
+  // Step 4
+  portraitPhoto?: string;
+  storefrontWorkspacePhoto?: string;
+  productPhoto1?: string;
+  productPhoto2?: string;
+  // Step 5
+  serviceType?: string;
+  // Step 6
+  bestTimeToContact?: string;
+  permissionUseSubmittedPhotos?: string;
+  permissionShareBusinessStory?: string;
+  permissionFeaturedOnOsi?: string;
+  whyFeatured?: string;
+  growthVision?: string;
+}
+
+export const initialFormData: SpotlightFormData = {
   businessName: "",
   ownerName: "",
   businessCategory: "",
@@ -62,22 +97,23 @@ export const initialFormData: FormData = {
   youtube: "",
   googleBusinessProfile: "",
   linkedin: "",
-  websiteUrl: "",
+  fanbaseUrl: "",
   businessStory: "",
   productsServices: "",
   challengesOvercome: "",
-  uniqueValue: "",
+  uniqueFactor: "",
   targetCustomer: "",
-  ownerPortrait: null,
-  storefrontPhoto: null,
-  productPhotos: null,
+  portraitPhoto: null,
+  storefrontWorkspacePhoto: null,
+  productPhoto1: null,
+  productPhoto2: null,
   teamPhoto: null,
-  serviceMode: "",
+  serviceType: "",
   whyFeatured: "",
-  howHelpGrow: "",
-  permissionFeature: false,
-  permissionPhotos: false,
-  permissionShareStory: false,
+  growthVision: "",
+  permissionFeaturedOnOsi: false,
+  permissionUseSubmittedPhotos: false,
+  permissionShareBusinessStory: false,
 };
 
 export interface StepDef {
@@ -86,11 +122,11 @@ export interface StepDef {
 
 export const steps: StepDef[] = [
   { label: "Identification" },
-  { label: "Category" },
+  { label: "Contact" },
   { label: "Your Story" },
   { label: "Media" },
-  { label: "Consent" },
-  { label: "Optional" },
+  { label: "Service" },
+  { label: "Consideration" },
 ];
 
 export const TOTAL_STEPS = steps.length;
@@ -101,6 +137,8 @@ export const CATEGORY_OPTIONS = [
   "Technology",
   "Healthcare",
   "Education",
+  "Arts & Entertainment",
+  "Professional Services",
   "Other",
 ];
 

@@ -1,18 +1,19 @@
 "use client";
 
-import { FormData } from "./types";
-import { StepCard, RadioOption } from "./field-components";
+import { SpotlightFormData, FormErrors } from "./types";
+import { StepCard, RadioOption, ErrorText } from "./field-components";
 
 /* ------------------------------------------------------------------ */
-/*  Step 5 — Service Details (Consent)                                 */
+/*  Step 5 — Service Details                                           */
 /* ------------------------------------------------------------------ */
 
 export interface StepServiceDetailsProps {
-  form: FormData;
-  update: <K extends keyof FormData>(key: K) => (value: FormData[K]) => void;
+  form: SpotlightFormData;
+  update: <K extends keyof SpotlightFormData>(key: K) => (value: SpotlightFormData[K]) => void;
+  errors: FormErrors;
 }
 
-export function StepServiceDetails({ form, update }: StepServiceDetailsProps) {
+export function StepServiceDetails({ form, update, errors }: StepServiceDetailsProps) {
   return (
     <StepCard
       index={5}
@@ -21,26 +22,27 @@ export function StepServiceDetails({ form, update }: StepServiceDetailsProps) {
     >
       <div>
         <label className="block text-sm md:text-base font-medium text-slate-700 mb-3">
-          Do you offer in-person visits or online services?
+          Service Type
           <span className="text-red-500">*</span>
         </label>
         <div className="space-y-3">
           <RadioOption
             label="In-person only"
-            selected={form.serviceMode === "in-person"}
-            onSelect={() => update("serviceMode")("in-person")}
+            selected={form.serviceType === "in-person"}
+            onSelect={() => update("serviceType")("in-person")}
           />
           <RadioOption
             label="Online only"
-            selected={form.serviceMode === "online"}
-            onSelect={() => update("serviceMode")("online")}
+            selected={form.serviceType === "online"}
+            onSelect={() => update("serviceType")("online")}
           />
           <RadioOption
             label="Both in-person and online"
-            selected={form.serviceMode === "both"}
-            onSelect={() => update("serviceMode")("both")}
+            selected={form.serviceType === "both"}
+            onSelect={() => update("serviceType")("both")}
           />
         </div>
+        <ErrorText error={errors.serviceType} />
       </div>
     </StepCard>
   );

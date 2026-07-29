@@ -1,7 +1,26 @@
 import { CheckSvg, DownloadIconSvg } from "@/Components/Svg/SvgContainer";
 import { useFormContext } from "react-hook-form";
 
-const StepFour = () => {
+/* ------------------------------------------------------------------ */
+/*  ExistingImages interface (mirrors the one in create-spotlights)    */
+/* ------------------------------------------------------------------ */
+
+export interface ExistingImages {
+  portrait_photo: string | null;
+  storefront_workspace_photo: string | null;
+  product_service_photos: string[];
+  team_photo: string | null;
+}
+
+/* ------------------------------------------------------------------ */
+/*  Component                                                          */
+/* ------------------------------------------------------------------ */
+
+const StepFour = ({
+  existingImages,
+}: {
+  existingImages?: ExistingImages | null;
+}) => {
   const {
     register,
     watch,
@@ -12,6 +31,18 @@ const StepFour = () => {
   const workspacePhoto = watch("storefront_workspace_photo")?.[0];
   const servicePhoto = watch("product_service_photos")?.[0];
   const teamPhoto = watch("team_photo")?.[0];
+
+  const isEditing = !!existingImages;
+
+  const hasExistingPortrait = !!existingImages?.portrait_photo;
+  const hasExistingWorkspace = !!existingImages?.storefront_workspace_photo;
+  const hasExistingProduct =
+    (existingImages?.product_service_photos?.length ?? 0) > 0;
+  const hasExistingTeam = !!existingImages?.team_photo;
+
+  /* When editing, images are optional — user can keep existing or upload new */
+  const requiredRule = (message: string): any =>
+    isEditing ? false : { required: message };
 
   return (
     <div className="step_box">
@@ -25,7 +56,8 @@ const StepFour = () => {
         <div>
           <p className="flex justify-between items-center mb-2">
             <label htmlFor="" className="auth_label">
-              Business Owner Portrait <span>*</span>
+              Business Owner Portrait{" "}
+              {!isEditing && <span>*</span>}
             </label>
             {errors.portrait_photo?.message && (
               <p className="text-red-500">
@@ -39,9 +71,7 @@ const StepFour = () => {
               type="file"
               id="portrait_photo"
               className="hidden"
-              {...register("portrait_photo", {
-                required: "Owner portrait is required",
-              })}
+              {...register("portrait_photo", requiredRule("Owner portrait is required"))}
               onChange={e => {
                 register("portrait_photo").onChange(e);
               }}
@@ -53,18 +83,35 @@ const StepFour = () => {
               }`}
             >
               {ownerPhoto ? (
-                <p className="size-10 rounded-full grid place-items-center bg-green-600  text-white">
-                  <CheckSvg />
-                </p>
+                <>
+                  <img
+                    src={URL.createObjectURL(ownerPhoto)}
+                    alt="Preview"
+                    className="h-20 w-20 object-cover rounded-lg"
+                  />
+                  <h4 className="text-lg text-gray-500">
+                    {ownerPhoto?.name}
+                  </h4>
+                </>
+              ) : hasExistingPortrait ? (
+                <>
+                  <img
+                    src={existingImages!.portrait_photo!}
+                    alt="Existing portrait"
+                    className="h-20 w-20 object-cover rounded-lg"
+                  />
+                  <h4 className="text-lg text-gray-500">
+                    Existing image — click to replace
+                  </h4>
+                </>
               ) : (
-                <DownloadIconSvg />
+                <>
+                  <DownloadIconSvg />
+                  <h4 className="text-lg text-gray-500">
+                    Click to upload image
+                  </h4>
+                </>
               )}
-              {ownerPhoto ? (
-                <h4 className="text-lg text-gray-500">{ownerPhoto?.name}</h4>
-              ) : (
-                <h4 className="text-lg text-gray-500">Click to upload image</h4>
-              )}
-
               <p className="text-gray-500 -mt-1">PNG, JPG up to 10MB</p>
             </div>
           </label>
@@ -74,7 +121,8 @@ const StepFour = () => {
         <div>
           <p className="flex justify-between items-center mb-2">
             <label htmlFor="" className="auth_label">
-              Storefront / Workspace Photo <span>*</span>
+              Storefront / Workspace Photo{" "}
+              {!isEditing && <span>*</span>}
             </label>
             {errors.storefront_workspace_photo?.message && (
               <p className="text-red-500">
@@ -88,9 +136,10 @@ const StepFour = () => {
               type="file"
               id="storefront_workspace_photo"
               className="hidden"
-              {...register("storefront_workspace_photo", {
-                required: "Workspace photo is required",
-              })}
+              {...register(
+                "storefront_workspace_photo",
+                requiredRule("Workspace photo is required"),
+              )}
               onChange={e => {
                 register("storefront_workspace_photo").onChange(e);
               }}
@@ -104,20 +153,35 @@ const StepFour = () => {
               }`}
             >
               {workspacePhoto ? (
-                <p className="size-10 rounded-full grid place-items-center bg-green-600  text-white">
-                  <CheckSvg />
-                </p>
+                <>
+                  <img
+                    src={URL.createObjectURL(workspacePhoto)}
+                    alt="Preview"
+                    className="h-20 w-20 object-cover rounded-lg"
+                  />
+                  <h4 className="text-lg text-gray-500">
+                    {workspacePhoto?.name}
+                  </h4>
+                </>
+              ) : hasExistingWorkspace ? (
+                <>
+                  <img
+                    src={existingImages!.storefront_workspace_photo!}
+                    alt="Existing storefront"
+                    className="h-20 w-20 object-cover rounded-lg"
+                  />
+                  <h4 className="text-lg text-gray-500">
+                    Existing image — click to replace
+                  </h4>
+                </>
               ) : (
-                <DownloadIconSvg />
+                <>
+                  <DownloadIconSvg />
+                  <h4 className="text-lg text-gray-500">
+                    Click to upload image
+                  </h4>
+                </>
               )}
-              {workspacePhoto ? (
-                <h4 className="text-lg text-gray-500">
-                  {workspacePhoto?.name}
-                </h4>
-              ) : (
-                <h4 className="text-lg text-gray-500">Click to upload image</h4>
-              )}
-
               <p className="text-gray-500 -mt-1">PNG, JPG up to 10MB</p>
             </div>
           </label>
@@ -127,7 +191,8 @@ const StepFour = () => {
         <div>
           <p className="flex justify-between items-center mb-2">
             <label htmlFor="" className="auth_label">
-              Product or Service Photos <span>*</span>
+              Product or Service Photos{" "}
+              {!isEditing && <span>*</span>}
             </label>
             {errors.product_service_photos?.message && (
               <p className="text-red-500">
@@ -142,9 +207,10 @@ const StepFour = () => {
               multiple
               id="product_service_photos"
               className="hidden"
-              {...register("product_service_photos", {
-                required: "Product photo is required",
-              })}
+              {...register(
+                "product_service_photos",
+                requiredRule("Product photo is required"),
+              )}
               onChange={e => {
                 register("product_service_photos").onChange(e);
               }}
@@ -158,18 +224,52 @@ const StepFour = () => {
               }`}
             >
               {servicePhoto ? (
-                <p className="size-10 rounded-full grid place-items-center bg-green-600  text-white">
-                  <CheckSvg />
-                </p>
+                <>
+                  <img
+                    src={URL.createObjectURL(servicePhoto)}
+                    alt="Preview"
+                    className="h-20 w-20 object-cover rounded-lg"
+                  />
+                  <h4 className="text-lg text-gray-500">
+                    {servicePhoto?.name}
+                  </h4>
+                </>
+              ) : hasExistingProduct ? (
+                <>
+                  <div className="flex gap-2 flex-wrap justify-center">
+                    {existingImages!.product_service_photos
+                      .slice(0, 4)
+                      .map((url, i) => (
+                        <img
+                          key={i}
+                          src={url}
+                          alt={`Existing product ${i + 1}`}
+                          className="h-16 w-16 object-cover rounded-lg border border-slate-200"
+                        />
+                      ))}
+                    {existingImages!.product_service_photos.length > 4 && (
+                      <span className="h-16 w-16 flex items-center justify-center rounded-lg bg-slate-100 text-slate-500 text-xs font-medium">
+                        +{existingImages!.product_service_photos.length - 4}
+                      </span>
+                    )}
+                  </div>
+                  <h4 className="text-lg text-gray-500">
+                    {existingImages!.product_service_photos.length}{" "}
+                    existing image
+                    {existingImages!.product_service_photos.length !== 1
+                      ? "s"
+                      : ""}{" "}
+                    — click to add/replace
+                  </h4>
+                </>
               ) : (
-                <DownloadIconSvg />
+                <>
+                  <DownloadIconSvg />
+                  <h4 className="text-lg text-gray-500">
+                    Click to upload image
+                  </h4>
+                </>
               )}
-              {servicePhoto ? (
-                <h4 className="text-lg text-gray-500">{servicePhoto?.name}</h4>
-              ) : (
-                <h4 className="text-lg text-gray-500">Click to upload image</h4>
-              )}
-
               <p className="text-gray-500 -mt-1">PNG, JPG up to 10MB</p>
             </div>
           </label>
@@ -179,7 +279,7 @@ const StepFour = () => {
         <div>
           <p className="flex justify-between items-center mb-2">
             <label htmlFor="" className="auth_label">
-              Team Photo <span>*</span>
+              Team Photo {!isEditing && <span>*</span>}
             </label>
             {errors.team_photo?.message && (
               <p className="text-red-500">
@@ -193,9 +293,7 @@ const StepFour = () => {
               type="file"
               id="team_photo"
               className="hidden"
-              {...register("team_photo", {
-                required: "Team photo is required",
-              })}
+              {...register("team_photo", requiredRule("Team photo is required"))}
               onChange={e => {
                 register("team_photo").onChange(e);
               }}
@@ -207,18 +305,35 @@ const StepFour = () => {
               }`}
             >
               {teamPhoto ? (
-                <p className="size-10 rounded-full grid place-items-center bg-green-600  text-white">
-                  <CheckSvg />
-                </p>
+                <>
+                  <img
+                    src={URL.createObjectURL(teamPhoto)}
+                    alt="Preview"
+                    className="h-20 w-20 object-cover rounded-lg"
+                  />
+                  <h4 className="text-lg text-gray-500">
+                    {teamPhoto?.name}
+                  </h4>
+                </>
+              ) : hasExistingTeam ? (
+                <>
+                  <img
+                    src={existingImages!.team_photo!}
+                    alt="Existing team"
+                    className="h-20 w-20 object-cover rounded-lg"
+                  />
+                  <h4 className="text-lg text-gray-500">
+                    Existing image — click to replace
+                  </h4>
+                </>
               ) : (
-                <DownloadIconSvg />
+                <>
+                  <DownloadIconSvg />
+                  <h4 className="text-lg text-gray-500">
+                    Click to upload image
+                  </h4>
+                </>
               )}
-              {teamPhoto ? (
-                <h4 className="text-lg text-gray-500">{teamPhoto?.name}</h4>
-              ) : (
-                <h4 className="text-lg text-gray-500">Click to upload image</h4>
-              )}
-
               <p className="text-gray-500 -mt-1">PNG, JPG up to 10MB</p>
             </div>
           </label>

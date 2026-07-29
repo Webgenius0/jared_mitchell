@@ -9,12 +9,52 @@ import {
   Building2,
   User,
   Play,
+  Loader2,
 } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import Modal from "@/Components/Common/Modal";
+import {
+  useGetAllBusinesses,
+  useGetBusinessDetails,
+  useDeleteBusiness,
+} from "@/Hooks/api/dashboard_api";
+import { useQueryClient } from "@tanstack/react-query";
 
-type BusinessStatus = "Approved" | "Terminated" | "Pending";
+interface MediaItem {
+  id: number;
+  url: string;
+  file_name: string;
+  mime_type: string;
+  file_size: number;
+}
+
+type BusinessStatus = string;
+
+interface ApiBusiness {
+  id: number;
+  user_id: number;
+  business_name: string;
+  slug: string;
+  owner_founder_name: string | null;
+  story: string | null;
+  mission: string | null;
+  website_social_media: string | null;
+  community_impact_statement: string | null;
+  revenue_stage: string | null;
+  why_they_deserve_to_compete: string | null;
+  media: MediaItem[];
+  status: string;
+  total_claps: number;
+  total_saves: number;
+  total_shares: number;
+  total_points: number;
+  is_clapped: boolean;
+  is_saved: boolean;
+  is_shared: boolean;
+  created_at: string;
+  updated_at: string;
+}
 
 interface Business {
   id: string;
@@ -32,73 +72,57 @@ interface Business {
   status: BusinessStatus;
 }
 
-const businesses: Business[] = [
-  {
-    id: "1",
-    businessName: "New Year Campaign",
-    ownerName: "TechKori Ltd.",
-    story:
-      "The Walt Disney Company has been a global leader in entertainment for decades...",
-    mission:
-      "To bring joy and inspiration to families everywhere through timeless storytelling and innovative campaigns.",
-    websiteLink: "http://www.abc.com",
-    communityImpact:
-      "Partnered with 12 local schools to run free creative-writing workshops for kids this year.",
-    revenueStage: "Profitable, growing 18% quarter over quarter since launch.",
-    whyCompete:
-      "A locally-run campaign with measurable community reach and strong repeat engagement.",
-    videoThumbnail:
-      "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=1200&q=80",
-    gallery: [
-      "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=400&q=80",
-      "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=400&q=80",
-      "https://images.unsplash.com/photo-1551836022-d5d88e9218df?w=400&q=80",
-    ],
-    date: "2025-01-01",
-    status: "Approved",
-  },
-  {
-    id: "2",
-    businessName: "EduLearn Beta Launch",
-    ownerName: "EduLearn Hub",
-    story:
-      "An innovative platform transforming how students learn with AI-powered tools...",
-    websiteLink: "http://www.abc.com",
-    date: "2025-01-01",
-    status: "Terminated",
-  },
-  {
-    id: "3",
-    businessName: "EduLearn Beta Launch",
-    ownerName: "EduLearn Hub",
-    story:
-      "An innovative platform transforming how students learn with AI-powered tools...",
-    websiteLink: "http://www.abc.com",
-    date: "2025-01-01",
-    status: "Pending",
-  },
-  {
-    id: "4",
-    businessName: "New Year Campaign",
-    ownerName: "TechKori Ltd.",
-    story:
-      "The Walt Disney Company has been a global leader in entertainment for decades...",
-    websiteLink: "http://www.abc.com",
-    date: "2025-01-01",
-    status: "Approved",
-  },
-];
+function formatStatus(status: string): string {
+  if (!status) return "Unknown";
+  return status.charAt(0).toUpperCase() + status.slice(1);
+}
 
-const statusStyles: Record<BusinessStatus, string> = {
-  Approved: "bg-emerald-50 text-emerald-600",
+function extractWebsite(raw: string | null): string {
+  if (!raw) return "";
+  try {
+    const parsed = JSON.parse(raw);
+    return parsed?.website || parsed?.social || raw;
+  } catch {
+    return raw;
+  }
+}
+
+function mapApiBusiness(api: ApiBusiness): Business {
+  return {
+    id: String(api.id),
+    businessName: api.business_name || "",
+    ownerName: api.owner_founder_name || "",
+    story: api.story || "",
+    mission: api.mission || undefined,
+    websiteLink: extractWebsite(api.website_social_media),
+    communityImpact: api.community_impact_statement || undefined,
+    revenueStage: api.revenue_stage || undefined,
+    whyCompete: api.why_they_deserve_to_compete || undefined,
+    videoThumbnail: api.media?.[0]?.url || undefined,
+    gallery: api.media?.map(m => m.url) || undefined,
+    date: api.created_at
+      ? new Date(api.created_at).toLocaleDateString("en-US", {
+          year: "numeric",
+          month: "2-digit",
+          day: "2-digit",
+        })
+      : "",
+    status: formatStatus(api.status),
+  };
+}
+
+const statusStyles: Record<string, string> = {
+  Active: "bg-emerald-50 text-emerald-600",
   Terminated: "bg-red-50 text-red-500",
   Pending: "bg-amber-50 text-amber-500",
+  Inactive: "bg-slate-50 text-slate-500",
 };
 
-function StatusBadge({ status }: { status: BusinessStatus }) {
+function StatusBadge({ status }: { status: string }) {
+  const style = statusStyles[status] || "bg-slate-50 text-slate-600";
   return (
     <span
-      className={`inline-flex items-center px-3 py-1 rounded-full text-xs md:text-sm font-medium ${statusStyles[status]}`}
+      className={`inline-flex items-center px-3 py-1 rounded-full text-xs md:text-sm font-medium ${style}`}
     >
       {status}
     </span>
@@ -130,11 +154,28 @@ const columns = [
 
 export default function Page() {
   const router = useRouter();
-  const [selectedBusiness, setSelectedBusiness] = useState<Business | null>(
+  const queryClient = useQueryClient();
+  const [viewingBusinessId, setViewingBusinessId] = useState<string | null>(
+    null,
+  );
+  const [deletingBusiness, setDeletingBusiness] = useState<Business | null>(
     null,
   );
 
-  const handleView = (b: Business) => setSelectedBusiness(b);
+  const { data: apiData, isLoading } = useGetAllBusinesses();
+  const {
+    data: detailsData,
+    isLoading: isLoadingDetails,
+  } = useGetBusinessDetails(viewingBusinessId);
+  const { mutateAsync: deleteBusiness, isPending: isDeleting } =
+    useDeleteBusiness();
+
+  const businesses: Business[] =
+    apiData?.data?.businesses?.map(mapApiBusiness) || [];
+
+  const details = detailsData?.data;
+
+  const handleView = (b: Business) => setViewingBusinessId(b.id);
 
   const handleEdit = (b: Business) => {
     const data = {
@@ -146,14 +187,32 @@ export default function Page() {
       communityImpact: b.communityImpact ?? "",
       revenueStage: b.revenueStage ?? "",
       whyCompete: b.whyCompete ?? "",
+      existingMedia: b.gallery ?? [],
     };
-    const encoded = encodeURIComponent(JSON.stringify(data));
+    sessionStorage.setItem("editBusinessData", JSON.stringify(data));
     router.push(
-      `/dashboard/boss_beginning/business/create-business?edit=${encoded}`,
+      `/dashboard/boss_beginning/business/create-business?editId=${b.id}`,
     );
   };
 
-  const handleDelete = (b: Business) => console.log("Delete", b);
+  const handleDelete = (b: Business) => setDeletingBusiness(b);
+
+  const confirmDelete = async () => {
+    if (!deletingBusiness) return;
+    await deleteBusiness(
+      {
+        endpoint: `/v1/businesses/delete/${deletingBusiness.id}`,
+      },
+      {
+        onSuccess: (res: any) => {
+          if (res?.success) {
+            setDeletingBusiness(null);
+            queryClient.invalidateQueries({ queryKey: ["all-businesses"] });
+          }
+        },
+      },
+    );
+  };
 
   return (
     <div className="min-h-screen bg-[#F5F6F8]">
@@ -175,106 +234,175 @@ export default function Page() {
 
         {/* Table */}
         <div className="overflow-x-auto">
-          <table className="w-full min-w-[720px] border-collapse">
-            <thead>
-              <tr className="bg-slate-50">
-                {columns.map(col => (
-                  <th
-                    key={col}
-                    className="text-left text-xs md:text-sm font-medium text-slate-500 px-5 md:px-6 py-3 md:py-4 whitespace-nowrap"
-                  >
-                    {col}
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-slate-100">
-              {businesses.map(b => (
-                <tr
-                  key={b.id}
-                  className="hover:bg-slate-50/60 transition-colors"
-                >
-                  <td className="px-5 md:px-6 py-3.5 md:py-4 text-sm md:text-base text-slate-800 whitespace-nowrap">
-                    {b.businessName}
-                  </td>
-                  <td className="px-5 md:px-6 py-3.5 md:py-4 text-sm md:text-base text-slate-600 whitespace-nowrap">
-                    {b.ownerName}
-                  </td>
-                  <td className="px-5 md:px-6 py-3.5 md:py-4 text-sm md:text-base text-slate-600 whitespace-nowrap">
-                    {b.story}
-                  </td>
-                  <td className="px-5 md:px-6 py-3.5 md:py-4 text-sm md:text-base text-slate-600 whitespace-nowrap">
-                    {b.websiteLink}
-                  </td>
-                  <td className="px-5 md:px-6 py-3.5 md:py-4 text-sm md:text-base text-slate-600 whitespace-nowrap">
-                    {b.date}
-                  </td>
-                  <td className="px-5 md:px-6 py-3.5 md:py-4 whitespace-nowrap">
-                    <StatusBadge status={b.status} />
-                  </td>
-                  <td className="px-5 md:px-6 py-3.5 md:py-4 whitespace-nowrap">
-                    <div className="flex items-center gap-2 md:gap-3">
-                      <button
-                        type="button"
-                        title="View"
-                        onClick={() => handleView(b)}
-                        className="text-slate-400 hover:text-blue-500 transition-colors"
-                      >
-                        <Eye className="w-4 h-4 md:w-[18px] md:h-[18px]" />
-                      </button>
-                      <button
-                        type="button"
-                        title="Edit"
-                        onClick={() => handleEdit(b)}
-                        className="text-slate-400 hover:text-blue-500 transition-colors"
-                      >
-                        <Pencil className="w-4 h-4 md:w-[18px] md:h-[18px]" />
-                      </button>
-                      <button
-                        type="button"
-                        title="Delete"
-                        onClick={() => handleDelete(b)}
-                        className="text-slate-400 hover:text-red-500 transition-colors"
-                      >
-                        <Trash2 className="w-4 h-4 md:w-[18px] md:h-[18px]" />
-                      </button>
-                    </div>
-                  </td>
+          {isLoading ? (
+            <div className="flex items-center justify-center py-20">
+              <Loader2 className="w-6 h-6 text-blue-500 animate-spin" />
+              <span className="ml-3 text-sm text-slate-500">
+                Loading businesses...
+              </span>
+            </div>
+          ) : businesses.length === 0 ? (
+            <div className="text-center py-20 text-sm text-slate-400">
+              No businesses found.
+            </div>
+          ) : (
+            <table className="w-full min-w-[720px] border-collapse">
+              <thead>
+                <tr className="bg-slate-50">
+                  {columns.map(col => (
+                    <th
+                      key={col}
+                      className="text-left text-xs md:text-sm font-medium text-slate-500 px-5 md:px-6 py-3 md:py-4 whitespace-nowrap"
+                    >
+                      {col}
+                    </th>
+                  ))}
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody className="divide-y divide-slate-100">
+                {businesses.map(b => (
+                  <tr
+                    key={b.id}
+                    className="hover:bg-slate-50/60 transition-colors"
+                  >
+                    <td className="px-5 md:px-6 py-3.5 md:py-4 text-sm md:text-base text-slate-800 whitespace-nowrap">
+                      {b.businessName}
+                    </td>
+                    <td className="px-5 md:px-6 py-3.5 md:py-4 text-sm md:text-base text-slate-600 whitespace-nowrap">
+                      {b.ownerName}
+                    </td>
+                    <td className="px-5 md:px-6 py-3.5 md:py-4 text-sm md:text-base text-slate-600 whitespace-nowrap max-w-[200px] truncate">
+                      {b.story || "—"}
+                    </td>
+                    <td className="px-5 md:px-6 py-3.5 md:py-4 text-sm md:text-base text-slate-600 whitespace-nowrap max-w-[160px] truncate">
+                      {b.websiteLink || "—"}
+                    </td>
+                    <td className="px-5 md:px-6 py-3.5 md:py-4 text-sm md:text-base text-slate-600 whitespace-nowrap">
+                      {b.date}
+                    </td>
+                    <td className="px-5 md:px-6 py-3.5 md:py-4 whitespace-nowrap">
+                      <StatusBadge status={b.status} />
+                    </td>
+                    <td className="px-5 md:px-6 py-3.5 md:py-4 whitespace-nowrap">
+                      <div className="flex items-center gap-2 md:gap-3">
+                        <button
+                          type="button"
+                          title="View"
+                          onClick={() => handleView(b)}
+                          className="text-slate-400 hover:text-blue-500 transition-colors"
+                        >
+                          <Eye className="w-4 h-4 md:w-[18px] md:h-[18px]" />
+                        </button>
+                        <button
+                          type="button"
+                          title="Edit"
+                          onClick={() => handleEdit(b)}
+                          className="text-slate-400 hover:text-blue-500 transition-colors"
+                        >
+                          <Pencil className="w-4 h-4 md:w-[18px] md:h-[18px]" />
+                        </button>
+                        <button
+                          type="button"
+                          title="Delete"
+                          onClick={() => handleDelete(b)}
+                          className="text-slate-400 hover:text-red-500 transition-colors"
+                        >
+                          <Trash2 className="w-4 h-4 md:w-[18px] md:h-[18px]" />
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
         </div>
       </div>
 
+      {/* Delete Confirmation Modal */}
+      <Modal
+        open={!!deletingBusiness}
+        onClose={() => setDeletingBusiness(null)}
+        title="Delete Business"
+        className="max-w-md"
+      >
+        <div className="mt-4 text-center">
+          <div className="mx-auto w-14 h-14 rounded-full bg-red-50 flex items-center justify-center mb-4">
+            <Trash2 className="w-6 h-6 text-red-500" />
+          </div>
+          <h3 className="text-base md:text-lg font-semibold text-slate-900 mb-2">
+            Are you sure?
+          </h3>
+          <p className="text-sm text-slate-500 mb-6 max-w-xs mx-auto">
+            This will permanently delete{" "}
+            <span className="font-medium text-slate-700">
+              {deletingBusiness?.businessName}
+            </span>
+            . This action cannot be undone.
+          </p>
+          <div className="flex items-center justify-center gap-3">
+            <button
+              type="button"
+              onClick={() => setDeletingBusiness(null)}
+              disabled={isDeleting}
+              className="text-sm font-medium px-6 py-2.5 rounded-full border border-slate-200 text-slate-600 hover:bg-slate-50 transition-colors disabled:opacity-50"
+            >
+              Cancel
+            </button>
+            <button
+              type="button"
+              onClick={confirmDelete}
+              disabled={isDeleting}
+              className="text-sm font-medium px-6 py-2.5 rounded-full bg-red-500 text-white hover:bg-red-600 transition-colors disabled:opacity-60 disabled:cursor-not-allowed flex items-center gap-2"
+            >
+              {isDeleting ? (
+                <>
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                  Deleting...
+                </>
+              ) : (
+                "Delete"
+              )}
+            </button>
+          </div>
+        </div>
+      </Modal>
+
       {/* View Modal */}
       <Modal
-        open={!!selectedBusiness}
-        onClose={() => setSelectedBusiness(null)}
+        open={!!viewingBusinessId}
+        onClose={() => setViewingBusinessId(null)}
         title="Business Details"
       >
-        {selectedBusiness && (
-          <div className="space-y-5 mt-2">
+        {isLoadingDetails ? (
+          <div className="flex items-center justify-center py-16">
+            <Loader2 className="w-6 h-6 text-blue-500 animate-spin" />
+            <span className="ml-3 text-sm text-slate-500">
+              Loading details...
+            </span>
+          </div>
+        ) : details ? (
+          <div className="space-y-5 mt-2 max-h-[70vh] overflow-y-auto pr-1">
             {/* Header: business + owner */}
             <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
               <div className="flex items-center gap-2">
                 <Building2 className="w-4 h-4 md:w-[18px] md:h-[18px] text-slate-400" />
                 <span className="text-sm md:text-base font-medium text-slate-800">
-                  {selectedBusiness.businessName}
+                  {details.business_name}
                 </span>
               </div>
               <div className="flex items-center gap-2">
                 <User className="w-4 h-4 md:w-[18px] md:h-[18px] text-slate-400" />
                 <span className="text-sm md:text-base text-slate-600">
-                  {selectedBusiness.ownerName}
+                  {details.owner_founder_name}
                 </span>
               </div>
             </div>
 
             {/* Story + Mission */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <InfoCard title="Story" body={selectedBusiness.story} />
-              <InfoCard title="Mission" body={selectedBusiness.mission} />
+              <InfoCard title="Story" body={details.story} />
+              <InfoCard title="Mission" body={details.mission} />
             </div>
 
             {/* Website / social media */}
@@ -283,74 +411,66 @@ export default function Page() {
                 Website/social media
               </h3>
               <a
-                href={selectedBusiness.websiteLink}
+                href={extractWebsite(details.website_social_media)}
                 target="_blank"
                 rel="noreferrer"
-                className="flex items-center gap-1.5 text-xs md:text-sm text-blue-500 hover:underline"
+                className="flex items-center gap-1.5 text-xs md:text-sm text-blue-500 hover:underline break-all"
               >
-                <Globe className="w-3.5 h-3.5 md:w-4 md:h-4" />
-                {selectedBusiness.websiteLink}
+                <Globe className="w-3.5 h-3.5 md:w-4 md:h-4 flex-shrink-0" />
+                {extractWebsite(details.website_social_media)}
               </a>
             </div>
 
-            {/* Video + gallery */}
-            {(selectedBusiness.videoThumbnail ||
-              (selectedBusiness.gallery &&
-                selectedBusiness.gallery.length > 0)) && (
+            {/* Media gallery */}
+            {details.media && details.media.length > 0 && (
               <div>
                 <h3 className="text-sm md:text-base font-semibold text-slate-900 mb-2">
-                  Video
+                  Media
                 </h3>
-
-                {selectedBusiness.videoThumbnail && (
-                  <div className="relative rounded-2xl overflow-hidden border border-slate-200">
-                    <img
-                      src={selectedBusiness.videoThumbnail}
-                      alt="Video thumbnail"
-                      className="w-full  object-cover"
-                    />
-                    <button
-                      type="button"
-                      className="absolute inset-0 flex items-center justify-center group"
-                    >
-                      <span className="w-12 h-12 md:w-14 md:h-14 rounded-full bg-white/90 flex items-center justify-center shadow-lg group-hover:scale-105 transition-transform">
-                        <Play
-                          className="w-5 h-5 md:w-6 md:h-6 text-slate-800 ml-0.5"
-                          fill="currentColor"
-                        />
-                      </span>
-                    </button>
-                  </div>
-                )}
-
-                {selectedBusiness.gallery &&
-                  selectedBusiness.gallery.length > 0 && (
-                    <div className="grid grid-cols-3 gap-2 md:gap-3 mt-2 md:mt-3">
-                      {selectedBusiness.gallery.map((src, i) => (
-                        <img
-                          key={i}
-                          src={src}
-                          alt={`Gallery ${i + 1}`}
-                          className="w-full object-cover rounded-xl border border-slate-200"
-                        />
-                      ))}
-                    </div>
-                  )}
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                  {details.media.map((item: MediaItem, i: number) => {
+                    const src = item.url;
+                    return (
+                      <div
+                        key={item.id || i}
+                        className="aspect-video rounded-xl overflow-hidden border border-slate-200 bg-slate-50"
+                      >
+                        {item.mime_type?.startsWith("video/") ? (
+                          <video
+                            src={src}
+                            className="w-full h-full object-cover"
+                            controls
+                          />
+                        ) : (
+                          <img
+                            src={src}
+                            alt={item.file_name || `Media ${i + 1}`}
+                            className="w-full h-full object-cover"
+                            onError={(e) => {
+                              (e.target as HTMLImageElement).style.display =
+                                "none";
+                            }}
+                          />
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
               </div>
             )}
 
             {/* Stacked full-width sections */}
             <InfoCard
               title="Community impact statement"
-              body={selectedBusiness.communityImpact}
+              body={details.community_impact_statement}
             />
             <InfoCard
               title="Revenue stage"
-              body={selectedBusiness.revenueStage}
+              body={details.revenue_stage}
             />
             <InfoCard
               title="Why they deserve to compete"
-              body={selectedBusiness.whyCompete}
+              body={details.why_they_deserve_to_compete}
             />
 
             {/* Date + Status */}
@@ -358,18 +478,26 @@ export default function Page() {
               <div className="flex items-center gap-2">
                 <span className="text-xs md:text-sm text-slate-500">Date</span>
                 <span className="text-xs md:text-sm font-medium text-slate-800">
-                  {selectedBusiness.date}
+                  {details.created_at
+                    ? new Date(details.created_at).toLocaleDateString("en-US", {
+                        year: "numeric",
+                        month: "2-digit",
+                        day: "2-digit",
+                      })
+                    : "—"}
                 </span>
               </div>
               <div className="flex items-center gap-2">
                 <span className="text-xs md:text-sm text-slate-500">
                   Status
                 </span>
-                <StatusBadge status={selectedBusiness.status} />
+                <StatusBadge
+                  status={formatStatus(details.status)}
+                />
               </div>
             </div>
           </div>
-        )}
+        ) : null}
       </Modal>
     </div>
   );

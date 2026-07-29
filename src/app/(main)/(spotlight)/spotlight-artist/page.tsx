@@ -29,7 +29,7 @@ const page = async () => {
   try {
     const res = await getArtistHistoricalWinners();
     artistWinners = (res?.winners || []).map(w => ({
-      id: w.id,
+      id: w.spotlight.id,
       title: w.spotlight.name,
       slug: w.spotlight.name.toLowerCase().replace(/\s+/g, "-") || "",
       description: `${w.spotlight.city}, ${w.spotlight.state}`,

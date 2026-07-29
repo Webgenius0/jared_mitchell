@@ -1,10 +1,9 @@
 "use client";
 
-import { Globe } from "lucide-react";
 import { BsInstagram, BsLinkedin, BsYoutube } from "react-icons/bs";
-import { FaFacebook } from "react-icons/fa6";
+import { FaFacebook, FaTiktok } from "react-icons/fa6";
 
-import { FormData, CONTACT_TIME_OPTIONS } from "./types";
+import { SpotlightFormData, FormErrors, CONTACT_TIME_OPTIONS } from "./types";
 import { StepCard, TextField, SelectField } from "./field-components";
 
 /* ------------------------------------------------------------------ */
@@ -12,11 +11,12 @@ import { StepCard, TextField, SelectField } from "./field-components";
 /* ------------------------------------------------------------------ */
 
 export interface StepContactInfoProps {
-  form: FormData;
-  update: <K extends keyof FormData>(key: K) => (value: FormData[K]) => void;
+  form: SpotlightFormData;
+  update: <K extends keyof SpotlightFormData>(key: K) => (value: SpotlightFormData[K]) => void;
+  errors: FormErrors;
 }
 
-export function StepContactInfo({ form, update }: StepContactInfoProps) {
+export function StepContactInfo({ form, update, errors }: StepContactInfoProps) {
   return (
     <StepCard
       index={2}
@@ -30,6 +30,7 @@ export function StepContactInfo({ form, update }: StepContactInfoProps) {
           placeholder="you@email.com"
           value={form.email}
           onChange={update("email")}
+          error={errors.email}
         />
         <TextField
           label="Phone Number"
@@ -37,10 +38,12 @@ export function StepContactInfo({ form, update }: StepContactInfoProps) {
           placeholder="(555) 123-4567"
           value={form.phone}
           onChange={update("phone")}
+          error={errors.phone}
         />
       </div>
       <SelectField
         label="Best time to contact you"
+        required
         placeholder="Select a time"
         value={form.bestTimeToContact}
         options={CONTACT_TIME_OPTIONS}
@@ -56,53 +59,51 @@ export function StepContactInfo({ form, update }: StepContactInfoProps) {
         </p>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           <TextField
-            label="Instagram"
-            placeholder="@yourbusiness"
+            label="Instagram URL"
+            placeholder="https://instagram.com/yourbusiness"
             value={form.instagram}
             onChange={update("instagram")}
             icon={<BsInstagram className="w-4 h-4" />}
           />
           <TextField
-            label="TikTok"
-            placeholder="@yourbusiness"
+            label="TikTok URL"
+            placeholder="https://tiktok.com/@yourbusiness"
             value={form.tiktok}
             onChange={update("tiktok")}
+            icon={<FaTiktok className="w-4 h-4" />}
           />
           <TextField
-            label="Facebook"
-            placeholder="facebook.com/yourbusiness"
+            label="Facebook URL"
+            placeholder="https://facebook.com/yourbusiness"
             value={form.facebook}
             onChange={update("facebook")}
             icon={<FaFacebook className="w-4 h-4" />}
           />
           <TextField
-            label="YouTube"
-            placeholder="youtube.com/@yourchannel"
+            label="YouTube URL"
+            placeholder="https://youtube.com/@yourchannel"
             value={form.youtube}
             onChange={update("youtube")}
             icon={<BsYoutube className="w-4 h-4" />}
           />
           <TextField
-            label="Google Business Profile"
-            placeholder="Google Business URL"
+            label="Google Business Profile URL"
+            placeholder="https://business.google.com/..."
             value={form.googleBusinessProfile}
             onChange={update("googleBusinessProfile")}
           />
           <TextField
-            label="LinkedIn"
-            placeholder="linkedin.com/company/yourbusiness"
+            label="LinkedIn URL"
+            placeholder="https://linkedin.com/company/yourbusiness"
             value={form.linkedin}
             onChange={update("linkedin")}
             icon={<BsLinkedin className="w-4 h-4" />}
           />
-        </div>
-        <div className="mt-5">
           <TextField
-            label="Website URL"
-            placeholder="https://yourbusiness.com"
-            value={form.websiteUrl}
-            onChange={update("websiteUrl")}
-            icon={<Globe className="w-4 h-4" />}
+            label="Fanbase URL"
+            placeholder="https://fanbase.com/yourbusiness"
+            value={form.fanbaseUrl}
+            onChange={update("fanbaseUrl")}
           />
         </div>
       </div>
