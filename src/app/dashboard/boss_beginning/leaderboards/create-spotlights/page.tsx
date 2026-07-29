@@ -1,36 +1,65 @@
 "use client";
 
-import { ArrowLeft, ArrowRight, Check } from "lucide-react";
-import { useState, useMemo } from "react";
+import { ArrowLeft, ArrowRight, Loader2 } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { FormProvider, useForm } from "react-hook-form";
 
-import { FormData, initialFormData, steps, TOTAL_STEPS } from "./types";
-import { StepBusinessInfo } from "./step-business-info";
-import { StepContactInfo } from "./step-contact-info";
-import { StepBusinessStory } from "./step-business-story";
-import { StepMedia } from "./step-media";
-import { StepServiceDetails } from "./step-service-details";
-import { StepSpotlightConsideration } from "./step-spotlight-consideration";
-import { SuccessScreen } from "./success-screen";
+import StepOne from "@/app/(main)/business-spotlight/_Components/StepOne";
+import StepTwo from "@/app/(main)/business-spotlight/_Components/StepTwo";
+import StepThree from "@/app/(main)/business-spotlight/_Components/StepThree";
+import StepFour from "@/app/(main)/business-spotlight/_Components/StepFour";
+import StepFive from "@/app/(main)/business-spotlight/_Components/StepFive";
+import StepSix from "@/app/(main)/business-spotlight/_Components/StepSix";
+import StepSeven from "@/app/(main)/business-spotlight/_Components/StepSeven";
+import { useCreateBusinessSpotlight } from "@/Hooks/api/cms_api";
+
+/* ------------------------------------------------------------------ */
+/*  Step definitions                                                    */
+/* ------------------------------------------------------------------ */
+
+const steps = [
+  { label: "Identification", component: StepOne },
+  { label: "Category", component: StepTwo },
+  { label: "Contact", component: StepThree },
+  { label: "Media", component: StepFour },
+  { label: "Service", component: StepFive },
+  { label: "Consideration", component: StepSix },
+];
+
+const TOTAL_STEPS = steps.length;
+
+/* ------------------------------------------------------------------ */
+/*  Page                                                               */
+/* ------------------------------------------------------------------ */
 
 export default function Page() {
   const [currentStep, setCurrentStep] = useState(0);
-  const [completedSteps, setCompletedSteps] = useState<Set<number>>(new Set());
-  const [form, setForm] = useState<FormData>(initialFormData);
   const [submitted, setSubmitted] = useState(false);
+  const formRef = useRef<HTMLDivElement | null>(null);
 
-  const update =
-    <K extends keyof FormData>(key: K) =>
-    (value: FormData[K]) => {
-      setForm(prev => ({ ...prev, [key]: value }));
-    };
+  const { mutateAsync: createSpotlight, isPending } =
+    useCreateBusinessSpotlight();
 
-  const percentComplete = useMemo(
-    () => Math.round((completedSteps.size / TOTAL_STEPS) * 100),
-    [completedSteps],
+  const methods = useForm({
+    mode: "onBlur",
+    defaultValues: {},
+  });
+
+  const CurrentStepComponent = steps[currentStep]?.component;
+
+  const percentComplete = Math.round(
+    ((currentStep + 1) / TOTAL_STEPS) * 100,
   );
 
+  const scrollToTop = () => {
+    formRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
+  useEffect(() => {
+    scrollToTop();
+  }, [currentStep]);
+
   const goNext = () => {
-    setCompletedSteps(prev => new Set(prev).add(currentStep));
     setCurrentStep(s => Math.min(s + 1, TOTAL_STEPS - 1));
   };
 
@@ -43,22 +72,58 @@ export default function Page() {
     setCurrentStep(idx);
   };
 
-  const handleSubmit = () => {
-    setCompletedSteps(new Set(steps.map((_, i) => i)));
-    setSubmitted(true);
-    console.log("Submitting form", form);
-  };
+  const onSubmit = async (data: any) => {
+    // If not on last step, just advance
+    if (currentStep < TOTAL_STEPS - 1) {
+      goNext();
+      return;
+    }
 
-  const handleDone = () => {
-    setSubmitted(false);
-    setCurrentStep(0);
-    setCompletedSteps(new Set());
-    setForm(initialFormData);
+    // Build FormData payload for the API
+    const formData = new FormData();
+
+    Object.keys(data).forEach(key => {
+      const value = data[key];
+
+      if (value === undefined || value === null) return;
+
+      // Handle Files
+      if (
+        value instanceof FileList ||
+        (Array.isArray(value) && value[0] instanceof File)
+      ) {
+        if (key === "product_service_photos") {
+          Array.from(value as FileList).forEach(file => {
+            formData.append("product_service_photos[]", file);
+          });
+        } else {
+          formData.append(key, value[0]);
+        }
+        return;
+      }
+
+      // Handle Booleans (Permissions)
+      if (key.startsWith("permission_")) {
+        formData.append(key, value ? "1" : "0");
+        return;
+      }
+
+      // Handle everything else
+      formData.append(key, value);
+    });
+
+    await createSpotlight(formData, {
+      onSuccess: (res: any) => {
+        if (res?.success) {
+          setSubmitted(true);
+        }
+      },
+    });
   };
 
   return (
-    <div className=" bg-[#F5F6F8]">
-      <div className="space-y-5">
+    <div className="bg-[#F5F6F8]">
+      <div ref={formRef} className="space-y-5">
         {/* Progress stepper */}
         <div className="bg-white rounded-2xl border border-slate-100 p-5 md:p-6">
           <div className="flex items-center justify-between mb-3">
@@ -80,7 +145,7 @@ export default function Page() {
           <div className="flex items-start justify-between">
             {steps.map((step, i) => {
               const isActive = i === currentStep && !submitted;
-              const isDone = completedSteps.has(i);
+              const isDone = i < currentStep || submitted;
               return (
                 <button
                   key={step.label}
@@ -99,7 +164,19 @@ export default function Page() {
                       }`}
                   >
                     {isDone ? (
-                      <Check className="w-3.5 h-3.5 md:w-4 md:h-4" />
+                      <svg
+                        className="w-3.5 h-3.5 md:w-4 md:h-4"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        strokeWidth={3}
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M5 13l4 4L19 7"
+                        />
+                      </svg>
                     ) : (
                       i + 1
                     )}
@@ -118,61 +195,52 @@ export default function Page() {
         </div>
 
         {submitted ? (
-          <SuccessScreen onDone={handleDone} />
+          <StepSeven />
         ) : (
-          <>
-            {/* Step content */}
-            <div className="bg-white rounded-2xl border border-slate-100 p-5 md:p-7">
-              {currentStep === 0 && (
-                <StepBusinessInfo form={form} update={update} />
-              )}
-              {currentStep === 1 && (
-                <StepContactInfo form={form} update={update} />
-              )}
-              {currentStep === 2 && (
-                <StepBusinessStory form={form} update={update} />
-              )}
-              {currentStep === 3 && <StepMedia form={form} update={update} />}
-              {currentStep === 4 && (
-                <StepServiceDetails form={form} update={update} />
-              )}
-              {currentStep === 5 && (
-                <StepSpotlightConsideration form={form} update={update} />
-              )}
-            </div>
+          <FormProvider {...methods}>
+            <form onSubmit={methods.handleSubmit(onSubmit)}>
+              {/* Step content — step_box styling comes from the imported components */}
+              {CurrentStepComponent && <CurrentStepComponent />}
 
-            {/* Nav buttons */}
-            <div className="flex items-center justify-between">
-              <button
-                type="button"
-                onClick={goPrevious}
-                disabled={currentStep === 0}
-                className="flex items-center gap-1.5 text-sm md:text-base font-medium text-slate-500 px-5 py-2.5 md:px-10 md:py-3 rounded-full border border-slate-200 hover:bg-slate-50 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
-              >
-                <ArrowLeft className="w-4 h-4" />
-                Previous
-              </button>
-
-              {currentStep < TOTAL_STEPS - 1 ? (
+              {/* Nav buttons */}
+              <div className="flex items-center justify-between mt-5">
                 <button
                   type="button"
-                  onClick={goNext}
-                  className="flex items-center gap-1.5 bg-blue-500 text-white text-sm md:text-base font-normal px-5 py-2.5 md:px-10 md:py-3 rounded-full hover:bg-blue-600 transition-colors"
+                  onClick={goPrevious}
+                  disabled={currentStep === 0}
+                  className="flex items-center gap-1.5 text-sm md:text-base font-medium text-slate-500 px-5 py-2.5 md:px-10 md:py-3 rounded-full border border-slate-200 hover:bg-slate-50 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
                 >
-                  Next Section
-                  <ArrowRight className="w-4 h-4" />
+                  <ArrowLeft className="w-4 h-4" />
+                  Previous
                 </button>
-              ) : (
-                <button
-                  type="button"
-                  onClick={handleSubmit}
-                  className="bg-blue-500 text-white text-sm md:text-base font-medium px-10 py-2.5 md:py-3 rounded-full hover:bg-blue-600 transition-colors"
-                >
-                  Submit
-                </button>
-              )}
-            </div>
-          </>
+
+                {currentStep < TOTAL_STEPS - 1 ? (
+                  <button
+                    type="submit"
+                    className="flex items-center gap-1.5 bg-blue-500 text-white text-sm md:text-base font-normal px-5 py-2.5 md:px-10 md:py-3 rounded-full hover:bg-blue-600 transition-colors"
+                  >
+                    Next Section
+                    <ArrowRight className="w-4 h-4" />
+                  </button>
+                ) : (
+                  <button
+                    type="submit"
+                    disabled={isPending}
+                    className="bg-blue-500 text-white text-sm md:text-base font-medium px-10 py-2.5 md:py-3 rounded-full hover:bg-blue-600 transition-colors disabled:opacity-60 disabled:cursor-not-allowed flex items-center gap-2"
+                  >
+                    {isPending ? (
+                      <>
+                        <Loader2 className="w-4 h-4 animate-spin" />
+                        Submitting...
+                      </>
+                    ) : (
+                      "Submit"
+                    )}
+                  </button>
+                )}
+              </div>
+            </form>
+          </FormProvider>
         )}
       </div>
     </div>

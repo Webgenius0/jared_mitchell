@@ -7,6 +7,19 @@ import { ChevronDown, UploadCloud } from "lucide-react";
 /*  TextField                                                          */
 /* ------------------------------------------------------------------ */
 
+/* ------------------------------------------------------------------ */
+/*  ErrorText                                                          */
+/* ------------------------------------------------------------------ */
+
+export function ErrorText({ error }: { error?: string }) {
+  if (!error) return null;
+  return <p className="mt-1.5 text-xs md:text-sm text-red-500">{error}</p>;
+}
+
+/* ------------------------------------------------------------------ */
+/*  TextField                                                          */
+/* ------------------------------------------------------------------ */
+
 export interface TextFieldProps {
   label: string;
   required?: boolean;
@@ -14,6 +27,7 @@ export interface TextFieldProps {
   value: string;
   onChange: (value: string) => void;
   icon?: React.ReactNode;
+  error?: string;
 }
 
 export function TextField({
@@ -23,6 +37,7 @@ export function TextField({
   value,
   onChange,
   icon,
+  error,
 }: TextFieldProps) {
   return (
     <div>
@@ -43,11 +58,14 @@ export function TextField({
           onChange={(e: ChangeEvent<HTMLInputElement>) =>
             onChange(e.target.value)
           }
-          className={`w-full rounded-full border border-slate-200 py-2.5 md:py-3 text-sm md:text-base text-slate-700 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-100 focus:border-blue-400 transition-colors ${
-            icon ? "pl-10 pr-4" : "px-4"
-          }`}
+          className={`w-full rounded-full border py-2.5 md:py-3 text-sm md:text-base text-slate-700 placeholder:text-slate-400 focus:outline-none focus:ring-2 transition-colors ${
+            error
+              ? "border-red-300 focus:ring-red-100 focus:border-red-400"
+              : "border-slate-200 focus:ring-blue-100 focus:border-blue-400"
+          } ${icon ? "pl-10 pr-4" : "px-4"}`}
         />
       </div>
+      <ErrorText error={error} />
     </div>
   );
 }
@@ -63,6 +81,7 @@ export interface SelectFieldProps {
   value: string;
   options: string[];
   onChange: (value: string) => void;
+  error?: string;
 }
 
 export function SelectField({
@@ -72,6 +91,7 @@ export function SelectField({
   value,
   options,
   onChange,
+  error,
 }: SelectFieldProps) {
   return (
     <div>
@@ -83,7 +103,11 @@ export function SelectField({
         <select
           value={value}
           onChange={e => onChange(e.target.value)}
-          className="w-full appearance-none rounded-full border border-slate-200 px-4 py-2.5 md:py-3 text-sm md:text-base text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-100 focus:border-blue-400 transition-colors bg-white"
+          className={`w-full appearance-none rounded-full border px-4 py-2.5 md:py-3 text-sm md:text-base focus:outline-none focus:ring-2 transition-colors bg-white ${
+            error
+              ? "border-red-300 focus:ring-red-100 focus:border-red-400"
+              : "border-slate-200 focus:ring-blue-100 focus:border-blue-400"
+          }`}
         >
           <option value="" disabled>
             {placeholder}
@@ -96,6 +120,7 @@ export function SelectField({
         </select>
         <ChevronDown className="w-4 h-4 text-slate-400 absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none" />
       </div>
+      <ErrorText error={error} />
     </div>
   );
 }
@@ -113,6 +138,7 @@ export interface WordCountTextFieldProps {
   onChange: (value: string) => void;
   maxChars: number;
   rows?: number;
+  error?: string;
 }
 
 export function WordCountTextField({
@@ -124,6 +150,7 @@ export function WordCountTextField({
   onChange,
   maxChars,
   rows = 4,
+  error,
 }: WordCountTextFieldProps) {
   const wordCount = value.trim() ? value.trim().split(/\s+/).length : 0;
 
@@ -141,7 +168,11 @@ export function WordCountTextField({
         onChange={(e: ChangeEvent<HTMLTextAreaElement>) =>
           onChange(e.target.value)
         }
-        className="w-full resize-none rounded-xl border border-slate-200 px-4 py-2.5 md:py-3 text-sm md:text-base text-slate-700 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-100 focus:border-blue-400 transition-colors"
+        className={`w-full resize-none rounded-xl border px-4 py-2.5 md:py-3 text-sm md:text-base focus:outline-none focus:ring-2 transition-colors ${
+          error
+            ? "border-red-300 focus:ring-red-100 focus:border-red-400"
+            : "border-slate-200 focus:ring-blue-100 focus:border-blue-400"
+        }`}
       />
       <div className="flex items-center justify-between mt-1.5 text-[11px] md:text-xs text-slate-400">
         <span>
@@ -151,6 +182,7 @@ export function WordCountTextField({
           {value.length}/{maxChars} characters
         </span>
       </div>
+      <ErrorText error={error} />
     </div>
   );
 }
@@ -165,7 +197,8 @@ export interface UploadFieldProps {
   required?: boolean;
   description?: string;
   fileName: string | null;
-  onChange: (fileName: string) => void;
+  onChange: (file: File) => void;
+  error?: string;
 }
 
 export function UploadField({
@@ -175,6 +208,7 @@ export function UploadField({
   description,
   fileName,
   onChange,
+  error,
 }: UploadFieldProps) {
   const inputId = `upload-${index}-${label.replace(/\s+/g, "-").toLowerCase()}`;
   return (
@@ -192,7 +226,9 @@ export function UploadField({
       )}
       <label
         htmlFor={inputId}
-        className="flex flex-col items-center justify-center gap-2 border-2 border-dashed border-slate-200 rounded-2xl bg-slate-50 py-8 md:py-10 cursor-pointer hover:border-blue-300 transition-colors"
+        className={`flex flex-col items-center justify-center gap-2 border-2 border-dashed rounded-2xl bg-slate-50 py-8 md:py-10 cursor-pointer hover:border-blue-300 transition-colors ${
+          error ? "border-red-300" : "border-slate-200"
+        }`}
       >
         <UploadCloud className="w-6 h-6 md:w-7 md:h-7 text-slate-400" />
         <span className="text-sm md:text-base text-slate-600">
@@ -208,10 +244,11 @@ export function UploadField({
           className="hidden"
           onChange={(e: ChangeEvent<HTMLInputElement>) => {
             const file = e.target.files?.[0];
-            if (file) onChange(file.name);
+            if (file) onChange(file);
           }}
         />
       </label>
+      <ErrorText error={error} />
     </div>
   );
 }

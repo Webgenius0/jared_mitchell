@@ -5,6 +5,7 @@ import useClientApi from "../useClientApi";
 export const useCreateBusinessSpotlight = () => {
   return useClientApi({
     method: "post",
+    isPrivate: true,
     key: ["business-spotlight"],
     endpoint: "/v1/business-spotlight",
     headers: {
@@ -193,7 +194,10 @@ export const getVotePackages = () => {
 };
 
 // Get Nominated Spotlights (Discover More Artists/Businesses)
-export const useGetNominatedSpotlights = (weekId: number | string, type: "artist" | "business") => {
+export const useGetNominatedSpotlights = (
+  weekId: number | string,
+  type: "artist" | "business",
+) => {
   return useClientApi({
     method: "get",
     key: ["nominated-spotlights", weekId, type],

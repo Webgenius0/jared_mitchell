@@ -30,6 +30,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { useCreateBusiness, useUpdateBusiness } from "@/Hooks/api/dashboard_api";
+import { resolveMediaUrl } from "@/lib/utils";
 
 const FONT_SIZES = [12, 13, 14, 16, 18, 20, 24, 28, 32];
 
@@ -527,14 +528,6 @@ function CreateBusinessForm() {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  // Resolve media URL — prepend base URL if relative
-  const resolveMediaUrl = (url: any): string => {
-    if (typeof url !== "string" || !url) return "";
-    if (url.startsWith("http://") || url.startsWith("https://")) return url;
-    const base = process.env.NEXT_PUBLIC_SITE_URL || "";
-    return `${base.replace(/\/+$/, "")}/${url.replace(/^\/+/, "")}`;
-  };
 
   const [form, setForm] = useState<FormState>(
     prefill
