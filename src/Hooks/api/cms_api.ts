@@ -192,6 +192,16 @@ export const getVotePackages = () => {
   });
 };
 
+// Get Nominated Spotlights (Discover More Artists/Businesses)
+export const useGetNominatedSpotlights = (weekId: number | string, type: "artist" | "business") => {
+  return useClientApi({
+    method: "get",
+    key: ["nominated-spotlights", weekId, type],
+    endpoint: "/v1/spotlight/nominated",
+    params: { week_id: weekId, type },
+  });
+};
+
 // Register / Buy Ticket for an Event
 export const useEventRegister = () => {
   return useClientApi({

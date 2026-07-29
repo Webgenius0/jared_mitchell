@@ -33,3 +33,13 @@ export const apiToggleArtistLike = async (artistId: number) => {
   const res = await axiosSecure.post(`/v1/artists/${artistId}/like`);
   return res.data;
 };
+
+// ─── Spotlight Like (Discover More Artists/Businesses) ───────────────────
+
+export const apiToggleSpotlightLike = async (
+  type: "artist" | "business",
+  spotlightId: number,
+) => {
+  const res = await axiosSecure.post(`/v1/spotlight/like/${type}/${spotlightId}`);
+  return res.data;
+};

@@ -14,12 +14,21 @@ export default function MediaUpload({ spotlight }: MediaUploadProps) {
   const s = spotlight;
 
   if (s) {
-    const artworkPhotos: string[] = s?.media?.artwork_photos ?? [];
-    const behindScenesPhoto: string | null = s?.media?.behind_scenes_photo ?? null;
+    // Support both artist and business media field names
+    const artworkPhotos: string[] = s?.media?.artwork_photos ?? s?.media?.product_service_photos ?? [];
+    const behindScenesPhoto: string | null = s?.media?.behind_scenes_photo ?? s?.media?.storefront_workspace_photo ?? null;
+    const portraitPhoto: string | null = s?.media?.portrait_photo ?? null;
+    const teamPhoto: string | null = s?.media?.team_photo ?? null;
 
     const allImages = [...artworkPhotos];
     if (behindScenesPhoto && !allImages.includes(behindScenesPhoto)) {
       allImages.push(behindScenesPhoto);
+    }
+    if (portraitPhoto && !allImages.includes(portraitPhoto)) {
+      allImages.push(portraitPhoto);
+    }
+    if (teamPhoto && !allImages.includes(teamPhoto)) {
+      allImages.push(teamPhoto);
     }
 
     if (allImages.length === 0) return null;

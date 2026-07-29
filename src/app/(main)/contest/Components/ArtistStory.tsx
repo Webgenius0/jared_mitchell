@@ -13,19 +13,25 @@ export default function ArtistStory({ spotlight, type = "artist" }: ArtistStoryP
   const fullStory = s
     ? isArtist
       ? s?.full_artist_story
-      : s?.full_story
+      : s?.business_story || s?.full_story
     : "A cozy neighborhood café combining specialty coffee with a curated flower shop. We source beans from fair-trade roasters and partner with local flower farms to bring beauty and warmth to our community.";
 
   const whySpotlighted = s
-    ? s?.why_spotlighted
+    ? isArtist
+      ? s?.why_spotlighted
+      : s?.why_featured
     : "A cozy neighborhood café combining specialty coffee with a curated flower shop. We source beans from fair-trade roasters and partner with local flower farms to bring beauty and warmth to our community.";
 
   const communityMessage = s
-    ? s?.community_message
+    ? isArtist
+      ? s?.community_message
+      : s?.products_services
     : "A cozy neighborhood café combining specialty coffee with a curated flower shop. We source beans from fair-trade roasters and partner with local flower farms to bring beauty and warmth to our community.";
 
   const currentGoals = s
-    ? s?.current_goals
+    ? isArtist
+      ? s?.current_goals
+      : s?.growth_vision
     : "A cozy neighborhood café combining specialty coffee with a curated flower shop. We source beans from fair-trade roasters and partner with local flower farms to bring beauty and warmth to our community.";
 
   return (
@@ -57,7 +63,7 @@ export default function ArtistStory({ spotlight, type = "artist" }: ArtistStoryP
             <h4 className="text-lg md:text-xl font-medium text-[#1D1D1F]">
               {isArtist
                 ? "What message do you want to share with the community?"
-                : "What message does this business want to share with the community?"}
+                : "Products & Services"}
             </h4>
             <p className="text-base md:text-lg font-normal text-[#364153] pt-3 md:pt-4">
               {communityMessage}
@@ -67,7 +73,7 @@ export default function ArtistStory({ spotlight, type = "artist" }: ArtistStoryP
             <h4 className="text-lg md:text-xl font-medium text-[#1D1D1F]">
               {isArtist
                 ? "What are your current goals as an artist?"
-                : "What are the current goals of this business?"}
+                : "Growth Vision"}
             </h4>
             <p className="text-base md:text-lg font-normal text-[#364153] pt-3 md:pt-4">
               {currentGoals}

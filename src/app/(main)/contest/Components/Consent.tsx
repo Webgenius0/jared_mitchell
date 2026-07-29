@@ -10,9 +10,16 @@ export default function Consent({ spotlight, type = "artist" }: ConsentProps) {
 
   if (s) {
     const isArtist = type === "artist";
+
+    // Artist consent fields
     const consentPublicRelease = s?.consent_public_release;
     const consentOwnershipDeclaration = s?.consent_ownership_declaration;
     const consentInterviewPermission = s?.consent_interview_permission;
+
+    // Business permission fields
+    const permissionFeatureOnOSI = s?.permission_feature_on_osi;
+    const permissionUseSubmittedPhotos = s?.permission_use_submitted_photos;
+    const permissionShareBusinessStory = s?.permission_share_business_story;
 
     const consentItems = [
       ...(isArtist && consentPublicRelease !== undefined
@@ -23,6 +30,15 @@ export default function Consent({ spotlight, type = "artist" }: ConsentProps) {
         : []),
       ...(isArtist && consentInterviewPermission !== undefined
         ? [{ label: "Interview Permission", value: consentInterviewPermission }]
+        : []),
+      ...(!isArtist && permissionFeatureOnOSI !== undefined
+        ? [{ label: "Permission to Feature on OSI", value: permissionFeatureOnOSI }]
+        : []),
+      ...(!isArtist && permissionUseSubmittedPhotos !== undefined
+        ? [{ label: "Permission to Use Submitted Photos", value: permissionUseSubmittedPhotos }]
+        : []),
+      ...(!isArtist && permissionShareBusinessStory !== undefined
+        ? [{ label: "Permission to Share Business Story", value: permissionShareBusinessStory }]
         : []),
     ];
 

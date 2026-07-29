@@ -2,7 +2,8 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { getBusinessById } from "@/Hooks/api/cms_api";
+import { getBusinessSpotlightDetails } from "@/Hooks/api/cms_api";
+import { resolveMediaUrl } from "@/lib/utils";
 import { BsArrowLeft } from "react-icons/bs";
 
 export default function BusinessSpotlightDetailsContent({
@@ -10,8 +11,8 @@ export default function BusinessSpotlightDetailsContent({
 }: {
   id: number;
 }) {
-  const { data: res, isLoading } = getBusinessById(id);
-  const business = res?.data?.business;
+  const { data: res, isLoading } = getBusinessSpotlightDetails(id);
+  const spotlight = res?.data?.spotlight || res?.data?.business;
 
   if (isLoading) {
     return (
@@ -33,7 +34,7 @@ export default function BusinessSpotlightDetailsContent({
     );
   }
 
-  if (!business) {
+  if (!spotlight) {
     return (
       <section className="py-20 text-center">
         <div className="container mx-auto px-4">
@@ -51,6 +52,8 @@ export default function BusinessSpotlightDetailsContent({
     );
   }
 
+  const logoUrl = resolveMediaUrl(spotlight.media?.portrait_photo || spotlight.media?.headshot) || "/profile.png";
+
   return (
     <section className="py-10">
       <div className="container mx-auto px-4">
@@ -63,13 +66,13 @@ export default function BusinessSpotlightDetailsContent({
           <span className="font-medium">Back to Businesses</span>
         </Link>
 
-        {/* Main content - full width (no sidebar) */}
+        {/* Main content - full width */}
         <div className="flex flex-col md:flex-row gap-4 md:gap-6 lg:gap-8 w-full max-w-4xl">
           {/* Logo / Portrait */}
           <div className="w-24 h-24 md:w-28 md:h-28 lg:w-32 lg:h-32 rounded-full shrink-0 mx-auto md:mx-0 overflow-hidden border-2 border-gray-100">
             <Image
-              src={business.logo || "/profile.png"}
-              alt={business.name}
+              src={logoUrl}
+              alt={spotlight.business_name}
               width={128}
               height={128}
               className="h-full w-full object-cover"
@@ -79,23 +82,17 @@ export default function BusinessSpotlightDetailsContent({
           {/* Details */}
           <div className="flex-1">
             <h3 className="text-2xl md:text-3xl font-semibold text-[#1D1D1F] text-center md:text-left">
-              {business.name}
+              {spotlight.business_name}
             </h3>
 
-            {business.owner_name && (
+            {spotlight.owner_founder_name && (
               <p className="text-base md:text-lg text-primary-blue font-medium mt-1 text-center md:text-left">
-                Owned by {business.owner_name}
-              </p>
-            )}
-
-            {business.tagline && (
-              <p className="text-sm md:text-base text-[#364153] italic mt-0.5 text-center md:text-left">
-                {business.tagline}
+                Owned by {spotlight.owner_founder_name}
               </p>
             )}
 
             <p className="text-base md:text-lg lg:text-xl font-normal text-[#364153] py-4 md:py-5">
-              {business.description}
+              {spotlight.business_story || spotlight.products_services || "No description available."}
             </p>
 
             <div className="flex flex-col gap-4 md:gap-5">
@@ -105,34 +102,35 @@ export default function BusinessSpotlightDetailsContent({
                   Category
                 </h3>
                 <p className="text-sm md:text-base font-normal text-[#364153] pt-2 md:pt-3">
-                  {business.category?.name || "N/A"}
+                  {spotlight.business_category || spotlight.category?.name || "N/A"}
                 </p>
               </div>
 
               {/* Location */}
-              <div className="rounded-[14.205px] border-[0.5px] border-black/15 bg-[#F9FAFB] p-3 md:p-4 w-full">
-                <h3 className="text-base md:text-xl font-bold text-[#364153]">
-                  Location
-                </h3>
-                <p className="text-sm md:text-base font-normal text-[#364153] pt-2 md:pt-3">
-                  {business.city}
-                  {business.state ? `, ${business.state}` : ""}
-                </p>
-              </div>
+              {(spotlight.city || spotlight.state) && (
+                <div className="rounded-[14.205px] border-[0.5px] border-black/15 bg-[#F9FAFB] p-3 md:p-4 w-full">
+                  <h3 className="text-base md:text-xl font-bold text-[#364153]">
+                    Location
+                  </h3>
+                  <p className="text-sm md:text-base font-normal text-[#364153] pt-2 md:pt-3">
+                    {[spotlight.city, spotlight.state].filter(Boolean).join(", ")}
+                  </p>
+                </div>
+              )}
 
               {/* Website */}
-              {business.website && (
+              {(spotlight.business_website || spotlight.website_url) && (
                 <div className="rounded-[14.205px] border-[0.5px] border-black/15 bg-[#F9FAFB] p-3 md:p-4 w-full">
                   <h3 className="text-base md:text-xl font-bold text-[#364153]">
                     Website
                   </h3>
                   <a
-                    href={business.website}
+                    href={spotlight.business_website || spotlight.website_url}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-sm md:text-base font-normal text-primary-blue hover:underline pt-2 md:pt-3 inline-block"
                   >
-                    {business.website}
+                    {spotlight.business_website || spotlight.website_url}
                   </a>
                 </div>
               )}
@@ -145,7 +143,7 @@ export default function BusinessSpotlightDetailsContent({
                       Likes
                     </h3>
                     <p className="text-xs md:text-base font-normal text-[#364153] pt-1 md:pt-3">
-                      {business.likes_count ?? 0}
+                      {spotlight.interactions?.likes_count ?? 0}
                     </p>
                   </div>
                   <div>
@@ -153,7 +151,7 @@ export default function BusinessSpotlightDetailsContent({
                       Bookmarks
                     </h3>
                     <p className="text-xs md:text-base font-normal text-[#364153] pt-1 md:pt-3">
-                      {business.bookmarks_count ?? 0}
+                      {spotlight.interactions?.bookmarks_count ?? 0}
                     </p>
                   </div>
                   <div>
@@ -161,7 +159,7 @@ export default function BusinessSpotlightDetailsContent({
                       Shares
                     </h3>
                     <p className="text-xs md:text-base font-normal text-[#364153] pt-1 md:pt-3">
-                      {business.shares_count ?? 0}
+                      {spotlight.interactions?.shares_count ?? 0}
                     </p>
                   </div>
                 </div>

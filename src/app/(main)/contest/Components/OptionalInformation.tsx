@@ -12,22 +12,42 @@ export default function OptionalInformation({ spotlight, type = "artist" }: Opti
     const isArtist = type === "artist";
 
     const fields: { label: string; value: string | null | undefined }[] = [
+      // Artist-specific fields
       ...(isArtist
         ? [
             { label: "Talent Management Contact", value: s?.talent_manager_contact },
             { label: "Agent's Contact", value: s?.agent_contact },
           ]
         : []),
+      // Shared fields
       { label: "Link to Press Kit", value: s?.press_kit_url },
       { label: "Previous Interviews", value: s?.previous_interviews },
       { label: "Awards or Recognition", value: s?.awards_recognition },
+      // Artist-only fields
       ...(isArtist
         ? [
             { label: "Preferred Pronouns", value: s?.preferred_pronouns },
             { label: "Preferred Contact Method", value: s?.preferred_contact_method },
             { label: "Interview Availability", value: s?.interview_availability },
           ]
-        : []),
+        : // Business-only fields
+        [
+            { label: "Products & Services", value: s?.products_services },
+            { label: "Challenges Overcome", value: s?.challenges_overcome },
+            { label: "Unique Factor", value: s?.unique_factor },
+            { label: "Target Customer", value: s?.target_customer },
+            { label: "Year Founded", value: s?.year_founded?.toString() },
+            { label: "Service Type", value: s?.service_type },
+            { label: "Best Contact Time", value: s?.best_contact_time },
+            { label: "Why Featured", value: s?.why_featured },
+            { label: "Instagram", value: s?.instagram_url },
+            { label: "TikTok", value: s?.tiktok_url },
+            { label: "Facebook", value: s?.facebook_url },
+            { label: "YouTube", value: s?.youtube_url },
+            { label: "Google Business Profile", value: s?.google_business_profile_url },
+            { label: "LinkedIn", value: s?.linkedin_url },
+            { label: "Fanbase", value: s?.fanbase_url },
+          ]),
     ].filter((f) => f.value);
 
     if (fields.length === 0) return null;
