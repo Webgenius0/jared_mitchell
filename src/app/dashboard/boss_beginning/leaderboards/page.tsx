@@ -1,99 +1,120 @@
 "use client";
 
 import React from "react";
-import { Eye, Pencil, Trash2 } from "lucide-react";
+import { Eye, Pencil, Trash2, Loader2 } from "lucide-react";
 import Link from "next/link";
+import { getBusinessSpotlights } from "@/Hooks/api/cms_api";
 
-type SpotlightStatus = "Approved" | "Terminated" | "Pending";
+/* ------------------------------------------------------------------ */
+/*  Types                                                              */
+/* ------------------------------------------------------------------ */
 
-interface SpotlightEntry {
-  id: string;
-  campaign: string;
-  business: string;
-  startDate: string;
-  endDate: string;
-  status: SpotlightStatus;
+interface ApiSpotlight {
+  id: number;
+  business_name: string;
+  owner_founder_name: string | null;
+  business_category: string;
+  year_founded: number | null;
+  business_website: string;
+  city: string;
+  state: string;
+  business_story: string;
+  products_services: string;
+  email: string;
+  phone_number: string;
+  service_type: string;
+  service_type_label: string | null;
+  why_featured: string;
+  growth_vision: string;
+  status: string;
+  current_step: number;
+  submitted_at: string | null;
+  created_at: string;
+  updated_at: string;
+  likes_count: number;
+  bookmarks_count: number;
+  shares_count: number;
+}
+
+interface SpotlightRow {
+  id: number;
+  businessName: string;
+  ownerName: string;
+  status: "Approved" | "Terminated" | "Pending";
   votes: number;
   date: string;
 }
 
-const spotlightHistory: SpotlightEntry[] = [
-  {
-    id: "1",
-    campaign: "New Year Campaign",
-    business: "TechKori Ltd.",
-    startDate: "2025-01-01",
-    endDate: "2025-01-31",
-    status: "Approved",
-    votes: 620,
-    date: "2025-01-31",
-  },
-  {
-    id: "2",
-    campaign: "EduLearn Beta Launch",
-    business: "EduLearn Hub",
-    startDate: "2025-02-15",
-    endDate: "2025-03-01",
-    status: "Terminated",
-    votes: 180,
-    date: "2025-03-01",
-  },
-  {
-    id: "3",
-    campaign: "EduLearn Beta Launch",
-    business: "EduLearn Hub",
-    startDate: "2025-02-15",
-    endDate: "2025-03-01",
-    status: "Pending",
-    votes: 180,
-    date: "2025-03-01",
-  },
-  {
-    id: "4",
-    campaign: "New Year Campaign",
-    business: "TechKori Ltd.",
-    startDate: "2025-01-01",
-    endDate: "2025-01-31",
-    status: "Approved",
-    votes: 620,
-    date: "2025-01-31",
-  },
-];
+/* ------------------------------------------------------------------ */
+/*  Helpers                                                            */
+/* ------------------------------------------------------------------ */
 
-const statusStyles: Record<SpotlightStatus, string> = {
+function mapStatus(apiStatus: string): "Approved" | "Terminated" | "Pending" {
+  const s = apiStatus.toLowerCase();
+  if (s === "approved" || s === "active") return "Approved";
+  if (s === "terminated" || s === "rejected") return "Terminated";
+  return "Pending";
+}
+
+function formatDate(dateStr: string | null): string {
+  if (!dateStr) return "—";
+  try {
+    return new Date(dateStr).toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+    });
+  } catch {
+    return dateStr;
+  }
+}
+
+function mapApiSpotlight(api: ApiSpotlight): SpotlightRow {
+  return {
+    id: api.id,
+    businessName: api.business_name,
+    ownerName: api.owner_founder_name || "—",
+    status: mapStatus(api.status),
+    votes: api.likes_count,
+    date: formatDate(api.created_at),
+  };
+}
+
+const statusStyles: Record<string, string> = {
   Approved: "bg-emerald-50 text-emerald-600",
   Terminated: "bg-red-50 text-red-500",
   Pending: "bg-amber-50 text-amber-500",
 };
 
-function StatusBadge({ status }: { status: SpotlightStatus }) {
+function StatusBadge({ status }: { status: string }) {
   return (
     <span
-      className={`inline-flex items-center px-3 py-1 rounded-full text-xs md:text-sm font-medium ${statusStyles[status]}`}
+      className={`inline-flex items-center px-3 py-1 rounded-full text-xs md:text-sm font-medium ${statusStyles[status] || "bg-slate-50 text-slate-500"}`}
     >
       {status}
     </span>
   );
 }
 
-const columns = [
-  "Campaign",
-  "Business",
-  "Duration",
-  "Status",
-  "Votes",
-  "Date",
-  "Actions",
-];
+const columns = ["Business", "Owner", "Status", "Votes", "Date", "Actions"];
+
+/* ------------------------------------------------------------------ */
+/*  Page                                                               */
+/* ------------------------------------------------------------------ */
 
 export default function Page() {
-  const handleView = (e: SpotlightEntry) => console.log("View", e);
-  const handleEdit = (e: SpotlightEntry) => console.log("Edit", e);
-  const handleDelete = (e: SpotlightEntry) => console.log("Delete", e);
+  const { data: apiData, isLoading } = getBusinessSpotlights();
+
+  const spotlights: SpotlightRow[] =
+    apiData?.data?.spotlights?.map(mapApiSpotlight) || [];
+
+  const handleView = (s: SpotlightRow) => console.log("View", s);
+  const handleEdit = (s: SpotlightRow) => console.log("Edit", s);
+  const handleDelete = (s: SpotlightRow) => console.log("Delete", s);
 
   return (
     <div className="min-h-screen bg-[#F5F6F8]">
-      <div className=" bg-white rounded-2xl border border-slate-100 overflow-hidden">
+      <div className="bg-white rounded-2xl border border-slate-100 overflow-hidden">
         {/* Header */}
         <div className="flex items-center justify-between px-5 md:px-6 py-4 md:py-5">
           <h1 className="text-base md:text-lg font-semibold text-slate-900">
@@ -111,78 +132,85 @@ export default function Page() {
 
         {/* Table */}
         <div className="overflow-x-auto">
-          <table className="w-full min-w-[820px] border-collapse">
-            <thead>
-              <tr className="bg-slate-50">
-                {columns.map(col => (
-                  <th
-                    key={col}
-                    className="text-left text-xs md:text-sm font-medium text-slate-500 px-5 md:px-6 py-3 md:py-4 whitespace-nowrap"
-                  >
-                    {col}
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-slate-100">
-              {spotlightHistory.map(entry => (
-                <tr
-                  key={entry.id}
-                  className="hover:bg-slate-50/60 transition-colors"
-                >
-                  <td className="px-5 md:px-6 py-3.5 md:py-4 text-sm md:text-base text-slate-800 whitespace-nowrap">
-                    {entry.campaign}
-                  </td>
-                  <td className="px-5 md:px-6 py-3.5 md:py-4 text-sm md:text-base text-slate-600 whitespace-nowrap">
-                    {entry.business}
-                  </td>
-                  <td className="px-5 md:px-6 py-3.5 md:py-4 text-sm md:text-base text-slate-600 whitespace-nowrap">
-                    <div className="leading-snug">
-                      <div>{entry.startDate}</div>
-                      <div>{entry.endDate}</div>
-                    </div>
-                  </td>
-                  <td className="px-5 md:px-6 py-3.5 md:py-4 whitespace-nowrap">
-                    <StatusBadge status={entry.status} />
-                  </td>
-                  <td className="px-5 md:px-6 py-3.5 md:py-4 text-sm md:text-base text-slate-600 whitespace-nowrap">
-                    {entry.votes}
-                  </td>
-                  <td className="px-5 md:px-6 py-3.5 md:py-4 text-sm md:text-base text-slate-600 whitespace-nowrap">
-                    {entry.date}
-                  </td>
-                  <td className="px-5 md:px-6 py-3.5 md:py-4 whitespace-nowrap">
-                    <div className="flex items-center gap-2 md:gap-3">
-                      <button
-                        type="button"
-                        title="View"
-                        onClick={() => handleView(entry)}
-                        className="text-slate-400 hover:text-blue-500 transition-colors"
-                      >
-                        <Eye className="w-4 h-4 md:w-[18px] md:h-[18px]" />
-                      </button>
-                      <button
-                        type="button"
-                        title="Edit"
-                        onClick={() => handleEdit(entry)}
-                        className="text-slate-400 hover:text-blue-500 transition-colors"
-                      >
-                        <Pencil className="w-4 h-4 md:w-[18px] md:h-[18px]" />
-                      </button>
-                      <button
-                        type="button"
-                        title="Delete"
-                        onClick={() => handleDelete(entry)}
-                        className="text-slate-400 hover:text-red-500 transition-colors"
-                      >
-                        <Trash2 className="w-4 h-4 md:w-[18px] md:h-[18px]" />
-                      </button>
-                    </div>
-                  </td>
+          {isLoading ? (
+            <div className="flex items-center justify-center py-20">
+              <Loader2 className="w-6 h-6 text-blue-500 animate-spin" />
+              <span className="ml-3 text-sm text-slate-500">
+                Loading spotlights...
+              </span>
+            </div>
+          ) : spotlights.length === 0 ? (
+            <div className="text-center py-20 text-sm text-slate-400">
+              No spotlights found.
+            </div>
+          ) : (
+            <table className="w-full min-w-[720px] border-collapse">
+              <thead>
+                <tr className="bg-slate-50">
+                  {columns.map(col => (
+                    <th
+                      key={col}
+                      className="text-left text-xs md:text-sm font-medium text-slate-500 px-5 md:px-6 py-3 md:py-4 whitespace-nowrap"
+                    >
+                      {col}
+                    </th>
+                  ))}
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody className="divide-y divide-slate-100">
+                {spotlights.map(s => (
+                  <tr
+                    key={s.id}
+                    className="hover:bg-slate-50/60 transition-colors"
+                  >
+                    <td className="px-5 md:px-6 py-3.5 md:py-4 text-sm md:text-base text-slate-800 whitespace-nowrap">
+                      {s.businessName}
+                    </td>
+                    <td className="px-5 md:px-6 py-3.5 md:py-4 text-sm md:text-base text-slate-600 whitespace-nowrap">
+                      {s.ownerName}
+                    </td>
+                    <td className="px-5 md:px-6 py-3.5 md:py-4 whitespace-nowrap">
+                      <StatusBadge status={s.status} />
+                    </td>
+                    <td className="px-5 md:px-6 py-3.5 md:py-4 text-sm md:text-base text-slate-600 whitespace-nowrap">
+                      {s.votes.toLocaleString()}
+                    </td>
+                    <td className="px-5 md:px-6 py-3.5 md:py-4 text-sm md:text-base text-slate-600 whitespace-nowrap">
+                      {s.date}
+                    </td>
+                    <td className="px-5 md:px-6 py-3.5 md:py-4 whitespace-nowrap">
+                      <div className="flex items-center gap-2 md:gap-3">
+                        <button
+                          type="button"
+                          title="View"
+                          onClick={() => handleView(s)}
+                          className="text-slate-400 hover:text-blue-500 transition-colors"
+                        >
+                          <Eye className="w-4 h-4 md:w-[18px] md:h-[18px]" />
+                        </button>
+                        <button
+                          type="button"
+                          title="Edit"
+                          onClick={() => handleEdit(s)}
+                          className="text-slate-400 hover:text-blue-500 transition-colors"
+                        >
+                          <Pencil className="w-4 h-4 md:w-[18px] md:h-[18px]" />
+                        </button>
+                        {/* <button
+                          type="button"
+                          title="Delete"
+                          onClick={() => handleDelete(s)}
+                          className="text-slate-400 hover:text-red-500 transition-colors"
+                        >
+                          <Trash2 className="w-4 h-4 md:w-[18px] md:h-[18px]" />
+                        </button> */}
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
         </div>
       </div>
     </div>

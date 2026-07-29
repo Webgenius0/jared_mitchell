@@ -533,6 +533,24 @@ export const getLeaderboard = async (
   return result as LeaderboardResponse;
 };
 
+export const getContestantDetails = async (
+  contestantId: number,
+): Promise<any> => {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_SITE_URL}/v1/contest/contestants/${contestantId}`,
+    { next: { revalidate: 60 } },
+  );
+
+  if (!res.ok) {
+    throw new Error(
+      `Failed to fetch contestant details — Status: ${res.status}`,
+    );
+  }
+
+  const result = await res.json();
+  return result;
+};
+
 export const getSubscriptionPlans = async (): Promise<SubscriptionPlan[]> => {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_SITE_URL}/v1/subscription-plans`,

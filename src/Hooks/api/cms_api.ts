@@ -78,6 +78,7 @@ export const getArtistCategories = () => {
 export const getBusinessSpotlights = (params?: any) => {
   return useClientApi({
     method: "get",
+    isPrivate: true,
     key: ["business-spotlights", params],
     endpoint: "/v1/business-spotlight",
     params,

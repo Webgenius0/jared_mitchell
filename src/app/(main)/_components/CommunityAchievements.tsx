@@ -19,8 +19,7 @@ const extractCategory = (contestableType: string): string => {
 };
 
 const getSpotlightLink = (winner: PastSixMonthsWinner): string => {
-  const isBusiness = winner.contestable.type.includes("Business");
-  return isBusiness ? "/business-spotlight" : "/artist-spotlight";
+  return `/contest/contestants/${winner.id}`;
 };
 
 const CommunityAchievements = ({
