@@ -1,9 +1,14 @@
 "use client";
 
 import React from "react";
-import { Eye, Pencil, Trash2, Loader2 } from "lucide-react";
+import { Eye, Pencil, Loader2, X, Globe, MapPin, Calendar, Heart, Bookmark, Share2, Mail, Phone, Clock } from "lucide-react";
 import Link from "next/link";
-import { getBusinessSpotlights } from "@/Hooks/api/cms_api";
+import { useRouter } from "next/navigation";
+import {
+  getBusinessSpotlights,
+  getSingleBusinessSpotlightDetails,
+} from "@/Hooks/api/cms_api";
+import Modal from "@/Components/Common/Modal";
 
 /* ------------------------------------------------------------------ */
 /*  Types                                                              */
@@ -103,14 +108,28 @@ const columns = ["Business", "Owner", "Status", "Votes", "Date", "Actions"];
 /* ------------------------------------------------------------------ */
 
 export default function Page() {
+  const router = useRouter();
   const { data: apiData, isLoading } = getBusinessSpotlights();
 
   const spotlights: SpotlightRow[] =
     apiData?.data?.spotlights?.map(mapApiSpotlight) || [];
 
-  const handleView = (s: SpotlightRow) => console.log("View", s);
-  const handleEdit = (s: SpotlightRow) => console.log("Edit", s);
-  const handleDelete = (s: SpotlightRow) => console.log("Delete", s);
+  const [viewingId, setViewingId] = React.useState<number | null>(null);
+  const { data: viewData, isLoading: viewLoading } =
+    getSingleBusinessSpotlightDetails(viewingId ?? 0);
+
+  const spotlightDetail =
+    viewData?.data?.spotlight ||
+    viewData?.data?.business ||
+    viewData?.data?.data ||
+    viewData?.data;
+
+  const handleView = (s: SpotlightRow) => setViewingId(s.id);
+  const handleEdit = (s: SpotlightRow) => {
+    router.push(
+      `/dashboard/boss_beginning/leaderboards/create-spotlights?editId=${s.id}`,
+    );
+  };
 
   return (
     <div className="min-h-screen bg-[#F5F6F8]">
@@ -213,6 +232,436 @@ export default function Page() {
           )}
         </div>
       </div>
+
+      {/* View Spotlight Modal */}
+      <Modal
+        open={!!viewingId}
+        onClose={() => setViewingId(null)}
+        className="!max-w-4xl !p-0 !overflow-hidden"
+      >
+        {viewLoading ? (
+          <div className="flex items-center justify-center py-24">
+            <Loader2 className="w-6 h-6 text-blue-500 animate-spin" />
+            <span className="ml-3 text-sm text-slate-500">
+              Loading details...
+            </span>
+          </div>
+        ) : spotlightDetail ? (
+          <SpotlightDetailView
+            data={spotlightDetail}
+            onClose={() => setViewingId(null)}
+          />
+        ) : (
+          <div className="text-center py-20 text-sm text-slate-400">
+            No data available.
+          </div>
+        )}
+      </Modal>
     </div>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/*  Spotlight Detail View                                              */
+/* ------------------------------------------------------------------ */
+
+function SpotlightDetailView({
+  data,
+  onClose,
+}: {
+  data: any;
+  onClose: () => void;
+}) {
+  const images = data?.images || {};
+  const social = data?.social_media || {};
+
+  return (
+    <div className="relative">
+      {/* Close button */}
+      <button
+        type="button"
+        onClick={onClose}
+        className="absolute top-4 right-4 z-20 w-8 h-8 rounded-full bg-white/90 backdrop-blur-sm shadow-md flex items-center justify-center hover:bg-slate-100 transition-colors"
+      >
+        <X className="w-4 h-4 text-slate-600" />
+      </button>
+
+      {/* Hero header */}
+      <div className="relative h-48 md:h-56 bg-gradient-to-br from-blue-500 via-blue-600 to-indigo-700 overflow-hidden">
+        {images.portrait_photo && (
+          <img
+            src={images.portrait_photo}
+            alt={data.business_name}
+            className="absolute inset-0 w-full h-full object-cover opacity-20"
+          />
+        )}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
+        <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8">
+          <h2 className="text-xl md:text-3xl font-bold text-white">
+            {data.business_name}
+          </h2>
+          <p className="text-sm md:text-base text-white/80 mt-1">
+            {data.owner_founder_name}
+          </p>
+        </div>
+      </div>
+
+      {/* Content */}
+      <div className="p-5 md:p-8 space-y-8 max-h-[calc(100vh-300px)] overflow-y-auto">
+        {/* Images gallery */}
+        {(images.portrait_photo ||
+          images.storefront_workspace_photo ||
+          images.team_photo ||
+          images.product_service_photos?.length > 0) && (
+          <div>
+            <h3 className="text-sm font-semibold text-slate-900 uppercase tracking-wider mb-3">
+              Images
+            </h3>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+              {images.portrait_photo && (
+                <ImageCard src={images.portrait_photo} label="Portrait" />
+              )}
+              {images.storefront_workspace_photo && (
+                <ImageCard
+                  src={images.storefront_workspace_photo}
+                  label="Storefront"
+                />
+              )}
+              {images.team_photo && (
+                <ImageCard src={images.team_photo} label="Team" />
+              )}
+              {images.product_service_photos?.map(
+                (url: string, i: number) => (
+                  <ImageCard
+                    key={`prod-${i}`}
+                    src={url}
+                    label={`Product ${i + 1}`}
+                  />
+                ),
+              )}
+            </div>
+          </div>
+        )}
+
+        {/* Business Info */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <SectionCard title="Business Information">
+            <InfoRow
+              icon={<MapPin className="w-3.5 h-3.5" />}
+              label="Location"
+              value={[data.city, data.state].filter(Boolean).join(", ") || "—"}
+            />
+            <InfoRow
+              icon={<Calendar className="w-3.5 h-3.5" />}
+              label="Year Founded"
+              value={data.year_founded || "—"}
+            />
+            <InfoRow
+              icon={<Globe className="w-3.5 h-3.5" />}
+              label="Website"
+              value={data.business_website || "—"}
+              isLink
+            />
+            <InfoRow label="Category" value={data.business_category || "—"} />
+            <InfoRow label="Service Type" value={data.service_type || "—"} />
+          </SectionCard>
+
+          <SectionCard title="Contact">
+            <InfoRow
+              icon={<Mail className="w-3.5 h-3.5" />}
+              label="Email"
+              value={data.email || "—"}
+            />
+            <InfoRow
+              icon={<Phone className="w-3.5 h-3.5" />}
+              label="Phone"
+              value={data.phone_number || "—"}
+            />
+            <InfoRow
+              icon={<Clock className="w-3.5 h-3.5" />}
+              label="Best Contact Time"
+              value={data.best_contact_time || "—"}
+            />
+          </SectionCard>
+        </div>
+
+        {/* Story */}
+        {(data.business_story ||
+          data.products_services ||
+          data.challenges_overcome ||
+          data.unique_factor ||
+          data.target_customer) && (
+          <div>
+            <h3 className="text-sm font-semibold text-slate-900 uppercase tracking-wider mb-3">
+              Business Story
+            </h3>
+            <div className="grid grid-cols-1 gap-4">
+              {data.business_story && (
+                <TextFieldCard
+                  title="Business Story"
+                  text={data.business_story}
+                />
+              )}
+              {data.products_services && (
+                <TextFieldCard
+                  title="Products / Services"
+                  text={data.products_services}
+                />
+              )}
+              {data.challenges_overcome && (
+                <TextFieldCard
+                  title="Challenges Overcome"
+                  text={data.challenges_overcome}
+                />
+              )}
+              {data.unique_factor && (
+                <TextFieldCard
+                  title="What Makes Them Unique"
+                  text={data.unique_factor}
+                />
+              )}
+              {data.target_customer && (
+                <TextFieldCard
+                  title="Target Customer"
+                  text={data.target_customer}
+                />
+              )}
+            </div>
+          </div>
+        )}
+
+        {/* Spotlight Consideration */}
+        {(data.why_featured || data.growth_vision) && (
+          <div>
+            <h3 className="text-sm font-semibold text-slate-900 uppercase tracking-wider mb-3">
+              Spotlight Consideration
+            </h3>
+            <div className="grid grid-cols-1 gap-4">
+              {data.why_featured && (
+                <TextFieldCard
+                  title="Why featured?"
+                  text={data.why_featured}
+                />
+              )}
+              {data.growth_vision && (
+                <TextFieldCard
+                  title="Growth Vision"
+                  text={data.growth_vision}
+                />
+              )}
+            </div>
+          </div>
+        )}
+
+        {/* Social Media */}
+        {(social.instagram_url ||
+          social.facebook_url ||
+          social.tiktok_url ||
+          social.youtube_url ||
+          social.linkedin_url ||
+          social.google_business_profile_url ||
+          social.fanbase_url) && (
+          <div>
+            <h3 className="text-sm font-semibold text-slate-900 uppercase tracking-wider mb-3">
+              Social Media
+            </h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+              {social.instagram_url && (
+                <SocialLink
+                  label="Instagram"
+                  href={social.instagram_url}
+                />
+              )}
+              {social.facebook_url && (
+                <SocialLink label="Facebook" href={social.facebook_url} />
+              )}
+              {social.tiktok_url && (
+                <SocialLink label="TikTok" href={social.tiktok_url} />
+              )}
+              {social.youtube_url && (
+                <SocialLink label="YouTube" href={social.youtube_url} />
+              )}
+              {social.linkedin_url && (
+                <SocialLink label="LinkedIn" href={social.linkedin_url} />
+              )}
+              {social.google_business_profile_url && (
+                <SocialLink
+                  label="Google Business"
+                  href={social.google_business_profile_url}
+                />
+              )}
+              {social.fanbase_url && (
+                <SocialLink label="Fanbase" href={social.fanbase_url} />
+              )}
+            </div>
+          </div>
+        )}
+
+        {/* Permissions */}
+        {(data.permissions?.feature_on_osi ||
+          data.permissions?.use_submitted_photos ||
+          data.permissions?.share_business_story) && (
+          <div>
+            <h3 className="text-sm font-semibold text-slate-900 uppercase tracking-wider mb-3">
+              Permissions
+            </h3>
+            <div className="flex flex-wrap gap-2">
+              {data.permissions.feature_on_osi && (
+                <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-green-50 text-green-700 text-xs font-medium">
+                  <span className="w-1.5 h-1.5 rounded-full bg-green-500" />
+                  Feature on OSI
+                </span>
+              )}
+              {data.permissions.use_submitted_photos && (
+                <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-blue-50 text-blue-700 text-xs font-medium">
+                  <span className="w-1.5 h-1.5 rounded-full bg-blue-500" />
+                  Use photos
+                </span>
+              )}
+              {data.permissions.share_business_story && (
+                <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-purple-50 text-purple-700 text-xs font-medium">
+                  <span className="w-1.5 h-1.5 rounded-full bg-purple-500" />
+                  Share story
+                </span>
+              )}
+            </div>
+          </div>
+        )}
+
+        {/* Stats & dates */}
+        <div className="flex flex-wrap items-center gap-4 pt-4 border-t border-slate-100">
+          <span className="flex items-center gap-1.5 text-xs text-slate-400">
+            <Heart className="w-3.5 h-3.5" />
+            {data.likes_count ?? 0} likes
+          </span>
+          <span className="flex items-center gap-1.5 text-xs text-slate-400">
+            <Bookmark className="w-3.5 h-3.5" />
+            {data.bookmarks_count ?? 0} bookmarks
+          </span>
+          <span className="flex items-center gap-1.5 text-xs text-slate-400">
+            <Share2 className="w-3.5 h-3.5" />
+            {data.shares_count ?? 0} shares
+          </span>
+          {data.created_at && (
+            <span className="text-xs text-slate-400 ml-auto">
+              Created {formatDate(data.created_at)}
+            </span>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/*  Sub-components                                                     */
+/* ------------------------------------------------------------------ */
+
+function ImageCard({ src, label }: { src: string; label: string }) {
+  return (
+    <div className="relative group aspect-square rounded-xl overflow-hidden border border-slate-200 bg-slate-50">
+      <img
+        src={src}
+        alt={label}
+        className="w-full h-full object-cover"
+        onError={e => {
+          (e.target as HTMLImageElement).style.display = "none";
+        }}
+      />
+      <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-2">
+        <span className="text-[10px] text-white font-medium">{label}</span>
+      </div>
+    </div>
+  );
+}
+
+function SectionCard({
+  title,
+  children,
+}: {
+  title: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="bg-slate-50 rounded-xl p-4 md:p-5 border border-slate-100">
+      <h4 className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-3">
+        {title}
+      </h4>
+      <div className="space-y-2.5">{children}</div>
+    </div>
+  );
+}
+
+function InfoRow({
+  icon,
+  label,
+  value,
+  isLink,
+}: {
+  icon?: React.ReactNode;
+  label: string;
+  value: string;
+  isLink?: boolean;
+}) {
+  return (
+    <div className="flex items-start gap-2">
+      {icon && (
+        <span className="mt-0.5 text-slate-400 shrink-0">{icon}</span>
+      )}
+      <div className="min-w-0">
+        <span className="text-xs text-slate-400 block">{label}</span>
+        {isLink && value !== "—" ? (
+          <a
+            href={value}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-sm text-blue-600 hover:underline break-all"
+          >
+            {value}
+          </a>
+        ) : (
+          <span className="text-sm text-slate-800 break-all">{value}</span>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function TextFieldCard({
+  title,
+  text,
+}: {
+  title: string;
+  text: string;
+}) {
+  return (
+    <div className="bg-slate-50 rounded-xl p-4 md:p-5 border border-slate-100">
+      <h4 className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1.5">
+        {title}
+      </h4>
+      <p className="text-sm text-slate-700 leading-relaxed whitespace-pre-line">
+        {text}
+      </p>
+    </div>
+  );
+}
+
+function SocialLink({
+  label,
+  href,
+}: {
+  label: string;
+  href: string;
+}) {
+  return (
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="flex items-center gap-2 px-3 py-2 rounded-lg bg-slate-50 border border-slate-100 text-sm text-slate-700 hover:bg-blue-50 hover:border-blue-200 hover:text-blue-600 transition-colors"
+    >
+      <Globe className="w-3.5 h-3.5 shrink-0" />
+      <span className="truncate">{label}</span>
+    </a>
   );
 }

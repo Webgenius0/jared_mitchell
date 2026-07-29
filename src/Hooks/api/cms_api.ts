@@ -85,6 +85,38 @@ export const getBusinessSpotlights = (params?: any) => {
   });
 };
 
+// Get Single Business Spotlight Details (for editing)
+export const getSingleBusinessSpotlightDetails = (id: number) => {
+  return useClientApi({
+    method: "get",
+    enabled: !!id,
+    isPrivate: true,
+    key: ["dashboard-business-spotlight-single", id],
+    endpoint: `/v1/business-spotlight/${id}`,
+  });
+};
+
+// Update Business Spotlight (supports dynamic endpoint override)
+export const useUpdateBusinessSpotlight = () => {
+  return useClientApi({
+    method: "post",
+    isPrivate: true,
+    key: ["update-business-spotlight"],
+    endpoint: "/v1/business-spotlight/update",
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+    onSuccess: (res: any) => {
+      if (res?.success) {
+        toast.success(res?.message);
+      }
+    },
+    onError: (err: any) => {
+      toast.error(err?.response?.data?.message);
+    },
+  });
+};
+
 // Get Event By Slug
 // Get Featured Products
 export const getFeaturedProducts = (params?: any) => {

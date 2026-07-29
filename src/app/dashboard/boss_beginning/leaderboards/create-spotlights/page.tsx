@@ -1,17 +1,24 @@
 "use client";
 
 import { ArrowLeft, ArrowRight, Loader2 } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, Suspense } from "react";
 import { FormProvider, useForm } from "react-hook-form";
+import { useSearchParams } from "next/navigation";
 
+import StepFour, {
+  type ExistingImages,
+} from "@/app/(main)/business-spotlight/_Components/StepFour";
 import StepOne from "@/app/(main)/business-spotlight/_Components/StepOne";
 import StepTwo from "@/app/(main)/business-spotlight/_Components/StepTwo";
 import StepThree from "@/app/(main)/business-spotlight/_Components/StepThree";
-import StepFour from "@/app/(main)/business-spotlight/_Components/StepFour";
 import StepFive from "@/app/(main)/business-spotlight/_Components/StepFive";
 import StepSix from "@/app/(main)/business-spotlight/_Components/StepSix";
 import StepSeven from "@/app/(main)/business-spotlight/_Components/StepSeven";
-import { useCreateBusinessSpotlight } from "@/Hooks/api/cms_api";
+import {
+  useCreateBusinessSpotlight,
+  useUpdateBusinessSpotlight,
+  getSingleBusinessSpotlightDetails,
+} from "@/Hooks/api/cms_api";
 
 /* ------------------------------------------------------------------ */
 /*  Step definitions                                                    */
@@ -29,21 +36,150 @@ const steps = [
 const TOTAL_STEPS = steps.length;
 
 /* ------------------------------------------------------------------ */
-/*  Page                                                               */
+/*  Data flatten helper                                                */
 /* ------------------------------------------------------------------ */
 
-export default function Page() {
+function flattenApiSpotlightData(apiData: any): Record<string, any> {
+  const flat: Record<string, any> = {};
+
+  // Copy top-level fields
+  const topFields = [
+    "business_name",
+    "owner_founder_name",
+    "business_category",
+    "year_founded",
+    "business_website",
+    "city",
+    "state",
+    "business_story",
+    "products_services",
+    "challenges_overcome",
+    "unique_factor",
+    "target_customer",
+    "email",
+    "phone_number",
+    "best_contact_time",
+    "service_type",
+    "why_featured",
+    "growth_vision",
+  ];
+  topFields.forEach(f => {
+    if (apiData[f] !== undefined && apiData[f] !== null) {
+      flat[f] = apiData[f];
+    }
+  });
+
+  // Flatten social_media
+  if (apiData.social_media) {
+    const socialFields = [
+      "instagram_url",
+      "tiktok_url",
+      "facebook_url",
+      "youtube_url",
+      "google_business_profile_url",
+      "linkedin_url",
+      "fanbase_url",
+    ];
+    socialFields.forEach(f => {
+      if (apiData.social_media[f]) {
+        flat[f] = apiData.social_media[f];
+      }
+    });
+  }
+
+  // Flatten permissions (map to form field names)
+  if (apiData.permissions) {
+    if (apiData.permissions.feature_on_osi !== undefined)
+      flat.permission_feature_on_osi = apiData.permissions.feature_on_osi;
+    if (apiData.permissions.use_submitted_photos !== undefined)
+      flat.permission_use_submitted_photos =
+        apiData.permissions.use_submitted_photos;
+    if (apiData.permissions.share_business_story !== undefined)
+      flat.permission_share_business_story =
+        apiData.permissions.share_business_story;
+  }
+
+  // Stringify year_founded if it's a number
+  if (flat.year_founded !== undefined) {
+    flat.year_founded = String(flat.year_founded);
+  }
+
+  return flat;
+}
+
+/* ------------------------------------------------------------------ */
+/*  Existing images helper                                             */
+/* ------------------------------------------------------------------ */
+
+function extractExistingImages(apiData: any): ExistingImages {
+  const imgs = apiData.images || {};
+  return {
+    portrait_photo: imgs.portrait_photo || null,
+    storefront_workspace_photo: imgs.storefront_workspace_photo || null,
+    product_service_photos: imgs.product_service_photos || [],
+    team_photo: imgs.team_photo || null,
+  };
+}
+
+/* ------------------------------------------------------------------ */
+/*  Inner form (wraps the form logic that needs searchParams)          */
+/* ------------------------------------------------------------------ */
+
+function CreateSpotlightForm() {
+  const searchParams = useSearchParams();
+  const editId = searchParams.get("editId");
+  const isEditing = !!editId;
+
   const [currentStep, setCurrentStep] = useState(0);
   const [submitted, setSubmitted] = useState(false);
+  const [existingImages, setExistingImages] = useState<ExistingImages | null>(
+    null,
+  );
+  const [formInitialized, setFormInitialized] = useState(false);
   const formRef = useRef<HTMLDivElement | null>(null);
 
-  const { mutateAsync: createSpotlight, isPending } =
+  const { mutateAsync: createSpotlight, isPending: isCreatePending } =
     useCreateBusinessSpotlight();
+  const { mutateAsync: updateSpotlight, isPending: isUpdatePending } =
+    useUpdateBusinessSpotlight();
+
+  const isPending = isCreatePending || isUpdatePending;
 
   const methods = useForm({
     mode: "onBlur",
     defaultValues: {},
   });
+
+  // Fetch existing data if editing
+  const { data: existingData, isLoading: isFetching } =
+    getSingleBusinessSpotlightDetails(editId ? Number(editId) : 0);
+
+  // Pre-populate form when existing data arrives
+  useEffect(() => {
+    if (formInitialized) return;
+
+    if (isEditing && existingData) {
+      // Try different possible API response paths
+      const spotlight =
+        existingData?.data?.spotlight ||
+        existingData?.data?.business ||
+        existingData?.data?.data ||
+        existingData?.data;
+
+      if (spotlight && typeof spotlight === "object") {
+        const flat = flattenApiSpotlightData(spotlight);
+        methods.reset(flat);
+        setExistingImages(extractExistingImages(spotlight));
+        setFormInitialized(true);
+      } else {
+        // Data loaded but no spotlight found — still initialize
+        setFormInitialized(true);
+      }
+    } else if (!isEditing) {
+      setFormInitialized(true);
+    }
+    // If isEditing but existingData is still undefined, wait for fetch
+  }, [isEditing, existingData, methods, formInitialized]);
 
   const CurrentStepComponent = steps[currentStep]?.component;
 
@@ -72,14 +208,7 @@ export default function Page() {
     setCurrentStep(idx);
   };
 
-  const onSubmit = async (data: any) => {
-    // If not on last step, just advance
-    if (currentStep < TOTAL_STEPS - 1) {
-      goNext();
-      return;
-    }
-
-    // Build FormData payload for the API
+  const buildFormData = (data: any): FormData => {
     const formData = new FormData();
 
     Object.keys(data).forEach(key => {
@@ -92,6 +221,9 @@ export default function Page() {
         value instanceof FileList ||
         (Array.isArray(value) && value[0] instanceof File)
       ) {
+        // Skip empty file inputs (user didn't select new files — keep existing)
+        if (value instanceof FileList && value.length === 0) return;
+
         if (key === "product_service_photos") {
           Array.from(value as FileList).forEach(file => {
             formData.append("product_service_photos[]", file);
@@ -112,18 +244,90 @@ export default function Page() {
       formData.append(key, value);
     });
 
-    await createSpotlight(formData, {
-      onSuccess: (res: any) => {
-        if (res?.success) {
-          setSubmitted(true);
-        }
-      },
-    });
+    // Append existing image URLs so API knows which to keep
+    if (existingImages) {
+      if (existingImages.portrait_photo)
+        formData.append("existing_portrait_photo", existingImages.portrait_photo);
+      if (existingImages.storefront_workspace_photo)
+        formData.append(
+          "existing_storefront_workspace_photo",
+          existingImages.storefront_workspace_photo,
+        );
+      existingImages.product_service_photos.forEach((url, i) => {
+        formData.append(`existing_product_service_photos[${i}]`, url);
+      });
+      if (existingImages.team_photo)
+        formData.append("existing_team_photo", existingImages.team_photo);
+    }
+
+
+
+    return formData;
   };
+
+  const onSubmit = async (data: any) => {
+    // If not on last step, just advance
+    if (currentStep < TOTAL_STEPS - 1) {
+      goNext();
+      return;
+    }
+
+    const payload = buildFormData(data);
+
+    if (isEditing && editId) {
+      await updateSpotlight(
+        {
+          endpoint: `/v1/business-spotlight/update/${editId}`,
+          data: payload,
+        },
+        {
+          onSuccess: (res: any) => {
+            if (res?.success) {
+              setSubmitted(true);
+            }
+          },
+        },
+      );
+    } else {
+      await createSpotlight(payload, {
+        onSuccess: (res: any) => {
+          if (res?.success) {
+            setSubmitted(true);
+          }
+        },
+      });
+    }
+  };
+
+  // Show loading while fetching existing data
+  if (isEditing && isFetching && !formInitialized) {
+    return (
+      <div className="bg-[#F5F6F8]">
+        <div className="flex items-center justify-center py-24">
+          <Loader2 className="w-6 h-6 text-blue-500 animate-spin" />
+          <span className="ml-3 text-sm text-slate-500">
+            Loading spotlight data...
+          </span>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="bg-[#F5F6F8]">
       <div ref={formRef} className="space-y-5">
+        {/* Header */}
+        <div className="bg-white rounded-2xl border border-slate-100 p-5 md:p-6">
+          <h1 className="text-lg md:text-xl font-semibold text-slate-900">
+            {isEditing ? "Edit Spotlight" : "Create Spotlight"}
+          </h1>
+          <p className="text-sm text-slate-500 mt-1">
+            {isEditing
+              ? "Update your business spotlight information below"
+              : "Fill in the details to create a business spotlight"}
+          </p>
+        </div>
+
         {/* Progress stepper */}
         <div className="bg-white rounded-2xl border border-slate-100 p-5 md:p-6">
           <div className="flex items-center justify-between mb-3">
@@ -199,8 +403,10 @@ export default function Page() {
         ) : (
           <FormProvider {...methods}>
             <form onSubmit={methods.handleSubmit(onSubmit)}>
-              {/* Step content — step_box styling comes from the imported components */}
-              {CurrentStepComponent && <CurrentStepComponent />}
+              {/* Step content */}
+              {CurrentStepComponent && (
+                <CurrentStepComponent existingImages={existingImages} />
+              )}
 
               {/* Nav buttons */}
               <div className="flex items-center justify-between mt-5">
@@ -231,10 +437,10 @@ export default function Page() {
                     {isPending ? (
                       <>
                         <Loader2 className="w-4 h-4 animate-spin" />
-                        Submitting...
+                        {isEditing ? "Updating..." : "Submitting..."}
                       </>
                     ) : (
-                      "Submit"
+                      isEditing ? "Update" : "Submit"
                     )}
                   </button>
                 )}
@@ -244,5 +450,23 @@ export default function Page() {
         )}
       </div>
     </div>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/*  Page (wrapped in Suspense for useSearchParams)                     */
+/* ------------------------------------------------------------------ */
+
+export default function Page() {
+  return (
+    <Suspense
+      fallback={
+        <div className="bg-[#F5F6F8] p-8 text-slate-500">
+          Loading form...
+        </div>
+      }
+    >
+      <CreateSpotlightForm />
+    </Suspense>
   );
 }
