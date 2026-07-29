@@ -182,6 +182,16 @@ export const getCMSAboutData = () => {
   });
 };
 
+// Get Vote Packages (for vote purchase)
+export const getVotePackages = () => {
+  return useClientApi({
+    method: "get",
+    isPrivate: true,
+    key: ["vote-packages"],
+    endpoint: "/v1/spotlight/vote-packages",
+  });
+};
+
 // Register / Buy Ticket for an Event
 export const useEventRegister = () => {
   return useClientApi({

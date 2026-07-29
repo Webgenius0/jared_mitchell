@@ -1146,6 +1146,28 @@ export interface BusinessSpotlightDetailsResponse {
   code: number;
 }
 
+// ─── Vote Packages ────────────────────────────────────────────────────────────
+
+export interface VotePackage {
+  id: number;
+  name: string;
+  slug: string;
+  votes_count: number;
+  price: number;
+  description: string;
+}
+
+export interface VotePackagesResponse {
+  success: boolean;
+  message: string;
+  data: {
+    packages: VotePackage[];
+    max_paid_votes: number;
+  };
+  errors: null | any;
+  code: number;
+}
+
 // ─── Spotlight Weeks Leaderboard ──────────────────────────────────────────────
 
 export interface LeaderboardSpotlight {
