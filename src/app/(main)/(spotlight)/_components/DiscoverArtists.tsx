@@ -106,7 +106,8 @@ const DiscoverArtists = ({
   const getDetailsHref = (item: any) => {
     const basePath =
       type === "artist" ? "/spotlight-artist" : "/spotlight-business";
-    return `${basePath}/${item.spotlight?.id}`;
+    // Use spotlight ID (the detail pages expect a spotlight/artist ID, not a nominee entry ID)
+    return `${basePath}/${item.spotlight?.id || item.id}`;
   };
 
   const handleToggleLike = async (spotlightId: number, e: React.MouseEvent) => {

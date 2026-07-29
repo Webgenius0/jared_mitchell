@@ -378,22 +378,22 @@ export default function ArtistDetailsContent({ id }: { id: number }) {
                         {likesCount.toLocaleString()}
                       </p>
                     </div>
-                    <div>
+                    {/* <div>
                       <h3 className="text-sm md:text-xl font-bold text-[#364153]">
                         Bookmarks
                       </h3>
                       <p className="text-xs md:text-base font-normal text-[#364153] pt-1 md:pt-3">
                         {interactions.bookmarks_count?.toLocaleString() ?? 0}
                       </p>
-                    </div>
-                    <div>
+                    </div> */}
+                    {/* <div>
                       <h3 className="text-sm md:text-xl font-bold text-[#364153]">
                         Shares
                       </h3>
                       <p className="text-xs md:text-base font-normal text-[#364153] pt-1 md:pt-3">
                         {interactions.shares_count?.toLocaleString() ?? 0}
                       </p>
-                    </div>
+                    </div> */}
                   </div>
                 </div>
               </div>
