@@ -64,7 +64,7 @@ const Page = async () => {
   try {
     const res = await getBusinessHistoricalWinners();
     businessWinners = (res?.winners || []).map(w => ({
-      id: w.id,
+      id: w.spotlight.id,
       title: w.spotlight.name,
       slug: "",
       description: `${w.spotlight.city}, ${w.spotlight.state}`,
@@ -79,7 +79,7 @@ const Page = async () => {
   try {
     const res = await getArtistHistoricalWinners();
     artistWinners = (res?.winners || []).map(w => ({
-      id: w.id,
+      id: w.spotlight.id,
       title: w.spotlight.name,
       slug: "",
       description: `${w.spotlight.city}, ${w.spotlight.state}`,

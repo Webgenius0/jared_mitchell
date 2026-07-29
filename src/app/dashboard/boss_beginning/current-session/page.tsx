@@ -1,173 +1,142 @@
-import Link from "next/link";
-import { FiUsers, FiAward, FiHeart, FiBriefcase } from "react-icons/fi";
+"use client";
 
-interface OsiRound {
-  id: number;
-  start_date: string;
-  end_date: string;
-  icon: React.ElementType;
-  roundNumber: string;
-  title: string;
-  sub_title: string;
-  goal: string[];
-  requirements: string[];
+import Link from "next/link";
+import { Loader2, FileText, Users } from "lucide-react";
+import { useActiveRoundSession } from "@/Hooks/api/cms_api";
+
+/* ------------------------------------------------------------------ */
+/*  Helpers                                                            */
+/* ------------------------------------------------------------------ */
+
+function formatShortDate(dateStr: string | null): string {
+  if (!dateStr) return "—";
+  try {
+    return new Date(dateStr).toLocaleDateString("en-GB", {
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+    });
+  } catch {
+    return dateStr;
+  }
 }
 
-const OSI_ROUNDS: OsiRound[] = [
-  {
-    id: 1,
-    icon: FiUsers,
-    start_date: "12 May 2026",
-    end_date: "24 May 2026",
-    roundNumber: "1",
-    title: "OPEN NOMINATIONS",
-    sub_title: "Up to 100 Businesses",
-    goal: ["Secure a spot in the competition."],
-    requirements: [
-      "Submit a complete nomination that clearly explains what the business does and why it deserves community support.",
-      "Businesses that do not complete the nomination or meet eligibility requirements do not advance.",
-    ],
-  },
-  {
-    id: 2,
-    icon: FiHeart,
-    start_date: "12 May 2026",
-    end_date: "24 May 2026",
-    roundNumber: "2",
-    title: "MOMENTUM ROUND",
-    sub_title: "Top 60 Advance",
-    goal: ["Show early community interest and momentum."],
-    requirements: [
-      "Demonstrate initial traction through community engagement (claps, saves, shares, and support votes).",
-      "Businesses that fail to generate enough early momentum are eliminated, ensuring only actively supported businesses continue.",
-    ],
-  },
-  {
-    id: 3,
-    icon: FiHeart,
-    start_date: "12 May 2026",
-    end_date: "24 May 2026",
-    roundNumber: "3",
-    title: "COMMUNITY IMPACT ROUND",
-    sub_title: "Top 30 Advance",
-    goal: ["Prove how your business serves the community."],
-    requirements: [
-      "Explain how their business positively impacts customers, neighborhoods, or the local economy.",
-      "This may include: Who they serve, How they help, Why they matter beyond profit.",
-      "Businesses that cannot clearly demonstrate community impact do not advance.",
-    ],
-  },
-  {
-    id: 4,
-    icon: FiBriefcase,
-    start_date: "12 May 2026",
-    end_date: "24 May 2026",
-    roundNumber: "4",
-    title: "BUSINESS PITCH & JOURNEY ROUND",
-    sub_title: "Top 15 Advance",
-    goal: ["Show vision, strategy, and resilience."],
-    requirements: [
-      "Submit a business pitch and story that explains: their mission and long-term vision, how the business operates or plans to scale, the challenges they've overcome to get here, and why they believe they deserve to win.",
-      "Businesses that lack clarity, preparation, or storytelling are eliminated.",
-    ],
-  },
-  {
-    id: 5,
-    icon: FiAward,
-    start_date: "12 May 2026",
-    end_date: "24 May 2026",
-    roundNumber: "5",
-    title: "OSI CUSTOMER EXPERIENCE ROUND",
-    sub_title: "Top 3 Selected",
-    goal: ["Deliver a real, high-quality customer experience."],
-    requirements: [
-      "OSI must experience the business firsthand by purchasing a product or service.",
-      "OSI evaluates: communication, professionalism, product or service quality, delivery or execution, and overall customer experience.",
-      "The business that performs best in real-world conditions, combined with prior scores, is crowned the Boss Beginnings Winner.",
-    ],
-  },
-];
+/* ------------------------------------------------------------------ */
+/*  Page                                                               */
+/* ------------------------------------------------------------------ */
 
-const page = () => {
+const CurrentSessionPage = () => {
+  const { data: sessionData, isLoading, isSuccess } = useActiveRoundSession();
+
+  // Extract session from possible API response paths
+  const session =
+    sessionData?.data?.data || sessionData?.data?.session || sessionData?.data;
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center py-24">
+        <Loader2 className="w-6 h-6 text-blue-500 animate-spin" />
+        <span className="ml-3 text-sm text-slate-500">
+          Loading session details...
+        </span>
+      </div>
+    );
+  }
+
+  if (!session || !isSuccess) {
+    return (
+      <div className="text-center py-24">
+        <FileText className="w-12 h-12 text-slate-300 mx-auto mb-4" />
+        <p className="text-sm text-slate-400">No active session found.</p>
+      </div>
+    );
+  }
+
+  // Requirements can come back as an array of strings or objects with a `question`/`label` field
+  const requirements: string[] = Array.isArray(session.requirements)
+    ? session.requirements.map((r: any) =>
+        typeof r === "string" ? r : r?.question || r?.label || "",
+      )
+    : [];
+
   return (
     <div className="space-y-6">
-      {OSI_ROUNDS.map((round, idx) => (
-        <div
-          key={round.id}
-          className="rounded-2xl border border-black/10 bg-white overflow-hidden"
-        >
-          {/* Round header */}
-          <div
-            className={`px-4 sm:px-6 py-4 sm:py-5 flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-5 text-white ${idx === 0 ? "bg-[#1977DD]" : "bg-[#9F9F9F]"}`}
-          >
-            <div className="bg-white/20 size-14 flex items-center justify-center rounded-full shrink-0">
-              <round.icon className="size-6" />
+      <div className="rounded-2xl border border-slate-100 bg-white overflow-hidden shadow-sm">
+        {/* Header */}
+        <div className="bg-blue-600 px-6 py-5 md:px-8 md:py-6 flex items-center gap-3">
+          <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center shrink-0">
+            <Users className="w-5 h-5 text-white" />
+          </div>
+          <div className="flex items-baseline gap-2 flex-wrap">
+            <span className="text-xs font-semibold uppercase tracking-wider text-white/80">
+              Round {session.round_number ?? 1}
+            </span>
+            <h1 className="text-lg md:text-xl font-bold uppercase tracking-wide text-white">
+              {session.title || "Untitled Session"}
+            </h1>
+          </div>
+        </div>
+
+        {/* Body */}
+        <div className="p-6 md:p-8 space-y-6">
+          {/* Description */}
+          {session.description && (
+            <div>
+              <h3 className="text-sm font-semibold text-blue-600 mb-2">
+                Description:
+              </h3>
+              <p className="text-sm text-slate-600 leading-relaxed">
+                {session.description}
+              </p>
+            </div>
+          )}
+
+          {/* Dates */}
+          <div className="grid grid-cols-2 gap-6 max-w-md">
+            <div>
+              <h4 className="text-sm font-semibold text-blue-600 mb-1">
+                Start Date:
+              </h4>
+              <p className="text-sm text-slate-700">
+                {formatShortDate(session.starts_at)}
+              </p>
             </div>
             <div>
-              <h4 className="text-base sm:text-lg font-medium uppercase flex flex-wrap items-center gap-2 sm:gap-3">
-                <span className="text-xs sm:text-sm font-normal py-1">
-                  ROUND {round.roundNumber}
-                </span>
-                {round.title}
+              <h4 className="text-sm font-semibold text-blue-600 mb-1">
+                End Date:
               </h4>
+              <p className="text-sm text-slate-700">
+                {formatShortDate(session.ends_at)}
+              </p>
             </div>
           </div>
 
-          {/* Round content */}
-          <div className="p-4 sm:p-6 space-y-4 sm:space-y-5">
-            {/* Goal */}
+          {/* Requirements */}
+          {requirements.length > 0 && (
             <div>
-              <h6 className="text-[#1977DD] text-base font-medium mb-2 flex items-center gap-2">
-                Description:
-              </h6>
-              {round.goal.map((g, idx) => (
-                <p key={idx} className="text-[14px] text-black/70">
-                  {g}
-                </p>
-              ))}
-            </div>
-
-            {/* Date */}
-            <div className="flex gap-10 items-center">
-              <div>
-                <h6 className="text-[#1977DD] text-base font-medium mb-2 flex items-center gap-2">
-                  Start Date:
-                </h6>
-                <p className="text-[14px] text-black/70">{round?.start_date}</p>
-              </div>
-
-              <div>
-                <h6 className="text-[#1977DD] text-base font-medium mb-2 flex items-center gap-2">
-                  End Date:
-                </h6>
-                <p className="text-[14px] text-black/70">{round?.end_date}</p>
-              </div>
-            </div>
-
-            {/* Requirements */}
-            <div>
-              <h6 className="text-[#1977DD] text-base font-medium mb-2 flex items-center gap-2">
+              <h3 className="text-sm font-semibold text-blue-600 mb-2">
                 Requirements:
-              </h6>
+              </h3>
               <ul className="space-y-2">
-                {round.requirements.map((req, idx) => (
+                {requirements.map((req, i) => (
                   <li
-                    key={idx}
-                    className="text-[14px] text-black/70 flex items-start gap-2"
+                    key={i}
+                    className="flex items-start gap-2 text-sm text-slate-700"
                   >
-                    <span className="mt-1.5 size-1.5 rounded-full bg-[#2563EB] shrink-0" />
+                    <span className="mt-2 w-1 h-1 rounded-full bg-slate-400 shrink-0" />
                     {req}
                   </li>
                 ))}
               </ul>
             </div>
-          </div>
+          )}
         </div>
-      ))}
+      </div>
 
+      {/* CTA */}
       <Link
         href="/dashboard/boss_beginning/listed-business"
-        className="inline-block font-medium px-14 py-4 rounded-full bg-primary-blue cursor-pointer text-white"
+        className="inline-flex items-center gap-2 font-medium px-10 py-3 rounded-full bg-primary-blue text-white hover:bg-blue-600 transition-colors"
       >
         List Business
       </Link>
@@ -175,4 +144,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default CurrentSessionPage;

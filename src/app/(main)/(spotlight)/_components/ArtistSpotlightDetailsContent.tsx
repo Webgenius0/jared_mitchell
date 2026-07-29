@@ -2,7 +2,8 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { getArtistById } from "@/Hooks/api/cms_api";
+import { getArtistSpotlightDetails, getArtistById } from "@/Hooks/api/cms_api";
+import { resolveMediaUrl } from "@/lib/utils";
 import { BsArrowLeft } from "react-icons/bs";
 
 export default function ArtistSpotlightDetailsContent({
@@ -10,10 +11,43 @@ export default function ArtistSpotlightDetailsContent({
 }: {
   id: number;
 }) {
-  const { data: res, isLoading } = getArtistById(id);
-  const artist = res?.data?.artist;
+  // Try spotlight details first (rich data), fall back to basic artist
+  const { data: spotlightRes, isLoading: spotlightLoading } =
+    getArtistSpotlightDetails(id);
+  const { data: basicRes, isLoading: basicLoading } = getArtistById(id);
 
-  if (isLoading) {
+  const spotlight = spotlightRes?.data?.spotlight;
+  const basicArtist = basicRes?.data?.artist || basicRes?.data;
+  const showNotFound = !spotlightLoading && !basicLoading && !spotlight && !basicArtist;
+
+  const usingSpotlight = !!spotlight;
+
+  const displayName = usingSpotlight
+    ? spotlight.artist_stage_name || spotlight.full_legal_name
+    : basicArtist?.name || "";
+
+  const displayBio = usingSpotlight
+    ? spotlight.short_bio
+    : basicArtist?.biography || "";
+
+  const avatarUrl = resolveMediaUrl(
+    usingSpotlight ? spotlight.media?.headshot : basicArtist?.avatar
+  ) || "/profile.png";
+
+  const displayCategory = usingSpotlight
+    ? spotlight.category?.name
+    : basicArtist?.category?.name || "N/A";
+
+  const interactions = usingSpotlight
+    ? spotlight.interactions
+    : {
+        likes_count: basicArtist?.likes_count ?? 0,
+        bookmarks_count: basicArtist?.bookmarks_count ?? 0,
+        shares_count: basicArtist?.shares_count ?? 0,
+      };
+
+  // Loading state
+  if (spotlightLoading || basicLoading) {
     return (
       <section className="py-10">
         <div className="container mx-auto px-4">
@@ -33,7 +67,8 @@ export default function ArtistSpotlightDetailsContent({
     );
   }
 
-  if (!artist) {
+  // Not found — only when both APIs return nothing
+  if (showNotFound) {
     return (
       <section className="py-20 text-center">
         <div className="container mx-auto px-4">
@@ -63,13 +98,13 @@ export default function ArtistSpotlightDetailsContent({
           <span className="font-medium">Back to Artists</span>
         </Link>
 
-        {/* Main content - full width (no sidebar) */}
+        {/* Main content - full width */}
         <div className="flex flex-col md:flex-row gap-4 md:gap-6 lg:gap-8 w-full max-w-4xl">
           {/* Avatar */}
           <div className="w-24 h-24 md:w-28 md:h-28 lg:w-32 lg:h-32 rounded-full shrink-0 mx-auto md:mx-0 overflow-hidden border-2 border-gray-100">
             <Image
-              src={artist.avatar || "/profile.png"}
-              alt={artist.name}
+              src={avatarUrl}
+              alt={displayName}
               width={128}
               height={128}
               className="h-full w-full object-cover"
@@ -79,17 +114,11 @@ export default function ArtistSpotlightDetailsContent({
           {/* Details */}
           <div className="flex-1">
             <h3 className="text-2xl md:text-3xl font-semibold text-[#1D1D1F] text-center md:text-left">
-              {artist.name}
+              {displayName}
             </h3>
 
-            {artist.tagline && (
-              <p className="text-base md:text-lg text-primary-blue font-medium mt-1 text-center md:text-left">
-                {artist.tagline}
-              </p>
-            )}
-
             <p className="text-base md:text-lg lg:text-xl font-normal text-[#364153] py-4 md:py-5">
-              {artist.biography}
+              {displayBio || "No biography available."}
             </p>
 
             <div className="flex flex-col gap-4 md:gap-5">
@@ -99,19 +128,21 @@ export default function ArtistSpotlightDetailsContent({
                   Category
                 </h3>
                 <p className="text-sm md:text-base font-normal text-[#364153] pt-2 md:pt-3">
-                  {artist.category?.name || "N/A"}
+                  {displayCategory}
                 </p>
               </div>
 
-              {/* Username */}
-              <div className="rounded-[14.205px] border-[0.5px] border-black/15 bg-[#F9FAFB] p-3 md:p-4 w-full">
-                <h3 className="text-base md:text-xl font-bold text-[#364153]">
-                  Username
-                </h3>
-                <p className="text-sm md:text-base font-normal text-[#364153] pt-2 md:pt-3">
-                  @{artist.username}
-                </p>
-              </div>
+              {/* Location */}
+              {(usingSpotlight ? (spotlight.city || spotlight.state) : false) && (
+                <div className="rounded-[14.205px] border-[0.5px] border-black/15 bg-[#F9FAFB] p-3 md:p-4 w-full">
+                  <h3 className="text-base md:text-xl font-bold text-[#364153]">
+                    Location
+                  </h3>
+                  <p className="text-sm md:text-base font-normal text-[#364153] pt-2 md:pt-3">
+                    {[spotlight.city, spotlight.state].filter(Boolean).join(", ")}
+                  </p>
+                </div>
+              )}
 
               {/* Engagement stats */}
               <div className="rounded-[14.205px] border-[0.5px] border-black/15 bg-[#F9FAFB] p-3 md:p-4 w-full">
@@ -121,25 +152,25 @@ export default function ArtistSpotlightDetailsContent({
                       Likes
                     </h3>
                     <p className="text-xs md:text-base font-normal text-[#364153] pt-1 md:pt-3">
-                      {artist.likes_count ?? 0}
+                      {interactions?.likes_count ?? 0}
                     </p>
                   </div>
-                  <div>
+                  {/* <div>
                     <h3 className="text-sm md:text-xl font-bold text-[#364153]">
                       Bookmarks
                     </h3>
                     <p className="text-xs md:text-base font-normal text-[#364153] pt-1 md:pt-3">
-                      {artist.bookmarks_count ?? 0}
+                      {interactions?.bookmarks_count ?? 0}
                     </p>
-                  </div>
-                  <div>
+                  </div> */}
+                  {/* <div>
                     <h3 className="text-sm md:text-xl font-bold text-[#364153]">
                       Shares
                     </h3>
                     <p className="text-xs md:text-base font-normal text-[#364153] pt-1 md:pt-3">
-                      {artist.shares_count ?? 0}
+                      {interactions?.shares_count ?? 0}
                     </p>
-                  </div>
+                  </div> */}
                 </div>
               </div>
             </div>

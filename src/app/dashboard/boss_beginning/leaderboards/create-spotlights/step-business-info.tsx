@@ -1,15 +1,16 @@
 "use client";
 
-import { FormData, CATEGORY_OPTIONS } from "./types";
+import { SpotlightFormData, FormErrors, CATEGORY_OPTIONS } from "./types";
 import { StepCard, TextField, SelectField } from "./field-components";
 
 
 export interface StepBusinessInfoProps {
-  form: FormData;
-  update: <K extends keyof FormData>(key: K) => (value: FormData[K]) => void;
+  form: SpotlightFormData;
+  update: <K extends keyof SpotlightFormData>(key: K) => (value: SpotlightFormData[K]) => void;
+  errors: FormErrors;
 }
 
-export function StepBusinessInfo({ form, update }: StepBusinessInfoProps) {
+export function StepBusinessInfo({ form, update, errors }: StepBusinessInfoProps) {
   return (
     <StepCard
       index={1}
@@ -22,6 +23,7 @@ export function StepBusinessInfo({ form, update }: StepBusinessInfoProps) {
         placeholder="Enter your business name"
         value={form.businessName}
         onChange={update("businessName")}
+        error={errors.businessName}
       />
       <TextField
         label="Owner / Founder Name"
@@ -29,6 +31,7 @@ export function StepBusinessInfo({ form, update }: StepBusinessInfoProps) {
         placeholder="Your name"
         value={form.ownerName}
         onChange={update("ownerName")}
+        error={errors.ownerName}
       />
       <SelectField
         label="Business Category"
@@ -37,14 +40,16 @@ export function StepBusinessInfo({ form, update }: StepBusinessInfoProps) {
         value={form.businessCategory}
         options={CATEGORY_OPTIONS}
         onChange={update("businessCategory")}
+        error={errors.businessCategory}
       />
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
         <TextField
           label="Year Founded"
           required
-          placeholder="2020"
+          placeholder="e.g. 2020"
           value={form.yearFounded}
           onChange={update("yearFounded")}
+          error={errors.yearFounded}
         />
         <TextField
           label="Business Website"
@@ -52,6 +57,7 @@ export function StepBusinessInfo({ form, update }: StepBusinessInfoProps) {
           placeholder="https://yourbusiness.com"
           value={form.businessWebsite}
           onChange={update("businessWebsite")}
+          error={errors.businessWebsite}
         />
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
@@ -61,6 +67,7 @@ export function StepBusinessInfo({ form, update }: StepBusinessInfoProps) {
           placeholder="Enter city"
           value={form.city}
           onChange={update("city")}
+          error={errors.city}
         />
         <TextField
           label="State"
@@ -68,6 +75,7 @@ export function StepBusinessInfo({ form, update }: StepBusinessInfoProps) {
           placeholder="Enter state"
           value={form.state}
           onChange={update("state")}
+          error={errors.state}
         />
       </div>
     </StepCard>

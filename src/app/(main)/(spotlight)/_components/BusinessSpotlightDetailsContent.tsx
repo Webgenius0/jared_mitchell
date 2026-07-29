@@ -2,7 +2,8 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { getBusinessById } from "@/Hooks/api/cms_api";
+import { getBusinessSpotlightDetails, getBusinessById } from "@/Hooks/api/cms_api";
+import { resolveMediaUrl } from "@/lib/utils";
 import { BsArrowLeft } from "react-icons/bs";
 
 export default function BusinessSpotlightDetailsContent({
@@ -10,10 +11,53 @@ export default function BusinessSpotlightDetailsContent({
 }: {
   id: number;
 }) {
-  const { data: res, isLoading } = getBusinessById(id);
-  const business = res?.data?.business;
+  // Try spotlight details first (rich data), fall back to basic business
+  const { data: spotlightRes, isLoading: spotlightLoading } =
+    getBusinessSpotlightDetails(id);
+  const { data: basicRes, isLoading: basicLoading } = getBusinessById(id);
 
-  if (isLoading) {
+  const spotlight = spotlightRes?.data?.spotlight || spotlightRes?.data?.business;
+  const basicBusiness = basicRes?.data?.business || basicRes?.data;
+  const showNotFound = !spotlightLoading && !basicLoading && !spotlight && !basicBusiness;
+
+  const usingSpotlight = !!spotlight;
+
+  const displayName = usingSpotlight
+    ? spotlight.business_name
+    : basicBusiness?.name || "";
+
+  const ownerName = usingSpotlight
+    ? spotlight.owner_founder_name || spotlight.owner_name
+    : basicBusiness?.owner_name || "";
+
+  const logoUrl = resolveMediaUrl(
+    usingSpotlight
+      ? spotlight.media?.portrait_photo || spotlight.media?.headshot
+      : basicBusiness?.logo
+  ) || "/profile.png";
+
+  const displayDescription = usingSpotlight
+    ? spotlight.business_story || spotlight.products_services
+    : basicBusiness?.description || "";
+
+  const displayCategory = usingSpotlight
+    ? spotlight.business_category || spotlight.category?.name
+    : basicBusiness?.category?.name || "N/A";
+
+  const displayWebsite = usingSpotlight
+    ? spotlight.business_website || spotlight.website_url
+    : basicBusiness?.website || "";
+
+  const interactions = usingSpotlight
+    ? spotlight.interactions
+    : {
+        likes_count: basicBusiness?.likes_count ?? 0,
+        bookmarks_count: basicBusiness?.bookmarks_count ?? 0,
+        shares_count: basicBusiness?.shares_count ?? 0,
+      };
+
+  // Loading state
+  if (spotlightLoading || basicLoading) {
     return (
       <section className="py-10">
         <div className="container mx-auto px-4">
@@ -33,7 +77,8 @@ export default function BusinessSpotlightDetailsContent({
     );
   }
 
-  if (!business) {
+  // Not found — only when both APIs return nothing
+  if (showNotFound) {
     return (
       <section className="py-20 text-center">
         <div className="container mx-auto px-4">
@@ -63,13 +108,13 @@ export default function BusinessSpotlightDetailsContent({
           <span className="font-medium">Back to Businesses</span>
         </Link>
 
-        {/* Main content - full width (no sidebar) */}
+        {/* Main content - full width */}
         <div className="flex flex-col md:flex-row gap-4 md:gap-6 lg:gap-8 w-full max-w-4xl">
           {/* Logo / Portrait */}
           <div className="w-24 h-24 md:w-28 md:h-28 lg:w-32 lg:h-32 rounded-full shrink-0 mx-auto md:mx-0 overflow-hidden border-2 border-gray-100">
             <Image
-              src={business.logo || "/profile.png"}
-              alt={business.name}
+              src={logoUrl}
+              alt={displayName}
               width={128}
               height={128}
               className="h-full w-full object-cover"
@@ -79,23 +124,17 @@ export default function BusinessSpotlightDetailsContent({
           {/* Details */}
           <div className="flex-1">
             <h3 className="text-2xl md:text-3xl font-semibold text-[#1D1D1F] text-center md:text-left">
-              {business.name}
+              {displayName}
             </h3>
 
-            {business.owner_name && (
+            {ownerName && (
               <p className="text-base md:text-lg text-primary-blue font-medium mt-1 text-center md:text-left">
-                Owned by {business.owner_name}
-              </p>
-            )}
-
-            {business.tagline && (
-              <p className="text-sm md:text-base text-[#364153] italic mt-0.5 text-center md:text-left">
-                {business.tagline}
+                Owned by {ownerName}
               </p>
             )}
 
             <p className="text-base md:text-lg lg:text-xl font-normal text-[#364153] py-4 md:py-5">
-              {business.description}
+              {displayDescription || "No description available."}
             </p>
 
             <div className="flex flex-col gap-4 md:gap-5">
@@ -105,34 +144,35 @@ export default function BusinessSpotlightDetailsContent({
                   Category
                 </h3>
                 <p className="text-sm md:text-base font-normal text-[#364153] pt-2 md:pt-3">
-                  {business.category?.name || "N/A"}
+                  {displayCategory}
                 </p>
               </div>
 
               {/* Location */}
-              <div className="rounded-[14.205px] border-[0.5px] border-black/15 bg-[#F9FAFB] p-3 md:p-4 w-full">
-                <h3 className="text-base md:text-xl font-bold text-[#364153]">
-                  Location
-                </h3>
-                <p className="text-sm md:text-base font-normal text-[#364153] pt-2 md:pt-3">
-                  {business.city}
-                  {business.state ? `, ${business.state}` : ""}
-                </p>
-              </div>
+              {(usingSpotlight ? (spotlight.city || spotlight.state) : false) && (
+                <div className="rounded-[14.205px] border-[0.5px] border-black/15 bg-[#F9FAFB] p-3 md:p-4 w-full">
+                  <h3 className="text-base md:text-xl font-bold text-[#364153]">
+                    Location
+                  </h3>
+                  <p className="text-sm md:text-base font-normal text-[#364153] pt-2 md:pt-3">
+                    {[spotlight.city, spotlight.state].filter(Boolean).join(", ")}
+                  </p>
+                </div>
+              )}
 
               {/* Website */}
-              {business.website && (
+              {displayWebsite && (
                 <div className="rounded-[14.205px] border-[0.5px] border-black/15 bg-[#F9FAFB] p-3 md:p-4 w-full">
                   <h3 className="text-base md:text-xl font-bold text-[#364153]">
                     Website
                   </h3>
                   <a
-                    href={business.website}
+                    href={displayWebsite}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-sm md:text-base font-normal text-primary-blue hover:underline pt-2 md:pt-3 inline-block"
+                    className="text-sm md:text-base font-normal text-primary-blue hover:underline pt-2 md:pt-3 inline-block break-all"
                   >
-                    {business.website}
+                    {displayWebsite}
                   </a>
                 </div>
               )}
@@ -145,25 +185,25 @@ export default function BusinessSpotlightDetailsContent({
                       Likes
                     </h3>
                     <p className="text-xs md:text-base font-normal text-[#364153] pt-1 md:pt-3">
-                      {business.likes_count ?? 0}
+                      {interactions?.likes_count ?? 0}
                     </p>
                   </div>
-                  <div>
+                  {/* <div>
                     <h3 className="text-sm md:text-xl font-bold text-[#364153]">
                       Bookmarks
                     </h3>
                     <p className="text-xs md:text-base font-normal text-[#364153] pt-1 md:pt-3">
-                      {business.bookmarks_count ?? 0}
+                      {interactions?.bookmarks_count ?? 0}
                     </p>
-                  </div>
-                  <div>
+                  </div> */}
+                  {/* <div>
                     <h3 className="text-sm md:text-xl font-bold text-[#364153]">
                       Shares
                     </h3>
                     <p className="text-xs md:text-base font-normal text-[#364153] pt-1 md:pt-3">
-                      {business.shares_count ?? 0}
+                      {interactions?.shares_count ?? 0}
                     </p>
-                  </div>
+                  </div> */}
                 </div>
               </div>
             </div>

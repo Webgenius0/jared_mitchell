@@ -5,6 +5,7 @@ import useClientApi from "../useClientApi";
 export const useCreateBusinessSpotlight = () => {
   return useClientApi({
     method: "post",
+    isPrivate: true,
     key: ["business-spotlight"],
     endpoint: "/v1/business-spotlight",
     headers: {
@@ -77,9 +78,42 @@ export const getArtistCategories = () => {
 export const getBusinessSpotlights = (params?: any) => {
   return useClientApi({
     method: "get",
+    isPrivate: true,
     key: ["business-spotlights", params],
     endpoint: "/v1/business-spotlight",
     params,
+  });
+};
+
+// Get Single Business Spotlight Details (for editing)
+export const getSingleBusinessSpotlightDetails = (id: number) => {
+  return useClientApi({
+    method: "get",
+    enabled: !!id,
+    isPrivate: true,
+    key: ["dashboard-business-spotlight-single", id],
+    endpoint: `/v1/business-spotlight/${id}`,
+  });
+};
+
+// Update Business Spotlight (supports dynamic endpoint override)
+export const useUpdateBusinessSpotlight = () => {
+  return useClientApi({
+    method: "post",
+    isPrivate: true,
+    key: ["update-business-spotlight"],
+    endpoint: "/v1/business-spotlight/update",
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+    onSuccess: (res: any) => {
+      if (res?.success) {
+        toast.success(res?.message);
+      }
+    },
+    onError: (err: any) => {
+      toast.error(err?.response?.data?.message);
+    },
   });
 };
 
@@ -163,12 +197,55 @@ export const getArtistSpotlightDetails = (id: number) => {
   });
 };
 
+// Get Business Spotlight Details (rich data with voting, media, contacts, story)
+export const getBusinessSpotlightDetails = (id: number) => {
+  return useClientApi({
+    method: "get",
+    key: ["business-spotlight-details", id],
+    endpoint: `/v1/spotlight/details/business/${id}`,
+    enabled: !!id,
+  });
+};
+
 // Get CMS About Data
 export const getCMSAboutData = () => {
   return useClientApi({
     method: "get",
     key: ["cms-about"],
     endpoint: "/v1/cms/about",
+  });
+};
+
+// Get Vote Packages (for vote purchase)
+export const getVotePackages = () => {
+  return useClientApi({
+    method: "get",
+    isPrivate: true,
+    key: ["vote-packages"],
+    endpoint: "/v1/spotlight/vote-packages",
+  });
+};
+
+// Get Nominated Spotlights (Discover More Artists/Businesses)
+export const useGetNominatedSpotlights = (
+  weekId: number | string,
+  type: "artist" | "business",
+) => {
+  return useClientApi({
+    method: "get",
+    key: ["nominated-spotlights", weekId, type],
+    endpoint: "/v1/spotlight/nominated",
+    params: { week_id: weekId, type },
+  });
+};
+
+// Get Active Round Session (current contest season)
+export const useActiveRoundSession = () => {
+  return useClientApi({
+    method: "get",
+    isPrivate: true,
+    key: ["active-round-session"],
+    endpoint: "/v1/active-round-session",
   });
 };
 

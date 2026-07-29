@@ -5,14 +5,15 @@ import Image from "next/image";
 import Link from "next/link";
 import Container from "@/Components/Common/Container";
 import { AiOutlineLike, AiFillLike } from "react-icons/ai";
-
-import { getArtists, getBusinessSpotlights } from "@/Hooks/api/cms_api";
-import { apiToggleArtistLike } from "@/Hooks/api/events_api";
-import useAuth from "@/Hooks/useAuth";
-import toast from "react-hot-toast";
+import { resolveMediaUrl } from "@/lib/utils";
 import { getItem, setItem } from "@/lib/localStorage";
+import toast from "react-hot-toast";
 
-const ARTIST_ENGAGEMENT_KEY = "artist_engagements";
+import { useGetNominatedSpotlights } from "@/Hooks/api/cms_api";
+import { apiToggleSpotlightLike } from "@/Hooks/api/events_api";
+import useAuth from "@/Hooks/useAuth";
+
+const SPOTLIGHT_ENGAGEMENT_KEY = "spotlight_engagements";
 
 type EngagementValue = {
   is_liked: boolean;
@@ -23,7 +24,7 @@ type EngagementMap = Record<number, EngagementValue>;
 
 const loadPersistedEngagements = (): EngagementMap => {
   try {
-    const raw = getItem(ARTIST_ENGAGEMENT_KEY);
+    const raw = getItem(SPOTLIGHT_ENGAGEMENT_KEY);
     if (!raw) return {};
     return JSON.parse(raw) as EngagementMap;
   } catch {
@@ -33,7 +34,7 @@ const loadPersistedEngagements = (): EngagementMap => {
 
 const persistEngagements = (map: EngagementMap) => {
   try {
-    setItem(ARTIST_ENGAGEMENT_KEY, JSON.stringify(map));
+    setItem(SPOTLIGHT_ENGAGEMENT_KEY, JSON.stringify(map));
   } catch {
     // silently fail
   }
@@ -46,10 +47,10 @@ const DiscoverArtists = ({
   type?: "artist" | "business";
   data?: any;
 }) => {
-  const { data: artistData, isLoading: artistLoading } = getArtists();
-  const { data: businessData, isLoading: businessLoading } =
-    getBusinessSpotlights();
+  const { data: nominatedData, isLoading } = useGetNominatedSpotlights(3, type);
   const { token } = useAuth();
+
+  const nominees = nominatedData?.data?.nominees || [];
 
   const [actionLoading, setActionLoading] = useState<Record<string, boolean>>(
     {}
@@ -58,21 +59,19 @@ const DiscoverArtists = ({
     () => loadPersistedEngagements()
   );
 
-  const artists = artistData?.data?.artists;
-  const data = type === "artist" ? artists : businessData?.data;
-  const isLoading = type === "artist" ? artistLoading : businessLoading;
-
   // Seed localEngagements from server data on initial load
   useEffect(() => {
-    if (type === "artist" && artists?.length) {
+    if (nominees?.length) {
       setLocalEngagements((prev) => {
         const updated = { ...prev };
         let changed = false;
-        for (const a of artists) {
-          if (a.id && a.is_liked !== undefined && !prev[a.id]) {
-            updated[a.id] = {
-              is_liked: a.is_liked,
-              likes_count: a.likes_count ?? a.like_count ?? 0,
+        for (const n of nominees) {
+          const spotlight = n.spotlight || {};
+          const sid = spotlight.id;
+          if (sid && !prev[sid]) {
+            updated[sid] = {
+              is_liked: spotlight.is_liked ?? false,
+              likes_count: spotlight.likes_count ?? spotlight.like_count ?? 0,
             };
             changed = true;
           }
@@ -81,21 +80,37 @@ const DiscoverArtists = ({
         return changed ? updated : prev;
       });
     }
-  }, [artists, type]);
+  }, [nominees]);
+
+  // Sync localEngagements to localStorage whenever it changes
+  useEffect(() => {
+    if (Object.keys(localEngagements).length > 0) {
+      persistEngagements(localEngagements);
+    }
+  }, [localEngagements]);
 
   const getEngagement = useCallback(
     (item: any) => {
-      const local = localEngagements[item.id];
+      const spotlight = item.spotlight || {};
+      const sid = spotlight.id;
+      const local = sid ? localEngagements[sid] : undefined;
       return {
-        is_liked: local?.is_liked ?? item.is_liked ?? false,
+        is_liked: local?.is_liked ?? spotlight.is_liked ?? false,
         likes_count:
-          local?.likes_count ?? item.likes_count ?? item.like_count ?? 0,
+          local?.likes_count ?? spotlight.likes_count ?? spotlight.like_count ?? 0,
       };
     },
     [localEngagements]
   );
 
-  const handleToggleLike = async (artistId: number, e: React.MouseEvent) => {
+  const getDetailsHref = (item: any) => {
+    const basePath =
+      type === "artist" ? "/spotlight-artist" : "/spotlight-business";
+    // Use spotlight ID (the detail pages expect a spotlight/artist ID, not a nominee entry ID)
+    return `${basePath}/${item.spotlight?.id || item.id}`;
+  };
+
+  const handleToggleLike = async (spotlightId: number, e: React.MouseEvent) => {
     e.stopPropagation();
     e.preventDefault();
 
@@ -104,63 +119,43 @@ const DiscoverArtists = ({
       return;
     }
 
-    const loadingKey = `like-${artistId}`;
+    const loadingKey = `like-${spotlightId}`;
     if (actionLoading[loadingKey]) return;
     setActionLoading((prev) => ({ ...prev, [loadingKey]: true }));
 
-    const artistItem = artists?.find((a: any) => a.id === artistId);
-    const prev = artistItem
-      ? getEngagement(artistItem)
-      : { is_liked: false, likes_count: 0 };
+    const prevEngagement = localEngagements[spotlightId] || {
+      is_liked: false,
+      likes_count: 0,
+    };
 
     // Optimistic update
     setLocalEngagements((prevState) => ({
       ...prevState,
-      [artistId]: {
-        is_liked: !prev.is_liked,
-        likes_count: prev.is_liked
-          ? prev.likes_count - 1
-          : prev.likes_count + 1,
+      [spotlightId]: {
+        is_liked: !prevEngagement.is_liked,
+        likes_count: prevEngagement.is_liked
+          ? Math.max(0, prevEngagement.likes_count - 1)
+          : prevEngagement.likes_count + 1,
       },
     }));
 
     try {
-      const res = await apiToggleArtistLike(artistId);
-      if (res?.success) {
-        setLocalEngagements((prevState) => ({
-          ...prevState,
-          [artistId]: {
-            is_liked: res.data.is_liked,
-            likes_count: res.data.is_liked
-              ? prev.likes_count + 1
-              : Math.max(0, prev.likes_count - 1),
-          },
-        }));
-        if (res.message) toast.success(res.message);
-      }
+      const res = await apiToggleSpotlightLike(type, spotlightId);
+      if (res?.success && res?.message) toast.success(res.message);
+      // Optimistic update already set the correct state — keep it
     } catch {
       // Revert on error
       setLocalEngagements((prevState) => ({
         ...prevState,
-        [artistId]: {
-          is_liked: prev.is_liked,
-          likes_count: prev.likes_count,
+        [spotlightId]: {
+          is_liked: prevEngagement.is_liked,
+          likes_count: prevEngagement.likes_count,
         },
       }));
       toast.error("Failed to toggle like");
     } finally {
-      setLocalEngagements((current) => {
-        persistEngagements(current);
-        return current;
-      });
       setActionLoading((prev) => ({ ...prev, [loadingKey]: false }));
     }
-  };
-
-  const getDetailsHref = (item: any) => {
-    const basePath =
-      type === "artist" ? "/artist-details" : "/spotlight-business";
-    return `${basePath}/${item.id}`;
   };
 
   return (
@@ -194,28 +189,39 @@ const DiscoverArtists = ({
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">
-            {data?.map((item: any, index: number) => {
-              const image =
-                type === "artist" ? item.avatar : item.images?.portrait_photo;
-              const name = type === "artist" ? item.name : item.business_name;
-              const description =
-                type === "artist" ? item.biography : item.business_story;
-              const engagement = getEngagement(item);
+            {nominees.map((nominee: any, index: number) => {
+              const spotlight = nominee.spotlight || {};
+              const rawImage = spotlight.headshot || "";
+              const image = resolveMediaUrl(rawImage);
+              const name = spotlight.name || "";
+              const sid = spotlight.id;
+              const location = spotlight.city && spotlight.state
+                ? `${spotlight.city}, ${spotlight.state}`
+                : "";
+              const engagement = sid ? getEngagement(nominee) : { is_liked: false, likes_count: 0 };
 
               return (
                 <Link
-                  key={item.id || index}
-                  href={getDetailsHref(item)}
+                  key={nominee.id || index}
+                  href={getDetailsHref(nominee)}
                   className="group relative block rounded-2xl overflow-hidden custom_shadow bg-white transition-shadow duration-300 hover:shadow-lg cursor-pointer"
                 >
                   {/* Image */}
                   <div className="relative w-full aspect-[4/3]">
-                    <Image
-                      src={image}
-                      alt={name}
-                      fill
-                      className="object-cover transition-transform duration-500 group-hover:scale-105"
-                    />
+                    {image ? (
+                      <Image
+                        src={image}
+                        alt={name}
+                        fill
+                        className="object-cover transition-transform duration-500 group-hover:scale-105"
+                      />
+                    ) : (
+                      <div className="w-full h-full bg-gradient-to-br from-slate-100 to-slate-200 flex items-center justify-center">
+                        <span className="text-slate-400 text-4xl font-bold">
+                          {name.charAt(0) || "?"}
+                        </span>
+                      </div>
+                    )}
 
                     {/* Overlay for text legibility */}
                     <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
@@ -228,34 +234,36 @@ const DiscoverArtists = ({
                         <h4 className="text-lg text-white font-semibold drop-shadow-sm">
                           {name}
                         </h4>
-                        <p className="text-sm text-white/85 line-clamp-2 mt-1 drop-shadow-sm">
-                          {description}
-                        </p>
+                        {location && (
+                          <p className="text-sm text-white/85 line-clamp-2 mt-1 drop-shadow-sm">
+                            {location}
+                          </p>
+                        )}
                       </div>
 
-                      {/* Like button - matching events like system */}
-                      {type === "artist" && (
+                      {/* Like button */}
+                      {sid && (
                         <button
                           type="button"
-                          onClick={(e) => handleToggleLike(item.id, e)}
-                          disabled={actionLoading[`like-${item.id}`]}
-                          className="flex items-center gap-1 group shrink-0"
+                          onClick={(e) => handleToggleLike(sid, e)}
+                          disabled={actionLoading[`like-${sid}`]}
+                          className="flex items-center gap-1 group/btn shrink-0"
                           aria-label={engagement.is_liked ? "Unlike" : "Like"}
                         >
                           <div
-                            className={`flex items-center justify-center size-6 aspect-square rounded-full bg-white custom_shadow custom_border transition-all duration-300 ${
+                            className={`flex items-center justify-center size-8 aspect-square rounded-full bg-white custom_shadow custom_border transition-all duration-300 ${
                               engagement.is_liked
                                 ? "!bg-red-50 !border-red-200"
-                                : "group-hover:!bg-red-50 group-hover:!border-red-200"
+                                : "group-hover/btn:!bg-red-50 group-hover/btn:!border-red-200"
                             }`}
                           >
                             {engagement.is_liked ? (
-                              <AiFillLike className="size-[14px] text-red-500 transition-all duration-300 scale-110" />
+                              <AiFillLike className="size-[16px] text-red-500 transition-all duration-300 scale-110" />
                             ) : (
-                              <AiOutlineLike className="size-[14px] text-primary-black transition-all duration-300 group-hover:scale-110" />
+                              <AiOutlineLike className="size-[16px] text-primary-black transition-all duration-300 group-hover/btn:scale-110" />
                             )}
                           </div>
-                          <span className="text-xs font-medium text-white drop-shadow-sm">
+                          <span className="text-xs font-semibold text-white drop-shadow-sm">
                             {engagement.likes_count.toLocaleString()}
                           </span>
                         </button>

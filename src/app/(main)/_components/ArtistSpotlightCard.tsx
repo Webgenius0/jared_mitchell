@@ -9,8 +9,7 @@ interface ArtistSpotlightCardProps {
 }
 
 const getSpotlightLink = (winner: PastSixMonthsWinner): string => {
-  const isBusiness = winner.contestable.type.includes("Business");
-  return isBusiness ? "/business-spotlight" : "/artist-spotlight";
+  return `/contest/contestants/${winner.id}`;
 };
 
 export default function ArtistSpotlightCard({
