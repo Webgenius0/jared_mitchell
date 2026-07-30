@@ -147,13 +147,13 @@ export default function Page() {
                     </td>
                     <td className="px-5 md:px-6 py-3.5 md:py-5 whitespace-nowrap">
                       <div className="flex items-center gap-2 md:gap-4">
-                        <button
-                          type="button"
+                        <Link
+                          href={`/dashboard/artist_business/spotlight-management/${entry.id}`}
                           title="View"
                           className="text-slate-400 hover:text-blue-500 transition-colors"
                         >
                           <Eye className="w-4 h-4 md:w-[18px] md:h-[18px]" />
-                        </button>
+                        </Link>
 
                         <Link
                           href={`/artist-spotlight?id=${entry.id}`}
