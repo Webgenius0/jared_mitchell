@@ -256,7 +256,7 @@ export default function SpotlightDetails({
           </div>
 
           {/* Sidebar */}
-          {/* <div className="w-full lg:w-[30%] rounded-[14.205px] border-[0.5px] border-black/15 bg-[#F9FAFB] p-4 md:p-5 flex flex-col gap-4 md:gap-5">
+          <div className="w-full lg:w-[30%] rounded-[14.205px] border-[0.5px] border-black/15 bg-[#F9FAFB] p-4 md:p-5 flex flex-col gap-4 md:gap-5">
             <h3 className="text-lg md:text-xl font-bold text-[#364153]">
               Support This {type === "artist" ? "Artist" : "Business"}
             </h3>
@@ -298,7 +298,7 @@ export default function SpotlightDetails({
                 </ul>
               </div>
             </div>
-          </div> */}
+          </div>
         </div>
       </div>
     </section>

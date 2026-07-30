@@ -42,7 +42,7 @@ const navLinks = [
       },
     ],
   },
-  { label: "Dashboard", path: "" },
+  // { label: "Dashboard", path: "" },
   { label: "Contact", path: "/contact" },
 ];
 
