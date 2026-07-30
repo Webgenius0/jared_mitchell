@@ -1,5 +1,6 @@
 import toast from "react-hot-toast";
 import useClientApi from "../useClientApi";
+import { useQueryClient } from "@tanstack/react-query";
 
 // Create Business Spotlight
 export const useCreateBusinessSpotlight = () => {
@@ -24,6 +25,8 @@ export const useCreateBusinessSpotlight = () => {
 
 // Create Artist Spotlight
 export const useCreateArtistSpotlight = () => {
+  const queryClient = useQueryClient();
+
   return useClientApi({
     method: "post",
     isPrivate: true,
@@ -35,6 +38,9 @@ export const useCreateArtistSpotlight = () => {
     onSuccess: (res: any) => {
       if (res?.success) {
         toast.success(res?.message);
+        queryClient.invalidateQueries({
+          queryKey: ["artist-spotlights"],
+        });
       }
     },
     onError: (err: any) => {

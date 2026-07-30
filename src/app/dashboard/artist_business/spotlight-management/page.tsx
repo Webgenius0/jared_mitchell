@@ -1,74 +1,59 @@
 "use client";
+import { Pagination } from "@/Components/Common/Pagination";
 import { SpotlightRowSkeleton } from "@/Components/Loader/Loader";
 import { getArtistSpotlights } from "@/Hooks/api/cms_api";
 import { Eye, Pencil } from "lucide-react";
 import Link from "next/link";
-type SpotlightStatus = "Approved" | "Terminated" | "Pending";
+import { useState } from "react";
 
-interface SpotlightEntry {
-  id: string;
-  campaign: string;
-  business: string;
-  startDate: string;
-  endDate: string;
-  status: SpotlightStatus;
-  votes: number;
-  date: string;
+type SpotlightStatus = "submitted" | "approved" | "rejected" | "pending";
+
+interface SpotlightCategory {
+  id: number;
+  name: string;
+  slug: string;
 }
 
-const spotlightHistory: SpotlightEntry[] = [
-  {
-    id: "1",
-    campaign: "New Year Campaign",
-    business: "TechKori Ltd.",
-    startDate: "2025-01-01",
-    endDate: "2025-01-31",
-    status: "Approved",
-    votes: 620,
-    date: "2025-01-31",
-  },
-  {
-    id: "2",
-    campaign: "EduLearn Beta Launch",
-    business: "EduLearn Hub",
-    startDate: "2025-02-15",
-    endDate: "2025-03-01",
-    status: "Terminated",
-    votes: 180,
-    date: "2025-03-01",
-  },
-  {
-    id: "3",
-    campaign: "EduLearn Beta Launch",
-    business: "EduLearn Hub",
-    startDate: "2025-02-15",
-    endDate: "2025-03-01",
-    status: "Pending",
-    votes: 180,
-    date: "2025-03-01",
-  },
-  {
-    id: "4",
-    campaign: "New Year Campaign",
-    business: "TechKori Ltd.",
-    startDate: "2025-01-01",
-    endDate: "2025-01-31",
-    status: "Approved",
-    votes: 620,
-    date: "2025-01-31",
-  },
-];
+interface SpotlightApiItem {
+  id: number;
+  full_legal_name: string;
+  artist_stage_name: string;
+  category_name: string;
+  category: SpotlightCategory;
+  status: SpotlightStatus;
+  duration: string | null;
+  likes_count: number;
+  submitted_at: string | null;
+  created_at: string;
+}
 
-const statusStyles: Record<SpotlightStatus, string> = {
-  Approved: "bg-emerald-50 text-emerald-600",
-  Terminated: "bg-red-50 text-red-500",
-  Pending: "bg-amber-50 text-amber-500",
+interface SpotlightsPagination {
+  total: number;
+  per_page: number;
+  current_page: number;
+  last_page: number;
+}
+
+function formatDate(value: string | null) {
+  if (!value) return "—";
+  return new Date(value).toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  });
+}
+
+const statusStyles: Record<string, string> = {
+  submitted: "bg-blue-50 text-blue-600",
+  approved: "bg-emerald-50 text-emerald-600",
+  rejected: "bg-red-50 text-red-500",
+  pending: "bg-amber-50 text-amber-500",
 };
 
 function StatusBadge({ status }: { status: SpotlightStatus }) {
   return (
     <span
-      className={`inline-flex items-center px-3 py-1 rounded-full text-xs md:text-sm font-medium ${statusStyles[status]}`}
+      className={`inline-flex items-center px-3 py-1 capitalize rounded-full text-xs md:text-sm font-medium ${statusStyles[status]}`}
     >
       {status}
     </span>
@@ -86,8 +71,10 @@ const columns = [
 ];
 
 export default function Page() {
-  const { data: spotlights, isLoading } = getArtistSpotlights();
-  console.log(spotlights?.data);
+  const [page, setPage] = useState(1);
+  const { data, isLoading } = getArtistSpotlights({ page });
+  const spotlights: SpotlightApiItem[] = data?.data?.spotlights ?? [];
+  const pagination: SpotlightsPagination | undefined = data?.data?.pagination;
 
   return (
     <div className="min-h-screen bg-[#F5F6F8]">
@@ -121,37 +108,44 @@ export default function Page() {
                 ))}
               </tr>
             </thead>
+
             <tbody className="divide-y divide-slate-100">
               {isLoading ? (
                 <SpotlightRowSkeleton />
+              ) : spotlights?.length === 0 ? (
+                <tr>
+                  <td
+                    colSpan={columns.length}
+                    className="px-5 md:px-6 py-10 text-center text-sm md:text-base text-slate-500"
+                  >
+                    No spotlight submissions yet.
+                  </td>
+                </tr>
               ) : (
-                spotlightHistory.map(entry => (
+                spotlights.map(entry => (
                   <tr
                     key={entry.id}
                     className="hover:bg-slate-50/60 transition-colors"
                   >
-                    <td className="px-5 md:px-6 py-3.5 md:py-4 text-sm md:text-base text-slate-800 whitespace-nowrap">
-                      {entry.campaign}
+                    <td className="px-5 md:px-6 py-3.5 md:py-5 text-sm md:text-base text-slate-800 whitespace-nowrap">
+                      {entry.full_legal_name || entry.artist_stage_name}
                     </td>
-                    <td className="px-5 md:px-6 py-3.5 md:py-4 text-sm md:text-base text-slate-600 whitespace-nowrap">
-                      {entry.business}
+                    <td className="px-5 md:px-6 py-3.5 md:py-5 text-sm md:text-base text-slate-600 whitespace-nowrap">
+                      {entry.category_name}
                     </td>
-                    <td className="px-5 md:px-6 py-3.5 md:py-4 text-sm md:text-base text-slate-600 whitespace-nowrap">
-                      <div className="leading-snug">
-                        <div>{entry.startDate}</div>
-                        <div>{entry.endDate}</div>
-                      </div>
+                    <td className="px-5 md:px-6 py-3.5 md:py-5 text-sm md:text-base text-slate-600 whitespace-nowrap">
+                      {entry.duration ?? "—"}
                     </td>
-                    <td className="px-5 md:px-6 py-3.5 md:py-4 whitespace-nowrap">
+                    <td className="px-5 md:px-6 py-3.5 md:py-5 whitespace-nowrap">
                       <StatusBadge status={entry.status} />
                     </td>
-                    <td className="px-5 md:px-6 py-3.5 md:py-4 text-sm md:text-base text-slate-600 whitespace-nowrap">
-                      {entry.votes}
+                    <td className="px-5 md:px-6 py-3.5 md:py-5 text-sm md:text-base text-slate-600 whitespace-nowrap">
+                      {entry.likes_count}
                     </td>
-                    <td className="px-5 md:px-6 py-3.5 md:py-4 text-sm md:text-base text-slate-600 whitespace-nowrap">
-                      {entry.date}
+                    <td className="px-5 md:px-6 py-3.5 md:py-5 text-sm md:text-base text-slate-600 whitespace-nowrap">
+                      {formatDate(entry.submitted_at ?? entry.created_at)}
                     </td>
-                    <td className="px-5 md:px-6 py-3.5 md:py-4 whitespace-nowrap">
+                    <td className="px-5 md:px-6 py-3.5 md:py-5 whitespace-nowrap">
                       <div className="flex items-center gap-2 md:gap-4">
                         <button
                           type="button"
@@ -162,7 +156,7 @@ export default function Page() {
                         </button>
 
                         <Link
-                          href={`/artist-spotlight?id=${1}`}
+                          href={`/artist-spotlight?id=${entry.id}`}
                           title="Edit"
                           className="text-slate-400 hover:text-blue-500 transition-colors"
                         >
@@ -176,6 +170,19 @@ export default function Page() {
             </tbody>
           </table>
         </div>
+
+        {/* Pagination */}
+        {!isLoading && pagination && pagination.last_page > 1 && (
+          <div className="px-5 md:px-6 py-4 border-t border-slate-100">
+            <Pagination
+              currentPage={pagination.current_page}
+              lastPage={pagination.last_page}
+              // total={pagination.total}
+              // perPage={pagination.per_page}
+              onPageChange={(newPage: number) => setPage(newPage)}
+            />
+          </div>
+        )}
       </div>
     </div>
   );
