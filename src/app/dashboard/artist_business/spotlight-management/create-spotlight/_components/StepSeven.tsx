@@ -1,4 +1,5 @@
 import { SuccessfulSvg } from "@/Components/Svg/SvgContainer";
+import Link from "next/link";
 
 const StepSeven = () => {
   return (
@@ -16,12 +17,12 @@ const StepSeven = () => {
         excited to review your brand, story, and the work you’re building
       </p>
 
-      <button
-        type="button"
+      <Link
+        href={`/dashboard/artist_business/spotlight-management`}
         className="px-12 py-3 text-lg rounded-full bg-primary-blue text-white cursor-pointer"
       >
-        Done
-      </button>
+        Back to spotlight
+      </Link>
     </div>
   );
 };

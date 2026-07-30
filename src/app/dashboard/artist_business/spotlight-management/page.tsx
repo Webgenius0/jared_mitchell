@@ -99,7 +99,7 @@ export default function Page() {
           </h1>
 
           <Link
-            href="/artist-spotlight"
+            href="/dashboard/artist_business/spotlight-management/create-spotlight"
             className="bg-blue-500 text-white text-xs md:text-sm font-medium px-5 py-2 md:px-6 md:py-2.5 rounded-full hover:bg-blue-600 transition-colors"
           >
             Create

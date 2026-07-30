@@ -1,130 +1,217 @@
 "use client";
+import {
+  CheckBtnSvg,
+  LeftArrowSvg,
+  RightArrowSvg,
+} from "@/Components/Svg/SvgContainer";
+import { use, useEffect, useRef, useState } from "react";
+import { FormProvider, useForm } from "react-hook-form";
+import {
+  getSingleArtistSpotlightDetails,
+  useCreateArtistSpotlight,
+} from "@/Hooks/api/cms_api";
+import { TbLoader2 } from "react-icons/tb";
+import StepOne from "./_components/StepOne";
+import StepTwo from "./_components/StepTwo";
+import StepThree from "./_components/StepThree";
+import StepFour from "./_components/StepFour";
+import StepFive from "./_components/StepFive";
+import StepSix from "./_components/StepSix";
+import StepSeven from "./_components/StepSeven";
 
-import React, { useState, useMemo } from "react";
-import { ArrowLeft, ArrowRight } from "lucide-react";
-import { initialFormData, steps, TOTAL_STEPS } from "./_components/types";
-import type { FormData } from "./_components/types";
-import { ProgressHeader } from "./_components/ProgressHeader";
-import { SuccessScreen } from "./_components/SuccessScreen";
-import { StepIdentification } from "./_components/StepIdentification";
-import { StepCategory } from "./_components/StepCategory";
-import { StepStory } from "./_components/StepStory";
-import { StepMedia } from "./_components/StepMedia";
-import { StepConsent } from "./_components/StepConsent";
-import { StepOptional } from "./_components/StepOptional";
+type StepItem = {
+  title: string;
+  component: React.ComponentType<any>;
+};
 
-/* ------------------------------------------------------------------ */
-/*  Main page                                                          */
-/* ------------------------------------------------------------------ */
+const steps: StepItem[] = [
+  { title: "Identification", component: StepOne },
+  { title: "Category", component: StepTwo },
+  { title: "Your Story", component: StepThree },
+  { title: "Media", component: StepFour },
+  { title: "Consent", component: StepFive },
+  { title: "Optional", component: StepSix },
+  { title: "Success", component: StepSeven },
+];
 
-export default function Page() {
-  const [currentStep, setCurrentStep] = useState(0);
-  const [completedSteps, setCompletedSteps] = useState<Set<number>>(new Set());
-  const [form, setForm] = useState<FormData>(initialFormData);
-  const [submitted, setSubmitted] = useState(false);
+interface Props {
+  searchParams: Promise<{ id: number }>;
+}
 
-  const update =
-    <K extends keyof FormData>(key: K) =>
-    (value: FormData[K]) => {
-      setForm(prev => ({ ...prev, [key]: value }));
-    };
+const Page = ({ searchParams }: Props) => {
+  const { id } = use(searchParams);
+  const [step, setStep] = useState(0);
+  const formRef = useRef<HTMLDivElement | null>(null);
+  const totalSteps = steps.length;
+  const CurrentStep = steps[step].component;
+  const progressPercent = ((step + 1) / totalSteps) * 100;
+  const onNext = () => setStep(prev => Math.min(prev + 1, totalSteps - 1));
+  const onPrev = () => setStep(prev => Math.max(prev - 1, 0));
 
-  const percentComplete = useMemo(
-    () => Math.round((completedSteps.size / TOTAL_STEPS) * 100),
-    [completedSteps],
-  );
+  const { mutateAsync: artistSpotlightMutation, isPending } =
+    useCreateArtistSpotlight();
+  const { data: spotlightDetails, isLoading } =
+    getSingleArtistSpotlightDetails(id);
+  console.log(spotlightDetails);
 
-  const goNext = () => {
-    setCompletedSteps(prev => new Set(prev).add(currentStep));
-    setCurrentStep(s => Math.min(s + 1, TOTAL_STEPS - 1));
+  const methods = useForm({
+    mode: "onBlur",
+    defaultValues: {},
+  });
+
+  const onSubmit = async (data: any) => {
+    if (step < totalSteps - 2) {
+      onNext();
+    } else {
+      const formData = new FormData();
+
+      Object.keys(data).forEach(key => {
+        const value = data[key];
+
+        if (value === undefined || value === null) return;
+
+        // Handle Files
+        if (
+          value instanceof FileList ||
+          (Array.isArray(value) && value[0] instanceof File)
+        ) {
+          if (key === "artwork_photos") {
+            Array.from(value as FileList).forEach(file => {
+              formData.append("artwork_photos[]", file);
+            });
+          } else {
+            formData.append(key, value[0]);
+          }
+          return;
+        }
+
+        // Handle Booleans (Consent)
+        if (key.startsWith("consent_")) {
+          formData.append(key, value ? "1" : "0");
+          return;
+        }
+
+        // Handle Everything else
+        formData.append(key, value);
+      });
+
+      await artistSpotlightMutation(formData, {
+        onSuccess: (res: any) => {
+          if (res?.success) {
+            onNext();
+          }
+        },
+      });
+    }
   };
 
-  const goPrevious = () => {
-    setCurrentStep(s => Math.max(s - 1, 0));
-  };
-
-  const goToStep = (idx: number) => {
-    if (submitted) return;
-    setCurrentStep(idx);
-  };
-
-  const handleSubmit = () => {
-    setCompletedSteps(new Set(steps.map((_, i) => i)));
-    setSubmitted(true);
-    console.log("Submitting form", form);
-  };
-
-  const handleViewDashboard = () => {
-    console.log("Navigate to dashboard");
-  };
-
-  /* Map step index to component */
-  const stepComponents = [
-    <StepIdentification key="step0" form={form} update={update} />,
-    <StepCategory key="step1" form={form} update={update} />,
-    <StepStory key="step2" form={form} update={update} />,
-    <StepMedia key="step3" form={form} update={update} />,
-    <StepConsent key="step4" form={form} update={update} />,
-    <StepOptional key="step5" form={form} update={update} />,
-  ];
+  useEffect(() => {
+    formRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [step]);
 
   return (
-    <div className=" bg-[#F5F6F8] py-6 md:py-8">
-      <div className="space-y-6 md:space-y-8">
-        {/* Progress header */}
-        <ProgressHeader
-          currentStep={currentStep}
-          totalSteps={TOTAL_STEPS}
-          percentComplete={percentComplete}
-          completedSteps={completedSteps}
-          steps={steps}
-          submitted={submitted}
-          goToStep={goToStep}
-        />
-
-        {submitted ? (
-          <SuccessScreen onViewDashboard={handleViewDashboard} />
-        ) : (
-          <>
-            {/* Step content */}
-            <div className="bg-white rounded-2xl border border-slate-100 p-6 md:p-8 lg:p-10">
-              {stepComponents[currentStep]}
+    <div ref={formRef} className="container py-10">
+      <FormProvider {...methods}>
+        <form onSubmit={methods.handleSubmit(onSubmit)}>
+          {/* Progress Header */}
+          <div className="p-4 rounded-xl shadow border border-gray-200 mb-3">
+            <div className="flex justify-between pb-4">
+              <span className="text-xl">
+                Section {step > 5 ? 6 : step + 1} of {totalSteps - 1}
+              </span>
+              <span className="text-green-500 text-xl">
+                {Math.round(progressPercent)}% Complete
+              </span>
             </div>
 
-            {/* Navigation buttons */}
-            <div className="flex items-center justify-between">
+            {/* Progress Bar */}
+            <div className="h-4 bg-gray-100 rounded-lg overflow-hidden mb-6">
+              <div
+                className="h-full bg-blue-500 transition-all rounded-full"
+                style={{ width: `${progressPercent}%` }}
+              />
+            </div>
+
+            {/* Step Indicators */}
+            <div className="flex justify-between">
+              {steps?.slice(0, 6).map((s, idx) => {
+                const isActive = idx === step;
+                const isCompleted = idx < step;
+
+                return (
+                  <button
+                    type="button"
+                    key={idx}
+                    onClick={() => setStep(idx)}
+                    className={`flex flex-col items-center w-1/6 ${
+                      isActive || isCompleted
+                        ? "text-primary-blue"
+                        : "text-gray-400"
+                    }`}
+                  >
+                    <span
+                      className={`size-14 rounded-full border grid place-items-center text-xl mb-2 ${
+                        isActive
+                          ? "bg-blue-100"
+                          : isCompleted
+                            ? "bg-primary-blue border-blue-500"
+                            : "bg-gray-100 border-gray-200"
+                      }`}
+                    >
+                      {isCompleted ? <CheckBtnSvg /> : idx + 1}
+                    </span>
+
+                    <span className="text-lg">{s.title}</span>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Step Content */}
+          <div className="py-10">
+            <CurrentStep
+              step={step}
+              setStep={setStep}
+              totalSteps={totalSteps}
+            />
+          </div>
+          {step < 6 && (
+            <div className="flex justify-between">
               <button
                 type="button"
-                onClick={goPrevious}
-                disabled={currentStep === 0}
-                className="flex items-center gap-1.5 text-base md:text-lg font-medium text-slate-500 px-6 py-3 md:px-8 md:py-3.5 rounded-full border border-slate-200 hover:bg-slate-50 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+                disabled={step === 0}
+                onClick={onPrev}
+                className="flex items-center gap-3 px-12 py-4 border border-gray-300 rounded-full disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                <ArrowLeft className="w-5 h-5" />
+                <LeftArrowSvg />
                 Previous
               </button>
 
-              {currentStep < TOTAL_STEPS - 1 ? (
-                <button
-                  type="button"
-                  onClick={goNext}
-                  className="flex items-center gap-1.5 bg-blue-500 text-white text-base md:text-lg font-normal px-6 py-3 md:px-8 md:py-3.5 rounded-full hover:bg-blue-600 transition-colors"
-                >
-                  Next Section
-                  <ArrowRight className="w-5 h-5" />
-                </button>
-              ) : (
-                <button
-                  type="button"
-                  onClick={handleSubmit}
-                  className="bg-blue-500 text-white text-base md:text-lg font-normal px-10 py-3 md:py-3.5 rounded-full hover:bg-blue-600 transition-colors"
-                >
-                  Submit
-                </button>
-              )}
+              <button
+                type="submit"
+                disabled={isPending}
+                className="flex items-center gap-3 px-12 py-4 bg-primary-blue text-white rounded-full disabled:opacity-70 disabled:cursor-not-allowed"
+              >
+                {step === totalSteps - 2 ? (
+                  isPending ? (
+                    <span className="flex gap-2 items-center">
+                      <TbLoader2 className="animate-spin" /> Submitting...
+                    </span>
+                  ) : (
+                    "Submit"
+                  )
+                ) : (
+                  "Next Section"
+                )}
+                <RightArrowSvg />
+              </button>
             </div>
-          </>
-        )}
-      </div>
+          )}
+        </form>
+      </FormProvider>
     </div>
   );
-}
+};
+
+export default Page;
