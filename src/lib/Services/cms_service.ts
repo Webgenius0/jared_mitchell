@@ -29,6 +29,8 @@ import {
   LeaderboardResponse,
   ArtistSpotlightDetailsResponse,
   BusinessSpotlightDetailsResponse,
+  RoundLeaderboardResponse,
+  ActiveSeasonRoundsResponse,
 } from "@/Types/cms";
 
 export const getCMSHomepageData = async (): Promise<CMSHomepage> => {
@@ -549,6 +551,41 @@ export const getContestantDetails = async (
 
   const result = await res.json();
   return result;
+};
+
+export const getActiveSeasonRounds =
+  async (): Promise<ActiveSeasonRoundsResponse> => {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_SITE_URL}/v1/contest/active-season-rounds`,
+      { next: { revalidate: 60 } },
+    );
+
+    if (!res.ok) {
+      throw new Error(
+        `Failed to fetch active season rounds — Status: ${res.status}`,
+      );
+    }
+
+    const result = await res.json();
+    return result as ActiveSeasonRoundsResponse;
+  };
+
+export const getRoundLeaderboard = async (
+  roundId: number,
+): Promise<RoundLeaderboardResponse> => {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_SITE_URL}/v1/contest/rounds/${roundId}/leaderboard`,
+    { next: { revalidate: 60 } },
+  );
+
+  if (!res.ok) {
+    throw new Error(
+      `Failed to fetch round leaderboard — Status: ${res.status}`,
+    );
+  }
+
+  const result = await res.json();
+  return result as RoundLeaderboardResponse;
 };
 
 export const getSubscriptionPlans = async (): Promise<SubscriptionPlan[]> => {

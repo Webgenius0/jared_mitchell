@@ -1,30 +1,22 @@
 "use client";
 
 import { useRef } from "react";
-import Image, { StaticImageData } from "next/image";
-import { Swiper, SwiperSlide } from "swiper/react";
-import type { Swiper as SwiperType } from "swiper";
-import { Navigation, FreeMode } from "swiper/modules";
+import Image from "next/image";
 import {
   HiOutlineThumbUp,
   HiOutlineHeart,
   HiOutlineFire,
   HiChevronLeft,
   HiChevronRight,
-  HiOutlineLocationMarker,
-  HiTrendingUp,
 } from "react-icons/hi";
-import { CMSBossBeginningsSteps } from "@/Types/cms";
+import { CMSBossBeginningsSteps, RoundLeaderboardData } from "@/Types/cms";
 
-import "swiper/css";
-import "swiper/css/navigation";
 import brewBloomImg from "../../../../Assets/roundbg.png";
-import techstartYouthImg from "../../../../Assets/d472ae9e704c53b818eec4a826a3881a074abd33.jpg";
-import rhythmThreadsImg from "../../../../Assets/e4ca7635affe18ca84c1cd05cf5c99860375ce4e.jpg";
 import Link from "next/link";
 
 interface BusinessChosenChartProps {
   data: CMSBossBeginningsSteps;
+  roundData?: RoundLeaderboardData | null;
 }
 
 interface PointRule {
@@ -37,11 +29,11 @@ interface PointRule {
 interface BusinessCard {
   id: string;
   name: string;
-  category: string;
   description: string;
   location: string;
-  image: string | StaticImageData;
+  image: string;
   totalPoints: number;
+  rank: number;
   claps: number;
   loves: number;
   fires: number;
@@ -68,108 +60,61 @@ const pointRules: PointRule[] = [
   },
 ];
 
-// Replace with real CMS/API data
-const sampleBusinesses: BusinessCard[] = [
-  {
-    id: "1",
-    name: "Brew & Bloom Café",
-    category: "Nonprofit",
-    description: "Artisan coffee meets local florals",
-    location: "Fountain Square, Indianapolis",
-    image: brewBloomImg,
-    totalPoints: 1724,
-    claps: 1,
-    loves: 3,
-    fires: 5,
-  },
-  {
-    id: "2",
-    name: "TechStart Youth",
-    category: "Food & Beverage",
-    description: "Artisan coffee meets local florals",
-    location: "Fountain Square, Indianapolis",
-    image: techstartYouthImg,
-    totalPoints: 1004,
-    claps: 1,
-    loves: 3,
-    fires: 5,
-  },
-  {
-    id: "3",
-    name: "Rhythm Threads",
-    category: "Nonprofit",
-    description: "Handcrafted streetwear with soul",
-    location: "Mass Ave, Indianapolis",
-    image: rhythmThreadsImg,
-    totalPoints: 1724,
-    claps: 1,
-    loves: 3,
-    fires: 5,
-  },
-  {
-    id: "4",
-    name: "TechStart Youth",
-    category: "Fashion & Apparel",
-    description: "Artisan coffee meets local florals",
-    location: "Fountain Square, Indianapolis",
-    image: techstartYouthImg,
-    totalPoints: 839,
-    claps: 1,
-    loves: 3,
-    fires: 5,
-  },
-  {
-    id: "5",
-    name: "TechStart Youth",
-    category: "Fashion & Apparel",
-    description: "Artisan coffee meets local florals",
-    location: "Fountain Square, Indianapolis",
-    image: techstartYouthImg,
-    totalPoints: 839,
-    claps: 1,
-    loves: 3,
-    fires: 5,
-  },
-  {
-    id: "6",
-    name: "TechStart Youth",
-    category: "Fashion & Apparel",
-    description: "Artisan coffee meets local florals",
-    location: "Fountain Square, Indianapolis",
-    image: techstartYouthImg,
-    totalPoints: 839,
-    claps: 1,
-    loves: 3,
-    fires: 5,
-  },
-  {
-    id: "7",
-    name: "TechStart Youth",
-    category: "Fashion & Apparel",
-    description: "Artisan coffee meets local florals",
-    location: "Fountain Square, Indianapolis",
-    image: techstartYouthImg,
-    totalPoints: 839,
-    claps: 1,
-    loves: 3,
-    fires: 5,
-  },
-  {
-    id: "8",
-    name: "TechStart Youth",
-    category: "Fashion & Apparel",
-    description: "Artisan coffee meets local florals",
-    location: "Fountain Square, Indianapolis",
-    image: techstartYouthImg,
-    totalPoints: 839,
-    claps: 1,
-    loves: 3,
-    fires: 5,
-  },
-];
+// Treat placeholder/empty-ish avatar values as "no image" so we fall back to brewBloomImg
+const isUsableAvatar = (url?: string | null) => {
+  if (!url) return false;
+  const trimmed = url.trim();
+  if (!trimmed) return false;
+  // common placeholder patterns from CMS/API default avatars
+  if (/placeholder|default[-_]?avatar|no[-_]?image/i.test(trimmed))
+    return false;
+  return true;
+};
 
-const BusinessChosenChart = ({ data }: BusinessChosenChartProps) => {
-  const swiperRef = useRef<SwiperType | null>(null);
+const BusinessChosenChart = ({ data, roundData }: BusinessChosenChartProps) => {
+  const scrollerRef = useRef<HTMLUListElement | null>(null);
+
+  if (!roundData || roundData.round.round_number !== 1) {
+    return null;
+  }
+
+  const businesses: BusinessCard[] = roundData.entries.map(entry => {
+    const rawImage =
+      entry.contestant.avatar_url || entry.avatar_url || undefined;
+
+    const name = entry.contestant_name || entry.display_name;
+    const businessName = entry.contestant.contestable.business_name;
+    // Avoid showing the same string twice (name + description)
+    const description =
+      businessName && businessName !== name ? businessName : "";
+
+    return {
+      id: String(entry.contestant_id),
+      name,
+      description,
+      location: "",
+      image: isUsableAvatar(rawImage) ? (rawImage as string) : brewBloomImg.src,
+      totalPoints: entry.total_score,
+      rank: entry.rank,
+      claps: entry.total_score,
+      loves: Math.round(entry.total_score / 3),
+      fires: Math.round(entry.total_score / 5),
+    };
+  });
+
+  const scrollByCard = (direction: "prev" | "next") => {
+    const el = scrollerRef.current;
+    if (!el) return;
+    // scroll roughly one card width (+ gap) at a time
+    const card = el.querySelector<HTMLElement>("[data-card]");
+    const cardWidth = card?.offsetWidth ?? 320;
+    const gap = 24;
+    const amount = cardWidth + gap;
+    el.scrollBy({
+      left: direction === "next" ? amount : -amount,
+      behavior: "smooth",
+    });
+  };
 
   return (
     <section className="py-20 overflow-x-hidden">
@@ -200,39 +145,46 @@ const BusinessChosenChart = ({ data }: BusinessChosenChartProps) => {
         </div>
       </div>
 
-      {/* Business carousel — Swiper, breaks out of container to bleed full width */}
-      <div className="relative mt-16 w-screen mx-[calc(50%-50vw)]">
-        <button
-          onClick={() => swiperRef.current?.slidePrev()}
-          aria-label="Scroll left"
-          className="hidden sm:grid absolute left-4 lg:left-8 top-1/2 -translate-y-1/2 z-10 size-9 rounded-full bg-white shadow-md place-items-center hover:bg-slate-50"
-        >
-          <HiChevronLeft className="text-lg" />
-        </button>
+      {/* Business carousel — native scroll-snap, breaks out of container to bleed full width */}
+      {businesses.length > 0 && (
+        <div className="relative mt-16 w-screen mx-[calc(50%-50vw)] overflow-hidden">
+          {/* Edge fade overlays so clipped/partial cards read as intentional, not broken.
+              Swap from-white/to-white for your section's actual background color if it's not white. */}
+          <div className="pointer-events-none absolute inset-y-0 left-0 w-12 sm:w-20 z-[5] bg-gradient-to-r from-white to-transparent" />
+          <div className="pointer-events-none absolute inset-y-0 right-0 w-12 sm:w-20 z-[5] bg-gradient-to-l from-white to-transparent" />
 
-        <Swiper
-          modules={[Navigation, FreeMode]}
-          onSwiper={swiper => (swiperRef.current = swiper)}
-          slidesPerView="auto"
-          spaceBetween={24}
-          freeMode
-          className="!px-4 sm:!px-8 lg:!pl-[max(2rem,calc((100vw-1280px)/2+2rem))] lg:!pr-8"
-        >
-          {sampleBusinesses.map(biz => (
-            <SwiperSlide key={biz.id} className="!w-[320px]">
-              <BusinessCardItem biz={biz} />
-            </SwiperSlide>
-          ))}
-        </Swiper>
+          <button
+            onClick={() => scrollByCard("prev")}
+            aria-label="Scroll left"
+            className="hidden sm:grid absolute left-4 lg:left-8 top-1/2 -translate-y-1/2 z-10 size-9 rounded-full bg-white shadow-md place-items-center hover:bg-slate-50"
+          >
+            <HiChevronLeft className="text-lg" />
+          </button>
 
-        <button
-          onClick={() => swiperRef.current?.slideNext()}
-          aria-label="Scroll right"
-          className="hidden sm:grid absolute right-4 lg:right-8 top-1/2 -translate-y-1/2 z-10 size-9 rounded-full bg-white shadow-md place-items-center hover:bg-slate-50"
-        >
-          <HiChevronRight className="text-lg" />
-        </button>
-      </div>
+          <ul
+            ref={scrollerRef}
+            className="flex gap-6 overflow-x-auto overscroll-x-contain snap-x snap-mandatory scroll-smooth [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden px-4 sm:px-8 lg:pl-[max(2rem,calc((100vw-1280px)/2+2rem))] lg:pr-8"
+          >
+            {businesses.map(biz => (
+              <li
+                key={biz.id}
+                data-card
+                className="shrink-0 w-[320px] snap-start"
+              >
+                <BusinessCardItem biz={biz} />
+              </li>
+            ))}
+          </ul>
+
+          <button
+            onClick={() => scrollByCard("next")}
+            aria-label="Scroll right"
+            className="hidden sm:grid absolute right-4 lg:right-8 top-1/2 -translate-y-1/2 z-10 size-9 rounded-full bg-white shadow-md place-items-center hover:bg-slate-50"
+          >
+            <HiChevronRight className="text-lg" />
+          </button>
+        </div>
+      )}
     </section>
   );
 };
@@ -243,29 +195,26 @@ const BusinessCardItem = ({ biz }: { biz: BusinessCard }) => (
     <div className="relative h-44 w-full">
       <Image src={biz.image} alt={biz.name} fill className="object-cover" />
       <span className="absolute top-3 left-3 text-xs font-medium bg-white/90 rounded-full px-3 py-1">
-        {biz.category}
+        #{biz.rank}
       </span>
     </div>
 
     {/* Content */}
     <div className="p-4">
       <p className="font-semibold text-lg">{biz.name}</p>
-      <p className="text-sm text-slate-500">{biz.description}</p>
-      <p className="flex items-center gap-1 text-xs text-slate-400 mt-1">
-        <HiOutlineLocationMarker />
-        {biz.location}
-      </p>
+      {biz.description && (
+        <p className="text-sm text-slate-500">{biz.description}</p>
+      )}
 
       {/* Total points */}
       <div className="flex items-center justify-between mt-4 bg-slate-50 rounded-xl px-3 py-2">
         <span className="text-sm text-slate-500">Total Points</span>
         <span className="flex items-center gap-1 font-semibold">
           {biz.totalPoints.toLocaleString()}
-          <HiTrendingUp className="text-green-500" />
         </span>
       </div>
 
-      {/* Actions */}
+      {/* Clap / Love / Fire Action buttons */}
       <div className="grid grid-cols-3 gap-2 mt-3">
         <ActionButton
           icon={<HiOutlineThumbUp />}
@@ -279,8 +228,12 @@ const BusinessCardItem = ({ biz }: { biz: BusinessCard }) => (
         />
         <ActionButton icon={<HiOutlineFire />} label="Fire" count={biz.fires} />
       </div>
-      <Link href={`/how-winners-are-chosen/${biz.id}`}>
-        <button className="text-blue-500 text-sm font-normal mt-3 flex items-center gap-1 hover:underline mx-auto">
+
+      <Link
+        href={`/how-winners-are-chosen/${biz.id}`}
+        className="flex justify-center"
+      >
+        <button className="text-blue-500 text-sm font-normal mt-3 flex items-center gap-1 hover:underline">
           Learn More <span aria-hidden>→</span>
         </button>
       </Link>

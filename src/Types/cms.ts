@@ -1217,3 +1217,143 @@ export interface LeaderboardResponse {
   errors: null | any;
   code: number;
 }
+
+// ─── Active Season Rounds ────────────────────────────────────────────────────
+
+export interface ActiveSeasonRound {
+  id: number;
+  season_id: number;
+  round_number: number;
+  title: string;
+  goal: string;
+  requirements: string;
+  voting_strategy: string;
+  submission_type: string;
+  submission_requirements: {
+    video: {
+      required: boolean;
+      max_duration_sec: number;
+    };
+    document: {
+      required: boolean;
+      formats: string[];
+    };
+  };
+  advance_limit: number;
+  elimination_rule: string;
+  advancement_config: any[];
+  is_active: boolean;
+  sort_order: number;
+  starts_at: string;
+  ends_at: string;
+  voting_ends_at: string;
+  metadata: null | any;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface ActiveSeasonSponsor {
+  id: number;
+  name: string;
+  logo: string;
+  website_url: string;
+  description: string | null;
+}
+
+export interface ActiveSeason {
+  id: number;
+  contest_type: string;
+  title: string;
+  slug: string;
+  description: string;
+  status: string;
+  configuration: {
+    max_contestants: number;
+    voting_strategy: string;
+    scoring_rules: Record<string, number>;
+  };
+  applications_starts_at: string;
+  applications_ends_at: string;
+  starts_at: string;
+  ends_at: string;
+  is_active: boolean;
+  is_featured: boolean;
+  metadata: {
+    total_applicants: number;
+    winner_business_id: null | number;
+  };
+  created_at: string;
+  updated_at: string;
+  sponsor: ActiveSeasonSponsor | null;
+  rounds: ActiveSeasonRound[];
+}
+
+export interface ActiveSeasonRoundsData {
+  season: ActiveSeason;
+  rounds: ActiveSeasonRound[];
+}
+
+export interface ActiveSeasonRoundsResponse {
+  success: boolean;
+  message: string;
+  data: ActiveSeasonRoundsData;
+  errors: null | any;
+  code: number;
+}
+
+// ─── Round Leaderboard (BusinessChosenChart) ─────────────────────────────────
+
+export interface RoundLeaderboardEntry {
+  contestant: {
+    id: number;
+    season_id: number;
+    business_id: number;
+    display_name: string;
+    slug: string;
+    avatar_url: string;
+    status: string;
+    contestable: {
+      id: number;
+      owner_name: string | null;
+      business_name: string;
+      slug: string;
+      status: string;
+      is_featured: boolean;
+      total_points: number;
+    };
+  };
+  contestant_id: number;
+  display_name: string;
+  avatar_url: string | null;
+  contestable_name: string;
+  total_score: number;
+  votes_count: number;
+  avg_score: number | null;
+  trend: string;
+  rank: number;
+}
+
+export interface RoundLeaderboardData {
+  round_id: number;
+  round: {
+    id: number;
+    round_number: number;
+    title: string;
+    requirements: string;
+    goal: string;
+    starts_at: string;
+    ends_at: string;
+    voting_ends_at: string;
+  };
+  days_left: number;
+  total_entries: number;
+  entries: RoundLeaderboardEntry[];
+}
+
+export interface RoundLeaderboardResponse {
+  success: boolean;
+  message: string;
+  data: RoundLeaderboardData;
+  errors: null | any;
+  code: number;
+}

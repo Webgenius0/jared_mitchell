@@ -1,34 +1,14 @@
 import CustomVideoPlayer from "@/Components/Common/CustomVideoPlayer";
 import Image from "next/image";
 import m1 from "@/Assets/m1.jpg";
-import { CMSBossBeginningsVideoGallery } from "@/Types/cms";
-
-interface WinnerMedia {
-  id: number;
-  file_path: string;
-  file_name: string;
-  mime_type: string;
-}
-
-interface ContestWinner {
-  id: number;
-  display_name: string;
-  slug: string;
-  avatar_url: string;
-  total_score: number;
-  contestable: {
-    business_name: string;
-    owner_founder_name: string;
-    media: WinnerMedia[];
-  };
-  season: {
-    title: string;
-  };
-}
+import {
+  CMSBossBeginningsVideoGallery,
+  PastSixMonthsWinner,
+} from "@/Types/cms";
 
 interface BossBeginningWinnerProps {
   data: CMSBossBeginningsVideoGallery;
-  winner?: ContestWinner;
+  winner: PastSixMonthsWinner | null;
 }
 
 const BossBeginningWinner = ({ data, winner }: BossBeginningWinnerProps) => {
