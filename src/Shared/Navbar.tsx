@@ -26,7 +26,7 @@ const navLinks = [
   { label: "Events", path: "/events" },
   { label: "Shop", path: "/shop" },
   { label: "Pricing", path: "/pricing" },
-  { label: "Sponsorships", path: "/sponsorships" },
+  // { label: "Sponsorships", path: "/sponsorships" },
   {
     label: "Boss Beginnings",
     path: "",
@@ -214,10 +214,7 @@ const Navbar = () => {
               </button>
 
               {user ? (
-                <div
-                  ref={userDropdownRef}
-                  className="relative"
-                >
+                <div ref={userDropdownRef} className="relative">
                   <button
                     onClick={() => setUserDropdownOpen(!userDropdownOpen)}
                     className="size-11 rounded-full grid place-items-center overflow-hidden bg-blue-500/20 font-bold text-black capitalize text-lg cursor-pointer hover:bg-blue-500/30 transition-colors duration-200"

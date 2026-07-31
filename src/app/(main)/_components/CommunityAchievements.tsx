@@ -2,7 +2,7 @@
 import { useEffect, useRef, useState, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { LuArrowRight } from "react-icons/lu";
+import { LuArrowLeft, LuArrowRight } from "react-icons/lu";
 import { PastSixMonthsWinner } from "@/Types/cms";
 
 interface CommunityAchievementsProps {
@@ -45,6 +45,17 @@ const CommunityAchievements = ({
     const count = el.children.length;
     setActiveIndex(prev => {
       const next = (prev + 1) % count;
+      scrollToIndex(next);
+      return next;
+    });
+  }, [scrollToIndex]);
+
+  const goToPrev = useCallback(() => {
+    const el = scrollerRef.current;
+    if (!el) return;
+    const count = el.children.length;
+    setActiveIndex(prev => {
+      const next = (prev - 1 + count) % count;
       scrollToIndex(next);
       return next;
     });
@@ -101,12 +112,39 @@ const CommunityAchievements = ({
 
       {winners.length > 0 && (
         <div className="my-6 md:mt-12">
-          <ul
-            ref={scrollerRef}
-            onScroll={handleScroll}
-            onPointerDown={pauseAutoplay}
-            className="flex gap-5 overflow-x-auto overscroll-x-contain snap-x snap-mandatory scroll-smooth [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden pb-2"
-          >
+          <div className="relative">
+            {/* Prev / Next arrows — visible on all screen sizes */}
+            {winners.length > 1 && (
+              <>
+                <button
+                  onClick={() => {
+                    pauseAutoplay();
+                    goToPrev();
+                  }}
+                  aria-label="Previous winners"
+                  className="absolute left-1 sm:left-4 top-1/2 -translate-y-1/2 z-10 size-9 rounded-full bg-white shadow-md grid place-items-center hover:bg-slate-50 border border-slate-200 transition-transform hover:scale-105"
+                >
+                  <LuArrowLeft className="text-lg" />
+                </button>
+                <button
+                  onClick={() => {
+                    pauseAutoplay();
+                    goToNext();
+                  }}
+                  aria-label="Next winners"
+                  className="absolute right-1 sm:right-4 top-1/2 -translate-y-1/2 z-10 size-9 rounded-full bg-white shadow-md grid place-items-center hover:bg-slate-50 border border-slate-200 transition-transform hover:scale-105"
+                >
+                  <LuArrowRight className="text-lg" />
+                </button>
+              </>
+            )}
+
+            <ul
+              ref={scrollerRef}
+              onScroll={handleScroll}
+              onPointerDown={pauseAutoplay}
+              className="flex gap-5 overflow-x-auto overscroll-x-contain snap-x snap-mandatory scroll-smooth [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden pb-2 px-1"
+            >
             {winners.map(winner => {
               const title =
                 winner.display_name || winner.contestable.business_name;
@@ -167,6 +205,7 @@ const CommunityAchievements = ({
               );
             })}
           </ul>
+          </div>
 
           {/* Pagination dots */}
           {winners.length > 1 && (

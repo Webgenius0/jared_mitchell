@@ -21,19 +21,21 @@ const page = async () => {
   const cmsData = await getCMSHomepageData();
   const winnerData = await getCurrentContestWinner();
 
-  // Fetch active season rounds → find round 1 → fetch its leaderboard
+  // Fetch active season rounds → find the active round → fetch its leaderboard
   let roundLeaderboard = null;
   try {
     const activeSeasonRes = await getActiveSeasonRounds();
-    const round1 = activeSeasonRes?.data?.rounds?.find(
-      r => r.round_number === 1 && r.is_active,
-    );
-    if (round1) {
-      const leaderboardRes = await getRoundLeaderboard(round1.id);
+    const rounds = activeSeasonRes?.data?.rounds ?? [];
+    const activeRound =
+      rounds.find(r => r.is_active) ??
+      rounds.find(r => r.round_number === 1) ??
+      rounds[0];
+    if (activeRound) {
+      const leaderboardRes = await getRoundLeaderboard(activeRound.id);
       roundLeaderboard = leaderboardRes?.data ?? null;
     }
   } catch {
-    // Active season or round 1 leaderboard may not be available yet
+    // Active season or active round leaderboard may not be available yet
   }
 
   return (
