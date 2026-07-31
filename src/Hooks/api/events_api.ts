@@ -64,3 +64,10 @@ export const apiShareBusiness = async (businessId: number) => {
   const res = await axiosSecure.post(`/v1/businesses/${businessId}/share`);
   return res.data;
 };
+
+// ─── Nominee Vote (contest details Clap/like action) ────────────────────────
+
+export const apiVoteNominee = async (nomineeId: number) => {
+  const res = await axiosSecure.post(`/v1/spotlight/nominees/${nomineeId}/vote`);
+  return res.data;
+};

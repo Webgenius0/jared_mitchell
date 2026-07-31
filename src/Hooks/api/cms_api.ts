@@ -239,6 +239,16 @@ export const useGetNominatedSpotlights = (
   });
 };
 
+// Get Current Spotlight Week (dynamic week id for leaderboards/nominations)
+export const useCurrentSpotlightWeek = (enabled: boolean = true) => {
+  return useClientApi({
+    method: "get",
+    enabled,
+    key: ["current-spotlight-week"],
+    endpoint: "/v1/spotlight/weeks/current",
+  });
+};
+
 // Get Active Round Session (current contest season)
 export const useActiveRoundSession = () => {
   return useClientApi({

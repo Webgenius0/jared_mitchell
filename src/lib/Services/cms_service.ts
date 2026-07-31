@@ -535,6 +535,22 @@ export const getLeaderboard = async (
   return result as LeaderboardResponse;
 };
 
+export const getCurrentSpotlightWeek = async (): Promise<LeaderboardResponse> => {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_SITE_URL}/v1/spotlight/weeks/current`,
+    { next: { revalidate: 60 } },
+  );
+
+  if (!res.ok) {
+    throw new Error(
+      `Failed to fetch current spotlight week — Status: ${res.status}`,
+    );
+  }
+
+  const result = await res.json();
+  return result as LeaderboardResponse;
+};
+
 export const getContestantDetails = async (
   contestantId: number,
 ): Promise<any> => {

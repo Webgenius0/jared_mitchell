@@ -9,7 +9,10 @@ import { resolveMediaUrl } from "@/lib/utils";
 import { getItem, setItem } from "@/lib/localStorage";
 import toast from "react-hot-toast";
 
-import { useGetNominatedSpotlights } from "@/Hooks/api/cms_api";
+import {
+  useGetNominatedSpotlights,
+  useCurrentSpotlightWeek,
+} from "@/Hooks/api/cms_api";
 import { apiToggleSpotlightLike } from "@/Hooks/api/events_api";
 import useAuth from "@/Hooks/useAuth";
 
@@ -47,7 +50,14 @@ const DiscoverArtists = ({
   type?: "artist" | "business";
   data?: any;
 }) => {
-  const { data: nominatedData, isLoading } = useGetNominatedSpotlights(3, type);
+  // Resolve the active spotlight week dynamically (falls back to 2 if unavailable)
+  // The nominated query re-fetches automatically when weekId changes (cache key includes it).
+  const { data: currentWeekData } = useCurrentSpotlightWeek();
+  const weekId = currentWeekData?.data?.week?.id ?? 2;
+  const { data: nominatedData, isLoading } = useGetNominatedSpotlights(
+    weekId,
+    type,
+  );
   const { token } = useAuth();
 
   const nominees = nominatedData?.data?.nominees || [];
