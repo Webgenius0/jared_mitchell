@@ -17,6 +17,25 @@ export function resolveMediaUrl(url: string | null | undefined): string {
   return `${base.replace(/\/+$/, "")}/${url.replace(/^\/+/, "")}`;
 }
 
+/**
+ * Determine whether a media/avatar URL is actually usable for display.
+ * Rejects placeholder/default avatar URLs (e.g. .../admin/default/user.jpg)
+ * and video files (mp4/mov/webm), so callers can fall back to a branded image.
+ */
+export function isUsableImage(url: string | null | undefined): boolean {
+  if (!url) return false;
+  const trimmed = url.trim();
+  if (!trimmed) return false;
+  if (
+    /placeholder|default[-_/]?(avatar|user)|no[-_]?image|default\//i.test(
+      trimmed,
+    ) ||
+    /\.(mp4|mov|webm)$|video\//i.test(trimmed)
+  )
+    return false;
+  return true;
+}
+
 export function slugify(text: string): string {
   return text
     .toLowerCase()

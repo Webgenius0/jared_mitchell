@@ -1329,6 +1329,9 @@ export interface RoundLeaderboardEntry {
   total_score: number;
   votes_count: number;
   avg_score: number | null;
+  claps: number;
+  shares: number;
+  saves: number;
   trend: string;
   rank: number;
 }

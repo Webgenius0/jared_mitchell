@@ -23,6 +23,7 @@ import {
 import useAuth from "@/Hooks/useAuth";
 import toast from "react-hot-toast";
 import { getItem, setItem } from "@/lib/localStorage";
+import { isUsableImage } from "@/lib/utils";
 
 import brewBloomImg from "../../../../Assets/roundbg.png";
 
@@ -112,15 +113,8 @@ const pointRules: PointRule[] = [
 ];
 
 // Treat placeholder/empty-ish avatar values as "no image" so we fall back to brewBloomImg
-const isUsableAvatar = (url?: string | null) => {
-  if (!url) return false;
-  const trimmed = url.trim();
-  if (!trimmed) return false;
-  // common placeholder patterns from CMS/API default avatars
-  if (/placeholder|default[-_]?avatar|no[-_]?image/i.test(trimmed))
-    return false;
-  return true;
-};
+// (placeholder detection lives in the shared isUsableImage helper)
+
 
 // ─── Shared interaction logic (Clap / Love / Fire) ──────────────────────────
 
@@ -231,18 +225,20 @@ const BusinessChosenChart = ({
     const description =
       businessName && businessName !== name ? businessName : "";
 
+    // The leaderboard response provides claps/shares/saves per entry.
+    // Clap → claps, Love → saves (Love uses the save API), Fire → shares (Fire uses the share API).
     return {
       id: String(entry.contestant_id),
       businessId: entry.contestant.business_id,
       name,
       description,
       location: "",
-      image: isUsableAvatar(rawImage) ? (rawImage as string) : brewBloomImg.src,
+      image: isUsableImage(rawImage) ? (rawImage as string) : brewBloomImg.src,
       totalPoints: entry.total_score,
       rank: entry.rank,
-      claps: entry.total_score,
-      loves: Math.round(entry.total_score / 3),
-      fires: Math.round(entry.total_score / 5),
+      claps: entry.claps ?? 0,
+      loves: entry.saves ?? 0,
+      fires: entry.shares ?? 0,
     };
   });
 
