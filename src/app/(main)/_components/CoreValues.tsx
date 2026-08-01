@@ -23,7 +23,7 @@ const defaultData = [
     id: 3,
     image: "",
     title: "Accessibility Without Exploitation",
-    sub_title: "Opportunity shouldn’t depend on privilege",
+    sub_title: "Opportunity shouldn't depend on privilege",
     description:
       "OSI provides fair, transparent tools and support for people with limited time and resources — without manipulation or false promises.",
   },
@@ -70,15 +70,16 @@ const CoreValues = ({ data: cmsData }: { data?: CMSCoreValue }) => {
           {cmsData?.title || "Our Core Values"}
         </h2>
 
-        <div className="w-full h-auto min-h-[680px] overflow-hidden hidden md:flex items-center justify-center rounded-2xl relative">
+        {/* Desktop / tablet view */}
+        <div className="w-full overflow-hidden hidden md:flex items-center justify-center rounded-2xl relative isolate min-h-[320px]">
           <Image
             src={cmsData?.bg || coreValueBg}
             fill
             alt="home banner"
-            className="object-cover w-full rounded-2xl"
+            className="object-cover w-full rounded-2xl z-0"
           />
 
-          <div className="w-full h-full absolute top-0 bg-[linear-gradient(0deg,rgba(255,255,255,0.40),rgba(255,255,255,0.40))] rounded-2xl">
+          <div className="w-full relative z-10 bg-[linear-gradient(0deg,rgba(255,255,255,0.40),rgba(255,255,255,0.40))] rounded-2xl">
             <div className="grid grid-cols-3 gap-3 lg:gap-5 2xl:gap-10 p-5 lg:p-8 2xl:p-12">
               {values?.map(val => (
                 <div
@@ -100,7 +101,7 @@ const CoreValues = ({ data: cmsData }: { data?: CMSCoreValue }) => {
                       <div className="size-10 xl:size-13 rounded-full bg-[#D6E5F5] shrink-0" />
                     )}
 
-                    <h3 className="lg:text-lg xl:text-xl 2xl:text-2xl text-primary-black font-semibold">
+                    <h3 className="lg:text-lg xl:text-xl 2xl:text-2xl text-primary-black font-semibold truncate">
                       {val?.title}
                     </h3>
                   </div>
@@ -118,6 +119,7 @@ const CoreValues = ({ data: cmsData }: { data?: CMSCoreValue }) => {
           </div>
         </div>
 
+        {/* Mobile view */}
         <div className="space-y-3 md:hidden">
           {values?.map(val => (
             <div
@@ -139,7 +141,7 @@ const CoreValues = ({ data: cmsData }: { data?: CMSCoreValue }) => {
                   <div className="size-10 xl:size-13 rounded-full bg-[#D6E5F5] shrink-0" />
                 )}
 
-                <h3 className="lg:text-lg xl:text-xl 2xl:text-2xl text-primary-black font-semibold">
+                <h3 className="lg:text-lg xl:text-xl 2xl:text-2xl text-primary-black font-semibold truncate">
                   {val?.title}
                 </h3>
               </div>
@@ -154,13 +156,6 @@ const CoreValues = ({ data: cmsData }: { data?: CMSCoreValue }) => {
             </div>
           ))}
         </div>
-
-        <p className="text-[#364153] text-center md:text-lg lg:text-xl pt-5 md:pt-10">
-          "The comparison table should be visually de-emphasized, collapsed by
-          default, and presented as optional plan details. Reduce font size and
-          spacing, soften colors, and avoid competing with the pricing cards.
-          This section is for reassurance, not decision-making."
-        </p>
       </div>
     </section>
   );

@@ -197,6 +197,18 @@ const DiscoverArtists = ({
               />
             ))}
           </div>
+        ) : nominees.length === 0 ? (
+          <div className="mt-12 rounded-2xl border border-dashed border-gray-200 bg-gray-50 py-16 px-6 text-center">
+            <p className="text-4xl mb-4">🎨</p>
+            <h4 className="text-xl font-semibold text-primary-black mb-2">
+              No {type === "artist" ? "artists" : "businesses"} available yet
+            </h4>
+            <p className="text-secondary-black max-w-md mx-auto">
+              There are no active{" "}
+              {type === "artist" ? "artist spotlights" : "business spotlights"}{" "}
+              to display right now. Check back soon!
+            </p>
+          </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">
             {nominees.map((nominee: any, index: number) => {

@@ -62,7 +62,7 @@ const PastEvents = () => {
                 </div>
               </div>
             </div>
-            <Link key={event.slug} href={`/events/${event.slug}`}>
+            <Link key={event.slug} href={`/events/${event.slug}?from=past`}>
               <div className="text-lg md:text-xl text-primary-blue flex items-center gap-2 px-4 md:px-6 py-3 md:py-5">
                 View Details
                 <GoArrowRight />

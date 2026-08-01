@@ -16,8 +16,6 @@ import { downloadBookingReceipt } from "@/lib/utils";
 
 type BookingStatus = "Confirm" | "Pending" | "Cancelled";
 
-
-
 const statusStyles: Record<BookingStatus, string> = {
   Confirm: "bg-emerald-50 text-emerald-600",
   Pending: "bg-amber-50 text-amber-500",
