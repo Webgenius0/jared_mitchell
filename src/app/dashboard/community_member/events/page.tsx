@@ -1,11 +1,11 @@
 "use client";
 
 import React, { useState } from "react";
-import { Download, Eye, Pencil, Trash2, Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useQueryClient } from "@tanstack/react-query";
-import CancelTicketModal from "@/Components/Common/CancelTicketModal";
 import { getUpcomingEvents } from "@/Hooks/api/cms_api";
+import { Download, Eye, Pencil, Trash2, Loader2 } from "lucide-react";
+import CancelTicketModal from "@/Components/Common/CancelTicketModal";
 import {
   useCancelEventRegistration,
   useEventRegistrations,
@@ -13,15 +13,10 @@ import {
 import { CMSEventItem, EventRegistration } from "@/Types/cms";
 import { downloadBookingReceipt } from "@/lib/utils";
 
-/* ------------------------------------------------------------------ */
-/*  Types                                                              */
-/* ------------------------------------------------------------------ */
 
 type BookingStatus = "Confirm" | "Pending" | "Cancelled";
 
-/* ------------------------------------------------------------------ */
-/*  Status helpers                                                     */
-/* ------------------------------------------------------------------ */
+
 
 const statusStyles: Record<BookingStatus, string> = {
   Confirm: "bg-emerald-50 text-emerald-600",
@@ -55,9 +50,6 @@ function StatusBadge({ status }: { status: BookingStatus }) {
 
 const columns = ["Attendee", "Event", "Date", "Status", "Ticket", "Actions"];
 
-/* ------------------------------------------------------------------ */
-/*  Helpers                                                            */
-/* ------------------------------------------------------------------ */
 
 const formatEventDate = (startsAt: string) => {
   const date = new Date(startsAt);
@@ -92,9 +84,6 @@ const formatTotal = (registration: EventRegistration) => {
   return `${currency ?? "USD"} ${Number(total ?? 0).toFixed(2)}`;
 };
 
-/* ------------------------------------------------------------------ */
-/*  Page                                                               */
-/* ------------------------------------------------------------------ */
 
 export default function Page() {
   const router = useRouter();
@@ -149,7 +138,6 @@ export default function Page() {
   return (
     <div className=" bg-[#F5F6F8]">
       <div className=" space-y-6">
-        {/* Upcoming event */}
         <div className="bg-white rounded-2xl border border-slate-100 p-5 md:p-6">
           <div className="flex items-center justify-between mb-3">
             <h2 className="text-sm md:text-base font-semibold text-slate-900">
@@ -215,7 +203,6 @@ export default function Page() {
           )}
         </div>
 
-        {/* Booking history */}
         <div className="bg-white rounded-2xl border border-slate-100 overflow-hidden">
           <div className="flex items-center justify-between px-5 md:px-6 py-4 md:py-5">
             <h2 className="text-base md:text-lg font-semibold text-slate-900">
@@ -325,7 +312,6 @@ export default function Page() {
         </div>
       </div>
 
-      {/* Cancel ticket confirmation modal */}
       <CancelTicketModal
         open={!!cancellingRegistration}
         onClose={() => setCancellingRegistration(null)}
