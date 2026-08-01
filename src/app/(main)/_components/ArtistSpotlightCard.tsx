@@ -2,6 +2,7 @@ import { Button } from "@/Components/Common/Button";
 import Image from "next/image";
 import Link from "next/link";
 import { CMSSpotlight, PastSixMonthsWinner } from "@/Types/cms";
+import winners from "../../../Assets/spotlightBg.png";
 
 interface ArtistSpotlightCardProps {
   data?: CMSSpotlight;
@@ -35,9 +36,7 @@ export default function ArtistSpotlightCard({
             and intimate portraits, she creates spaces for connection and
             healing.`;
 
-  const imageSrc = winner
-    ? winner.avatar_url
-    : data?.image || "/home/artist-spotlight-img.jpg";
+  const imageSrc = winner ? winner.avatar_url : data?.image || "/home/";
 
   const category = winner
     ? winner.contestable.type.includes("Business")
@@ -59,8 +58,14 @@ export default function ArtistSpotlightCard({
 
       <div className="overflow-hidden max-w-[1396px] w-full mx-auto rounded-2xl bg-[#F5F5F7] custom_shadow custom_border mt-7 group">
         <figure className="w-full h-[250px] md:h-[400px] xl:h-[500px] overflow-hidden relative">
-          <Image
+          {/* <Image
             src={imageSrc}
+            fill
+            alt={title}
+            className="object-cover size-full transition-transform duration-700 group-hover:scale-105"
+          /> */}
+          <Image
+            src={winners}
             fill
             alt={title}
             className="object-cover size-full transition-transform duration-700 group-hover:scale-105"

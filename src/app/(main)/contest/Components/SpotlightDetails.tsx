@@ -5,7 +5,7 @@ import React, { useState } from "react";
 import { AiOutlineLike } from "react-icons/ai";
 import { FiInstagram, FiYoutube } from "react-icons/fi";
 import { FaFacebook, FaTiktok, FaGlobe } from "react-icons/fa";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import useAuth from "@/Hooks/useAuth";
 import { apiVoteNominee } from "@/Hooks/api/events_api";
@@ -58,17 +58,16 @@ export default function SpotlightDetails({
   const displayTikTok = s?.tiktok_handle;
   const displayYoutube = s?.youtube_url;
   const totalPoints = s?.voting_summary?.total_votes_received ?? 0;
-  // Votes count comes from the spotlight details response — prefer the
-  // voting summary, fall back to the current week's nomination votes.
   const totalClaps =
     s?.voting_summary?.total_votes_received ||
     s?.voting_history?.[0]?.votes?.total ||
     s?.interactions?.likes_count ||
     0;
 
-  // ─── Clap (vote) → vote API ──────────────────────────────────────────────
   const { token } = useAuth();
   const router = useRouter();
+  const pathname = usePathname();
+  const hideSidebar = /^\/contest\/contestants\/[^/]+$/.test(pathname);
   const nomineeId =
     nomineeIdProp ?? s?.voting_history?.[0]?.nominee_id ?? s?.id;
   const [clapCount, setClapCount] = useState<number>(totalClaps);
@@ -311,54 +310,56 @@ export default function SpotlightDetails({
           </div>
 
           {/* Sidebar */}
-          <div className="w-full lg:w-[30%] rounded-[14.205px] border-[0.5px] border-black/15 bg-[#F9FAFB] p-4 md:p-5 flex flex-col gap-4 md:gap-5">
-            <h3 className="text-lg md:text-xl font-bold text-[#364153]">
-              Support This {type === "artist" ? "Artist" : "Business"}
-            </h3>
-            <div className="bg-[#1977DD] p-4 md:p-6 w-full rounded-xl">
-              <p className="text-white font-normal text-balance text-center text-sm md:text-base">
-                Total Points
-              </p>
-              <h3 className="text-xl md:text-2xl font-normal text-white text-center">
-                {totalPoints.toLocaleString()}
+          {!hideSidebar && (
+            <div className="w-full lg:w-[30%] rounded-[14.205px] border-[0.5px] border-black/15 bg-[#F9FAFB] p-4 md:p-5 flex flex-col gap-4 md:gap-5">
+              <h3 className="text-lg md:text-xl font-bold text-[#364153]">
+                Support This {type === "artist" ? "Artist" : "Business"}
               </h3>
-            </div>
-            <div className="flex gap-3 md:gap-5">
-              <button
-                type="button"
-                onClick={handleClap}
-                disabled={voting}
-                className="border border-gray-200 w-full p-3 rounded-xl flex flex-col gap-2 items-center bg-white transition-colors hover:bg-blue-50 disabled:opacity-60 disabled:cursor-wait"
-              >
-                <AiOutlineLike className="size-5 md:size-6" />
-                <p className="text-sm md:text-base font-normal text-[#364153]">
-                  Clap
+              <div className="bg-[#1977DD] p-4 md:p-6 w-full rounded-xl">
+                <p className="text-white font-normal text-balance text-center text-sm md:text-base">
+                  Total Points
                 </p>
-                <p className="flex flex-col sm:flex-row gap-1 sm:gap-2 font-bold text-black text-xs md:text-sm text-center">
-                  Total Vote
-                  <span className="text-sm md:text-base font-normal text-[#364153]">
-                    {voting ? "..." : clapCount.toLocaleString()}
-                  </span>
-                </p>
-              </button>
-            </div>
-            <div className="p-4 md:p-5 bg-white rounded-xl">
-              <div>
-                <h3 className="text-base md:text-lg font-bold text-[#364153]">
-                  Voting Rules:
+                <h3 className="text-xl md:text-2xl font-normal text-white text-center">
+                  {totalPoints.toLocaleString()}
                 </h3>
-                <ul className="flex flex-col gap-1 mt-3">
-                  <li className="font-normal text-sm md:text-base text-[#364153]">
-                    • 1 free {type === "artist" ? "clap" : "vote"} per {type}{" "}
-                    per quarter
-                  </li>
-                  <li className="font-normal text-sm md:text-base text-[#364153]">
-                    • Support Votes apply instantly
-                  </li>
-                </ul>
+              </div>
+              <div className="flex gap-3 md:gap-5">
+                <button
+                  type="button"
+                  onClick={handleClap}
+                  disabled={voting}
+                  className="border border-gray-200 w-full p-3 rounded-xl flex flex-col gap-2 items-center bg-white transition-colors hover:bg-blue-50 disabled:opacity-60 disabled:cursor-wait"
+                >
+                  <AiOutlineLike className="size-5 md:size-6" />
+                  <p className="text-sm md:text-base font-normal text-[#364153]">
+                    Clap
+                  </p>
+                  <p className="flex flex-col sm:flex-row gap-1 sm:gap-2 font-bold text-black text-xs md:text-sm text-center">
+                    Total Vote
+                    <span className="text-sm md:text-base font-normal text-[#364153]">
+                      {voting ? "..." : clapCount.toLocaleString()}
+                    </span>
+                  </p>
+                </button>
+              </div>
+              <div className="p-4 md:p-5 bg-white rounded-xl">
+                <div>
+                  <h3 className="text-base md:text-lg font-bold text-[#364153]">
+                    Voting Rules:
+                  </h3>
+                  <ul className="flex flex-col gap-1 mt-3">
+                    <li className="font-normal text-sm md:text-base text-[#364153]">
+                      • 1 free {type === "artist" ? "clap" : "vote"} per {type}{" "}
+                      per quarter
+                    </li>
+                    <li className="font-normal text-sm md:text-base text-[#364153]">
+                      • Support Votes apply instantly
+                    </li>
+                  </ul>
+                </div>
               </div>
             </div>
-          </div>
+          )}
         </div>
       </div>
     </section>
