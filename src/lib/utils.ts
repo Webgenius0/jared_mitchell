@@ -1,5 +1,6 @@
 import { clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
+import type { EventRegistration } from "@/Types/cms";
 
 export function cn(...inputs: any[]) {
   return twMerge(clsx(inputs));
@@ -43,6 +44,141 @@ export function slugify(text: string): string {
     .replace(/[^\w\s-]/g, "")
     .replace(/[\s_]+/g, "-")
     .replace(/-+/g, "-");
+}
+
+/**
+ * Generate and download a booking receipt file for an event registration.
+ * Produces a clean, self-contained HTML receipt the user can save/print.
+ */
+export function downloadBookingReceipt(registration: EventRegistration) {
+  // Escape values before interpolating into the receipt HTML so that
+  // special characters (&, <, >) in API data can't break the markup.
+  const escapeHtml = (value: unknown) =>
+    String(value ?? "")
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#39;");
+
+  const formatMoney = (value: number | string | undefined) => {
+    const currency = registration?.billing?.currency ?? "USD";
+    return `${currency} ${Number(value ?? 0).toFixed(2)}`;
+  };
+
+  const formatDate = (value: string | null | undefined) => {
+    if (!value) return "—";
+    const date = new Date(value);
+    if (Number.isNaN(date.getTime())) return value;
+    return date.toLocaleString("en-US", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      hour: "numeric",
+      minute: "2-digit",
+    });
+  };
+
+  const attendee = registration?.attendee ?? {};
+  const event = registration?.event ?? {};
+  const billing = registration?.billing ?? {};
+  const ticketTier = registration?.ticket_tier ?? {};
+  const timeline = registration?.timeline ?? {};
+
+  const html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Booking Receipt — ${escapeHtml(registration?.booking_reference ?? "Booking")}</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif; background: #f5f6f8; color: #1e293b; padding: 32px 16px; }
+  .receipt { max-width: 640px; margin: 0 auto; background: #fff; border-radius: 16px; border: 1px solid #e2e8f0; overflow: hidden; }
+  .header { background: #1977dd; color: #fff; padding: 24px 28px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
+  .header h1 { font-size: 18px; font-weight: 700; }
+  .header span { font-size: 13px; opacity: 0.9; }
+  .body { padding: 24px 28px; }
+  .section { margin-bottom: 20px; }
+  .section:last-child { margin-bottom: 0; }
+  .section h2 { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: #64748b; margin-bottom: 10px; }
+  .row { display: flex; justify-content: space-between; gap: 16px; padding: 7px 0; font-size: 14px; }
+  .row .label { color: #64748b; }
+  .row .value { font-weight: 600; text-align: right; }
+  .divider { border-top: 1px dashed #e2e8f0; margin: 14px 0; }
+  .total .value { font-size: 16px; color: #1977dd; }
+  .badge { display: inline-block; padding: 4px 12px; border-radius: 999px; font-size: 12px; font-weight: 600; text-transform: capitalize; }
+  .badge.paid, .badge.confirmed { background: #d1fae5; color: #047857; }
+  .badge.pending { background: #fef3c7; color: #b45309; }
+  .badge.cancelled { background: #fee2e2; color: #b91c1c; }
+  .footer { padding: 16px 28px; text-align: center; font-size: 12px; color: #94a3b8; border-top: 1px solid #e2e8f0; }
+  @media print { body { background: #fff; padding: 0; } .receipt { border: none; border-radius: 0; } }
+</style>
+</head>
+<body>
+  <div class="receipt">      <div class="header">
+      <h1>Booking Receipt</h1>
+      <span>${escapeHtml(registration?.booking_reference ?? "—")}</span>
+    </div>
+    <div class="body">
+      <div class="section">
+        <h2>Status</h2>
+        <div class="row">
+          <span class="label">Registration</span>
+          <span class="badge ${registration?.status?.toLowerCase?.() ?? "confirmed"}">${escapeHtml(registration?.status ?? "Confirmed")}</span>
+        </div>
+        <div class="row">
+          <span class="label">Payment</span>
+          <span class="badge ${registration?.payment_status?.toLowerCase?.() ?? "paid"}">${escapeHtml(registration?.payment_status ?? "Paid")}</span>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2>Event</h2>
+        <div class="row"><span class="label">Title</span><span class="value">${escapeHtml(event.title ?? "—")}</span></div>
+        <div class="row"><span class="label">Date</span><span class="value">${escapeHtml(formatDate(event.starts_at))}</span></div>
+        <div class="row"><span class="label">Venue</span><span class="value">${escapeHtml(event.venue ?? "—")}</span></div>
+        <div class="row"><span class="label">Address</span><span class="value">${escapeHtml(event.address ?? "—")}</span></div>
+        <div class="row"><span class="label">Ticket</span><span class="value">${escapeHtml(ticketTier.name ?? "—")}</span></div>
+      </div>
+
+      <div class="section">
+        <h2>Attendee</h2>
+        <div class="row"><span class="label">Name</span><span class="value">${escapeHtml(attendee.first_name ?? "")} ${escapeHtml(attendee.last_name ?? "")}</span></div>
+        <div class="row"><span class="label">Email</span><span class="value">${escapeHtml(attendee.email ?? "—")}</span></div>
+        <div class="row"><span class="label">Phone</span><span class="value">${escapeHtml(attendee.phone_number ?? "—")}</span></div>
+      </div>
+
+      <div class="section">
+        <h2>Billing</h2>
+        <div class="row"><span class="label">Quantity</span><span class="value">${billing.quantity ?? 0}</span></div>
+        <div class="row"><span class="label">Unit Price</span><span class="value">${formatMoney(billing.unit_price)}</span></div>
+        <div class="row"><span class="label">Service Fee</span><span class="value">${formatMoney(billing.service_fee)}</span></div>
+        <div class="divider"></div>
+        <div class="row total"><span class="label">Total</span><span class="value">${formatMoney(billing.total)}</span></div>
+      </div>
+
+      <div class="section">
+        <h2>Timeline</h2>
+        <div class="row"><span class="label">Created</span><span class="value">${escapeHtml(formatDate(timeline.created_at))}</span></div>
+        <div class="row"><span class="label">Paid</span><span class="value">${escapeHtml(formatDate(timeline.paid_at))}</span></div>
+        <div class="row"><span class="label">Confirmed</span><span class="value">${escapeHtml(formatDate(timeline.confirmed_at))}</span></div>
+      </div>
+    </div>
+    <div class="footer">Thank you for your booking. Please keep this receipt for your records.</div>
+  </div>
+</body>
+</html>`;
+
+  const blob = new Blob([html], { type: "text/html;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = `${registration?.booking_reference ?? "booking"}-receipt.html`;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  URL.revokeObjectURL(url);
 }
 
 /**

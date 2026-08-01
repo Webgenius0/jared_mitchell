@@ -10,6 +10,17 @@ export const useGetDashboardStats = () => {
   });
 };
 
+// Get Event Registrations (booking history)
+export const useEventRegistrations = (params?: any) => {
+  return useClientApi({
+    method: "get",
+    isPrivate: true,
+    key: ["event-registrations", params],
+    endpoint: "/v1/event-registrations",
+    params,
+  });
+};
+
 // Get All Businesses (for boss-beginning business list)
 export const useGetAllBusinesses = (params?: any) => {
   return useClientApi({

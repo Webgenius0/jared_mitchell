@@ -157,6 +157,15 @@ export const getEventBySlug = (slug: string) => {
   });
 };
 
+// Get Upcoming Events (public list)
+export const getUpcomingEvents = () => {
+  return useClientApi({
+    method: "get",
+    key: ["upcoming-events"],
+    endpoint: "/v1/events/upcomming-events",
+  });
+};
+
 // Get All Artists (paginated list)
 export const getArtists = (params?: any) => {
   return useClientApi({

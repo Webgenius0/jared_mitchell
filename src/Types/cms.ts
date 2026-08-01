@@ -651,6 +651,46 @@ export interface CalendarEventsResponse {
   pagination: EventsPagination;
 }
 
+// ─── Event Registrations (dashboard booking history) ────────────────────────
+
+export interface EventRegistration {
+  id: number;
+  booking_reference: string;
+  status: string;
+  payment_status: string;
+  event: {
+    id: number;
+    title: string;
+    slug: string;
+    cover_image: string;
+    starts_at: string;
+    address: string;
+    venue: string;
+  };
+  ticket_tier: {
+    name: string;
+  };
+  attendee: {
+    first_name: string;
+    last_name: string;
+    email: string;
+    phone_number: string;
+  };
+  billing: {
+    quantity: number;
+    unit_price: number;
+    service_fee: number;
+    total: number;
+    currency: string;
+  };
+  timeline: {
+    created_at: string;
+    paid_at: string | null;
+    confirmed_at: string | null;
+    cancelled_at: string | null;
+  };
+}
+
 // ─── Event Gallery ───────────────────────────────────────────────────────────
 
 export interface EventGalleryItem {
