@@ -1,10 +1,15 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { Download, Eye, Pencil, Trash2, Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useQueryClient } from "@tanstack/react-query";
+import CancelTicketModal from "@/Components/Common/CancelTicketModal";
 import { getUpcomingEvents } from "@/Hooks/api/cms_api";
-import { useEventRegistrations } from "@/Hooks/api/dashboard_api";
+import {
+  useCancelEventRegistration,
+  useEventRegistrations,
+} from "@/Hooks/api/dashboard_api";
 import { CMSEventItem, EventRegistration } from "@/Types/cms";
 import { downloadBookingReceipt } from "@/lib/utils";
 
@@ -93,12 +98,17 @@ const formatTotal = (registration: EventRegistration) => {
 
 export default function Page() {
   const router = useRouter();
+  const queryClient = useQueryClient();
+  const [cancellingRegistration, setCancellingRegistration] =
+    useState<EventRegistration | null>(null);
   const { data, isLoading, error } = getUpcomingEvents();
   const {
     data: registrationsData,
     isLoading: isRegistrationsLoading,
     error: registrationsError,
   } = useEventRegistrations();
+  const { mutateAsync: cancelRegistration, isPending: isCancelling } =
+    useCancelEventRegistration();
 
   const upcomingEvents = (data?.data?.events as CMSEventItem[] | undefined) ?? [];
   const registrations =
@@ -112,10 +122,29 @@ export default function Page() {
     router.push(`/events/${registration.event.slug}`);
   const handleEdit = (registration: EventRegistration) =>
     router.push(`/events/${registration.event.slug}/buy-ticket`);
-  const handleDelete = (registration: EventRegistration) =>
-    console.log("Delete", registration);
+  const handleCancel = (registration: EventRegistration) =>
+    setCancellingRegistration(registration);
   const handleDownload = (registration: EventRegistration) =>
     downloadBookingReceipt(registration);
+
+  const confirmCancel = async () => {
+    if (!cancellingRegistration) return;
+    await cancelRegistration(
+      {
+        endpoint: `/v1/event-registrations/${cancellingRegistration.id}/cancel`,
+      },
+      {
+        onSuccess: (res: any) => {
+          if (res?.success) {
+            setCancellingRegistration(null);
+            queryClient.invalidateQueries({
+              queryKey: ["event-registrations"],
+            });
+          }
+        },
+      },
+    );
+  };
 
   return (
     <div className=" bg-[#F5F6F8] ">
@@ -274,14 +303,17 @@ export default function Page() {
                         >
                           <Download className="w-4 h-4 md:w-[18px] md:h-[18px]" />
                         </button>
-                        <button
-                          type="button"
-                          title="Delete"
-                          onClick={() => handleDelete(registration)}
-                          className="text-slate-400 hover:text-red-500 transition-colors"
-                        >
-                          <Trash2 className="w-4 h-4 md:w-[18px] md:h-[18px]" />
-                        </button>
+                        {toBookingStatus(registration.status) !==
+                          "Cancelled" && (
+                          <button
+                            type="button"
+                            title="Cancel ticket"
+                            onClick={() => handleCancel(registration)}
+                            className="text-slate-400 hover:text-red-500 transition-colors"
+                          >
+                            <Trash2 className="w-4 h-4 md:w-[18px] md:h-[18px]" />
+                          </button>
+                        )}
                         </div>
                       </td>
                     </tr>
@@ -292,6 +324,16 @@ export default function Page() {
           )}
         </div>
       </div>
+
+      {/* Cancel ticket confirmation modal */}
+      <CancelTicketModal
+        open={!!cancellingRegistration}
+        onClose={() => setCancellingRegistration(null)}
+        eventTitle={cancellingRegistration?.event.title}
+        bookingReference={cancellingRegistration?.booking_reference}
+        isPending={isCancelling}
+        onConfirm={confirmCancel}
+      />
     </div>
   );
 }

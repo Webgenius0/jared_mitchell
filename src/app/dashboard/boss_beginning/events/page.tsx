@@ -1,9 +1,14 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { Download, Eye, Edit, Trash2, Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useQueryClient } from "@tanstack/react-query";
+import CancelTicketModal from "@/Components/Common/CancelTicketModal";
 import { getUpcomingEvents } from "@/Hooks/api/cms_api";
-import { useEventRegistrations } from "@/Hooks/api/dashboard_api";
+import {
+  useCancelEventRegistration,
+  useEventRegistrations,
+} from "@/Hooks/api/dashboard_api";
 import { CMSEventItem, EventRegistration } from "@/Types/cms";
 import { downloadBookingReceipt } from "@/lib/utils";
 
@@ -76,12 +81,17 @@ const formatTotal = (registration: EventRegistration) => {
 
 const Page = () => {
   const router = useRouter();
+  const queryClient = useQueryClient();
+  const [cancellingRegistration, setCancellingRegistration] =
+    useState<EventRegistration | null>(null);
   const { data, isLoading, error } = getUpcomingEvents();
   const {
     data: registrationsData,
     isLoading: isRegistrationsLoading,
     error: registrationsError,
   } = useEventRegistrations();
+  const { mutateAsync: cancelRegistration, isPending: isCancelling } =
+    useCancelEventRegistration();
 
   const upcomingEvents = (data?.data?.events as CMSEventItem[] | undefined) ?? [];
   const registrations =
@@ -95,10 +105,29 @@ const Page = () => {
     router.push(`/events/${registration.event.slug}`);
   const handleEdit = (registration: EventRegistration) =>
     router.push(`/events/${registration.event.slug}/buy-ticket`);
-  const handleDelete = (registration: EventRegistration) =>
-    console.log("Delete", registration);
+  const handleCancel = (registration: EventRegistration) =>
+    setCancellingRegistration(registration);
   const handleDownload = (registration: EventRegistration) =>
     downloadBookingReceipt(registration);
+
+  const confirmCancel = async () => {
+    if (!cancellingRegistration) return;
+    await cancelRegistration(
+      {
+        endpoint: `/v1/event-registrations/${cancellingRegistration.id}/cancel`,
+      },
+      {
+        onSuccess: (res: any) => {
+          if (res?.success) {
+            setCancellingRegistration(null);
+            queryClient.invalidateQueries({
+              queryKey: ["event-registrations"],
+            });
+          }
+        },
+      },
+    );
+  };
 
   return (
     <div className=" font-sans text-gray-800">
@@ -260,13 +289,16 @@ const Page = () => {
                           >
                             <Download size={18} strokeWidth={1.5} />
                           </button>
-                          <button
-                            onClick={() => handleDelete(registration)}
-                            className="hover:text-red-600 transition"
-                            title="Delete"
-                          >
-                            <Trash2 size={18} strokeWidth={1.5} />
-                          </button>
+                          {toBookingStatus(registration.status) !==
+                            "Cancelled" && (
+                            <button
+                              onClick={() => handleCancel(registration)}
+                              className="hover:text-red-600 transition"
+                              title="Cancel ticket"
+                            >
+                              <Trash2 size={18} strokeWidth={1.5} />
+                            </button>
+                          )}
                         </div>
                       </td>
                     </tr>
@@ -277,6 +309,16 @@ const Page = () => {
           )}
         </section>
       </div>
+
+      {/* Cancel ticket confirmation modal */}
+      <CancelTicketModal
+        open={!!cancellingRegistration}
+        onClose={() => setCancellingRegistration(null)}
+        eventTitle={cancellingRegistration?.event.title}
+        bookingReference={cancellingRegistration?.booking_reference}
+        isPending={isCancelling}
+        onConfirm={confirmCancel}
+      />
     </div>
   );
 };
