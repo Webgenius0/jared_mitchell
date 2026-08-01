@@ -430,6 +430,60 @@ export interface CMSBossBeginnings {
   boss_beginnings_dynamic: CMSBossBeginningsDynamic;
 }
 
+// ─── Rounds Page (Boss Beginnings OSI Panel) ─────────────────────────────────
+
+export interface CMSRoundsBlock {
+  title: string | null;
+  subtitle: string | null;
+  description: string | null;
+  image: string | null;
+}
+
+export interface CMSRoundsRound {
+  round_text: string;
+  round_title: string;
+  subtitle: string;
+  icon: string | null;
+  goal_label: string;
+  goal_text: string;
+  requirements_label: string;
+  requirements: string[];
+}
+
+export interface CMSRoundsBottom {
+  title: string;
+  subtitle: string;
+  description: string;
+}
+
+export interface CMSRoundsMetadata {
+  block: CMSRoundsBlock;
+  rounds: CMSRoundsRound[];
+  bottom: CMSRoundsBottom;
+}
+
+export interface CMSRoundsSection extends CMSBase {
+  metadata: CMSRoundsMetadata;
+}
+
+export interface CMSRoundsPartnersItem extends CMSBase {
+  metadata: {
+    image: string;
+    link: string;
+  }[];
+}
+
+export interface CMSRoundsPartners {
+  section: string;
+  items: CMSRoundsPartnersItem[];
+}
+
+export interface CMSRoundsPage {
+  rounds: CMSRoundsSection;
+  partners: CMSRoundsPartners;
+  newsletter: CMSBase;
+}
+
 export interface CMSSponsorshipPageHero extends CMSBase {}
 
 export interface CMSSponsorshipPageVideo extends CMSBase {

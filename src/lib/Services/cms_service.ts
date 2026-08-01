@@ -3,6 +3,7 @@ import {
   CMSArtistSpotlight,
   CMSBossBeginnings,
   CMSBusinessSpotlight,
+  CMSRoundsPage,
   CalendarEventsResponse,
   CMSEvent,
   CMSEventItem,
@@ -182,6 +183,22 @@ export const getBossCms = async (): Promise<CMSBossBeginnings> => {
 
   const result = await res.json();
   return result.data as CMSBossBeginnings;
+};
+
+export const getRoundsCms = async (): Promise<CMSRoundsPage> => {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_SITE_URL}/v1/cms/osi-rounds`,
+    {
+      next: { revalidate: 60 },
+    },
+  );
+
+  if (!res.ok) {
+    throw new Error(`Failed to fetch rounds CMS data — Status: ${res.status}`);
+  }
+
+  const result = await res.json();
+  return result.data as CMSRoundsPage;
 };
 
 export const getSponsorshipPageCms = async (): Promise<CMSSponsorshipPage> => {
