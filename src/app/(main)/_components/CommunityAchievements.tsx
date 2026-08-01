@@ -101,7 +101,7 @@ const CommunityAchievements = ({
 
   return (
     <section className="section">
-      <h2 className="section_title 2xl:text-6xl 2xl:font-semibold">
+      <h2 className="section_title 2xl:text-5xl">
         {data?.title || "Past Six Months Boss Beginning Winners"}
       </h2>
 
@@ -111,7 +111,7 @@ const CommunityAchievements = ({
       </p>
 
       {winners.length > 0 && (
-        <div className="my-6 md:mt-12">
+        <div className="my-5 md:mt-8">
           <div className="relative">
             {/* Prev / Next arrows — visible on all screen sizes */}
             {winners.length > 1 && (
@@ -161,7 +161,7 @@ const CommunityAchievements = ({
                   className="shrink-0 snap-start w-[80%] sm:w-[65%] md:w-1/2 lg:w-1/3 xl:w-1/4"
                 >
                   <Link href={linkHref}>
-                    <div className="relative w-full h-[300px] group cursor-pointer">
+                    <div className="relative w-full h-[280px] group cursor-pointer">
                       <Image
                         src={winner.avatar_url}
                         fill

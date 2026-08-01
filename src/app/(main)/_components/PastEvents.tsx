@@ -21,7 +21,7 @@ const PastEvents = () => {
   if (loading) {
     return (
       <div className="container">
-        <h2 className="section_title 2xl:text-7xl 2xl:font-bold">
+        <h2 className="section_title 2xl:text-5xl">
           Past Event Highlights
         </h2>
         <div className="h-[300px] flex items-center justify-center text-xl text-gray-400">
@@ -37,13 +37,13 @@ const PastEvents = () => {
         Past Event Highlights
       </h2>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5 md:gap-6 my-5 md:my-10">
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5 md:gap-6 my-4 md:my-8">
         {events.map(event => (
           <div
             key={event.id}
             className="rounded-[20px] custom_border custom_shadow bg-[#F5F5F7] overflow-hidden"
           >
-            <div className="relative flex items-center justify-center w-full h-[300px]">
+            <div className="relative flex items-center justify-center w-full h-[260px]">
               <Image
                 src={event.cover_image_url}
                 width={500}

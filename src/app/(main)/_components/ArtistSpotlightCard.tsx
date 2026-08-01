@@ -48,7 +48,7 @@ export default function ArtistSpotlightCard({
 
   return (
     <div className="container">
-      <h2 className="section_title 2xl:text-7xl 2xl:font-bold">
+      <h2 className="section_title 2xl:text-5xl">
         {data?.title || "Boss Beginning Winers showing"}
       </h2>
 
@@ -56,8 +56,8 @@ export default function ArtistSpotlightCard({
         {data?.sub_title || "A story from our community making an impact."}
       </p>
 
-      <div className="overflow-hidden max-w-[1396px] w-full mx-auto rounded-2xl bg-[#F5F5F7] custom_shadow custom_border mt-7 group">
-        <figure className="w-full h-[250px] md:h-[400px] xl:h-[500px] overflow-hidden relative">
+      <div className="overflow-hidden max-w-[1396px] w-full mx-auto rounded-2xl bg-[#F5F5F7] custom_shadow custom_border mt-6 group">
+        <figure className="w-full h-[220px] md:h-[340px] xl:h-[420px] overflow-hidden relative">
           {/* <Image
             src={imageSrc}
             fill
@@ -84,11 +84,11 @@ export default function ArtistSpotlightCard({
             {category}
           </span>
 
-          <h2 className="section_title !text-left mb-4 mt-1.5 md:mt-3 lg:mt-6 2xl:font-semibold 2xl:text-[56px]">
+          <h2 className="section_title !text-left mb-4 mt-1.5 md:mt-3 lg:mt-5 2xl:font-semibold 2xl:text-[44px]">
             {title}
           </h2>
 
-          <p className="lg:text-base xl:text-xl text-secondary-black">
+          <p className="lg:text-base xl:text-lg text-secondary-black">
             {description}
           </p>
 

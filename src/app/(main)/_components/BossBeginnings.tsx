@@ -10,7 +10,7 @@ const BossBeginnings = ({ data }: { data?: CMSBossBeginnings }) => {
     <section className="text-center bg-[#F5F5F7] py-8 2xl:py-10">
       <div className="container">
         {/* Reduced text line-height from xl:leading-[100px] to tight/snug options */}
-        <h2 className="text-primary-black text-3xl md:text-4xl lg:text-5xl 2xl:text-6xl font-bold leading-tight xl:leading-[1.1] tracking-[-1.28px]">
+        <h2 className="text-primary-black text-3xl md:text-4xl lg:text-5xl 2xl:text-5xl font-bold leading-tight xl:leading-[1.1] tracking-[-1.28px]">
           {data?.title || "Boss Beginnings"}
         </h2>
 
@@ -20,7 +20,7 @@ const BossBeginnings = ({ data }: { data?: CMSBossBeginnings }) => {
         </h3>
 
         {/* Scaled down the explicit heights across all responsive breakpoints and lowered vertical margin to my-4 md:my-5 */}
-        <div className="relative flex items-center max-w-[1179px] w-full h-[220px] sm:h-[280px] md:h-[350px] lg:h-[420px] xl:h-[480px] justify-center my-4 md:my-5 rounded-2xl md:rounded-[32px] overflow-hidden mx-auto">
+        <div className="relative flex items-center max-w-[1179px] w-full h-[200px] sm:h-[240px] md:h-[300px] lg:h-[360px] xl:h-[420px] justify-center my-3 md:my-4 rounded-2xl md:rounded-[32px] overflow-hidden mx-auto">
           <div className="absolute top-0 left-0 size-full bg-black/40" />
           <Image
             src={data?.image || "/home/boss-beginnings-banner.jpg"}

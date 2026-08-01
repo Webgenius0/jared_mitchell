@@ -66,7 +66,7 @@ const CoreValues = ({ data: cmsData }: { data?: CMSCoreValue }) => {
   return (
     <section className="bg-[#FAFAFA] section">
       <div className="container">
-        <h2 className="section_title !mb-5 md:!mb-8 lg:!mb-12">
+        <h2 className="section_title !mb-4 md:!mb-6 lg:!mb-8">
           {cmsData?.title || "Our Core Values"}
         </h2>
 

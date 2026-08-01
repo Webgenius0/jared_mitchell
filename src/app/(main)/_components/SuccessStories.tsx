@@ -33,7 +33,7 @@ const SuccessStories = ({ cmsData, winners, type }: SuccessStoriesProps) => {
   return (
     <section className="section">
       <div className="container">
-        <h2 className="section_title 2xl:text-6xl 2xl:font-semibold">
+        <h2 className="section_title 2xl:text-5xl">
           {title}
         </h2>
 
