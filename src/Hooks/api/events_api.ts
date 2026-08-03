@@ -43,3 +43,31 @@ export const apiToggleSpotlightLike = async (
   const res = await axiosSecure.post(`/v1/spotlight/like/${type}/${spotlightId}`);
   return res.data;
 };
+
+// ─── Business Clap (Boss Beginnings) ────────────────────────────────────────
+
+export const apiClapBusiness = async (businessId: number) => {
+  const res = await axiosSecure.post(`/v1/businesses/${businessId}/clap`);
+  return res.data;
+};
+
+// ─── Business Save (Love action) ────────────────────────────────────────────
+
+export const apiSaveBusiness = async (businessId: number) => {
+  const res = await axiosSecure.post(`/v1/businesses/${businessId}/save`);
+  return res.data;
+};
+
+// ─── Business Share (Fire action) ───────────────────────────────────────────
+
+export const apiShareBusiness = async (businessId: number) => {
+  const res = await axiosSecure.post(`/v1/businesses/${businessId}/share`);
+  return res.data;
+};
+
+// ─── Nominee Vote (contest details Clap/like action) ────────────────────────
+
+export const apiVoteNominee = async (nomineeId: number) => {
+  const res = await axiosSecure.post(`/v1/spotlight/nominees/${nomineeId}/vote`);
+  return res.data;
+};

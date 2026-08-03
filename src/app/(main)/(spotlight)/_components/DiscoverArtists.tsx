@@ -9,7 +9,10 @@ import { resolveMediaUrl } from "@/lib/utils";
 import { getItem, setItem } from "@/lib/localStorage";
 import toast from "react-hot-toast";
 
-import { useGetNominatedSpotlights } from "@/Hooks/api/cms_api";
+import {
+  useGetNominatedSpotlights,
+  useCurrentSpotlightWeek,
+} from "@/Hooks/api/cms_api";
 import { apiToggleSpotlightLike } from "@/Hooks/api/events_api";
 import useAuth from "@/Hooks/useAuth";
 
@@ -47,7 +50,14 @@ const DiscoverArtists = ({
   type?: "artist" | "business";
   data?: any;
 }) => {
-  const { data: nominatedData, isLoading } = useGetNominatedSpotlights(3, type);
+  // Resolve the active spotlight week dynamically (falls back to 2 if unavailable)
+  // The nominated query re-fetches automatically when weekId changes (cache key includes it).
+  const { data: currentWeekData } = useCurrentSpotlightWeek();
+  const weekId = currentWeekData?.data?.week?.id ?? 2;
+  const { data: nominatedData, isLoading } = useGetNominatedSpotlights(
+    weekId,
+    type,
+  );
   const { token } = useAuth();
 
   const nominees = nominatedData?.data?.nominees || [];
@@ -186,6 +196,18 @@ const DiscoverArtists = ({
                 className="h-[300px] bg-gray-100 animate-pulse rounded-2xl"
               />
             ))}
+          </div>
+        ) : nominees.length === 0 ? (
+          <div className="mt-12 rounded-2xl border border-dashed border-gray-200 bg-gray-50 py-16 px-6 text-center">
+            <p className="text-4xl mb-4">🎨</p>
+            <h4 className="text-xl font-semibold text-primary-black mb-2">
+              No {type === "artist" ? "artists" : "businesses"} available yet
+            </h4>
+            <p className="text-secondary-black max-w-md mx-auto">
+              There are no active{" "}
+              {type === "artist" ? "artist spotlights" : "business spotlights"}{" "}
+              to display right now. Check back soon!
+            </p>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">

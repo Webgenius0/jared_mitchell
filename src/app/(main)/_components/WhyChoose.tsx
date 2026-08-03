@@ -6,8 +6,8 @@ const WhyChoose = ({ data }: { data?: CMSWhyChoose }) => {
   const item = data?.metadata?.[0];
 
   return (
-    <div className="container py-7 md:py-10 xl:py-20">
-      <div className="mb-7 md:mb-10">
+    <div className="container py-6 md:py-8 xl:py-12">
+      <div className="mb-6 md:mb-8">
         <h2 className="section_title uppercase">{data?.title || "Why Choose OSI?"}</h2>
 
         <p className="section_sub_title">
@@ -15,7 +15,7 @@ const WhyChoose = ({ data }: { data?: CMSWhyChoose }) => {
         </p>
       </div>
 
-      <section className="w-full h-[380px] lg:h-[450px] xl:h-[580px] overflow-hidden flex items-center relative rounded">
+      <section className="w-full h-[320px] lg:h-[380px] xl:h-[460px] overflow-hidden flex items-center relative rounded">
         <Image
           src={item?.image || osi}
           fill
@@ -27,7 +27,7 @@ const WhyChoose = ({ data }: { data?: CMSWhyChoose }) => {
           <div className="flex flex-col w-full mx-auto h-full items-center justify-center">
             <h2 className="section_title !text-white">{item?.title || "Creators"}</h2>
 
-            <h4 className="text-white text-xl md:text-3xl text-center font-medium mb-2 md:mb-4">
+            <h4 className="text-white text-lg md:text-2xl text-center font-medium mb-2 md:mb-3">
               {item?.sub_title || "Build exposure without chasing algorithms"}
             </h4>
 

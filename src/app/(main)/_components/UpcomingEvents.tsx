@@ -203,7 +203,7 @@ const UpcomingEvents = () => {
   if (loading) {
     return (
       <section className="section">
-        <h2 className="section_title 2xl:text-7xl 2xl:font-bold">
+        <h2 className="section_title 2xl:text-5xl">
           Upcoming Events
         </h2>
         <div className="mt-5 md:my-10 h-[300px] flex items-center justify-center text-xl text-gray-400">
@@ -219,7 +219,7 @@ const UpcomingEvents = () => {
         Upcoming Events
       </h2>
 
-      <div className="mt-5 md:my-10">
+      <div className="mt-4 md:my-8">
         <Swiper
           modules={[Pagination, Autoplay]}
           spaceBetween={20}
@@ -244,11 +244,11 @@ const UpcomingEvents = () => {
                     width={500}
                     height={300}
                     alt={event.title}
-                    className="object-cover w-full h-[250px] xl:h-[300px]"
+                    className="object-cover w-full h-[220px] xl:h-[260px]"
                   />
                 </div>
 
-                <div className="py-4 xl:py-7 px-3 xl:px-5">
+                <div className="py-4 xl:py-5 px-3 xl:px-5">
                   <h2 className="text-xl text-primary-black font-semibold">
                     {event.title}
                   </h2>

@@ -23,9 +23,10 @@ interface InputProps {
   onChange: (val: string) => void;
   required?: boolean;
   type?: string;
+  error?: string;
 }
 
-function Input({ label, placeholder, value, onChange, required, type = "text" }: InputProps) {
+function Input({ label, placeholder, value, onChange, required, type = "text", error }: InputProps) {
   return (
     <div className="flex flex-col gap-1.5">
       <label className="text-base text-gray-700">
@@ -37,8 +38,14 @@ function Input({ label, placeholder, value, onChange, required, type = "text" }:
         value={value}
         onChange={e => onChange(e.target.value)}
         placeholder={placeholder}
-        className="w-full rounded-full border border-gray-200 px-4 py-3 text-base text-gray-700 placeholder-gray-400 outline-none transition-colors focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+        aria-invalid={Boolean(error)}
+        className={`w-full rounded-full border px-4 py-3 text-base text-gray-700 placeholder-gray-400 outline-none transition-colors focus:ring-2 ${
+          error
+            ? "border-red-400 bg-red-50/40 focus:border-red-400 focus:ring-red-100"
+            : "border-gray-200 focus:border-blue-400 focus:ring-blue-100"
+        }`}
       />
+      {error && <p className="text-sm text-red-500">{error}</p>}
     </div>
   );
 }
@@ -47,9 +54,10 @@ interface AddressFormProps {
   prefix: string;
   values: Record<string, string>;
   onChange: (field: string, val: string) => void;
+  errors?: Record<string, string>;
 }
 
-function AddressForm({ prefix, values, onChange }: AddressFormProps) {
+function AddressForm({ prefix, values, onChange, errors }: AddressFormProps) {
   const field = (name: string) => `${prefix}_${name}`;
 
   return (
@@ -61,6 +69,7 @@ function AddressForm({ prefix, values, onChange }: AddressFormProps) {
           value={values[field("name")] || ""}
           onChange={v => onChange(field("name"), v)}
           required
+          error={errors?.[field("name")]}
         />
       </div>
       <Input
@@ -70,6 +79,7 @@ function AddressForm({ prefix, values, onChange }: AddressFormProps) {
         onChange={v => onChange(field("phone"), v)}
         required
         type="tel"
+        error={errors?.[field("phone")]}
       />
       <Input
         label="Email"
@@ -78,6 +88,7 @@ function AddressForm({ prefix, values, onChange }: AddressFormProps) {
         onChange={v => onChange(field("email"), v)}
         required
         type="email"
+        error={errors?.[field("email")]}
       />
       <Input
         label="Address Line 1"
@@ -85,6 +96,7 @@ function AddressForm({ prefix, values, onChange }: AddressFormProps) {
         value={values[field("address_line1")] || ""}
         onChange={v => onChange(field("address_line1"), v)}
         required
+        error={errors?.[field("address_line1")]}
       />
       <Input
         label="Address Line 2"
@@ -98,6 +110,7 @@ function AddressForm({ prefix, values, onChange }: AddressFormProps) {
         value={values[field("city")] || ""}
         onChange={v => onChange(field("city"), v)}
         required
+        error={errors?.[field("city")]}
       />
       <Input
         label="State"
@@ -105,6 +118,7 @@ function AddressForm({ prefix, values, onChange }: AddressFormProps) {
         value={values[field("state")] || ""}
         onChange={v => onChange(field("state"), v)}
         required
+        error={errors?.[field("state")]}
       />
       <Input
         label="ZIP Code"
@@ -118,6 +132,7 @@ function AddressForm({ prefix, values, onChange }: AddressFormProps) {
         value={values[field("country")] || ""}
         onChange={v => onChange(field("country"), v)}
         required
+        error={errors?.[field("country")]}
       />
     </div>
   );
@@ -131,6 +146,7 @@ export default function ShippingBillingForm(): React.JSX.Element {
 
   const [addBilling, setAddBilling] = useState<boolean>(true);
   const [formValues, setFormValues] = useState<Record<string, string>>({});
+  const [errors, setErrors] = useState<Record<string, string>>({});
   const [buyNowItem, setBuyNowItem] = useState<BuyNowItem | null>(null);
   const [paymentMethod, setPaymentMethod] = useState<"cod" | "stripe">("cod");
 
@@ -144,6 +160,13 @@ export default function ShippingBillingForm(): React.JSX.Element {
 
   const updateField = (field: string, value: string) => {
     setFormValues(prev => ({ ...prev, [field]: value }));
+    // Clear the error for this field once the user starts typing
+    setErrors(prev => {
+      if (!prev[field]) return prev;
+      const next = { ...prev };
+      delete next[field];
+      return next;
+    });
   };
 
   const getAddressObj = (prefix: string) => ({
@@ -158,13 +181,58 @@ export default function ShippingBillingForm(): React.JSX.Element {
     country: formValues[`${prefix}_country`] || "",
   });
 
+  const validateRequiredFields = () => {
+    const newErrors: Record<string, string> = {};
+
+    const requiredFields: Array<[string, string]> = [
+      ["shipping_name", "Shipping name is required"],
+      ["shipping_phone", "Phone number is required"],
+      ["shipping_email", "Email address is required"],
+      ["shipping_address_line1", "Address line 1 is required"],
+      ["shipping_city", "City is required"],
+      ["shipping_state", "State is required"],
+      ["shipping_country", "Country is required"],
+    ];
+
+    if (addBilling) {
+      requiredFields.push(
+        ["billing_name", "Billing name is required"],
+        ["billing_phone", "Phone number is required"],
+        ["billing_email", "Email address is required"],
+        ["billing_address_line1", "Address line 1 is required"],
+        ["billing_city", "City is required"],
+        ["billing_state", "State is required"],
+        ["billing_country", "Country is required"],
+      );
+    }
+
+    requiredFields.forEach(([field, message]) => {
+      if (!formValues[field]?.trim()) {
+        newErrors[field] = message;
+      }
+    });
+
+    // Basic email format check
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    ["shipping_email", ...(addBilling ? ["billing_email"] : [])].forEach(field => {
+      const value = formValues[field]?.trim() || "";
+      if (value && !emailRegex.test(value)) {
+        newErrors[field] = "Please enter a valid email address";
+      }
+    });
+
+    return newErrors;
+  };
+
   const handlePlaceOrder = () => {
-    // Validate shipping fields
-    const shipping = getAddressObj("shipping");
-    if (!shipping.name || !shipping.phone || !shipping.email || !shipping.address_line1 || !shipping.city || !shipping.state || !shipping.country) {
-      toast.error("Please fill in all required shipping fields");
+    // Validate all required fields and show errors inline on the fields
+    const newErrors = validateRequiredFields();
+    setErrors(newErrors);
+    if (Object.keys(newErrors).length > 0) {
       return;
     }
+
+    const shipping = getAddressObj("shipping");
 
     const hasBuyNow = !!buyNowItem;
 
@@ -185,6 +253,8 @@ export default function ShippingBillingForm(): React.JSX.Element {
         address_line2: billing.address_line2,
         city: billing.city,
         state: billing.state,
+        country: billing.country,
+        zip: billing.zip,
       };
     }
 
@@ -248,13 +318,25 @@ export default function ShippingBillingForm(): React.JSX.Element {
           <h2 className="mb-4 text-lg font-semibold text-gray-900">
             Shipping Address
           </h2>
-          <AddressForm prefix="shipping" values={formValues} onChange={updateField} />
+          <AddressForm prefix="shipping" values={formValues} onChange={updateField} errors={errors} />
 
           <label className="mt-5 flex items-center gap-2 text-base text-gray-700">
             <input
               type="checkbox"
               checked={addBilling}
-              onChange={e => setAddBilling(e.target.checked)}
+              onChange={e => {
+                setAddBilling(e.target.checked);
+                // Clear any stale billing errors when the section is hidden
+                if (!e.target.checked) {
+                  setErrors(prev => {
+                    const next = { ...prev };
+                    Object.keys(next).forEach(key => {
+                      if (key.startsWith("billing_")) delete next[key];
+                    });
+                    return next;
+                  });
+                }
+              }}
               className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-400"
             />
             Add a Billing address
@@ -265,7 +347,7 @@ export default function ShippingBillingForm(): React.JSX.Element {
               <h2 className="mb-4 mt-6 text-lg font-semibold text-gray-900">
                 Billing Address
               </h2>
-              <AddressForm prefix="billing" values={formValues} onChange={updateField} />
+              <AddressForm prefix="billing" values={formValues} onChange={updateField} errors={errors} />
             </>
           )}
         </div>

@@ -10,6 +10,41 @@ export const useGetDashboardStats = () => {
   });
 };
 
+// Get Event Registrations (booking history)
+export const useEventRegistrations = (params?: any) => {
+  return useClientApi({
+    method: "get",
+    isPrivate: true,
+    key: ["event-registrations", params],
+    endpoint: "/v1/event-registrations",
+    params,
+  });
+};
+
+// Cancel an Event Registration (ticket)
+// Usage: cancelRegistration({ endpoint: `/v1/event-registrations/${id}/cancel` })
+export const useCancelEventRegistration = () => {
+  return useClientApi({
+    method: "post",
+    isPrivate: true,
+    key: ["cancel-event-registration"],
+    onSuccess: (res: any) => {
+      if (res?.success) {
+        const toast = import("react-hot-toast").then((m) => m.default);
+        toast.then((t) =>
+          t.success(res?.message || "Ticket cancelled successfully!"),
+        );
+      }
+    },
+    onError: (err: any) => {
+      const toast = import("react-hot-toast").then((m) => m.default);
+      toast.then((t) =>
+        t.error(err?.response?.data?.message || "Failed to cancel ticket."),
+      );
+    },
+  });
+};
+
 // Get All Businesses (for boss-beginning business list)
 export const useGetAllBusinesses = (params?: any) => {
   return useClientApi({

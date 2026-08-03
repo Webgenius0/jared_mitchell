@@ -33,12 +33,26 @@ const SuccessStories = ({ cmsData, winners, type }: SuccessStoriesProps) => {
   return (
     <section className="section">
       <div className="container">
-        <h2 className="section_title 2xl:text-6xl 2xl:font-semibold">
+        <h2 className="section_title 2xl:text-5xl">
           {title}
         </h2>
 
         <p className="section_sub_title">{subTitle}</p>
       </div>
+
+      {items.length === 0 && (
+        <div className="my-6 md:mt-12">
+          <div className="rounded-2xl border border-dashed border-gray-200 bg-gray-50 py-16 px-6 text-center">
+            <p className="text-4xl mb-4">🏆</p>
+            <h4 className="text-xl font-semibold text-primary-black mb-2">
+              No {type === "artist" ? "artists" : "businesses"} available yet
+            </h4>
+            <p className="text-secondary-black max-w-md mx-auto">
+              There are no past winners to display right now. Check back soon!
+            </p>
+          </div>
+        </div>
+      )}
 
       {items.length > 0 && (
         <div className="my-6 md:mt-12">

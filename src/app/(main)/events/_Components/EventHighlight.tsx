@@ -74,7 +74,7 @@ const EventHighlight = () => {
                     {sanitizeToPlainText(event.description)}
                   </p>
                 )}
-                <Link href={`/events/${event.slug}`} className="block">
+                <Link href={`/events/${event.slug}?from=past`} className="block">
                   <Button
                     size={"lg"}
                     className="!px-8 md:!px-12 !h-[36px] md:!h-[45px] text-sm md:text-base mt-5"
