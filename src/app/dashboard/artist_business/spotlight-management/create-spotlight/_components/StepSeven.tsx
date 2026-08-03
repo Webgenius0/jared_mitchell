@@ -1,4 +1,5 @@
 import { SuccessfulSvg } from "@/Components/Svg/SvgContainer";
+import Link from "next/link";
 
 const StepSeven = () => {
   return (
@@ -11,17 +12,17 @@ const StepSeven = () => {
         Submission Successful!
       </h3>
 
-      <p className="text-[#1D1D1F] text-2xl max-w-5xl mx-auto leading-[164%]">
+      <p className="text-[#1D1D1F] text-xl max-w-4xl mb-7 mx-auto leading-[164%]">
         Thank you for submitting your Business Spotlight application. We’re
         excited to review your brand, story, and the work you’re building
       </p>
 
-      <button
-        type="button"
+      <Link
+        href={`/dashboard/artist_business/spotlight-management`}
         className="px-12 py-3 text-lg rounded-full bg-primary-blue text-white cursor-pointer"
       >
-        Done
-      </button>
+        Back to spotlight
+      </Link>
     </div>
   );
 };

@@ -30,15 +30,15 @@ export const useCancelEventRegistration = () => {
     key: ["cancel-event-registration"],
     onSuccess: (res: any) => {
       if (res?.success) {
-        const toast = import("react-hot-toast").then((m) => m.default);
-        toast.then((t) =>
+        const toast = import("react-hot-toast").then(m => m.default);
+        toast.then(t =>
           t.success(res?.message || "Ticket cancelled successfully!"),
         );
       }
     },
     onError: (err: any) => {
-      const toast = import("react-hot-toast").then((m) => m.default);
-      toast.then((t) =>
+      const toast = import("react-hot-toast").then(m => m.default);
+      toast.then(t =>
         t.error(err?.response?.data?.message || "Failed to cancel ticket."),
       );
     },
@@ -68,13 +68,17 @@ export const useCreateBusiness = () => {
     },
     onSuccess: (res: any) => {
       if (res?.success) {
-        const toast = import("react-hot-toast").then((m) => m.default);
-        toast.then((t) => t.success(res?.message || "Business created successfully!"));
+        const toast = import("react-hot-toast").then(m => m.default);
+        toast.then(t =>
+          t.success(res?.message || "Business created successfully!"),
+        );
       }
     },
     onError: (err: any) => {
-      const toast = import("react-hot-toast").then((m) => m.default);
-      toast.then((t) => t.error(err?.response?.data?.message || "Failed to create business."));
+      const toast = import("react-hot-toast").then(m => m.default);
+      toast.then(t =>
+        t.error(err?.response?.data?.message || "Failed to create business."),
+      );
     },
   });
 };
@@ -101,13 +105,17 @@ export const useUpdateBusiness = () => {
     },
     onSuccess: (res: any) => {
       if (res?.success) {
-        const toast = import("react-hot-toast").then((m) => m.default);
-        toast.then((t) => t.success(res?.message || "Business updated successfully!"));
+        const toast = import("react-hot-toast").then(m => m.default);
+        toast.then(t =>
+          t.success(res?.message || "Business updated successfully!"),
+        );
       }
     },
     onError: (err: any) => {
-      const toast = import("react-hot-toast").then((m) => m.default);
-      toast.then((t) => t.error(err?.response?.data?.message || "Failed to update business."));
+      const toast = import("react-hot-toast").then(m => m.default);
+      toast.then(t =>
+        t.error(err?.response?.data?.message || "Failed to update business."),
+      );
     },
   });
 };
@@ -120,13 +128,28 @@ export const useDeleteBusiness = () => {
     key: ["delete-business"],
     onSuccess: (res: any) => {
       if (res?.success) {
-        const toast = import("react-hot-toast").then((m) => m.default);
-        toast.then((t) => t.success(res?.message || "Business deleted successfully!"));
+        const toast = import("react-hot-toast").then(m => m.default);
+        toast.then(t =>
+          t.success(res?.message || "Business deleted successfully!"),
+        );
       }
     },
     onError: (err: any) => {
-      const toast = import("react-hot-toast").then((m) => m.default);
-      toast.then((t) => t.error(err?.response?.data?.message || "Failed to delete business."));
+      const toast = import("react-hot-toast").then(m => m.default);
+      toast.then(t =>
+        t.error(err?.response?.data?.message || "Failed to delete business."),
+      );
     },
+  });
+};
+
+// Get purchase list
+export const usePurchaseList = (params?: any) => {
+  return useClientApi({
+    method: "get",
+    isPrivate: true,
+    key: ["purchase-list", params],
+    endpoint: "/v1/orders",
+    params,
   });
 };

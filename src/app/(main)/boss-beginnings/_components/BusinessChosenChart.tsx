@@ -391,7 +391,7 @@ const BusinessChosenChart = ({
                 <li
                   key={biz.id}
                   data-card
-                  className="shrink-0 w-[320px] snap-start"
+                  className="shrink-0 w-[280px] sm:w-[320px] snap-start"
                 >
                   <BusinessCardItem biz={biz} />
                 </li>

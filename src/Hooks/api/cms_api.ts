@@ -1,5 +1,6 @@
 import toast from "react-hot-toast";
 import useClientApi from "../useClientApi";
+import { useQueryClient } from "@tanstack/react-query";
 
 // Create Business Spotlight
 export const useCreateBusinessSpotlight = () => {
@@ -24,6 +25,8 @@ export const useCreateBusinessSpotlight = () => {
 
 // Create Artist Spotlight
 export const useCreateArtistSpotlight = () => {
+  const queryClient = useQueryClient();
+
   return useClientApi({
     method: "post",
     isPrivate: true,
@@ -35,6 +38,36 @@ export const useCreateArtistSpotlight = () => {
     onSuccess: (res: any) => {
       if (res?.success) {
         toast.success(res?.message);
+        queryClient.invalidateQueries({
+          queryKey: ["artist-spotlights"],
+        });
+      }
+    },
+    onError: (err: any) => {
+      toast.error(err?.response?.data?.message);
+    },
+  });
+};
+
+// Update Artist Spotlight
+export const useUpdateArtistSpotlight = (id: number) => {
+  const queryClient = useQueryClient();
+
+  return useClientApi({
+    method: "post",
+    isPrivate: true,
+    key: ["artist-spotlight-update", id],
+    endpoint: `/v1/artist-spotlight/update/${id}`,
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+    onSuccess: (res: any) => {
+      if (res?.success) {
+        toast.success(res?.message);
+        queryClient.invalidateQueries({ queryKey: ["artist-spotlights"] });
+        queryClient.invalidateQueries({
+          queryKey: ["artist-spotlight-details", id],
+        });
       }
     },
     onError: (err: any) => {
@@ -55,7 +88,7 @@ export const getArtistSpotlights = (params?: any) => {
 };
 
 // Get Artist spotlight details
-export const getSingleArtistSpotlightDetails = (id: number) => {
+export const getSingleArtistSpotlightDetails = (id: any) => {
   return useClientApi({
     method: "get",
     enabled: !!id,

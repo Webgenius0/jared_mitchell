@@ -5,7 +5,7 @@ import { Button } from "@/Components/Common/Button";
 import Image from "next/image";
 import { FaHeart, FaRegHeart, FaBookmark, FaRegBookmark } from "react-icons/fa";
 import { GrLocation } from "react-icons/gr";
-import { PiCalendarBlank } from "react-icons/pi";
+import { PiCalendarBlank, PiCalendarX } from "react-icons/pi";
 import { RxShare1 } from "react-icons/rx";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, Autoplay } from "swiper/modules";
@@ -219,8 +219,24 @@ const UpcomingEvents = () => {
         Upcoming Events
       </h2>
 
-      <div className="mt-4 md:my-8">
-        <Swiper
+      {events.length === 0 ? (
+        <div className="mt-4 md:my-8">
+          <div className="flex flex-col items-center justify-center text-center px-6 py-16 md:py-24 rounded-2xl xl:rounded-[20px] bg-[#F5F5F7] custom_shadow border border-gray-200">
+            <div className="flex items-center justify-center size-16 md:size-20 rounded-full bg-white custom_shadow custom_border mb-5">
+              <PiCalendarX className="size-7 md:size-9 text-gray-300" />
+            </div>
+            <h3 className="text-xl md:text-2xl text-primary-black font-semibold">
+              No Upcoming Events
+            </h3>
+            <p className="text-secondary-black text-base md:text-lg mt-2 max-w-md">
+              We're busy planning something special. Check back soon for new
+              events.
+            </p>
+          </div>
+        </div>
+      ) : (
+        <div className="mt-4 md:my-8">
+          <Swiper
           modules={[Pagination, Autoplay]}
           spaceBetween={20}
           slidesPerView={1.2}
@@ -329,8 +345,9 @@ const UpcomingEvents = () => {
               </div>
             </SwiperSlide>
           ))}
-        </Swiper>
-      </div>
+          </Swiper>
+        </div>
+      )}
     </section>
   );
 };

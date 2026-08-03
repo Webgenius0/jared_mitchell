@@ -3,7 +3,8 @@ import {
   DownloadIconSvg,
   ImgSvg,
 } from "@/Components/Svg/SvgContainer";
-import { useFormContext } from "react-hook-form";
+import Image from "next/image";
+import { useFormContext, useWatch } from "react-hook-form";
 
 const StepFour = () => {
   const {
@@ -16,6 +17,14 @@ const StepFour = () => {
   const workspacePhoto = watch("artwork_photos")?.[0];
   const servicePhoto = watch("behind_scenes_photo")?.[0];
   const teamPhoto = watch("intro_video")?.[0];
+
+  const existingHeadshot = useWatch({ name: "existing_headshot" });
+  const existingArtworkPhotos: string[] =
+    useWatch({ name: "existing_artwork_photos" }) ?? [];
+  const existingBehindScenes = useWatch({
+    name: "existing_behind_scenes_photo",
+  });
+  const existingIntroVideo = useWatch({ name: "existing_intro_video" });
 
   return (
     <div className="step_box">
@@ -37,7 +46,8 @@ const StepFour = () => {
           <p className="artist_label mb-1">
             <ImgSvg />
             <span>
-              Professional Headshot / Portrait <span>*</span>
+              Professional Headshot / Portrait{" "}
+              {!existingHeadshot && <span>*</span>}
             </span>
           </p>
 
@@ -45,6 +55,7 @@ const StepFour = () => {
             <p className="text-[#364153]">
               A clear, professional photo of you. This will be your main
               spotlight image.
+              {existingHeadshot && " Leave blank to keep your current photo."}
             </p>
 
             {errors.headshot?.message && (
@@ -54,13 +65,26 @@ const StepFour = () => {
             )}
           </div>
 
+          {existingHeadshot && !ownerPhoto && (
+            <div className="relative w-24 h-24 rounded-xl overflow-hidden mb-3 border border-gray-200">
+              <Image
+                src={existingHeadshot}
+                alt="Current headshot"
+                fill
+                className="object-cover"
+              />
+            </div>
+          )}
+
           <label htmlFor="headshot">
             <input
               type="file"
               id="headshot"
               className="hidden"
               {...register("headshot", {
-                required: "Owner portrait is required",
+                required: existingHeadshot
+                  ? false
+                  : "Owner portrait is required",
               })}
               onChange={e => {
                 register("headshot").onChange(e);
@@ -82,7 +106,11 @@ const StepFour = () => {
               {ownerPhoto ? (
                 <h4 className="text-lg text-gray-500">{ownerPhoto?.name}</h4>
               ) : (
-                <h4 className="text-lg text-gray-500">Click to upload image</h4>
+                <h4 className="text-lg text-gray-500">
+                  {existingHeadshot
+                    ? "Click to replace image"
+                    : "Click to upload image"}
+                </h4>
               )}
 
               <p className="text-gray-500 -mt-1">PNG, JPG up to 10MB</p>
@@ -95,7 +123,8 @@ const StepFour = () => {
           <p className="artist_label mb-1">
             <ImgSvg />
             <span>
-              Photos of Your Art / Work (3-5 photos) <span>*</span>
+              Photos of Your Art / Work (3-5 photos){" "}
+              {existingArtworkPhotos.length === 0 && <span>*</span>}
             </span>
           </p>
 
@@ -103,6 +132,8 @@ const StepFour = () => {
             <p className="text-[#364153]">
               High-quality photos showcasing your best work. These will appear
               in your spotlight gallery.
+              {existingArtworkPhotos.length > 0 &&
+                " Uploading new photos will replace the current set."}
             </p>
 
             {errors.artwork_photos?.message && (
@@ -112,6 +143,24 @@ const StepFour = () => {
             )}
           </div>
 
+          {existingArtworkPhotos.length > 0 && !workspacePhoto && (
+            <div className="grid grid-cols-3 gap-3 mb-3">
+              {existingArtworkPhotos.map((src, idx) => (
+                <div
+                  key={idx}
+                  className="relative aspect-square rounded-xl overflow-hidden border border-gray-200"
+                >
+                  <Image
+                    src={src}
+                    alt={`Artwork ${idx + 1}`}
+                    fill
+                    className="object-cover"
+                  />
+                </div>
+              ))}
+            </div>
+          )}
+
           <label htmlFor="artwork_photos">
             <input
               type="file"
@@ -119,7 +168,10 @@ const StepFour = () => {
               multiple
               className="hidden"
               {...register("artwork_photos", {
-                required: "Workspace photo is required",
+                required:
+                  existingArtworkPhotos.length > 0
+                    ? false
+                    : "Workspace photo is required",
               })}
               onChange={e => {
                 register("artwork_photos").onChange(e);
@@ -143,7 +195,11 @@ const StepFour = () => {
                   {workspacePhoto?.name}
                 </h4>
               ) : (
-                <h4 className="text-lg text-gray-500">Click to upload image</h4>
+                <h4 className="text-lg text-gray-500">
+                  {existingArtworkPhotos.length > 0
+                    ? "Click to replace photos"
+                    : "Click to upload image"}
+                </h4>
               )}
 
               <p className="text-gray-500 -mt-1">PNG, JPG up to 10MB</p>
@@ -151,18 +207,20 @@ const StepFour = () => {
           </label>
         </div>
 
-        {/* Product or Service Photos */}
+        {/* Behind-the-Scenes Photo */}
         <div>
           <p className="artist_label mb-1">
             <ImgSvg />
             <span>
-              Behind-the-Scenes Photo <span>*</span>
+              Behind-the-Scenes Photo {!existingBehindScenes && <span>*</span>}
             </span>
           </p>
 
           <div className="flex justify-between items-center mb-3">
             <p className="text-[#364153]">
               Show your creative process! This adds authenticity to your story.
+              {existingBehindScenes &&
+                " Leave blank to keep your current photo."}
             </p>
 
             {errors.behind_scenes_photo?.message && (
@@ -172,13 +230,26 @@ const StepFour = () => {
             )}
           </div>
 
+          {existingBehindScenes && !servicePhoto && (
+            <div className="relative w-24 h-24 rounded-xl overflow-hidden mb-3 border border-gray-200">
+              <Image
+                src={existingBehindScenes}
+                alt="Current behind-the-scenes photo"
+                fill
+                className="object-cover"
+              />
+            </div>
+          )}
+
           <label htmlFor="behind_scenes_photo">
             <input
               type="file"
               id="behind_scenes_photo"
               className="hidden"
               {...register("behind_scenes_photo", {
-                required: "Product photo is required",
+                required: existingBehindScenes
+                  ? false
+                  : "Product photo is required",
               })}
               onChange={e => {
                 register("behind_scenes_photo").onChange(e);
@@ -202,7 +273,11 @@ const StepFour = () => {
               {servicePhoto ? (
                 <h4 className="text-lg text-gray-500">{servicePhoto?.name}</h4>
               ) : (
-                <h4 className="text-lg text-gray-500">Click to upload image</h4>
+                <h4 className="text-lg text-gray-500">
+                  {existingBehindScenes
+                    ? "Click to replace image"
+                    : "Click to upload image"}
+                </h4>
               )}
 
               <p className="text-gray-500 -mt-1">PNG, JPG up to 10MB</p>
@@ -215,7 +290,8 @@ const StepFour = () => {
           <p className="artist_label mb-1">
             <ImgSvg />
             <span>
-              Short Intro Video (15-30 seconds) <span>*</span>
+              Short Intro Video (15-30 seconds){" "}
+              {!existingIntroVideo && <span>*</span>}
             </span>
           </p>
 
@@ -223,6 +299,7 @@ const StepFour = () => {
             <p className="text-[#364153]">
               Introduce yourself on camera! This helps the community connect
               with you.
+              {existingIntroVideo && " Leave blank to keep your current video."}
             </p>
 
             {errors.intro_video?.message && (
@@ -232,6 +309,14 @@ const StepFour = () => {
             )}
           </div>
 
+          {existingIntroVideo && !teamPhoto && (
+            <video
+              src={existingIntroVideo}
+              controls
+              className="w-full max-w-sm rounded-xl bg-slate-900 mb-3"
+            />
+          )}
+
           <label htmlFor="intro_video">
             <input
               type="file"
@@ -239,7 +324,7 @@ const StepFour = () => {
               id="intro_video"
               className="hidden"
               {...register("intro_video", {
-                required: "Team photo is required",
+                required: existingIntroVideo ? false : "Team photo is required",
               })}
               onChange={e => {
                 register("intro_video").onChange(e);
@@ -261,7 +346,11 @@ const StepFour = () => {
               {teamPhoto ? (
                 <h4 className="text-lg text-gray-500">{teamPhoto?.name}</h4>
               ) : (
-                <h4 className="text-lg text-gray-500">Click to upload image</h4>
+                <h4 className="text-lg text-gray-500">
+                  {existingIntroVideo
+                    ? "Click to replace video"
+                    : "Click to upload image"}
+                </h4>
               )}
 
               <p className="text-gray-500 -mt-1">PNG, JPG up to 10MB</p>

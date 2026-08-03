@@ -79,20 +79,25 @@ const FeaturedEvent = ({ events }: FeaturedEventProps) => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(true);
-  const [actionLoading, setActionLoading] = useState<Record<string, boolean>>({});
+  const [actionLoading, setActionLoading] = useState<Record<string, boolean>>(
+    {},
+  );
   const { token } = useAuth();
 
   // Use local engagement state so we can optimistically update counts
   // Initialise from localStorage so liked/bookmarked state persists across refreshes
-  const [localEngagements, setLocalEngagements] = useState<EngagementMap>(() => loadPersistedEngagements());
+  const [localEngagements, setLocalEngagements] = useState<EngagementMap>(() =>
+    loadPersistedEngagements(),
+  );
 
   const getEngagement = (eventId: number) => {
-    const event = events?.find((e) => e.id === eventId);
+    const event = events?.find(e => e.id === eventId);
     const local = localEngagements[eventId];
     return {
       is_liked: local?.is_liked ?? event?.is_liked ?? false,
       is_bookmarked: local?.is_bookmarked ?? event?.is_bookmarked ?? false,
-      like_count: local?.like_count ?? event?.likes_count ?? event?.like_count ?? 0,
+      like_count:
+        local?.like_count ?? event?.likes_count ?? event?.like_count ?? 0,
       bookmarks_count: local?.bookmarks_count ?? event?.bookmarks_count ?? 0,
       shares_count: local?.shares_count ?? event?.shares_count ?? 0,
     };
@@ -105,11 +110,11 @@ const FeaturedEvent = ({ events }: FeaturedEventProps) => {
     }
     const loadingKey = `like-${eventId}`;
     if (actionLoading[loadingKey]) return;
-    setActionLoading((prev) => ({ ...prev, [loadingKey]: true }));
+    setActionLoading(prev => ({ ...prev, [loadingKey]: true }));
 
     const prev = getEngagement(eventId);
     // Optimistic update
-    setLocalEngagements((prevState) => ({
+    setLocalEngagements(prevState => ({
       ...prevState,
       [eventId]: {
         is_liked: !prev.is_liked,
@@ -124,12 +129,14 @@ const FeaturedEvent = ({ events }: FeaturedEventProps) => {
       const res = await apiToggleLike(eventId);
       if (res?.success) {
         // Sync with actual server state from response
-        setLocalEngagements((prevState) => ({
+        setLocalEngagements(prevState => ({
           ...prevState,
           [eventId]: {
             is_liked: res.data.is_liked,
             is_bookmarked: prev.is_bookmarked,
-            like_count: res.data.is_liked ? prev.like_count + 1 : Math.max(0, prev.like_count - 1),
+            like_count: res.data.is_liked
+              ? prev.like_count + 1
+              : Math.max(0, prev.like_count - 1),
             bookmarks_count: prev.bookmarks_count,
             shares_count: prev.shares_count,
           },
@@ -138,7 +145,7 @@ const FeaturedEvent = ({ events }: FeaturedEventProps) => {
       }
     } catch {
       // Revert on error
-      setLocalEngagements((prevState) => ({
+      setLocalEngagements(prevState => ({
         ...prevState,
         [eventId]: {
           is_liked: prev.is_liked,
@@ -151,11 +158,11 @@ const FeaturedEvent = ({ events }: FeaturedEventProps) => {
       toast.error("Failed to toggle like");
     } finally {
       // Persist the updated state to localStorage
-      setLocalEngagements((current) => {
+      setLocalEngagements(current => {
         persistEngagements(current);
         return current;
       });
-      setActionLoading((prev) => ({ ...prev, [loadingKey]: false }));
+      setActionLoading(prev => ({ ...prev, [loadingKey]: false }));
     }
   };
 
@@ -166,17 +173,19 @@ const FeaturedEvent = ({ events }: FeaturedEventProps) => {
     }
     const loadingKey = `bookmark-${eventId}`;
     if (actionLoading[loadingKey]) return;
-    setActionLoading((prev) => ({ ...prev, [loadingKey]: true }));
+    setActionLoading(prev => ({ ...prev, [loadingKey]: true }));
 
     const prev = getEngagement(eventId);
     // Optimistic update
-    setLocalEngagements((prevState) => ({
+    setLocalEngagements(prevState => ({
       ...prevState,
       [eventId]: {
         is_liked: prev.is_liked,
         is_bookmarked: !prev.is_bookmarked,
         like_count: prev.like_count,
-        bookmarks_count: prev.is_bookmarked ? prev.bookmarks_count - 1 : prev.bookmarks_count + 1,
+        bookmarks_count: prev.is_bookmarked
+          ? prev.bookmarks_count - 1
+          : prev.bookmarks_count + 1,
         shares_count: prev.shares_count,
       },
     }));
@@ -185,13 +194,15 @@ const FeaturedEvent = ({ events }: FeaturedEventProps) => {
       const res = await apiToggleBookmark(eventId);
       if (res?.success) {
         // Sync with actual server state from response
-        setLocalEngagements((prevState) => ({
+        setLocalEngagements(prevState => ({
           ...prevState,
           [eventId]: {
             is_liked: prev.is_liked,
             is_bookmarked: res.data.is_bookmarked,
             like_count: prev.like_count,
-            bookmarks_count: res.data.is_bookmarked ? prev.bookmarks_count + 1 : Math.max(0, prev.bookmarks_count - 1),
+            bookmarks_count: res.data.is_bookmarked
+              ? prev.bookmarks_count + 1
+              : Math.max(0, prev.bookmarks_count - 1),
             shares_count: prev.shares_count,
           },
         }));
@@ -199,7 +210,7 @@ const FeaturedEvent = ({ events }: FeaturedEventProps) => {
       }
     } catch {
       // Revert on error
-      setLocalEngagements((prevState) => ({
+      setLocalEngagements(prevState => ({
         ...prevState,
         [eventId]: {
           is_liked: prev.is_liked,
@@ -212,18 +223,18 @@ const FeaturedEvent = ({ events }: FeaturedEventProps) => {
       toast.error("Failed to toggle bookmark");
     } finally {
       // Persist the updated state to localStorage
-      setLocalEngagements((current) => {
+      setLocalEngagements(current => {
         persistEngagements(current);
         return current;
       });
-      setActionLoading((prev) => ({ ...prev, [loadingKey]: false }));
+      setActionLoading(prev => ({ ...prev, [loadingKey]: false }));
     }
   };
 
   const handleShare = async (eventId: number, eventTitle: string) => {
     const loadingKey = `share-${eventId}`;
     if (actionLoading[loadingKey]) return;
-    setActionLoading((prev) => ({ ...prev, [loadingKey]: true }));
+    setActionLoading(prev => ({ ...prev, [loadingKey]: true }));
 
     // Try native Web Share API first
     if (navigator.share) {
@@ -231,24 +242,28 @@ const FeaturedEvent = ({ events }: FeaturedEventProps) => {
         await navigator.share({
           title: eventTitle,
           text: `Check out this event: ${eventTitle}`,
-          url: window.location.origin + `/events/${events?.find((e) => e.id === eventId)?.slug || eventId}`,
+          url:
+            window.location.origin +
+            `/events/${events?.find(e => e.id === eventId)?.slug || eventId}`,
         });
       } catch {
         // User cancelled or error — do nothing
       } finally {
-        setActionLoading((prev) => ({ ...prev, [loadingKey]: false }));
+        setActionLoading(prev => ({ ...prev, [loadingKey]: false }));
       }
       return;
     }
 
     // Fallback: copy to clipboard
     try {
-      const url = window.location.origin + `/events/${events?.find((e) => e.id === eventId)?.slug || eventId}`;
+      const url =
+        window.location.origin +
+        `/events/${events?.find(e => e.id === eventId)?.slug || eventId}`;
       await navigator.clipboard.writeText(url);
     } catch {
       // Clipboard not available
     } finally {
-      setActionLoading((prev) => ({ ...prev, [loadingKey]: false }));
+      setActionLoading(prev => ({ ...prev, [loadingKey]: false }));
     }
 
     // Also fire the share API call (non-blocking)
@@ -275,14 +290,14 @@ const FeaturedEvent = ({ events }: FeaturedEventProps) => {
   const goToNext = useCallback(() => {
     if (isTransitioning || !events || events.length <= 1) return;
     setIsTransitioning(true);
-    setCurrentIndex((prev) => (prev + 1) % events.length);
+    setCurrentIndex(prev => (prev + 1) % events.length);
     setTimeout(() => setIsTransitioning(false), 500);
   }, [events, isTransitioning]);
 
   const goToPrev = useCallback(() => {
     if (isTransitioning || !events || events.length <= 1) return;
     setIsTransitioning(true);
-    setCurrentIndex((prev) => (prev - 1 + events.length) % events.length);
+    setCurrentIndex(prev => (prev - 1 + events.length) % events.length);
     setTimeout(() => setIsTransitioning(false), 500);
   }, [events, isTransitioning]);
 
@@ -304,7 +319,7 @@ const FeaturedEvent = ({ events }: FeaturedEventProps) => {
             shares_count: evt.shares_count ?? 0,
           };
         }
-        setLocalEngagements((prev) => {
+        setLocalEngagements(prev => {
           const merged = { ...prev, ...engagementMap };
           persistEngagements(merged);
           return merged;
@@ -313,7 +328,9 @@ const FeaturedEvent = ({ events }: FeaturedEventProps) => {
         // silently fail — fall back to localStorage data
       }
     })();
-    return () => { cancelled = true; };
+    return () => {
+      cancelled = true;
+    };
   }, [token]);
 
   // Auto-rotate with pause on hover
@@ -395,7 +412,7 @@ const FeaturedEvent = ({ events }: FeaturedEventProps) => {
 
         {/* Right */}
         <div key={`content-${event.id}`} className="lg:basis-1/2">
-          <h2 className="section_title !text-left 2xl:font-bold 2xl:text-5xl tracking-tight mb-6 leading-[1.15]">
+          <h2 className="section_title !text-left 2xl:font-bold 2xl:text-5xl tracking-tight mb-6 leading-[1.15] capitalize">
             {event.title}
           </h2>
 

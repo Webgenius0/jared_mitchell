@@ -66,7 +66,7 @@ const WinnerReceives = ({ data }: WinnerReceivesProps) => {
             return (
               <div
                 key={idx}
-                className="px-7 py-[55px] custom_border bg-primary-gray rounded-xl text-center"
+                className="px-5 py-10 md:px-7 md:py-[55px] custom_border bg-primary-gray rounded-xl text-center"
               >
                 <p className="mx-auto w-fit mb-3">
                   <Icon />

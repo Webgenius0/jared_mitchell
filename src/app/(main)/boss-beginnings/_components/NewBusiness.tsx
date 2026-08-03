@@ -20,7 +20,7 @@ const NewBusiness = ({ data }: NewBusinessProps) => {
         <div className="text-center mt-9">
           <Link
             href="/boss-beginnings-contest"
-            className="py-3.5 px-[67px] bg-primary-blue text-white rounded-full text-xl font-medium"
+            className="inline-flex items-center justify-center w-full sm:w-auto py-3.5 px-8 sm:px-[67px] bg-primary-blue text-white rounded-full text-base sm:text-lg lg:text-xl font-medium"
           >
             Submit a Nomination
           </Link>

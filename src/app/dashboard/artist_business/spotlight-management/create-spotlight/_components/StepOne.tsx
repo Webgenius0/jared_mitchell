@@ -168,7 +168,7 @@ const StepOne = () => {
             </div>
 
             <input
-              type="text"
+              type="date"
               id="date_of_birth"
               className={`step_input ${
                 errors.date_of_birth ? "border-red-500" : "border-[#D1D5DC] "
