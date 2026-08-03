@@ -222,13 +222,13 @@ export default function Page() {
                         </button>
                         <button
                           type="button"
-                          title="Apply to a spotlight week"
                           onClick={() =>
                             setApplyTarget({ id: s.id, name: s.businessName })
                           }
-                          className="text-slate-400 hover:text-blue-500 transition-colors"
+                          className="inline-flex items-center gap-1.5 bg-blue-500 text-white text-xs md:text-sm font-medium px-3.5 py-1.5 md:px-4 md:py-2 rounded-full hover:bg-blue-600 transition-colors"
                         >
-                          <Send className="w-4 h-4 md:w-[18px] md:h-[18px]" />
+                          <Send className="w-3.5 h-3.5" />
+                          Apply
                         </button>
                         {/* <button
                           type="button"

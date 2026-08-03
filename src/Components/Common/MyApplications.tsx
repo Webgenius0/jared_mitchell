@@ -99,9 +99,11 @@ const MyApplications = ({ type }: { type: "artist" | "business" }) => {
   ];
 
   // Backend validates which statuses can be withdrawn — we only hide the
-  // button for applications that are already withdrawn.
-  const canWithdraw = (status: string) =>
-    (status || "").toLowerCase() !== "withdrawn";
+  // button for applications that are already withdrawn, selected, or rejected.
+  const canWithdraw = (status: string) => {
+    const s = (status || "").toLowerCase();
+    return s !== "withdrawn" && s !== "selected" && s !== "rejected";
+  };
 
   const confirmWithdraw = async () => {
     if (!withdrawTarget) return;
@@ -225,11 +227,11 @@ const MyApplications = ({ type }: { type: "artist" | "business" }) => {
                     {canWithdraw(entry.status) ? (
                       <button
                         type="button"
-                        title="Withdraw application"
                         onClick={() => setWithdrawTarget(entry)}
-                        className="text-slate-400 hover:text-red-500 transition-colors"
+                        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-red-200 text-red-500 text-xs md:text-sm font-medium hover:bg-red-50 transition-colors"
                       >
-                        <Undo2 className="w-4 h-4 md:w-[18px] md:h-[18px]" />
+                        <Undo2 className="w-3.5 h-3.5" />
+                        Withdraw
                       </button>
                     ) : (
                       <span className="text-slate-300">—</span>
