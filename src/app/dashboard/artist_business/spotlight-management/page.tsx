@@ -1,6 +1,7 @@
 "use client";
 import { Pagination } from "@/Components/Common/Pagination";
 import { SpotlightRowSkeleton } from "@/Components/Loader/Loader";
+import { formatDate } from "@/helper/formatDate";
 import { getArtistSpotlights } from "@/Hooks/api/cms_api";
 import { Eye, Pencil } from "lucide-react";
 import Link from "next/link";
@@ -27,20 +28,11 @@ interface SpotlightApiItem {
   created_at: string;
 }
 
-interface SpotlightsPagination {
+export interface PaginationProps {
   total: number;
   per_page: number;
   current_page: number;
   last_page: number;
-}
-
-function formatDate(value: string | null) {
-  if (!value) return "—";
-  return new Date(value).toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "short",
-    day: "numeric",
-  });
 }
 
 const statusStyles: Record<string, string> = {
@@ -74,7 +66,7 @@ export default function Page() {
   const [page, setPage] = useState(1);
   const { data, isLoading } = getArtistSpotlights({ page });
   const spotlights: SpotlightApiItem[] = data?.data?.spotlights ?? [];
-  const pagination: SpotlightsPagination | undefined = data?.data?.pagination;
+  const pagination: PaginationProps | undefined = data?.data?.pagination;
 
   return (
     <>

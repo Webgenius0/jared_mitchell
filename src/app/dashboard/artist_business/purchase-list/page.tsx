@@ -1,8 +1,22 @@
-import React from "react";
-import PurchaseList from "../../boss_beginning/purchase-list/page";
+"use client";
+import { usePurchaseList } from "@/Hooks/api/dashboard_api";
+import PurchaseList from "./_components/PurchaseList";
+import { useState } from "react";
 
-const page = () => {
-  return <PurchaseList />;
+const Page = () => {
+  const [page, setPage] = useState(1);
+  const { data: purchaseList, isLoading } = usePurchaseList({
+    page,
+    per_page: 1,
+  });
+
+  return (
+    <PurchaseList
+      data={purchaseList?.data}
+      isLoading={isLoading}
+      setPage={setPage}
+    />
+  );
 };
 
-export default page;
+export default Page;

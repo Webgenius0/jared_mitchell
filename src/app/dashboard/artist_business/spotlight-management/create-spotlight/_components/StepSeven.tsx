@@ -12,7 +12,7 @@ const StepSeven = () => {
         Submission Successful!
       </h3>
 
-      <p className="text-[#1D1D1F] text-2xl max-w-5xl mx-auto leading-[164%]">
+      <p className="text-[#1D1D1F] text-xl max-w-4xl mb-7 mx-auto leading-[164%]">
         Thank you for submitting your Business Spotlight application. We’re
         excited to review your brand, story, and the work you’re building
       </p>
