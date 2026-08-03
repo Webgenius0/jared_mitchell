@@ -48,13 +48,15 @@ export default function BusinessSpotlightDetailsContent({
     ? spotlight.business_website || spotlight.website_url
     : basicBusiness?.website || "";
 
-  const interactions = usingSpotlight
-    ? spotlight.interactions
-    : {
-        likes_count: basicBusiness?.likes_count ?? 0,
-        bookmarks_count: basicBusiness?.bookmarks_count ?? 0,
-        shares_count: basicBusiness?.shares_count ?? 0,
-      };
+
+  // Vote data from voting_history first, then voting_summary
+  const currentVotes = usingSpotlight
+    ? spotlight.voting_history?.[0]?.votes?.total ?? spotlight.voting_summary?.total_votes_received ?? 0
+    : 0;
+
+  const currentVoteBreakdown = usingSpotlight
+    ? spotlight.voting_history?.[0]?.votes
+    : null;
 
   // Loading state
   if (spotlightLoading || basicLoading) {
@@ -177,33 +179,37 @@ export default function BusinessSpotlightDetailsContent({
                 </div>
               )}
 
-              {/* Engagement stats */}
+              {/* Vote stats */}
               <div className="rounded-[14.205px] border-[0.5px] border-black/15 bg-[#F9FAFB] p-3 md:p-4 w-full">
                 <div className="flex flex-wrap gap-6 md:gap-10 items-center">
                   <div>
                     <h3 className="text-sm md:text-xl font-bold text-[#364153]">
-                      Likes
+                      Total Votes
                     </h3>
                     <p className="text-xs md:text-base font-normal text-[#364153] pt-1 md:pt-3">
-                      {interactions?.likes_count ?? 0}
+                      {currentVotes.toLocaleString()}
                     </p>
                   </div>
-                  {/* <div>
-                    <h3 className="text-sm md:text-xl font-bold text-[#364153]">
-                      Bookmarks
-                    </h3>
-                    <p className="text-xs md:text-base font-normal text-[#364153] pt-1 md:pt-3">
-                      {interactions?.bookmarks_count ?? 0}
-                    </p>
-                  </div> */}
-                  {/* <div>
-                    <h3 className="text-sm md:text-xl font-bold text-[#364153]">
-                      Shares
-                    </h3>
-                    <p className="text-xs md:text-base font-normal text-[#364153] pt-1 md:pt-3">
-                      {interactions?.shares_count ?? 0}
-                    </p>
-                  </div> */}
+                  {currentVoteBreakdown && (
+                    <>
+                      <div>
+                        <h3 className="text-sm md:text-xl font-bold text-[#364153]">
+                          Free Votes
+                        </h3>
+                        <p className="text-xs md:text-base font-normal text-[#364153] pt-1 md:pt-3">
+                          {currentVoteBreakdown.free}
+                        </p>
+                      </div>
+                      <div>
+                        <h3 className="text-sm md:text-xl font-bold text-[#364153]">
+                          Paid Votes
+                        </h3>
+                        <p className="text-xs md:text-base font-normal text-[#364153] pt-1 md:pt-3">
+                          {currentVoteBreakdown.paid}
+                        </p>
+                      </div>
+                    </>
+                  )}
                 </div>
               </div>
             </div>

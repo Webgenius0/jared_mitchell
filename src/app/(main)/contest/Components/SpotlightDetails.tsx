@@ -59,9 +59,8 @@ export default function SpotlightDetails({
   const displayYoutube = s?.youtube_url;
   const totalPoints = s?.voting_summary?.total_votes_received ?? 0;
   const totalClaps =
-    s?.voting_summary?.total_votes_received ||
     s?.voting_history?.[0]?.votes?.total ||
-    s?.interactions?.likes_count ||
+    s?.voting_summary?.total_votes_received ||
     0;
 
   const { token } = useAuth();

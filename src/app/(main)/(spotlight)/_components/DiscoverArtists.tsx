@@ -7,37 +7,37 @@ import Container from "@/Components/Common/Container";
 import { AiOutlineLike, AiFillLike } from "react-icons/ai";
 import { resolveMediaUrl } from "@/lib/utils";
 import { getItem, setItem } from "@/lib/localStorage";
+import { useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 
 import {
   useGetNominatedSpotlights,
   useCurrentSpotlightWeek,
 } from "@/Hooks/api/cms_api";
-import { apiToggleSpotlightLike } from "@/Hooks/api/events_api";
+import { apiVoteNominee } from "@/Hooks/api/events_api";
 import useAuth from "@/Hooks/useAuth";
 
-const SPOTLIGHT_ENGAGEMENT_KEY = "spotlight_engagements";
+const SPOTLIGHT_VOTE_KEY = "spotlight_votes";
 
-type EngagementValue = {
-  is_liked: boolean;
-  likes_count: number;
+type VoteValue = {
+  voted: boolean;
 };
 
-type EngagementMap = Record<number, EngagementValue>;
+type VoteMap = Record<number, VoteValue>;
 
-const loadPersistedEngagements = (): EngagementMap => {
+const loadPersistedVotes = (): VoteMap => {
   try {
-    const raw = getItem(SPOTLIGHT_ENGAGEMENT_KEY);
+    const raw = getItem(SPOTLIGHT_VOTE_KEY);
     if (!raw) return {};
-    return JSON.parse(raw) as EngagementMap;
+    return JSON.parse(raw) as VoteMap;
   } catch {
     return {};
   }
 };
 
-const persistEngagements = (map: EngagementMap) => {
+const persistVotes = (map: VoteMap) => {
   try {
-    setItem(SPOTLIGHT_ENGAGEMENT_KEY, JSON.stringify(map));
+    setItem(SPOTLIGHT_VOTE_KEY, JSON.stringify(map));
   } catch {
     // silently fail
   }
@@ -59,58 +59,65 @@ const DiscoverArtists = ({
     type,
   );
   const { token } = useAuth();
+  const queryClient = useQueryClient();
 
   const nominees = nominatedData?.data?.nominees || [];
 
   const [actionLoading, setActionLoading] = useState<Record<string, boolean>>(
-    {}
+    {},
   );
-  const [localEngagements, setLocalEngagements] = useState<EngagementMap>(
-    () => loadPersistedEngagements()
+  const [localVotes, setLocalVotes] = useState<VoteMap>(() =>
+    loadPersistedVotes(),
   );
 
-  // Seed localEngagements from server data on initial load
+  // Helper to extract vote count from a nominee (votes.total is at the nominee level)
+  const getNomineeVoteCount = useCallback((nominee: any): number => {
+    return (
+      nominee.votes?.total ??
+      nominee.spotlight?.voting_history?.[0]?.votes?.total ??
+      nominee.spotlight?.voting_summary?.total_votes_received ??
+      0
+    );
+  }, []);
+
+  // Seed voted flags for nominees we haven't seen yet
   useEffect(() => {
     if (nominees?.length) {
-      setLocalEngagements((prev) => {
+      setLocalVotes(prev => {
         const updated = { ...prev };
         let changed = false;
         for (const n of nominees) {
-          const spotlight = n.spotlight || {};
-          const sid = spotlight.id;
-          if (sid && !prev[sid]) {
-            updated[sid] = {
-              is_liked: spotlight.is_liked ?? false,
-              likes_count: spotlight.likes_count ?? spotlight.like_count ?? 0,
-            };
+          const nomineeId = n.id;
+          if (nomineeId && !prev[nomineeId]) {
+            updated[nomineeId] = { voted: false };
             changed = true;
           }
         }
-        if (changed) persistEngagements(updated);
+        if (changed) persistVotes(updated);
         return changed ? updated : prev;
       });
     }
   }, [nominees]);
 
-  // Sync localEngagements to localStorage whenever it changes
+  // Sync localVotes to localStorage whenever it changes
   useEffect(() => {
-    if (Object.keys(localEngagements).length > 0) {
-      persistEngagements(localEngagements);
+    if (Object.keys(localVotes).length > 0) {
+      persistVotes(localVotes);
     }
-  }, [localEngagements]);
+  }, [localVotes]);
 
-  const getEngagement = useCallback(
+  const getVoteData = useCallback(
     (item: any) => {
-      const spotlight = item.spotlight || {};
-      const sid = spotlight.id;
-      const local = sid ? localEngagements[sid] : undefined;
+      const nomineeId = item.id;
+      const local = nomineeId ? localVotes[nomineeId] : undefined;
       return {
-        is_liked: local?.is_liked ?? spotlight.is_liked ?? false,
-        likes_count:
-          local?.likes_count ?? spotlight.likes_count ?? spotlight.like_count ?? 0,
+        voted: local?.voted ?? false,
+        // Vote count always reflects the server response (nominee.votes.total),
+        // never the local/optimistic state.
+        vote_count: getNomineeVoteCount(item),
       };
     },
-    [localEngagements]
+    [localVotes, getNomineeVoteCount],
   );
 
   const getDetailsHref = (item: any) => {
@@ -120,7 +127,7 @@ const DiscoverArtists = ({
     return `${basePath}/${item.spotlight?.id || item.id}`;
   };
 
-  const handleToggleLike = async (spotlightId: number, e: React.MouseEvent) => {
+  const handleVote = async (nomineeId: number, e: React.MouseEvent) => {
     e.stopPropagation();
     e.preventDefault();
 
@@ -129,42 +136,43 @@ const DiscoverArtists = ({
       return;
     }
 
-    const loadingKey = `like-${spotlightId}`;
+    const loadingKey = `vote-${nomineeId}`;
     if (actionLoading[loadingKey]) return;
-    setActionLoading((prev) => ({ ...prev, [loadingKey]: true }));
+    setActionLoading(prev => ({ ...prev, [loadingKey]: true }));
 
-    const prevEngagement = localEngagements[spotlightId] || {
-      is_liked: false,
-      likes_count: 0,
-    };
+    const prevVoted = localVotes[nomineeId]?.voted ?? false;
 
-    // Optimistic update
-    setLocalEngagements((prevState) => ({
+    // Optimistic update — mark as voted (vote count stays driven by server)
+    setLocalVotes(prevState => ({
       ...prevState,
-      [spotlightId]: {
-        is_liked: !prevEngagement.is_liked,
-        likes_count: prevEngagement.is_liked
-          ? Math.max(0, prevEngagement.likes_count - 1)
-          : prevEngagement.likes_count + 1,
-      },
+      [nomineeId]: { voted: !prevVoted },
     }));
 
     try {
-      const res = await apiToggleSpotlightLike(type, spotlightId);
-      if (res?.success && res?.message) toast.success(res.message);
-      // Optimistic update already set the correct state — keep it
+      const res = await apiVoteNominee(nomineeId);
+      if (res?.success) {
+        if (res?.message) toast.success(res.message);
+        // Refetch so the card shows the fresh server vote total
+        queryClient.invalidateQueries({
+          queryKey: ["nominated-spotlights", weekId, type],
+        });
+      } else {
+        // API rejected — revert
+        setLocalVotes(prevState => ({
+          ...prevState,
+          [nomineeId]: { voted: prevVoted },
+        }));
+        if (res?.message) toast.error(res.message);
+      }
     } catch {
       // Revert on error
-      setLocalEngagements((prevState) => ({
+      setLocalVotes(prevState => ({
         ...prevState,
-        [spotlightId]: {
-          is_liked: prevEngagement.is_liked,
-          likes_count: prevEngagement.likes_count,
-        },
+        [nomineeId]: { voted: prevVoted },
       }));
-      toast.error("Failed to toggle like");
+      toast.error("Failed to cast vote. Please try again.");
     } finally {
-      setActionLoading((prev) => ({ ...prev, [loadingKey]: false }));
+      setActionLoading(prev => ({ ...prev, [loadingKey]: false }));
     }
   };
 
@@ -216,15 +224,18 @@ const DiscoverArtists = ({
               const rawImage = spotlight.headshot || "";
               const image = resolveMediaUrl(rawImage);
               const name = spotlight.name || "";
-              const sid = spotlight.id;
-              const location = spotlight.city && spotlight.state
-                ? `${spotlight.city}, ${spotlight.state}`
-                : "";
-              const engagement = sid ? getEngagement(nominee) : { is_liked: false, likes_count: 0 };
+              const location =
+                spotlight.city && spotlight.state
+                  ? `${spotlight.city}, ${spotlight.state}`
+                  : "";
+              const nomineeId = nominee.id;
+              const voteData = nomineeId
+                ? getVoteData(nominee)
+                : { voted: false, vote_count: 0 };
 
               return (
                 <Link
-                  key={nominee.id || index}
+                  key={nomineeId || index}
                   href={getDetailsHref(nominee)}
                   className="group relative block rounded-2xl overflow-hidden custom_shadow bg-white transition-shadow duration-300 hover:shadow-lg cursor-pointer"
                 >
@@ -253,7 +264,7 @@ const DiscoverArtists = ({
                   <div className="absolute inset-x-0 bottom-0 px-5 pb-4">
                     <div className="flex items-start justify-between gap-2">
                       <div className="min-w-0 flex-1">
-                        <h4 className="text-lg text-white font-semibold drop-shadow-sm">
+                        <h4 className="text-lg text-white font-semibold drop-shadow-sm capitalize">
                           {name}
                         </h4>
                         {location && (
@@ -263,34 +274,46 @@ const DiscoverArtists = ({
                         )}
                       </div>
 
-                      {/* Like button */}
-                      {sid && (
+                      {/* Vote button */}
+                      {nomineeId && (
                         <button
                           type="button"
-                          onClick={(e) => handleToggleLike(sid, e)}
-                          disabled={actionLoading[`like-${sid}`]}
-                          className="flex items-center gap-1 group/btn shrink-0"
-                          aria-label={engagement.is_liked ? "Unlike" : "Like"}
+                          onClick={e => handleVote(nomineeId, e)}
+                          disabled={actionLoading[`vote-${nomineeId}`]}
+                          className="flex items-center gap-1 group/btn shrink-0 mt-1"
+                          aria-label="Vote"
                         >
                           <div
-                            className={`flex items-center justify-center size-8 aspect-square rounded-full bg-white custom_shadow custom_border transition-all duration-300 ${
-                              engagement.is_liked
-                                ? "!bg-red-50 !border-red-200"
-                                : "group-hover/btn:!bg-red-50 group-hover/btn:!border-red-200"
+                            className={`flex items-center justify-center size-9 aspect-square rounded-full bg-white/90 backdrop-blur-sm custom_shadow custom_border transition-all duration-300 ${
+                              voteData.voted
+                                ? "!bg-blue-500 !border-blue-400"
+                                : "group-hover/btn:!bg-blue-500 group-hover/btn:!border-blue-400"
                             }`}
                           >
-                            {engagement.is_liked ? (
-                              <AiFillLike className="size-[16px] text-red-500 transition-all duration-300 scale-110" />
+                            {voteData.voted ? (
+                              <AiFillLike className="size-[18px] text-white transition-all duration-300 scale-110" />
                             ) : (
-                              <AiOutlineLike className="size-[16px] text-primary-black transition-all duration-300 group-hover/btn:scale-110" />
+                              <AiOutlineLike className="size-[18px] text-primary-black transition-all duration-300 group-hover/btn:!text-white group-hover/btn:scale-110" />
                             )}
                           </div>
-                          <span className="text-xs font-semibold text-white drop-shadow-sm">
-                            {engagement.likes_count.toLocaleString()}
-                          </span>
                         </button>
                       )}
                     </div>
+
+                    {/* Total votes badge — prominently displayed */}
+                    {nomineeId && (
+                      <div className="mt-2 flex items-center gap-2">
+                        <div className="inline-flex items-center gap-1.5 rounded-full bg-white/20 backdrop-blur-sm border border-white/30 px-3 py-1">
+                          <AiFillLike className="size-3.5 text-white/90" />
+                          <span className="text-sm font-bold text-white drop-shadow-sm">
+                            {voteData.vote_count.toLocaleString()}
+                          </span>
+                          <span className="text-[10px] text-white/70 font-medium uppercase tracking-wider">
+                            Votes
+                          </span>
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </Link>
               );
