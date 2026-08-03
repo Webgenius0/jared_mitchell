@@ -7,7 +7,7 @@ import Link from "next/link";
 const BossBeginnings = ({ data }: { data?: CMSBossBeginnings }) => {
   return (
     // Kept standard vertical padding light
-    <section className="text-center bg-[#F5F5F7] py-8 2xl:py-10">
+    <section className="text-center bg-[#F5F5F7] py-10 2xl:py-12">
       <div className="container">
         {/* Reduced text line-height from xl:leading-[100px] to tight/snug options */}
         <h2 className="text-primary-black text-3xl md:text-4xl lg:text-5xl 2xl:text-5xl font-bold leading-tight xl:leading-[1.1] tracking-[-1.28px]">

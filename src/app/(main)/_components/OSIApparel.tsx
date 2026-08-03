@@ -46,7 +46,7 @@ const OSIApparel = ({ data, featuredProducts }: OSIApparelProps) => {
 
   return (
     <>
-      <section className="pt-8 text-center bg-[#F5F5F7]">
+      <section className="py-10 text-center bg-[#F5F5F7]">
         <div className="">
           {/* Heading */}
           <h2 className="text-xl md:text-3xl xl:text-4xl 2xl:text-5xl font-bold">
