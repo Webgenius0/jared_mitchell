@@ -8,9 +8,13 @@ import { useRouter } from "next/navigation";
 
 interface AboutThisEventProps {
   event: CMSEventItem;
+  hideTicketSection?: boolean;
 }
 
-export default function AboutThisEvent({ event }: AboutThisEventProps) {
+export default function AboutThisEvent({
+  event,
+  hideTicketSection = false,
+}: AboutThisEventProps) {
   const router = useRouter();
   const activeTiers = event.ticket_tiers?.filter(t => t.is_active) ?? [];
 
@@ -26,7 +30,11 @@ export default function AboutThisEvent({ event }: AboutThisEventProps) {
     <section className="py-10 xl:py-20">
       <div className="container mx-auto flex flex-col lg:flex-row gap-6 px-4">
         {/* ── Left Column: Event Details ──────────────────────────────────── */}
-        <div className="w-full lg:w-3/4 p-6 sm:p-8 rounded-[20px] bg-[#F5F5F7] flex flex-col gap-6">
+        <div
+          className={`w-full p-6 sm:p-8 rounded-[20px] bg-[#F5F5F7] flex flex-col gap-6 ${
+            hideTicketSection ? "" : "lg:w-3/4"
+          }`}
+        >
           <div className="flex flex-wrap justify-between items-center gap-4">
             <h3 className="section_title m-0">About This Event</h3>
             <div className="rounded-[30px] px-6 py-2 h-fit border-[0.5px] border-[#1977DD29] bg-[#1977DD1A] shadow-[0_4px_20px_0_rgba(0,0,0,0.07)] flex gap-2 items-center">
@@ -120,69 +128,71 @@ export default function AboutThisEvent({ event }: AboutThisEventProps) {
         </div>
 
         {/* ── Right Column: Static Ticket type Info + Action Button ── */}
-        <div className="w-full lg:w-1/4 p-6 sm:p-8 rounded-[20px] bg-[#F5F5F7] h-fit flex flex-col gap-5">
-          <h3 className="text-2xl font-semibold text-black">Ticket type</h3>
+        {!hideTicketSection && (
+          <div className="w-full lg:w-1/4 p-6 sm:p-8 rounded-[20px] bg-[#F5F5F7] h-fit flex flex-col gap-5">
+            <h3 className="text-2xl font-semibold text-black">Ticket type</h3>
 
-          {activeTiers.length === 0 ? (
-            <p className="text-gray-500 text-sm italic">
-              No Ticket type available.
-            </p>
-          ) : (
-            <div className="flex flex-col gap-3">
-              {activeTiers.map(tier => {
-                const seatsLeft = tier.quantity_available - tier.quantity_sold;
-                const isSoldOut = seatsLeft <= 0;
-                const priceLabel =
-                  parseFloat(tier.price) === 0
-                    ? "Free"
-                    : `$${parseFloat(tier.price).toFixed(2)}`;
+            {activeTiers.length === 0 ? (
+              <p className="text-gray-500 text-sm italic">
+                No Ticket type available.
+              </p>
+            ) : (
+              <div className="flex flex-col gap-3">
+                {activeTiers.map(tier => {
+                  const seatsLeft = tier.quantity_available - tier.quantity_sold;
+                  const isSoldOut = seatsLeft <= 0;
+                  const priceLabel =
+                    parseFloat(tier.price) === 0
+                      ? "Free"
+                      : `$${parseFloat(tier.price).toFixed(2)}`;
 
-                return (
-                  <div
-                    key={tier.id}
-                    className={`w-full rounded-xl border border-gray-200/60 bg-white p-4 shadow-sm flex items-center justify-between gap-5 ${
-                      isSoldOut ? "opacity-60" : ""
-                    }`}
-                  >
-                    <div className="min-w-0">
-                      <p className="font-bold text-lg leading-tight text-gray-900">
-                        {tier.name}
-                      </p>
-                      {tier.description && (
-                        <p className="text-base py-4 text-[#364153] line-clamp-2 font-normal">
-                          {tier.description}
+                  return (
+                    <div
+                      key={tier.id}
+                      className={`w-full rounded-xl border border-gray-200/60 bg-white p-4 shadow-sm flex items-center justify-between gap-5 ${
+                        isSoldOut ? "opacity-60" : ""
+                      }`}
+                    >
+                      <div className="min-w-0">
+                        <p className="font-bold text-lg leading-tight text-gray-900">
+                          {tier.name}
                         </p>
-                      )}
-                      <div className="flex gap-1 items-center">
-                        <PiUser className="size-3.5 text-gray-400" />
-                        <p className="text-lg text-gray-400 font-normal">
-                          {isSoldOut
-                            ? "Sold out"
-                            : `${seatsLeft} seats available`}
+                        {tier.description && (
+                          <p className="text-base py-4 text-[#364153] line-clamp-2 font-normal">
+                            {tier.description}
+                          </p>
+                        )}
+                        <div className="flex gap-1 items-center">
+                          <PiUser className="size-3.5 text-gray-400" />
+                          <p className="text-lg text-gray-400 font-normal">
+                            {isSoldOut
+                              ? "Sold out"
+                              : `${seatsLeft} seats available`}
+                          </p>
+                        </div>
+                      </div>
+
+                      <div className="text-right shrink-0">
+                        <p className="font-extrabold text-base leading-tight text-[#1977DD]">
+                          {priceLabel}
                         </p>
                       </div>
                     </div>
+                  );
+                })}
+              </div>
+            )}
 
-                    <div className="text-right shrink-0">
-                      <p className="font-extrabold text-base leading-tight text-[#1977DD]">
-                        {priceLabel}
-                      </p>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          )}
-
-          {/* Active Action Button to proceed directly to the registration page */}
-          <button
-            type="button"
-            onClick={handleProceed}
-            className="w-full text-center py-3.5 bg-[#1977DD] text-white rounded-xl font-semibold hover:bg-[#1565C0] active:scale-[0.98] transition-all duration-200 shadow-sm mt-2"
-          >
-            Proceed to Buy Ticket
-          </button>
-        </div>
+            {/* Active Action Button to proceed directly to the registration page */}
+            <button
+              type="button"
+              onClick={handleProceed}
+              className="w-full text-center py-3.5 bg-[#1977DD] text-white rounded-xl font-semibold hover:bg-[#1565C0] active:scale-[0.98] transition-all duration-200 shadow-sm mt-2"
+            >
+              Proceed to Buy Ticket
+            </button>
+          </div>
+        )}
       </div>
     </section>
   );

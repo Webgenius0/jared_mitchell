@@ -22,8 +22,8 @@ const Sponsors = ({ data, title, showButton = true }: SponsorsProps) => {
     })) || sponsorsData;
 
   return (
-    <section className="py-10 xl:py-20">
-      <h2 className="section_title text-center mb-6 md:mb-10">
+    <section className="py-8 xl:py-12">
+      <h2 className="section_title text-center mb-5 md:mb-8">
         {title || data?.title || "Powered by our community partners"}
       </h2>
 
@@ -31,7 +31,7 @@ const Sponsors = ({ data, title, showButton = true }: SponsorsProps) => {
         <SponsorSlider logos={logos} />
         <SponsorSlider logos={logos} reverse={true} />
         {showButton && (
-          <div className="flex justify-center mt-5">
+          <div className="flex justify-center mt-4">
             <Button onClick={() => setIsSponsorModalOpen(true)}>Become a Sponsor</Button>
           </div>
         )}

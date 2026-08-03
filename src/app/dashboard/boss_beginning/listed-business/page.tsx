@@ -1,82 +1,11 @@
 "use client";
 import { useState } from "react";
-import { Globe, Building2, User, Play } from "lucide-react";
-import Link from "next/link";
+import { Globe, Building2, User, Play, Loader2, Eye } from "lucide-react";
 import Modal from "@/Components/Common/Modal";
+import StatusBadge from "@/Components/Common/StatusBadge";
 import Image from "next/image";
-type BusinessStatus = "Approved" | "Terminated" | "Pending";
-interface Business {
-  id: string;
-  businessName: string;
-  ownerName: string;
-  story: string;
-  mission?: string;
-  websiteLink: string;
-  communityImpact?: string;
-  revenueStage?: string;
-  whyCompete?: string;
-  videoThumbnail?: string;
-  gallery?: string[];
-  date: string;
-  status: BusinessStatus;
-}
-
-const businesses: Business[] = [
-  {
-    id: "1",
-    businessName: "New Year Campaign",
-    ownerName: "TechKori Ltd.",
-    story:
-      "The Walt Disney Company has been a global leader in entertainment for decades...",
-    mission:
-      "To bring joy and inspiration to families everywhere through timeless storytelling and innovative campaigns.",
-    websiteLink: "http://www.abc.com",
-    communityImpact:
-      "Partnered with 12 local schools to run free creative-writing workshops for kids this year.",
-    revenueStage: "Profitable, growing 18% quarter over quarter since launch.",
-    whyCompete:
-      "A locally-run campaign with measurable community reach and strong repeat engagement.",
-    videoThumbnail:
-      "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=1200&q=80",
-    gallery: [
-      "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=400&q=80",
-      "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=400&q=80",
-      "https://images.unsplash.com/photo-1551836022-d5d88e9218df?w=400&q=80",
-    ],
-    date: "2025-01-01",
-    status: "Approved",
-  },
-  {
-    id: "2",
-    businessName: "EduLearn Beta Launch",
-    ownerName: "EduLearn Hub",
-    story:
-      "An innovative platform transforming how students learn with AI-powered tools...",
-    websiteLink: "http://www.abc.com",
-    date: "2025-01-01",
-    status: "Approved",
-  },
-  {
-    id: "3",
-    businessName: "EduLearn Beta Launch",
-    ownerName: "EduLearn Hub",
-    story:
-      "An innovative platform transforming how students learn with AI-powered tools...",
-    websiteLink: "http://www.abc.com",
-    date: "2025-01-01",
-    status: "Approved",
-  },
-  {
-    id: "4",
-    businessName: "New Year Campaign",
-    ownerName: "TechKori Ltd.",
-    story:
-      "The Walt Disney Company has been a global leader in entertainment for decades...",
-    websiteLink: "http://www.abc.com",
-    date: "2025-01-01",
-    status: "Approved",
-  },
-];
+import { useGetAllBusinesses } from "@/Hooks/api/dashboard_api";
+import { mapApiBusiness, type Business } from "@/lib/business";
 
 function InfoCard({ title, body }: { title: string; body?: string }) {
   return (
@@ -107,61 +36,87 @@ export default function Page() {
   );
   const [applySuccessOpen, setApplySuccessOpen] = useState(false);
 
+  const { data: apiData, isLoading } = useGetAllBusinesses();
+
+  const businesses: Business[] =
+    apiData?.data?.businesses?.map(mapApiBusiness) || [];
+
   return (
     <div className="">
       <div className=" bg-white rounded-2xl border border-slate-100 overflow-hidden">
         <div className="overflow-x-auto">
-          <table className="w-full min-w-[720px] border-collapse">
-            <thead>
-              <tr className="bg-slate-50">
-                {columns.map(col => (
-                  <th
-                    key={col}
-                    className="text-left text-xs md:text-sm font-medium text-slate-500 px-5 md:px-6 py-3 md:py-4 whitespace-nowrap"
-                  >
-                    {col}
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-slate-100">
-              {businesses.map(b => (
-                <tr
-                  key={b.id}
-                  className="hover:bg-slate-50/60 transition-colors"
-                >
-                  <td className="px-5 md:px-6 py-3.5 md:py-4 text-sm md:text-base text-slate-800 whitespace-nowrap">
-                    {b.businessName}
-                  </td>
-                  <td className="px-5 md:px-6 py-3.5 md:py-4 text-sm md:text-base text-slate-600 whitespace-nowrap">
-                    {b.ownerName}
-                  </td>
-                  <td className="px-5 md:px-6 py-3.5 md:py-4 text-sm md:text-base text-slate-600 whitespace-nowrap">
-                    {b.story}
-                  </td>
-                  <td className="px-5 md:px-6 py-3.5 md:py-4 text-sm md:text-base text-slate-600 whitespace-nowrap">
-                    {b.websiteLink}
-                  </td>
-                  <td className="px-5 md:px-6 py-3.5 md:py-4 text-sm md:text-base text-slate-600 whitespace-nowrap">
-                    {b.date}
-                  </td>
-                  <td className="px-5 md:px-6 py-3.5 md:py-4 whitespace-nowrap">
-                    <span className="inline-flex items-center px-4 py-2 rounded-lg text-xs md:text-sm font-medium bg-[#0082361F] text-[#00A63E]">
-                      {b.status}
-                    </span>
-                  </td>
-                  <td className="px-5 md:px-6 py-3.5 md:py-4 whitespace-nowrap">
-                    <button
-                      onClick={() => setApplySuccessOpen(true)}
-                      className="bg-primary-blue text-white px-7 py-2 text-sm rounded-full cursor-pointer"
+          {isLoading ? (
+            <div className="flex items-center justify-center py-20">
+              <Loader2 className="w-6 h-6 text-blue-500 animate-spin" />
+              <span className="ml-3 text-sm text-slate-500">
+                Loading businesses...
+              </span>
+            </div>
+          ) : businesses.length === 0 ? (
+            <div className="text-center py-20 text-sm text-slate-400">
+              No businesses found.
+            </div>
+          ) : (
+            <table className="w-full min-w-[720px] border-collapse">
+              <thead>
+                <tr className="bg-slate-50">
+                  {columns.map(col => (
+                    <th
+                      key={col}
+                      className="text-left text-xs md:text-sm font-medium text-slate-500 px-5 md:px-6 py-3 md:py-4 whitespace-nowrap"
                     >
-                      Apply
-                    </button>
-                  </td>
+                      {col}
+                    </th>
+                  ))}
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody className="divide-y divide-slate-100">
+                {businesses.map(b => (
+                  <tr
+                    key={b.id}
+                    className="hover:bg-slate-50/60 transition-colors"
+                  >
+                    <td className="px-5 md:px-6 py-3.5 md:py-4 text-sm md:text-base text-slate-800 whitespace-nowrap">
+                      {b.businessName || "—"}
+                    </td>
+                    <td className="px-5 md:px-6 py-3.5 md:py-4 text-sm md:text-base text-slate-600 whitespace-nowrap">
+                      {b.ownerName || "—"}
+                    </td>
+                    <td className="px-5 md:px-6 py-3.5 md:py-4 text-sm md:text-base text-slate-600 whitespace-nowrap max-w-[200px] truncate">
+                      {b.story || "—"}
+                    </td>
+                    <td className="px-5 md:px-6 py-3.5 md:py-4 text-sm md:text-base text-slate-600 whitespace-nowrap max-w-[160px] truncate">
+                      {b.websiteLink || "—"}
+                    </td>
+                    <td className="px-5 md:px-6 py-3.5 md:py-4 text-sm md:text-base text-slate-600 whitespace-nowrap">
+                      {b.date || "—"}
+                    </td>
+                    <td className="px-5 md:px-6 py-3.5 md:py-4 whitespace-nowrap">
+                      <StatusBadge status={b.status} />
+                    </td>
+                    <td className="px-5 md:px-6 py-3.5 md:py-4 whitespace-nowrap">
+                      <div className="flex items-center gap-3">
+                        <button
+                          type="button"
+                          title="View"
+                          onClick={() => setSelectedBusiness(b)}
+                          className="text-slate-400 hover:text-blue-500 transition-colors"
+                        >
+                          <Eye className="w-4 h-4 md:w-[18px] md:h-[18px]" />
+                        </button>
+                        <button
+                          onClick={() => setApplySuccessOpen(true)}
+                          className="bg-primary-blue text-white px-7 py-2 text-sm rounded-full cursor-pointer"
+                        >
+                          Apply
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
         </div>
       </div>
 
@@ -283,9 +238,7 @@ export default function Page() {
                 <span className="text-xs md:text-sm text-slate-500">
                   Status
                 </span>
-                <span className="inline-flex items-center px-4 py-2 rounded-lg text-xs md:text-sm font-medium bg-[#0082361F] text-[#00A63E]">
-                  {selectedBusiness.status}
-                </span>
+                <StatusBadge status={selectedBusiness.status} />
               </div>
             </div>
           </div>

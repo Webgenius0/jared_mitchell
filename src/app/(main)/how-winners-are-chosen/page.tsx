@@ -1,4 +1,9 @@
-import { getBossCms, getCMSAboutData } from "@/lib/Services/cms_service";
+import {
+  getBossCms,
+  getCMSAboutData,
+  getActiveSeasonRounds,
+  getRoundLeaderboard,
+} from "@/lib/Services/cms_service";
 import { CMSBossBeginnings } from "@/Types/cms";
 import BossBeginningBanner from "../boss-beginnings/_components/BossBeginningBanner";
 import WinnerReceives from "../boss-beginnings/_components/WinnerReceives";
@@ -10,6 +15,23 @@ import MainChoseBanner from "./Components/MainChoseBanner";
 const page = async () => {
   const pageData = (await getBossCms()) as CMSBossBeginnings;
   const CmsData = await getCMSAboutData();
+
+  // Fetch active season rounds → find the active round → fetch its leaderboard
+  let roundLeaderboard = null;
+  try {
+    const activeSeasonRes = await getActiveSeasonRounds();
+    const rounds = activeSeasonRes?.data?.rounds ?? [];
+    const activeRound =
+      rounds.find(r => r.is_active) ??
+      rounds.find(r => r.round_number === 1) ??
+      rounds[0];
+    if (activeRound) {
+      const leaderboardRes = await getRoundLeaderboard(activeRound.id);
+      roundLeaderboard = leaderboardRes?.data ?? null;
+    }
+  } catch {
+    // Active season or active round leaderboard may not be available yet
+  }
 
   return (
     <>
@@ -27,7 +49,11 @@ const page = async () => {
       </section> */}
       {/* <BusinessShower data={pageData?.boss_beginnings_features} /> */}
       {/* <BossBeginningWinner data={pageData?.boss_beginnings_video_gallery} /> */}
-      <BusinessChosenChart data={pageData?.boss_beginnings_steps} />
+      <BusinessChosenChart
+        data={pageData?.boss_beginnings_steps}
+        roundData={roundLeaderboard}
+        paginated
+      />
       {/* <NewBusiness data={pageData?.boss_beginnings_section5} /> */}
       {/* <HowVotingWorks data={pageData?.boss_beginnings_steps} />
       <WinnerReceives data={pageData?.boss_beginnings_dynamic} />

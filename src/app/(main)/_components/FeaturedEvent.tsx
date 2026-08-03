@@ -357,7 +357,7 @@ const FeaturedEvent = ({ events }: FeaturedEventProps) => {
         {/* Left - Video (with image fallback) */}
         <div
           key={event.id}
-          className="lg:basis-1/2 relative w-full lg:w-[716px] h-[350px] md:h-[550px] 2xl:h-[627px] rounded-2xl md:rounded-3xl xl:rounded-[40px] overflow-hidden bg-black"
+          className="lg:basis-1/2 relative w-full lg:w-[716px] h-[300px] md:h-[460px] 2xl:h-[520px] rounded-2xl md:rounded-3xl xl:rounded-[40px] overflow-hidden bg-black"
         >
           {event.promo_video_url ? (
             <>
@@ -395,7 +395,7 @@ const FeaturedEvent = ({ events }: FeaturedEventProps) => {
 
         {/* Right */}
         <div key={`content-${event.id}`} className="lg:basis-1/2">
-          <h2 className="section_title !text-left 2xl:font-bold 2xl:text-6xl tracking-tight mb-9 leading-[90px]">
+          <h2 className="section_title !text-left 2xl:font-bold 2xl:text-5xl tracking-tight mb-6 leading-[1.15]">
             {event.title}
           </h2>
 
@@ -431,7 +431,7 @@ const FeaturedEvent = ({ events }: FeaturedEventProps) => {
             )}
           </div>
 
-          <p className="text-lg md:text-xl xl:text-2xl text-primary-black mt-3">
+          <p className="text-base md:text-lg xl:text-xl text-primary-black mt-3">
             {event.description?.replace(/<[^>]*>/g, "")}
           </p>
 

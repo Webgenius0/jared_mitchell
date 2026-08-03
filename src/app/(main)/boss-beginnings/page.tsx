@@ -5,7 +5,13 @@ import WinnerReceives from "./_components/WinnerReceives";
 import NewsLetter from "@/Components/Common/NewsLetter";
 import BossBeginningBanner from "./_components/BossBeginningBanner";
 import BusinessChosenChart from "./_components/BusinessChosenChart";
-import { getBossCms, getCMSHomepageData } from "@/lib/Services/cms_service";
+import {
+  getBossCms,
+  getCMSHomepageData,
+  getCurrentContestWinner,
+  getActiveSeasonRounds,
+  getRoundLeaderboard,
+} from "@/lib/Services/cms_service";
 import { CMSBossBeginnings } from "@/Types/cms";
 import Sponsors from "../_components/Sponsors";
 import BossBeginningSponsor from "./_components/BossBeginningSponsor";
@@ -13,30 +19,49 @@ import BossBeginningSponsor from "./_components/BossBeginningSponsor";
 const page = async () => {
   const pageData = (await getBossCms()) as CMSBossBeginnings;
   const cmsData = await getCMSHomepageData();
+  const winnerData = await getCurrentContestWinner();
+
+  // Fetch active season rounds → find the active round → fetch its leaderboard
+  let roundLeaderboard = null;
+  try {
+    const activeSeasonRes = await getActiveSeasonRounds();
+    const rounds = activeSeasonRes?.data?.rounds ?? [];
+    const activeRound =
+      rounds.find(r => r.is_active) ??
+      rounds.find(r => r.round_number === 1) ??
+      rounds[0];
+    if (activeRound) {
+      const leaderboardRes = await getRoundLeaderboard(activeRound.id);
+      roundLeaderboard = leaderboardRes?.data ?? null;
+    }
+  } catch {
+    // Active season or active round leaderboard may not be available yet
+  }
 
   return (
     <>
       <BossBeginningBanner data={pageData?.boss_beginnings_hero} />
-      {/* <section className="section container">
-        <div className="w-full h-[627px]">
-          <CustomVideoPlayer
-            videoSrc={
-              pageData?.boss_beginnings_video_gallery?.video ??
-              "/home/hero-video.mp4"
-            }
-            className={"!rounded-[40px]"}
-          />
-        </div>
-      </section> */}
+
       <BusinessShower data={pageData?.boss_beginnings_features} />
-      <BossBeginningWinner data={pageData?.boss_beginnings_video_gallery} />
-      <BusinessChosenChart data={pageData?.boss_beginnings_steps} />
+
+      <BossBeginningWinner
+        data={pageData?.boss_beginnings_video_gallery}
+        winner={winnerData?.winner}
+      />
+
+      <BusinessChosenChart
+        data={pageData?.boss_beginnings_steps}
+        roundData={roundLeaderboard}
+      />
+
       <NewBusiness data={pageData?.boss_beginnings_section5} />
-      {/* <HowVotingWorks data={pageData?.boss_beginnings_steps} /> */}
+
       <WinnerReceives data={pageData?.boss_beginnings_dynamic} />
-      {/* <PartnerWithBossBeginnings /> */}
+
       <BossBeginningSponsor />
+
       <Sponsors data={cmsData?.partners} showButton={false} />
+
       <NewsLetter title="Be part of the movement. Get stories, updates, and opportunities straight to your inbox." />
     </>
   );

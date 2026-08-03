@@ -1,7 +1,12 @@
 import React from "react";
 import { CMSBossBeginnings } from "@/Types/cms";
 import ContestBanner from "./Components/ContestBanner";
-import { getBossCms, getCMSHomepageData, getLeaderboard } from "@/lib/Services/cms_service";
+import {
+  getBossCms,
+  getCMSHomepageData,
+  getLeaderboard,
+  getCurrentSpotlightWeek,
+} from "@/lib/Services/cms_service";
 import ContestSpotlights from "./Components/ContestSpotlights";
 import ContestTable from "./Components/ContestTable";
 import Sponsors from "../_components/Sponsors";
@@ -11,10 +16,19 @@ const page = async () => {
   const pageData = (await getBossCms()) as CMSBossBeginnings;
   const cmsData = await getCMSHomepageData();
 
+  // Resolve the active spotlight week dynamically, fall back to 2 if unavailable
+  let weekId = 2;
+  try {
+    const currentWeek = await getCurrentSpotlightWeek();
+    weekId = currentWeek?.data?.week?.id ?? weekId;
+  } catch (e) {
+    console.error("Failed to fetch current spotlight week, using fallback", e);
+  }
+
   // Fetch artist and business leaderboards separately (API filters by type param)
   const [artistData, businessData] = await Promise.all([
-    getLeaderboard(2, ["artist"]),
-    getLeaderboard(2, ["business"]),
+    getLeaderboard(weekId, ["artist"]),
+    getLeaderboard(weekId, ["business"]),
   ]);
 
   // Merge and deduplicate by nominee_id, assign global rank by total_votes
