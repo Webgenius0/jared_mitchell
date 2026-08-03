@@ -65,7 +65,7 @@ export default function PurchaseList({
   setPage: any;
 }) {
   const [selectedOrder, setSelectedOrder] = useState<Business | null>(null);
-  const pagination: PaginationProps | undefined = data?.data?.pagination;
+  const pagination: PaginationProps | undefined = data?.pagination;
 
   return (
     <>

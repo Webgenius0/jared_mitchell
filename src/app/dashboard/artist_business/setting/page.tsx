@@ -1,5 +1,4 @@
 "use client";
-import React from "react";
 import DashboardProfileSettings from "@/Components/Common/DashboardProfileSettings";
 import useAuth from "@/Hooks/useAuth";
 
