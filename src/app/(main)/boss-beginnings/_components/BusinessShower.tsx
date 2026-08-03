@@ -18,7 +18,7 @@ const BusinessShower = ({ data }: BusinessShowerProps) => {
         {/* <h2 className="section_title 2xl:!text-[76px]"> */}
           {data?.title ?? "What Is a Business Shower?"}
         </h2>
-        <p className="text-center text-primary-black text-2xl max-w-[1414px] mx-auto">
+        <p className="text-center text-primary-black text-base md:text-lg xl:text-2xl max-w-[1414px] mx-auto">
           {data?.description ??
             "Boss Beginnings is Our Social Image's groundbreaking celebration for entrepreneurs launching new businesses. Just like a baby shower or bridal shower — but for business — we gather the community to show support, bring gifts, offer resources, and uplift the entrepreneur with love, visibility, and opportunity."}
         </p>
@@ -31,10 +31,12 @@ const BusinessShower = ({ data }: BusinessShowerProps) => {
                   <Icon />
                 </div>
                 <div className="space-y-3 text-center">
-                  <h5 className="text-primary-black text-[32px] font-semibold">
+                  <h5 className="text-primary-black text-2xl md:text-[28px] xl:text-[32px] font-semibold leading-snug">
                     {item.title}
                   </h5>
-                  <p className="text-[#4A5565] text-2xl">{item.description}</p>
+                  <p className="text-[#4A5565] text-base md:text-lg xl:text-2xl">
+                    {item.description}
+                  </p>
                 </div>
               </div>
             );

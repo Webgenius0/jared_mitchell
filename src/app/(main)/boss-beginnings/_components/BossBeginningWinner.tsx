@@ -28,7 +28,7 @@ const BossBeginningWinner = ({ data, winner }: BossBeginningWinnerProps) => {
       <h2 className="section_title">
         {data?.title ?? "BOSS BEGINNINGS Winner"}
       </h2>
-      <p className="text-3xl text-center text-primary-black">
+      <p className="text-base md:text-lg lg:text-2xl xl:text-3xl text-center text-primary-black leading-relaxed">
         {data?.sub_title ??
           "See the joy, support, and community love from our previous Boss Beginnings events."}
       </p>
@@ -60,7 +60,7 @@ const BossBeginningWinner = ({ data, winner }: BossBeginningWinnerProps) => {
         </figure>
       </div>
 
-      <figure className="h-[808px] relative">
+      <figure className="h-[400px] md:h-[550px] xl:h-[808px] relative">
         <div className="size-full absolute bg-black/30" />
         <Image
           src={images[2]}

@@ -21,31 +21,31 @@ const BossBeginningBanner = ({ data }: BossBeginningBannerProps) => {
           url(${bgImage})
         `,
       }}
-      className="h-[500px] bg-no-repeat bg-center bg-cover"
+      className="min-h-[500px] py-16 md:py-20 lg:py-24 bg-no-repeat bg-center bg-cover"
     >
       <div className="h-full container flex flex-col items-center justify-center">
-        <h2 className="text-6xl font-bold leading-[130%] text-white text-center max-w-[968px] mx-auto">
+        <h2 className="text-3xl sm:text-4xl md:text-5xl xl:text-6xl font-bold leading-[130%] text-white text-center max-w-[968px] mx-auto">
           {data?.title ?? "Boss Beginnings"}
         </h2>
 
-        <p className="text-white font-medium text-3xl pt-4 pb-3">
+        <p className="text-white font-medium text-xl sm:text-2xl lg:text-3xl pt-4 pb-3 text-center px-2">
           {data?.sub_title ?? "A Business Shower"}
         </p>
 
-        <p className="text-white text-xl text-center max-w-4xl mx-auto leading-[150%] pb-10">
+        <p className="text-white text-sm sm:text-base lg:text-xl text-center max-w-4xl mx-auto leading-[150%] pb-8 sm:pb-10 px-2">
           {data?.description ??
             "Celebrating and uplifting brand-new entrepreneurs in our community."}
         </p>
 
-        <div className="flex justify-center items-center gap-4">
-          <button className="bg-primary-blue text-white border border-primary-blue rounded-full px-12 py-3 text-xl flex gap-2.5 items-center">
+        <div className="flex flex-col sm:flex-row justify-center items-center gap-3 sm:gap-4 w-full sm:w-auto">
+          <button className="w-full sm:w-auto bg-primary-blue text-white border border-primary-blue rounded-full px-6 sm:px-8 lg:px-12 py-3 text-base sm:text-lg lg:text-xl flex gap-2.5 items-center justify-center">
             Nominate a Business
             <RightSvg />
           </button>
 
           <button
             onClick={() => setIsSponsorModalOpen(true)}
-            className="bg-white text-[#101828] border border-[#D1D5DC] rounded-full px-12 py-3 text-xl flex gap-2.5 items-center"
+            className="w-full sm:w-auto bg-white text-[#101828] border border-[#D1D5DC] rounded-full px-6 sm:px-8 lg:px-12 py-3 text-base sm:text-lg lg:text-xl flex gap-2.5 items-center justify-center"
           >
             Become a Sponsor
             <RightSvg />

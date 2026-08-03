@@ -5,7 +5,7 @@ import { Button } from "@/Components/Common/Button";
 import Image from "next/image";
 import { FaHeart, FaRegHeart, FaBookmark, FaRegBookmark } from "react-icons/fa";
 import { GrLocation } from "react-icons/gr";
-import { PiCalendarBlank, PiUser } from "react-icons/pi";
+import { PiCalendarBlank, PiCalendarX, PiUser } from "react-icons/pi";
 import { HiOutlineSparkles } from "react-icons/hi";
 import { RxShare1 } from "react-icons/rx";
 import { getUpcomingEvents } from "@/lib/Services/cms_service";
@@ -252,9 +252,25 @@ const UpcomingEvents = () => {
           Discover workshops, markets, and community gatherings near you.
         </p>
 
-        <div className="my-6 md:my-10">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">
-            {events.map(event => (
+        {events.length === 0 ? (
+          <div className="my-6 md:my-10">
+            <div className="flex flex-col items-center justify-center text-center px-6 py-16 md:py-24 rounded-2xl xl:rounded-[20px] bg-[#F5F5F7] custom_shadow custom_border">
+              <div className="flex items-center justify-center size-16 md:size-20 rounded-full bg-white custom_shadow custom_border mb-5">
+                <PiCalendarX className="size-7 md:size-9 text-gray-300" />
+              </div>
+              <h3 className="text-xl md:text-2xl text-primary-black font-semibold">
+                No Upcoming Events
+              </h3>
+              <p className="text-secondary-black text-base md:text-lg mt-2 max-w-md">
+                We're busy planning something special. Check back soon for new
+                events.
+              </p>
+            </div>
+          </div>
+        ) : (
+          <div className="my-6 md:my-10">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">
+              {events.map(event => (
               <div
                 key={event.id}
                 className="rounded-[20px] bg-white custom_shadow custom_border overflow-hidden flex flex-col"
@@ -381,13 +397,14 @@ const UpcomingEvents = () => {
                   </div>
                 </div>
               </div>
-            ))}
-          </div>
+              ))}
+            </div>
 
-          <div className="flex justify-center mt-10">
-            <Button size="xl">View All Events</Button>
+            <div className="flex justify-center mt-10">
+              <Button size="xl">View All Events</Button>
+            </div>
           </div>
-        </div>
+        )}
       </section>
     </div>
   );

@@ -154,7 +154,6 @@ const page = async () => {
       )}
       <Sponsors data={sponsorsdata?.partners} />
 
-
       <NewsLetter
         data={cmsData?.services_newsletter}
         title="Stay connected with new spotlights, events, and creative tools."

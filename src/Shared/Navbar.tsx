@@ -71,6 +71,8 @@ const Navbar = () => {
     if (!openSubmenu && !userDropdownOpen) return;
 
     const handleClickOutside = (event: MouseEvent) => {
+      // Using "click" (not "mousedown") so that Link navigation inside the
+      // mobile sidebar's submenu fires before this handler can unmount it.
       if (
         navListRef.current &&
         !navListRef.current.contains(event.target as Node)
@@ -85,8 +87,8 @@ const Navbar = () => {
       }
     };
 
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+    document.addEventListener("click", handleClickOutside);
+    return () => document.removeEventListener("click", handleClickOutside);
   }, [openSubmenu, userDropdownOpen]);
 
   // Safety net: close the submenu and mobile sidebar whenever the route changes
@@ -117,52 +119,59 @@ const Navbar = () => {
 
                 return (
                   <li key={link?.label} className="relative">
-                    <Link
-                      href={link?.path}
-                      onClick={e => {
-                        if (hasSubMenu) {
-                          // Submenu links don't navigate anywhere themselves,
-                          // they just toggle their dropdown.
-                          e.preventDefault();
+                    {hasSubMenu ? (
+                      <button
+                        type="button"
+                        onClick={() =>
                           setOpenSubmenu(prev =>
                             prev === link?.label ? null : link?.label,
-                          );
-                        } else {
-                          setOpenSubmenu(null);
+                          )
                         }
-                      }}
-                      className={`relative ${
-                        isActive
-                          ? "text-secondary-blue font-medium"
-                          : "text-[#2A2929]"
-                      }`}
-                    >
-                      {link?.label}
+                        className={`cursor-pointer ${
+                          isActive
+                            ? "text-secondary-blue font-medium"
+                            : "text-[#2A2929]"
+                        }`}
+                      >
+                        {link?.label}
+                      </button>
+                    ) : (
+                      <Link
+                        href={link?.path}
+                        onClick={() => setOpenSubmenu(null)}
+                        className={`${
+                          isActive
+                            ? "text-secondary-blue font-medium"
+                            : "text-[#2A2929]"
+                        }`}
+                      >
+                        {link?.label}
+                      </Link>
+                    )}
 
-                      {/* Sub Menu */}
-                      {hasSubMenu && isSubmenuOpen && (
-                        <div className="absolute top-full mt-3 left-0 bg-white z-50 shadow rounded-xl px-4 w-55">
-                          {link?.subMenu?.map(subItem => {
-                            const isActiveSubmenu = pathname === subItem?.path;
+                    {/* Sub Menu — sibling of the trigger, not nested inside it */}
+                    {hasSubMenu && isSubmenuOpen && (
+                      <div className="absolute top-full mt-3 left-0 bg-white z-50 shadow rounded-xl px-4 w-55">
+                        {link?.subMenu?.map(subItem => {
+                          const isActiveSubmenu = pathname === subItem?.path;
 
-                            return (
-                              <Link
-                                key={subItem?.path}
-                                href={subItem?.path}
-                                onClick={() => setOpenSubmenu(null)}
-                                className={`block py-3 border-b border-gray-300 last:border-b-0 duration-300 transition-all hover:text-primary-blue ${
-                                  isActiveSubmenu
-                                    ? "text-secondary-blue"
-                                    : "text-[#2A2929]"
-                                }`}
-                              >
-                                {subItem?.label}
-                              </Link>
-                            );
-                          })}
-                        </div>
-                      )}
-                    </Link>
+                          return (
+                            <Link
+                              key={subItem?.path}
+                              href={subItem?.path}
+                              onClick={() => setOpenSubmenu(null)}
+                              className={`block py-3 border-b border-gray-300 last:border-b-0 duration-300 transition-all hover:text-primary-blue ${
+                                isActiveSubmenu
+                                  ? "text-secondary-blue"
+                                  : "text-[#2A2929]"
+                              }`}
+                            >
+                              {subItem?.label}
+                            </Link>
+                          );
+                        })}
+                      </div>
+                    )}
                   </li>
                 );
               })}
@@ -329,26 +338,50 @@ const Navbar = () => {
 
             return (
               <li key={link?.label}>
-                <Link
-                  href={link?.path}
-                  onClick={e => {
-                    if (hasSubMenu) {
-                      e.preventDefault();
+                {hasSubMenu ? (
+                  <button
+                    type="button"
+                    onClick={() =>
                       setOpenSubmenu(prev =>
                         prev === link?.label ? null : link?.label,
-                      );
-                    } else {
-                      setOpen(false);
+                      )
                     }
-                  }}
-                  className={`${
-                    isActive
-                      ? "text-secondary-blue font-medium"
-                      : "text-[#2A2929]"
-                  }`}
-                >
-                  {link?.label}
-                </Link>
+                    className={`flex items-center justify-between gap-2 w-full cursor-pointer ${
+                      isActive
+                        ? "text-secondary-blue font-medium"
+                        : "text-[#2A2929]"
+                    }`}
+                  >
+                    {link?.label}
+                    <svg
+                      className={`size-3.5 shrink-0 transition-transform duration-300 ${
+                        isSubmenuOpen ? "rotate-180" : ""
+                      }`}
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      strokeWidth={2}
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M19 9l-7 7-7-7"
+                      />
+                    </svg>
+                  </button>
+                ) : (
+                  <Link
+                    href={link?.path}
+                    onClick={() => setOpen(false)}
+                    className={
+                      isActive
+                        ? "text-secondary-blue font-medium"
+                        : "text-[#2A2929]"
+                    }
+                  >
+                    {link?.label}
+                  </Link>
+                )}
 
                 {hasSubMenu && isSubmenuOpen && (
                   <ul className="flex flex-col gap-3 mt-3 ml-3 border-l border-gray-200 pl-3">
