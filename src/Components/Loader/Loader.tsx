@@ -59,3 +59,44 @@ export const SpotlightRowSkeleton = () => {
     </>
   );
 };
+
+export const PurchaseRowSkeleton = () => {
+  return (
+    <>
+      {Array.from({ length: 4 }).map((_, index) => (
+        <tr key={index} className="animate-pulse">
+          <td className="px-5 md:px-6 py-3.5 md:py-4">
+            <div className="h-4 w-24 rounded bg-slate-200"></div>
+          </td>
+
+          <td className="px-5 md:px-6 py-3.5 md:py-4">
+            <div className="h-4 w-40 rounded bg-slate-200"></div>
+          </td>
+
+          <td className="px-5 md:px-6 py-3.5 md:py-4">
+            <div className="h-4 w-16 rounded bg-slate-200"></div>
+          </td>
+
+          <td className="px-5 md:px-6 py-3.5 md:py-4">
+            <div className="h-4 w-12 rounded bg-slate-200"></div>
+          </td>
+
+          <td className="px-5 md:px-6 py-3.5 md:py-4">
+            <div className="h-4 w-20 rounded bg-slate-200"></div>
+          </td>
+
+          <td className="px-5 md:px-6 py-3.5 md:py-4">
+            <div className="h-4 w-28 rounded bg-slate-200"></div>
+          </td>
+
+          <td className="px-5 md:px-6 py-3.5 md:py-4">
+            <div className="flex items-center gap-3">
+              <div className="h-8 w-20 rounded-lg bg-slate-200"></div>
+              <div className="h-8 w-16 rounded-lg bg-slate-200"></div>
+            </div>
+          </td>
+        </tr>
+      ))}
+    </>
+  );
+};
