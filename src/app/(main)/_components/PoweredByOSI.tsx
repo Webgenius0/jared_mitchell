@@ -3,7 +3,7 @@ import Image from "next/image";
 
 const PoweredByOSI = ({ data }: { data?: CMSFeature }) => {
   return (
-    <section className="w-full h-[280px] md:h-[360px] xl:h-[420px] overflow-hidden flex items-center relative">
+    <section className="w-full h-[240px] md:h-[300px] xl:h-[340px] overflow-hidden flex items-center relative">
       <Image
         src={data?.bg || "/home/home-banner-1.jpg"}
         fill
@@ -16,7 +16,7 @@ const PoweredByOSI = ({ data }: { data?: CMSFeature }) => {
         <div className="flex flex-col container w-full mx-auto h-full items-center justify-center text-center px-4">
           <h2 className="section_title !text-white">{data?.title}</h2>
 
-          <p className="section_sub_title max-w-[1280px] mx-auto !text-[#F5F5F7] mt-2 md:mt-4">
+          <p className="section_sub_title max-w-[1280px] mx-auto !text-[#F5F5F7] mt-2 md:mt-3">
             {data?.description}
           </p>
         </div>

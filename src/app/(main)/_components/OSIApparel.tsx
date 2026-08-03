@@ -46,14 +46,14 @@ const OSIApparel = ({ data, featuredProducts }: OSIApparelProps) => {
 
   return (
     <>
-      <section className="pt-10 text-center bg-[#F5F5F7]">
+      <section className="pt-8 text-center bg-[#F5F5F7]">
         <div className="">
           {/* Heading */}
-          <h2 className="text-xl md:text-4xl xl:text-5xl 2xl:text-6xl font-bold">
+          <h2 className="text-xl md:text-3xl xl:text-4xl 2xl:text-5xl font-bold">
             {data?.title}
           </h2>
 
-          <p className="mt-3 md:mt-5 md:text-xl mx-auto text-secondary-black">
+          <p className="mt-3 md:mt-4 md:text-lg mx-auto text-secondary-black">
             {data?.sub_title}
           </p>
 
@@ -136,12 +136,12 @@ const OSIApparel = ({ data, featuredProducts }: OSIApparelProps) => {
 
       {/* CTA */}
       <div className="container">
-        <h3 className="mt-10 md:mt-20 section_title max-w-4xl mx-auto">
+        <h3 className="mt-8 md:mt-12 section_title max-w-4xl mx-auto">
           Become part of a growing network that celebrates art, business, and
           community.
         </h3>
 
-        <div className="mt-5 md:mt-10 flex justify-center gap-4 md:gap-6">
+        <div className="mt-4 md:mt-8 flex justify-center gap-4 md:gap-6">
           <Button>Join OSI</Button>
           <Button variant="outline" onClick={() => setIsSponsorModalOpen(true)}>
             Become a Sponsor

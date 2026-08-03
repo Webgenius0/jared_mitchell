@@ -1,7 +1,7 @@
 "use client";
 
-import React from "react";
-import { useParams } from "next/navigation";
+import React, { Suspense } from "react";
+import { useParams, useSearchParams } from "next/navigation";
 import EventDetailsBanner from "../_Components/Eventsdetails/EventDetailsBanner";
 import { getEventBySlug, getCMSAboutData } from "@/Hooks/api/cms_api";
 import { CMSEventItem } from "@/Types/cms";
@@ -11,9 +11,13 @@ import ThisEventGallery from "../_Components/Eventsdetails/ThisEventGallery";
 import NewsLetter from "@/Components/Common/NewsLetter";
 import Sponsors from "../../_components/Sponsors";
 
-export default function Page() {
+function EventDetails() {
   const params = useParams();
+  const searchParams = useSearchParams();
   const slug = Array.isArray(params.slug) ? params.slug[0] : params.slug;
+
+  // Coming from a "past events" section — hide the ticket/price area.
+  const fromPast = searchParams.get("from") === "past";
 
   const { data, isLoading: isEventLoading, error } = getEventBySlug(slug ?? "");
   const { data: cmsRes } = getCMSAboutData();
@@ -50,7 +54,7 @@ export default function Page() {
   return (
     <>
       <EventDetailsBanner event={event} />
-      <AboutThisEvent event={event} />
+      <AboutThisEvent event={event} hideTicketSection={fromPast} />
       <ThisEventGallery
         media={event.event_media}
         promoVideoUrl={event.promo_video_url}
@@ -58,5 +62,13 @@ export default function Page() {
       <Sponsors data={CmsData?.about_sponsors} />
       <NewsLetter title="Be part of the movement. Get stories, updates, and opportunities straight to your inbox." />
     </>
+  );
+}
+
+export default function Page() {
+  return (
+    <Suspense fallback={<PageLoader />}>
+      <EventDetails />
+    </Suspense>
   );
 }

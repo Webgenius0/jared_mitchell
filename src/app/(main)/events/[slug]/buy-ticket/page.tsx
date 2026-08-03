@@ -11,7 +11,6 @@ import { CMSEventItem, EventTicketTier } from "@/Types/cms";
 import { PageLoader } from "@/Shared/PageLoader";
 import EventDetailsBanner from "../../_Components/Eventsdetails/EventDetailsBanner";
 import { IoIosArrowDown } from "react-icons/io";
-import toast from "react-hot-toast";
 import Sponsors from "@/app/(main)/_components/Sponsors";
 import NewsLetter from "@/Components/Common/NewsLetter";
 import useAuth from "@/Hooks/useAuth";
@@ -40,6 +39,17 @@ export default function BuyTicketPage() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [errors, setErrors] = useState<Record<string, string>>({});
+
+  // Clear an inline error for a given field
+  const clearError = (field: string) => {
+    setErrors(prev => {
+      if (!prev[field]) return prev;
+      const next = { ...prev };
+      delete next[field];
+      return next;
+    });
+  };
 
   // ── Derived helpers ──────────────────────────────────────────────────────────
   const activeTiers = useMemo(
@@ -82,31 +92,50 @@ export default function BuyTicketPage() {
     return { date, timeRange: `${startTime} - ${endTime} ${tz}` };
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+  const validateFields = () => {
+    const newErrors: Record<string, string> = {};
 
     if (!tierId) {
-      toast.error("Please select a Ticket type.");
-      return;
+      newErrors.ticket_tier = "Please select a Ticket type.";
     }
-    if (!firstName || !lastName || !email || !phone) {
-      toast.error("Please fill in all required fields.");
-      return;
+    if (!firstName.trim()) {
+      newErrors.first_name = "First name is required.";
+    }
+    if (!lastName.trim()) {
+      newErrors.last_name = "Last name is required.";
+    }
+    if (!email.trim()) {
+      newErrors.email = "Email address is required.";
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) {
+      newErrors.email = "Please enter a valid email address.";
+    }
+    if (!phone.trim()) {
+      newErrors.phone_number = "Phone number is required.";
     }
 
     if (!user) {
-      if (!password || !confirmPassword) {
-        toast.error("Please enter a password.");
-        return;
+      if (!password) {
+        newErrors.password = "Please enter a password.";
+      } else if (password.length < 6) {
+        newErrors.password = "Password must be at least 6 characters.";
       }
-      if (password !== confirmPassword) {
-        toast.error("Passwords do not match.");
-        return;
+      if (!confirmPassword) {
+        newErrors.confirm_password = "Please confirm your password.";
+      } else if (password !== confirmPassword) {
+        newErrors.confirm_password = "Passwords do not match.";
       }
-      if (password.length < 6) {
-        toast.error("Password must be at least 6 characters.");
-        return;
-      }
+    }
+
+    return newErrors;
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    const newErrors = validateFields();
+    setErrors(newErrors);
+    if (Object.keys(newErrors).length > 0) {
+      return;
     }
 
     const payload: Record<string, any> = {
@@ -180,7 +209,7 @@ export default function BuyTicketPage() {
                 Attendee Information
               </h2>
 
-              <form onSubmit={handleSubmit} className="flex flex-col gap-5">
+              <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-5">
                 {/* Name row */}
                 <div className="flex flex-col sm:flex-row gap-4">
                   <div className="flex-1">
@@ -193,9 +222,20 @@ export default function BuyTicketPage() {
                       required
                       placeholder="John"
                       value={firstName}
-                      onChange={e => setFirstName(e.target.value)}
-                      className="w-full px-4 py-2.5 rounded-lg border border-gray-200 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-[#1977DD] focus:border-transparent text-gray-800 text-sm transition"
+                      aria-invalid={Boolean(errors.first_name)}
+                      onChange={e => {
+                        setFirstName(e.target.value);
+                        clearError("first_name");
+                      }}
+                      className={`w-full px-4 py-2.5 rounded-lg border bg-gray-50 focus:outline-none focus:ring-2 focus:ring-[#1977DD] focus:border-transparent text-gray-800 text-sm transition ${
+                        errors.first_name
+                          ? "border-red-400 bg-red-50/40 focus:ring-red-300"
+                          : "border-gray-200"
+                      }`}
                     />
+                    {errors.first_name && (
+                      <p className="mt-1.5 text-sm text-red-500">{errors.first_name}</p>
+                    )}
                   </div>
                   <div className="flex-1">
                     <label className="block text-sm font-medium text-gray-700 mb-1.5">
@@ -207,9 +247,20 @@ export default function BuyTicketPage() {
                       required
                       placeholder="Doe"
                       value={lastName}
-                      onChange={e => setLastName(e.target.value)}
-                      className="w-full px-4 py-2.5 rounded-lg border border-gray-200 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-[#1977DD] focus:border-transparent text-gray-800 text-sm transition"
+                      aria-invalid={Boolean(errors.last_name)}
+                      onChange={e => {
+                        setLastName(e.target.value);
+                        clearError("last_name");
+                      }}
+                      className={`w-full px-4 py-2.5 rounded-lg border bg-gray-50 focus:outline-none focus:ring-2 focus:ring-[#1977DD] focus:border-transparent text-gray-800 text-sm transition ${
+                        errors.last_name
+                          ? "border-red-400 bg-red-50/40 focus:ring-red-300"
+                          : "border-gray-200"
+                      }`}
                     />
+                    {errors.last_name && (
+                      <p className="mt-1.5 text-sm text-red-500">{errors.last_name}</p>
+                    )}
                   </div>
                 </div>
 
@@ -224,9 +275,20 @@ export default function BuyTicketPage() {
                     required
                     placeholder="john.doe@example.com"
                     value={email}
-                    onChange={e => setEmail(e.target.value)}
-                    className="w-full px-4 py-2.5 rounded-lg border border-gray-200 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-[#1977DD] focus:border-transparent text-gray-800 text-sm transition"
+                    aria-invalid={Boolean(errors.email)}
+                    onChange={e => {
+                      setEmail(e.target.value);
+                      clearError("email");
+                    }}
+                    className={`w-full px-4 py-2.5 rounded-lg border bg-gray-50 focus:outline-none focus:ring-2 focus:ring-[#1977DD] focus:border-transparent text-gray-800 text-sm transition ${
+                      errors.email
+                        ? "border-red-400 bg-red-50/40 focus:ring-red-300"
+                        : "border-gray-200"
+                    }`}
                   />
+                  {errors.email && (
+                    <p className="mt-1.5 text-sm text-red-500">{errors.email}</p>
+                  )}
                 </div>
 
                 {/* Phone */}
@@ -240,9 +302,20 @@ export default function BuyTicketPage() {
                     required
                     placeholder="+1 (555) 123-4567"
                     value={phone}
-                    onChange={e => setPhone(e.target.value)}
-                    className="w-full px-4 py-2.5 rounded-lg border border-gray-200 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-[#1977DD] focus:border-transparent text-gray-800 text-sm transition"
+                    aria-invalid={Boolean(errors.phone_number)}
+                    onChange={e => {
+                      setPhone(e.target.value);
+                      clearError("phone_number");
+                    }}
+                    className={`w-full px-4 py-2.5 rounded-lg border bg-gray-50 focus:outline-none focus:ring-2 focus:ring-[#1977DD] focus:border-transparent text-gray-800 text-sm transition ${
+                      errors.phone_number
+                        ? "border-red-400 bg-red-50/40 focus:ring-red-300"
+                        : "border-gray-200"
+                    }`}
                   />
+                  {errors.phone_number && (
+                    <p className="mt-1.5 text-sm text-red-500">{errors.phone_number}</p>
+                  )}
                 </div>
 
                 {/* ── Password fields for guest users ──────────────────────── */}
@@ -259,8 +332,17 @@ export default function BuyTicketPage() {
                           required={!user}
                           placeholder="Create a password"
                           value={password}
-                          onChange={e => setPassword(e.target.value)}
-                          className="w-full px-4 py-2.5 pr-10 rounded-lg border border-gray-200 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-[#1977DD] focus:border-transparent text-gray-800 text-sm transition"
+                          aria-invalid={Boolean(errors.password)}
+                          onChange={e => {
+                            setPassword(e.target.value);
+                            clearError("password");
+                            clearError("confirm_password");
+                          }}
+                          className={`w-full px-4 py-2.5 pr-10 rounded-lg border bg-gray-50 focus:outline-none focus:ring-2 focus:ring-[#1977DD] focus:border-transparent text-gray-800 text-sm transition ${
+                            errors.password
+                              ? "border-red-400 bg-red-50/40 focus:ring-red-300"
+                              : "border-gray-200"
+                          }`}
                         />
                         <button
                           type="button"
@@ -277,6 +359,9 @@ export default function BuyTicketPage() {
                           )}
                         </button>
                       </div>
+                      {errors.password && (
+                        <p className="mt-1.5 text-sm text-red-500">{errors.password}</p>
+                      )}
                     </div>
 
                     <div>
@@ -290,8 +375,17 @@ export default function BuyTicketPage() {
                           required={!user}
                           placeholder="Confirm your password"
                           value={confirmPassword}
-                          onChange={e => setConfirmPassword(e.target.value)}
-                          className="w-full px-4 py-2.5 pr-10 rounded-lg border border-gray-200 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-[#1977DD] focus:border-transparent text-gray-800 text-sm transition"
+                          aria-invalid={Boolean(errors.confirm_password)}
+                          onChange={e => {
+                            setConfirmPassword(e.target.value);
+                            clearError("confirm_password");
+                            clearError("password");
+                          }}
+                          className={`w-full px-4 py-2.5 pr-10 rounded-lg border bg-gray-50 focus:outline-none focus:ring-2 focus:ring-[#1977DD] focus:border-transparent text-gray-800 text-sm transition ${
+                            errors.confirm_password
+                              ? "border-red-400 bg-red-50/40 focus:ring-red-300"
+                              : "border-gray-200"
+                          }`}
                         />
                         <button
                           type="button"
@@ -310,6 +404,9 @@ export default function BuyTicketPage() {
                           )}
                         </button>
                       </div>
+                      {errors.confirm_password && (
+                        <p className="mt-1.5 text-sm text-red-500">{errors.confirm_password}</p>
+                      )}
                     </div>
                   </>
                 )}
@@ -323,10 +420,16 @@ export default function BuyTicketPage() {
                     <select
                       id="ticket_tier"
                       value={tierId}
-                      onChange={e =>
-                        setTierId(e.target.value ? Number(e.target.value) : "")
-                      }
-                      className="w-full appearance-none px-4 py-3 rounded-xl border border-gray-200 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 text-gray-800 text-sm transition pr-10 cursor-pointer"
+                      aria-invalid={Boolean(errors.ticket_tier)}
+                      onChange={e => {
+                        setTierId(e.target.value ? Number(e.target.value) : "");
+                        clearError("ticket_tier");
+                      }}
+                      className={`w-full appearance-none px-4 py-3 rounded-xl border bg-white focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 text-gray-800 text-sm transition pr-10 cursor-pointer ${
+                        errors.ticket_tier
+                          ? "border-red-400 bg-red-50/40 focus:ring-red-300 focus:border-red-400"
+                          : "border-gray-200"
+                      }`}
                     >
                       <option value="" disabled>
                         Select Ticket type
@@ -344,6 +447,9 @@ export default function BuyTicketPage() {
                       <IoIosArrowDown />
                     </span>
                   </div>
+                  {errors.ticket_tier && (
+                    <p className="mt-1.5 text-sm text-red-500">{errors.ticket_tier}</p>
+                  )}
                 </div>
 
                 {/* Quantity */}

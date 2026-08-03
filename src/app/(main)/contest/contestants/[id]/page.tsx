@@ -36,6 +36,7 @@ function mapContestantToSpotlight(contestant: any, type: "artist" | "business") 
 
   return {
     // Identification — flat fields from contestant
+    id: contestant.id,
     business_name: contestant.business_name,
     owner_founder_name: contestant.owner_founder_name,
     owner_name: contestant.owner_founder_name,
@@ -99,6 +100,7 @@ function mapContestantToSpotlight(contestant: any, type: "artist" | "business") 
       total_wins: contestant.status === "winner" ? 1 : 0,
       total_votes_received: contestant.voting?.total_votes || 0,
     },
+    voting_history: contestant.voting_history || [],
 
     // Permissions — not available in contestant API
     permission_feature_on_osi: null,
@@ -166,6 +168,9 @@ const Page = async ({ params }: PageProps) => {
         spotlight={spotlight}
         type={spotlightType}
         isLoading={false}
+        nomineeId={
+          contestant?.voting_history?.[0]?.nominee_id ?? contestant?.id
+        }
       />
       {spotlight && (
         <>

@@ -3,6 +3,7 @@ import {
   CMSArtistSpotlight,
   CMSBossBeginnings,
   CMSBusinessSpotlight,
+  CMSRoundsPage,
   CalendarEventsResponse,
   CMSEvent,
   CMSEventItem,
@@ -29,6 +30,8 @@ import {
   LeaderboardResponse,
   ArtistSpotlightDetailsResponse,
   BusinessSpotlightDetailsResponse,
+  RoundLeaderboardResponse,
+  ActiveSeasonRoundsResponse,
 } from "@/Types/cms";
 
 export const getCMSHomepageData = async (): Promise<CMSHomepage> => {
@@ -180,6 +183,22 @@ export const getBossCms = async (): Promise<CMSBossBeginnings> => {
 
   const result = await res.json();
   return result.data as CMSBossBeginnings;
+};
+
+export const getRoundsCms = async (): Promise<CMSRoundsPage> => {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_SITE_URL}/v1/cms/osi-rounds`,
+    {
+      next: { revalidate: 60 },
+    },
+  );
+
+  if (!res.ok) {
+    throw new Error(`Failed to fetch rounds CMS data — Status: ${res.status}`);
+  }
+
+  const result = await res.json();
+  return result.data as CMSRoundsPage;
 };
 
 export const getSponsorshipPageCms = async (): Promise<CMSSponsorshipPage> => {
@@ -533,6 +552,22 @@ export const getLeaderboard = async (
   return result as LeaderboardResponse;
 };
 
+export const getCurrentSpotlightWeek = async (): Promise<LeaderboardResponse> => {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_SITE_URL}/v1/spotlight/weeks/current`,
+    { next: { revalidate: 60 } },
+  );
+
+  if (!res.ok) {
+    throw new Error(
+      `Failed to fetch current spotlight week — Status: ${res.status}`,
+    );
+  }
+
+  const result = await res.json();
+  return result as LeaderboardResponse;
+};
+
 export const getContestantDetails = async (
   contestantId: number,
 ): Promise<any> => {
@@ -549,6 +584,41 @@ export const getContestantDetails = async (
 
   const result = await res.json();
   return result;
+};
+
+export const getActiveSeasonRounds =
+  async (): Promise<ActiveSeasonRoundsResponse> => {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_SITE_URL}/v1/contest/active-season-rounds`,
+      { next: { revalidate: 60 } },
+    );
+
+    if (!res.ok) {
+      throw new Error(
+        `Failed to fetch active season rounds — Status: ${res.status}`,
+      );
+    }
+
+    const result = await res.json();
+    return result as ActiveSeasonRoundsResponse;
+  };
+
+export const getRoundLeaderboard = async (
+  roundId: number,
+): Promise<RoundLeaderboardResponse> => {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_SITE_URL}/v1/contest/rounds/${roundId}/leaderboard`,
+    { next: { revalidate: 60 } },
+  );
+
+  if (!res.ok) {
+    throw new Error(
+      `Failed to fetch round leaderboard — Status: ${res.status}`,
+    );
+  }
+
+  const result = await res.json();
+  return result as RoundLeaderboardResponse;
 };
 
 export const getSubscriptionPlans = async (): Promise<SubscriptionPlan[]> => {

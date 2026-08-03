@@ -3,10 +3,15 @@ import React, { useState } from "react";
 import VotingTab from "./VotingTab";
 import OSIPanelTab from "./OSIPanelTab";
 import LeaderboardTab from "./LeaderboardTab";
+import { CMSRoundsSection } from "@/Types/cms";
 
 const TABS = ["Voting", "OSI Panel", "Leader-board"] as const;
 
-export default function OpenQualifierRound() {
+export default function OpenQualifierRound({
+  roundsData,
+}: {
+  roundsData?: CMSRoundsSection;
+}) {
   const [activeTab, setActiveTab] = useState<(typeof TABS)[number]>("Voting");
   const [activeRound, setActiveRound] = useState(1);
 
@@ -39,7 +44,7 @@ export default function OpenQualifierRound() {
             setActiveRound={setActiveRound}
           />
         )}
-        {activeTab === "OSI Panel" && <OSIPanelTab />}
+        {activeTab === "OSI Panel" && <OSIPanelTab data={roundsData} />}
         {activeTab === "Leader-board" && <LeaderboardTab />}
       </div>
     </section>
