@@ -59,8 +59,8 @@ export default function SpotlightDetails({
   const displayYoutube = s?.youtube_url;
   const totalPoints = s?.voting_summary?.total_votes_received ?? 0;
   const totalClaps =
-    s?.voting_history?.[0]?.votes?.total ||
-    s?.voting_summary?.total_votes_received ||
+    s?.voting_history?.[0]?.votes?.total ??
+    s?.voting_summary?.total_votes_received ??
     0;
 
   const { token } = useAuth();
@@ -69,7 +69,6 @@ export default function SpotlightDetails({
   const hideSidebar = /^\/contest\/contestants\/[^/]+$/.test(pathname);
   const nomineeId =
     nomineeIdProp ?? s?.voting_history?.[0]?.nominee_id ?? s?.id;
-  const [clapCount, setClapCount] = useState<number>(totalClaps);
   const [voting, setVoting] = useState(false);
 
   const handleClap = async () => {
@@ -82,24 +81,17 @@ export default function SpotlightDetails({
     if (!nomineeId) return;
 
     setVoting(true);
-    const prevCount = clapCount;
-
-    // Optimistic update
-    setClapCount(c => c + 1);
 
     try {
       const res = await apiVoteNominee(nomineeId);
       if (res?.success) {
-        const total = res?.data?.total_votes ?? res?.data?.total_score;
-        if (typeof total === "number") setClapCount(total);
         if (res?.message) toast.success(res.message);
+        // Re-fetch server data so the count reflects the authoritative server total
+        router.refresh();
       } else {
-        // Backend rejected — revert optimistic count
-        setClapCount(prevCount);
         if (res?.message) toast.error(res.message);
       }
     } catch {
-      setClapCount(prevCount);
       toast.error("Failed to vote. Please try again.");
     } finally {
       setVoting(false);
@@ -314,14 +306,14 @@ export default function SpotlightDetails({
               <h3 className="text-lg md:text-xl font-bold text-[#364153]">
                 Support This {type === "artist" ? "Artist" : "Business"}
               </h3>
-              <div className="bg-[#1977DD] p-4 md:p-6 w-full rounded-xl">
+              {/* <div className="bg-[#1977DD] p-4 md:p-6 w-full rounded-xl">
                 <p className="text-white font-normal text-balance text-center text-sm md:text-base">
                   Total Points
                 </p>
                 <h3 className="text-xl md:text-2xl font-normal text-white text-center">
                   {totalPoints.toLocaleString()}
                 </h3>
-              </div>
+              </div> */}
               <div className="flex gap-3 md:gap-5">
                 <button
                   type="button"
@@ -336,7 +328,7 @@ export default function SpotlightDetails({
                   <p className="flex flex-col sm:flex-row gap-1 sm:gap-2 font-bold text-black text-xs md:text-sm text-center">
                     Total Vote
                     <span className="text-sm md:text-base font-normal text-[#364153]">
-                      {voting ? "..." : clapCount.toLocaleString()}
+                      {voting ? "..." : totalClaps.toLocaleString()}
                     </span>
                   </p>
                 </button>
