@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Eye, Pencil, Loader2, X, Globe, MapPin, Calendar, Heart, Bookmark, Share2, Mail, Phone, Clock } from "lucide-react";
+import { Eye, Pencil, Loader2, X, Globe, MapPin, Calendar, Heart, Bookmark, Share2, Mail, Phone, Clock, Send } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import {
@@ -9,6 +9,7 @@ import {
   getSingleBusinessSpotlightDetails,
 } from "@/Hooks/api/cms_api";
 import Modal from "@/Components/Common/Modal";
+import ApplySpotlightModal from "@/Components/Common/ApplySpotlightModal";
 
 /* ------------------------------------------------------------------ */
 /*  Types                                                              */
@@ -115,6 +116,10 @@ export default function Page() {
     apiData?.data?.spotlights?.map(mapApiSpotlight) || [];
 
   const [viewingId, setViewingId] = React.useState<number | null>(null);
+  const [applyTarget, setApplyTarget] = React.useState<{
+    id: number;
+    name: string;
+  } | null>(null);
   const { data: viewData, isLoading: viewLoading } =
     getSingleBusinessSpotlightDetails(viewingId ?? 0);
 
@@ -215,6 +220,16 @@ export default function Page() {
                         >
                           <Pencil className="w-4 h-4 md:w-[18px] md:h-[18px]" />
                         </button>
+                        <button
+                          type="button"
+                          title="Apply to a spotlight week"
+                          onClick={() =>
+                            setApplyTarget({ id: s.id, name: s.businessName })
+                          }
+                          className="text-slate-400 hover:text-blue-500 transition-colors"
+                        >
+                          <Send className="w-4 h-4 md:w-[18px] md:h-[18px]" />
+                        </button>
                         {/* <button
                           type="button"
                           title="Delete"
@@ -257,6 +272,15 @@ export default function Page() {
           </div>
         )}
       </Modal>
+
+      {/* Apply Spotlight Modal */}
+      <ApplySpotlightModal
+        open={!!applyTarget}
+        onClose={() => setApplyTarget(null)}
+        spotlightId={applyTarget?.id ?? 0}
+        spotlightName={applyTarget?.name ?? ""}
+        type="business"
+      />
     </div>
   );
 }

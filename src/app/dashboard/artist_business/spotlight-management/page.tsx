@@ -1,9 +1,10 @@
 "use client";
 import { Pagination } from "@/Components/Common/Pagination";
+import ApplySpotlightModal from "@/Components/Common/ApplySpotlightModal";
 import { SpotlightRowSkeleton } from "@/Components/Loader/Loader";
 import { formatDate } from "@/helper/formatDate";
 import { getArtistSpotlights } from "@/Hooks/api/cms_api";
-import { Eye, Pencil } from "lucide-react";
+import { Eye, Pencil, Send } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 
@@ -64,6 +65,10 @@ const columns = [
 
 export default function Page() {
   const [page, setPage] = useState(1);
+  const [applyTarget, setApplyTarget] = useState<{
+    id: number;
+    name: string;
+  } | null>(null);
   const { data, isLoading } = getArtistSpotlights({ page });
   const spotlights: SpotlightApiItem[] = data?.data?.spotlights ?? [];
   const pagination: PaginationProps | undefined = data?.data?.pagination;
@@ -154,6 +159,22 @@ export default function Page() {
                         >
                           <Pencil className="w-4 h-4 md:w-[18px] md:h-[18px]" />
                         </Link>
+
+                        <button
+                          type="button"
+                          title="Apply to a spotlight week"
+                          onClick={() =>
+                            setApplyTarget({
+                              id: entry.id,
+                              name:
+                                entry.full_legal_name ||
+                                entry.artist_stage_name,
+                            })
+                          }
+                          className="text-slate-400 hover:text-blue-500 transition-colors"
+                        >
+                          <Send className="w-4 h-4 md:w-[18px] md:h-[18px]" />
+                        </button>
                       </div>
                     </td>
                   </tr>
@@ -176,6 +197,15 @@ export default function Page() {
           </div>
         )}
       </div>
+
+      {/* Apply Spotlight Modal */}
+      <ApplySpotlightModal
+        open={!!applyTarget}
+        onClose={() => setApplyTarget(null)}
+        spotlightId={applyTarget?.id ?? 0}
+        spotlightName={applyTarget?.name ?? ""}
+        type="artist"
+      />
     </>
   );
 }

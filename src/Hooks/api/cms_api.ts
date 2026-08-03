@@ -150,6 +150,86 @@ export const useUpdateBusinessSpotlight = () => {
   });
 };
 
+// Withdraw a Spotlight Application
+// Usage: withdrawApplication({
+//   endpoint: `/v1/spotlight/applications/${applicationId}/withdraw`,
+//   data: {},
+// })
+export const useWithdrawSpotlightApplication = () => {
+  const queryClient = useQueryClient();
+
+  return useClientApi({
+    method: "post",
+    isPrivate: true,
+    key: ["spotlight-application-withdraw"],
+    endpoint: "/v1/spotlight/applications/withdraw",
+    onSuccess: (res: any) => {
+      if (res?.success) {
+        toast.success(res?.message || "Application withdrawn successfully!");
+        queryClient.invalidateQueries({
+          queryKey: ["my-spotlight-applications"],
+        });
+      }
+    },
+    onError: (err: any) => {
+      toast.error(
+        err?.response?.data?.message || "Failed to withdraw application.",
+      );
+    },
+  });
+};
+
+// Get My Spotlight Applications (list of weekly applications across my spotlights)
+export const getMySpotlightApplications = (params?: any) => {
+  return useClientApi({
+    method: "get",
+    isPrivate: true,
+    key: ["my-spotlight-applications", params],
+    endpoint: "/v1/spotlight/my-applications",
+    params,
+  });
+};
+
+// Get Open Spotlight Weeks (weeks that are accepting applications)
+export const useOpenSpotlightWeeks = (enabled: boolean = true) => {
+  return useClientApi({
+    method: "get",
+    isPrivate: true,
+    key: ["open-spotlight-weeks"],
+    endpoint: "/v1/spotlight/weeks/open",
+    enabled,
+  });
+};
+
+// Apply a Spotlight to a Weekly Spotlight Competition
+// Usage: applySpotlight({
+//   endpoint: `/v1/spotlight/weeks/${weekId}/apply`,
+//   data: { spotlightable_id: spotlightId, spotlightable_type: "artist" | "business" },
+// })
+export const useApplySpotlightToWeek = () => {
+  const queryClient = useQueryClient();
+
+  return useClientApi({
+    method: "post",
+    isPrivate: true,
+    key: ["spotlight-week-apply"],
+    endpoint: "/v1/spotlight/weeks/apply",
+    onSuccess: (res: any) => {
+      if (res?.success) {
+        toast.success(res?.message || "Applied successfully!");
+        queryClient.invalidateQueries({ queryKey: ["artist-spotlights"] });
+        queryClient.invalidateQueries({ queryKey: ["business-spotlights"] });
+        queryClient.invalidateQueries({
+          queryKey: ["my-spotlight-applications"],
+        });
+      }
+    },
+    onError: (err: any) => {
+      toast.error(err?.response?.data?.message || "Failed to apply.");
+    },
+  });
+};
+
 // Get Event By Slug
 // Get Featured Products
 export const getFeaturedProducts = (params?: any) => {
