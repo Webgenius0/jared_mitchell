@@ -49,6 +49,33 @@ export const useCreateArtistSpotlight = () => {
   });
 };
 
+// Update Artist Spotlight
+export const useUpdateArtistSpotlight = (id: number) => {
+  const queryClient = useQueryClient();
+
+  return useClientApi({
+    method: "post",
+    isPrivate: true,
+    key: ["artist-spotlight-update", id],
+    endpoint: `/v1/artist-spotlight/update/${id}`,
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+    onSuccess: (res: any) => {
+      if (res?.success) {
+        toast.success(res?.message);
+        queryClient.invalidateQueries({ queryKey: ["artist-spotlights"] });
+        queryClient.invalidateQueries({
+          queryKey: ["artist-spotlight-details", id],
+        });
+      }
+    },
+    onError: (err: any) => {
+      toast.error(err?.response?.data?.message);
+    },
+  });
+};
+
 // Get Artist Spotlights
 export const getArtistSpotlights = (params?: any) => {
   return useClientApi({

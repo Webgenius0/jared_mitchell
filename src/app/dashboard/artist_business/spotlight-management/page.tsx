@@ -77,7 +77,7 @@ export default function Page() {
   const pagination: SpotlightsPagination | undefined = data?.data?.pagination;
 
   return (
-    <div className="min-h-screen bg-[#F5F6F8]">
+    <>
       <div className=" bg-white rounded-2xl border border-slate-100 overflow-hidden">
         {/* Header */}
         <div className="flex items-center justify-between px-5 md:px-6 py-4 md:py-5">
@@ -156,7 +156,7 @@ export default function Page() {
                         </Link>
 
                         <Link
-                          href={`/artist-spotlight?id=${entry.id}`}
+                          href={`/dashboard/artist_business/spotlight-management/create-spotlight?id=${entry.id}`}
                           title="Edit"
                           className="text-slate-400 hover:text-blue-500 transition-colors"
                         >
@@ -184,6 +184,6 @@ export default function Page() {
           </div>
         )}
       </div>
-    </div>
+    </>
   );
 }

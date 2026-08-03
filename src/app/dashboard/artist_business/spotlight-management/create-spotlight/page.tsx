@@ -9,6 +9,7 @@ import { FormProvider, useForm } from "react-hook-form";
 import {
   getSingleArtistSpotlightDetails,
   useCreateArtistSpotlight,
+  useUpdateArtistSpotlight,
 } from "@/Hooks/api/cms_api";
 import { TbLoader2 } from "react-icons/tb";
 import StepOne from "./_components/StepOne";
@@ -40,74 +41,184 @@ interface Props {
 
 const Page = ({ searchParams }: Props) => {
   const { id } = use(searchParams);
+  const isEditMode = Boolean(id);
   const [step, setStep] = useState(0);
   const formRef = useRef<HTMLDivElement | null>(null);
+  const hasHydrated = useRef(false);
+
   const totalSteps = steps.length;
   const CurrentStep = steps[step].component;
   const progressPercent = ((step + 1) / totalSteps) * 100;
   const onNext = () => setStep(prev => Math.min(prev + 1, totalSteps - 1));
   const onPrev = () => setStep(prev => Math.max(prev - 1, 0));
 
-  const { mutateAsync: artistSpotlightMutation, isPending } =
+  const { mutateAsync: createSpotlight, isPending: isCreating } =
     useCreateArtistSpotlight();
-  const { data: spotlightDetails, isLoading } =
+  const { mutateAsync: updateSpotlight, isPending: isUpdating } =
+    useUpdateArtistSpotlight(id);
+  const isPending = isCreating || isUpdating;
+
+  const { data: spotlightDetails, isLoading: isDetailsLoading } =
     getSingleArtistSpotlightDetails(id);
-  console.log(spotlightDetails);
 
   const methods = useForm({
     mode: "onBlur",
     defaultValues: {},
   });
 
+  // Hydrate
+  useEffect(() => {
+    if (!isEditMode) return;
+    if (hasHydrated.current) return;
+    const spotlight = spotlightDetails?.data;
+    if (!spotlight) return;
+
+    methods.reset({
+      full_legal_name: spotlight.full_legal_name ?? "",
+      artist_stage_name: spotlight.artist_stage_name ?? "",
+      email: spotlight.email ?? "",
+      phone_number: spotlight.phone_number ?? "",
+      date_of_birth: spotlight.date_of_birth
+        ? spotlight.date_of_birth.slice(0, 10)
+        : "",
+      city: spotlight.city ?? "",
+      state: spotlight.state ?? "",
+
+      instagram_handle: spotlight.social_media?.instagram_handle ?? "",
+      tiktok_handle: spotlight.social_media?.tiktok_handle ?? "",
+      facebook_url: spotlight.social_media?.facebook_url ?? "",
+      youtube_url: spotlight.social_media?.youtube_url ?? "",
+      website_portfolio_url:
+        spotlight.social_media?.website_portfolio_url ?? "",
+
+      artist_category_id: spotlight.artist_category_id
+        ? String(spotlight.artist_category_id)
+        : "",
+      category_other_description: spotlight.category_other_description ?? "",
+
+      short_bio: spotlight.short_bio ?? "",
+      full_artist_story: spotlight.full_artist_story ?? "",
+      why_spotlighted: spotlight.why_spotlighted ?? "",
+      community_message: spotlight.community_message ?? "",
+      current_goals: spotlight.current_goals ?? "",
+
+      existing_headshot: spotlight.media?.headshot ?? null,
+      existing_artwork_photos: spotlight.media?.artwork_photos ?? [],
+      existing_behind_scenes_photo:
+        spotlight.media?.behind_scenes_photo ?? null,
+      existing_intro_video: spotlight.media?.intro_video ?? null,
+
+      consent_public_release: spotlight.consent?.public_release ?? false,
+      consent_ownership_declaration:
+        spotlight.consent?.ownership_declaration ?? false,
+      consent_interview_permission:
+        spotlight.consent?.interview_permission ?? false,
+
+      talent_manager_contact: spotlight.talent_manager_contact ?? "",
+      agent_contact: spotlight.agent_contact ?? "",
+      press_kit_url: spotlight.press_kit_url ?? "",
+      previous_interviews: spotlight.previous_interviews ?? "",
+      awards_recognition: spotlight.awards_recognition ?? "",
+      preferred_pronouns: spotlight.preferred_pronouns ?? "",
+      preferred_contact_method: spotlight.preferred_contact_method ?? "",
+      interview_availability: spotlight.interview_availability ?? "",
+    });
+
+    hasHydrated.current = true;
+  }, [isEditMode, spotlightDetails, methods]);
+
+  const singleFileFields: Record<string, string> = {
+    headshot: "existing_headshot",
+    behind_scenes_photo: "existing_behind_scenes_photo",
+    intro_video: "existing_intro_video",
+  };
+
+  const multiFileFields: Record<string, string> = {
+    artwork_photos: "existing_artwork_photos",
+  };
+
   const onSubmit = async (data: any) => {
     if (step < totalSteps - 2) {
       onNext();
-    } else {
-      const formData = new FormData();
+      return;
+    }
 
-      Object.keys(data).forEach(key => {
-        const value = data[key];
+    const formData = new FormData();
 
-        if (value === undefined || value === null) return;
+    Object.keys(data).forEach(key => {
+      const value = data[key];
 
-        // Handle Files
-        if (
-          value instanceof FileList ||
-          (Array.isArray(value) && value[0] instanceof File)
-        ) {
-          if (key === "artwork_photos") {
-            Array.from(value as FileList).forEach(file => {
-              formData.append("artwork_photos[]", file);
-            });
-          } else {
-            formData.append(key, value[0]);
+      if (key.startsWith("existing_")) return;
+
+      if (key in singleFileFields) {
+        const fileList = value as FileList | undefined;
+        const newFile = fileList?.[0];
+
+        if (newFile instanceof File) {
+          formData.append(key, newFile);
+        } else {
+          const existingUrl = data[singleFileFields[key]];
+          if (existingUrl) {
+            formData.append(key, existingUrl);
           }
-          return;
         }
+        return;
+      }
 
-        // Handle Booleans (Consent)
-        if (key.startsWith("consent_")) {
-          formData.append(key, value ? "1" : "0");
-          return;
+      if (key in multiFileFields) {
+        const fileList = value as FileList | undefined;
+        const hasNewFiles = fileList instanceof FileList && fileList.length > 0;
+
+        if (hasNewFiles) {
+          Array.from(fileList).forEach(file => {
+            formData.append(`${key}[]`, file);
+          });
+        } else {
+          const existingUrls: string[] = data[multiFileFields[key]] ?? [];
+          existingUrls.forEach(url => {
+            formData.append(`${key}[]`, url);
+          });
         }
+        return;
+      }
 
-        // Handle Everything else
-        formData.append(key, value);
-      });
+      if (value === undefined || value === null) return;
 
-      await artistSpotlightMutation(formData, {
+      // Handle Booleans (Consent)
+      if (key.startsWith("consent_")) {
+        formData.append(key, value ? "1" : "0");
+        return;
+      }
+
+      // Handle Everything else
+      formData.append(key, value);
+    });
+
+    if (isEditMode) {
+      await updateSpotlight(formData, {
         onSuccess: (res: any) => {
-          if (res?.success) {
-            onNext();
-          }
+          if (res?.success) onNext();
+        },
+      });
+    } else {
+      await createSpotlight(formData, {
+        onSuccess: (res: any) => {
+          if (res?.success) onNext();
         },
       });
     }
   };
-
   useEffect(() => {
     formRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [step]);
+
+  if (isEditMode && isDetailsLoading) {
+    return (
+      <div className="container py-10 flex justify-center">
+        <TbLoader2 className="animate-spin text-3xl text-primary-blue" />
+      </div>
+    );
+  }
 
   return (
     <div ref={formRef} className="container py-10">
@@ -196,8 +307,11 @@ const Page = ({ searchParams }: Props) => {
                 {step === totalSteps - 2 ? (
                   isPending ? (
                     <span className="flex gap-2 items-center">
-                      <TbLoader2 className="animate-spin" /> Submitting...
+                      <TbLoader2 className="animate-spin" />
+                      {isEditMode ? "Updating..." : "Submitting..."}
                     </span>
+                  ) : isEditMode ? (
+                    "Update"
                   ) : (
                     "Submit"
                   )
