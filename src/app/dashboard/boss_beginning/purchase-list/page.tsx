@@ -7,7 +7,7 @@ const Page = () => {
   const [page, setPage] = useState(1);
   const { data: purchaseList, isLoading } = usePurchaseList({
     page,
-    per_page: 1,
+    per_page: 10,
   });
 
   return (

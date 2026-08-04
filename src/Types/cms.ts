@@ -147,6 +147,7 @@ export interface CMSAbout {
   about_join: CMSAboutJoin;
   about_newsletter: CMSAboutNewsletter;
   about_sponsors: CMSAboutSponsors;
+  partners: CMSPartner;
 }
 
 export interface CMSServicesHero extends CMSBase {}
@@ -182,6 +183,7 @@ export interface CMSServices {
   services_business_spotlight: CMSServicesBusinessSpotlight;
   services_newsletter: CMSServicesNewsletter;
   services_risk_free: CMSServicesRiskFree;
+  partners: CMSPartner;
 }
 
 export interface CMSArtistSpotlightHero extends CMSBase {}

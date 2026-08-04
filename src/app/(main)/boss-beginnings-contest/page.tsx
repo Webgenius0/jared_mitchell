@@ -1,7 +1,11 @@
 import React from "react";
 import BossBegginingsConstestBanner from "./Components/BossBegginingsConstestBanner";
 import { CMSBossBeginnings, CMSRoundsPage } from "@/Types/cms";
-import { getBossCms, getCMSAboutData, getRoundsCms } from "@/lib/Services/cms_service";
+import {
+  getBossCms,
+  getCMSAboutData,
+  getRoundsCms,
+} from "@/lib/Services/cms_service";
 import Sponsors from "../_components/Sponsors";
 import NewsLetter from "@/Components/Common/NewsLetter";
 import OpenQualifierRound from "./Components/Openqualifierround";
@@ -21,7 +25,7 @@ const page = async () => {
     <>
       <BossBegginingsConstestBanner data={pageData?.boss_beginnings_hero} />
       <OpenQualifierRound roundsData={roundsData?.rounds} />
-      <Sponsors data={CmsData?.about_sponsors} />
+      <Sponsors data={CmsData?.partners} />
       <NewsLetter title="Be part of the movement. Get stories, updates, and opportunities straight to your inbox." />
     </>
   );
