@@ -48,10 +48,7 @@ const page = async () => {
         data={cmsData?.business_spotlight_list}
       />
       {/* <CommunityAchievements data={cmsData?.business_spotlight_highlights} /> */}
-      <SuccessStories
-        winners={businessWinners}
-        type="business"
-      />
+      <SuccessStories winners={businessWinners} type="business" />
       {/* <EditorsPicks type="business" data={cmsData?.business_spotlight_picks} /> */}
       <SpotlightLadder
         title={
@@ -68,11 +65,10 @@ const page = async () => {
       {/* <CreativeJourney data={cmsData?.business_spotlight_interview} /> */}
       <WhatExist data={cmsData?.business_spotlight_why_exists} />
       {/* <EventSponsors /> */}
-      <Sponsors data={CmsData?.about_sponsors} />
+      <Sponsors data={CmsData?.partners} />
       <NewsLetter title="Stay connected with new spotlights, events, and creative tools." />
     </>
   );
 };
 
 export default page;
-

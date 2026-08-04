@@ -33,7 +33,7 @@ const page = async () => {
       <OurImpact data={cmsData?.about_our_impact} />
       <FounderMessage data={cmsData?.about_founder_message} />
       <JoinMovement data={cmsData?.about_join} />
-      <Sponsors data={cmsData?.about_sponsors} showButton={false} />
+      {/* <Sponsors data={cmsData?.about_sponsors} showButton={false} /> */}
       <Sponsors data={sponsorsdata?.partners} />
       <NewsLetter
         data={cmsData?.about_newsletter}

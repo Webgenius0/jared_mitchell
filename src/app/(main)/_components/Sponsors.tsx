@@ -29,7 +29,7 @@ const Sponsors = ({ data, title, showButton = true }: SponsorsProps) => {
 
       <div className="flex flex-col gap-5 my-5">
         <SponsorSlider logos={logos} />
-        <SponsorSlider logos={logos} reverse={true} />
+        {/* <SponsorSlider logos={logos} reverse={true} /> */}
         {showButton && (
           <div className="flex justify-center mt-4">
             <Button onClick={() => setIsSponsorModalOpen(true)}>

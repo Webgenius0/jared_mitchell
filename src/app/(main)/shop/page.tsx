@@ -43,7 +43,7 @@ const page = async () => {
       {/* <TrustFeatures data={shopData?.shop_page_footer_features} /> */}
       <FAQAccordion data={faqData} />
       {/* <OurSponsors /> */}
-      <Sponsors data={CmsData?.about_sponsors} title="Our Sponsors" />
+      <Sponsors data={CmsData?.partners} title="Our Sponsors" />
       <NewsLetter title="Be part of the movement. Get stories, updates, and opportunities straight to your inbox." />
     </>
   );
