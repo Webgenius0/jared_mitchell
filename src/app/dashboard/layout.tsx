@@ -202,6 +202,10 @@ const bossLinks = [
         label: "List Business",
         path: "/dashboard/boss_beginning/listed-business",
       },
+      {
+        label: "My Applications",
+        path: "/dashboard/boss_beginning/current-session/my-applications",
+      },
     ],
   },
   {

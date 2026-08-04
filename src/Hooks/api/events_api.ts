@@ -71,3 +71,44 @@ export const apiVoteNominee = async (nomineeId: number) => {
   const res = await axiosSecure.post(`/v1/spotlight/nominees/${nomineeId}/vote`);
   return res.data;
 };
+
+// ─── Vote Purchase (initiate a purchase) ───────────────────────────────
+// POST /v1/spotlight/nominees/:nominee_id/purchase-votes
+// Body: { package_slug: string } — slug like "starter", "popular", "boost", "power"
+export const apiPurchaseVotes = async (nomineeId: number, packageSlug: string) => {
+  const res = await axiosSecure.post(
+    `/v1/spotlight/nominees/${nomineeId}/purchase-votes`,
+    { package_slug: packageSlug },
+  );
+  return res.data;
+};
+
+// ─── Pay for a Vote Purchase ───────────────────────────────────────────
+// POST /v1/spotlight/vote/purchases/:purchase_id/pay
+// Body: { stripe_payment_method_id?: string }
+export const apiPayVotePurchase = async (
+  purchaseId: number,
+  stripePaymentMethodId?: string,
+) => {
+  const res = await axiosSecure.post(
+    `/v1/spotlight/vote/purchases/${purchaseId}/pay`,
+    { stripe_payment_method_id: stripePaymentMethodId },
+  );
+  return res.data;
+};
+
+// ─── Get My Pending Purchases ──────────────────────────────────────────
+// GET /v1/spotlight/vote/my-pending-purchases
+export const apiGetMyPendingPurchases = async () => {
+  const res = await axiosSecure.get("/v1/spotlight/vote/my-pending-purchases");
+  return res.data;
+};
+
+// ─── Get Nominee Purchases ─────────────────────────────────────────────
+// GET /v1/spotlight/nominees/:nominee_id/purchases
+export const apiGetNomineePurchases = async (nomineeId: number) => {
+  const res = await axiosSecure.get(
+    `/v1/spotlight/nominees/${nomineeId}/purchases`,
+  );
+  return res.data;
+};

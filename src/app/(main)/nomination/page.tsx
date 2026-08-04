@@ -4,6 +4,7 @@ import Container from "@/Components/Common/Container";
 import Voting from "./_components/Voting";
 import OsiPanel from "./_components/OsiPanel";
 import LeaderBoard from "./_components/LeaderBoard";
+import Sponsors from "../_components/Sponsors";
 
 const tabs = [
   { id: "1", tab: "Voting" },
@@ -15,6 +16,7 @@ const Page = () => {
   const [activeTab, setActiveTab] = useState("1");
 
   return (
+    <>
     <section>
       <Container>
         {/* Tabs */}
@@ -49,6 +51,8 @@ const Page = () => {
         </div>
       </Container>
     </section>
+    <Sponsors showButton={false} />
+    </>
   );
 };
 

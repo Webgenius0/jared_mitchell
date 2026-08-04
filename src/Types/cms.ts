@@ -1264,6 +1264,107 @@ export interface VotePackagesResponse {
   code: number;
 }
 
+// ─── Vote Purchase ────────────────────────────────────────────────────────────
+
+// Request body for initiating a vote purchase
+// POST /v1/spotlight/nominees/:nominee_id/purchase-votes
+// Body: { package_slug: string } — slug like "starter", "popular", "boost", "power"
+export interface VotePurchaseRequest {
+  package_slug: string;
+  nominee_id: number;
+}
+
+// A single vote purchase record (shared by the pending / nominee / details endpoints)
+export interface VotePurchase {
+  id: number;
+  status: string; // "pending" | "approved" | "paid" | "cancelled" | ...
+  package_slug: string;
+  package_name: string;
+  votes_count: number;
+  amount_paid: number;
+  can_pay: boolean;
+  can_cancel: boolean;
+  stripe_checkout_url: string | null;
+  nominee: {
+    id: number;
+    spotlight_name: string;
+    spotlight_type: string; // "artist" | "business"
+    week_status: string;
+    voting_open: boolean;
+  };
+  approved_at: string | null;
+  paid_at: string | null;
+  created_at: string;
+}
+
+// Created purchase returned by POST /v1/spotlight/nominees/:nominee_id/purchase-votes
+// (a subset — it stays "pending" until admin approval, then can_pay becomes true
+// and the purchase appears in the my-pending-purchases list)
+export interface VotePurchaseCreated {
+  id: number;
+  status: string; // "pending" | ...
+  package: string; // package slug, e.g. "popular"
+  package_name: string;
+  votes_count: number;
+  amount_paid: number;
+  created_at: string;
+}
+
+export interface VotePurchaseResponse {
+  success: boolean;
+  message: string;
+  data: {
+    purchase: VotePurchaseCreated;
+  };
+  errors: null | any;
+  code: number;
+}
+
+// Request body for paying a vote purchase
+// POST /v1/spotlight/vote/purchases/:purchase_id/pay
+export interface VotePayRequest {
+  stripe_payment_method_id?: string;
+}
+
+// The pay endpoint creates a Stripe Checkout session and returns the URL to redirect to.
+export interface VotePayResponse {
+  success: boolean;
+  message: string;
+  data: {
+    purchase_id: number;
+    checkout_url: string;
+    session_id: string;
+  };
+  errors: null | any;
+  code: number;
+}
+
+// GET /v1/spotlight/vote/my-pending-purchases
+export interface PendingPurchasesResponse {
+  success: boolean;
+  message: string;
+  data: {
+    purchases: VotePurchase[];
+  };
+  errors: null | any;
+  code: number;
+}
+
+// GET /v1/spotlight/nominees/:nominee_id/purchases
+export interface NomineePurchasesResponse {
+  success: boolean;
+  message: string;
+  data: {
+    nominee_id: number;
+    paid_vote_count: number;
+    remaining_slots: number;
+    cap_reached: boolean;
+    purchases: VotePurchase[];
+  };
+  errors: null | any;
+  code: number;
+}
+
 // ─── Spotlight Weeks Leaderboard ──────────────────────────────────────────────
 
 export interface LeaderboardSpotlight {

@@ -23,7 +23,13 @@ interface SpotlightApiItem {
   category_name: string;
   category: SpotlightCategory;
   status: SpotlightStatus;
-  duration: string | null;
+  duration:
+    | string
+    | {
+        voting_starts_at: string | null;
+        voting_ends_at: string | null;
+      }
+    | null;
   likes_count: number;
   submitted_at: string | null;
   created_at: string;
@@ -42,6 +48,20 @@ const statusStyles: Record<string, string> = {
   rejected: "bg-red-50 text-red-500",
   pending: "bg-amber-50 text-amber-500",
 };
+
+// The API returns `duration` as an object { voting_starts_at, voting_ends_at }
+// (or occasionally a plain string) — render it as a readable label instead of
+// trying to render the object directly (which crashes React).
+function formatDurationLabel(duration: SpotlightApiItem["duration"]): string {
+  if (!duration) return "—";
+  if (typeof duration === "string") return duration;
+  if (duration.voting_starts_at && duration.voting_ends_at) {
+    return `${formatDate(duration.voting_starts_at)} — ${formatDate(
+      duration.voting_ends_at,
+    )}`;
+  }
+  return "—";
+}
 
 function StatusBadge({ status }: { status: SpotlightStatus }) {
   return (
@@ -131,7 +151,7 @@ export default function Page() {
                       {entry.category_name}
                     </td>
                     <td className="px-5 md:px-6 py-3.5 md:py-5 text-sm md:text-base text-slate-600 whitespace-nowrap">
-                      {entry.duration ?? "—"}
+                      {formatDurationLabel(entry.duration)}
                     </td>
                     <td className="px-5 md:px-6 py-3.5 md:py-5 whitespace-nowrap">
                       <StatusBadge status={entry.status} />

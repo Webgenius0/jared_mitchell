@@ -21,12 +21,29 @@ axiosSecure.interceptors.request.use(
 axiosSecure.interceptors.response.use(
   response => response,
   async error => {
-    if (
-      error.response &&
-      (error.response.status === 401 || error.response.status === 403)
-    ) {
-      removeItem("token");
-      window.location.reload();
+    const status = error.response?.status;
+
+    // Never treat 403 as a session-expiry signal: the user IS authenticated
+    // but forbidden (e.g. a backend business rule like "only purchase votes
+    // for your own spotlight") — wiping the session would kick them to login.
+    if (status === 401) {
+      // Only auto-logout when the response actually looks like an auth
+      // failure (Laravel returns "Unauthenticated." for expired/invalid
+      // tokens). Business-rule 401s carry a custom message and must not
+      // destroy the session.
+      const message = String(
+        error.response?.data?.message ?? error.response?.data?.error ?? "",
+      ).toLowerCase();
+      const isAuthFailure =
+        !message ||
+        /unauthenticated|unauthorized|token.*expired|expired.*token|session|login|credential/i.test(
+          message,
+        );
+
+      if (isAuthFailure) {
+        removeItem("token");
+        window.location.reload();
+      }
     }
     return Promise.reject(error);
   }

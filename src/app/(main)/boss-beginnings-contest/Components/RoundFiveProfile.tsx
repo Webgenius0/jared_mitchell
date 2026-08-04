@@ -56,7 +56,7 @@ export default function RoundFiveProfile({
     <>
       <RoundBanner data={pageData?.boss_beginnings_hero} />
       <WinnersDetails hideVotingSections={true} />
-      <Sponsors data={cmsData?.about_sponsors} title="Our Event Sponsors" />
+      <Sponsors data={cmsData?.partners} title="Our Event Sponsors" />
       <NewsLetter title="Be part of the movement. Get stories, updates, and opportunities straight to your inbox." />
     </>
   );
