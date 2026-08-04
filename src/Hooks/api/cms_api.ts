@@ -76,14 +76,16 @@ export const useUpdateArtistSpotlight = (id: number) => {
   });
 };
 
-// Get Artist Spotlights
-export const getArtistSpotlights = (params?: any) => {
+// Get Artist Spotlights (the logged-in user's own artist spotlights)
+// `enabled` lets callers skip this request for non-artist roles (avoids 403s).
+export const getArtistSpotlights = (params?: any, enabled: boolean = true) => {
   return useClientApi({
     method: "get",
     isPrivate: true,
     key: ["artist-spotlights", params],
     endpoint: "/v1/artist-spotlight",
     params,
+    enabled,
   });
 };
 
@@ -107,14 +109,16 @@ export const getArtistCategories = () => {
   });
 };
 
-// Get Business Spotlights
-export const getBusinessSpotlights = (params?: any) => {
+// Get Business Spotlights (the logged-in user's own business spotlights)
+// `enabled` lets callers skip this request for non-business roles (avoids 403s).
+export const getBusinessSpotlights = (params?: any, enabled: boolean = true) => {
   return useClientApi({
     method: "get",
     isPrivate: true,
     key: ["business-spotlights", params],
     endpoint: "/v1/business-spotlight",
     params,
+    enabled,
   });
 };
 
@@ -345,6 +349,90 @@ export const getVotePackages = () => {
     isPrivate: true,
     key: ["vote-packages"],
     endpoint: "/v1/spotlight/vote-packages",
+  });
+};
+
+// Purchase Votes for a Nominee (initiate a purchase)
+// POST /v1/spotlight/nominees/:nominee_id/purchase-votes
+// Usage: purchaseVotes({
+//   endpoint: `/v1/spotlight/nominees/${nomineeId}/purchase-votes`,
+//   data: { package_slug },
+// })
+export const usePurchaseVotes = () => {
+  return useClientApi({
+    method: "post",
+    isPrivate: true,
+    key: ["purchase-votes"],
+    endpoint: "/v1/spotlight/nominees/purchase-votes",
+    onSuccess: (res: any) => {
+      if (res?.success) {
+        import("react-hot-toast").then(({ default: toast }) =>
+          toast.success(res?.message || "Purchase initiated successfully!"),
+        );
+      }
+    },
+    onError: (err: any) => {
+      import("react-hot-toast").then(({ default: toast }) =>
+        toast.error(
+          err?.response?.data?.message || "Failed to initiate purchase.",
+        ),
+      );
+    },
+  });
+};
+
+// Pay for a Vote Purchase (creates a Stripe Checkout session)
+// POST /v1/spotlight/vote/purchases/:purchase_id/pay
+// Usage: payVotePurchase({
+//   endpoint: `/v1/spotlight/vote/purchases/${purchaseId}/pay`,
+// })
+// Response data: { purchase_id, checkout_url, session_id } — redirect to checkout_url.
+export const usePayVotePurchase = () => {
+  return useClientApi({
+    method: "post",
+    isPrivate: true,
+    key: ["pay-vote-purchase"],
+    endpoint: "/v1/spotlight/vote/purchases/pay",
+    onSuccess: (res: any) => {
+      if (res?.success) {
+        import("react-hot-toast").then(({ default: toast }) =>
+          toast.success(res?.message || "Redirecting to payment..."),
+        );
+      }
+    },
+    onError: (err: any) => {
+      import("react-hot-toast").then(({ default: toast }) =>
+        toast.error(
+          err?.response?.data?.message || "Payment failed.",
+        ),
+      );
+    },
+  });
+};
+
+// Get My Pending Purchases
+// GET /v1/spotlight/vote/my-pending-purchases
+export const useMyPendingPurchases = (enabled: boolean = true) => {
+  return useClientApi({
+    method: "get",
+    isPrivate: true,
+    key: ["my-pending-purchases"],
+    endpoint: "/v1/spotlight/vote/my-pending-purchases",
+    enabled,
+  });
+};
+
+// Get Nominee Purchases
+// GET /v1/spotlight/nominees/:nominee_id/purchases
+export const useNomineePurchases = (nomineeId: number | null) => {
+  return useClientApi({
+    method: "get",
+    isPrivate: true,
+    key: ["nominee-purchases", nomineeId],
+    endpoint: nomineeId
+      ? `/v1/spotlight/nominees/${nomineeId}/purchases`
+      : "",
+    enabled: !!nomineeId,
   });
 };
 
