@@ -2,7 +2,7 @@ import { LogoutSvg } from "@/Components/Svg/SvgContainer";
 import { DownArrowSvg } from "@/Components/Svg/SvgContainer2";
 import { useLogout } from "@/Hooks/api/auth_api";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import React, { useCallback, useState } from "react";
 import { FiLogOut } from "react-icons/fi";
 import { FaAngleDown } from "react-icons/fa6";
@@ -32,6 +32,7 @@ const DashboardSidebar = ({
   dashboardNavLinks,
 }: SidebarProps) => {
   const pathname = usePathname();
+  const router = useRouter();
   const { mutate: handleLogout, isPending: isLoggingOut } = useLogout();
   const [showConfirmModal, setShowConfirmModal] = useState(false);
 
@@ -101,60 +102,81 @@ const DashboardSidebar = ({
               pathname?.startsWith("/dashboard/boss_beginning/boss-beginning/");
 
             const isSubMenuOpen = openSubMenuIds.has(item.id);
+            const isItemActive =
+              isActive ||
+              isActiveSubMenu ||
+              isBusinessSubPage ||
+              isBossBeginningSubPage;
+            const itemClasses = `flex justify-between items-center px-3 py-2 rounded-md duration-300 transition-all ${
+              isItemActive
+                ? "bg-primary-blue text-white"
+                : "hover:bg-gray-100 text-gray-700"
+            }`;
 
-            return (
-              <Link
-                key={item?.id}
-                href={item?.path}
-                onClick={() => {
-                  setOpen(false);
-                  item?.subMenu && toggleSubMenu(item.id);
-                }}
-                className="duration-500 transition-all"
-              >
-                <p
-                  className={`flex justify-between items-center px-3 py-2 rounded-md duration-300 transition-all ${
-                    isActive ||
-                    isActiveSubMenu ||
-                    isBusinessSubPage ||
-                    isBossBeginningSubPage
-                      ? "bg-primary-blue text-white"
-                      : "hover:bg-gray-100 text-gray-700"
-                  }`}
+            // ── Item WITHOUT submenu → plain link (no nesting) ────────
+            if (!item?.subMenu) {
+              return (
+                <Link
+                  key={item?.id}
+                  href={item?.path}
+                  onClick={() => setOpen(false)}
+                  className="duration-500 transition-all"
                 >
-                  <p className="flex gap-2.5 items-center">
+                  <span className={itemClasses}>
+                    <span className="flex gap-2.5 items-center">
+                      <span>{item?.icon}</span>
+                      <span>{item.label}</span>
+                    </span>
+                  </span>
+                </Link>
+              );
+            }
+
+            // ── Item WITH submenu → button toggles (avoids nested <a>) ─
+            return (
+              <div key={item?.id} className="duration-500 transition-all">
+                <button
+                  type="button"
+                  aria-expanded={isSubMenuOpen}
+                  onClick={() => {
+                    setOpen(false);
+                    toggleSubMenu(item.id);
+                    // Preserve the old behavior: the parent row also navigates
+                    // to its own page when clicked.
+                    if (item?.path) router.push(item.path);
+                  }}
+                  className={`${itemClasses} w-full cursor-pointer text-left`}
+                >
+                  <span className="flex gap-2.5 items-center">
                     <span>{item?.icon}</span>
                     <span>{item.label}</span>
-                  </p>
-                  {item?.subMenu && (
-                    <p
-                      className={`duration-300 transition-transform ${isSubMenuOpen ? "rotate-0" : "rotate-180"}`}
-                    >
-                      <FaAngleDown className="text-sm"/>
-                    </p>
-                  )}
-                </p>
-
-                {item?.subMenu && (
-                  <div
-                    onClick={e => {
-                      e.stopPropagation();
-                      forceOpenSubMenu(item.id);
-                    }}
-                    className={`w-fit ps-5 text-[15px] duration-300 transition-all space-y-1 pt-2 ${isSubMenuOpen ? "opacity-100 h-auto" : "opacity-0 h-0"}`}
+                  </span>
+                  <span
+                    className={`duration-300 transition-transform ${isSubMenuOpen ? "rotate-0" : "rotate-180"}`}
                   >
-                    {item?.subMenu?.map(subItem => (
-                      <Link
-                        key={subItem?.path}
-                        href={subItem?.path}
-                        className={`${pathname === subItem?.path ? "text-gray-900" : "text-gray-500"} block w-full hover:text-gray-800`}
-                      >
-                        {subItem?.label}
-                      </Link>
-                    ))}
-                  </div>
-                )}
-              </Link>
+                    <FaAngleDown className="text-sm" />
+                  </span>
+                </button>
+
+                <div
+                  onClick={e => {
+                    e.stopPropagation();
+                    forceOpenSubMenu(item.id);
+                  }}
+                  className={`w-fit ps-5 text-[15px] duration-300 transition-all space-y-1 pt-2 ${isSubMenuOpen ? "opacity-100 h-auto" : "opacity-0 h-0"}`}
+                >
+                  {item?.subMenu?.map(subItem => (
+                    <Link
+                      key={subItem?.path}
+                      href={subItem?.path}
+                      onClick={() => setOpen(false)}
+                      className={`${pathname === subItem?.path ? "text-gray-900" : "text-gray-500"} block w-full hover:text-gray-800`}
+                    >
+                      {subItem?.label}
+                    </Link>
+                  ))}
+                </div>
+              </div>
             );
           })}
         </nav>

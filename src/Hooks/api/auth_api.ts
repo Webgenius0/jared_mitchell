@@ -87,7 +87,16 @@ export const useLogin = () => {
       if (res?.success) {
         setToken(res?.data?.token);
         toast.success(res?.message);
-        router.push("/dashboard");
+        // Honor an optional ?redirect= target (e.g. "create business" form),
+        // but only allow internal paths — never external URLs.
+        const redirect = new URLSearchParams(window.location.search).get(
+          "redirect",
+        );
+        const safeRedirect =
+          redirect && redirect.startsWith("/") && !redirect.startsWith("//")
+            ? redirect
+            : "/dashboard";
+        router.push(safeRedirect);
       }
     },
     onError: (err: any) => {
