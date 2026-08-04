@@ -16,6 +16,7 @@ import StepSix from "./_Components/StepSix";
 import StepSeven from "./_Components/StepSeven";
 import { useCreateBusinessSpotlight } from "@/Hooks/api/cms_api";
 import { TbLoader2 } from "react-icons/tb";
+import Sponsors from "../_components/Sponsors";
 
 type StepItem = {
   title: string;
@@ -97,6 +98,7 @@ const Page = () => {
   }, [step]);
 
   return (
+    <>
     <section className="pb-20">
       {/* Banner */}
       <div
@@ -220,6 +222,9 @@ const Page = () => {
         </FormProvider>
       </div>
     </section>
+
+    <Sponsors showButton={false} />
+    </>
   );
 };
 

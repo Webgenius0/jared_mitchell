@@ -19,7 +19,6 @@ import {
   getFeaturedEvents,
 } from "@/lib/Services/cms_service";
 import { CMSEventsPage, FeaturedEventItem } from "@/Types/cms";
-import EventSponsors from "./_Components/EventSponsors";
 
 const Page = async () => {
   const pageData = (await getEventsPageCms()) as CMSEventsPage;
@@ -47,7 +46,6 @@ const Page = async () => {
       {/* <WhatYouGet data={pageData?.events_page_booth_features} /> */}
       <EventGallery />
       <EventHighlight />
-      <EventSponsors />
       <Sponsors data={cmsData?.partners} showButton={false} />
       <NewsLetter title="Be part of the movement. Get stories, updates, and opportunities straight to your inbox." />
     </>

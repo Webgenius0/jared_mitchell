@@ -469,6 +469,77 @@ export const useActiveRoundSession = () => {
   });
 };
 
+// ─── Contest Applications (Boss Beginnings seasons) ────────────────────────
+
+// Apply a Business to a Contest Season
+// POST /v1/contest-applications  Body: { season_id, business_id }
+// Usage: applyToContest({ data: { season_id, business_id } })
+export const useApplyToContest = () => {
+  const queryClient = useQueryClient();
+
+  return useClientApi({
+    method: "post",
+    isPrivate: true,
+    key: ["contest-application-apply"],
+    endpoint: "/v1/contest-applications",
+    onSuccess: (res: any) => {
+      if (res?.success) {
+        toast.success(res?.message || "Applied successfully!");
+        queryClient.invalidateQueries({
+          queryKey: ["my-contest-applications"],
+        });
+      }
+    },
+    onError: (err: any) => {
+      toast.error(
+        err?.response?.data?.message || "Failed to apply to the session.",
+      );
+    },
+  });
+};
+
+// Get My Contest Applications (list of my season-based applications)
+// GET /v1/contest-applications/my
+export const getMyContestApplications = (params?: any) => {
+  return useClientApi({
+    method: "get",
+    isPrivate: true,
+    key: ["my-contest-applications", params],
+    endpoint: "/v1/contest-applications/my",
+    params,
+  });
+};
+
+// Withdraw a Contest Application
+// POST /v1/contest-applications/:application_id/withdraw
+// Usage: withdrawContestApplication({
+//   endpoint: `/v1/contest-applications/${applicationId}/withdraw`,
+//   data: {},
+// })
+export const useWithdrawContestApplication = () => {
+  const queryClient = useQueryClient();
+
+  return useClientApi({
+    method: "post",
+    isPrivate: true,
+    key: ["contest-application-withdraw"],
+    endpoint: "/v1/contest-applications/withdraw",
+    onSuccess: (res: any) => {
+      if (res?.success) {
+        toast.success(res?.message || "Application withdrawn successfully!");
+        queryClient.invalidateQueries({
+          queryKey: ["my-contest-applications"],
+        });
+      }
+    },
+    onError: (err: any) => {
+      toast.error(
+        err?.response?.data?.message || "Failed to withdraw application.",
+      );
+    },
+  });
+};
+
 // Register / Buy Ticket for an Event
 export const useEventRegister = () => {
   return useClientApi({

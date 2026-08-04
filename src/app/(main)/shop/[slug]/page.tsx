@@ -43,6 +43,7 @@ import toast from "react-hot-toast";
 import { useAddToCart } from "@/Hooks/api/cart_api";
 import { useCart } from "@/Provider/CartProvider/CartProvider";
 import { setBuyNowItem } from "@/lib/localStorage";
+import Sponsors from "../../_components/Sponsors";
 
 export default function ProductDetailsPage() {
   const params = useParams();
@@ -204,6 +205,7 @@ export default function ProductDetailsPage() {
           />
         )}
       </div>
+      <Sponsors showButton={false} />
     </main>
   );
 }

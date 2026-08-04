@@ -10,11 +10,13 @@ import {
   User,
   Play,
   Loader2,
+  Send,
 } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import Modal from "@/Components/Common/Modal";
 import StatusBadge from "@/Components/Common/StatusBadge";
+import ApplyContestModal from "@/Components/Common/ApplyContestModal";
 import {
   useGetAllBusinesses,
   useGetBusinessDetails,
@@ -61,6 +63,9 @@ export default function Page() {
   const [deletingBusiness, setDeletingBusiness] = useState<Business | null>(
     null,
   );
+  const [applyingBusiness, setApplyingBusiness] = useState<Business | null>(
+    null,
+  );
 
   const { data: apiData, isLoading } = useGetAllBusinesses();
   const {
@@ -96,7 +101,6 @@ export default function Page() {
   };
 
   const handleDelete = (b: Business) => setDeletingBusiness(b);
-
   const confirmDelete = async () => {
     if (!deletingBusiness) return;
     await deleteBusiness(
@@ -209,6 +213,15 @@ export default function Page() {
                         >
                           <Trash2 className="w-4 h-4 md:w-[18px] md:h-[18px]" />
                         </button>
+                        <button
+                          type="button"
+                          title="Apply to contest"
+                          onClick={() => setApplyingBusiness(b)}
+                          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-blue-500 text-white text-xs md:text-sm font-medium hover:bg-blue-600 transition-colors"
+                        >
+                          <Send className="w-3.5 h-3.5" />
+                          Apply
+                        </button>
                       </div>
                     </td>
                   </tr>
@@ -267,6 +280,16 @@ export default function Page() {
           </div>
         </div>
       </Modal>
+
+      {/* Apply to Contest Modal (mounted only while applying so its queries don't fire on page load) */}
+      {applyingBusiness && (
+        <ApplyContestModal
+          open
+          onClose={() => setApplyingBusiness(null)}
+          businessId={applyingBusiness.id}
+          businessName={applyingBusiness.businessName}
+        />
+      )}
 
       {/* View Modal */}
       <Modal

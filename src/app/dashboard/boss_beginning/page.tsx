@@ -10,6 +10,9 @@ import {
 } from "lucide-react";
 import { LineChart, Line, XAxis, ResponsiveContainer, Tooltip } from "recharts";
 import { useGetDashboardStats } from "@/Hooks/api/dashboard_api";
+import { getUpcomingEvents } from "@/Hooks/api/cms_api";
+import { CMSEventItem } from "@/Types/cms";
+import { useRouter } from "next/navigation";
 import useAuth from "@/Hooks/useAuth";
 
 interface StatCard {
@@ -33,13 +36,6 @@ interface VotingSummaryItem {
   label: string;
 }
 
-interface EventItem {
-  day: string;
-  month: string;
-  title: string;
-  meta: string;
-  price: string;
-}
 
 const activity: ActivityItem[] = [
   { title: "New Business profile Crated", time: "2 hour ago" },
@@ -67,36 +63,22 @@ const votingSummary: VotingSummaryItem[] = [
   { value: "#4", label: "Rank" },
 ];
 
-const events: EventItem[] = [
-  {
-    day: "12",
-    month: "May",
-    title: "Football summit 2026",
-    meta: "10:00 AM · New york",
-    price: "$500",
-  },
-  {
-    day: "12",
-    month: "May",
-    title: "Artist Dance summit 2026",
-    meta: "10:00 AM · London, USA",
-    price: "$500",
-  },
-  {
-    day: "12",
-    month: "May",
-    title: "Football summit 2026",
-    meta: "10:00 AM · New york",
-    price: "$500",
-  },
-  {
-    day: "12",
-    month: "May",
-    title: "Football summit 2026",
-    meta: "10:00 AM · New york",
-    price: "$500",
-  },
-];
+const formatEventDate = (startsAt: string) => {
+  const date = new Date(startsAt);
+  return {
+    day: date.getDate().toString().padStart(2, "0"),
+    month: date.toLocaleString("en-US", { month: "short" }),
+  };
+};
+
+const formatEventMeta = (event: CMSEventItem) => {
+  const time = new Date(event.starts_at).toLocaleTimeString("en-US", {
+    hour: "numeric",
+    minute: "2-digit",
+  });
+  const place = [event.city, event.state].filter(Boolean).join(", ");
+  return `${time}${place ? ` · ${place}` : ""}`;
+};
 
 interface AvatarProps {
   seed: number;
@@ -137,8 +119,17 @@ function ChartTooltip({ active, payload }: ChartTooltipProps) {
 }
 
 export default function Page() {
+  const router = useRouter();
   const { user } = useAuth();
   const { data: statsData, isLoading } = useGetDashboardStats();
+  const {
+    data: eventsData,
+    isLoading: isEventsLoading,
+    error: eventsError,
+  } = getUpcomingEvents();
+
+  const upcomingEvents =
+    (eventsData?.data?.events as CMSEventItem[] | undefined) ?? [];
 
   const stats = statsData?.data;
 
@@ -301,37 +292,68 @@ export default function Page() {
 
         {/* Upcoming events */}
         <div className="bg-white rounded-2xl p-5 shadow-[0_1px_2px_rgba(16,24,40,0.04)]">
-          <h2 className="text-base md:text-lg font-medium text-slate-900 mb-3">
-            Upcoming event
-          </h2>
-          <div className="divide-y divide-slate-100">
-            {events.map((ev, i) => (
-              <div
-                key={i}
-                className="flex items-center gap-4 py-3 first:pt-0 last:pb-0"
-              >
-                <div className="w-12 h-12 md:w-14 md:h-14 rounded-lg bg-blue-50 flex flex-col items-center justify-center flex-shrink-0">
-                  <span className="text-sm md:text-base font-semibold text-blue-500 leading-none">
-                    {ev.day}
-                  </span>
-                  <span className="text-[10px] md:text-xs text-blue-400 leading-none mt-0.5">
-                    {ev.month}
-                  </span>
-                </div>
-                <div className="flex-1 min-w-0">
-                  <p className="text-sm md:text-base text-slate-800 truncate">
-                    {ev.title}
-                  </p>
-                  <p className="text-xs md:text-sm text-slate-400 mt-0.5">
-                    {ev.meta}
-                  </p>
-                </div>
-                <button className="bg-blue-500 text-white text-xs md:text-sm font-medium px-5 py-2 md:px-6 md:py-2.5 rounded-full hover:bg-blue-600 transition-colors flex-shrink-0">
-                  {ev.price}
-                </button>
-              </div>
-            ))}
+          <div className="flex items-center justify-between mb-3">
+            <h2 className="text-base md:text-lg font-medium text-slate-900">
+              Upcoming event
+            </h2>
+            <button
+              type="button"
+              onClick={() => router.push("/events")}
+              className="text-xs md:text-sm px-3 py-1 rounded-full bg-blue-50 text-blue-500 hover:bg-blue-100 transition-colors"
+            >
+              View all
+            </button>
           </div>
+
+          {isEventsLoading ? (
+            <div className="flex items-center justify-center py-10">
+              <Loader2 className="w-5 h-5 text-blue-500 animate-spin" />
+            </div>
+          ) : eventsError ? (
+            <p className="text-sm text-slate-400 text-center py-10">
+              Failed to load upcoming events.
+            </p>
+          ) : upcomingEvents.length === 0 ? (
+            <p className="text-sm text-slate-400 text-center py-10">
+              No upcoming events right now.
+            </p>
+          ) : (
+            <div className="divide-y divide-slate-100">
+              {upcomingEvents.map(event => {
+                const { day, month } = formatEventDate(event.starts_at);
+                return (
+                  <div
+                    key={event.id}
+                    className="flex items-center gap-4 py-3 first:pt-0 last:pb-0"
+                  >
+                    <div className="w-12 h-12 md:w-14 md:h-14 rounded-lg bg-blue-50 flex flex-col items-center justify-center flex-shrink-0">
+                      <span className="text-sm md:text-base font-semibold text-blue-500 leading-none">
+                        {day}
+                      </span>
+                      <span className="text-[10px] md:text-xs text-blue-400 leading-none mt-0.5">
+                        {month}
+                      </span>
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm md:text-base text-slate-800 truncate">
+                        {event.title}
+                      </p>
+                      <p className="text-xs md:text-sm text-slate-400 mt-0.5">
+                        {formatEventMeta(event)}
+                      </p>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => router.push(`/events/${event.slug}`)}
+                      className="bg-blue-500 text-white text-xs md:text-sm font-medium px-5 py-2 md:px-6 md:py-2.5 rounded-full hover:bg-blue-600 transition-colors flex-shrink-0"
+                    >
+                      Buy Ticket
+                    </button>
+                  </div>
+                );
+              })}
+            </div>
+          )}
         </div>
       </div>
     </div>
