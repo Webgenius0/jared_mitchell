@@ -43,6 +43,10 @@ const artistLinks = [
     icon: <NTwoSvg />,
     subMenu: [
       {
+        label: "My Applications",
+        path: "/dashboard/artist_business/spotlight-management/my-applications",
+      },
+      {
         label: "Vote Purchase",
         path: "/dashboard/artist_business/vote-purchase",
       },
@@ -206,6 +210,10 @@ const bossLinks = [
     path: "/dashboard/boss_beginning/leaderboards",
     icon: <NEighteenSvg />,
     subMenu: [
+      {
+        label: "My Applications",
+        path: "/dashboard/boss_beginning/leaderboards/my-applications",
+      },
       {
         label: "Vote Purchase",
         path: "/dashboard/boss_beginning/vote-purchase",

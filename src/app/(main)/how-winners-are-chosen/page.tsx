@@ -58,7 +58,7 @@ const page = async () => {
       {/* <HowVotingWorks data={pageData?.boss_beginnings_steps} />
       <WinnerReceives data={pageData?.boss_beginnings_dynamic} />
       {/* <PartnerWithBossBeginnings /> */}
-      <Sponsors data={CmsData?.about_sponsors} title="Our Event Sponsors" />
+      <Sponsors data={CmsData?.partners} title="Our Event Sponsors" />
       <NewsLetter title="Be part of the movement. Get stories, updates, and opportunities straight to your inbox." />
     </>
   );

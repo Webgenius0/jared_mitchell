@@ -49,7 +49,9 @@ const page = async () => {
       {/* <PricingPlan /> */}
       {/* <PlanComparison /> */}
       <SocialImage data={cmsData?.services_grow} />
-      <CommunityPartner data={cmsData?.services_partners} />
+      {/* <CommunityPartner data={cmsData?.services_partners} /> */}
+      <Sponsors data={cmsData?.partners} />
+
       <WhoOSIIsFor data={cmsData?.services_who_for} />
 
       {/* Artist Spotlight Section */}

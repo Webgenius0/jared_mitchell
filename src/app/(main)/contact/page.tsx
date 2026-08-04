@@ -21,7 +21,7 @@ const page = async () => {
       <FAQAccordion data={faqData} />
       {/* <EventSponsors /> */}
       <Sponsors
-        data={CmsData?.about_sponsors}
+        data={CmsData?.partners}
         showButton={false}
         title="Proudly supported by our community partners"
       />
@@ -31,4 +31,3 @@ const page = async () => {
 };
 
 export default page;
-
