@@ -1,11 +1,13 @@
 "use client";
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
-import { FiEye, FiUsers } from "react-icons/fi";
+import { FiEye, FiUsers, FiLock } from "react-icons/fi";
 import { slugify } from "@/lib/utils";
 import { SlBadge } from "react-icons/sl";
 import { CiAlarmOn } from "react-icons/ci";
 import { HiMiniArrowTrendingUp } from "react-icons/hi2";
+import { ActiveSeasonRound, RoundLeaderboardData } from "@/Types/cms";
+import { getRoundLeaderboard } from "@/lib/Services/cms_service";
 
 type Trend = "Up" | "Natural" | "Down";
 
@@ -16,6 +18,8 @@ type Business = {
   category: string;
   score: number;
   trend: Trend;
+  /** Contestant ID — used to link to the live profile page */
+  id?: number;
 };
 
 const ROUNDS = ["Round 1", "Round 2", "Round 3", "Round 4", "Round 5"] as const;
@@ -257,25 +261,138 @@ const trendStyle = (trend: Trend) => {
   return "text-blue-500";
 };
 
+const normalizeTrend = (trend: string): Trend => {
+  const value = (trend || "").toLowerCase();
+  if (value === "up" || value === "upward") return "Up";
+  if (value === "down" || value === "downward") return "Down";
+  return "Natural";
+};
+
 interface VotingTabProps {
   activeRound: number;
   setActiveRound: (round: number) => void;
+  /** Rounds of the live contest season — drive the round tabs, round content and leaderboard */
+  rounds?: ActiveSeasonRound[];
 }
 
 export default function VotingTab({
   activeRound,
   setActiveRound,
+  rounds,
 }: VotingTabProps) {
   const router = useRouter();
-  const data = useMemo(() => getRoundData(activeRound), [activeRound]);
-  const roundContent = ROUND_CONTENT[activeRound];
+  const [leaderboard, setLeaderboard] =
+    useState<RoundLeaderboardData | null>(null);
+  const [loadingLeaderboard, setLoadingLeaderboard] = useState(false);
 
-  const handleViewProfile = (businessName: string) => {
-    const roundSlug = `round-${activeRound + 1}`;
-    const businessSlug = slugify(businessName);
-    router.push(
-      `/boss-beginnings-contest/profile/${roundSlug}/${businessSlug}`,
-    );
+  const apiRound = rounds?.[activeRound];
+  const roundNumber = apiRound?.round_number ?? activeRound + 1;
+
+  // Round tabs — built from the live season rounds when available. Only the
+  // active round is selectable; every other round tab is locked.
+  const hasActiveRound = rounds?.some(r => r.is_active) ?? false;
+  const roundTabs = rounds?.length
+    ? rounds.map((r, i) => {
+        const isActive = r.is_active || (!hasActiveRound && i === 0);
+        return {
+          index: i,
+          label: `Round ${r.round_number}`,
+          isActive,
+          isDisabled: !isActive,
+        };
+      })
+    : ROUNDS.map((label, i) => ({
+        index: i,
+        label,
+        isActive: activeRound === i,
+        isDisabled: false,
+      }));
+
+  // Load the leaderboard for the active round from the live API.
+  useEffect(() => {
+    if (!apiRound) return;
+    let cancelled = false;
+    setLoadingLeaderboard(true);
+    getRoundLeaderboard(apiRound.id, { noCache: true })
+      .then(res => {
+        if (!cancelled) setLeaderboard(res?.data ?? null);
+      })
+      .catch(() => {
+        if (!cancelled) setLeaderboard(null);
+      })
+      .finally(() => {
+        if (!cancelled) setLoadingLeaderboard(false);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [apiRound]);
+
+  // Header content — merged from live round data where available.
+  const fallbackContent = ROUND_CONTENT[activeRound] ?? ROUND_CONTENT[0];
+  const roundContent = apiRound
+    ? {
+        title: apiRound.title || fallbackContent.title,
+        phase: `Round ${apiRound.round_number}`,
+        description:
+          apiRound.goal || apiRound.requirements || fallbackContent.description,
+        participants:
+          leaderboard?.total_entries ?? fallbackContent.participants,
+        advancing: apiRound.advance_limit ?? fallbackContent.advancing,
+        advancingPct:
+          apiRound.advance_limit != null &&
+          leaderboard?.total_entries != null &&
+          leaderboard.total_entries > 0
+            ? Math.round((apiRound.advance_limit / leaderboard.total_entries) * 100)
+            : fallbackContent.advancingPct,
+        timeLeft:
+          leaderboard?.days_left != null
+            ? `${leaderboard.days_left} day${leaderboard.days_left === 1 ? "" : "s"} left`
+            : fallbackContent.timeLeft,
+        votingWeight:
+          apiRound.voting_strategy || fallbackContent.votingWeight,
+        challengePrompt: fallbackContent.challengePrompt,
+      }
+    : fallbackContent;
+
+  // Leaderboard rows — live entries for the active round, or the static
+  // preview data when there is no live season yet.
+  const fallbackData = useMemo(() => getRoundData(activeRound), [activeRound]);
+  const leaderboardRows = useMemo(() => {
+    if (!leaderboard?.entries?.length) return [] as Business[];
+    return leaderboard.entries.map(e => ({
+      rank: e.rank,
+      name:
+        e.contestable_name ||
+        e.display_name ||
+        e.contestant?.contestable?.business_name ||
+        "",
+      owner: e.contestant?.contestable?.owner_name || "",
+      category: "",
+      // The leaderboard endpoint returns total_score: 0 for every entry while
+      // the authoritative points live on contestant.contestable.total_points.
+      // Either field may carry the real value depending on the response, so
+      // take the greater of the two (both are 0 when there are no points).
+      score: Math.max(
+        e.contestant?.contestable?.total_points ?? 0,
+        e.total_score ?? 0,
+      ),
+      trend: normalizeTrend(e.trend),
+      id: e.contestant_id ?? e.contestant?.id ?? undefined,
+    }));
+  }, [leaderboard]);
+
+  const showFallback = !apiRound;
+  const displayRows = showFallback ? fallbackData : leaderboardRows;
+  const isFetching = !showFallback && loadingLeaderboard && !leaderboard;
+  const isEmpty = !showFallback && !loadingLeaderboard && !leaderboard;
+
+  const handleViewProfile = (businessName: string, businessId?: number) => {
+    const roundSlug = `round-${roundNumber}`;
+    // Live leaderboard entries carry the contestant ID; the static preview
+    // rows fall back to the slugified name (profile shows design defaults).
+    const slug = businessId ?? slugify(businessName);
+    router.push(`/boss-beginnings-contest/profile/${roundSlug}/${slug}`);
   };
 
   return (
@@ -293,17 +410,26 @@ export default function VotingTab({
           </div>
 
           <div className="flex items-center gap-2 overflow-x-auto pb-1 -mx-1 px-1">
-            {ROUNDS.map((round, i) => (
+            {roundTabs.map(tab => (
               <button
-                key={round}
-                onClick={() => setActiveRound(i)}
-                className={`shrink-0 px-3 sm:px-4 py-1.5 rounded-lg text-[11px] sm:text-[13px] font-normal transition-colors ${
-                  activeRound === i
+                key={tab.label}
+                onClick={() => !tab.isDisabled && setActiveRound(tab.index)}
+                disabled={tab.isDisabled}
+                title={
+                  tab.isDisabled
+                    ? "Only the active round is available"
+                    : undefined
+                }
+                className={`shrink-0 inline-flex items-center gap-1.5 px-3 sm:px-4 py-1.5 rounded-lg text-[11px] sm:text-[13px] font-normal transition-colors ${
+                  tab.isActive
                     ? "bg-[#2563EB] text-white"
-                    : "bg-[#EEF1F6] text-black/50 hover:bg-black/10"
+                    : tab.isDisabled
+                      ? "bg-[#EEF1F6] text-black/35 cursor-not-allowed"
+                      : "bg-[#EEF1F6] text-black/50 hover:bg-black/10"
                 }`}
               >
-                {round}
+                {tab.isDisabled && <FiLock className="size-3" />}
+                {tab.label}
               </button>
             ))}
           </div>
@@ -404,57 +530,79 @@ export default function VotingTab({
               </tr>
             </thead>
             <tbody>
-              {data.map((b, idx) => (
-                <tr
-                  key={b.name}
-                  className={`text-sm sm:text-base ${
-                    idx !== data.length - 1 ? "border-b border-gray-100" : ""
-                  } hover:bg-gray-50 transition-colors`}
-                >
-                  <td className="px-3 sm:px-4 lg:px-6 py-3 sm:py-4">
-                    <span
-                      className={`inline-flex items-center justify-center h-7 w-7 sm:h-8 sm:w-8 rounded-lg text-[10px] sm:text-xs font-semibold ${rankBadgeStyle(
-                        b.rank,
-                      )}`}
-                    >
-                      #{b.rank}
-                    </span>
+              {isFetching ? (
+                <tr>
+                  <td
+                    colSpan={4}
+                    className="px-6 py-12 text-center text-sm text-black/40"
+                  >
+                    Loading leaderboard…
                   </td>
-                  <td className="px-3 sm:px-4 lg:px-6 py-3 sm:py-4">
-                    <div className="font-medium text-gray-900 text-sm sm:text-base">
-                      {b.name}
-                    </div>
-                    <div className="text-gray-400 text-[10px] sm:text-xs">
-                      {b.owner}
-                    </div>
+                </tr>
+              ) : isEmpty ? (
+                <tr>
+                  <td
+                    colSpan={4}
+                    className="px-6 py-12 text-center text-sm text-black/40"
+                  >
+                    No leaderboard data available for this round yet.
                   </td>
+                </tr>
+              ) : (
+                displayRows.map((b, idx) => (
+                  <tr
+                    key={b.id || b.name}
+                    className={`text-sm sm:text-base ${
+                      idx !== displayRows.length - 1
+                        ? "border-b border-gray-100"
+                        : ""
+                    } hover:bg-gray-50 transition-colors`}
+                  >
+                    <td className="px-3 sm:px-4 lg:px-6 py-3 sm:py-4">
+                      <span
+                        className={`inline-flex items-center justify-center h-7 w-7 sm:h-8 sm:w-8 rounded-lg text-[10px] sm:text-xs font-semibold ${rankBadgeStyle(
+                          b.rank,
+                        )}`}
+                      >
+                        #{b.rank}
+                      </span>
+                    </td>
+                    <td className="px-3 sm:px-4 lg:px-6 py-3 sm:py-4">
+                      <div className="font-medium text-gray-900 text-sm sm:text-base">
+                        {b.name}
+                      </div>
+                      <div className="text-gray-400 text-[10px] sm:text-xs">
+                        {b.owner}
+                      </div>
+                    </td>
 
-                  <td className="px-3 sm:px-4 lg:px-6 py-3 sm:py-4 text-center">
-                    <div className="text-blue-600 font-semibold text-sm sm:text-base">
-                      {b.score.toLocaleString()}
-                    </div>
-                    <div className="text-gray-400 text-[10px] sm:text-xs">
-                      points
-                    </div>
-                  </td>
-                  <td className="px-3 sm:px-4 lg:px-6 py-3 sm:py-4 flex items-center gap-20 justify-end">
-                    <span
-                      className={`font-medium text-xs sm:text-sm w-10 ${trendStyle(
-                        b.trend,
-                      )}`}
-                    >
-                      {b.trend}
-                    </span>
-                    <button
-                        onClick={() => handleViewProfile(b.name)}
+                    <td className="px-3 sm:px-4 lg:px-6 py-3 sm:py-4 text-center">
+                      <div className="text-blue-600 font-semibold text-sm sm:text-base">
+                        {b.score.toLocaleString()}
+                      </div>
+                      <div className="text-gray-400 text-[10px] sm:text-xs">
+                        points
+                      </div>
+                    </td>
+                    <td className="px-3 sm:px-4 lg:px-6 py-3 sm:py-4 flex items-center gap-20 justify-end">
+                      <span
+                        className={`font-medium text-xs sm:text-sm w-10 ${trendStyle(
+                          b.trend,
+                        )}`}
+                      >
+                        {b.trend}
+                      </span>
+                      <button
+                        onClick={() => handleViewProfile(b.name, b.id)}
                         className="inline-flex items-center gap-1.5 bg-blue-600 hover:bg-blue-700 text-white text-[10px] sm:text-xs font-medium px-2.5 sm:px-4 py-1.5 sm:py-2 rounded-sm transition-colors whitespace-nowrap"
                       >
                         <FiEye className="h-3 w-3 sm:h-3.5 sm:w-3.5" />
                         View Profile
                       </button>
-                  </td>
-                </tr>
-              ))}
+                    </td>
+                  </tr>
+                ))
+              )}
             </tbody>
           </table>
         </div>

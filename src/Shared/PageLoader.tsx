@@ -8,7 +8,7 @@ export const PageLoader = () => (
 
     <div className="flex flex-col items-center gap-1 pt-3">
       <span className="text-black font-semibold tracking-widest text-sm uppercase">
-        Jared Mitchel
+        OSI{" "}
       </span>
       <div className="w-32 h-0.5 bg-black/10 rounded-full overflow-hidden mt-1">
         <div className="h-full bg-black rounded-full animate-[loading_1.5s_ease-in-out_infinite]" />

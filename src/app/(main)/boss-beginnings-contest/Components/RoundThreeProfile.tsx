@@ -8,6 +8,7 @@ import {
   getCMSAboutData,
   getCMSHomepageData,
   getEventsPageCms,
+  getContestantDetails,
 } from "@/lib/Services/cms_service";
 import { PageLoader } from "@/Shared/PageLoader";
 import Sponsors from "../../_components/Sponsors";
@@ -17,16 +18,19 @@ import RoundStep from "./roundtwo/RoundStep";
 import Roundhero from "./Roundhero";
 
 interface RoundThreeProfileProps {
-  businessSlug: string;
+  contestantId: number;
 }
 
-export default function RoundThreeProfile({}: RoundThreeProfileProps) {
+export default function RoundThreeProfile({
+  contestantId,
+}: RoundThreeProfileProps) {
   const [bossData, setBossData] = useState<CMSBossBeginnings | null>(null);
   const [cmsData, setCmsData] = useState<Awaited<
     ReturnType<typeof getCMSAboutData>
   > | null>(null);
   const [homepageData, setHomepageData] = useState<CMSHomepage | null>(null);
   const [eventsData, setEventsData] = useState<CMSEventsPage | null>(null);
+  const [contestant, setContestant] = useState<any>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -48,16 +52,26 @@ export default function RoundThreeProfile({}: RoundThreeProfileProps) {
         }
       } catch (err) {
         console.error("Failed to load CMS data:", err);
-      } finally {
-        if (isMounted) setLoading(false);
       }
+
+      if (contestantId > 0) {
+        try {
+          const res = await getContestantDetails(contestantId);
+          if (isMounted)
+            setContestant(res?.data?.contestant || res?.data || null);
+        } catch (err) {
+          console.error("Failed to fetch contestant details:", err);
+        }
+      }
+
+      if (isMounted) setLoading(false);
     }
 
     loadData();
     return () => {
       isMounted = false;
     };
-  }, []);
+  }, [contestantId]);
 
   if (loading) {
     return (
@@ -70,9 +84,12 @@ export default function RoundThreeProfile({}: RoundThreeProfileProps) {
   return (
     <>
       <RoundBanner data={bossData?.boss_beginnings_hero} />
-      <RoundTwoAbout />
+      <RoundTwoAbout contestant={contestant} />
       <Roundhero data={eventsData?.events_page_hero} />
-      <RoundStep />
+      <RoundStep
+        contestantId={contestant?.id ?? contestantId}
+        roundId={contestant?.current_round?.id}
+      />
       <Sponsors data={homepageData?.partners} />
       <NewsLetter title="Be part of the movement. Get stories, updates, and opportunities straight to your inbox." />
     </>

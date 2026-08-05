@@ -1,4 +1,8 @@
-import { getBossCms, getCMSAboutData, getContestantDetails } from "@/lib/Services/cms_service";
+import {
+  getBossCms,
+  getCMSAboutData,
+  getContestantDetails,
+} from "@/lib/Services/cms_service";
 import Sponsors from "../../_components/Sponsors";
 import NewsLetter from "@/Components/Common/NewsLetter";
 import WinnersDetails from "../Components/WinnersDetails";
@@ -16,7 +20,6 @@ const page = async ({ params }: PageProps) => {
   const CmsData = await getCMSAboutData();
   const pageData = (await getBossCms()) as CMSBossBeginnings;
 
-
   let contestant: any = null;
   if (!Number.isNaN(contestantId)) {
     try {
@@ -31,7 +34,7 @@ const page = async ({ params }: PageProps) => {
     <>
       <WinnerDetailsBanner data={pageData?.boss_beginnings_hero} />
       <WinnersDetails contestant={contestant} />
-      <Sponsors data={CmsData?.about_sponsors} title="Our Event Sponsors" />
+      <Sponsors data={CmsData?.partners} title="Our Event Sponsors" />
       <NewsLetter title="Be part of the movement. Get stories, updates, and opportunities straight to your inbox." />
     </>
   );
