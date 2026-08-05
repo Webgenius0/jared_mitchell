@@ -1,5 +1,9 @@
-import React from "react";
-import { Check } from "lucide-react";
+"use client";
+
+import React, { useState } from "react";
+import { Check, Loader2, Send } from "lucide-react";
+import toast from "react-hot-toast";
+import { submitRoundVotes } from "@/lib/Services/cms_service";
 
 type Tag = {
   label: string;
@@ -56,7 +60,13 @@ const QUESTIONS: Question[] = [
 
 const SCALE = Array.from({ length: 10 }, (_, i) => i + 1);
 
-const RatingRow = ({ question }: { question: Question }) => {
+interface RatingRowProps {
+  question: Question;
+  selected?: number;
+  onSelect: (value: number) => void;
+}
+
+const RatingRow = ({ question, selected, onSelect }: RatingRowProps) => {
   const tagByPosition = new Map(question.tags.map(t => [t.position, t]));
 
   return (
@@ -65,13 +75,36 @@ const RatingRow = ({ question }: { question: Question }) => {
         {question.title}
       </h3>
 
-          {/* Scale row */}
+      {/* Scale row — each mark is a selectable button */}
       <div className="relative">
         <div className="grid grid-cols-10 gap-0">
           {SCALE.map(n => (
             <div key={n} className="flex flex-col items-center gap-1 md:gap-2">
-              <span className="w-4 h-4 md:w-6 md:h-6 rounded-full border border-gray-300" />
-              <span className="text-[10px] md:text-sm text-gray-400">{n}</span>
+              <button
+                type="button"
+                onClick={() => onSelect(n)}
+                aria-pressed={selected === n}
+                aria-label={`${question.title} — score ${n} out of 10`}
+                className={`flex items-center justify-center w-4 h-4 md:w-6 md:h-6 rounded-full border transition-all duration-150 ${
+                  selected === n
+                    ? "bg-blue-600 border-blue-600 text-white scale-110 shadow-sm"
+                    : "border-gray-300 text-transparent hover:border-blue-400 hover:bg-blue-50 cursor-pointer"
+                }`}
+              >
+                {selected === n && (
+                  <Check
+                    className="w-2.5 h-2.5 md:w-3.5 md:h-3.5 text-white"
+                    strokeWidth={3}
+                  />
+                )}
+              </button>
+              <span
+                className={`text-[10px] md:text-sm transition-colors ${
+                  selected === n ? "text-blue-600 font-medium" : "text-gray-400"
+                }`}
+              >
+                {n}
+              </span>
             </div>
           ))}
         </div>
@@ -117,13 +150,105 @@ const RatingRow = ({ question }: { question: Question }) => {
   );
 };
 
-const RoundStep = () => {
+interface RoundStepProps {
+  /** Round to submit votes for (from contestant.current_round.id) */
+  roundId?: number;
+  /** Contestant being evaluated */
+  contestantId?: number;
+}
+
+const RoundStep = ({ roundId, contestantId }: RoundStepProps) => {
+  const [selections, setSelections] = useState<Record<number, number>>({});
+  const [submitting, setSubmitting] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+
+  const isEvaluation =
+    roundId != null && contestantId != null && contestantId > 0;
+  const answeredCount = QUESTIONS.reduce(
+    (count, _, i) => count + (selections[i] != null ? 1 : 0),
+    0,
+  );
+  const canSubmit =
+    isEvaluation && answeredCount === QUESTIONS.length && !submitted;
+
+  const handleSelect = (qIndex: number, value: number) => {
+    if (submitted) return;
+    setSelections(prev => ({ ...prev, [qIndex]: value }));
+  };
+
+  const handleSubmit = async () => {
+    if (!canSubmit || roundId == null || contestantId == null) return;
+    setSubmitting(true);
+    try {
+      const scores = QUESTIONS.map((_, i) => selections[i]);
+      await submitRoundVotes({ roundId, contestantId, scores });
+      setSubmitted(true);
+      toast.success("Ratings submitted successfully!");
+    } catch (err) {
+      console.error("Failed to submit round votes:", err);
+      toast.error(
+        "Failed to submit ratings. Please check your answers and try again.",
+      );
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
   return (
     <div className="py-10 px-4">
       <div className="container  mx-auto flex flex-col gap-6">
+        {isEvaluation && (
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2">
+            <div>
+              <h2 className="text-2xl md:text-3xl font-normal text-[#101828]">
+                OSI Panel Evaluation
+              </h2>
+              <p className="text-sm md:text-base text-black/50 mt-1">
+                Select a score from 1 to 10 for each question.
+              </p>
+            </div>
+            <span className="text-sm text-black/50 shrink-0">
+              {answeredCount} of {QUESTIONS.length} answered
+            </span>
+          </div>
+        )}
         {QUESTIONS.map((q, i) => (
-          <RatingRow key={i} question={q} />
+          <RatingRow
+            key={i}
+            question={q}
+            selected={selections[i]}
+            onSelect={value => handleSelect(i, value)}
+          />
         ))}
+        {isEvaluation && (
+          <div className="flex justify-end">
+            {submitted ? (
+              <div className="inline-flex items-center gap-2 rounded-full bg-green-50 border border-green-200 text-green-700 text-sm font-medium px-5 py-2.5">
+                <Check className="size-4" strokeWidth={3} />
+                Ratings submitted
+              </div>
+            ) : (
+              <button
+                type="button"
+                onClick={handleSubmit}
+                disabled={!canSubmit || submitting}
+                className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 disabled:bg-blue-300 disabled:cursor-not-allowed text-white text-sm md:text-base font-medium px-6 md:px-8 py-2.5 md:py-3 rounded-full transition-colors"
+              >
+                {submitting ? (
+                  <>
+                    <Loader2 className="size-4 animate-spin" />
+                    Submitting...
+                  </>
+                ) : (
+                  <>
+                    <Send className="size-4" />
+                    Submit Ratings
+                  </>
+                )}
+              </button>
+            )}
+          </div>
+        )}
       </div>
     </div>
   );

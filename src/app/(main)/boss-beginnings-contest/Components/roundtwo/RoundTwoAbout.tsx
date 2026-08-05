@@ -1,6 +1,47 @@
 import React from "react";
 
-export default function RoundTwoAbout() {
+interface RoundTwoAboutProps {
+  contestant?: any;
+}
+
+// website_social_media can be a JSON string, a plain URL, or null — normalize it
+const parseWebsiteSocial = (raw: string | null | undefined) => {
+  if (!raw) return null;
+  try {
+    return JSON.parse(raw);
+  } catch {
+    return raw;
+  }
+};
+
+export default function RoundTwoAbout({ contestant }: RoundTwoAboutProps) {
+  const parsedSocial = parseWebsiteSocial(contestant?.website_social_media);
+  const website =
+    (typeof parsedSocial === "object" && parsedSocial !== null
+      ? parsedSocial?.website || parsedSocial?.social
+      : parsedSocial) || "";
+
+  const facebook =
+    typeof parsedSocial === "object" && parsedSocial !== null
+      ? parsedSocial?.facebook ||
+        parsedSocial?.social?.facebook ||
+        parsedSocial?.facebook_url
+      : "";
+
+  const instagram =
+    typeof parsedSocial === "object" && parsedSocial !== null
+      ? parsedSocial?.instagram ||
+        parsedSocial?.social?.instagram ||
+        parsedSocial?.instagram_url
+      : "";
+
+  const aboutText =
+    contestant?.story ||
+    "A cozy neighborhood café combining specialty coffee with a curated flower shop. We source beans from fair-trade roasters and partner with local flower farms to bring beauty and warmth to our community.";
+
+  const totalPoints =
+    contestant?.interactions?.total_points ?? contestant?.total_score ?? 1004;
+
   return (
     <section className="py-12 md:py-20">
       <div className="container mx-auto px-4">
@@ -11,44 +52,49 @@ export default function RoundTwoAbout() {
             <div className="bg-[#F5F5F7] rounded-xl p-4 md:p-6 flex flex-col gap-6 md:gap-8">
               <h2 className="text-3xl md:text-4xl lg:text-5xl font-medium">About</h2>
               <p className="text-lg md:text-xl lg:text-2xl font-normal text-[#364153]">
-                A cozy neighborhood café combining specialty coffee with a
-                curated flower shop. We source beans from fair-trade roasters
-                and partner with local flower farms to bring beauty and warmth
-                to our community.
+                {aboutText}
               </p>
-              <div>
-                <h4 className="text-lg md:text-xl lg:text-2xl font-normal text-[#1D1D1F]">
-                  Website:
-                </h4>
-                <h5 className="text-lg md:text-xl lg:text-2xl font-normal text-[#364153] pt-2 md:pt-3">
-                  www.abc.com
-                </h5>
-              </div>
-              <div className="flex flex-col sm:flex-row gap-4 sm:gap-5 sm:items-center">
+              {website && (
                 <div>
                   <h4 className="text-lg md:text-xl lg:text-2xl font-normal text-[#1D1D1F]">
                     Website:
                   </h4>
-                  <h5 className="text-lg md:text-xl lg:text-2xl font-normal text-[#364153] pt-2 md:pt-3">
-                    www.abc.com
+                  <h5 className="text-lg md:text-xl lg:text-2xl font-normal text-[#364153] pt-2 md:pt-3 break-all">
+                    {website}
                   </h5>
                 </div>
-                <div>
-                  <h4 className="text-lg md:text-xl lg:text-2xl font-normal text-[#1D1D1F]">
-                    Facebook
-                  </h4>
-                  <h5 className="text-lg md:text-xl lg:text-2xl font-normal text-[#364153] pt-2 md:pt-3">
-                    facebook@abc.com
-                  </h5>
-                </div>
-                <div>
-                  <h4 className="text-lg md:text-xl lg:text-2xl font-normal text-[#1D1D1F]">
-                    Instagram
-                  </h4>
-                  <h5 className="text-lg md:text-xl lg:text-2xl font-normal text-[#364153] pt-2 md:pt-3">
-                    instagram@abc.com
-                  </h5>
-                </div>
+              )}
+              <div className="flex flex-col sm:flex-row gap-4 sm:gap-5 sm:items-center">
+                {website && (
+                  <div>
+                    <h4 className="text-lg md:text-xl lg:text-2xl font-normal text-[#1D1D1F]">
+                      Website:
+                    </h4>
+                    <h5 className="text-lg md:text-xl lg:text-2xl font-normal text-[#364153] pt-2 md:pt-3 break-all">
+                      {website}
+                    </h5>
+                  </div>
+                )}
+                {facebook && (
+                  <div>
+                    <h4 className="text-lg md:text-xl lg:text-2xl font-normal text-[#1D1D1F]">
+                      Facebook
+                    </h4>
+                    <h5 className="text-lg md:text-xl lg:text-2xl font-normal text-[#364153] pt-2 md:pt-3 break-all">
+                      {facebook}
+                    </h5>
+                  </div>
+                )}
+                {instagram && (
+                  <div>
+                    <h4 className="text-lg md:text-xl lg:text-2xl font-normal text-[#1D1D1F]">
+                      Instagram
+                    </h4>
+                    <h5 className="text-lg md:text-xl lg:text-2xl font-normal text-[#364153] pt-2 md:pt-3 break-all">
+                      {instagram}
+                    </h5>
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -61,7 +107,7 @@ export default function RoundTwoAbout() {
                 Total Points
               </p>
               <h3 className="text-xl md:text-2xl font-normal text-white text-center">
-                1,004
+                {totalPoints.toLocaleString()}
               </h3>
             </div>
           </div>

@@ -33,6 +33,7 @@ import {
   RoundLeaderboardResponse,
   ActiveSeasonRoundsResponse,
 } from "@/Types/cms";
+import { getItem } from "@/lib/localStorage";
 
 export const getCMSHomepageData = async (): Promise<CMSHomepage> => {
   const res = await fetch(
@@ -616,6 +617,52 @@ export const getRoundLeaderboard = async (
 
   const result = await res.json();
   return result as RoundLeaderboardResponse;
+};
+
+/**
+ * Submit OSI panel ratings for a contestant in a round.
+ *
+ * POST /v1/contest/rounds/:roundId/votes
+ * Body (form-encoded): contestant_id + scores[test 1..5] — one score per
+ * evaluation question, on a 1–10 scale.
+ */
+export const submitRoundVotes = async ({
+  roundId,
+  contestantId,
+  scores,
+}: {
+  roundId: number;
+  contestantId: number;
+  scores: number[];
+}): Promise<any> => {
+  const body = new URLSearchParams();
+  body.append("contestant_id", String(contestantId));
+  scores.forEach((score, i) => {
+    body.append(`scores[test ${i + 1}]`, String(score));
+  });
+
+  const token = typeof window !== "undefined" ? getItem("token") : undefined;
+
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_SITE_URL}/v1/contest/rounds/${roundId}/votes`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      },
+      body: body.toString(),
+    },
+  );
+
+  if (!res.ok) {
+    const text = await res.text();
+    throw new Error(
+      `Failed to submit round votes — Status: ${res.status} ${text}`,
+    );
+  }
+
+  return res.json();
 };
 
 export const getSubscriptionPlans = async (): Promise<SubscriptionPlan[]> => {
