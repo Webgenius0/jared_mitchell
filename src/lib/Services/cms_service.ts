@@ -306,9 +306,7 @@ export const getCalendarEvents = async (): Promise<CalendarEventsResponse> => {
   );
 
   if (!res.ok) {
-    throw new Error(
-      `Failed to fetch calendar events — Status: ${res.status}`,
-    );
+    throw new Error(`Failed to fetch calendar events — Status: ${res.status}`);
   }
 
   const result = await res.json();
@@ -332,15 +330,12 @@ export const getFeaturedProducts = async (): Promise<FeaturedProductItem[]> => {
 };
 
 export const getAllProducts = async (): Promise<FeaturedProductItem[]> => {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_SITE_URL}/v1/products`,
-    { next: { revalidate: 60 } },
-  );
+  const res = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/v1/products`, {
+    next: { revalidate: 60 },
+  });
 
   if (!res.ok) {
-    throw new Error(
-      `Failed to fetch products — Status: ${res.status}`,
-    );
+    throw new Error(`Failed to fetch products — Status: ${res.status}`);
   }
 
   const result = await res.json();
@@ -356,9 +351,7 @@ export const getProductBySlug = async (
   );
 
   if (!res.ok) {
-    throw new Error(
-      `Failed to fetch product by slug — Status: ${res.status}`,
-    );
+    throw new Error(`Failed to fetch product by slug — Status: ${res.status}`);
   }
 
   const result = await res.json();
@@ -399,37 +392,39 @@ export const getBusinessHistoricalWinners =
     return result.data as BusinessHistoricalWinnersResponse;
   };
 
-export const getCurrentContestWinner = async (): Promise<CurrentContestWinnerResponse> => {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_SITE_URL}/v1/contest/winners/current`,
-    { next: { revalidate: 60 } },
-  );
-
-  if (!res.ok) {
-    throw new Error(
-      `Failed to fetch current contest winner — Status: ${res.status}`,
+export const getCurrentContestWinner =
+  async (): Promise<CurrentContestWinnerResponse> => {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_SITE_URL}/v1/contest/winners/current`,
+      { next: { revalidate: 60 } },
     );
-  }
 
-  const result = await res.json();
-  return result.data as CurrentContestWinnerResponse;
-};
+    if (!res.ok) {
+      throw new Error(
+        `Failed to fetch current contest winner — Status: ${res.status}`,
+      );
+    }
 
-export const getPastSixMonthsWinners = async (): Promise<PastSixMonthsWinnersResponse> => {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_SITE_URL}/v1/contest/winners/past-six-months`,
-    { next: { revalidate: 60 } },
-  );
+    const result = await res.json();
+    return result.data as CurrentContestWinnerResponse;
+  };
 
-  if (!res.ok) {
-    throw new Error(
-      `Failed to fetch past six months winners — Status: ${res.status}`,
+export const getPastSixMonthsWinners =
+  async (): Promise<PastSixMonthsWinnersResponse> => {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_SITE_URL}/v1/contest/winners/past-six-months`,
+      { next: { revalidate: 60 } },
     );
-  }
 
-  const result = await res.json();
-  return result.data as PastSixMonthsWinnersResponse;
-};
+    if (!res.ok) {
+      throw new Error(
+        `Failed to fetch past six months winners — Status: ${res.status}`,
+      );
+    }
+
+    const result = await res.json();
+    return result.data as PastSixMonthsWinnersResponse;
+  };
 
 export const getRoundCountdown = async (): Promise<RoundCountdownResponse> => {
   const res = await fetch(
@@ -552,21 +547,22 @@ export const getLeaderboard = async (
   return result as LeaderboardResponse;
 };
 
-export const getCurrentSpotlightWeek = async (): Promise<LeaderboardResponse> => {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_SITE_URL}/v1/spotlight/weeks/current`,
-    { next: { revalidate: 60 } },
-  );
-
-  if (!res.ok) {
-    throw new Error(
-      `Failed to fetch current spotlight week — Status: ${res.status}`,
+export const getCurrentSpotlightWeek =
+  async (): Promise<LeaderboardResponse> => {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_SITE_URL}/v1/spotlight/weeks/current`,
+      { next: { revalidate: 60 } },
     );
-  }
 
-  const result = await res.json();
-  return result as LeaderboardResponse;
-};
+    if (!res.ok) {
+      throw new Error(
+        `Failed to fetch current spotlight week — Status: ${res.status}`,
+      );
+    }
+
+    const result = await res.json();
+    return result as LeaderboardResponse;
+  };
 
 export const getContestantDetails = async (
   contestantId: number,
@@ -605,10 +601,11 @@ export const getActiveSeasonRounds =
 
 export const getRoundLeaderboard = async (
   roundId: number,
+  options?: { noCache?: boolean },
 ): Promise<RoundLeaderboardResponse> => {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_SITE_URL}/v1/contest/rounds/${roundId}/leaderboard`,
-    { next: { revalidate: 60 } },
+    options?.noCache ? { cache: "no-store" } : { next: { revalidate: 60 } },
   );
 
   if (!res.ok) {

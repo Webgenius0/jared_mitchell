@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -24,6 +24,7 @@ import useAuth from "@/Hooks/useAuth";
 import toast from "react-hot-toast";
 import { getItem, setItem } from "@/lib/localStorage";
 import { isUsableImage } from "@/lib/utils";
+import { getRoundLeaderboard } from "@/lib/Services/cms_service";
 
 import brewBloomImg from "../../../../Assets/roundbg.png";
 
@@ -55,6 +56,17 @@ const persistMarker = (storageKey: string, marker: string) => {
       ? Array.from(new Set([...entries, marker]))
       : [marker];
     setItem(storageKey, JSON.stringify(next));
+  } catch {
+    // localStorage unavailable — visual state just won't persist
+  }
+};
+
+const removeMarker = (storageKey: string, marker: string) => {
+  try {
+    const raw = getItem(storageKey) || "[]";
+    const entries: string[] = JSON.parse(raw);
+    if (!Array.isArray(entries)) return;
+    setItem(storageKey, JSON.stringify(entries.filter(e => e !== marker)));
   } catch {
     // localStorage unavailable — visual state just won't persist
   }
@@ -125,11 +137,18 @@ interface InteractionConfig {
   markerPrefix: string;
   /** Field on res.data that holds the authoritative count (e.g. total_claps) */
   countField: string;
+  /** Field on res.data that reports whether the interaction is currently on (e.g. is_clapped) */
+  flagField: string;
+  /** Field on res.data that holds the authoritative total points (e.g. total_points) */
+  pointsField: string;
   businessId: number;
   initialCount: number;
   loginMessage: string;
-  alreadyMessage: string;
   failMessage: string;
+  /** Called after a successful interaction so the parent can refetch live data */
+  onSuccess?: () => void;
+  /** Called with the authoritative total points from the response so the card can update instantly */
+  onPointsChange?: (points: number) => void;
 }
 
 const useBusinessInteraction = ({
@@ -137,20 +156,41 @@ const useBusinessInteraction = ({
   storageKey,
   markerPrefix,
   countField,
+  flagField,
+  pointsField,
   businessId,
   initialCount,
   loginMessage,
-  alreadyMessage,
   failMessage,
+  onSuccess,
+  onPointsChange,
 }: InteractionConfig) => {
   const { token, user } = useAuth();
   const router = useRouter();
   const [count, setCount] = useState(initialCount);
   const [loading, setLoading] = useState(false);
-  const [active, setActive] = useState(() => {
-    const marker = `${markerPrefix}${user?.id ?? "guest"}:${businessId}`;
-    return hasMarker(storageKey, marker);
-  });
+  const [active, setActive] = useState(false);
+  const submittingRef = useRef(false);
+
+  // Recompute the filled state once the logged-in user is known.
+  // On first render `user` may not be loaded yet, so the marker would be
+  // checked against the wrong id — that made an already-interacted button
+  // render unfilled and hit the API again when clicked. This only ever
+  // fills the button (never un-fills it) so an interaction performed in
+  // this session is never visually cleared. The legacy "guest:" marker is
+  // also checked because a click during the auth-loading window is stored
+  // under that key (guests can't click, so it can only belong to this user).
+  useEffect(() => {
+    if (user?.id == null) return;
+    const realMarker = `${markerPrefix}${user.id}:${businessId}`;
+    const guestMarker = `${markerPrefix}guest:${businessId}`;
+    setActive(
+      prev =>
+        prev ||
+        hasMarker(storageKey, realMarker) ||
+        hasMarker(storageKey, guestMarker),
+    );
+  }, [user?.id, storageKey, markerPrefix, businessId]);
 
   // Keep local count in sync when the leaderboard data refetches
   useEffect(() => {
@@ -164,38 +204,61 @@ const useBusinessInteraction = ({
       router.push("/auth/login");
       return;
     }
-    if (loading) return;
-    if (active) {
-      toast(alreadyMessage);
-      return;
-    }
+    if (submittingRef.current || loading) return;
 
+    // The endpoints are toggles: clicking an already-active button REMOVES
+    // the interaction (the response then reports is_*: false). So a repeat
+    // click should call the API to remove the clap/save/share — there is no
+    // "already done" state to block.
+    submittingRef.current = true;
     setLoading(true);
+    const wasActive = active;
     const prevCount = count;
-    const marker = `${markerPrefix}${user?.id ?? "guest"}:${businessId}`;
+    const guestMarker = `${markerPrefix}guest:${businessId}`;
+    const markers = user?.id
+      ? [`${markerPrefix}${user.id}:${businessId}`, guestMarker]
+      : [guestMarker];
 
-    // Optimistic update
-    setCount(prev => prev + 1);
+    // Optimistic toggle
+    setActive(prev => !prev);
+    setCount(prev => Math.max(0, prev + (wasActive ? -1 : 1)));
+
+    // Reconcile with the authoritative state the backend returns
+    const syncFromResponse = (response: any) => {
+      if (response?.data?.[flagField] === true) {
+        setActive(true);
+        markers.forEach(m => persistMarker(storageKey, m));
+      } else if (response?.data?.[flagField] === false) {
+        setActive(false);
+        markers.forEach(m => removeMarker(storageKey, m));
+      }
+      if (response?.data?.[countField] != null) {
+        setCount(response.data[countField]);
+      }
+      if (response?.data?.[pointsField] != null) {
+        onPointsChange?.(response.data[pointsField]);
+      }
+    };
 
     try {
       const res = await apiCall(businessId);
       if (res?.success) {
-        setActive(true);
-        persistMarker(storageKey, marker);
-        if (res?.data?.[countField] != null) {
-          setCount(res.data[countField]);
-        }
+        syncFromResponse(res);
         if (res?.message) toast.success(res.message);
+        onSuccess?.();
       } else {
-        // Backend rejected (e.g. already done) — revert optimistic count
+        // Backend rejected — revert the optimistic toggle
+        setActive(wasActive);
         setCount(prevCount);
         if (res?.message) toast.error(res.message);
       }
     } catch {
+      setActive(wasActive);
       setCount(prevCount);
       toast.error(failMessage);
     } finally {
       setLoading(false);
+      submittingRef.current = false;
     }
   };
 
@@ -210,12 +273,84 @@ const BusinessChosenChart = ({
   const scrollerRef = useRef<HTMLUListElement | null>(null);
   const sectionRef = useRef<HTMLElement | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
+  const [liveData, setLiveData] = useState<RoundLeaderboardData | null>(roundData ?? null);
 
-  if (!roundData) {
+  // Adopt fresh leaderboard data pushed from the server component prop
+  useEffect(() => {
+    if (roundData) setLiveData(roundData);
+  }, [roundData]);
+
+  const currentRoundData = liveData ?? roundData;
+
+  const refreshTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // Auto-refetch the round leaderboard after a clap/love/fire so the
+  // displayed points, counts, and ranks stay in sync with the server.
+  // Slightly debounced so rapid interactions coalesce into one request.
+  const refreshLeaderboard = useCallback(() => {
+    if (!currentRoundData?.round_id) return;
+    if (refreshTimerRef.current) clearTimeout(refreshTimerRef.current);
+    refreshTimerRef.current = setTimeout(async () => {
+      refreshTimerRef.current = null;
+      try {
+        // noCache so a repeat click's points change is never served stale
+        const res = await getRoundLeaderboard(currentRoundData.round_id, {
+          noCache: true,
+        });
+        if (res?.data) setLiveData(res.data);
+      } catch {
+        // Keep current data if the refresh fails
+      }
+    }, 250);
+  }, [currentRoundData?.round_id]);
+
+  // Update a card's Total Points immediately from the interaction response
+  // (total_points) instead of waiting for the leaderboard refetch.
+  const handlePointsChange = useCallback(
+    (businessId: number, points: number) => {
+      setLiveData(prev => {
+        if (!prev) return prev;
+        return {
+          ...prev,
+          entries: prev.entries.map(entry =>
+            entry.contestant.business_id === businessId
+              ? {
+                  ...entry,
+                  total_score: points,
+                  contestant: {
+                    ...entry.contestant,
+                    contestable: {
+                      ...entry.contestant.contestable,
+                      total_points: points,
+                    },
+                  },
+                }
+              : entry,
+          ),
+        };
+      });
+    },
+    [],
+  );
+
+  // Clear any pending refresh timer on unmount
+  useEffect(() => {
+    return () => {
+      if (refreshTimerRef.current) clearTimeout(refreshTimerRef.current);
+    };
+  }, []);
+
+  if (!currentRoundData) {
     return null;
   }
 
-  const businesses: BusinessCard[] = roundData.entries.map(entry => {
+  // Hide this section entirely while the contest is in round 2
+  // (business decision — leaderboard/cards are not shown that round).
+  if (currentRoundData.round.round_number === 2) {
+    return null;
+  }
+
+  const businesses: BusinessCard[] = currentRoundData.entries.map(entry => {
     const rawImage =
       entry.contestant.avatar_url || entry.avatar_url || undefined;
 
@@ -234,7 +369,14 @@ const BusinessChosenChart = ({
       description,
       location: "",
       image: isUsableImage(rawImage) ? (rawImage as string) : brewBloomImg.src,
-      totalPoints: entry.total_score,
+      // The leaderboard endpoint returns total_score: 0 for every entry while the
+      // authoritative points live on contestant.contestable.total_points. Either
+      // field may carry the real value depending on the response, so take the
+      // greater of the two (both are 0 when there are genuinely no points).
+      totalPoints: Math.max(
+        entry.contestant?.contestable?.total_points ?? 0,
+        entry.total_score ?? 0,
+      ),
       rank: entry.rank,
       claps: entry.claps ?? 0,
       loves: entry.saves ?? 0,
@@ -282,15 +424,15 @@ const BusinessChosenChart = ({
         </p>
 
         {/* Active round badge */}
-        {roundData?.round && (
+        {currentRoundData?.round && (
           <div className="flex flex-wrap items-center justify-center gap-2 mt-4">
             <span className="inline-flex items-center gap-2 rounded-full bg-primary-blue/10 text-primary-blue px-4 py-1.5 text-sm font-medium">
-              Round {roundData.round.round_number}
-              {roundData.round.title && ` — ${roundData.round.title}`}
+              Round {currentRoundData.round.round_number}
+              {currentRoundData.round.title && ` — ${currentRoundData.round.title}`}
             </span>
-            {roundData.days_left != null && (
+            {currentRoundData.days_left != null && (
               <span className="inline-flex items-center rounded-full bg-slate-100 text-slate-600 px-4 py-1.5 text-sm font-medium">
-                {roundData.days_left} day{roundData.days_left === 1 ? "" : "s"} left
+                {currentRoundData.days_left} day{currentRoundData.days_left === 1 ? "" : "s"} left
               </span>
             )}
           </div>
@@ -321,7 +463,12 @@ const BusinessChosenChart = ({
             <>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                 {visibleBusinesses.map(biz => (
-                  <BusinessCardItem key={biz.id} biz={biz} />
+                  <BusinessCardItem
+                    key={biz.id}
+                    biz={biz}
+                    onInteractionSuccess={refreshLeaderboard}
+                    onPointsChange={handlePointsChange}
+                  />
                 ))}
               </div>
 
@@ -393,7 +540,11 @@ const BusinessChosenChart = ({
                   data-card
                   className="shrink-0 w-[280px] sm:w-[320px] snap-start"
                 >
-                  <BusinessCardItem biz={biz} />
+                  <BusinessCardItem
+                    biz={biz}
+                    onInteractionSuccess={refreshLeaderboard}
+                    onPointsChange={handlePointsChange}
+                  />
                 </li>
               ))}
             </ul>
@@ -412,17 +563,28 @@ const BusinessChosenChart = ({
   );
 };
 
-const BusinessCardItem = ({ biz }: { biz: BusinessCard }) => {
+const BusinessCardItem = ({
+  biz,
+  onInteractionSuccess,
+  onPointsChange,
+}: {
+  biz: BusinessCard;
+  onInteractionSuccess?: () => void;
+  onPointsChange?: (businessId: number, points: number) => void;
+}) => {
   const clap = useBusinessInteraction({
     apiCall: apiClapBusiness,
     storageKey: CLAPPED_KEY,
     markerPrefix: MARKER_PREFIX_CLAP,
     countField: "total_claps",
+    flagField: "is_clapped",
+    pointsField: "total_points",
     businessId: biz.businessId,
     initialCount: biz.claps,
     loginMessage: "Please login to clap",
-    alreadyMessage: "You've already clapped for this business.",
     failMessage: "Failed to clap. Please try again.",
+    onSuccess: onInteractionSuccess,
+    onPointsChange: points => onPointsChange?.(biz.businessId, points),
   });
 
   const love = useBusinessInteraction({
@@ -430,11 +592,14 @@ const BusinessCardItem = ({ biz }: { biz: BusinessCard }) => {
     storageKey: SAVED_KEY,
     markerPrefix: MARKER_PREFIX_SAVE,
     countField: "total_saves",
+    flagField: "is_saved",
+    pointsField: "total_points",
     businessId: biz.businessId,
     initialCount: biz.loves,
     loginMessage: "Please login to love this business",
-    alreadyMessage: "You've already loved this business.",
     failMessage: "Failed to love. Please try again.",
+    onSuccess: onInteractionSuccess,
+    onPointsChange: points => onPointsChange?.(biz.businessId, points),
   });
 
   const fire = useBusinessInteraction({
@@ -442,11 +607,14 @@ const BusinessCardItem = ({ biz }: { biz: BusinessCard }) => {
     storageKey: SHARED_KEY,
     markerPrefix: MARKER_PREFIX_SHARE,
     countField: "total_shares",
+    flagField: "is_shared",
+    pointsField: "total_points",
     businessId: biz.businessId,
     initialCount: biz.fires,
     loginMessage: "Please login to fire this business",
-    alreadyMessage: "You've already fired this business.",
     failMessage: "Failed to fire. Please try again.",
+    onSuccess: onInteractionSuccess,
+    onPointsChange: points => onPointsChange?.(biz.businessId, points),
   });
 
   return (

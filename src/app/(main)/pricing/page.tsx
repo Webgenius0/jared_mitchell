@@ -1,16 +1,16 @@
 import React from "react";
+import Sponsors from "../_components/Sponsors";
+import { SubscriptionPlan } from "@/Types/cms";
 import PricingPlan from "../_components/PricingPlan";
 import PricingTable from "../_components/PricingTable";
+import NewsLetter from "@/Components/Common/NewsLetter";
 import {
   getCMSAboutData,
   getCMSFAQs,
   getSubscriptionPlans,
 } from "@/lib/Services/cms_service";
 import { PricingPlan as PricingPlanType } from "@/Types/type";
-import { SubscriptionPlan } from "@/Types/cms";
 import FAQAccordion from "../services/_components/FAQAccordion";
-import NewsLetter from "@/Components/Common/NewsLetter";
-import Sponsors from "../_components/Sponsors";
 
 interface TableRow {
   feature: string;
@@ -19,7 +19,6 @@ interface TableRow {
   pro: string | boolean;
 }
 
-/** Transform API subscription plans into the PricingPlan type used by the component */
 const transformPlans = (plans: SubscriptionPlan[]): PricingPlanType[] => {
   return plans
     .filter(plan => plan.is_visible === 1)
@@ -47,7 +46,6 @@ const transformPlans = (plans: SubscriptionPlan[]): PricingPlanType[] => {
     }));
 };
 
-/** Extract comparison table rows from subscription plans at the feature-group level */
 const buildComparisonTable = (plans: SubscriptionPlan[]): TableRow[] => {
   const sorted = [...plans]
     .filter(p => p.is_visible === 1)
@@ -58,7 +56,6 @@ const buildComparisonTable = (plans: SubscriptionPlan[]): TableRow[] => {
   const [basic, growth, pro] = sorted;
   if (!basic || !growth || !pro) return [];
 
-  // Collect all unique feature-group titles across all three plans
   const allGroupTitles = new Set<string>();
   sorted.forEach(p =>
     p.feature_groups.forEach(g => allGroupTitles.add(g.title)),
@@ -82,7 +79,6 @@ const page = async () => {
   const plans = transformPlans(subscriptionPlans);
   const tableData = buildComparisonTable(subscriptionPlans);
 
-  // Build dynamic table headers from API data
   const sortedPlans = [...subscriptionPlans]
     .filter(p => p.is_visible === 1)
     .sort((a, b) => a.sort_order - b.sort_order);
