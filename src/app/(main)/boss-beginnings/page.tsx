@@ -31,7 +31,11 @@ const page = async () => {
       rounds.find(r => r.round_number === 1) ??
       rounds[0];
     if (activeRound) {
-      const leaderboardRes = await getRoundLeaderboard(activeRound.id);
+      // noCache so the card points/counts always match the live API instead of
+      // serving an up-to-60s stale ISR snapshot while users are voting.
+      const leaderboardRes = await getRoundLeaderboard(activeRound.id, {
+        noCache: true,
+      });
       roundLeaderboard = leaderboardRes?.data ?? null;
     }
   } catch {

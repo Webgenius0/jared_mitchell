@@ -1,5 +1,4 @@
 import { LogoutSvg } from "@/Components/Svg/SvgContainer";
-import { DownArrowSvg } from "@/Components/Svg/SvgContainer2";
 import { useLogout } from "@/Hooks/api/auth_api";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";

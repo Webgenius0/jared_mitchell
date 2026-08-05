@@ -22,8 +22,9 @@ const defaultItems: VideoItem[] = [
 
 const VideoTile = ({ item }: { item: VideoItem }) => {
   const [playing, setPlaying] = useState(true);
+  const hasVideo = Boolean(item.video);
 
-  if (playing) {
+  if (hasVideo && playing) {
     return (
       <div className="rounded-2xl lg:rounded-3xl overflow-hidden aspect-[4/3]">
         <CustomVideoPlayer videoSrc={item.video} />
@@ -34,21 +35,25 @@ const VideoTile = ({ item }: { item: VideoItem }) => {
   return (
     <button
       type="button"
-      onClick={() => setPlaying(true)}
-      className="relative w-full aspect-[4/3] rounded-2xl lg:rounded-3xl overflow-hidden group"
+      onClick={() => hasVideo && setPlaying(true)}
+      className={`relative w-full aspect-[4/3] rounded-2xl lg:rounded-3xl overflow-hidden group ${
+        hasVideo ? "" : "cursor-default"
+      }`}
     >
       <Image
         src={item.thumbnail}
-        alt="Video thumbnail"
+        alt="Media thumbnail"
         fill
         className="object-cover transition-transform duration-300 group-hover:scale-105"
       />
 
-      <span className="absolute inset-0 flex items-center justify-center">
-        <span className="flex items-center justify-center size-14 md:size-16 rounded-full bg-white/25 border-2 border-white backdrop-blur-sm transition-transform duration-200 group-hover:scale-110">
-          <Play className="size-6 md:size-7 text-white fill-white ml-0.5" />
+      {hasVideo && (
+        <span className="absolute inset-0 flex items-center justify-center">
+          <span className="flex items-center justify-center size-14 md:size-16 rounded-full bg-white/25 border-2 border-white backdrop-blur-sm transition-transform duration-200 group-hover:scale-110">
+            <Play className="size-6 md:size-7 text-white fill-white ml-0.5" />
+          </span>
         </span>
-      </span>
+      )}
     </button>
   );
 };

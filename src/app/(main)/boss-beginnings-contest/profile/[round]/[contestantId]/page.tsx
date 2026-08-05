@@ -8,31 +8,30 @@ import RoundThreeProfile from "../../../Components/RoundThreeProfile";
 import RoundFourProfile from "../../../Components/RoundFourProfile";
 import RoundFiveProfile from "../../../Components/RoundFiveProfile";
 
-
 export default function BusinessProfilePage() {
   const params = useParams();
   const round = params?.round as string;
-  const businessSlug = (params?.businessSlug as string) ?? "";
+  const contestantId = parseInt(params?.contestantId as string, 10);
 
   if (round === "round-1") {
-    return <RoundOneProfile businessSlug={businessSlug} />;
+    return <RoundOneProfile contestantId={contestantId} />;
   }
 
   if (round === "round-2") {
-    return <RoundTwoProfile businessSlug={businessSlug} />;
+    return <RoundTwoProfile contestantId={contestantId} />;
   }
 
   if (round === "round-3") {
-    return <RoundThreeProfile businessSlug={businessSlug} />;
+    return <RoundThreeProfile contestantId={contestantId} />;
   }
 
   if (round === "round-4") {
-    return <RoundFourProfile businessSlug={businessSlug} />;
+    return <RoundFourProfile contestantId={contestantId} />;
   }
 
   if (round === "round-5") {
-    return <RoundFiveProfile businessSlug={businessSlug} />;
+    return <RoundFiveProfile contestantId={contestantId} />;
   }
 
-  return <RoundOneProfile businessSlug={businessSlug} />;
+  return <RoundOneProfile contestantId={contestantId} />;
 }

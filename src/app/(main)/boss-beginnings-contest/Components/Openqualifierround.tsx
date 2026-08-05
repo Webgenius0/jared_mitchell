@@ -3,17 +3,30 @@ import React, { useState } from "react";
 import VotingTab from "./VotingTab";
 import OSIPanelTab from "./OSIPanelTab";
 import LeaderboardTab from "./LeaderboardTab";
-import { CMSRoundsSection } from "@/Types/cms";
+import { ActiveSeasonRound, CMSRoundsSection } from "@/Types/cms";
 
 const TABS = ["Voting", "OSI Panel", "Leader-board"] as const;
 
 export default function OpenQualifierRound({
   roundsData,
+  rounds,
+  activeRoundId,
 }: {
   roundsData?: CMSRoundsSection;
+  rounds?: ActiveSeasonRound[];
+  activeRoundId?: number | null;
 }) {
   const [activeTab, setActiveTab] = useState<(typeof TABS)[number]>("Voting");
-  const [activeRound, setActiveRound] = useState(1);
+
+  // Default to the active round (is_active) so its tab is open on load;
+  // falls back to the first round when no live season data is available.
+  const [activeRound, setActiveRound] = useState(() => {
+    if (!rounds?.length) return 0;
+    const activeIdx = rounds.findIndex(r => r.id === activeRoundId);
+    if (activeIdx >= 0) return activeIdx;
+    const isActiveIdx = rounds.findIndex(r => r.is_active);
+    return isActiveIdx >= 0 ? isActiveIdx : 0;
+  });
 
   return (
     <section className="py-12 ">
@@ -42,6 +55,7 @@ export default function OpenQualifierRound({
           <VotingTab
             activeRound={activeRound}
             setActiveRound={setActiveRound}
+            rounds={rounds}
           />
         )}
         {activeTab === "OSI Panel" && <OSIPanelTab data={roundsData} />}

@@ -134,12 +134,12 @@ const CurrentSessionPage = () => {
       </div>
 
       {/* CTA */}
-      <Link
+      {/* <Link
         href="/dashboard/boss_beginning/listed-business"
         className="inline-flex items-center gap-2 font-medium px-10 py-3 rounded-full bg-primary-blue text-white hover:bg-blue-600 transition-colors"
       >
         List Business
-      </Link>
+      </Link> */}
     </div>
   );
 };

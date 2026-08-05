@@ -198,10 +198,10 @@ const bossLinks = [
     path: "/dashboard/boss_beginning/current-session",
     icon: <FaRegStar className="text-xl" />,
     subMenu: [
-      {
-        label: "List Business",
-        path: "/dashboard/boss_beginning/listed-business",
-      },
+      // {
+      //   label: "List Business",
+      //   path: "/dashboard/boss_beginning/listed-business",
+      // },
       {
         label: "My Applications",
         path: "/dashboard/boss_beginning/current-session/my-applications",
