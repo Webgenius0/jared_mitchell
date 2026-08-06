@@ -157,12 +157,17 @@ export const usePurchaseList = (params?: any) => {
 // Get Contestant Details — includes the contestant's current round and any
 // already-submitted media for it (submission.media_urls).
 // GET /v1/contest/contestants/:contestantId
+// NOTE: this endpoint is PUBLIC — the public contestant profile pages
+// (RoundOneProfile..RoundFiveProfile, how-winners-are-chosen) fetch it
+// without any auth. Sending the Authorization header with a stale/expired
+// token can make the backend answer with a 302 redirect (→ login) instead
+// of JSON, so we deliberately use the public instance here.
 export const useContestantDetails = (
   contestantId: number | null | undefined,
 ) => {
   return useClientApi({
     method: "get",
-    isPrivate: true,
+    isPrivate: false,
     key: ["contestant-details", contestantId],
     endpoint: contestantId
       ? `/v1/contest/contestants/${contestantId}`
@@ -215,6 +220,40 @@ export const useSubmitRoundSubmission = () => {
       const toast = import("react-hot-toast").then(m => m.default);
       toast.then(t =>
         t.error(err?.response?.data?.message || "Failed to upload submission."),
+      );
+    },
+  });
+};
+
+// Update Round Assets — replace the photo/video for an already-submitted
+// round submission (the previous media stays as the default until a new
+// file is chosen).
+// POST /v1/contest/rounds/:round_id/submissions/:submission_id/update
+// Payload (multipart/form-data): contestant_id, media_files[]
+// Usage: updateRoundSubmission({
+//   endpoint: `/v1/contest/rounds/${roundId}/submissions/${submissionId}/update`,
+//   data: formData,
+// })
+export const useUpdateRoundSubmission = () => {
+  return useClientApi({
+    method: "post",
+    isPrivate: true,
+    key: ["update-round-submission"],
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+    onSuccess: (res: any) => {
+      if (res?.success) {
+        const toast = import("react-hot-toast").then(m => m.default);
+        toast.then(t =>
+          t.success(res?.message || "Submission updated successfully!"),
+        );
+      }
+    },
+    onError: (err: any) => {
+      const toast = import("react-hot-toast").then(m => m.default);
+      toast.then(t =>
+        t.error(err?.response?.data?.message || "Failed to update submission."),
       );
     },
   });

@@ -23,7 +23,13 @@ import {
   useGetAllBusinesses,
   useMyContestRounds,
   useSubmitRoundSubmission,
+  useUpdateRoundSubmission,
 } from "@/Hooks/api/dashboard_api";
+import {
+  clearCachedRoundSubmission,
+  getCachedRoundSubmission,
+  setCachedRoundSubmission,
+} from "@/lib/localStorage";
 
 interface RoundAssetsSubmissionProps {
   /** Which round this form submits assets for (matches the round page). */
@@ -146,18 +152,77 @@ export default function RoundAssetsSubmission({
   const contestant = activeContestants[selectedIdx] ?? null;
   const showPicker = activeContestants.length > 1;
 
+  // Contestant id used to load the submission/profile. The my-rounds payload
+  // names it `contestant_id` (see CurrentRoundBusinessList); some payloads
+  // nest it under `contestant.id` instead, so fall back along that chain.
+  const contestantId: number | null =
+    contestant?.contestant_id ??
+    contestant?.contestant?.id ??
+    contestant?.id ??
+    null;
+
   // Already-submitted media for the selected contestant's current round.
-  // The contestant profile endpoint returns `submission.media_urls` with any
-  // photo/video already uploaded for this round.
-  const { data: contestantDetailsData } = useContestantDetails(
-    contestant?.contestant_id ?? null,
+  // The contestant profile endpoint
+  // (GET /v1/contest/contestants/:contestant_id, already integrated) returns
+  // `data.contestant.submission` with `id`, `media_urls` / `media_full_urls`
+  // and `submitted_at`. The round's business item may also embed a submission,
+  // so fall back to it when the profile call yields nothing.
+  //
+  // After a hard refresh the contestant-details request can come back as a
+  // 302 redirect (the backend answers stale/expired sessions with a redirect
+  // to login instead of JSON), leaving no submission data. To keep the
+  // existing video as the default value we mirror the last-known submission
+  // into localStorage and restore it here when the live request yields nothing.
+  const { data: contestantDetailsData } = useContestantDetails(contestantId);
+
+  // Synchronously restored cache — shows the previous upload immediately,
+  // even on the very first render after a refresh (no flash of "no video").
+  // Scoped by (roundId, contestantId): a contestant has a separate submission
+  // per round, so the round-2 cache must never leak into round 3.
+  const cachedSubmission = useMemo(
+    () => getCachedRoundSubmission(roundId, contestantId),
+    [roundId, contestantId],
   );
+
+  const liveSubmission =
+    contestantDetailsData?.data?.contestant?.submission ??
+    contestant?.submission ??
+    null;
+
+  // Prefer the live response; fall back to the cached copy when the request
+  // got redirected (302) and returned no JSON.
+  const submission = liveSubmission ?? cachedSubmission ?? null;
+  const submissionId: number | null = submission?.id ?? null;
   const submittedMedia: string[] =
-    contestantDetailsData?.data?.contestant?.submission?.media_urls ?? [];
-  const submittedAt: string | null =
-    contestantDetailsData?.data?.contestant?.submission?.submitted_at ?? null;
-  const submissionStatus: string | null =
-    contestantDetailsData?.data?.contestant?.submission?.status ?? null;
+    submission?.media_full_urls?.length > 0
+      ? submission.media_full_urls
+      : (submission?.media_urls ?? []);
+  const submittedAt: string | null = submission?.submitted_at ?? null;
+
+  // Keep the cache in sync: whenever the API returns a real submission, save
+  // it; whenever it definitively says there is none, drop the stale copy.
+  useEffect(() => {
+    if (!roundId || !contestantId) return;
+    const hasMedia =
+      liveSubmission?.media_urls?.length > 0 ||
+      liveSubmission?.media_full_urls?.length > 0;
+    if (hasMedia) {
+      setCachedRoundSubmission(roundId, contestantId, liveSubmission);
+    } else if (
+      contestantDetailsData?.data?.contestant &&
+      !contestantDetailsData.data.contestant.submission?.media_urls?.length &&
+      !contestantDetailsData.data.contestant.submission?.media_full_urls?.length
+    ) {
+      clearCachedRoundSubmission(roundId, contestantId);
+    }
+  }, [roundId, contestantId, liveSubmission, contestantDetailsData]);
+
+  // A submission already exists when the backend returned media for it (this
+  // is what drives the default preview + update mode).
+  const hasSubmission = submittedMedia.length > 0;
+  // The update endpoint needs the submission id — without one we can only
+  // fall back to the create endpoint.
+  const canUpdate = hasSubmission && !!submissionId;
 
   const queryClient = useQueryClient();
 
@@ -166,6 +231,8 @@ export default function RoundAssetsSubmission({
 
   const { mutateAsync: submitRoundSubmission, isPending } =
     useSubmitRoundSubmission();
+  const { mutateAsync: updateRoundSubmission, isPending: isUpdating } =
+    useUpdateRoundSubmission();
 
   // Keep the latest previews in a ref so the unmount cleanup doesn't capture a
   // stale (empty) array.
@@ -225,17 +292,23 @@ export default function RoundAssetsSubmission({
   }, []);
 
   const handleSave = async () => {
-    if (!contestant || !roundId || files.length === 0) return;
+    if (!contestantId || !roundId || files.length === 0) return;
 
     const fd = new FormData();
-    fd.append("contestant_id", String(contestant.contestant_id));
+    fd.append("contestant_id", String(contestantId));
     files.forEach(file => {
       fd.append("media_files[]", file);
     });
 
-    await submitRoundSubmission(
+    // Existing submission (with an id) → update it; otherwise create a new one.
+    const endpoint = canUpdate
+      ? `/v1/contest/rounds/${roundId}/submissions/${submissionId}/update`
+      : `/v1/contest/rounds/${roundId}/submissions`;
+    const mutate = canUpdate ? updateRoundSubmission : submitRoundSubmission;
+
+    await mutate(
       {
-        endpoint: `/v1/contest/rounds/${roundId}/submissions`,
+        endpoint,
         data: fd,
       },
       {
@@ -244,13 +317,25 @@ export default function RoundAssetsSubmission({
             clearAll();
             // Refresh the submitted-media section with the new uploads.
             queryClient.invalidateQueries({
-              queryKey: ["contestant-details", contestant.contestant_id],
+              queryKey: ["contestant-details", contestantId],
             });
+            // Best-effort: persist the fresh submission returned by the API
+            // so the default value survives the next refresh even if the
+            // details request gets redirected again.
+            const freshSubmission = res?.data?.submission ?? res?.submission;
+            const freshMedia = freshSubmission?.media_full_urls?.length
+              ? freshSubmission.media_full_urls
+              : (freshSubmission?.media_urls ?? []);
+            if (freshSubmission && freshMedia.length > 0) {
+              setCachedRoundSubmission(roundId, contestantId, freshSubmission);
+            }
           }
         },
       },
     );
   };
+
+  const isSaving = isPending || isUpdating;
 
   const isLoading = isSeasonLoading || isRoundLoading || isBizLoading;
 
@@ -343,61 +428,6 @@ export default function RoundAssetsSubmission({
 
   return (
     <div className="space-y-5">
-      {/* Already-submitted media for this round */}
-      {submittedMedia.length > 0 && (
-        <div className="bg-white rounded-2xl border border-slate-100 shadow-[0_1px_2px_rgba(16,24,40,0.04)] p-4 md:p-5">
-          <div className="flex items-center justify-between gap-3 mb-4">
-            <div>
-              <h3 className="text-sm md:text-base font-semibold text-slate-900">
-                Submitted media
-              </h3>
-              <p className="text-xs md:text-sm text-slate-400 mt-0.5">
-                {formatSubmittedDate(submittedAt)}
-                {submissionStatus ? ` • ${submissionStatus}` : ""}
-              </p>
-            </div>
-            <span className="inline-flex items-center gap-1.5 text-xs font-medium text-emerald-700 bg-emerald-50 border border-emerald-100 rounded-full px-3 py-1 shrink-0">
-              <CheckCircle2 className="w-3.5 h-3.5" />
-              Submitted
-            </span>
-          </div>
-
-          <div className="grid grid-cols-3 md:grid-cols-4 gap-3">
-            {submittedMedia.map((url, idx) => (
-              <div
-                key={`${url}-${idx}`}
-                className="relative aspect-square rounded-xl overflow-hidden border border-slate-200 bg-slate-50 group"
-              >
-                {isVideoUrl(url) ? (
-                  <video
-                    src={url}
-                    className="w-full h-full object-cover"
-                    muted
-                    playsInline
-                  />
-                ) : (
-                  <img
-                    src={url}
-                    alt={`Submitted media ${idx + 1}`}
-                    className="w-full h-full object-cover"
-                  />
-                )}
-                <a
-                  href={url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="absolute inset-0 flex items-center justify-center bg-black/0 hover:bg-black/30 transition-colors"
-                >
-                  <span className="opacity-0 group-hover:opacity-100 text-white text-xs font-medium bg-black/50 rounded-full px-3 py-1.5 transition-opacity">
-                    View full
-                  </span>
-                </a>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-
       {/* Business picker (only when the user owns several businesses in this round) */}
       {showPicker && (
         <div>
@@ -418,10 +448,7 @@ export default function RoundAssetsSubmission({
                       : "border-slate-200 bg-white hover:border-blue-200 hover:bg-slate-50"
                   }`}
                 >
-                  <PickerAvatar
-                    url={b.avatar_url}
-                    name={b.business_name}
-                  />
+                  <PickerAvatar url={b.avatar_url} name={b.business_name} />
                   <div className="min-w-0">
                     <p className="text-sm font-medium text-slate-800 truncate">
                       {b.business_name}
@@ -449,53 +476,122 @@ export default function RoundAssetsSubmission({
         <div className="bg-emerald-50 border border-emerald-100 rounded-2xl px-5 py-4 flex items-center gap-3">
           <CheckCircle2 className="w-5 h-5 text-emerald-500 shrink-0" />
           <p className="text-sm text-emerald-800">
-            Submitting for{" "}
+            {hasSubmission ? "Updating submission for " : "Submitting for "}
             <span className="font-semibold">{contestant.business_name}</span>
           </p>
         </div>
       )}
 
-      {/* Photo/Video upload */}
+      {/* Photo/Video upload — always shown, like a new-video upload. If the
+          user already submitted, the existing video appears as the default
+          value and can be replaced with a new upload. */}
       <div>
         <label className="block text-sm md:text-base font-medium text-slate-800 mb-2">
-          Photo/Video<span className="text-red-500">*</span>
+          Photo/Video
+          {!hasSubmission && <span className="text-red-500">*</span>}
         </label>
 
-        {files.length > 0 && (
-          <div className="mb-4 grid grid-cols-3 md:grid-cols-4 gap-3">
-            {files.map((file, idx) => {
-              const previewUrl = previews[idx];
-              return (
-                <div
-                  key={`${file.name}-${idx}`}
-                  className="relative group aspect-square rounded-xl overflow-hidden border border-slate-200 bg-slate-50"
+        {hasSubmission && (
+          <div className="mb-4 flex items-start gap-3 rounded-xl bg-blue-50 border border-blue-100 px-4 py-3">
+            <CheckCircle2 className="w-4 h-4 text-blue-500 mt-0.5 shrink-0" />
+            <div>
+              <p className="text-sm font-medium text-blue-800">
+                Submission already exists — this is your current video
+                {submittedAt
+                  ? ` (submitted ${formatSubmittedDate(submittedAt)})`
+                  : ""}
+                .
+              </p>
+              <p className="text-xs text-blue-700/80 mt-0.5">
+                Upload a new video below to replace it, or leave it as is.
+              </p>
+            </div>
+          </div>
+        )}
+
+        <div className="mb-4 grid grid-cols-3 md:grid-cols-4 gap-3">
+          {/* Current submission shown as the default value until a new file is chosen */}
+          {hasSubmission &&
+            files.length === 0 &&
+            submittedMedia.map((url, idx) => (
+              <div
+                key={`current-${url}-${idx}`}
+                className="relative aspect-square rounded-xl overflow-hidden border-2 border-blue-200 bg-slate-50 group"
+              >
+                {isVideoUrl(url) ? (
+                  <video
+                    src={url}
+                    className="w-full h-full object-cover"
+                    muted
+                    playsInline
+                  />
+                ) : (
+                  <img
+                    src={url}
+                    alt={`Current submission ${idx + 1}`}
+                    className="w-full h-full object-cover"
+                  />
+                )}
+                <a
+                  href={url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="absolute inset-0 flex items-center justify-center bg-black/0 hover:bg-black/30 transition-colors"
                 >
-                  {file.type.startsWith("video/") ? (
-                    <video
-                      src={previewUrl}
-                      className="w-full h-full object-cover"
-                    />
-                  ) : previewUrl ? (
-                    <img
-                      src={previewUrl}
-                      alt={file.name}
-                      className="w-full h-full object-cover"
-                    />
-                  ) : (
-                    <div className="w-full h-full flex items-center justify-center text-slate-400 text-xs px-1 text-center">
-                      {file.name}
-                    </div>
-                  )}
-                  <button
-                    type="button"
-                    onClick={() => removeFile(idx)}
-                    className="absolute top-1 right-1 w-6 h-6 rounded-full bg-black/50 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity hover:bg-red-500"
-                  >
-                    <X className="w-3.5 h-3.5" />
-                  </button>
-                </div>
-              );
-            })}
+                  <span className="opacity-0 group-hover:opacity-100 text-white text-xs font-medium bg-black/50 rounded-full px-3 py-1.5 transition-opacity">
+                    View full
+                  </span>
+                </a>
+                <span className="absolute bottom-1 left-1 inline-flex items-center gap-1 text-[10px] font-semibold text-blue-700 bg-white/90 rounded-full px-2 py-0.5">
+                  <CheckCircle2 className="w-3 h-3 text-blue-500" />
+                  Current
+                </span>
+              </div>
+            ))}
+
+          {/* Newly chosen files */}
+          {files.map((file, idx) => {
+            const previewUrl = previews[idx];
+            return (
+              <div
+                key={`${file.name}-${idx}`}
+                className="relative group aspect-square rounded-xl overflow-hidden border border-slate-200 bg-slate-50"
+              >
+                {file.type.startsWith("video/") ? (
+                  <video
+                    src={previewUrl}
+                    className="w-full h-full object-cover"
+                    muted
+                    playsInline
+                  />
+                ) : previewUrl ? (
+                  <img
+                    src={previewUrl}
+                    alt={file.name}
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center text-slate-400 text-xs px-1 text-center">
+                    {file.name}
+                  </div>
+                )}
+                <button
+                  type="button"
+                  onClick={() => removeFile(idx)}
+                  className="absolute top-1 right-1 w-6 h-6 rounded-full bg-black/50 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity hover:bg-red-500"
+                >
+                  <X className="w-3.5 h-3.5" />
+                </button>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Confirmation once a new file is chosen to replace the current one */}
+        {hasSubmission && files.length > 0 && (
+          <div className="mb-4 inline-flex items-center gap-1.5 text-xs font-medium text-emerald-700 bg-emerald-50 border border-emerald-100 rounded-full px-3 py-1.5">
+            <CheckCircle2 className="w-3.5 h-3.5" />
+            New video selected — this will replace your current video on save
           </div>
         )}
 
@@ -507,14 +603,16 @@ export default function RoundAssetsSubmission({
           <span className="text-sm md:text-base text-slate-600">
             {files.length > 0
               ? "Add more files"
-              : "Click to upload image or video"}
+              : hasSubmission
+                ? "Click to choose a new video"
+                : "Click to upload image or video"}
           </span>
           <span className="text-xs md:text-sm text-slate-400">
-            {formatLabel} up to 10MB
-            {maxDurationSec
-              ? ` — max ${maxDurationSec}s video`
-              : ""}
-            {multiple ? " — multiple files allowed" : ""}
+            {hasSubmission && files.length === 0
+              ? "Current video shown above — upload a new one to replace it"
+              : `${formatLabel} up to 10MB${
+                  maxDurationSec ? ` — max ${maxDurationSec}s video` : ""
+                }${multiple ? " — multiple files allowed" : ""}`}
           </span>
           <input
             id={`round-submission-${roundNumber}`}
@@ -527,22 +625,32 @@ export default function RoundAssetsSubmission({
         </label>
       </div>
 
-      {/* Save button */}
-      <button
-        type="button"
-        onClick={handleSave}
-        disabled={isPending || files.length === 0}
-        className="bg-blue-500 text-white text-sm md:text-base font-medium px-8 py-2.5 md:py-3 rounded-full hover:bg-blue-600 transition-colors disabled:opacity-60 disabled:cursor-not-allowed flex items-center gap-2"
-      >
-        {isPending ? (
-          <>
-            <Loader2 className="w-4 h-4 animate-spin" />
-            Submitting...
-          </>
-        ) : (
-          "Save"
+      {/* Save button — "Update Submission" when a submission already exists,
+          "Save" for a brand-new submission */}
+      <div className="flex flex-col items-end gap-1.5">
+        {canUpdate && files.length === 0 && (
+          <p className="text-xs text-slate-400">
+            Choose a new video above to enable "Update Submission".
+          </p>
         )}
-      </button>
+        <button
+          type="button"
+          onClick={handleSave}
+          disabled={isSaving || files.length === 0}
+          className="bg-blue-500 text-white text-sm md:text-base font-medium px-8 py-2.5 md:py-3 rounded-full hover:bg-blue-600 transition-colors disabled:opacity-60 disabled:cursor-not-allowed flex items-center gap-2"
+        >
+          {isSaving ? (
+            <>
+              <Loader2 className="w-4 h-4 animate-spin" />
+              {canUpdate ? "Updating..." : "Submitting..."}
+            </>
+          ) : canUpdate ? (
+            "Update Submission"
+          ) : (
+            "Save"
+          )}
+        </button>
+      </div>
     </div>
   );
 }

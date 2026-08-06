@@ -16,7 +16,6 @@ const page = async () => {
   const pageData = (await getBossCms()) as CMSBossBeginnings;
   const CmsData = await getCMSAboutData();
 
-  // Fetch active season rounds → find the active round → fetch its leaderboard
   let roundLeaderboard = null;
   try {
     const activeSeasonRes = await getActiveSeasonRounds();
@@ -26,8 +25,7 @@ const page = async () => {
       rounds.find(r => r.round_number === 1) ??
       rounds[0];
     if (activeRound) {
-      // noCache so the card points/counts always match the live API instead of
-      // serving an up-to-60s stale ISR snapshot while users are voting.
+
       const leaderboardRes = await getRoundLeaderboard(activeRound.id, {
         noCache: true,
       });

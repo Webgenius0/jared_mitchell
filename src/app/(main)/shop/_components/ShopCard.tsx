@@ -16,7 +16,13 @@ interface ShopCardExtended extends ShopCardProps {
   categoryName?: string;
 }
 
-const ShopCard = ({ data, itemKey }: { data: ShopCardExtended; itemKey: number }) => {
+const ShopCard = ({
+  data,
+  itemKey,
+}: {
+  data: ShopCardExtended;
+  itemKey: number;
+}) => {
   const linkHref = data.slug ? `shop/${data.slug}` : `shop/${data?.id}`;
   const { user } = useAuth();
   const router = useRouter();
@@ -52,14 +58,14 @@ const ShopCard = ({ data, itemKey }: { data: ShopCardExtended; itemKey: number }
         key={itemKey}
         className="pb-5 rounded-2xl overflow-hidden custom_border custom_shadow bg-white"
       >
-        <div className="relative w-full h-[378px]">
+        <div className="relative w-full h-[300px]">
           <div className="absolute size-full bg-black/10" />
           <Image
             src={data.image}
             width={358}
             height={378}
             alt=""
-            className="size-full object-cover"
+            className="size-full object-cover object-center"
           />
           {data.tag && (
             <div className="absolute bg-white py-1 px-2 text-primary-blue text-sm top-6 right-9 rounded-full">
@@ -69,7 +75,7 @@ const ShopCard = ({ data, itemKey }: { data: ShopCardExtended; itemKey: number }
         </div>
         <div className="py-4 space-y-5 px-4">
           <div className="space-y-2">
-            <h5 className="text-2xl text-primary-black font-medium">
+            <h5 className="text-2xl text-primary-black font-medium capitalize">
               {data.title}
             </h5>
             <p className="text-xl text-secondary-black line-clamp-1">

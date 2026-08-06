@@ -623,9 +623,18 @@ export const getRoundLeaderboard = async (
  * Submit OSI panel ratings for a contestant in a round.
  *
  * POST /v1/contest/rounds/:roundId/votes
- * Body (form-encoded): contestant_id + scores[test 1..5] — one score per
- * evaluation question, on a 1–10 scale.
+ * Body (form-encoded): contestant_id + scores[innovation],
+ * scores[presentation], scores[impact], scores[quality], scores[growth] —
+ * one score per evaluation question, on a 1–10 scale.
  */
+const ROUND_SCORE_KEYS = [
+  "innovation",
+  "presentation",
+  "impact",
+  "quality",
+  "growth",
+];
+
 export const submitRoundVotes = async ({
   roundId,
   contestantId,
@@ -638,7 +647,7 @@ export const submitRoundVotes = async ({
   const body = new URLSearchParams();
   body.append("contestant_id", String(contestantId));
   scores.forEach((score, i) => {
-    body.append(`scores[test ${i + 1}]`, String(score));
+    body.append(`scores[${ROUND_SCORE_KEYS[i]}]`, String(score));
   });
 
   const token = typeof window !== "undefined" ? getItem("token") : undefined;
