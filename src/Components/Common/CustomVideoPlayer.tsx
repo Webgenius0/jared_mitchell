@@ -35,7 +35,7 @@ export default function CustomVideoPlayer({
   return (
     <div
       className={cn(
-        "relative w-full h-full overflow-hidden  max-h-[550px]",
+        "relative w-full h-full overflow-hidden",
         className,
       )}
     >

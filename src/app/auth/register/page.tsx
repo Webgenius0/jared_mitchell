@@ -135,7 +135,7 @@ const Register = () => {
                     <option value="">Choose your role</option>
                     <option value="5">artisan</option>
                     <option value="6">member</option>
-                    <option value="8">boss</option>
+                    <option value="8">Business</option>
                   </select>
                 </p>
                 {errors?.role && (

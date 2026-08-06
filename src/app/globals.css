@@ -81,6 +81,23 @@ button {
   box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.07);
 }
 
+/* Cart badge pop — plays every time the cart count changes */
+@keyframes cart-badge-pop {
+  0% {
+    transform: scale(0.4);
+  }
+  50% {
+    transform: scale(1.35);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.cart-badge-pop {
+  animation: cart-badge-pop 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
 .label {
   @apply md:text-[17px] xl:text-xl text-primary-black mb-1 xl:mb-3;
 }

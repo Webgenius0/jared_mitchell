@@ -5,7 +5,6 @@ import LimitedDrops from "./_components/LimitedDrops";
 import TrustFeatures from "./_components/TrustFeatures";
 import PurchaseSupports from "./_components/PurchaseSupports";
 import NewsLetter from "@/Components/Common/NewsLetter";
-import OurSponsors from "./_components/OurSponsors";
 import FAQAccordion from "../services/_components/FAQAccordion";
 import VendorWithOSI from "./_components/VendorWithOSI";
 import ShopBanner from "./_components/ShopBanner";
@@ -42,7 +41,6 @@ const page = async () => {
       <LimitedDrops />
       {/* <TrustFeatures data={shopData?.shop_page_footer_features} /> */}
       <FAQAccordion data={faqData} />
-      {/* <OurSponsors /> */}
       <Sponsors data={CmsData?.partners} title="Our Sponsors" />
       <NewsLetter title="Be part of the movement. Get stories, updates, and opportunities straight to your inbox." />
     </>

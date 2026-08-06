@@ -6,7 +6,6 @@ import SpotlightHero from "../_components/SpotlightHero";
 import SpotlightLadder from "../_components/SpotlightLadder";
 import CommunityAchievements from "../../_components/CommunityAchievements";
 import WhatExist from "../../about/_Components/WhatExist";
-import EventSponsors from "../../services/_components/EventSponsors";
 import ArtistSpotlightBanner from "../_components/ArtistSpotlightBanner";
 import SuccessStories from "../../_components/SuccessStories";
 import {
@@ -61,7 +60,6 @@ const page = async () => {
       <BecomeAPart data={cmsData?.artist_spotlight_join} />
       {/* <CreativeJourney data={cmsData?.artist_spotlight_interview} /> */}
       <WhatExist data={cmsData?.artist_spotlight_why_exists} />
-      {/* <EventSponsors /> */}
       <Sponsors data={partners?.partners} showButton={false} />
       <NewsLetter title="Stay connected with new spotlights, events, and creative tools." />
     </>

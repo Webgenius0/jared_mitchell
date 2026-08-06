@@ -216,7 +216,10 @@ const Navbar = () => {
               >
                 <FiShoppingCart className="size-5" />
                 {cartCount > 0 && (
-                  <span className="absolute -top-1 -right-1 bg-[#1977DD] text-white text-[10px] font-bold rounded-full size-4.5 flex items-center justify-center leading-none">
+                  <span
+                    key={cartCount}
+                    className="cart-badge-pop absolute -top-1 -right-1 bg-[#1977DD] text-white text-[10px] font-bold rounded-full size-4.5 flex items-center justify-center leading-none"
+                  >
                     {cartCount > 99 ? "99+" : cartCount}
                   </span>
                 )}
