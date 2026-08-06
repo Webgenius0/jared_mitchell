@@ -3,6 +3,7 @@
 import ShopCard from "./ShopCard";
 import { FeaturedProductItem } from "@/Types/cms";
 import { mapProductToCardProps } from "./product-utils";
+import Container from "@/Components/Common/Container";
 
 interface LimitedDropsProps {
   products?: FeaturedProductItem[];
@@ -13,7 +14,7 @@ const LimitedDropsSkeleton = () => (
   <div className="container section rounded-[20px] custom_border bg-secondary-gray space-y-11">
     <h2 className="section_title">Limited Drops</h2>
     <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 px-8">
-      {[1, 2, 3].map((i) => (
+      {[1, 2, 3].map(i => (
         <div
           key={i}
           className="pb-5 rounded-2xl overflow-hidden custom_border custom_shadow bg-white animate-pulse"
@@ -43,16 +44,22 @@ const LimitedDrops = ({ products, isLoading }: LimitedDropsProps) => {
   }
 
   return (
-    <div className="container section rounded-[20px] custom_border bg-secondary-gray space-y-11">
-      <div>
-        <h2 className="section_title">Limited Drops</h2>
+    <Container>
+      <div className=" section rounded-[20px] custom_border bg-secondary-gray space-y-11">
+        <div>
+          <h2 className="section_title">Limited Drops</h2>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 px-8">
+          {products.map(product => (
+            <ShopCard
+              data={mapProductToCardProps(product)}
+              key={product.id}
+              itemKey={product.id}
+            />
+          ))}
+        </div>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 px-8">
-        {products.map((product) => (
-          <ShopCard data={mapProductToCardProps(product)} key={product.id} itemKey={product.id} />
-        ))}
-      </div>
-    </div>
+    </Container>
   );
 };
 

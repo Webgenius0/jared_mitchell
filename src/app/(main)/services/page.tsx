@@ -3,7 +3,6 @@ import { BsArrowRight } from "react-icons/bs";
 import PricingPlan from "../_components/PricingPlan";
 import PlanComparison from "./_components/PlanComparison";
 import SocialImage from "./_components/SocialImage";
-import CommunityPartner from "./_components/CommunityPartner";
 import WhoOSIIsFor from "./_components/WhoOSIIsFor";
 import ServiceBanner from "./_components/ServiceBanner";
 import NewsLetter from "@/Components/Common/NewsLetter";
@@ -49,7 +48,6 @@ const page = async () => {
       {/* <PricingPlan /> */}
       {/* <PlanComparison /> */}
       <SocialImage data={cmsData?.services_grow} />
-      {/* <CommunityPartner data={cmsData?.services_partners} /> */}
       <Sponsors data={cmsData?.partners} />
 
       <WhoOSIIsFor data={cmsData?.services_who_for} />

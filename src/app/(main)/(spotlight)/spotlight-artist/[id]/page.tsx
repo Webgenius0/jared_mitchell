@@ -5,7 +5,10 @@ import Consent from "../../../contest/Components/Consent";
 import OptionalInformation from "../../../contest/Components/OptionalInformation";
 import NewsLetter from "@/Components/Common/NewsLetter";
 import Sponsors from "../../../_components/Sponsors";
-import { getCMSAboutData, getArtistSpotlightDetails } from "@/lib/Services/cms_service";
+import {
+  getCMSAboutData,
+  getArtistSpotlightDetails,
+} from "@/lib/Services/cms_service";
 
 const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
   const { id } = await params;
