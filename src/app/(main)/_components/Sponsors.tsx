@@ -14,6 +14,7 @@ interface SponsorsProps {
 
 const Sponsors = ({ data, title, showButton = true }: SponsorsProps) => {
   const [isSponsorModalOpen, setIsSponsorModalOpen] = useState(false);
+
   const logos =
     data?.metadata?.map((m: any, i: number) => ({
       id: i + 1,
@@ -29,7 +30,7 @@ const Sponsors = ({ data, title, showButton = true }: SponsorsProps) => {
 
       <div className="flex flex-col gap-5 my-5">
         <SponsorSlider logos={logos} />
-        {/* <SponsorSlider logos={logos} reverse={true} /> */}
+
         {showButton && (
           <div className="flex justify-center mt-4">
             <Button onClick={() => setIsSponsorModalOpen(true)}>
@@ -38,6 +39,7 @@ const Sponsors = ({ data, title, showButton = true }: SponsorsProps) => {
           </div>
         )}
       </div>
+
       {isSponsorModalOpen && (
         <SponsorModal onClose={() => setIsSponsorModalOpen(false)} />
       )}

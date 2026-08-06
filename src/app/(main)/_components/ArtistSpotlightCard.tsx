@@ -45,6 +45,7 @@ export default function ArtistSpotlightCard({
     : "Artist Spotlight";
 
   const spotlightLink = winner ? getSpotlightLink(winner) : null;
+  console.log(data, "spotlight");
 
   return (
     <div className="container">
@@ -80,9 +81,9 @@ export default function ArtistSpotlightCard({
         </figure>
 
         <div className="m-3 md:m-5 lg:m-7 2xl:m-10">
-          <span className="inline-block rounded-full bg-[#EFF6FF] px-3 md:px-5 py-3 lg:py-4 lg:text-xl text-primary-blue tracking-wider">
+          {/* <span className="inline-block rounded-full bg-[#EFF6FF] px-3 md:px-5 py-3 lg:py-4 lg:text-xl text-primary-blue tracking-wider">
             {category}
-          </span>
+          </span> */}
 
           <h2 className="section_title !text-left mb-4 mt-1.5 md:mt-3 lg:mt-5 2xl:font-semibold 2xl:text-[44px]">
             {title}

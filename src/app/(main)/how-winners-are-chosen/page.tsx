@@ -57,9 +57,8 @@ const page = async () => {
         paginated
       />
       {/* <NewBusiness data={pageData?.boss_beginnings_section5} /> */}
-      {/* <HowVotingWorks data={pageData?.boss_beginnings_steps} />
-      <WinnerReceives data={pageData?.boss_beginnings_dynamic} />
-      {/* <PartnerWithBossBeginnings /> */}
+      {/* <HowVotingWorks data={pageData?.boss_beginnings_steps} /> */}
+      {/* <WinnerReceives data={pageData?.boss_beginnings_dynamic} /> */}
       <Sponsors data={CmsData?.partners} title="Our Event Sponsors" />
       <NewsLetter title="Be part of the movement. Get stories, updates, and opportunities straight to your inbox." />
     </>

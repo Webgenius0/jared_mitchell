@@ -1,4 +1,3 @@
-import EventSponsors from "../services/_components/EventSponsors";
 import NewsLetter from "@/Components/Common/NewsLetter";
 import FAQAccordion from "../services/_components/FAQAccordion";
 import TalentApplication from "./_components/TalentApplication";
@@ -19,7 +18,6 @@ const page = async () => {
       <TalentApplication />
       <VendorOpportunities />
       <FAQAccordion data={faqData} />
-      {/* <EventSponsors /> */}
       <Sponsors
         data={CmsData?.partners}
         showButton={false}

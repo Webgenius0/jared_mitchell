@@ -1,4 +1,3 @@
-import EventSponsors from "@/app/(main)/services/_components/EventSponsors";
 import SpotlightOfTheWeek from "../../_components/SpotlightOfTheWeek";
 import VoteNow from "../../_components/VoteNow";
 import WeeklyTimeline from "../../_components/WeeklyTimeline";
@@ -36,7 +35,6 @@ const page = async () => {
         title={cmsData?.spotlight_ladder_details?.title}
         events={timelineEvents}
       />
-      {/* <EventSponsors /> */}
       <Sponsors
         data={cmsData?.partners?.items?.[0]}
         title={

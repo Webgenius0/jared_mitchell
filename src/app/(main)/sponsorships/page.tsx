@@ -38,7 +38,6 @@ const page = async () => {
       <SponsorshipLevel data={pageData?.sponsorship_page_levels_header} />
       <BecomeSponsor data={pageData?.sponsorship_page_footer} />
       <FAQAccordion data={faqData} />
-      {/* <EventSponsors /> */}
       <Sponsors data={CmsData?.about_sponsors} showButton={false} />
       <NewsLetter title="Be part of the movement. Get stories, updates, and opportunities straight to your inbox." />
     </>

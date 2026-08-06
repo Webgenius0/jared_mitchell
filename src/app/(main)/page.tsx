@@ -147,7 +147,6 @@ const Page = async () => {
         pastSixMonthsWinners={pastSixMonthsWinners}
       />
       <OSIApparel data={cmsData?.shop} featuredProducts={featuredProducts} />
-      {/* <CommunityPartner /> */}
       <Sponsors data={cmsData?.partners} />
       <NewsLetter data={cmsData?.newsletter} />
     </>
