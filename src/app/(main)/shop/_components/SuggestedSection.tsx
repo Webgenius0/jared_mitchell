@@ -23,7 +23,7 @@ export default function SuggestedSection({
 }: SuggestedSectionProps) {
   const router = useRouter();
   const { user } = useAuth();
-  const { openCart, refetchCart } = useCart();
+  const { refetchCart } = useCart();
   const { mutate: addToCart } = useAddToCart();
 
   if (suggestedProducts.length === 0) return null;
@@ -41,7 +41,6 @@ export default function SuggestedSection({
       {
         onSuccess: () => {
           refetchCart();
-          openCart();
         },
       },
     );

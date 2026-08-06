@@ -153,3 +153,69 @@ export const usePurchaseList = (params?: any) => {
     params,
   });
 };
+
+// Get Contestant Details — includes the contestant's current round and any
+// already-submitted media for it (submission.media_urls).
+// GET /v1/contest/contestants/:contestantId
+export const useContestantDetails = (
+  contestantId: number | null | undefined,
+) => {
+  return useClientApi({
+    method: "get",
+    isPrivate: true,
+    key: ["contestant-details", contestantId],
+    endpoint: contestantId
+      ? `/v1/contest/contestants/${contestantId}`
+      : "",
+    enabled: !!contestantId,
+  });
+};
+
+// Get My Contest Rounds — the logged-in business owner's round check: the
+// current round plus the businesses competing in it (rank, points, status).
+// GET /v1/contest/my-rounds?round_number=<round_id>
+// Note: the backend expects the round's *id* (e.g. 58) under the
+// `round_number` query param.
+export const useMyContestRounds = (roundId: number | null | undefined) => {
+  return useClientApi({
+    method: "get",
+    isPrivate: true,
+    key: ["my-contest-rounds", roundId],
+    endpoint: "/v1/contest/my-rounds",
+    params: { round_number: roundId },
+    enabled: !!roundId,
+  });
+};
+
+// Submit Round Assets — upload the round's photo/video submission for a
+// contestant in a round.
+// POST /v1/contest/rounds/:round_id/submissions
+// Payload (multipart/form-data): contestant_id, media_files[]
+// Usage: submitRoundSubmission({
+//   endpoint: `/v1/contest/rounds/${roundId}/submissions`,
+//   data: formData,
+// })
+export const useSubmitRoundSubmission = () => {
+  return useClientApi({
+    method: "post",
+    isPrivate: true,
+    key: ["submit-round-submission"],
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+    onSuccess: (res: any) => {
+      if (res?.success) {
+        const toast = import("react-hot-toast").then(m => m.default);
+        toast.then(t =>
+          t.success(res?.message || "Submission uploaded successfully!"),
+        );
+      }
+    },
+    onError: (err: any) => {
+      const toast = import("react-hot-toast").then(m => m.default);
+      toast.then(t =>
+        t.error(err?.response?.data?.message || "Failed to upload submission."),
+      );
+    },
+  });
+};

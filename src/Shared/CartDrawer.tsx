@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   FiChevronLeft,
   FiChevronRight,
@@ -52,7 +52,40 @@ export default function CartDrawer({
 
   const scrollerRef = useRef<HTMLDivElement>(null);
 
-  if (!isCartOpen) return null;
+  // Keep the drawer mounted through its close transition so the exit
+  // animation plays out smoothly instead of disappearing instantly.
+  const [mounted, setMounted] = useState(false);
+  const [show, setShow] = useState(false);
+
+  useEffect(() => {
+    let raf: number | null = null;
+    let timeout: ReturnType<typeof setTimeout> | null = null;
+
+    if (isCartOpen) {
+      setMounted(true);
+      // Wait a frame so the browser paints the off-screen position first,
+      // then slide it in.
+      raf = requestAnimationFrame(() => setShow(true));
+    } else {
+      setShow(false);
+      timeout = setTimeout(() => setMounted(false), 550);
+    }
+
+    return () => {
+      if (raf) cancelAnimationFrame(raf);
+      if (timeout) clearTimeout(timeout);
+    };
+  }, [isCartOpen]);
+
+  // Lock body scroll while the drawer is open.
+  useEffect(() => {
+    document.body.style.overflow = isCartOpen ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isCartOpen]);
+
+  if (!mounted) return null;
 
   const handleUpdateQuantity = (cartItemId: number, delta: number) => {
     const item = cartItems.find(c => c.id === cartItemId);
@@ -101,12 +134,18 @@ export default function CartDrawer({
     <>
       {/* Overlay */}
       <div
-        className="fixed inset-0 bg-black/40 z-40 transition-opacity duration-300"
+        className={`fixed inset-0 bg-black/40 backdrop-blur-[2px] z-40 transition-opacity duration-300 ${
+          show ? "opacity-100" : "opacity-0 pointer-events-none"
+        }`}
         onClick={closeCart}
       />
 
       {/* Drawer */}
-      <div className="fixed top-0 right-0 h-full w-full max-w-md bg-white z-50 shadow-2xl flex flex-col translate-x-0 transition-transform duration-300 ease-out">
+      <div
+        className={`fixed top-0 right-0 h-full w-full max-w-md bg-white z-50 shadow-2xl flex flex-col transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] ${
+          show ? "translate-x-0" : "translate-x-full"
+        }`}
+      >
         {/* Header */}
         <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100 shrink-0">
           <div className="flex items-center gap-2">

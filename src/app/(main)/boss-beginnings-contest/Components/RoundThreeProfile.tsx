@@ -81,11 +81,23 @@ export default function RoundThreeProfile({
     );
   }
 
+  // The contestant's submitted round media (submission.media_urls) — use the
+  // first video URL as the hero video when available.
+  const submissionMedia: string[] =
+    contestant?.submission?.media_urls ?? [];
+  const submissionVideo =
+    submissionMedia.find((url: string) =>
+      /\.(mp4|webm|mov|m4v|ogg)(\?|$)/i.test(url),
+    ) ?? null;
+
   return (
     <>
       <RoundBanner data={bossData?.boss_beginnings_hero} />
       <RoundTwoAbout contestant={contestant} />
-      <Roundhero data={eventsData?.events_page_hero} />
+      <Roundhero
+        data={eventsData?.events_page_hero}
+        videoSrc={submissionVideo}
+      />
       <RoundStep
         contestantId={contestant?.id ?? contestantId}
         roundId={contestant?.current_round?.id}

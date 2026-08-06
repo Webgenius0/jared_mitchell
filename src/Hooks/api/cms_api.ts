@@ -469,6 +469,16 @@ export const useActiveRoundSession = () => {
   });
 };
 
+// Get Active Season Rounds (live contest season + its rounds)
+// GET /v1/contest/active-season-rounds
+export const getActiveSeasonRounds = () => {
+  return useClientApi({
+    method: "get",
+    key: ["active-season-rounds"],
+    endpoint: "/v1/contest/active-season-rounds",
+  });
+};
+
 // ─── Contest Applications (Boss Beginnings seasons) ────────────────────────
 
 // Apply a Business to a Contest Season

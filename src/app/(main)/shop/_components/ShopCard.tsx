@@ -20,7 +20,7 @@ const ShopCard = ({ data, itemKey }: { data: ShopCardExtended; itemKey: number }
   const linkHref = data.slug ? `shop/${data.slug}` : `shop/${data?.id}`;
   const { user } = useAuth();
   const router = useRouter();
-  const { openCart, refetchCart } = useCart();
+  const { refetchCart } = useCart();
   const { mutate: addToCart } = useAddToCart();
 
   const handleAddToCart = (e: React.MouseEvent) => {

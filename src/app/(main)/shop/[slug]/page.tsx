@@ -50,7 +50,7 @@ export default function ProductDetailsPage() {
   const router = useRouter();
   const slug = Array.isArray(params.slug) ? params.slug[0] : params.slug;
   const { user } = useAuth();
-  const { openCart, refetchCart } = useCart();
+  const { refetchCart } = useCart();
 
   // Fetch product by slug and all products for suggestions
   const { data: apiResponse, isLoading } = getProductBySlug(slug || "");
@@ -148,7 +148,6 @@ export default function ProductDetailsPage() {
         onSuccess: () => {
           refetchCart();
           setQuantity(1);
-          openCart();
         },
       },
     );
