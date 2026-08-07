@@ -93,7 +93,7 @@ export default function RoundTwoProfile({
   return (
     <>
       <RoundBanner data={bossData?.boss_beginnings_hero} />
-      <RoundTwoAbout contestant={contestant} />
+      <RoundTwoAbout contestant={contestant} roundNumber={2} />
       <Roundhero
         data={eventsData?.events_page_hero}
         videoSrc={submissionVideo}

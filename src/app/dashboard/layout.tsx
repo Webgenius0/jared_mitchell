@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import useAuth from "@/Hooks/useAuth";
 import PrivateLayout from "@/Private/PrivateLayout";
 import DashboardSidebar from "@/Shared/DashboardSidebar";
@@ -28,6 +28,7 @@ import {
 } from "@/Components/Svg/SvgContainer";
 import DashboardHeader from "@/Shared/DashboardHeader";
 import { getUserDashboardType } from "@/lib/utils";
+import useCurrentRoundNumber from "@/Hooks/useCurrentRoundNumber";
 
 const artistLinks = [
   {
@@ -287,6 +288,40 @@ export default function DashboardLayout({
   const { user: authUser } = useAuth();
   const resolvedType = getUserDashboardType(authUser);
 
+  // ─── Boss Beginning round access ───────────────────────────────────
+  // Rounds open up one at a time over the season: a user can open their
+  // current round (the season's active round) plus every round before it,
+  // but not the rounds that come after it. While the season data hasn't
+  // loaded (or errored) every round stays clickable so the nav never breaks.
+  const isBossDashboard = resolvedType === "boss_beginning";
+  const currentRound = useCurrentRoundNumber(isBossDashboard);
+
+  const bossNavLinks = useMemo(
+    () =>
+      bossLinks.map(link => {
+        if (link.id !== 25 || !link.subMenu) return link;
+        return {
+          ...link,
+          subMenu: link.subMenu.map(sub => {
+            const match = sub.label.match(/(\d+)/);
+            const roundNum = match ? Number(match[1]) : null;
+            return roundNum != null
+              ? { ...sub, disabled: roundNum > currentRound }
+              : sub;
+          }),
+        };
+      }),
+    [currentRound],
+  );
+
+  const navLinks = isBossDashboard
+    ? bossNavLinks
+    : resolvedType === "artist_business"
+      ? artistLinks
+      : resolvedType === "community_member"
+        ? communityMemberLinks
+        : sponsorLinks;
+
   return (
     <PrivateLayout>
       <section className="min-h-screen max-h-screen flex">
@@ -294,30 +329,14 @@ export default function DashboardLayout({
         <DashboardSidebar
           open={open}
           setOpen={setOpen}
-          dashboardNavLinks={
-            resolvedType === "artist_business"
-              ? artistLinks
-              : resolvedType === "community_member"
-                ? communityMemberLinks
-                : resolvedType === "sponsor"
-                  ? sponsorLinks
-                  : bossLinks
-          }
+          dashboardNavLinks={navLinks}
         />
 
         <section className="flex-1 bg-[#F8F8FA] overflow-y-auto">
           {/* Dashboard Header */}
           <DashboardHeader
             setOpen={setOpen}
-            dashboardNavLinks={
-              resolvedType === "artist_business"
-                ? artistLinks
-                : resolvedType === "community_member"
-                  ? communityMemberLinks
-                  : resolvedType === "sponsor"
-                    ? sponsorLinks
-                    : bossLinks
-            }
+            dashboardNavLinks={navLinks}
           />
 
           {/* Dashboard Outlet */}

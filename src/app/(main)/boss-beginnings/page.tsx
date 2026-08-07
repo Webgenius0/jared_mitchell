@@ -21,8 +21,10 @@ const page = async () => {
   const cmsData = await getCMSHomepageData();
   const winnerData = await getCurrentContestWinner();
 
-  // Fetch active season rounds → find the active round → fetch its leaderboard
+  // The "How Winners Are Chosen" section only renders while the contest is in
+  // Round 1 — once the season moves to a later round the section is hidden.
   let roundLeaderboard = null;
+  let isRoundOne = false;
   try {
     const activeSeasonRes = await getActiveSeasonRounds();
     const rounds = activeSeasonRes?.data?.rounds ?? [];
@@ -30,7 +32,8 @@ const page = async () => {
       rounds.find(r => r.is_active) ??
       rounds.find(r => r.round_number === 1) ??
       rounds[0];
-    if (activeRound) {
+    isRoundOne = activeRound?.round_number === 1;
+    if (isRoundOne) {
       // noCache so the card points/counts always match the live API instead of
       // serving an up-to-60s stale ISR snapshot while users are voting.
       const leaderboardRes = await getRoundLeaderboard(activeRound.id, {
@@ -39,7 +42,7 @@ const page = async () => {
       roundLeaderboard = leaderboardRes?.data ?? null;
     }
   } catch {
-    // Active season or active round leaderboard may not be available yet
+    // Active season may not be available yet — the section stays hidden
   }
 
   return (
@@ -53,10 +56,12 @@ const page = async () => {
         winner={winnerData?.winner}
       />
 
-      <BusinessChosenChart
-        data={pageData?.boss_beginnings_steps}
-        roundData={roundLeaderboard}
-      />
+      {isRoundOne && (
+        <BusinessChosenChart
+          data={pageData?.boss_beginnings_steps}
+          roundData={roundLeaderboard}
+        />
+      )}
 
       <NewBusiness data={pageData?.boss_beginnings_section5} />
 
