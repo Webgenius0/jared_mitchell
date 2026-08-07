@@ -239,11 +239,12 @@ const ROUND_LIMITS = [20, 16, 12, 8, 5];
 
 function getRoundData(roundIndex: number): Business[] {
   const limit = ROUND_LIMITS[roundIndex] ?? 20;
-  return BASE_BUSINESSES.slice(0, limit).map((b, i) => ({
-    ...b,
-    score: 4900 - i * 40 + (seededScore(4900, roundIndex, i) % 60),
-    trend: seededTrend(roundIndex, i),
-  }))
+  return BASE_BUSINESSES.slice(0, limit)
+    .map((b, i) => ({
+      ...b,
+      score: 4900 - i * 40 + (seededScore(4900, roundIndex, i) % 60),
+      trend: seededTrend(roundIndex, i),
+    }))
     .sort((a, b) => b.score - a.score)
     .map((b, i) => ({ ...b, rank: i + 1 }));
 }
@@ -281,12 +282,21 @@ export default function VotingTab({
   rounds,
 }: VotingTabProps) {
   const router = useRouter();
-  const [leaderboard, setLeaderboard] =
-    useState<RoundLeaderboardData | null>(null);
+  const [leaderboard, setLeaderboard] = useState<RoundLeaderboardData | null>(
+    null,
+  );
   const [loadingLeaderboard, setLoadingLeaderboard] = useState(false);
 
   const apiRound = rounds?.[activeRound];
   const roundNumber = apiRound?.round_number ?? activeRound + 1;
+
+  // A round is "complete" once its voting window has closed. For the final
+  // round (5) this means the whole contest is over.
+  const isRoundComplete = Boolean(
+    apiRound?.voting_ends_at &&
+    new Date(apiRound.voting_ends_at).getTime() < Date.now(),
+  );
+  const isFinalRound = roundNumber === 5;
 
   // Round tabs — built from the live season rounds when available. Only the
   // active round is selectable; every other round tab is locked.
@@ -343,14 +353,15 @@ export default function VotingTab({
           apiRound.advance_limit != null &&
           leaderboard?.total_entries != null &&
           leaderboard.total_entries > 0
-            ? Math.round((apiRound.advance_limit / leaderboard.total_entries) * 100)
+            ? Math.round(
+                (apiRound.advance_limit / leaderboard.total_entries) * 100,
+              )
             : fallbackContent.advancingPct,
         timeLeft:
           leaderboard?.days_left != null
             ? `${leaderboard.days_left} day${leaderboard.days_left === 1 ? "" : "s"} left`
             : fallbackContent.timeLeft,
-        votingWeight:
-          apiRound.voting_strategy || fallbackContent.votingWeight,
+        votingWeight: apiRound.voting_strategy || fallbackContent.votingWeight,
         challengePrompt: fallbackContent.challengePrompt,
       }
     : fallbackContent;
@@ -369,23 +380,22 @@ export default function VotingTab({
         "",
       owner: e.contestant?.contestable?.owner_name || "",
       category: "",
-      // The leaderboard endpoint returns total_score: 0 for every entry while
-      // the authoritative points live on contestant.contestable.total_points.
-      // Either field may carry the real value depending on the response, so
-      // take the greater of the two (both are 0 when there are no points).
-      score: Math.max(
-        e.contestant?.contestable?.total_points ?? 0,
-        e.total_score ?? 0,
-      ),
+      // Round 1 shows lifetime total_points; every other round shows that
+      // round's total_score (points/votes earned within this round only).
+      score:
+        roundNumber === 1
+          ? (e.contestant?.contestable?.total_points ?? 0)
+          : (e.total_score ?? 0),
       trend: normalizeTrend(e.trend),
       id: e.contestant_id ?? e.contestant?.id ?? undefined,
     }));
-  }, [leaderboard]);
+  }, [leaderboard, roundNumber]);
 
   const showFallback = !apiRound;
   const displayRows = showFallback ? fallbackData : leaderboardRows;
   const isFetching = !showFallback && loadingLeaderboard && !leaderboard;
-  const isEmpty = !showFallback && !loadingLeaderboard && !leaderboard;
+  const isEmpty =
+    !showFallback && !loadingLeaderboard && displayRows.length === 0;
 
   const handleViewProfile = (businessName: string, businessId?: number) => {
     const roundSlug = `round-${roundNumber}`;
@@ -509,104 +519,123 @@ export default function VotingTab({
         </div>
       </div>
 
-      {/* Leaderboard table */}
-      <div className="bg-white  border border-gray-100 shadow-sm overflow-hidden">
-        <div className="overflow-x-auto">
-          <table className="w-full min-w-[500px] sm:min-w-[720px]">
-            <thead>
-              <tr className="bg-blue-600 text-white text-sm sm:text-base ">
-                <th className="text-left font-medium px-3 sm:px-4 lg:px-6 py-3 sm:py-4 w-1/5">
-                  Rank
-                </th>
-                <th className="text-left font-medium px-3 sm:px-4 lg:px-6 py-3 sm:py-4 w-1/4">
-                  Business
-                </th>
-                <th className="text-center font-medium px-3 sm:px-4 lg:px-6 py-3 sm:py-4 w-1/4">
-                  Total Score
-                </th>
-                <th className="text-enter font-medium px-3 sm:px-4 lg:px-6 py-3 sm:py-4 w-1/4 ">
-                  Trend
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {isFetching ? (
-                <tr>
-                  <td
-                    colSpan={4}
-                    className="px-6 py-12 text-center text-sm text-black/40"
-                  >
-                    Loading leaderboard…
-                  </td>
+      {/* Leaderboard table — swapped out for a completion banner once this
+          round's voting window has closed. */}
+      {isRoundComplete ? (
+        <div className="rounded-2xl border border-black/10 bg-white p-10 sm:p-14 flex flex-col items-center text-center">
+          <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-[#1977DD29] flex items-center justify-center mb-4">
+            <SlBadge className="size-6 sm:size-7 text-blue-500" />
+          </div>
+          <h3 className="text-lg sm:text-xl font-medium text-[#101828]">
+            {isFinalRound
+              ? "Contest Complete"
+              : `Round ${roundNumber} Complete`}
+          </h3>
+          <p className="text-sm sm:text-base text-black/50 mt-2 max-w-md">
+            {isFinalRound
+              ? "Voting has ended for the Final Round. Thanks to everyone who took part — the winner will be announced soon."
+              : `Voting has ended for Round ${roundNumber}. Check back once the next round opens.`}
+          </p>
+        </div>
+      ) : (
+        <div className="bg-white  border border-gray-100 shadow-sm overflow-hidden">
+          <div className="overflow-x-auto">
+            <table className="w-full min-w-[500px] sm:min-w-[720px]">
+              <thead>
+                <tr className="bg-blue-600 text-white text-sm sm:text-base ">
+                  <th className="text-left font-medium px-3 sm:px-4 lg:px-6 py-3 sm:py-4 w-1/5">
+                    Rank
+                  </th>
+                  <th className="text-left font-medium px-3 sm:px-4 lg:px-6 py-3 sm:py-4 w-1/4">
+                    Business
+                  </th>
+                  <th className="text-center font-medium px-3 sm:px-4 lg:px-6 py-3 sm:py-4 w-1/4">
+                    Total Score
+                  </th>
+                  <th className="text-enter font-medium px-3 sm:px-4 lg:px-6 py-3 sm:py-4 w-1/4 ">
+                    Trend
+                  </th>
                 </tr>
-              ) : isEmpty ? (
-                <tr>
-                  <td
-                    colSpan={4}
-                    className="px-6 py-12 text-center text-sm text-black/40"
-                  >
-                    No leaderboard data available for this round yet.
-                  </td>
-                </tr>
-              ) : (
-                displayRows.map((b, idx) => (
-                  <tr
-                    key={b.id || b.name}
-                    className={`text-sm sm:text-base ${
-                      idx !== displayRows.length - 1
-                        ? "border-b border-gray-100"
-                        : ""
-                    } hover:bg-gray-50 transition-colors`}
-                  >
-                    <td className="px-3 sm:px-4 lg:px-6 py-3 sm:py-4">
-                      <span
-                        className={`inline-flex items-center justify-center h-7 w-7 sm:h-8 sm:w-8 rounded-lg text-[10px] sm:text-xs font-semibold ${rankBadgeStyle(
-                          b.rank,
-                        )}`}
-                      >
-                        #{b.rank}
-                      </span>
-                    </td>
-                    <td className="px-3 sm:px-4 lg:px-6 py-3 sm:py-4">
-                      <div className="font-medium text-gray-900 text-sm sm:text-base">
-                        {b.name}
-                      </div>
-                      <div className="text-gray-400 text-[10px] sm:text-xs">
-                        {b.owner}
-                      </div>
-                    </td>
-
-                    <td className="px-3 sm:px-4 lg:px-6 py-3 sm:py-4 text-center">
-                      <div className="text-blue-600 font-semibold text-sm sm:text-base">
-                        {b.score.toLocaleString()}
-                      </div>
-                      <div className="text-gray-400 text-[10px] sm:text-xs">
-                        points
-                      </div>
-                    </td>
-                    <td className="px-3 sm:px-4 lg:px-6 py-3 sm:py-4 flex items-center gap-20 justify-end">
-                      <span
-                        className={`font-medium text-xs sm:text-sm w-10 ${trendStyle(
-                          b.trend,
-                        )}`}
-                      >
-                        {b.trend}
-                      </span>
-                      <button
-                        onClick={() => handleViewProfile(b.name, b.id)}
-                        className="inline-flex items-center gap-1.5 bg-blue-600 hover:bg-blue-700 text-white text-[10px] sm:text-xs font-medium px-2.5 sm:px-4 py-1.5 sm:py-2 rounded-sm transition-colors whitespace-nowrap"
-                      >
-                        <FiEye className="h-3 w-3 sm:h-3.5 sm:w-3.5" />
-                        View Profile
-                      </button>
+              </thead>
+              <tbody>
+                {isFetching ? (
+                  <tr>
+                    <td
+                      colSpan={4}
+                      className="px-6 py-12 text-center text-sm text-black/40"
+                    >
+                      Loading leaderboard…
                     </td>
                   </tr>
-                ))
-              )}
-            </tbody>
-          </table>
+                ) : isEmpty ? (
+                  <tr>
+                    <td
+                      colSpan={4}
+                      className="px-6 py-12 text-center text-sm text-black/40"
+                    >
+                      No leaderboard data available for this round yet.
+                    </td>
+                  </tr>
+                ) : (
+                  displayRows.map((b, idx) => (
+                    <tr
+                      key={b.id || b.name}
+                      className={`text-sm sm:text-base ${
+                        idx !== displayRows.length - 1
+                          ? "border-b border-gray-100"
+                          : ""
+                      } hover:bg-gray-50 transition-colors`}
+                    >
+                      <td className="px-3 sm:px-4 lg:px-6 py-3 sm:py-4">
+                        <span
+                          className={`inline-flex items-center justify-center h-7 w-7 sm:h-8 sm:w-8 rounded-lg text-[10px] sm:text-xs font-semibold ${rankBadgeStyle(
+                            b.rank,
+                          )}`}
+                        >
+                          #{b.rank}
+                        </span>
+                      </td>
+                      <td className="px-3 sm:px-4 lg:px-6 py-3 sm:py-4">
+                        <div className="font-medium text-gray-900 text-sm sm:text-base">
+                          {b.name}
+                        </div>
+                        <div className="text-gray-400 text-[10px] sm:text-xs">
+                          {b.owner}
+                        </div>
+                      </td>
+
+                      <td className="px-3 sm:px-4 lg:px-6 py-3 sm:py-4 text-center">
+                        <div className="text-blue-600 font-semibold text-sm sm:text-base">
+                          {b.score.toLocaleString()}
+                        </div>
+                        <div className="text-gray-400 text-[10px] sm:text-xs">
+                          points
+                        </div>
+                      </td>
+                      <td className="px-3 sm:px-4 lg:px-6 py-3 sm:py-4 flex items-center gap-20 justify-end">
+                        <span
+                          className={`font-medium text-xs sm:text-sm w-10 ${trendStyle(
+                            b.trend,
+                          )}`}
+                        >
+                          {b.trend}
+                        </span>
+                        <button
+                          onClick={() => handleViewProfile(b.name, b.id)}
+                          className="inline-flex items-center gap-1.5 bg-blue-600 hover:bg-blue-700 text-white text-[10px] sm:text-xs font-medium px-2.5 sm:px-4 py-1.5 sm:py-2 rounded-sm transition-colors whitespace-nowrap"
+                        >
+                          <FiEye className="h-3 w-3 sm:h-3.5 sm:w-3.5" />
+                          View Profile
+                        </button>
+                      </td>
+                    </tr>
+                  ))
+                )}
+              </tbody>
+            </table>
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }

@@ -117,16 +117,16 @@ const Page = async () => {
       {/* <PricingPlan /> */}
       {/* <PricingTable /> */}
       {/* <Features data={cmsData?.features} /> */}
-      <BossBeginnings data={cmsData?.boss_beginnings} />
+      <BossBeginnings
+        data={cmsData?.boss_beginnings}
+        currentWinner={currentWinner}
+      />
       <SuccessStories
         cmsData={cmsData?.celebrating_business_spotlight_winners}
         winners={businessWinners}
         type="business"
       />
-      <ArtistSpotlightCard
-        data={cmsData?.spotlight}
-        currentWinner={currentWinner}
-      />
+      <ArtistSpotlightCard data={cmsData?.spotlight} />
 
       {/* <CommunityAchievements data={cmsData?.highlights} /> */}
       {/* <div className="pb-15">

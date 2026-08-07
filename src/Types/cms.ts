@@ -1019,6 +1019,52 @@ export interface CurrentContestWinnerResponse {
   winner: PastSixMonthsWinner | null;
 }
 
+// ─── Spotlight of the Week (home page Artist/Business tabs) ──────────────────
+// GET /v1/spotlight/weeks/spotlight-of-the-week?type=artist|business
+
+export interface SpotlightOfTheWeekMedia {
+  headshot: string | null;
+  artwork_photos: string[];
+  behind_scenes_photo: string | null;
+}
+
+export interface SpotlightOfTheWeekSpotlight {
+  id: number;
+  type: string;
+  name: string;
+  city: string;
+  state: string;
+  media: SpotlightOfTheWeekMedia;
+}
+
+export interface SpotlightOfTheWeekOwner {
+  id: number;
+  name: string;
+}
+
+export interface SpotlightOfTheWeekWinner {
+  id: number;
+  week_number: number;
+  year: number;
+  spotlight: SpotlightOfTheWeekSpotlight;
+  owner: SpotlightOfTheWeekOwner;
+  total_votes: number;
+  free_votes: number;
+  paid_votes: number;
+  announced_at: string;
+}
+
+export interface SpotlightOfTheWeekResponse {
+  success: boolean;
+  message: string;
+  data: {
+    type: "artist" | "business";
+    current_winner: SpotlightOfTheWeekWinner | null;
+  };
+  errors: null | any;
+  code: number;
+}
+
 // ─── Subscription Plans (Pricing Page) ───────────────────────────────────────
 
 export interface SubscriptionFeatureItem {

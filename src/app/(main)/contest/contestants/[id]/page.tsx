@@ -180,7 +180,7 @@ const Page = async ({ params }: PageProps) => {
           <OptionalInformation spotlight={spotlight} type={spotlightType} />
         </>
       )}
-      <Sponsors data={cmsData?.about_sponsors} showButton={false} />
+      <Sponsors data={cmsData?.partners} showButton={false} />
       <NewsLetter title="Be part of the movement. Get stories, updates, and opportunities straight to your inbox." />
     </>
   );

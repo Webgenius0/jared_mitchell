@@ -81,6 +81,22 @@ button {
   box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.07);
 }
 
+/* Soft entrance used when switching the spotlight Artist/Business tabs */
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-up {
+  animation: fade-up 0.45s ease both;
+}
+
 /* Cart badge pop — plays every time the cart count changes */
 @keyframes cart-badge-pop {
   0% {
