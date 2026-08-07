@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { CMSAboutJoin } from "@/Types/cms";
 import { SponsorModal } from "@/Components/Common/BecomeSponsorModal";
+import Link from "next/link";
 
 const JoinMovement = ({ data }: { data?: CMSAboutJoin }) => {
   const [isSponsorModalOpen, setIsSponsorModalOpen] = useState(false);
@@ -13,9 +14,11 @@ const JoinMovement = ({ data }: { data?: CMSAboutJoin }) => {
       </h2>
 
       <div className="flex justify-center items-center gap-4">
-        <button className="text-sm bg-primary-blue text-white border border-primary-blue rounded-full px-5 md:px-8 xl:px-12 py-2 xl:py-3 md:text-xl font-medium">
-          Join OSI
-        </button>
+        <Link href="/auth/login">
+          <button className="text-sm bg-primary-blue text-white border border-primary-blue rounded-full px-5 md:px-8 xl:px-12 py-2 xl:py-3 md:text-xl font-medium">
+            Join OSI
+          </button>
+        </Link>
 
         <button
           onClick={() => setIsSponsorModalOpen(true)}
