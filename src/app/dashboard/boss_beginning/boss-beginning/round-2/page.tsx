@@ -3,6 +3,7 @@
 import React from "react";
 import { Heart, Sparkles, ThumbsUp, BarChart3 } from "lucide-react";
 import RoundAssetsSubmission from "@/Components/Common/RoundAssetsSubmission";
+import RoundAccessGuard from "@/Components/Common/RoundAccessGuard";
 
 /* ------------------------------------------------------------------ */
 /*  Types                                                              */
@@ -53,21 +54,22 @@ export default function Round2Page() {
   return (
     <div className=" bg-[#F5F6F8]">
       <div className=" space-y-6">
-        {/* Votes */}
-        <div>
-          <h2 className="text-sm md:text-base font-medium text-slate-800 mb-3">
-            Votes
-          </h2>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
-            {pointStats.map(stat => (
-              <StatCardItem key={stat.label} {...stat} />
-            ))}
+        <RoundAccessGuard roundNumber={2}>
+          {/* Votes */}
+          <div>
+            <h2 className="text-sm md:text-base font-medium text-slate-800 mb-3">
+              Votes
+            </h2>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
+              {pointStats.map(stat => (
+                <StatCardItem key={stat.label} {...stat} />
+              ))}
+            </div>
           </div>
-        </div>
 
-        {/* Round 2 assets submission */}
-        <RoundAssetsSubmission roundNumber={2} multiple={false} />
-
+          {/* Round 2 assets submission */}
+          <RoundAssetsSubmission roundNumber={2} multiple={false} />
+        </RoundAccessGuard>
       </div>
     </div>
   );

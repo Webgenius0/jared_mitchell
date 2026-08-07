@@ -104,7 +104,7 @@ export default function RoundFourProfile({
   return (
     <>
       <RoundBanner data={bossData?.boss_beginnings_hero} />
-      <RoundTwoAbout contestant={contestant} />
+      <RoundTwoAbout contestant={contestant} roundNumber={4} />
       <RoundFourvieo data={mediaItems} />
       <Roundhero
         data={eventsData?.events_page_hero}

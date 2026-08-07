@@ -2,16 +2,21 @@
 
 import React, { useEffect, useState } from "react";
 import RoundBanner from "./RoundBanner";
-import { CMSBossBeginnings } from "@/Types/cms";
+import { CMSBossBeginnings, CMSHomepage, CMSEventsPage } from "@/Types/cms";
 import {
   getBossCms,
   getCMSAboutData,
+  getCMSHomepageData,
+  getEventsPageCms,
   getContestantDetails,
 } from "@/lib/Services/cms_service";
 import { PageLoader } from "@/Shared/PageLoader";
-import WinnersDetails from "../../how-winners-are-chosen/Components/WinnersDetails";
 import Sponsors from "../../_components/Sponsors";
 import NewsLetter from "@/Components/Common/NewsLetter";
+import RoundTwoAbout from "./roundtwo/RoundTwoAbout";
+import RoundStep from "./roundtwo/RoundStep";
+import Roundhero from "./Roundhero";
+import RoundFourvieo from "./roundfour/RoundFourvieo";
 
 interface RoundFiveProfileProps {
   contestantId: number;
@@ -20,10 +25,12 @@ interface RoundFiveProfileProps {
 export default function RoundFiveProfile({
   contestantId,
 }: RoundFiveProfileProps) {
-  const [pageData, setPageData] = useState<CMSBossBeginnings | null>(null);
+  const [bossData, setBossData] = useState<CMSBossBeginnings | null>(null);
   const [cmsData, setCmsData] = useState<Awaited<
     ReturnType<typeof getCMSAboutData>
   > | null>(null);
+  const [homepageData, setHomepageData] = useState<CMSHomepage | null>(null);
+  const [eventsData, setEventsData] = useState<CMSEventsPage | null>(null);
   const [contestant, setContestant] = useState<any>(null);
   const [loading, setLoading] = useState(true);
 
@@ -32,13 +39,17 @@ export default function RoundFiveProfile({
 
     async function loadData() {
       try {
-        const [bossCms, aboutCms] = await Promise.all([
+        const [bossCms, aboutCms, homepageCms, eventsCms] = await Promise.all([
           getBossCms() as Promise<CMSBossBeginnings>,
           getCMSAboutData(),
+          getCMSHomepageData() as Promise<CMSHomepage>,
+          getEventsPageCms() as Promise<CMSEventsPage>,
         ]);
         if (isMounted) {
-          setPageData(bossCms);
+          setBossData(bossCms);
           setCmsData(aboutCms);
+          setHomepageData(homepageCms);
+          setEventsData(eventsCms);
         }
       } catch (err) {
         console.error("Failed to load CMS data:", err);
@@ -67,11 +78,39 @@ export default function RoundFiveProfile({
     return <PageLoader />;
   }
 
+  // Round 5 media — the contestant's submitted images, when available.
+  const mediaItems = contestant?.media?.images?.length
+    ? contestant.media.images
+        .filter((img: any) => img?.url || img?.full_url)
+        .map((img: any) => ({
+          thumbnail: img?.url || img?.full_url || "",
+          video: "",
+        }))
+    : undefined;
+
+  // The contestant's submitted round media (submission.media_urls) — use the
+  // first video URL as the hero video when available.
+  const submissionMedia: string[] =
+    contestant?.submission?.media_urls ?? [];
+  const submissionVideo =
+    submissionMedia.find((url: string) =>
+      /\.(mp4|webm|mov|m4v|ogg)(\?|$)/i.test(url),
+    ) ?? null;
+
   return (
     <>
-      <RoundBanner data={pageData?.boss_beginnings_hero} />
-      <WinnersDetails hideVotingSections={true} contestant={contestant} />
-      <Sponsors data={cmsData?.partners} title="Our Event Sponsors" />
+      <RoundBanner data={bossData?.boss_beginnings_hero} />
+      <RoundTwoAbout contestant={contestant} roundNumber={5} />
+      <RoundFourvieo data={mediaItems} />
+      <Roundhero
+        data={eventsData?.events_page_hero}
+        videoSrc={submissionVideo}
+      />
+      <RoundStep
+        contestantId={contestant?.id ?? contestantId}
+        roundId={contestant?.current_round?.id}
+      />
+      <Sponsors data={homepageData?.partners} />
       <NewsLetter title="Be part of the movement. Get stories, updates, and opportunities straight to your inbox." />
     </>
   );

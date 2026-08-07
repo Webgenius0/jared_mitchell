@@ -3,12 +3,14 @@ import { useLogout } from "@/Hooks/api/auth_api";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import React, { useCallback, useState } from "react";
-import { FiLogOut } from "react-icons/fi";
+import { FiLogOut, FiLock } from "react-icons/fi";
 import { FaAngleDown } from "react-icons/fa6";
 
 type SubMenu = {
   label: string;
   path: string;
+  /** Rounds/items that haven't opened yet — rendered locked and non-clickable. */
+  disabled?: boolean;
 };
 
 type NavLinsProps = {
@@ -164,16 +166,27 @@ const DashboardSidebar = ({
                   }}
                   className={`w-fit ps-5 text-[15px] duration-300 transition-all space-y-1 pt-2 ${isSubMenuOpen ? "opacity-100 h-auto" : "opacity-0 h-0"}`}
                 >
-                  {item?.subMenu?.map(subItem => (
-                    <Link
-                      key={subItem?.path}
-                      href={subItem?.path}
-                      onClick={() => setOpen(false)}
-                      className={`${pathname === subItem?.path ? "text-gray-900" : "text-gray-500"} block w-full hover:text-gray-800`}
-                    >
-                      {subItem?.label}
-                    </Link>
-                  ))}
+                  {item?.subMenu?.map(subItem =>
+                    subItem?.disabled ? (
+                      <span
+                        key={subItem?.path}
+                        title="Locked — this round hasn't opened yet"
+                        className="flex items-center justify-between gap-2 text-gray-300 w-full cursor-not-allowed select-none"
+                      >
+                        <span>{subItem?.label}</span>
+                        <FiLock className="text-xs" />
+                      </span>
+                    ) : (
+                      <Link
+                        key={subItem?.path}
+                        href={subItem?.path}
+                        onClick={() => setOpen(false)}
+                        className={`${pathname === subItem?.path ? "text-gray-900" : "text-gray-500"} block w-full hover:text-gray-800`}
+                      >
+                        {subItem?.label}
+                      </Link>
+                    ),
+                  )}
                 </div>
               </div>
             );
