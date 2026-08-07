@@ -1544,6 +1544,27 @@ export interface ActiveSeasonRoundsResponse {
   code: number;
 }
 
+// ─── Event Sponsors ───────────────────────────────────────────────────────────
+// GET /v1/events/sponsors
+
+export interface EventSponsor {
+  id: number;
+  name: string;
+  logo: string;
+  url: string;
+  description: string | null;
+}
+
+export interface EventSponsorsResponse {
+  success: boolean;
+  message: string;
+  data: {
+    sponsors: EventSponsor[];
+  };
+  errors: null | any;
+  code: number;
+}
+
 // ─── Round Leaderboard (BusinessChosenChart) ─────────────────────────────────
 
 export interface RoundLeaderboardEntry {

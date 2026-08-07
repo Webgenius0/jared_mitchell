@@ -304,3 +304,11 @@ export function getUserDashboardType(user: any): string {
   if (route.includes("sponsor")) return "sponsor";
   return "community_member";
 }
+
+/**
+ * Whether the given user object belongs to a business ("boss") account.
+ * Only business accounts are allowed to submit business nominations.
+ */
+export function isBusinessUser(user: any): boolean {
+  return getUserDashboardType(user) === "boss_beginning";
+}

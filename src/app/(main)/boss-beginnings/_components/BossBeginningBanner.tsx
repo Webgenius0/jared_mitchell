@@ -7,6 +7,7 @@ import { CMSBossBeginningsHero } from "@/Types/cms";
 import { SponsorModal } from "@/Components/Common/BecomeSponsorModal";
 import useAuth from "@/Hooks/useAuth";
 import toast from "react-hot-toast";
+import { isBusinessUser } from "@/lib/utils";
 
 const CREATE_BUSINESS_URL = "/dashboard/boss_beginning/business/create-business";
 
@@ -16,19 +17,27 @@ interface BossBeginningBannerProps {
 
 const BossBeginningBanner = ({ data }: BossBeginningBannerProps) => {
   const [isSponsorModalOpen, setIsSponsorModalOpen] = useState(false);
-  const { token } = useAuth();
+  const { token, user } = useAuth();
   const router = useRouter();
   const bgImage = data?.image ?? sponsorshipBg.src;
 
+  const isBusiness = isBusinessUser(user);
+  // Logged-in non-business accounts are not allowed to nominate.
+  const restricted = Boolean(token) && !isBusiness;
+
   const handleNominate = () => {
-    if (token) {
-      router.push(CREATE_BUSINESS_URL);
-    } else {
+    if (!token) {
       toast.error("Please login to nominate a business");
       router.push(
         `/auth/login?redirect=${encodeURIComponent(CREATE_BUSINESS_URL)}`,
       );
+      return;
     }
+    if (!isBusiness) {
+      toast.error("Only business accounts can nominate a business");
+      return;
+    }
+    router.push(CREATE_BUSINESS_URL);
   };
 
   return (
@@ -58,7 +67,16 @@ const BossBeginningBanner = ({ data }: BossBeginningBannerProps) => {
         <div className="flex flex-col sm:flex-row justify-center items-center gap-3 sm:gap-4 w-full sm:w-auto">
           <button
             onClick={handleNominate}
-            className="w-full sm:w-auto bg-primary-blue text-white border border-primary-blue rounded-full px-6 sm:px-8 lg:px-12 py-3 text-base sm:text-lg lg:text-xl flex gap-2.5 items-center justify-center cursor-pointer hover:opacity-90 transition-opacity"
+            title={
+              restricted
+                ? "Only business accounts can nominate a business"
+                : undefined
+            }
+            className={`w-full sm:w-auto bg-primary-blue text-white border border-primary-blue rounded-full px-6 sm:px-8 lg:px-12 py-3 text-base sm:text-lg lg:text-xl flex gap-2.5 items-center justify-center transition-opacity ${
+              restricted
+                ? "opacity-50 cursor-not-allowed"
+                : "cursor-pointer hover:opacity-90"
+            }`}
           >
             Nominate a Business
             <RightSvg />

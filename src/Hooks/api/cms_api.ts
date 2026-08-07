@@ -482,6 +482,19 @@ export const getActiveSeasonRounds = (enabled: boolean = true) => {
   });
 };
 
+// Get Event Sponsors
+// GET /v1/events/sponsors
+// `enabled` lets callers skip the request when the section doesn't need it
+// (e.g. the boss-beginnings page only fetches the season sponsor instead).
+export const getEventSponsors = (enabled: boolean = true) => {
+  return useClientApi({
+    method: "get",
+    enabled,
+    key: ["event-sponsors"],
+    endpoint: "/v1/events/sponsors",
+  });
+};
+
 // ─── Contest Applications (Boss Beginnings seasons) ────────────────────────
 
 // Apply a Business to a Contest Season
