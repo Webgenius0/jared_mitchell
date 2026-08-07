@@ -239,11 +239,12 @@ const ROUND_LIMITS = [20, 16, 12, 8, 5];
 
 function getRoundData(roundIndex: number): Business[] {
   const limit = ROUND_LIMITS[roundIndex] ?? 20;
-  return BASE_BUSINESSES.slice(0, limit).map((b, i) => ({
-    ...b,
-    score: 4900 - i * 40 + (seededScore(4900, roundIndex, i) % 60),
-    trend: seededTrend(roundIndex, i),
-  }))
+  return BASE_BUSINESSES.slice(0, limit)
+    .map((b, i) => ({
+      ...b,
+      score: 4900 - i * 40 + (seededScore(4900, roundIndex, i) % 60),
+      trend: seededTrend(roundIndex, i),
+    }))
     .sort((a, b) => b.score - a.score)
     .map((b, i) => ({ ...b, rank: i + 1 }));
 }
@@ -281,8 +282,9 @@ export default function VotingTab({
   rounds,
 }: VotingTabProps) {
   const router = useRouter();
-  const [leaderboard, setLeaderboard] =
-    useState<RoundLeaderboardData | null>(null);
+  const [leaderboard, setLeaderboard] = useState<RoundLeaderboardData | null>(
+    null,
+  );
   const [loadingLeaderboard, setLoadingLeaderboard] = useState(false);
 
   const apiRound = rounds?.[activeRound];
@@ -343,14 +345,15 @@ export default function VotingTab({
           apiRound.advance_limit != null &&
           leaderboard?.total_entries != null &&
           leaderboard.total_entries > 0
-            ? Math.round((apiRound.advance_limit / leaderboard.total_entries) * 100)
+            ? Math.round(
+                (apiRound.advance_limit / leaderboard.total_entries) * 100,
+              )
             : fallbackContent.advancingPct,
         timeLeft:
           leaderboard?.days_left != null
             ? `${leaderboard.days_left} day${leaderboard.days_left === 1 ? "" : "s"} left`
             : fallbackContent.timeLeft,
-        votingWeight:
-          apiRound.voting_strategy || fallbackContent.votingWeight,
+        votingWeight: apiRound.voting_strategy || fallbackContent.votingWeight,
         challengePrompt: fallbackContent.challengePrompt,
       }
     : fallbackContent;
@@ -369,18 +372,16 @@ export default function VotingTab({
         "",
       owner: e.contestant?.contestable?.owner_name || "",
       category: "",
-      // The leaderboard endpoint returns total_score: 0 for every entry while
-      // the authoritative points live on contestant.contestable.total_points.
-      // Either field may carry the real value depending on the response, so
-      // take the greater of the two (both are 0 when there are no points).
-      score: Math.max(
-        e.contestant?.contestable?.total_points ?? 0,
-        e.total_score ?? 0,
-      ),
+      // Round 1 shows lifetime total_points; every other round shows that
+      // round's total_score (points/votes earned within this round only).
+      score:
+        roundNumber === 1
+          ? (e.contestant?.contestable?.total_points ?? 0)
+          : (e.total_score ?? 0),
       trend: normalizeTrend(e.trend),
       id: e.contestant_id ?? e.contestant?.id ?? undefined,
     }));
-  }, [leaderboard]);
+  }, [leaderboard, roundNumber]);
 
   const showFallback = !apiRound;
   const displayRows = showFallback ? fallbackData : leaderboardRows;
