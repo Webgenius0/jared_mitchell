@@ -1,6 +1,8 @@
 "use client";
 import { useState, useRef } from "react";
+import toast from "react-hot-toast";
 import { Button } from "./Button";
+import { useApplySponsorship } from "@/Hooks/api/cms_api";
 import { FiUser, FiMail, FiPhone, FiUpload, FiX } from "react-icons/fi";
 
 type SponsorFormData = {
@@ -22,7 +24,8 @@ export const SponsorModal = ({ onClose }: { onClose: () => void }) => {
     sponsorTitle: "",
     logo: null,
   });
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { mutateAsync: applySponsorship, isPending: isSubmitting } =
+    useApplySponsorship();
 
   const handleChange = (field: keyof SponsorFormData, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }));
@@ -34,21 +37,46 @@ export const SponsorModal = ({ onClose }: { onClose: () => void }) => {
   };
 
   const handleSubmit = async () => {
-    setIsSubmitting(true);
-    try {
-      // TODO: replace with actual API call
-      // const payload = new FormData();
-      // payload.append("fullName", formData.fullName);
-      // payload.append("email", formData.email);
-      // payload.append("phone", formData.phone);
-      // payload.append("reason", formData.reason);
-      // payload.append("sponsorTitle", formData.sponsorTitle);
-      // if (formData.logo) payload.append("logo", formData.logo);
-      // await axios.post("/api/sponsor", payload);
+    // All fields are required — the browser's native `required` validation
+    // covers the text inputs on submit, but guard here too so empty values
+    // can never reach the API.
+    const requiredText: [keyof SponsorFormData, string][] = [
+      ["fullName", "Full name"],
+      ["email", "Email address"],
+      ["phone", "Phone number"],
+      ["sponsorTitle", "Sponsor title"],
+      ["reason", "Why sponsor"],
+    ];
+    for (const [field, label] of requiredText) {
+      if (!String(formData[field]).trim()) {
+        toast.error(`${label} is required.`);
+        return;
+      }
+    }
 
-      onClose();
-    } finally {
-      setIsSubmitting(false);
+    // sponsor_image is a file upload, so the browser's `required` validation
+    // can't cover it — enforce it here before submitting.
+    if (!formData.logo) {
+      toast.error("Please upload a sponsor logo/image.");
+      return;
+    }
+
+    const payload = new FormData();
+    payload.append("full_name", formData.fullName);
+    payload.append("email", formData.email);
+    payload.append("phone_number", formData.phone);
+    payload.append("sponsor_title", formData.sponsorTitle);
+    payload.append("why_sponsor", formData.reason);
+    payload.append("sponsor_image", formData.logo);
+
+    try {
+      const res = await applySponsorship({ data: payload });
+      // Success/error toasts are handled inside the hook.
+      if (res?.success) {
+        onClose();
+      }
+    } catch {
+      // Toast handled by the hook's onError.
     }
   };
 
