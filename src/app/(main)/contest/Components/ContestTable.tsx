@@ -61,12 +61,12 @@ export default function ContestTable({
     () =>
       activeTab === "all"
         ? leaderboard
-        : leaderboard.filter(c => c.spotlight.type === activeTab),
+        : leaderboard.filter((c) => c.spotlight.type === activeTab),
     [activeTab, leaderboard],
   );
 
   const tabContent = TAB_CONTENT[activeTab];
-  const TabIcon = TABS.find(t => t.key === activeTab)!.icon;
+  const TabIcon = TABS.find((t) => t.key === activeTab)!.icon;
 
   const handleViewProfile = (spotlightId: number, type: string) => {
     router.push(`/contest/${spotlightId}?type=${type}`);
@@ -91,17 +91,18 @@ export default function ContestTable({
           <span className="text-sm sm:text-base font-medium text-[#364153]">
             {isVotingOpen
               ? "Voting is currently open"
-              : 'Voting is currently closed'}
+              : "Voting is currently closed"}
           </span>
         </div>
         <span className="text-xs sm:text-sm text-black/50">
-          Status: <span className="capitalize">{weekStatus.replace(/_/g, " ")}</span>
+          Status:{" "}
+          <span className="capitalize">{weekStatus.replace(/_/g, " ")}</span>
         </span>
       </div>
 
       {/* Tabs */}
       <div className="rounded-2xl border border-black/15 bg-white shadow-[0_4px_20px_0_rgba(0,0,0,0.07)] p-3 sm:p-5 flex flex-wrap gap-2 mb-6 sm:mb-8">
-        {TABS.map(tab => {
+        {TABS.map((tab) => {
           const Icon = tab.icon;
           return (
             <button
@@ -147,25 +148,19 @@ export default function ContestTable({
       {/* Table */}
       <div className="bg-white border border-gray-100 shadow-sm overflow-hidden">
         <div className="overflow-x-auto">
-          <table className="w-full min-w-[500px] sm:min-w-[720px]">
+          <table className="w-full min-w-[500px] sm:min-w-[720px] table-fixed">
             <thead>
               <tr className="bg-blue-600 text-white text-sm sm:text-base">
-                <th className="text-left font-medium px-3 sm:px-4 lg:px-6 py-3 sm:py-4 w-1/5">
+                <th className="text-left font-medium px-3 sm:px-4 lg:px-6 py-3 sm:py-4 w-1/4">
                   Rank
                 </th>
                 <th className="text-left font-medium px-3 sm:px-4 lg:px-6 py-3 sm:py-4 w-1/4">
                   Name
                 </th>
-                <th className="text-center font-medium px-3 sm:px-4 lg:px-6 py-3 sm:py-4 w-1/5">
-                  Free Votes
-                </th>
-                <th className="text-center font-medium px-3 sm:px-4 lg:px-6 py-3 sm:py-4 w-1/5">
-                  Paid Votes
-                </th>
-                <th className="text-center font-medium px-3 sm:px-4 lg:px-6 py-3 sm:py-4 w-1/6">
+                <th className="text-center font-medium px-3 sm:px-4 lg:px-6 py-3 sm:py-4 w-1/4">
                   Total Score
                 </th>
-                <th className="text-center font-medium px-3 sm:px-4 lg:px-6 py-3 sm:py-4">
+                <th className="text-end font-medium px-3 sm:px-4 lg:px-6 py-3 sm:py-4 w-1/4">
                   Action
                 </th>
               </tr>
@@ -206,16 +201,6 @@ export default function ContestTable({
                     </div>
                   </td>
                   <td className="px-3 sm:px-4 lg:px-6 py-3 sm:py-4 text-center">
-                    <div className="text-gray-700 font-medium text-sm sm:text-base">
-                      {c.free_votes.toLocaleString()}
-                    </div>
-                  </td>
-                  <td className="px-3 sm:px-4 lg:px-6 py-3 sm:py-4 text-center">
-                    <div className="text-gray-700 font-medium text-sm sm:text-base">
-                      {c.paid_votes.toLocaleString()}
-                    </div>
-                  </td>
-                  <td className="px-3 sm:px-4 lg:px-6 py-3 sm:py-4 text-center">
                     <div className="text-blue-600 font-semibold text-sm sm:text-base">
                       {c.total_votes.toLocaleString()}
                     </div>
@@ -223,9 +208,11 @@ export default function ContestTable({
                       votes
                     </div>
                   </td>
-                  <td className="px-3 sm:px-4 lg:px-6 py-3 sm:py-4 text-center">
+                  <td className="px-3 sm:px-4 lg:px-6 py-3 sm:py-4 text-end">
                     <button
-                      onClick={() => handleViewProfile(c.spotlight.id, c.spotlight.type)}
+                      onClick={() =>
+                        handleViewProfile(c.spotlight.id, c.spotlight.type)
+                      }
                       className="inline-flex items-center gap-1.5 bg-blue-600 hover:bg-blue-700 text-white text-[10px] sm:text-xs font-medium px-2.5 sm:px-4 py-1.5 sm:py-2 rounded-sm transition-colors whitespace-nowrap"
                     >
                       <FiEye className="h-3 w-3 sm:h-3.5 sm:w-3.5" />
@@ -240,7 +227,7 @@ export default function ContestTable({
       </div>
 
       {/* Winner indicator */}
-      {filtered.some(e => e.is_winner) && (
+      {filtered.some((e) => e.is_winner) && (
         <div className="mt-4 p-3 bg-gradient-to-r from-amber-50 to-yellow-50 border border-amber-200 rounded-lg text-center">
           <span className="text-amber-700 font-medium text-sm">
             🏆 Winners have been announced for this week!

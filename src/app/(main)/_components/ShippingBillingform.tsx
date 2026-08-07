@@ -148,7 +148,7 @@ export default function ShippingBillingForm(): React.JSX.Element {
   const [formValues, setFormValues] = useState<Record<string, string>>({});
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [buyNowItem, setBuyNowItem] = useState<BuyNowItem | null>(null);
-  const [paymentMethod, setPaymentMethod] = useState<"cod" | "stripe">("cod");
+  const [paymentMethod, setPaymentMethod] = useState<"cod" | "card">("cod");
 
   // Read buy-now item from localStorage on mount
   useEffect(() => {
@@ -269,7 +269,7 @@ export default function ShippingBillingForm(): React.JSX.Element {
           refetchCart();
           
           const checkoutUrl = res?.data?.checkout_url;
-          if (paymentMethod === "stripe" && checkoutUrl) {
+          if (paymentMethod === "card" && checkoutUrl) {
             window.location.href = checkoutUrl;
           } else {
             router.push("/");
@@ -282,7 +282,7 @@ export default function ShippingBillingForm(): React.JSX.Element {
           refetchCart();
           
           const checkoutUrl = res?.data?.checkout_url;
-          if (paymentMethod === "stripe" && checkoutUrl) {
+          if (paymentMethod === "card" && checkoutUrl) {
             window.location.href = checkoutUrl;
           } else {
             router.push("/");
@@ -454,9 +454,9 @@ export default function ShippingBillingForm(): React.JSX.Element {
             </button>
             <button
               type="button"
-              onClick={() => setPaymentMethod("stripe")}
+              onClick={() => setPaymentMethod("card")}
               className={`inline-flex items-center gap-2 rounded-lg border px-4 py-2.5 text-base transition-all ${
-                paymentMethod === "stripe"
+                paymentMethod === "card"
                   ? "border-blue-500 bg-blue-50 text-blue-700 ring-1 ring-blue-500"
                   : "border-gray-200 text-gray-700 hover:border-gray-300"
               }`}

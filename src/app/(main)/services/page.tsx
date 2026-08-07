@@ -1,4 +1,3 @@
-import { Button } from "@/Components/Common/Button";
 import { BsArrowRight } from "react-icons/bs";
 import PricingPlan from "../_components/PricingPlan";
 import PlanComparison from "./_components/PlanComparison";
@@ -6,13 +5,14 @@ import SocialImage from "./_components/SocialImage";
 import WhoOSIIsFor from "./_components/WhoOSIIsFor";
 import ServiceBanner from "./_components/ServiceBanner";
 import NewsLetter from "@/Components/Common/NewsLetter";
-import Link from "next/link";
 import {
   getCMSServicesData,
   getCMSFAQs,
   getCMSHomepageData,
 } from "@/lib/Services/cms_service";
 import FAQAccordion from "./_components/FAQAccordion";
+import ArtistSpotlightApplyButton from "./_components/ArtistSpotlightApplyButton";
+import BusinessSpotlightApplyButton from "./_components/BusinessSpotlightApplyButton";
 import Sponsors from "../_components/Sponsors";
 
 const page = async () => {
@@ -62,12 +62,7 @@ const page = async () => {
           {cmsData?.services_artist_spotlight?.sub_title ||
             "Apply for our weekly artist spotlight program. Share your story, showcase your work, and connect with the community."}
         </p>
-        <Link
-          href="artist-spotlight"
-          className="text-center block w-fit mx-auto"
-        >
-          <Button>Apply Now</Button>
-        </Link>
+        <ArtistSpotlightApplyButton />
       </section>
 
       {/* Business Spotlight Section */}
@@ -80,12 +75,7 @@ const page = async () => {
           {cmsData?.services_business_spotlight?.sub_title ||
             "Apply for our weekly Business Spotlight program. Share your brand story, showcase your business, and connect with the community."}
         </p>
-        <Link
-          href="business-spotlight"
-          className="text-center block w-fit mx-auto"
-        >
-          <Button>Apply Now</Button>
-        </Link>
+        <BusinessSpotlightApplyButton />
       </section>
 
       <FAQAccordion data={faqData} />
