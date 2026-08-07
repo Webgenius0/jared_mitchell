@@ -495,6 +495,35 @@ export const getEventSponsors = (enabled: boolean = true) => {
   });
 };
 
+// Apply to become a sponsor
+// POST /v1/sponsorship/apply
+// Payload (multipart/form-data): full_name, email, phone_number,
+// sponsor_title, sponsor_image, why_sponsor — all required.
+// Usage: applySponsorship({ data: formData })
+export const useApplySponsorship = () => {
+  return useClientApi({
+    method: "post",
+    key: ["sponsorship-apply"],
+    endpoint: "/v1/sponsorship/apply",
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+    onSuccess: (res: any) => {
+      if (res?.success) {
+        toast.success(
+          res?.message || "Sponsorship application submitted successfully!",
+        );
+      }
+    },
+    onError: (err: any) => {
+      toast.error(
+        err?.response?.data?.message ||
+          "Failed to submit sponsorship application.",
+      );
+    },
+  });
+};
+
 // ─── Contest Applications (Boss Beginnings seasons) ────────────────────────
 
 // Apply a Business to a Contest Season
