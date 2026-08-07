@@ -63,7 +63,10 @@ const EventHost = ({ data }: EventHostProps) => {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6 xl:gap-y-10 xl:gap-x-14 mb-6 md:mb-7">
             {items.map(item => (
-              <div key={item.title} className="flex gap-3 md:gap-5 items-start md:items-center">
+              <div
+                key={item.title}
+                className="flex gap-3 md:gap-5 items-start md:items-center"
+              >
                 <p className="grid place-items-center size-12 md:size-16 shrink-0 rounded-full bg-[#F1F5F9] border border-[#00000007]">
                   {item.icon}
                 </p>
@@ -71,20 +74,22 @@ const EventHost = ({ data }: EventHostProps) => {
                   <h4 className="text-base md:text-lg xl:text-2xl font-medium text-[#364153] mb-1">
                     {item.title}
                   </h4>
-                  <p className="text-sm md:text-base xl:text-xl text-[#45556C]">{item.description}</p>
+                  <p className="text-sm md:text-base xl:text-xl text-[#45556C]">
+                    {item.description}
+                  </p>
                 </div>
               </div>
             ))}
           </div>
 
-          <div className="flex flex-col sm:flex-row gap-3 md:gap-5 items-start sm:items-center max-w-full lg:max-w-[80%]">
+          {/* <div className="flex flex-col sm:flex-row gap-3 md:gap-5 items-start sm:items-center max-w-full lg:max-w-[80%]">
             <button className="px-5 md:px-7 rounded-full cursor-pointer bg-primary-blue text-white py-2 md:py-2.5 text-sm md:text-lg whitespace-nowrap">
               Submit Event
             </button>
             <button className="px-5 md:px-7 rounded-full cursor-pointer text-[#314158] bg-[#F1F5F9] py-2 md:py-2.5 text-sm md:text-lg whitespace-nowrap">
               Learn Member Benefits
             </button>
-          </div>
+          </div> */}
         </div>
 
         {/* Right */}

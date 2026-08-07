@@ -1,8 +1,14 @@
+"use client";
 import { Button } from "@/Components/Common/Button";
 import Image from "next/image";
-import { GoGift } from "react-icons/go";
+import { useRouter } from "next/navigation";
+import useAuth from "@/Hooks/useAuth";
+import toast from "react-hot-toast";
+import { isBusinessUser } from "@/lib/utils";
 import { CMSBossBeginnings, PastSixMonthsWinner } from "@/Types/cms";
 import Link from "next/link";
+
+const BOSS_BEGINNINGS_URL = "/boss-beginnings";
 
 const BossBeginnings = ({
   data,
@@ -11,6 +17,28 @@ const BossBeginnings = ({
   data?: CMSBossBeginnings;
   currentWinner?: PastSixMonthsWinner | null;
 }) => {
+  const router = useRouter();
+  const { token, user } = useAuth();
+
+  const isBusiness = isBusinessUser(user);
+  // Logged-in non-business accounts are not allowed to nominate.
+  const restricted = Boolean(token) && !isBusiness;
+
+  const handleNominate = () => {
+    if (!token) {
+      toast.error("Please login to nominate a business");
+      router.push(
+        `/auth/login?redirect=${encodeURIComponent(BOSS_BEGINNINGS_URL)}`,
+      );
+      return;
+    }
+    if (!isBusiness) {
+      toast.error("Only business accounts can nominate a business");
+      return;
+    }
+    router.push(BOSS_BEGINNINGS_URL);
+  };
+
   const winner = currentWinner;
   const winnerMedia = winner?.contestable?.media ?? [];
   const winnerName =
@@ -75,18 +103,30 @@ const BossBeginnings = ({
         </p>
 
         {/* Trimmed down top margins above the actions block */}
-        <Link href={"/boss-beginnings"}>
-          <div className="flex flex-wrap items-center justify-center gap-3 lg:gap-6 mt-5 md:mt-6 xl:mt-8">
-            {/* <Button>
-              <div className="flex items-center justify-center size-6 shrink-0 aspect-square rounded-lg custom_border bg-gray-100">
-                <GoGift className="text-primary-blue" />
-              </div>
-              Learn More
-            </Button> */}
-            <Button variant={"outline"}>Nominate a Business</Button>
-            {/* <Button variant={"outline"}>Sponsor Event</Button> */}
-          </div>
-        </Link>
+        <div className="flex flex-wrap items-center justify-center gap-3 lg:gap-6 mt-5 md:mt-6 xl:mt-8">
+          {isBusiness ? (
+            <Button asChild variant={"outline"}>
+              <Link href={BOSS_BEGINNINGS_URL}>Nominate a Business</Link>
+            </Button>
+          ) : (
+            <Button
+              variant={"outline"}
+              onClick={handleNominate}
+              title={
+                restricted
+                  ? "Only business accounts can nominate a business"
+                  : undefined
+              }
+              className={
+                restricted
+                  ? "opacity-50 cursor-not-allowed hover:border-[#D1D5DC]"
+                  : ""
+              }
+            >
+              Nominate a Business
+            </Button>
+          )}
+        </div>
       </div>
     </section>
   );

@@ -66,19 +66,24 @@ const FeaturedEventsCarousel = ({ events }: FeaturedEventsCarouselProps) => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(true);
-  const [actionLoading, setActionLoading] = useState<Record<string, boolean>>({});
+  const [actionLoading, setActionLoading] = useState<Record<string, boolean>>(
+    {},
+  );
   const { token } = useAuth();
 
   // Local engagement state for optimistic updates — initialise from localStorage
-  const [localEngagements, setLocalEngagements] = useState<EngagementMap>(() => loadPersistedEngagements());
+  const [localEngagements, setLocalEngagements] = useState<EngagementMap>(() =>
+    loadPersistedEngagements(),
+  );
 
   const getEngagement = (eventId: number) => {
-    const event = events?.find((e) => e.id === eventId);
+    const event = events?.find(e => e.id === eventId);
     const local = localEngagements[eventId];
     return {
       is_liked: local?.is_liked ?? event?.is_liked ?? false,
       is_bookmarked: local?.is_bookmarked ?? event?.is_bookmarked ?? false,
-      like_count: local?.like_count ?? event?.likes_count ?? event?.like_count ?? 0,
+      like_count:
+        local?.like_count ?? event?.likes_count ?? event?.like_count ?? 0,
       bookmarks_count: local?.bookmarks_count ?? event?.bookmarks_count ?? 0,
     };
   };
@@ -90,10 +95,10 @@ const FeaturedEventsCarousel = ({ events }: FeaturedEventsCarouselProps) => {
     }
     const loadingKey = `like-${eventId}`;
     if (actionLoading[loadingKey]) return;
-    setActionLoading((prev) => ({ ...prev, [loadingKey]: true }));
+    setActionLoading(prev => ({ ...prev, [loadingKey]: true }));
 
     const prev = getEngagement(eventId);
-    setLocalEngagements((prevState) => ({
+    setLocalEngagements(prevState => ({
       ...prevState,
       [eventId]: {
         is_liked: !prev.is_liked,
@@ -106,19 +111,21 @@ const FeaturedEventsCarousel = ({ events }: FeaturedEventsCarouselProps) => {
     try {
       const res = await apiToggleLike(eventId);
       if (res?.success) {
-        setLocalEngagements((prevState) => ({
+        setLocalEngagements(prevState => ({
           ...prevState,
           [eventId]: {
             is_liked: res.data.is_liked,
             is_bookmarked: prev.is_bookmarked,
-            like_count: res.data.is_liked ? prev.like_count + 1 : Math.max(0, prev.like_count - 1),
+            like_count: res.data.is_liked
+              ? prev.like_count + 1
+              : Math.max(0, prev.like_count - 1),
             bookmarks_count: prev.bookmarks_count,
           },
         }));
         if (res.message) toast.success(res.message);
       }
     } catch {
-      setLocalEngagements((prevState) => ({
+      setLocalEngagements(prevState => ({
         ...prevState,
         [eventId]: {
           is_liked: prev.is_liked,
@@ -130,11 +137,11 @@ const FeaturedEventsCarousel = ({ events }: FeaturedEventsCarouselProps) => {
       toast.error("Failed to toggle like");
     } finally {
       // Persist to localStorage
-      setLocalEngagements((current) => {
+      setLocalEngagements(current => {
         persistEngagements(current);
         return current;
       });
-      setActionLoading((prev) => ({ ...prev, [loadingKey]: false }));
+      setActionLoading(prev => ({ ...prev, [loadingKey]: false }));
     }
   };
 
@@ -145,35 +152,39 @@ const FeaturedEventsCarousel = ({ events }: FeaturedEventsCarouselProps) => {
     }
     const loadingKey = `bookmark-${eventId}`;
     if (actionLoading[loadingKey]) return;
-    setActionLoading((prev) => ({ ...prev, [loadingKey]: true }));
+    setActionLoading(prev => ({ ...prev, [loadingKey]: true }));
 
     const prev = getEngagement(eventId);
-    setLocalEngagements((prevState) => ({
+    setLocalEngagements(prevState => ({
       ...prevState,
       [eventId]: {
         is_liked: prev.is_liked,
         is_bookmarked: !prev.is_bookmarked,
         like_count: prev.like_count,
-        bookmarks_count: prev.is_bookmarked ? prev.bookmarks_count - 1 : prev.bookmarks_count + 1,
+        bookmarks_count: prev.is_bookmarked
+          ? prev.bookmarks_count - 1
+          : prev.bookmarks_count + 1,
       },
     }));
 
     try {
       const res = await apiToggleBookmark(eventId);
       if (res?.success) {
-        setLocalEngagements((prevState) => ({
+        setLocalEngagements(prevState => ({
           ...prevState,
           [eventId]: {
             is_liked: prev.is_liked,
             is_bookmarked: res.data.is_bookmarked,
             like_count: prev.like_count,
-            bookmarks_count: res.data.is_bookmarked ? prev.bookmarks_count + 1 : Math.max(0, prev.bookmarks_count - 1),
+            bookmarks_count: res.data.is_bookmarked
+              ? prev.bookmarks_count + 1
+              : Math.max(0, prev.bookmarks_count - 1),
           },
         }));
         if (res.message) toast.success(res.message);
       }
     } catch {
-      setLocalEngagements((prevState) => ({
+      setLocalEngagements(prevState => ({
         ...prevState,
         [eventId]: {
           is_liked: prev.is_liked,
@@ -185,11 +196,11 @@ const FeaturedEventsCarousel = ({ events }: FeaturedEventsCarouselProps) => {
       toast.error("Failed to toggle bookmark");
     } finally {
       // Persist to localStorage
-      setLocalEngagements((current) => {
+      setLocalEngagements(current => {
         persistEngagements(current);
         return current;
       });
-      setActionLoading((prev) => ({ ...prev, [loadingKey]: false }));
+      setActionLoading(prev => ({ ...prev, [loadingKey]: false }));
     }
   };
 
@@ -197,13 +208,17 @@ const FeaturedEventsCarousel = ({ events }: FeaturedEventsCarouselProps) => {
     const loadingKey = `share-${eventId}`;
     if (actionLoading[loadingKey]) return;
 
-    const slug = events?.find((e) => e.id === eventId)?.slug || eventId;
+    const slug = events?.find(e => e.id === eventId)?.slug || eventId;
     const url = window.location.origin + `/events/${slug}`;
 
     // Try native Web Share API
     if (navigator.share) {
       try {
-        await navigator.share({ title: eventTitle, text: `Check out this event: ${eventTitle}`, url });
+        await navigator.share({
+          title: eventTitle,
+          text: `Check out this event: ${eventTitle}`,
+          url,
+        });
       } catch {
         // user cancelled
       }
@@ -269,7 +284,7 @@ const FeaturedEventsCarousel = ({ events }: FeaturedEventsCarouselProps) => {
             bookmarks_count: evt.bookmarks_count ?? 0,
           };
         }
-        setLocalEngagements((prev) => {
+        setLocalEngagements(prev => {
           const merged = { ...prev, ...engagementMap };
           persistEngagements(merged);
           return merged;
@@ -278,7 +293,9 @@ const FeaturedEventsCarousel = ({ events }: FeaturedEventsCarouselProps) => {
         // silently fail — fall back to localStorage data
       }
     })();
-    return () => { cancelled = true; };
+    return () => {
+      cancelled = true;
+    };
   }, [token]);
 
   // Auto-rotate with pause on hover
@@ -343,16 +360,17 @@ const FeaturedEventsCarousel = ({ events }: FeaturedEventsCarouselProps) => {
                   <PlayIcon />
                 </div>
               )}
-            </>            ) : event.cover_image_url ? (
-              <Image
-                src={event.cover_image_url}
-                alt={event.title}
-                fill
-                className="object-cover rounded-lg"
-                sizes="(max-width: 768px) 100vw, 600px"
-                priority
-              />
-            ) : null}
+            </>
+          ) : event.cover_image_url ? (
+            <Image
+              src={event.cover_image_url}
+              alt={event.title}
+              fill
+              className="object-cover rounded-lg"
+              sizes="(max-width: 768px) 100vw, 600px"
+              priority
+            />
+          ) : null}
         </div>
 
         {/* Right - Content */}
@@ -361,7 +379,7 @@ const FeaturedEventsCarousel = ({ events }: FeaturedEventsCarouselProps) => {
             Featured Event
           </p>
 
-          <h3 className="text-primary-black text-2xl md:text-3xl xl:text-5xl font-bold leading-[130%] xl:leading-[140%] mb-4 md:mb-5">
+          <h3 className="text-primary-black text-2xl md:text-3xl xl:text-5xl font-bold leading-[130%] xl:leading-[140%] mb-4 md:mb-5 capitalize">
             {event.title}
           </h3>
 
@@ -403,7 +421,9 @@ const FeaturedEventsCarousel = ({ events }: FeaturedEventsCarouselProps) => {
                   <FaRegHeart className="size-4 md:size-5 transition-all duration-300 group-hover:scale-110" />
                 )}
               </div>
-              <span className="text-sm md:text-base">{getEngagement(event.id).like_count}</span>
+              <span className="text-sm md:text-base">
+                {getEngagement(event.id).like_count}
+              </span>
             </button>
 
             {/* Bookmark */}

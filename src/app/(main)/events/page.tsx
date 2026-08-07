@@ -12,6 +12,7 @@ import FeaturedEventsCarousel from "./_Components/FeaturedEventsCarousel";
 import NewsLetter from "@/Components/Common/NewsLetter";
 import Sponsors from "../_components/Sponsors";
 import EventHero from "./_Components/EventHero";
+import BossBeginningSponsor from "../boss-beginnings/_components/BossBeginningSponsor";
 import {
   getCMSAboutData,
   getCMSHomepageData,
@@ -46,6 +47,7 @@ const Page = async () => {
       {/* <WhatYouGet data={pageData?.events_page_booth_features} /> */}
       <EventGallery />
       <EventHighlight />
+      <BossBeginningSponsor variant="events" />
       <Sponsors data={cmsData?.partners} showButton={false} />
       <NewsLetter title="Be part of the movement. Get stories, updates, and opportunities straight to your inbox." />
     </>
