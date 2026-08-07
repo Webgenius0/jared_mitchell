@@ -471,9 +471,12 @@ export const useActiveRoundSession = () => {
 
 // Get Active Season Rounds (live contest season + its rounds)
 // GET /v1/contest/active-season-rounds
-export const getActiveSeasonRounds = () => {
+// `enabled` lets callers skip the request for roles that don't need it
+// (e.g. the dashboard layout only fetches it for boss-beginning users).
+export const getActiveSeasonRounds = (enabled: boolean = true) => {
   return useClientApi({
     method: "get",
+    enabled,
     key: ["active-season-rounds"],
     endpoint: "/v1/contest/active-season-rounds",
   });

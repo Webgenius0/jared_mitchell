@@ -2,6 +2,8 @@ import React from "react";
 
 interface RoundTwoAboutProps {
   contestant?: any;
+  /** Round number used in the heading (2 for round 2, 3 for round 3, …) */
+  roundNumber?: number;
 }
 
 // website_social_media can be a JSON string, a plain URL, or null — normalize it
@@ -14,7 +16,10 @@ const parseWebsiteSocial = (raw: string | null | undefined) => {
   }
 };
 
-export default function RoundTwoAbout({ contestant }: RoundTwoAboutProps) {
+export default function RoundTwoAbout({
+  contestant,
+  roundNumber = 2,
+}: RoundTwoAboutProps) {
   const parsedSocial = parseWebsiteSocial(contestant?.website_social_media);
   const website =
     (typeof parsedSocial === "object" && parsedSocial !== null
@@ -39,18 +44,25 @@ export default function RoundTwoAbout({ contestant }: RoundTwoAboutProps) {
     contestant?.story ||
     "A cozy neighborhood café combining specialty coffee with a curated flower shop. We source beans from fair-trade roasters and partner with local flower farms to bring beauty and warmth to our community.";
 
-  const totalPoints =
-    contestant?.interactions?.total_points ?? contestant?.total_score ?? 1004;
+  // Rounds 2-5 are weighted-score rounds: the "Support This Business" box
+  // shows the total weighted score from the contestant's voting data.
+  const totalWeightedScore = contestant?.voting?.total_weighted_score ?? 0;
 
   return (
     <section className="py-12 md:py-20">
       <div className="container mx-auto px-4">
-        <h3 className="text-2xl md:text-3xl font-normal text-[#101828]">Round 2</h3>
-        <h5 className="text-sm md:text-base text-black/50">Phase 4</h5>
+        <h3 className="text-2xl md:text-3xl font-normal text-[#101828]">
+          Round {roundNumber}
+        </h3>
+        <h5 className="text-sm md:text-base text-black/50">
+          Phase {roundNumber}
+        </h5>
         <div className="flex flex-col lg:flex-row gap-6 mt-6 md:mt-10">
           <div className="w-full lg:w-3/4 ">
             <div className="bg-[#F5F5F7] rounded-xl p-4 md:p-6 flex flex-col gap-6 md:gap-8">
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-medium">About</h2>
+              <h2 className="text-3xl md:text-4xl lg:text-5xl font-medium">
+                About
+              </h2>
               <p className="text-lg md:text-xl lg:text-2xl font-normal text-[#364153]">
                 {aboutText}
               </p>
@@ -98,16 +110,17 @@ export default function RoundTwoAbout({ contestant }: RoundTwoAboutProps) {
               </div>
             </div>
           </div>
+
           <div className="w-full lg:w-1/4 bg-[#F5F5F7] rounded-xl p-4 md:p-6 h-fit">
             <h4 className="text-xl md:text-2xl font-semibold text-[#1D1D1F]">
               Support This Business
             </h4>
             <div className="my-4 bg-[#1977DD] p-4 md:p-6 w-full rounded-xl">
               <p className="text-white font-normal text-balance text-center text-sm md:text-base">
-                Total Points
+                Total Weighted Score
               </p>
               <h3 className="text-xl md:text-2xl font-normal text-white text-center">
-                {totalPoints.toLocaleString()}
+                {totalWeightedScore.toLocaleString()}
               </h3>
             </div>
           </div>

@@ -16,7 +16,11 @@ const page = async () => {
   const pageData = (await getBossCms()) as CMSBossBeginnings;
   const CmsData = await getCMSAboutData();
 
+  // The "How Winners Are Chosen" BusinessChosenChart section only renders
+  // while the contest is in Round 1 — once the season moves to a later round
+  // the section is hidden.
   let roundLeaderboard = null;
+  let isRoundOne = false;
   try {
     const activeSeasonRes = await getActiveSeasonRounds();
     const rounds = activeSeasonRes?.data?.rounds ?? [];
@@ -24,15 +28,17 @@ const page = async () => {
       rounds.find(r => r.is_active) ??
       rounds.find(r => r.round_number === 1) ??
       rounds[0];
-    if (activeRound) {
-
+    isRoundOne = activeRound?.round_number === 1;
+    if (isRoundOne) {
+      // noCache so the card points/counts always match the live API instead of
+      // serving an up-to-60s stale ISR snapshot while users are voting.
       const leaderboardRes = await getRoundLeaderboard(activeRound.id, {
         noCache: true,
       });
       roundLeaderboard = leaderboardRes?.data ?? null;
     }
   } catch {
-    // Active season or active round leaderboard may not be available yet
+    // Active season may not be available yet — the section stays hidden
   }
 
   return (
@@ -51,11 +57,13 @@ const page = async () => {
       </section> */}
       {/* <BusinessShower data={pageData?.boss_beginnings_features} /> */}
       {/* <BossBeginningWinner data={pageData?.boss_beginnings_video_gallery} /> */}
-      <BusinessChosenChart
-        data={pageData?.boss_beginnings_steps}
-        roundData={roundLeaderboard}
-        paginated
-      />
+      {isRoundOne && (
+        <BusinessChosenChart
+          data={pageData?.boss_beginnings_steps}
+          roundData={roundLeaderboard}
+          paginated
+        />
+      )}
       {/* <NewBusiness data={pageData?.boss_beginnings_section5} /> */}
       {/* <HowVotingWorks data={pageData?.boss_beginnings_steps} /> */}
       {/* <WinnerReceives data={pageData?.boss_beginnings_dynamic} /> */}
