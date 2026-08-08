@@ -7,7 +7,7 @@ const SpotlightHero = ({ data }: { data?: CMSArtistSpotlightVideo }) => {
   return (
     <section className="section">
       <Container>
-        <div className="w-full h-[300px] md:h-[500px] xl:h-[627px]">
+        <div className="w-full h-[300px] md:h-[500px] xl:h-[627px] sm:px-5 2xl:px-0">
           <CustomVideoPlayer
             videoSrc={data?.video || "/home/hero-video.mp4"}
             className={"!rounded-[20px] md:!rounded-[40px]"}

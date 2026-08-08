@@ -55,7 +55,7 @@ const SuccessStories = ({ cmsData, winners, type }: SuccessStoriesProps) => {
       )}
 
       {items.length > 0 && (
-        <div className="my-6 md:mt-12">
+        <div className="my-6 md:mt-12 px-5 2xl:px-0">
           <Swiper
             modules={[Pagination, Autoplay]}
             spaceBetween={20}
