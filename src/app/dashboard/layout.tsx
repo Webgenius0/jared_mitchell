@@ -4,7 +4,7 @@ import useAuth from "@/Hooks/useAuth";
 import PrivateLayout from "@/Private/PrivateLayout";
 import DashboardSidebar from "@/Shared/DashboardSidebar";
 import { FaRegStar } from "react-icons/fa";
-import { LuShoppingCart } from "react-icons/lu";
+import { LuShoppingCart, LuCreditCard } from "react-icons/lu";
 
 import {
   NEighteenSvg,
@@ -58,6 +58,12 @@ const artistLinks = [
     label: "Purchase List",
     path: "/dashboard/artist_business/purchase-list",
     icon: <LuShoppingCart className="text-xl" />,
+  },
+  {
+    id: 43,
+    label: "Subscription",
+    path: "/dashboard/subscription",
+    icon: <LuCreditCard className="text-xl" />,
   },
   {
     id: 3,
@@ -122,6 +128,12 @@ const communityMemberLinks = [
     icon: <LuShoppingCart className="text-xl" />,
   },
   {
+    id: 43,
+    label: "Subscription",
+    path: "/dashboard/subscription",
+    icon: <LuCreditCard className="text-xl" />,
+  },
+  {
     id: 24,
     label: "Events",
     path: "/dashboard/community_member/events",
@@ -171,6 +183,12 @@ const sponsorLinks = [
     label: "Billing",
     path: "/dashboard/sponsor/billing",
     icon: <NSixteenSvg />,
+  },
+  {
+    id: 43,
+    label: "Subscription",
+    path: "/dashboard/subscription",
+    icon: <LuCreditCard className="text-xl" />,
   },
   {
     id: 19,
@@ -230,6 +248,12 @@ const bossLinks = [
     label: "Purchase List",
     path: "/dashboard/boss_beginning/purchase-list",
     icon: <LuShoppingCart className="text-xl" />,
+  },
+  {
+    id: 43,
+    label: "Subscription",
+    path: "/dashboard/subscription",
+    icon: <LuCreditCard className="text-xl" />,
   },
   {
     id: 23,

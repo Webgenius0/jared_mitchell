@@ -272,7 +272,7 @@ export default function ShippingBillingForm(): React.JSX.Element {
           if (paymentMethod === "card" && checkoutUrl) {
             window.location.href = checkoutUrl;
           } else {
-            router.push("/");
+            router.push("/payment/success?type=order&method=cod");
           }
         },
       });
@@ -285,7 +285,7 @@ export default function ShippingBillingForm(): React.JSX.Element {
           if (paymentMethod === "card" && checkoutUrl) {
             window.location.href = checkoutUrl;
           } else {
-            router.push("/");
+            router.push("/payment/success?type=order&method=cod");
           }
         },
       });

@@ -36,6 +36,15 @@ export const useGetArtistDashboardAnalytics = () => {
   });
 };
 
+export const useGetBusinessDashboardStats = () => {
+  return useClientApi({
+    method: "get",
+    isPrivate: true,
+    key: ["business-dashboard-stats"],
+    endpoint: "/v1/dashboard/summary",
+  });
+};
+
 // Get Event Registrations (booking history)
 export const useEventRegistrations = (params?: any) => {
   return useClientApi({
