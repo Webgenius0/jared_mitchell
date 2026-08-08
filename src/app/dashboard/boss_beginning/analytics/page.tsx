@@ -1,7 +1,14 @@
 "use client";
 
 import React from "react";
-import { Heart, Sparkles, ThumbsUp, BarChart3, Cloud } from "lucide-react";
+import {
+  Heart,
+  Sparkles,
+  ThumbsUp,
+  BarChart3,
+  Cloud,
+  Loader2,
+} from "lucide-react";
 import {
   BarChart,
   Bar,
@@ -9,9 +16,9 @@ import {
   YAxis,
   ResponsiveContainer,
   Tooltip,
-  Cell,
   CartesianGrid,
 } from "recharts";
+import { useGetBusinessDashboardAnalytics } from "@/Hooks/api/dashboard_api";
 
 /* ------------------------------------------------------------------ */
 /*  Types                                                              */
@@ -26,70 +33,17 @@ interface StatCard {
 interface ChartPoint {
   month: string;
   clap: number;
-  love: number;
-  fire: number;
+  share: number;
+  save: number;
   total: number;
 }
 
 interface EngagementItem {
   label: string;
   value: number; // 0-100 percent width
-  clicks: number;
+  count: number;
   colorClass: string;
 }
-
-/* ------------------------------------------------------------------ */
-/*  Data                                                               */
-/* ------------------------------------------------------------------ */
-
-const voteStats: StatCard[] = [
-  { label: "Total vote", value: 1248, icon: Heart },
-  { label: "Todays vote", value: 124, icon: Sparkles },
-  { label: "Weekly vote", value: 842, icon: ThumbsUp },
-  { label: "Monthly vote", value: 3210, icon: BarChart3 },
-];
-
-const reachStats: StatCard[] = [
-  { label: "Total Reach", value: "24800", icon: Cloud },
-  { label: "Profile Visits", value: "8,420", icon: Sparkles },
-  { label: "Spotlight View", value: 16380, icon: ThumbsUp },
-];
-
-const rawChartData: Omit<ChartPoint, "total">[] = [
-  { month: "Jan", clap: 6, love: 5, fire: 4 },
-  { month: "Feb", clap: 18, love: 14, fire: 8 },
-  { month: "Mar", clap: 26, love: 20, fire: 12 },
-  { month: "Apr", clap: 17, love: 13, fire: 8 },
-  { month: "May", clap: 19, love: 15, fire: 8 },
-  { month: "Jun", clap: 10, love: 7, fire: 4 },
-  { month: "Jul", clap: 16, love: 12, fire: 7 },
-  { month: "Aug", clap: 23, love: 18, fire: 11 },
-  { month: "Sep", clap: 11, love: 9, fire: 5 },
-  { month: "Oct", clap: 5, love: 4, fire: 3 },
-  { month: "Nov", clap: 22, love: 17, fire: 9 },
-  { month: "Dec", clap: 15, love: 11, fire: 7 },
-];
-
-const chartData: ChartPoint[] = rawChartData.map(d => ({
-  ...d,
-  total: d.clap + d.love + d.fire,
-}));
-
-const engagementData: EngagementItem[] = [
-  {
-    label: "Spotlight view",
-    value: 68,
-    clicks: 884,
-    colorClass: "bg-blue-500",
-  },
-  {
-    label: "Profile visits",
-    value: 32,
-    clicks: 142,
-    colorClass: "bg-purple-500",
-  },
-  { label: "Total vote", value: 22, clicks: 142, colorClass: "bg-emerald-500" },
-];
 
 /* ------------------------------------------------------------------ */
 /*  Small building blocks                                              */
@@ -113,6 +67,9 @@ function StatCardItem({ label, value, icon: Icon }: StatCard) {
 
 interface ChartTooltipPayloadEntry {
   value?: number | string;
+  name?: string;
+  dataKey?: string | number;
+  color?: string;
   payload?: ChartPoint;
 }
 
@@ -123,25 +80,51 @@ interface ChartTooltipProps {
 
 function ChartTooltip({ active, payload }: ChartTooltipProps) {
   if (!active || !payload || !payload.length) return null;
+  const point = payload[0]?.payload;
   return (
-    <div className="bg-white text-xs md:text-sm px-2.5 py-1.5 rounded-md shadow border border-slate-100 flex items-center gap-1.5">
-      <span className="w-1.5 h-1.5 rounded-full bg-blue-500 inline-block" />
-      View profile
-      <span className="ml-1 font-medium">{payload[0].value}</span>
+    <div className="bg-white text-xs md:text-sm px-3 py-2 rounded-md shadow border border-slate-100 min-w-[130px]">
+      {point?.month ? (
+        <p className="font-medium text-slate-900 mb-1.5">{point.month}</p>
+      ) : null}
+      <div className="space-y-1">
+        {payload.map(entry => (
+          <div
+            key={String(entry.dataKey ?? entry.name ?? "")}
+            className="flex items-center gap-1.5"
+          >
+            <span
+              className="w-1.5 h-1.5 rounded-full inline-block flex-shrink-0"
+              style={{ backgroundColor: entry.color || "#94a3b8" }}
+            />
+            <span className="text-slate-500 capitalize">
+              {String(entry.name ?? "")}
+            </span>
+            <span className="ml-auto pl-3 font-medium text-slate-900">
+              {entry.value}
+            </span>
+          </div>
+        ))}
+      </div>
+      {point?.total != null ? (
+        <div className="flex items-center justify-between mt-2 pt-2 border-t border-slate-100">
+          <span className="text-slate-500">Total</span>
+          <span className="ml-auto pl-3 font-semibold text-slate-900">
+            {point.total}
+          </span>
+        </div>
+      ) : null}
     </div>
   );
 }
 
-function EngagementBar({ label, value, clicks, colorClass }: EngagementItem) {
+function EngagementBar({ label, value, count, colorClass }: EngagementItem) {
   return (
     <div>
       <div className="flex items-center justify-between mb-1.5">
         <span className="text-xs md:text-sm font-medium text-slate-700">
           {label}
         </span>
-        <span className="text-[11px] md:text-xs text-slate-400">
-          {clicks} clicks
-        </span>
+        <span className="text-[11px] md:text-xs text-slate-400">{count}</span>
       </div>
       <div className="w-full h-1.5 md:h-2 bg-slate-100 rounded-full overflow-hidden">
         <div
@@ -158,6 +141,89 @@ function EngagementBar({ label, value, clicks, colorClass }: EngagementItem) {
 /* ------------------------------------------------------------------ */
 
 export default function Page() {
+  const { data, isLoading, error } = useGetBusinessDashboardAnalytics();
+  const analytics = data?.data;
+
+  const voteStats: StatCard[] = [
+    {
+      label: "Total vote",
+      value: analytics?.votes?.total_vote ?? "—",
+      icon: Heart,
+    },
+    {
+      label: "Todays vote",
+      value: analytics?.votes?.todays_vote ?? "—",
+      icon: Sparkles,
+    },
+    {
+      label: "Weekly vote",
+      value: analytics?.votes?.weekly_vote ?? "—",
+      icon: ThumbsUp,
+    },
+    {
+      label: "Monthly vote",
+      value: analytics?.votes?.monthly_vote ?? "—",
+      icon: BarChart3,
+    },
+  ];
+
+  const reachStats: StatCard[] = [
+    {
+      label: "Total Reach",
+      value: analytics?.spotlight_reach?.total_reach ?? "—",
+      icon: Cloud,
+    },
+    {
+      label: "Profile Visits",
+      value: analytics?.spotlight_reach?.profile_visits ?? "—",
+      icon: Sparkles,
+    },
+    {
+      label: "Spotlight View",
+      value: analytics?.spotlight_reach?.spotlight_view ?? "—",
+      icon: ThumbsUp,
+    },
+  ];
+
+  const chartData: ChartPoint[] = (
+    analytics?.votes_performance ?? []
+  ).map((d: { month: string; clap: number; share: number; save: number }) => ({
+    month: d.month,
+    clap: d.clap,
+    share: d.share,
+    save: d.save,
+    total: (d.clap || 0) + (d.share || 0) + (d.save || 0),
+  }));
+
+  const engagement = analytics?.engagement_rate ?? {};
+  const engagementValues = [
+    Number(engagement?.spotlight_view ?? 0),
+    Number(engagement?.profile_visits ?? 0),
+    Number(engagement?.total_vote ?? 0),
+  ];
+  const maxEngagement = Math.max(...engagementValues, 1);
+
+  const engagementData: EngagementItem[] = [
+    {
+      label: "Spotlight view",
+      value: Math.round((engagementValues[0] / maxEngagement) * 100),
+      count: engagementValues[0],
+      colorClass: "bg-blue-500",
+    },
+    {
+      label: "Profile visits",
+      value: Math.round((engagementValues[1] / maxEngagement) * 100),
+      count: engagementValues[1],
+      colorClass: "bg-purple-500",
+    },
+    {
+      label: "Total vote",
+      value: Math.round((engagementValues[2] / maxEngagement) * 100),
+      count: engagementValues[2],
+      colorClass: "bg-emerald-500",
+    },
+  ];
+
   return (
     <div className="">
       <div className=" space-y-6">
@@ -207,46 +273,70 @@ export default function Page() {
             </div>
           </div>
           <div className="h-56 md:h-64">
-            <ResponsiveContainer width="100%" height="100%">
-              <BarChart
-                data={chartData}
-                margin={{ top: 30, right: 10, left: 0, bottom: 4 }}
-              >
-                <XAxis
-                  dataKey="month"
-                  axisLine={false}
-                  tickLine={false}
-                  interval={0}
-                  tick={{ fontSize: 13, fill: "#94a3b8" }}
-                />
-                <CartesianGrid
-                  strokeDasharray="3 3"
-                  stroke="#f1f5f9"
-                  vertical={false}
-                />
-                <YAxis
-                  axisLine={false}
-                  tickLine={false}
-                  ticks={[0, 20, 40, 60]}
-                  domain={[0, 60]}
-                  tick={{ fontSize: 13, fill: "#94a3b8" }}
-                />
-                <Tooltip
-                  cursor={{ fill: "rgba(59,130,246,0.06)" }}
-                  content={(props: any) => (
-                    <ChartTooltip
-                      active={props.active}
-                      payload={props.payload}
-                    />
-                  )}
-                />
-                <Bar dataKey="total" radius={[6, 6, 0, 0]} maxBarSize={28}>
-                  {chartData.map((_, i) => (
-                    <Cell key={i} fill="#3b82f6" />
-                  ))}
-                </Bar>
-              </BarChart>
-            </ResponsiveContainer>
+            {isLoading ? (
+              <div className="h-full flex items-center justify-center">
+                <Loader2 className="w-5 h-5 text-blue-500 animate-spin" />
+              </div>
+            ) : error ? (
+              <p className="text-sm text-slate-400 text-center h-full flex items-center justify-center">
+                Failed to load chart data.
+              </p>
+            ) : (
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart
+                  data={chartData}
+                  margin={{ top: 30, right: 10, left: 0, bottom: 4 }}
+                >
+                  <XAxis
+                    dataKey="month"
+                    axisLine={false}
+                    tickLine={false}
+                    interval={0}
+                    tick={{ fontSize: 13, fill: "#94a3b8" }}
+                  />
+                  <CartesianGrid
+                    strokeDasharray="3 3"
+                    stroke="#f1f5f9"
+                    vertical={false}
+                  />
+                  <YAxis
+                    axisLine={false}
+                    tickLine={false}
+                    domain={[0, "auto"]}
+                    allowDecimals={false}
+                    tick={{ fontSize: 13, fill: "#94a3b8" }}
+                  />
+                  <Tooltip
+                    cursor={{ fill: "rgba(59,130,246,0.06)" }}
+                    content={(props: any) => (
+                      <ChartTooltip
+                        active={props.active}
+                        payload={props.payload}
+                      />
+                    )}
+                  />
+                  <Bar
+                    dataKey="clap"
+                    stackId="votes"
+                    fill="#10b981"
+                    maxBarSize={28}
+                  />
+                  <Bar
+                    dataKey="share"
+                    stackId="votes"
+                    fill="#3b82f6"
+                    maxBarSize={28}
+                  />
+                  <Bar
+                    dataKey="save"
+                    stackId="votes"
+                    fill="#a855f7"
+                    radius={[6, 6, 0, 0]}
+                    maxBarSize={28}
+                  />
+                </BarChart>
+              </ResponsiveContainer>
+            )}
           </div>
         </div>
 

@@ -45,6 +45,21 @@ export const useGetBusinessDashboardStats = () => {
   });
 };
 
+// Get Boss Beginning Dashboard Analytics
+// GET /v1/dashboard/analytics
+// Returns: { votes: { total_vote, todays_vote, weekly_vote, monthly_vote },
+//            spotlight_reach: { total_reach, profile_visits, spotlight_view },
+//            votes_performance: [{ month, clap, share, save }],
+//            engagement_rate: { spotlight_view, profile_visits, total_vote } }
+export const useGetBusinessDashboardAnalytics = () => {
+  return useClientApi({
+    method: "get",
+    isPrivate: true,
+    key: ["business-dashboard-analytics"],
+    endpoint: "/v1/dashboard/analytics",
+  });
+};
+
 // Get Event Registrations (booking history)
 export const useEventRegistrations = (params?: any) => {
   return useClientApi({

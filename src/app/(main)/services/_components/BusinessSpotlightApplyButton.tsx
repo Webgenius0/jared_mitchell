@@ -3,6 +3,7 @@
 import { Button } from "@/Components/Common/Button";
 import useAuth from "@/Hooks/useAuth";
 import { getUserDashboardRoute } from "@/lib/utils";
+import { isUserSubscribed } from "@/Hooks/api/subscription_api";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 
@@ -26,6 +27,13 @@ const BusinessSpotlightApplyButton = () => {
 
     // Logged in as a business user → go to the business spotlight submission form
     if (getUserDashboardRoute(user) === "/dashboard/boss_beginning") {
+      if (!isUserSubscribed(user)) {
+        toast.error(
+          "An active subscription is required to apply for a spotlight",
+        );
+        router.push("/pricing");
+        return;
+      }
       router.push(CREATE_SPOTLIGHT_URL);
       return;
     }

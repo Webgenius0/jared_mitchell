@@ -5,6 +5,7 @@ import useAuth from "@/Hooks/useAuth";
 import toast from "react-hot-toast";
 import { CMSBossBeginningsSection5 } from "@/Types/cms";
 import { isBusinessUser } from "@/lib/utils";
+import { isUserSubscribed } from "@/Hooks/api/subscription_api";
 
 const CREATE_BUSINESS_URL = "/dashboard/boss_beginning/business/create-business";
 
@@ -30,6 +31,13 @@ const NewBusiness = ({ data }: NewBusinessProps) => {
     }
     if (!isBusiness) {
       toast.error("Only business accounts can submit a nomination");
+      return;
+    }
+    if (!isUserSubscribed(user)) {
+      toast.error(
+        "An active subscription is required to submit a nomination",
+      );
+      router.push("/pricing");
       return;
     }
     router.push(CREATE_BUSINESS_URL);

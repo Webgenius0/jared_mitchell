@@ -31,6 +31,7 @@ import {
 import Link from "next/link";
 import { useCreateBusiness, useUpdateBusiness } from "@/Hooks/api/dashboard_api";
 import { resolveMediaUrl } from "@/lib/utils";
+import RequireSubscription from "@/Components/Common/RequireSubscription";
 
 const FONT_SIZES = [12, 13, 14, 16, 18, 20, 24, 28, 32];
 
@@ -923,7 +924,12 @@ function CreateBusinessForm() {
 export default function Page() {
   return (
     <Suspense fallback={<div className="p-8 text-slate-500">Loading...</div>}>
-      <CreateBusinessForm />
+      <RequireSubscription
+        title="Subscription required"
+        description="You need an active subscription to register or edit a business. Subscribe to unlock the form."
+      >
+        <CreateBusinessForm />
+      </RequireSubscription>
     </Suspense>
   );
 }

@@ -9,7 +9,10 @@ import {
   Loader2,
 } from "lucide-react";
 import { LineChart, Line, XAxis, ResponsiveContainer, Tooltip } from "recharts";
-import { useGetDashboardStats } from "@/Hooks/api/dashboard_api";
+import {
+  useGetBusinessDashboardStats,
+  useGetDashboardStats,
+} from "@/Hooks/api/dashboard_api";
 import { getUpcomingEvents } from "@/Hooks/api/cms_api";
 import { CMSEventItem } from "@/Types/cms";
 import { useRouter } from "next/navigation";
@@ -22,8 +25,10 @@ interface StatCard {
 }
 
 interface ActivityItem {
-  title: string;
-  time: string;
+  user_name: string;
+  avatar: string;
+  activity: string;
+  created_at: string;
 }
 
 interface ChartPoint {
@@ -35,33 +40,6 @@ interface VotingSummaryItem {
   value: string;
   label: string;
 }
-
-
-const activity: ActivityItem[] = [
-  { title: "New Business profile Crated", time: "2 hour ago" },
-  { title: "Spotlight campaign approved", time: "6 hour ago" },
-  { title: "Your business received 124 new votes", time: "Yesterday" },
-  { title: "Event booking confirmed", time: "2 days ago" },
-  { title: "Business profile update sucessfully", time: "3 days ago" },
-  { title: "Your business received 124 new votes", time: "4 days ago" },
-];
-
-const chartData: ChartPoint[] = [
-  { day: "Sun", value: 68 },
-  { day: "Mon", value: 82 },
-  { day: "Tue", value: 35 },
-  { day: "Web", value: 78 },
-  { day: "Thu", value: 40 },
-  { day: "Fri", value: 30 },
-  { day: "Sat", value: 85 },
-];
-
-const votingSummary: VotingSummaryItem[] = [
-  { value: "1.8k", label: "Claps" },
-  { value: "50", label: "Save" },
-  { value: "50", label: "Save" },
-  { value: "#4", label: "Rank" },
-];
 
 const formatEventDate = (startsAt: string) => {
   const date = new Date(startsAt);
@@ -80,18 +58,47 @@ const formatEventMeta = (event: CMSEventItem) => {
   return `${time}${place ? ` · ${place}` : ""}`;
 };
 
+const timeAgo = (value?: string | null) => {
+  if (!value) return "—";
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return "—";
+  const diff = Date.now() - date.getTime();
+  const minutes = Math.floor(diff / 60000);
+  if (minutes < 1) return "Just now";
+  if (minutes < 60) return `${minutes} min ago`;
+  const hours = Math.floor(minutes / 60);
+  if (hours < 24) return `${hours} hour${hours > 1 ? "s" : ""} ago`;
+  const days = Math.floor(hours / 24);
+  if (days < 7) return `${days} day${days > 1 ? "s" : ""} ago`;
+  const weeks = Math.floor(days / 7);
+  if (weeks < 5) return `${weeks} week${weeks > 1 ? "s" : ""} ago`;
+  return new Date(value).toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  });
+};
+
 interface AvatarProps {
-  seed: number;
+  src: string;
+  name: string;
 }
 
-function Avatar({ seed }: AvatarProps) {
+function Avatar({ src, name }: AvatarProps) {
   return (
     <div className="w-10 h-10 md:w-11 md:h-11 rounded-full bg-gradient-to-br from-slate-200 to-slate-300 flex-shrink-0 overflow-hidden">
-      <img
-        src={`https://i.pravatar.cc/72?img=${seed}`}
-        alt=""
-        className="w-full h-full object-cover"
-      />
+      {src ? (
+        <img
+          src={src}
+          alt={name}
+          loading="lazy"
+          className="w-full h-full object-cover"
+        />
+      ) : (
+        <span className="w-full h-full flex items-center justify-center text-sm font-medium text-slate-500">
+          {name?.charAt(0)?.toUpperCase() || "U"}
+        </span>
+      )}
     </div>
   );
 }
@@ -112,7 +119,7 @@ function ChartTooltip({ active, payload }: ChartTooltipProps) {
   return (
     <div className="bg-white text-xs md:text-sm px-2.5 py-1.5 rounded-md shadow border border-slate-100 flex items-center gap-1">
       <span className="w-1.5 h-1.5 rounded-full bg-purple-500 inline-block" />
-      View profile
+      Profile visits
       <span className="ml-2 font-medium">{payload[0].value}</span>
     </div>
   );
@@ -123,6 +130,11 @@ export default function Page() {
   const { user } = useAuth();
   const { data: statsData, isLoading } = useGetDashboardStats();
   const {
+    data: summaryData,
+    isLoading: isSummaryLoading,
+    error: summaryError,
+  } = useGetBusinessDashboardStats();
+  const {
     data: eventsData,
     isLoading: isEventsLoading,
     error: eventsError,
@@ -132,6 +144,7 @@ export default function Page() {
     (eventsData?.data?.events as CMSEventItem[] | undefined) ?? [];
 
   const stats = statsData?.data;
+  const summary = summaryData?.data;
 
   const statCards: StatCard[] = [
     {
@@ -153,6 +166,38 @@ export default function Page() {
       label: "Parching events",
       value: stats?.total_event_purchases ?? "—",
       icon: Rows3,
+    },
+  ];
+
+  const recentActivity: ActivityItem[] = summary?.recent_activity ?? [];
+
+  const chartData: ChartPoint[] =
+    summary?.spotlight_performance?.profile_visits_day_wise?.map(
+      (d: { day: string; value: number }) => ({
+        day: d.day.slice(0, 3),
+        value: d.value,
+      }),
+    ) ?? [];
+
+  const votingSummary: VotingSummaryItem[] = [
+    {
+      value: String(summary?.voting_summary?.total_clap ?? "—"),
+      label: "Claps",
+    },
+    {
+      value: String(summary?.voting_summary?.total_vote ?? "—"),
+      label: "Votes",
+    },
+    {
+      value: String(summary?.voting_summary?.total_share ?? "—"),
+      label: "Shares",
+    },
+    {
+      value:
+        summary?.voting_summary?.rank != null
+          ? `#${summary.voting_summary.rank}`
+          : "—",
+      label: "Rank",
     },
   ];
 
@@ -185,11 +230,7 @@ export default function Page() {
                 </span>
               </div>
               <div className="text-2xl md:text-3xl font-semibold text-slate-900">
-                {isLoading ? (
-                  <span className="text-slate-300">—</span>
-                ) : (
-                  value
-                )}
+                {isLoading ? <span className="text-slate-300">—</span> : value}
               </div>
             </div>
           ))}
@@ -197,28 +238,42 @@ export default function Page() {
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Recent Activity */}
-          <div className="bg-white rounded-2xl p-5 shadow-[0_1px_2px_rgba(16,24,40,0.04)]">
+          <div className="bg-white rounded-2xl p-5 shadow-[0_1px_2px_rgba(16,24,40,0.04)] flex flex-col max-h-127">
             <h2 className="text-base md:text-lg font-medium text-slate-900 mb-4">
               Recent Activity
             </h2>
-            <div className="divide-y divide-slate-100">
-              {activity.map((item, i) => (
-                <div
-                  key={i}
-                  className="flex items-center gap-3 py-3 first:pt-0 last:pb-0"
-                >
-                  <Avatar seed={i + 10} />
-                  <div className="min-w-0">
-                    <p className="text-sm md:text-base text-slate-700 truncate">
-                      {item.title}
-                    </p>
-                    <p className="text-xs md:text-sm text-slate-400 mt-0.5">
-                      {item.time}
-                    </p>
+            {isSummaryLoading ? (
+              <div className="flex-1 flex items-center justify-center">
+                <Loader2 className="w-5 h-5 text-blue-500 animate-spin" />
+              </div>
+            ) : summaryError ? (
+              <p className="text-sm text-slate-400 text-center flex-1 flex items-center justify-center">
+                Failed to load recent activity.
+              </p>
+            ) : recentActivity.length === 0 ? (
+              <p className="text-sm text-slate-400 text-center flex-1 flex items-center justify-center">
+                No recent activity.
+              </p>
+            ) : (
+              <div className="flex-1 min-h-0 overflow-y-auto divide-y divide-slate-100 pr-1 -mr-1">
+                {recentActivity.map((item, i) => (
+                  <div
+                    key={i}
+                    className="flex items-center gap-3 py-3 first:pt-0 last:pb-0"
+                  >
+                    <Avatar src={item.avatar} name={item.user_name} />
+                    <div className="min-w-0">
+                      <p className="text-sm md:text-base text-slate-700 truncate">
+                        {item.activity}
+                      </p>
+                      <p className="text-xs md:text-sm text-slate-400 mt-0.5 truncate">
+                        {item.user_name} · {timeAgo(item.created_at)}
+                      </p>
+                    </div>
                   </div>
-                </div>
-              ))}
-            </div>
+                ))}
+              </div>
+            )}
           </div>
 
           {/* Right column: chart + voting summary */}
@@ -228,40 +283,54 @@ export default function Page() {
                 <h2 className="text-base md:text-lg font-medium text-slate-900">
                   Spotlight performance
                 </h2>
-                <button className="text-xs md:text-sm px-3 py-1.5 rounded-full bg-blue-50 text-blue-500 flex items-center gap-1">
+                <span className="flex items-center gap-1.5 text-xs md:text-sm text-slate-500">
+                  <span className="w-2.5 h-2.5 rounded-full bg-purple-500" />
+                  Profile visits
+                </span>
+                {/* <button className="text-xs md:text-sm px-3 py-1.5 rounded-full bg-blue-50 text-blue-500 flex items-center gap-1">
                   View <ChevronRight className="w-3.5 h-3.5 md:w-4 md:h-4" />
-                </button>
+                </button> */}
               </div>
               <div className="h-56 md:h-64">
-                <ResponsiveContainer width="100%" height="100%">
-                  <LineChart
-                    data={chartData}
-                    margin={{ top: 30, right: 10, left: 0, bottom: 0 }}
-                  >
-                    <XAxis
-                      dataKey="day"
-                      axisLine={false}
-                      tickLine={false}
-                      tick={{ fontSize: 13, fill: "#94a3b8" }}
-                    />
-                    <Tooltip
-                      cursor={false}
-                      content={(props: any) => (
-                        <ChartTooltip
-                          active={props.active}
-                          payload={props.payload}
-                        />
-                      )}
-                    />
-                    <Line
-                      type="monotone"
-                      dataKey="value"
-                      stroke="#a855f7"
-                      strokeWidth={2}
-                      dot={false}
-                    />
-                  </LineChart>
-                </ResponsiveContainer>
+                {isSummaryLoading ? (
+                  <div className="h-full flex items-center justify-center">
+                    <Loader2 className="w-5 h-5 text-blue-500 animate-spin" />
+                  </div>
+                ) : summaryError ? (
+                  <p className="text-sm text-slate-400 text-center flex items-center justify-center h-full">
+                    Failed to load chart data.
+                  </p>
+                ) : (
+                  <ResponsiveContainer width="100%" height="100%">
+                    <LineChart
+                      data={chartData}
+                      margin={{ top: 30, right: 10, left: 0, bottom: 0 }}
+                    >
+                      <XAxis
+                        dataKey="day"
+                        axisLine={false}
+                        tickLine={false}
+                        tick={{ fontSize: 13, fill: "#94a3b8" }}
+                      />
+                      <Tooltip
+                        cursor={false}
+                        content={(props: any) => (
+                          <ChartTooltip
+                            active={props.active}
+                            payload={props.payload}
+                          />
+                        )}
+                      />
+                      <Line
+                        type="monotone"
+                        dataKey="value"
+                        stroke="#a855f7"
+                        strokeWidth={2}
+                        dot={false}
+                      />
+                    </LineChart>
+                  </ResponsiveContainer>
+                )}
               </div>
             </div>
 
@@ -270,9 +339,9 @@ export default function Page() {
                 <h2 className="text-base md:text-lg font-medium text-slate-900">
                   Voting summary
                 </h2>
-                <button className="text-xs md:text-sm px-3 py-1.5 rounded-full bg-blue-50 text-blue-500 flex items-center gap-1">
+                {/* <button className="text-xs md:text-sm px-3 py-1.5 rounded-full bg-blue-50 text-blue-500 flex items-center gap-1">
                   View <ChevronRight className="w-3.5 h-3.5 md:w-4 md:h-4" />
-                </button>
+                </button> */}
               </div>
               <div className="grid grid-cols-4 divide-x divide-slate-100 text-center p-2 border border-[#E8EFFF] rounded-xl">
                 {votingSummary.map((item, i) => (
@@ -296,13 +365,13 @@ export default function Page() {
             <h2 className="text-base md:text-lg font-medium text-slate-900">
               Upcoming event
             </h2>
-            <button
+            {/* <button
               type="button"
               onClick={() => router.push("/events")}
               className="text-xs md:text-sm px-3 py-1 rounded-full bg-blue-50 text-blue-500 hover:bg-blue-100 transition-colors"
             >
               View all
-            </button>
+            </button> */}
           </div>
 
           {isEventsLoading ? (
