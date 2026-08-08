@@ -158,7 +158,6 @@ export default function BuyTicketPage() {
     registerEvent(payload, {
       onSuccess: (res: any) => {
         if (res?.success) {
-
           if (res?.data?.token) {
             setToken(res.data.token);
           }
@@ -209,7 +208,11 @@ export default function BuyTicketPage() {
                 Attendee Information
               </h2>
 
-              <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-5">
+              <form
+                onSubmit={handleSubmit}
+                noValidate
+                className="flex flex-col gap-5"
+              >
                 {/* Name row */}
                 <div className="flex flex-col sm:flex-row gap-4">
                   <div className="flex-1">
@@ -234,7 +237,9 @@ export default function BuyTicketPage() {
                       }`}
                     />
                     {errors.first_name && (
-                      <p className="mt-1.5 text-sm text-red-500">{errors.first_name}</p>
+                      <p className="mt-1.5 text-sm text-red-500">
+                        {errors.first_name}
+                      </p>
                     )}
                   </div>
                   <div className="flex-1">
@@ -259,7 +264,9 @@ export default function BuyTicketPage() {
                       }`}
                     />
                     {errors.last_name && (
-                      <p className="mt-1.5 text-sm text-red-500">{errors.last_name}</p>
+                      <p className="mt-1.5 text-sm text-red-500">
+                        {errors.last_name}
+                      </p>
                     )}
                   </div>
                 </div>
@@ -287,7 +294,9 @@ export default function BuyTicketPage() {
                     }`}
                   />
                   {errors.email && (
-                    <p className="mt-1.5 text-sm text-red-500">{errors.email}</p>
+                    <p className="mt-1.5 text-sm text-red-500">
+                      {errors.email}
+                    </p>
                   )}
                 </div>
 
@@ -314,7 +323,9 @@ export default function BuyTicketPage() {
                     }`}
                   />
                   {errors.phone_number && (
-                    <p className="mt-1.5 text-sm text-red-500">{errors.phone_number}</p>
+                    <p className="mt-1.5 text-sm text-red-500">
+                      {errors.phone_number}
+                    </p>
                   )}
                 </div>
 
@@ -360,7 +371,9 @@ export default function BuyTicketPage() {
                         </button>
                       </div>
                       {errors.password && (
-                        <p className="mt-1.5 text-sm text-red-500">{errors.password}</p>
+                        <p className="mt-1.5 text-sm text-red-500">
+                          {errors.password}
+                        </p>
                       )}
                     </div>
 
@@ -405,7 +418,9 @@ export default function BuyTicketPage() {
                         </button>
                       </div>
                       {errors.confirm_password && (
-                        <p className="mt-1.5 text-sm text-red-500">{errors.confirm_password}</p>
+                        <p className="mt-1.5 text-sm text-red-500">
+                          {errors.confirm_password}
+                        </p>
                       )}
                     </div>
                   </>
@@ -448,7 +463,9 @@ export default function BuyTicketPage() {
                     </span>
                   </div>
                   {errors.ticket_tier && (
-                    <p className="mt-1.5 text-sm text-red-500">{errors.ticket_tier}</p>
+                    <p className="mt-1.5 text-sm text-red-500">
+                      {errors.ticket_tier}
+                    </p>
                   )}
                 </div>
 
@@ -464,7 +481,7 @@ export default function BuyTicketPage() {
                       onChange={e => setQuantity(Number(e.target.value))}
                       className="w-full appearance-none px-4 py-2.5 rounded-lg border border-gray-200 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-[#1977DD] focus:border-transparent text-gray-800 text-sm transition pr-10 cursor-pointer"
                     >
-                      {Array.from({ length: 20 }, (_, i) => i + 1).map(n => (
+                      {Array.from({ length: 10 }, (_, i) => i + 1).map(n => (
                         <option key={n} value={n}>
                           {n}
                         </option>
@@ -496,16 +513,12 @@ export default function BuyTicketPage() {
               <div className="space-y-3 text-sm text-gray-600">
                 {/* Date */}
                 <div className="flex justify-between items-start gap-4">
-                  <span className="font-medium text-black shrink-0">
-                    Date
-                  </span>
+                  <span className="font-medium text-black shrink-0">Date</span>
                   <span className="text-gray-800 text-right">{date}</span>
                 </div>
                 {/* Time */}
                 <div className="flex justify-between items-start gap-4">
-                  <span className="font-medium text-black shrink-0">
-                    Time
-                  </span>
+                  <span className="font-medium text-black shrink-0">Time</span>
                   <span className="text-gray-800 text-right">{timeRange}</span>
                 </div>
                 {/* Location */}

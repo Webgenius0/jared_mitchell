@@ -76,14 +76,14 @@ const DashboardHeader = ({
       {/* Right - Actions */}
       <div className="flex gap-2 md:gap-3 items-center bg-white px-2 md:px-3 py-2 md:py-3.5 rounded-xl shadow min-w-0">
         {/* Search - hidden on smallest screens */}
-        <button className="hidden sm:grid size-9 md:size-12 rounded-full place-items-center border border-gray-200 hover:bg-gray-50 transition-colors duration-200 cursor-pointer shrink-0">
+        {/* <button className="hidden sm:grid size-9 md:size-12 rounded-full place-items-center border border-gray-200 hover:bg-gray-50 transition-colors duration-200 cursor-pointer shrink-0">
           <SearchIconSvg />
-        </button>
+        </button> */}
 
         {/* Notification */}
-        <button className="size-9 md:size-12 rounded-full grid place-items-center border border-gray-200 hover:bg-gray-50 transition-colors duration-200 cursor-pointer shrink-0">
+        {/* <button className="size-9 md:size-12 rounded-full grid place-items-center border border-gray-200 hover:bg-gray-50 transition-colors duration-200 cursor-pointer shrink-0">
           <NotificationIconSvg />
-        </button>
+        </button> */}
 
         {/* Profile Avatar */}
         <div className="size-9 md:size-12 rounded-full grid place-items-center border border-gray-200 overflow-hidden shrink-0">

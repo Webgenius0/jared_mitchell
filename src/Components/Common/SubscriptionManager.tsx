@@ -12,7 +12,6 @@ import {
   normalizeSubscriptionStatus,
   normalizeSubscriptionResponse,
   subscriptionStatusStyles,
-  SUBSCRIPTION_ENDPOINTS,
   type MySubscription,
 } from "@/Hooks/api/subscription_api";
 import { getSubscriptionPlans } from "@/lib/Services/cms_service";
@@ -190,8 +189,8 @@ const SubscriptionManager = () => {
       return;
     }
     swapSub(
-      // Plan id goes in the URL path: POST /v1/subscription/:pricing_plan_id
-      { endpoint: SUBSCRIPTION_ENDPOINTS.swap(swapTargetId) },
+      // Plan id goes in the body: POST /v1/subscription/swap
+      { data: { pricing_plan_id: swapTargetId } },
       { onSettled: () => { setSwapOpen(false); invalidate(); } },
     );
   };

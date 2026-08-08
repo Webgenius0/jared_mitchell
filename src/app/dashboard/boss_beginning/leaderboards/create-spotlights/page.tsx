@@ -19,6 +19,7 @@ import {
   useUpdateBusinessSpotlight,
   getSingleBusinessSpotlightDetails,
 } from "@/Hooks/api/cms_api";
+import RequireSubscription from "@/Components/Common/RequireSubscription";
 
 /* ------------------------------------------------------------------ */
 /*  Step definitions                                                    */
@@ -466,7 +467,12 @@ export default function Page() {
         </div>
       }
     >
-      <CreateSpotlightForm />
+      <RequireSubscription
+        title="Subscription required"
+        description="You need an active subscription to create or edit a business spotlight. Subscribe to unlock the application form."
+      >
+        <CreateSpotlightForm />
+      </RequireSubscription>
     </Suspense>
   );
 }
