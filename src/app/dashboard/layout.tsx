@@ -97,24 +97,24 @@ const artistLinks = [
 ];
 
 const communityMemberLinks = [
-  {
-    id: 8,
-    label: "Dashboard",
-    path: "/dashboard/community_member",
-    icon: <NOneSvg />,
-  },
-  {
-    id: 25,
-    label: "Boss Beginning",
-    path: "/dashboard/community_member/boss-beginning",
-    icon: <NTwentySvg />,
-  },
-  {
-    id: 22,
-    label: "Spotlight",
-    path: "/dashboard/community_member/leaderboards",
-    icon: <NEighteenSvg />,
-  },
+  // {
+  //   id: 8,
+  //   label: "Dashboard",
+  //   path: "/dashboard/community_member",
+  //   icon: <NOneSvg />,
+  // },
+  // {
+  //   id: 25,
+  //   label: "Boss Beginning",
+  //   path: "/dashboard/community_member/boss-beginning",
+  //   icon: <NTwentySvg />,
+  // },
+  // {
+  //   id: 22,
+  //   label: "Spotlight",
+  //   path: "/dashboard/community_member/leaderboards",
+  //   icon: <NEighteenSvg />,
+  // },
   {
     id: 42,
     label: "Purchase List",

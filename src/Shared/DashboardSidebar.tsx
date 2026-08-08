@@ -9,7 +9,6 @@ import { FaAngleDown } from "react-icons/fa6";
 type SubMenu = {
   label: string;
   path: string;
-  /** Rounds/items that haven't opened yet — rendered locked and non-clickable. */
   disabled?: boolean;
 };
 
@@ -114,7 +113,6 @@ const DashboardSidebar = ({
                 : "hover:bg-gray-100 text-gray-700"
             }`;
 
-            // ── Item WITHOUT submenu → plain link (no nesting) ────────
             if (!item?.subMenu) {
               return (
                 <Link

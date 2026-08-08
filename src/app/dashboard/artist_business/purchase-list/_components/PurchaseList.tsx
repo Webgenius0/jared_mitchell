@@ -65,7 +65,12 @@ export default function PurchaseList({
   setPage: any;
 }) {
   const [selectedOrder, setSelectedOrder] = useState<Business | null>(null);
-  const pagination: PaginationProps | undefined = data?.pagination;
+  // Normalize the orders list regardless of the API wrapping it as
+  // `data.data`, `data.orders`, `null`, or a plain array — so the empty
+  // state reliably shows when there is no purchase data.
+  const orders = Array.isArray(data) ? data : data?.data ?? data?.orders ?? [];
+  const pagination: PaginationProps | undefined =
+    data?.pagination ?? data?.data?.pagination;
 
   return (
     <>
@@ -88,7 +93,7 @@ export default function PurchaseList({
             <tbody className="divide-y divide-slate-100">
               {isLoading ? (
                 <PurchaseRowSkeleton />
-              ) : data?.data?.length === 0 ? (
+              ) : orders.length === 0 ? (
                 <tr>
                   <td
                     colSpan={columns?.length}
@@ -98,7 +103,7 @@ export default function PurchaseList({
                   </td>
                 </tr>
               ) : (
-                data?.data?.map((b: Business) => (
+                orders.map((b: Business) => (
                   <tr
                     key={b?.id}
                     className="hover:bg-slate-50/60 transition-colors"
