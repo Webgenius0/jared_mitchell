@@ -33,7 +33,7 @@ const Modal: React.FC<ModalProps> = ({
       <div
         className={`relative z-10 w-full max-w-4xl max-h-[calc(100vh-50px)] overflow-y-auto p-5 bg-white rounded shadow-lg ${className}`}
       >
-        <p className="text-black text-lg font-medium">{title}</p>
+        {title && <p className="text-black text-lg font-medium">{title}</p>}
         {children}
 
         {/* Close btn */}

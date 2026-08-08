@@ -10,6 +10,41 @@ export const useGetDashboardStats = () => {
   });
 };
 
+// Get Artist Dashboard Stats
+// GET /v1/artist/dashboard/stats
+// Returns: { stats: { total_spotlight, approved_spotlight, ticket_purchasing },
+//            spotlight_performance: [{ month, value }] }
+export const useGetArtistDashboardStats = () => {
+  return useClientApi({
+    method: "get",
+    isPrivate: true,
+    key: ["artist-dashboard-stats"],
+    endpoint: "/v1/artist/dashboard/stats",
+  });
+};
+
+// Get Artist Dashboard Analytics
+// GET /v1/artist/dashboard/analytics
+// Returns: { spotlight_reach: { total_reach, profile_visits, spotlight_view },
+//            spotlight_performance: [{ month, clap, share, save }] }
+export const useGetArtistDashboardAnalytics = () => {
+  return useClientApi({
+    method: "get",
+    isPrivate: true,
+    key: ["artist-dashboard-analytics"],
+    endpoint: "/v1/artist/dashboard/analytics",
+  });
+};
+
+export const useGetBusinessDashboardStats = () => {
+  return useClientApi({
+    method: "get",
+    isPrivate: true,
+    key: ["business-dashboard-stats"],
+    endpoint: "/v1/dashboard/summary",
+  });
+};
+
 // Get Event Registrations (booking history)
 export const useEventRegistrations = (params?: any) => {
   return useClientApi({

@@ -4,7 +4,7 @@ import useAuth from "@/Hooks/useAuth";
 import PrivateLayout from "@/Private/PrivateLayout";
 import DashboardSidebar from "@/Shared/DashboardSidebar";
 import { FaRegStar } from "react-icons/fa";
-import { LuShoppingCart } from "react-icons/lu";
+import { LuShoppingCart, LuCreditCard } from "react-icons/lu";
 
 import {
   NEighteenSvg,
@@ -60,6 +60,12 @@ const artistLinks = [
     icon: <LuShoppingCart className="text-xl" />,
   },
   {
+    id: 43,
+    label: "Subscription",
+    path: "/dashboard/subscription",
+    icon: <LuCreditCard className="text-xl" />,
+  },
+  {
     id: 3,
     label: "Analytics",
     path: "/dashboard/artist_business/analytics",
@@ -97,29 +103,35 @@ const artistLinks = [
 ];
 
 const communityMemberLinks = [
-  {
-    id: 8,
-    label: "Dashboard",
-    path: "/dashboard/community_member",
-    icon: <NOneSvg />,
-  },
-  {
-    id: 25,
-    label: "Boss Beginning",
-    path: "/dashboard/community_member/boss-beginning",
-    icon: <NTwentySvg />,
-  },
-  {
-    id: 22,
-    label: "Spotlight",
-    path: "/dashboard/community_member/leaderboards",
-    icon: <NEighteenSvg />,
-  },
+  // {
+  //   id: 8,
+  //   label: "Dashboard",
+  //   path: "/dashboard/community_member",
+  //   icon: <NOneSvg />,
+  // },
+  // {
+  //   id: 25,
+  //   label: "Boss Beginning",
+  //   path: "/dashboard/community_member/boss-beginning",
+  //   icon: <NTwentySvg />,
+  // },
+  // {
+  //   id: 22,
+  //   label: "Spotlight",
+  //   path: "/dashboard/community_member/leaderboards",
+  //   icon: <NEighteenSvg />,
+  // },
   {
     id: 42,
     label: "Purchase List",
     path: "/dashboard/community_member/purchase-list",
     icon: <LuShoppingCart className="text-xl" />,
+  },
+  {
+    id: 43,
+    label: "Subscription",
+    path: "/dashboard/subscription",
+    icon: <LuCreditCard className="text-xl" />,
   },
   {
     id: 24,
@@ -171,6 +183,12 @@ const sponsorLinks = [
     label: "Billing",
     path: "/dashboard/sponsor/billing",
     icon: <NSixteenSvg />,
+  },
+  {
+    id: 43,
+    label: "Subscription",
+    path: "/dashboard/subscription",
+    icon: <LuCreditCard className="text-xl" />,
   },
   {
     id: 19,
@@ -230,6 +248,12 @@ const bossLinks = [
     label: "Purchase List",
     path: "/dashboard/boss_beginning/purchase-list",
     icon: <LuShoppingCart className="text-xl" />,
+  },
+  {
+    id: 43,
+    label: "Subscription",
+    path: "/dashboard/subscription",
+    icon: <LuCreditCard className="text-xl" />,
   },
   {
     id: 23,

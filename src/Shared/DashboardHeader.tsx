@@ -4,10 +4,15 @@ import {
   SearchIconSvg,
 } from "@/Components/Svg/SvgContainer";
 import { usePathname } from "next/navigation";
+import Link from "next/link";
 import React from "react";
 import useAuth from "@/Hooks/useAuth";
 import Image from "next/image";
 import { FaBars } from "react-icons/fa";
+import {
+  normalizeSubscriptionStatus,
+  subscriptionStatusStyles,
+} from "@/Hooks/api/subscription_api";
 
 const DashboardHeader = ({
   setOpen,
@@ -41,6 +46,15 @@ const DashboardHeader = ({
   const profileEmail = user?.email || "";
   const profileAvatar = user?.profile?.avatar || "";
   const firstLetter = profileName?.charAt(0)?.toUpperCase() || "U";
+
+  // Subscription pills — plan + status from the user profile
+  const subscription = user?.subscription;
+  const planName = subscription?.plan_name;
+  const subStatus = normalizeSubscriptionStatus(
+    subscription?.canceled ? "cancelled" : subscription?.status,
+  );
+  const statusMeta =
+    subscriptionStatusStyles[subStatus] || subscriptionStatusStyles.inactive;
 
   return (
     <header className="flex justify-between items-center pt-3 md:pt-4 px-3 md:px-5 sticky top-0 bg-[#F8F8FA] z-50">
@@ -99,13 +113,30 @@ const DashboardHeader = ({
           </span>
         </p>
 
-        {/* Badges - hidden on smaller screens */}
-        <button className="hidden lg:inline-block self-end px-3 xl:px-4 text-xs xl:text-sm py-1.5 font-medium rounded-full text-primary-blue bg-[#155DFC26] capitalize shrink-0">
-          Pro Plan
-        </button>
-        <button className="hidden lg:inline-block self-end px-3 xl:px-4 text-xs xl:text-sm py-1.5 font-medium rounded-full text-[#1FC16B] bg-[#1FC16B1C] capitalize shrink-0">
-          Active
-        </button>
+        {/* Plan + Status badges - hidden on smaller screens */}
+        {subscription ? (
+          <>
+            <Link
+              href="/dashboard/subscription"
+              title="Manage subscription"
+              className="hidden lg:inline-block self-end px-3 xl:px-4 text-xs xl:text-sm py-1.5 font-medium rounded-full text-primary-blue bg-[#155DFC26] hover:bg-[#155DFC33] capitalize shrink-0 transition-colors"
+            >
+              {planName || "Current Plan"}
+            </Link>
+            <span
+              className={`hidden lg:inline-block self-end px-3 xl:px-4 text-xs xl:text-sm py-1.5 font-medium rounded-full border capitalize shrink-0 ${statusMeta.className}`}
+            >
+              {statusMeta.label}
+            </span>
+          </>
+        ) : (
+          <Link
+            href="/pricing"
+            className="hidden lg:inline-block self-end px-3 xl:px-4 text-xs xl:text-sm py-1.5 font-medium rounded-full text-primary-blue bg-[#155DFC26] hover:bg-[#155DFC33] capitalize shrink-0 transition-colors"
+          >
+            Get a Plan
+          </Link>
+        )}
       </div>
     </header>
   );
