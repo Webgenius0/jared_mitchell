@@ -2,6 +2,7 @@
 
 import React from "react";
 import { Heart, Sparkles, ThumbsUp, BarChart3 } from "lucide-react";
+import { useGetContestSummary } from "@/Hooks/api/dashboard_api";
 
 /* ------------------------------------------------------------------ */
 /*  Types                                                              */
@@ -17,24 +18,6 @@ interface VotingSummaryItem {
   value: string;
   label: string;
 }
-
-/* ------------------------------------------------------------------ */
-/*  Data                                                               */
-/* ------------------------------------------------------------------ */
-
-const voteStats: StatCard[] = [
-  { label: "Total vote", value: 1248, icon: Heart },
-  { label: "Todays vote", value: 124, icon: Sparkles },
-  { label: "Weekly vote", value: 842, icon: ThumbsUp },
-  { label: "Monthly vote", value: 3210, icon: BarChart3 },
-];
-
-const votingSummary: VotingSummaryItem[] = [
-  { value: "1.8k", label: "Claps" },
-  { value: "50", label: "Save" },
-  { value: "10", label: "Fire" },
-  { value: "#4", label: "Rank" },
-];
 
 /* ------------------------------------------------------------------ */
 /*  Small building blocks                                              */
@@ -61,6 +44,46 @@ function StatCardItem({ label, value, icon: Icon }: StatCard) {
 /* ------------------------------------------------------------------ */
 
 export default function Round1Page() {
+  const { data } = useGetContestSummary();
+  const summary = data?.data;
+
+  const roundData = (summary?.round_wise_summary ?? []).find(
+    (r: { round?: string }) => r.round === "Round 1",
+  );
+  const voting = roundData?.voting_summary ?? {};
+
+  const voteStats: StatCard[] = [
+    {
+      label: "Total vote",
+      value: roundData?.total_votes ?? "—",
+      icon: Heart,
+    },
+    {
+      label: "Todays vote",
+      value: roundData?.todays_votes ?? "—",
+      icon: Sparkles,
+    },
+    {
+      label: "Weekly vote",
+      value: roundData?.weekly_votes ?? "—",
+      icon: ThumbsUp,
+    },
+    {
+      label: "Monthly vote",
+      value: roundData?.monthly_votes ?? "—",
+      icon: BarChart3,
+    },
+  ];
+
+  const rank = Number(voting?.rank ?? 0);
+
+  const votingSummary: VotingSummaryItem[] = [
+    { value: String(voting?.total_clap ?? "—"), label: "Claps" },
+    { value: String(voting?.total_save ?? "—"), label: "Save" },
+    { value: String(voting?.total_fire ?? "—"), label: "Fire" },
+    { value: rank > 0 ? `#${rank}` : "—", label: "Rank" },
+  ];
+
   return (
     <div className=" bg-[#F5F6F8]">
       <div className=" space-y-6">

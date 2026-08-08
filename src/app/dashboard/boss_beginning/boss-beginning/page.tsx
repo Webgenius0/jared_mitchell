@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Heart, Sparkles, ThumbsUp, BarChart3 } from "lucide-react";
+import { Heart, Sparkles, ThumbsUp, BarChart3, Loader2 } from "lucide-react";
 import {
   BarChart,
   Bar,
@@ -9,9 +9,9 @@ import {
   YAxis,
   ResponsiveContainer,
   Tooltip,
-  Cell,
   CartesianGrid,
 } from "recharts";
+import { useGetContestSummary } from "@/Hooks/api/dashboard_api";
 
 /* ------------------------------------------------------------------ */
 /*  Types                                                              */
@@ -26,41 +26,9 @@ interface StatCard {
 interface ChartPoint {
   month: string;
   clap: number;
-  love: number;
+  share: number;
   fire: number;
-  total: number;
 }
-
-/* ------------------------------------------------------------------ */
-/*  Data                                                               */
-/* ------------------------------------------------------------------ */
-
-const voteStats: StatCard[] = [
-  { label: "Total vote", value: 1248, icon: Heart },
-  { label: "Todays vote", value: 124, icon: Sparkles },
-  { label: "Weekly vote", value: 842, icon: ThumbsUp },
-  { label: "Monthly vote", value: 3210, icon: BarChart3 },
-];
-
-const rawChartData: Omit<ChartPoint, "total">[] = [
-  { month: "Jan", clap: 6, love: 5, fire: 4 },
-  { month: "Feb", clap: 18, love: 14, fire: 8 },
-  { month: "Mar", clap: 26, love: 20, fire: 12 },
-  { month: "Apr", clap: 17, love: 13, fire: 8 },
-  { month: "May", clap: 19, love: 15, fire: 8 },
-  { month: "Jun", clap: 10, love: 7, fire: 4 },
-  { month: "Jul", clap: 16, love: 12, fire: 7 },
-  { month: "Aug", clap: 23, love: 18, fire: 11 },
-  { month: "Sep", clap: 11, love: 9, fire: 5 },
-  { month: "Oct", clap: 5, love: 4, fire: 3 },
-  { month: "Nov", clap: 22, love: 17, fire: 9 },
-  { month: "Dec", clap: 15, love: 11, fire: 7 },
-];
-
-const chartData: ChartPoint[] = rawChartData.map(d => ({
-  ...d,
-  total: d.clap + d.love + d.fire,
-}));
 
 /* ------------------------------------------------------------------ */
 /*  Small building blocks                                              */
@@ -94,7 +62,7 @@ function ChartTooltip({ active, payload }: ChartTooltipProps) {
 
   const rows: { label: string; value: number; colorClass: string }[] = [
     { label: "Clap", value: data.clap, colorClass: "bg-emerald-500" },
-    { label: "Love", value: data.love, colorClass: "bg-blue-500" },
+    { label: "Shares", value: data.share, colorClass: "bg-blue-500" },
     { label: "Fire", value: data.fire, colorClass: "bg-purple-500" },
   ];
 
@@ -125,6 +93,43 @@ function ChartTooltip({ active, payload }: ChartTooltipProps) {
 /* ------------------------------------------------------------------ */
 
 export default function Page() {
+  const { data, isLoading, error } = useGetContestSummary();
+  const summary = data?.data;
+
+  const overall = summary?.overall_summary ?? {};
+
+  const voteStats: StatCard[] = [
+    {
+      label: "Total vote",
+      value: overall?.total_votes ?? "—",
+      icon: Heart,
+    },
+    {
+      label: "Todays vote",
+      value: overall?.todays_votes ?? "—",
+      icon: Sparkles,
+    },
+    {
+      label: "Weekly vote",
+      value: overall?.this_weeks_votes ?? "—",
+      icon: ThumbsUp,
+    },
+    {
+      label: "Monthly vote",
+      value: overall?.this_months_votes ?? "—",
+      icon: BarChart3,
+    },
+  ];
+
+  const chartData: ChartPoint[] = (
+    summary?.year_based_monthly_summary ?? []
+  ).map((d: { month: string; clap: number; share: number; fire: number }) => ({
+    month: d.month,
+    clap: d.clap,
+    share: d.share,
+    fire: d.fire,
+  }));
+
   return (
     <div className=" bg-[#F5F6F8]">
       <div className=" space-y-6">
@@ -153,7 +158,7 @@ export default function Page() {
               </span>
               <span className="flex items-center gap-1.5">
                 <span className="w-2.5 h-2.5 rounded-full bg-blue-500" />
-                Love
+                Shares
               </span>
               <span className="flex items-center gap-1.5">
                 <span className="w-2.5 h-2.5 rounded-full bg-purple-500" />
@@ -162,47 +167,71 @@ export default function Page() {
             </div>
           </div>
           <div className="h-64 md:h-72">
-            <ResponsiveContainer width="100%" height="100%">
-              <BarChart
-                data={chartData}
-                margin={{ top: 10, right: 10, left: 0, bottom: 4 }}
-              >
-                <CartesianGrid
-                  vertical={false}
-                  stroke="#e2e8f0"
-                  strokeDasharray="0"
-                />
-                <YAxis
-                  axisLine={false}
-                  tickLine={false}
-                  domain={[0, 100]}
-                  ticks={[0, 20, 40, 60, 80, 100]}
-                  tick={{ fontSize: 12, fill: "#94a3b8" }}
-                  width={32}
-                />
-                <XAxis
-                  dataKey="month"
-                  axisLine={{ stroke: "#e2e8f0" }}
-                  tickLine={false}
-                  interval={0}
-                  tick={{ fontSize: 12, fill: "#94a3b8" }}
-                />
-                <Tooltip
-                  cursor={{ fill: "rgba(59,130,246,0.06)" }}
-                  content={(props: any) => (
-                    <ChartTooltip
-                      active={props.active}
-                      payload={props.payload}
-                    />
-                  )}
-                />
-                <Bar dataKey="total" radius={[6, 6, 0, 0]} maxBarSize={28}>
-                  {chartData.map((_, i) => (
-                    <Cell key={i} fill="#3b82f6" />
-                  ))}
-                </Bar>
-              </BarChart>
-            </ResponsiveContainer>
+            {isLoading ? (
+              <div className="h-full flex items-center justify-center">
+                <Loader2 className="w-5 h-5 text-blue-500 animate-spin" />
+              </div>
+            ) : error ? (
+              <p className="text-sm text-slate-400 text-center h-full flex items-center justify-center">
+                Failed to load chart data.
+              </p>
+            ) : (
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart
+                  data={chartData}
+                  margin={{ top: 30, right: 10, left: 0, bottom: 4 }}
+                >
+                  <CartesianGrid
+                    vertical={false}
+                    stroke="#e2e8f0"
+                    strokeDasharray="0"
+                  />
+                  <YAxis
+                    axisLine={false}
+                    tickLine={false}
+                    domain={[0, "auto"]}
+                    allowDecimals={false}
+                    tick={{ fontSize: 12, fill: "#94a3b8" }}
+                    width={32}
+                  />
+                  <XAxis
+                    dataKey="month"
+                    axisLine={{ stroke: "#e2e8f0" }}
+                    tickLine={false}
+                    interval={0}
+                    tick={{ fontSize: 12, fill: "#94a3b8" }}
+                  />
+                  <Tooltip
+                    cursor={{ fill: "rgba(59,130,246,0.06)" }}
+                    content={(props: any) => (
+                      <ChartTooltip
+                        active={props.active}
+                        payload={props.payload}
+                      />
+                    )}
+                  />
+                  <Bar
+                    dataKey="clap"
+                    stackId="votes"
+                    fill="#10b981"
+                    maxBarSize={28}
+                  />
+                  <Bar
+                    dataKey="share"
+                    stackId="votes"
+                    fill="#3b82f6"
+                    maxBarSize={28}
+                  />
+                  <Bar
+                    dataKey="fire"
+                    stackId="votes"
+                    fill="#a855f7"
+                    radius={[6, 6, 0, 0]}
+                    maxBarSize={28}
+                  />
+                </BarChart>
+              </ResponsiveContainer>
+            )}
           </div>
         </div>
       </div>

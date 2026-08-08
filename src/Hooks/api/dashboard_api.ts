@@ -45,6 +45,27 @@ export const useGetBusinessDashboardStats = () => {
   });
 };
 
+// Get Boss Beginning Contest Summary (overview + per-round)
+// GET /v1/dashboard/contest-summary
+// Returns: {
+//   overall_summary: { total_votes, todays_votes, this_weeks_votes, this_months_votes },
+//   year_based_monthly_summary: [{ month, clap, share, fire }],
+//   round_wise_summary: [
+//     { round: "Round 1", total_votes, todays_votes, weekly_votes, monthly_votes,
+//       voting_summary: { total_clap, total_save, total_fire, rank } },
+//     { round: "Round 2", total_points, todays_points, weekly_points, monthly_points },
+//     ... (Rounds 3-5 share Round 2's shape)
+//   ]
+// }
+export const useGetContestSummary = () => {
+  return useClientApi({
+    method: "get",
+    isPrivate: true,
+    key: ["boss-contest-summary"],
+    endpoint: "/v1/dashboard/contest-summary",
+  });
+};
+
 // Get Boss Beginning Dashboard Analytics
 // GET /v1/dashboard/analytics
 // Returns: { votes: { total_vote, todays_vote, weekly_vote, monthly_vote },

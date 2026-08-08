@@ -1,22 +1,100 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { Button } from "@/Components/Common/Button";
 import { pricingPlans as staticPlans } from "@/Components/Data/data";
 import { PricingPlan as PricingPlanType } from "@/Types/type";
 import { GoArrowRight } from "react-icons/go";
 import { IoCheckmarkOutline } from "react-icons/io5";
 import { useSubscriptionCheckout } from "@/Hooks/api/auth_api";
+import {
+  useGetMySubscription,
+  normalizeSubscriptionResponse,
+  normalizeProfileSubscription,
+} from "@/Hooks/api/subscription_api";
 import useAuth from "@/Hooks/useAuth";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import toast from "react-hot-toast";
+
+/* ------------------------------------------------------------------ */
+/*  Helpers                                                            */
+/* ------------------------------------------------------------------ */
+
+// "Basic Plan" / "Basic" / "basic plan" all normalize to "basic", so a
+// profile subscription name can be matched against a pricing card title.
+const normalizePlanName = (name?: string | null) =>
+  String(name ?? "")
+    .toLowerCase()
+    .replace(/\s*plan\s*/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+
+const isActiveSubscription = (status?: string | null) => {
+  const s = String(status ?? "").toLowerCase();
+  return s === "active" || s === "trialing";
+};
+
+/* ------------------------------------------------------------------ */
+/*  Page                                                               */
+/* ------------------------------------------------------------------ */
 
 const PricingPlan = ({ plans }: { plans?: PricingPlanType[] }) => {
   const pricingPlans = plans ?? staticPlans;
-  const { token } = useAuth();
+  const { token, user } = useAuth();
   const router = useRouter();
   const checkoutMutation = useSubscriptionCheckout();
   const [loadingPlanId, setLoadingPlanId] = useState<string | null>(null);
+
+  // Current subscription — /v1/subscription/status is the source of truth
+  // (matches by stripe price id). While that endpoint is unavailable, fall
+  // back to the subscription embedded in the user profile (matched by name).
+  const { data: subRes, isLoading: subLoading } = useGetMySubscription(
+    Boolean(token),
+  );
+  const statusSub = useMemo(
+    () => normalizeSubscriptionResponse(subRes),
+    [subRes],
+  );
+  // Only fall back to the profile subscription once the status query has
+  // settled — avoids a brief flash of a name-matched highlight while it loads.
+  const profileSub = useMemo(
+    () =>
+      statusSub || subLoading
+        ? null
+        : normalizeProfileSubscription(user?.subscription),
+    [statusSub, subLoading, user?.subscription],
+  );
+
+  // The id of the pricing card the user has already purchased — used to
+  // render that card as "selected" instead of offering it for purchase.
+  const currentPlanId = useMemo(() => {
+    const sub = statusSub ?? profileSub;
+    if (!sub || !isActiveSubscription(sub.status)) return null;
+
+    return (
+      pricingPlans.find(plan => {
+        if (
+          Boolean(sub.stripe_price) &&
+          Boolean(plan.stripe_price_id) &&
+          sub.stripe_price === plan.stripe_price_id
+        ) {
+          return true;
+        }
+        if (
+          sub.plan_id != null &&
+          String(sub.plan_id) === String(plan.id)
+        ) {
+          return true;
+        }
+        const normalizedSubName = normalizePlanName(sub.plan_name);
+        return (
+          Boolean(normalizedSubName) &&
+          normalizedSubName === normalizePlanName(plan.title)
+        );
+      })?.id ?? null
+    );
+  }, [statusSub, profileSub, pricingPlans]);
 
   const handleGetStarted = (plan: PricingPlanType) => {
     // If user is not logged in, redirect to login page
@@ -57,19 +135,36 @@ const PricingPlan = ({ plans }: { plans?: PricingPlanType[] }) => {
           <div className="grid gap-4 md:gap-5 xl:gap-6 lg:grid-cols-3">
             {pricingPlans.map(plan => {
               const isLoading = isPlanLoading(plan.id);
+              const isCurrent = currentPlanId === plan.id;
 
               return (
                 <div
                   key={plan.id}
-                  className={`relative flex flex-col custom_shadow rounded-2xl custom_border px-5 py-8 ${
-                    plan.highlighted
-                      ? "bg-primary-blue text-white border-blue-600"
-                      : "bg-white text-primary-black border-gray-200"
+                  className={`relative flex flex-col custom_shadow rounded-2xl custom_border px-5 py-8 transition-all ${
+                    isCurrent
+                      ? plan.highlighted
+                        ? "bg-primary-blue text-white border-blue-600 ring-2 ring-blue-400"
+                        : "bg-white text-primary-black border-gray-200 ring-2 ring-primary-blue"
+                      : plan.highlighted
+                        ? "bg-primary-blue text-white border-blue-600"
+                        : "bg-white text-primary-black border-gray-200"
                   }`}
                 >
                   {plan.badge && (
-                    <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-primary-blue px-3 py-1 text-sm font-medium text-white">
+                    <span
+                      className={`absolute -top-3 ${
+                        isCurrent
+                          ? "left-4"
+                          : "left-1/2 -translate-x-1/2"
+                      } rounded-full bg-primary-blue px-3 py-1 text-sm font-medium text-white`}
+                    >
                       {plan.badge}
+                    </span>
+                  )}
+                  {isCurrent && (
+                    <span className="absolute -top-3 right-4 inline-flex items-center gap-1 rounded-full bg-emerald-500 px-3 py-1 text-xs font-semibold text-white shadow">
+                      <IoCheckmarkOutline className="size-4" />
+                      Current Plan
                     </span>
                   )}
                   <h3 className="text-xl md:text-2xl font-semibold uppercase">
@@ -113,20 +208,36 @@ const PricingPlan = ({ plans }: { plans?: PricingPlanType[] }) => {
                       {plan.outcome}
                     </div>
 
-                    <Button
-                      className={`flex w-full ${
-                        plan.highlighted
-                          ? "!bg-white text-primary-blue hover:bg-gray-100"
-                          : "bg-primary-blue text-white hover:bg-blue-700"
-                      }`}
-                      onClick={() => handleGetStarted(plan)}
-                      disabled={isLoading}
-                    >
-                      {isLoading
-                        ? "Redirecting..."
-                        : plan.buttonLabel ?? "Get Started"}{" "}
-                      <GoArrowRight />
-                    </Button>
+                    {isCurrent ? (
+                      <Button
+                        asChild
+                        className={`flex w-full ${
+                          plan.highlighted
+                            ? "!bg-white/90 !text-primary-blue hover:!bg-white"
+                            : "!bg-gray-100 !text-gray-500 border-gray-200 hover:!bg-gray-200"
+                        }`}
+                      >
+                        <Link href="/dashboard/subscription">
+                          <IoCheckmarkOutline className="size-5" />
+                          Manage Plan
+                        </Link>
+                      </Button>
+                    ) : (
+                      <Button
+                        className={`flex w-full ${
+                          plan.highlighted
+                            ? "!bg-white text-primary-blue hover:bg-gray-100"
+                            : "bg-primary-blue text-white hover:bg-blue-700"
+                        }`}
+                        onClick={() => handleGetStarted(plan)}
+                        disabled={isLoading}
+                      >
+                        {isLoading
+                          ? "Redirecting..."
+                          : plan.buttonLabel ?? "Get Started"}{" "}
+                        <GoArrowRight />
+                      </Button>
+                    )}
                   </div>
                 </div>
               );

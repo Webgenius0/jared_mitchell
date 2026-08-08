@@ -4,6 +4,7 @@ import React from "react";
 import { Heart, Sparkles, ThumbsUp, BarChart3 } from "lucide-react";
 import RoundAssetsSubmission from "@/Components/Common/RoundAssetsSubmission";
 import RoundAccessGuard from "@/Components/Common/RoundAccessGuard";
+import { useGetContestSummary } from "@/Hooks/api/dashboard_api";
 
 /* ------------------------------------------------------------------ */
 /*  Types                                                              */
@@ -14,17 +15,6 @@ interface StatCard {
   value: string | number;
   icon: React.ComponentType<{ className?: string }>;
 }
-
-/* ------------------------------------------------------------------ */
-/*  Data                                                               */
-/* ------------------------------------------------------------------ */
-
-const pointStats: StatCard[] = [
-  { label: "Total point", value: 1248, icon: Heart },
-  { label: "Todays point", value: 124, icon: Sparkles },
-  { label: "Weekly point", value: 842, icon: ThumbsUp },
-  { label: "Monthly point", value: 3210, icon: BarChart3 },
-];
 
 /* ------------------------------------------------------------------ */
 /*  Small building blocks                                              */
@@ -51,6 +41,36 @@ function StatCardItem({ label, value, icon: Icon }: StatCard) {
 /* ------------------------------------------------------------------ */
 
 export default function Round3Page() {
+  const { data } = useGetContestSummary();
+  const summary = data?.data;
+
+  const roundData = (summary?.round_wise_summary ?? []).find(
+    (r: { round?: string }) => r.round === "Round 3",
+  );
+
+  const pointStats: StatCard[] = [
+    {
+      label: "Total point",
+      value: roundData?.total_points ?? "—",
+      icon: Heart,
+    },
+    {
+      label: "Todays point",
+      value: roundData?.todays_points ?? "—",
+      icon: Sparkles,
+    },
+    {
+      label: "Weekly point",
+      value: roundData?.weekly_points ?? "—",
+      icon: ThumbsUp,
+    },
+    {
+      label: "Monthly point",
+      value: roundData?.monthly_points ?? "—",
+      icon: BarChart3,
+    },
+  ];
+
   return (
     <div className=" bg-[#F5F6F8]">
       <div className=" space-y-6">
@@ -58,7 +78,7 @@ export default function Round3Page() {
           {/* Votes */}
           <div>
             <h2 className="text-sm md:text-base font-medium text-slate-800 mb-3">
-              Votes
+              Points
             </h2>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
               {pointStats.map(stat => (
