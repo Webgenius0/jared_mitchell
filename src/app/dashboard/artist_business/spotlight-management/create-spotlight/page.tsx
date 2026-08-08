@@ -19,6 +19,7 @@ import StepFour from "./_components/StepFour";
 import StepFive from "./_components/StepFive";
 import StepSix from "./_components/StepSix";
 import StepSeven from "./_components/StepSeven";
+import RequireSubscription from "@/Components/Common/RequireSubscription";
 
 type StepItem = {
   title: string;
@@ -221,6 +222,10 @@ const Page = ({ searchParams }: Props) => {
   }
 
   return (
+    <RequireSubscription
+      title="Subscription required"
+      description="You need an active subscription to create or edit an artist spotlight. Subscribe to unlock the application form."
+    >
     <div ref={formRef} className="container py-10">
       <FormProvider {...methods}>
         <form onSubmit={methods.handleSubmit(onSubmit)}>
@@ -325,6 +330,7 @@ const Page = ({ searchParams }: Props) => {
         </form>
       </FormProvider>
     </div>
+    </RequireSubscription>
   );
 };
 

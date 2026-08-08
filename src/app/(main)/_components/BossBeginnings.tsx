@@ -5,8 +5,8 @@ import { useRouter } from "next/navigation";
 import useAuth from "@/Hooks/useAuth";
 import toast from "react-hot-toast";
 import { isBusinessUser } from "@/lib/utils";
+import { isUserSubscribed } from "@/Hooks/api/subscription_api";
 import { CMSBossBeginnings, PastSixMonthsWinner } from "@/Types/cms";
-import Link from "next/link";
 
 const BOSS_BEGINNINGS_URL = "/boss-beginnings";
 
@@ -34,6 +34,13 @@ const BossBeginnings = ({
     }
     if (!isBusiness) {
       toast.error("Only business accounts can nominate a business");
+      return;
+    }
+    if (!isUserSubscribed(user)) {
+      toast.error(
+        "An active subscription is required to nominate a business",
+      );
+      router.push("/pricing");
       return;
     }
     router.push(BOSS_BEGINNINGS_URL);
@@ -104,28 +111,22 @@ const BossBeginnings = ({
 
         {/* Trimmed down top margins above the actions block */}
         <div className="flex flex-wrap items-center justify-center gap-3 lg:gap-6 mt-5 md:mt-6 xl:mt-8">
-          {isBusiness ? (
-            <Button asChild variant={"outline"}>
-              <Link href={BOSS_BEGINNINGS_URL}>Nominate a Business</Link>
-            </Button>
-          ) : (
-            <Button
-              variant={"outline"}
-              onClick={handleNominate}
-              title={
-                restricted
-                  ? "Only business accounts can nominate a business"
-                  : undefined
-              }
-              className={
-                restricted
-                  ? "opacity-50 cursor-not-allowed hover:border-[#D1D5DC]"
-                  : ""
-              }
-            >
-              Nominate a Business
-            </Button>
-          )}
+          <Button
+            variant={"outline"}
+            onClick={handleNominate}
+            title={
+              restricted
+                ? "Only business accounts can nominate a business"
+                : undefined
+            }
+            className={
+              restricted
+                ? "opacity-50 cursor-not-allowed hover:border-[#D1D5DC]"
+                : ""
+            }
+          >
+            Nominate a Business
+          </Button>
         </div>
       </div>
     </section>

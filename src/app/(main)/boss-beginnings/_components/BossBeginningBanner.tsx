@@ -8,6 +8,7 @@ import { SponsorModal } from "@/Components/Common/BecomeSponsorModal";
 import useAuth from "@/Hooks/useAuth";
 import toast from "react-hot-toast";
 import { isBusinessUser } from "@/lib/utils";
+import { isUserSubscribed } from "@/Hooks/api/subscription_api";
 
 const CREATE_BUSINESS_URL = "/dashboard/boss_beginning/business/create-business";
 
@@ -35,6 +36,13 @@ const BossBeginningBanner = ({ data }: BossBeginningBannerProps) => {
     }
     if (!isBusiness) {
       toast.error("Only business accounts can nominate a business");
+      return;
+    }
+    if (!isUserSubscribed(user)) {
+      toast.error(
+        "An active subscription is required to nominate a business",
+      );
+      router.push("/pricing");
       return;
     }
     router.push(CREATE_BUSINESS_URL);

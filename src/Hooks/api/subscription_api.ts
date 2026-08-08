@@ -10,15 +10,14 @@ import useClientApi from "../useClientApi";
 //   get    → GET  the current user's subscription status
 //   cancel → POST cancels the active subscription
 //   resume → POST re-activates a cancelled/past-due subscription
-//   swap   → POST /v1/subscription/:pricing_plan_id (plan id in the URL path)
+//   swap   → POST /v1/subscription/swap (pricing_plan_id in the request body)
 // ─────────────────────────────────────────────────────────────────────────────
 export const SUBSCRIPTION_ENDPOINTS = {
   get: "/v1/subscription/status",
   cancel: "/v1/subscription/cancel",
   resume: "/v1/subscription/resume",
-  // Dynamic — the pricing plan id goes in the URL path
-  swap: (pricingPlanId: number | string) =>
-    `/v1/subscription/${pricingPlanId}`,
+  // POST with { pricing_plan_id } in the request body
+  swap: "/v1/subscription/swap",
 } as const;
 
 // ─── Types ───────────────────────────────────────────────────────────────────
@@ -132,6 +131,18 @@ export const normalizeProfileSubscription = (
     trial_ends_at: sub.trial_ends_at,
     on_grace_period: Boolean(sub.on_grace_period),
   };
+};
+
+/**
+ * True when the user profile carries an active (or trialing) subscription.
+ * Uses the `subscription` object embedded in GET /v1/profile → data.subscription.
+ */
+export const isUserSubscribed = (user?: any): boolean => {
+  const sub = user?.subscription;
+  if (!sub || typeof sub !== "object") return false;
+  if (sub.canceled) return false;
+  const status = String(sub.status || "").toLowerCase();
+  return status === "active" || status === "trialing";
 };
 
 // Badge/pill styles for subscription statuses (shared by header + plan cards)
@@ -250,23 +261,32 @@ export const useResumeSubscription = () => {
   });
 };
 
-/** POST — swap to a different plan. Call with { endpoint: SUBSCRIPTION_ENDPOINTS.swap(planId) }. */
+/** POST — swap to a different plan. Call with { data: { pricing_plan_id: planId } }. */
 export const useSwapSubscription = () => {
   return useClientApi({
     method: "post",
     key: ["swap-subscription"],
-    endpoint: SUBSCRIPTION_ENDPOINTS.swap(0), // overridden per-call via variables.endpoint
+    endpoint: SUBSCRIPTION_ENDPOINTS.swap,
     isPrivate: true,
     onSuccess: (res: any) => {
-      if (res?.success) {
-        // Some backends return a checkout_url when the swap requires
-        // payment (e.g. proration) — redirect when provided.
-        if (res?.data?.checkout_url) {
-          toast.success(res?.message || "Redirecting to payment...");
-          window.location.href = res.data.checkout_url;
-        } else {
-          toast.success(res?.message || "Plan changed successfully.");
-        }
+      // Backend may signal success via `success: true` or Laravel-style
+      // `status: "success"` (same shape as /v1/subscription/checkout).
+      const ok =
+        res?.success === true ||
+        String(res?.status ?? "").toLowerCase() === "success";
+
+      if (!ok) {
+        toast.error(res?.message || "Failed to change plan.");
+        return;
+      }
+
+      // Some backends return a checkout_url when the swap requires
+      // payment (e.g. proration) — redirect when provided.
+      if (res?.data?.checkout_url) {
+        toast.success(res?.message || "Redirecting to payment...");
+        window.location.href = res.data.checkout_url;
+      } else {
+        toast.success(res?.message || "Plan changed successfully.");
       }
     },
     onError: (err: any) => {
