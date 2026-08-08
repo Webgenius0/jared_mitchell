@@ -91,15 +91,18 @@ export default function DashboardPage() {
   ];
 
   // ================= CHART DATA =================
-  const performanceData = performance.map((item: any) => ({
-    name: item.month,
-    value: Number(item.value) || 0,
-  }));
+  const performanceData: { name: string; value: number }[] = performance.map(
+    (item: any) => ({
+      name: item.month,
+      value: Number(item.value) || 0,
+    }),
+  );
 
   // Keep the Y axis readable when real values exceed the old fixed 0–100 range
-  const maxValue = Math.max(100, ...performanceData.map(d => d.value));
-  const tickStep = Math.max(1, Math.round(maxValue / 4));
+  const maxValue = Math.max(1, ...performanceData.map(d => d.value));
+  const tickStep = Math.max(1, Math.ceil(maxValue / 4));
   const ticks = [0, tickStep, tickStep * 2, tickStep * 3, tickStep * 4];
+  const chartDomainMax = tickStep * 4;
 
   // ================= UPCOMING EVENTS =================
   const upcomingEvents =
@@ -155,14 +158,18 @@ export default function DashboardPage() {
           <h2 className="text-base font-bold text-gray-900">
             Spotlight performance
           </h2>
-          <button className="text-xs font-semibold text-blue-500 bg-blue-50 px-3 py-1.5 rounded-lg hover:bg-blue-100 transition">
+          {/* <button className="text-xs font-semibold text-blue-500 bg-blue-50 px-3 py-1.5 rounded-lg hover:bg-blue-100 transition">
             View
-          </button>
+          </button> */}
         </div>
 
         {/* Chart Window Wrap */}
         <div className="w-full h-72 text-[10px] font-semibold text-gray-400">
-          {performanceData.length === 0 && !isLoading ? (
+          {isLoading ? (
+            <div className="flex items-center justify-center h-full">
+              <Loader2 className="w-5 h-5 text-blue-500 animate-spin" />
+            </div>
+          ) : performanceData.length === 0 ? (
             <p className="text-sm text-gray-400 text-center h-full flex items-center justify-center">
               No performance data yet.
             </p>
@@ -196,7 +203,7 @@ export default function DashboardPage() {
                   tickLine={false}
                   axisLine={false}
                   dx={-5}
-                  domain={[0, maxValue]}
+                  domain={[0, chartDomainMax]}
                   ticks={ticks}
                   stroke="#9CA3AF"
                 />
@@ -223,13 +230,13 @@ export default function DashboardPage() {
       <section className="bg-white rounded-2xl border border-gray-100 p-6 shadow-sm">
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-base font-bold text-gray-900">Upcoming event</h2>
-          <button
+          {/* <button
             type="button"
             onClick={() => router.push("/events")}
             className="text-xs font-semibold text-blue-500 bg-blue-50 px-3 py-1.5 rounded-lg hover:bg-blue-100 transition"
           >
             View all
-          </button>
+          </button> */}
         </div>
 
         {isEventsLoading ? (

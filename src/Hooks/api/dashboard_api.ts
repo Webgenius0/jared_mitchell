@@ -23,6 +23,19 @@ export const useGetArtistDashboardStats = () => {
   });
 };
 
+// Get Artist Dashboard Analytics
+// GET /v1/artist/dashboard/analytics
+// Returns: { spotlight_reach: { total_reach, profile_visits, spotlight_view },
+//            spotlight_performance: [{ month, clap, share, save }] }
+export const useGetArtistDashboardAnalytics = () => {
+  return useClientApi({
+    method: "get",
+    isPrivate: true,
+    key: ["artist-dashboard-analytics"],
+    endpoint: "/v1/artist/dashboard/analytics",
+  });
+};
+
 // Get Event Registrations (booking history)
 export const useEventRegistrations = (params?: any) => {
   return useClientApi({
