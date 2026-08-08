@@ -10,6 +10,19 @@ export const useGetDashboardStats = () => {
   });
 };
 
+// Get Artist Dashboard Stats
+// GET /v1/artist/dashboard/stats
+// Returns: { stats: { total_spotlight, approved_spotlight, ticket_purchasing },
+//            spotlight_performance: [{ month, value }] }
+export const useGetArtistDashboardStats = () => {
+  return useClientApi({
+    method: "get",
+    isPrivate: true,
+    key: ["artist-dashboard-stats"],
+    endpoint: "/v1/artist/dashboard/stats",
+  });
+};
+
 // Get Event Registrations (booking history)
 export const useEventRegistrations = (params?: any) => {
   return useClientApi({
