@@ -1,7 +1,7 @@
 "use client";
-import { useState, useRef } from "react";
 import toast from "react-hot-toast";
 import { Button } from "./Button";
+import { useState, useRef } from "react";
 import { useApplySponsorship } from "@/Hooks/api/cms_api";
 import { FiUser, FiMail, FiPhone, FiUpload, FiX } from "react-icons/fi";
 
@@ -28,12 +28,12 @@ export const SponsorModal = ({ onClose }: { onClose: () => void }) => {
     useApplySponsorship();
 
   const handleChange = (field: keyof SponsorFormData, value: string) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
+    setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0] || null;
-    setFormData(prev => ({ ...prev, logo: file }));
+    setFormData((prev) => ({ ...prev, logo: file }));
   };
 
   const handleSubmit = async () => {
@@ -87,7 +87,7 @@ export const SponsorModal = ({ onClose }: { onClose: () => void }) => {
     >
       <div
         className="bg-white rounded-xl w-full relative px-8 sm:px-17 py-8 max-w-5xl max-h-[90vh] overflow-y-auto"
-        onClick={e => e.stopPropagation()}
+        onClick={(e) => e.stopPropagation()}
       >
         <button
           onClick={onClose}
@@ -97,15 +97,17 @@ export const SponsorModal = ({ onClose }: { onClose: () => void }) => {
           &times;
         </button>
 
-        <h3 className="text-4xl font-normal mb-2 text-center">
-          Are you interested in sponsoring all businesses?
-        </h3>
-        <p className="text-gray-600 mb-6 text-base font-normal text-center">
-          Share your information for OSI owner.
-        </p>
+        <div className="max-w-2xl mx-auto px-4 text-center">
+          <h3 className="text-2xl sm:text-3xl md:text-4xl font-medium tracking-tight text-gray-900 mb-2 sm:mb-3 text-balance">
+            Are you interested in sponsoring all businesses?
+          </h3>
+          <p className="text-sm sm:text-base text-gray-600 mb-6 font-normal leading-relaxed text-pretty">
+            Share your information for OSI owner.
+          </p>
+        </div>
 
         <form
-          onSubmit={e => {
+          onSubmit={(e) => {
             e.preventDefault();
             handleSubmit();
           }}
@@ -122,7 +124,7 @@ export const SponsorModal = ({ onClose }: { onClose: () => void }) => {
                 type="text"
                 required
                 value={formData.fullName}
-                onChange={e => handleChange("fullName", e.target.value)}
+                onChange={(e) => handleChange("fullName", e.target.value)}
                 placeholder="Type your name..."
                 className="w-full bg-gray-100 rounded-lg pl-10 pr-4 py-3 text-sm outline-none focus:ring-2 focus:ring-blue-500"
               />
@@ -140,7 +142,7 @@ export const SponsorModal = ({ onClose }: { onClose: () => void }) => {
                 type="email"
                 required
                 value={formData.email}
-                onChange={e => handleChange("email", e.target.value)}
+                onChange={(e) => handleChange("email", e.target.value)}
                 placeholder="Type your email address..."
                 className="w-full bg-gray-100 rounded-lg pl-10 pr-4 py-3 text-sm outline-none focus:ring-2 focus:ring-blue-500"
               />
@@ -158,7 +160,7 @@ export const SponsorModal = ({ onClose }: { onClose: () => void }) => {
                 type="tel"
                 required
                 value={formData.phone}
-                onChange={e => handleChange("phone", e.target.value)}
+                onChange={(e) => handleChange("phone", e.target.value)}
                 placeholder="Type your phone address..."
                 className="w-full bg-gray-100 rounded-lg pl-10 pr-4 py-3 text-sm outline-none focus:ring-2 focus:ring-blue-500"
               />
@@ -175,7 +177,7 @@ export const SponsorModal = ({ onClose }: { onClose: () => void }) => {
               type="text"
               required
               value={formData.reason}
-              onChange={e => handleChange("reason", e.target.value)}
+              onChange={(e) => handleChange("reason", e.target.value)}
               placeholder="Type your sponsor title..."
               className="w-full bg-gray-100 rounded-lg px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-blue-500"
             />
@@ -190,7 +192,7 @@ export const SponsorModal = ({ onClose }: { onClose: () => void }) => {
               type="text"
               required
               value={formData.sponsorTitle}
-              onChange={e => handleChange("sponsorTitle", e.target.value)}
+              onChange={(e) => handleChange("sponsorTitle", e.target.value)}
               placeholder="Type your sponsor title..."
               className="w-full bg-gray-100 rounded-lg px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-blue-500"
             />
@@ -217,9 +219,9 @@ export const SponsorModal = ({ onClose }: { onClose: () => void }) => {
                   <span className="text-gray-700">{formData.logo.name}</span>
                   <button
                     type="button"
-                    onClick={e => {
+                    onClick={(e) => {
                       e.stopPropagation();
-                      setFormData(prev => ({ ...prev, logo: null }));
+                      setFormData((prev) => ({ ...prev, logo: null }));
                       if (fileInputRef.current) fileInputRef.current.value = "";
                     }}
                     aria-label="Remove file"

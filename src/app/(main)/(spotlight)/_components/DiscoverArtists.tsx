@@ -177,7 +177,7 @@ const DiscoverArtists = ({
   };
 
   return (
-    <section className="section">
+    <section className="section sm:px-5 2xl:px-0">
       <Container>
         <h2 className="section_title">
           {cmsData?.title ||
@@ -218,7 +218,7 @@ const DiscoverArtists = ({
             </p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 mt-12">
             {nominees.map((nominee: any, index: number) => {
               const spotlight = nominee.spotlight || {};
               const rawImage = spotlight.headshot || "";

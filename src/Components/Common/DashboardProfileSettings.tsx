@@ -4,6 +4,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { SquarePen, X, Loader2 } from "lucide-react";
 import { useUpdateAvatar, useUpdateProfile } from "@/Hooks/api/auth_api";
 import useAuth from "@/Hooks/useAuth";
+import CurrentPlanCard from "./CurrentPlanCard";
 
 type ProfileData = {
   name: string;
@@ -85,7 +86,7 @@ const DashboardProfileSettings = ({
   const selectedFileRef = useRef<File | null>(null);
 
   const queryClient = useQueryClient();
-  const { token } = useAuth();
+  const { token, user } = useAuth();
 
   const { mutateAsync: updateAvatar } = useUpdateAvatar();
   const { mutateAsync: updateProfile } = useUpdateProfile();
@@ -176,6 +177,11 @@ const DashboardProfileSettings = ({
 
   return (
     <div className="font-sans text-gray-800 flex flex-col justify-between">
+      {/* Current plan — from the user profile subscription */}
+      <div className="mb-6">
+        <CurrentPlanCard subscription={user?.subscription} />
+      </div>
+
       <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden p-6 sm:p-8">
         {/* Header Section */}
         <div className="flex justify-between items-center pb-6 border-b border-gray-100">

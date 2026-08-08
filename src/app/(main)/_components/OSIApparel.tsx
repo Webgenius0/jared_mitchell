@@ -10,6 +10,7 @@ import { CMSShop, FeaturedProductItem } from "@/Types/cms";
 import { useState, useEffect, useMemo } from "react";
 import { SponsorModal } from "@/Components/Common/BecomeSponsorModal";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 interface OSIApparelProps {
   data?: CMSShop;
@@ -142,7 +143,9 @@ const OSIApparel = ({ data, featuredProducts }: OSIApparelProps) => {
         </h3>
 
         <div className="mt-4 md:mt-8 flex justify-center gap-4 md:gap-6">
-          <Button>Join OSI</Button>
+          <Button asChild>
+            <Link href="/auth/login">Join OSI</Link>
+          </Button>
           <Button variant="outline" onClick={() => setIsSponsorModalOpen(true)}>
             Become a Sponsor
           </Button>
