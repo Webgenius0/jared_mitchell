@@ -11,7 +11,7 @@ const AuthFlexBox = ({
   description: string;
 }) => {
   return (
-    <section className="w-full min-h-screen flex items-center justify-between max-w-[1567px] px-5 lg:px-10 mx-auto">
+    <section className="w-full min-h-screen flex items-center justify-between container px-5 lg:px-10 mx-auto">
       <div className="py-3 md:py-5 w-full flex items-center gap-5 lg:gap-10 2xl:gap-20 h-full">
         <figure className="hidden lg:block w-[500px] xl:w-[600px] 2xl:w-[762px] h-[650px] xl:h-[820px] shrink-0 rounded-[32px] overflow-hidden relative">
           <div className="bg-[#00000099] size-full absolute flex flex-col justify-center px-9 text-white">
@@ -26,7 +26,7 @@ const AuthFlexBox = ({
             width={762}
             height={981}
             alt=""
-            className="size-full object-cover"
+            className="size-full object-cover h-screen"
           />
         </figure>
 

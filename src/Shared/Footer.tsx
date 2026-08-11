@@ -1,3 +1,4 @@
+import Link from "next/link";
 import {
   FacebookSvg,
   InstagramSvg,
@@ -6,28 +7,51 @@ import {
 } from "@/Components/Svg/SvgContainer";
 
 const exploreData = [
-  "Home",
-  "About",
-  "Services",
-  "Spotlight",
-  "Events",
-  "Shop",
+  { label: "Home", path: "/" },
+  { label: "About", path: "/about" },
+  { label: "Services", path: "/services" },
+  { label: "Spotlight", path: "/spotlight-artist" },
+  { label: "Events", path: "/events" },
+  { label: "Shop", path: "/shop" },
 ];
 
 const helpData = [
-  "Help Center",
-  "FAQ",
-  "Getting Started",
-  "Contact Support",
-  "admin@oursocialimage.net",
+  { label: "Help Center", path: "/contact" },
+  { label: "FAQ", path: "/contact" },
+  { label: "Getting Started", path: "/services" },
+  { label: "Contact Support", path: "/contact" },
+  { label: "admin@oursocialimage.net", path: "mailto:admin@oursocialimage.net" },
 ];
 
 const businessData = [
-  "Sponsorships",
-  "Partner With OSI",
-  "Boss Beginnings",
-  "Event Submissions",
-  "partners@oursocialimage.net",
+  { label: "Sponsorships", path: "/sponsorships" },
+  { label: "Partner With OSI", path: "/sponsorships" },
+  { label: "Boss Beginnings", path: "/boss-beginnings" },
+  { label: "Event Submissions", path: "/events" },
+  { label: "partners@oursocialimage.net", path: "mailto:partners@oursocialimage.net" },
+];
+
+const socialData = [
+  {
+    label: "Instagram",
+    path: "https://www.instagram.com/oursocialimage",
+    Icon: InstagramSvg,
+  },
+  {
+    label: "Facebook",
+    path: "https://www.facebook.com/oursocialimage",
+    Icon: FacebookSvg,
+  },
+  {
+    label: "TikTok",
+    path: "https://www.tiktok.com/@oursocialimage",
+    Icon: MusicSvg,
+  },
+  {
+    label: "LinkedIn",
+    path: "https://www.linkedin.com/company/oursocialimage",
+    Icon: LinkedinSvg,
+  },
 ];
 
 const Footer = () => {
@@ -61,8 +85,13 @@ const Footer = () => {
             </h3>
             <ul className="space-y-2 md:space-y-3">
               {exploreData?.map((item, idx) => (
-                <li key={idx} className="text-[#99A1AF] xl:text-lg">
-                  {item}
+                <li key={idx} className="xl:text-lg">
+                  <Link
+                    href={item.path}
+                    className="text-[#99A1AF] hover:text-white transition-colors duration-200 cursor-pointer"
+                  >
+                    {item.label}
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -75,8 +104,13 @@ const Footer = () => {
             </h3>
             <ul className="space-y-2 md:space-y-3">
               {helpData?.map((item, idx) => (
-                <li key={idx} className="text-[#99A1AF] xl:text-lg">
-                  {item}
+                <li key={idx} className="xl:text-lg">
+                  <Link
+                    href={item.path}
+                    className="text-[#99A1AF] hover:text-white transition-colors duration-200 cursor-pointer"
+                  >
+                    {item.label}
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -90,8 +124,13 @@ const Footer = () => {
               </h3>
               <ul className="space-y-2">
                 {businessData?.map((item, idx) => (
-                  <li key={idx} className="text-[#99A1AF] xl:text-lg">
-                    {item}
+                  <li key={idx} className="xl:text-lg">
+                    <Link
+                      href={item.path}
+                      className="text-[#99A1AF] hover:text-white transition-colors duration-200 cursor-pointer"
+                    >
+                      {item.label}
+                    </Link>
                   </li>
                 ))}
               </ul>
@@ -108,24 +147,27 @@ const Footer = () => {
               <h3 className="text-white font-medium text-lg xl:text-xl mb-1">
                 Media & Press
               </h3>
-              <p className="text-[#99A1AF] xl:text-lg">
+              <a
+                href="mailto:press@oursocialimage.net"
+                className="text-[#99A1AF] xl:text-lg hover:text-white transition-colors duration-200 cursor-pointer"
+              >
                 press@oursocialimage.net
-              </p>
+              </a>
             </div>
 
             <div className="flex gap-3 xl:gap-5 items-center mt-5 md:mt-8">
-              <button className="cursor-pointer">
-                <InstagramSvg />
-              </button>
-              <button className="cursor-pointer">
-                <FacebookSvg />
-              </button>
-              <button className="cursor-pointer">
-                <MusicSvg />
-              </button>
-              <button className="cursor-pointer">
-                <LinkedinSvg />
-              </button>
+              {socialData?.map(({ label, path, Icon }) => (
+                <a
+                  key={label}
+                  href={path}
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label={label}
+                  className="opacity-80 hover:opacity-100 hover:scale-110 transition-all duration-200 cursor-pointer"
+                >
+                  <Icon />
+                </a>
+              ))}
             </div>
           </div>
         </div>

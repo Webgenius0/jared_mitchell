@@ -47,6 +47,29 @@ export function slugify(text: string): string {
 }
 
 /**
+ * Validate a "strong" password: at least 8 characters with at least one
+ * lowercase letter, one uppercase letter, one number, and one special character.
+ * Returns `true` when valid, otherwise a human-readable error message.
+ * Designed to be used directly inside react-hook-form `validate` rules.
+ */
+export function validateStrongPassword(password: string): true | string {
+  const rules: { test: (value: string) => boolean; label: string }[] = [
+    { test: value => value.length >= 8, label: "at least 8 characters" },
+    { test: value => /[a-z]/.test(value), label: "a lowercase letter" },
+    { test: value => /[A-Z]/.test(value), label: "an uppercase letter" },
+    { test: value => /\d/.test(value), label: "a number" },
+    {
+      test: value => /[^A-Za-z0-9]/.test(value),
+      label: "a special character",
+    },
+  ];
+
+  const missing = rules.filter(rule => !rule.test(password)).map(rule => rule.label);
+  if (missing.length === 0) return true;
+  return `Password must include ${missing.join(", ")}`;
+}
+
+/**
  * Generate and download a booking receipt file for an event registration.
  * Produces a clean, self-contained HTML receipt the user can save/print.
  */

@@ -60,7 +60,7 @@ const WhyChoose = ({ data }: { data?: CMSWhyChoose }) => {
                 className="object-cover w-full"
               />
 
-              <div className="w-full h-full absolute top-0 bg-black/25 ">
+              <div className="w-full h-full absolute top-0 bg-gradient-to-t from-black/85 via-black/50 to-black/35 ">
                 <div className="flex flex-col w-full mx-auto h-full items-center justify-center">
                   <h2 className="section_title !text-white">
                     {item?.title || "Creators"}

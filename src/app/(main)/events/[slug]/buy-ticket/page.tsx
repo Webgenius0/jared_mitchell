@@ -16,6 +16,7 @@ import NewsLetter from "@/Components/Common/NewsLetter";
 import useAuth from "@/Hooks/useAuth";
 import { IoEyeOutline } from "react-icons/io5";
 import { VscEyeClosed } from "react-icons/vsc";
+import { validateStrongPassword } from "@/lib/utils";
 
 export default function BuyTicketPage() {
   const params = useParams();
@@ -116,8 +117,11 @@ export default function BuyTicketPage() {
     if (!user) {
       if (!password) {
         newErrors.password = "Please enter a password.";
-      } else if (password.length < 6) {
-        newErrors.password = "Password must be at least 6 characters.";
+      } else {
+        const strengthError = validateStrongPassword(password);
+        if (strengthError !== true) {
+          newErrors.password = strengthError;
+        }
       }
       if (!confirmPassword) {
         newErrors.confirm_password = "Please confirm your password.";

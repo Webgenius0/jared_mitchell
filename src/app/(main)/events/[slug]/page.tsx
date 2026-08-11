@@ -59,7 +59,7 @@ function EventDetails() {
         media={event.event_media}
         promoVideoUrl={event.promo_video_url}
       />
-      <Sponsors data={CmsData?.about_sponsors} />
+      <Sponsors data={CmsData?.partners} showButton={true} />
       <NewsLetter title="Be part of the movement. Get stories, updates, and opportunities straight to your inbox." />
     </>
   );
