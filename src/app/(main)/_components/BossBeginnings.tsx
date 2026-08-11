@@ -37,9 +37,7 @@ const BossBeginnings = ({
       return;
     }
     if (!isUserSubscribed(user)) {
-      toast.error(
-        "An active subscription is required to nominate a business",
-      );
+      toast.error("An active subscription is required to nominate a business");
       router.push("/pricing");
       return;
     }
@@ -68,7 +66,7 @@ const BossBeginnings = ({
     <section className="text-center bg-[#F5F5F7] py-10 2xl:py-12">
       <div className="container">
         {/* Reduced text line-height from xl:leading-[100px] to tight/snug options */}
-        <h2 className="text-primary-black text-3xl md:text-4xl lg:text-5xl 2xl:text-5xl font-bold leading-tight xl:leading-[1.1] tracking-[-1.28px]">
+        <h2 className="text-primary-black text-3xl md:text-4xl lg:text-5xl 2xl:text-6xl font-bold leading-tight xl:leading-[1.1] tracking-[-1.28px]">
           {data?.title || "Boss Beginnings"}
         </h2>
 
@@ -96,7 +94,7 @@ const BossBeginnings = ({
                 </span>
               )}
               {winner.season?.title && (
-                <span className="bg-primary-blue/90 text-white px-3 py-1.5 rounded-full text-sm font-medium backdrop-blur-sm">
+                <span className="bg-[#155DFC] text-white px-3 py-1.5 rounded-full text-sm font-medium backdrop-blur-sm">
                   {winner.season.title}
                 </span>
               )}

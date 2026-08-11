@@ -6,6 +6,7 @@ import { MdKeyboardArrowLeft } from "react-icons/md";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useResetPassword } from "@/Hooks/api/auth_api";
 import { TbLoader2 } from "react-icons/tb";
+import { validateStrongPassword } from "@/lib/utils";
 
 const Page = () => {
   const router = useRouter();
@@ -17,6 +18,7 @@ const Page = () => {
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors },
   } = useForm({
     defaultValues: {
@@ -68,9 +70,16 @@ const Page = () => {
                   name="password"
                   placeholder="Password..."
                   register={register}
+                  rules={{
+                    required: "Password is required",
+                    validate: (value: string) =>
+                      validateStrongPassword(value),
+                  }}
                 />
                 {errors?.password && (
-                  <p className="text-red-600">Password is required</p>
+                  <p className="text-red-600">
+                    {errors.password.message ?? "Password is required"}
+                  </p>
                 )}
               </div>
             </div>
@@ -81,10 +90,17 @@ const Page = () => {
                   name="password_confirmation"
                   placeholder="Confirm Password..."
                   register={register}
+                  rules={{
+                    required: "Password confirmation is required",
+                    validate: (value: string) =>
+                      value === watch("password") ||
+                      "Passwords do not match",
+                  }}
                 />
                 {errors?.password_confirmation && (
                   <p className="text-red-600">
-                    Password confirmation is required
+                    {errors.password_confirmation.message ??
+                      "Password confirmation is required"}
                   </p>
                 )}
               </div>

@@ -9,11 +9,13 @@ import { RegisterProps } from "@/Types/type";
 import { useRouter } from "next/navigation";
 import { TbLoader2 } from "react-icons/tb";
 import { getArtistCategories } from "@/Hooks/api/cms_api";
+import { validateStrongPassword } from "@/lib/utils";
 
 const Register = () => {
   const router = useRouter();
   const { mutateAsync: registrationMutation, isPending } = useRegister();
-  const { data: categories, isLoading: categoriesLoading } = getArtistCategories();
+  const { data: categories, isLoading: categoriesLoading } =
+    getArtistCategories();
 
   const {
     register,
@@ -101,9 +103,16 @@ const Register = () => {
                   name="password"
                   placeholder="Password..."
                   register={register}
+                  rules={{
+                    required: "Password is required",
+                    validate: (value?: string) =>
+                      validateStrongPassword(value ?? ""),
+                  }}
                 />
                 {errors?.password && (
-                  <p className="text-red-600">Password is required</p>
+                  <p className="text-red-600">
+                    {errors.password.message ?? "Password is required"}
+                  </p>
                 )}
               </div>
             </div>
@@ -116,9 +125,18 @@ const Register = () => {
                   name="password_confirmation"
                   placeholder="Confirm Password..."
                   register={register}
+                  rules={{
+                    required: "Confirm Password is required",
+                    validate: (value?: string) =>
+                      value === watch("password") ||
+                      "Passwords do not match",
+                  }}
                 />
                 {errors?.password_confirmation && (
-                  <p className="text-red-600">Confirm Password is required</p>
+                  <p className="text-red-600">
+                    {errors.password_confirmation.message ??
+                      "Confirm Password is required"}
+                  </p>
                 )}
               </div>
             </div>
@@ -177,7 +195,8 @@ const Register = () => {
           </div>
 
           <div className="mt-1 text-primary-black text-sm md:text-base">
-            Use at least 8 characters with a mix of letters & numbers
+            Use at least 8 characters with an uppercase letter, a lowercase
+            letter, a number & a special character
           </div>
 
           <button
