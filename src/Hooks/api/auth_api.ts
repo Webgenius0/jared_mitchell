@@ -263,7 +263,18 @@ export const useUpdateProfile = () => {
       }
     },
     onError: (err: any) => {
-      toast.error(err?.response?.data?.message || "Failed to update profile");
+      const payload = err?.response?.data;
+
+      // Validation errors: { errors: { field: [messages] } }
+      const fieldErrors = payload?.errors;
+      if (fieldErrors && typeof fieldErrors === "object") {
+        const firstField = Object.keys(fieldErrors)[0];
+        const firstMessage = fieldErrors[firstField]?.[0];
+        toast.error(firstMessage || payload?.message || "Validation failed.");
+        return;
+      }
+
+      toast.error(payload?.message || "Failed to update profile");
     },
   });
 };
