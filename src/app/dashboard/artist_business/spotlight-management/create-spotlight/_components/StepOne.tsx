@@ -1,11 +1,4 @@
-import {
-  DOBSvg,
-  EmailSvg,
-  LocationSvg,
-  PhoneSvg,
-  UserIconSvg,
-  WorldSvg,
-} from "@/Components/Svg/SvgContainer";
+import { WorldSvg } from "@/Components/Svg/SvgContainer";
 import { useFormContext } from "react-hook-form";
 
 const StepOne = () => {
@@ -16,12 +9,7 @@ const StepOne = () => {
 
   return (
     <div className="step_box">
-      <div className="flex gap-2 text-primary-black">
-        <p className="size-10 rounded-full grid place-items-center bg-[#EFF6FF] text-2xl text-primary-blue">
-          1
-        </p>
-        <h2 className="text-3xl font-semibold mb-2">Artist Identification</h2>
-      </div>
+      <h2 className="text-3xl font-semibold mb-2">Artist Identification</h2>
 
       <p className="text-[#364153] text-xl mb-5">
         Verify who you are and create your clean profile. All required fields
@@ -30,23 +18,20 @@ const StepOne = () => {
 
       <hr className="text-gray-200 mb-10 block" />
 
-      <div className="grid grid-cols-2 gap-x-7 gap-y-8">
+      <div className="grid grid-cols-2 gap-7">
         {/* Full Legal Name */}
         <div>
-          <div className="flex justify-between items-center mb-2.5">
-            <p className="artist_label">
-              <UserIconSvg />
-              <label htmlFor="full_legal_name">
-                Full Legal Name <span>*</span>
-              </label>
-            </p>
+          <p className="flex justify-between items-center mb-2">
+            <label htmlFor="full_legal_name" className="auth_label">
+              Full Legal Name <span>*</span>
+            </label>
 
             {errors.full_legal_name?.message && (
               <p className="text-red-500">
                 {errors.full_legal_name.message as string}
               </p>
             )}
-          </div>
+          </p>
 
           <input
             type="text"
@@ -63,20 +48,17 @@ const StepOne = () => {
 
         {/* Artist / Stage Name */}
         <div>
-          <div className="flex justify-between items-center mb-2.5">
-            <p className="artist_label">
-              <UserIconSvg />
-              <label htmlFor="artist_stage_name">
-                Artist / Stage Name <span>*</span>
-              </label>
-            </p>
+          <p className="flex justify-between items-center mb-2">
+            <label htmlFor="artist_stage_name" className="auth_label">
+              Artist / Stage Name <span>*</span>
+            </label>
 
             {errors.artist_stage_name?.message && (
               <p className="text-red-500">
                 {errors.artist_stage_name.message as string}
               </p>
             )}
-          </div>
+          </p>
 
           <input
             type="text"
@@ -93,18 +75,15 @@ const StepOne = () => {
 
         {/* Email Address */}
         <div>
-          <div className="flex justify-between items-center mb-2.5">
-            <p className="artist_label">
-              <EmailSvg />
-              <label htmlFor="email">
-                Email Address <span>*</span>
-              </label>
-            </p>
+          <p className="flex justify-between items-center mb-2">
+            <label htmlFor="email" className="auth_label">
+              Email Address <span>*</span>
+            </label>
 
             {errors.email?.message && (
               <p className="text-red-500">{errors.email.message as string}</p>
             )}
-          </div>
+          </p>
 
           <input
             type="email"
@@ -121,20 +100,17 @@ const StepOne = () => {
 
         {/* Phone */}
         <div>
-          <div className="flex justify-between items-center mb-2.5">
-            <p className="artist_label">
-              <PhoneSvg />
-              <label htmlFor="phone_number">
-                Phone <span>*</span>
-              </label>
-            </p>
+          <p className="flex justify-between items-center mb-2">
+            <label htmlFor="phone_number" className="auth_label">
+              Phone <span>*</span>
+            </label>
 
             {errors.phone_number?.message && (
               <p className="text-red-500">
                 {errors.phone_number.message as string}
               </p>
             )}
-          </div>
+          </p>
 
           <input
             type="text"
@@ -152,20 +128,17 @@ const StepOne = () => {
         <div className="col-span-2 flex gap-7 items-center">
           {/* Date of Birth */}
           <div className="flex-1">
-            <div className="flex justify-between items-center mb-2.5">
-              <p className="artist_label">
-                <DOBSvg />
-                <label htmlFor="date_of_birth">
-                  Date of Birth <span>*</span>
-                </label>
-              </p>
+            <p className="flex justify-between items-center mb-2">
+              <label htmlFor="date_of_birth" className="auth_label">
+                Date of Birth <span>*</span>
+              </label>
 
               {errors.date_of_birth?.message && (
                 <p className="text-red-500">
                   {errors.date_of_birth.message as string}
                 </p>
               )}
-            </div>
+            </p>
 
             <input
               type="date"
@@ -182,18 +155,15 @@ const StepOne = () => {
 
           {/* City */}
           <div className="flex-1">
-            <div className="flex justify-between items-center mb-2.5">
-              <p className="artist_label">
-                <LocationSvg />
-                <label htmlFor="city">
-                  City <span>*</span>
-                </label>
-              </p>
+            <p className="flex justify-between items-center mb-2">
+              <label htmlFor="city" className="auth_label">
+                City <span>*</span>
+              </label>
 
               {errors.city?.message && (
                 <p className="text-red-500">{errors.city.message as string}</p>
               )}
-            </div>
+            </p>
 
             <input
               type="text"
@@ -210,18 +180,15 @@ const StepOne = () => {
 
           {/* State */}
           <div className="flex-1">
-            <div className="flex justify-between items-center mb-2.5">
-              <p className="artist_label">
-                <LocationSvg />
-                <label htmlFor="state">
-                  State <span>*</span>
-                </label>
-              </p>
+            <p className="flex justify-between items-center mb-2">
+              <label htmlFor="state" className="auth_label">
+                State <span>*</span>
+              </label>
 
               {errors.state?.message && (
                 <p className="text-red-500">{errors.state.message as string}</p>
               )}
-            </div>
+            </p>
 
             <input
               type="text"

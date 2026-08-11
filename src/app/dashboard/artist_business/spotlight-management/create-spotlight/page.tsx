@@ -1,9 +1,5 @@
 "use client";
-import {
-  CheckBtnSvg,
-  LeftArrowSvg,
-  RightArrowSvg,
-} from "@/Components/Svg/SvgContainer";
+import { ArrowLeft, ArrowRight, Loader2 } from "lucide-react";
 import { Suspense, useEffect, useRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { FormProvider, useForm } from "react-hook-form";
@@ -13,7 +9,6 @@ import {
   useUpdateArtistSpotlight,
 } from "@/Hooks/api/cms_api";
 import toast from "react-hot-toast";
-import { TbLoader2 } from "react-icons/tb";
 import StepOne from "./_components/StepOne";
 import StepTwo from "./_components/StepTwo";
 import StepThree from "./_components/StepThree";
@@ -38,9 +33,10 @@ const steps: StepItem[] = [
   { title: "Success", component: StepSeven },
 ];
 
+const TOTAL_FORM_STEPS = steps.length - 1; // 6 form steps + success screen
+
 function CreateSpotlightForm() {
   const searchParams = useSearchParams();
-
 
   const [id, setId] = useState<string>(() => {
     if (typeof window === "undefined") return "";
@@ -67,7 +63,9 @@ function CreateSpotlightForm() {
 
   const totalSteps = steps.length;
   const CurrentStep = steps[step].component;
-  const progressPercent = ((step + 1) / totalSteps) * 100;
+  const progressPercent = Math.round(
+    ((step + 1) / TOTAL_FORM_STEPS) * 100,
+  );
   const onNext = () => setStep(prev => Math.min(prev + 1, totalSteps - 1));
   const onPrev = () => setStep(prev => Math.max(prev - 1, 0));
 
@@ -83,7 +81,6 @@ function CreateSpotlightForm() {
     isError: isDetailsError,
     error: detailsError,
   } = getSingleArtistSpotlightDetails(id);
-
 
   useEffect(() => {
     if (!isEditMode || !isDetailsError) return;
@@ -253,121 +250,168 @@ function CreateSpotlightForm() {
 
   if (isEditMode && isDetailsLoading) {
     return (
-      <div className="container py-10 flex justify-center">
-        <TbLoader2 className="animate-spin text-3xl text-primary-blue" />
+      <div className="bg-[#F5F6F8]">
+        <div className="flex items-center justify-center py-24">
+          <Loader2 className="w-6 h-6 text-blue-500 animate-spin" />
+          <span className="ml-3 text-sm text-slate-500">
+            Loading spotlight data...
+          </span>
+        </div>
       </div>
     );
   }
+
+  const isSuccessStep = step === totalSteps - 1;
 
   return (
     <RequireSubscription
       title="Subscription required"
       description="You need an active subscription to create or edit an artist spotlight. Subscribe to unlock the application form."
     >
-    <div ref={formRef} className=" py-10">
-      <FormProvider {...methods}>
-        <form onSubmit={methods.handleSubmit(onSubmit)}>
-          {/* Progress Header */}
-          <div className="p-4 rounded-xl shadow border border-gray-200 mb-3">
-            <div className="flex justify-between pb-4">
-              <span className="text-xl">
-                Section {step > 5 ? 6 : step + 1} of {totalSteps - 1}
-              </span>
-              <span className="text-green-500 text-xl">
-                {Math.round(progressPercent)}% Complete
-              </span>
-            </div>
+      <div className="bg-[#F5F6F8]">
+        <div ref={formRef} className="space-y-5">
+          {isSuccessStep ? (
+            <StepSeven />
+          ) : (
+            <>
+              {/* Header */}
+              <div className="bg-white rounded-2xl border border-slate-100 p-5 md:p-6">
+                <h1 className="text-lg md:text-xl font-semibold text-slate-900">
+                  {isEditMode ? "Edit Spotlight" : "Create Spotlight"}
+                </h1>
+                <p className="text-sm text-slate-500 mt-1">
+                  {isEditMode
+                    ? "Update your artist spotlight information below"
+                    : "Fill in the details to create an artist spotlight"}
+                </p>
+              </div>
 
-            {/* Progress Bar */}
-            <div className="h-4 bg-gray-100 rounded-lg overflow-hidden mb-6">
-              <div
-                className="h-full bg-blue-500 transition-all rounded-full"
-                style={{ width: `${progressPercent}%` }}
-              />
-            </div>
+              {/* Progress stepper */}
+              <div className="bg-white rounded-2xl border border-slate-100 p-5 md:p-6">
+                <div className="flex items-center justify-between mb-3">
+                  <span className="text-xs md:text-sm text-slate-500">
+                    Section {step + 1} of {TOTAL_FORM_STEPS}
+                  </span>
+                  <span className="text-xs md:text-sm font-medium text-emerald-500">
+                    {progressPercent}% Complete
+                  </span>
+                </div>
 
-            {/* Step Indicators */}
-            <div className="flex justify-between">
-              {steps?.slice(0, 6).map((s, idx) => {
-                const isActive = idx === step;
-                const isCompleted = idx < step;
+                <div className="w-full h-2 bg-slate-100 rounded-full overflow-hidden mb-5">
+                  <div
+                    className="h-full bg-blue-500 rounded-full transition-all duration-300"
+                    style={{ width: `${progressPercent}%` }}
+                  />
+                </div>
 
-                return (
-                  <button
-                    type="button"
-                    key={idx}
-                    onClick={() => setStep(idx)}
-                    className={`flex flex-col items-center w-1/6 ${
-                      isActive || isCompleted
-                        ? "text-primary-blue"
-                        : "text-gray-400"
-                    }`}
-                  >
-                    <span
-                      className={`size-14 rounded-full border grid place-items-center text-xl mb-2 ${
-                        isActive
-                          ? "bg-blue-100"
-                          : isCompleted
-                            ? "bg-primary-blue border-blue-500"
-                            : "bg-gray-100 border-gray-200"
-                      }`}
+                <div className="flex items-start justify-between">
+                  {steps.slice(0, TOTAL_FORM_STEPS).map((s, i) => {
+                    const isActive = i === step;
+                    const isDone = i < step;
+                    return (
+                      <button
+                        key={s.title}
+                        type="button"
+                        onClick={() => setStep(i)}
+                        className="flex flex-col items-center gap-1.5 flex-1 group"
+                      >
+                        <span
+                          className={`w-7 h-7 md:w-10 md:h-10 rounded-full flex items-center justify-center text-xs md:text-sm font-medium transition-colors
+                            ${
+                              isDone
+                                ? "bg-blue-500 text-white"
+                                : isActive
+                                  ? "bg-blue-500 text-white"
+                                  : "bg-slate-100 text-slate-400"
+                            }`}
+                        >
+                          {isDone ? (
+                            <svg
+                              className="w-3.5 h-3.5 md:w-4 md:h-4"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              stroke="currentColor"
+                              strokeWidth={3}
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                d="M5 13l4 4L19 7"
+                              />
+                            </svg>
+                          ) : (
+                            i + 1
+                          )}
+                        </span>
+                        <span
+                          className={`text-[10px] md:text-xs whitespace-nowrap ${
+                            isActive
+                              ? "text-blue-500 font-medium"
+                              : "text-slate-400"
+                          }`}
+                        >
+                          {s.title}
+                        </span>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+
+              <FormProvider {...methods}>
+                <form onSubmit={methods.handleSubmit(onSubmit)}>
+                  {/* Step content */}
+                  <CurrentStep
+                    step={step}
+                    setStep={setStep}
+                    totalSteps={totalSteps}
+                  />
+
+                  {/* Nav buttons */}
+                  <div className="flex items-center justify-between mt-5">
+                    <button
+                      type="button"
+                      onClick={onPrev}
+                      disabled={step === 0}
+                      className="flex items-center gap-1.5 text-sm md:text-base font-medium text-slate-500 px-5 py-2.5 md:px-10 md:py-3 rounded-full border border-slate-200 hover:bg-slate-50 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
                     >
-                      {isCompleted ? <CheckBtnSvg /> : idx + 1}
-                    </span>
+                      <ArrowLeft className="w-4 h-4" />
+                      Previous
+                    </button>
 
-                    <span className="text-lg">{s.title}</span>
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-
-          {/* Step Content */}
-          <div className="py-10">
-            <CurrentStep
-              step={step}
-              setStep={setStep}
-              totalSteps={totalSteps}
-            />
-          </div>
-          {step < 6 && (
-            <div className="flex justify-between">
-              <button
-                type="button"
-                disabled={step === 0}
-                onClick={onPrev}
-                className="flex items-center gap-3 px-12 py-4 border border-gray-300 rounded-full disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                <LeftArrowSvg />
-                Previous
-              </button>
-
-              <button
-                type="submit"
-                disabled={isPending}
-                className="flex items-center gap-3 px-12 py-4 bg-primary-blue text-white rounded-full disabled:opacity-70 disabled:cursor-not-allowed"
-              >
-                {step === totalSteps - 2 ? (
-                  isPending ? (
-                    <span className="flex gap-2 items-center">
-                      <TbLoader2 className="animate-spin" />
-                      {isEditMode ? "Updating..." : "Submitting..."}
-                    </span>
-                  ) : isEditMode ? (
-                    "Update"
-                  ) : (
-                    "Submit"
-                  )
-                ) : (
-                  "Next Section"
-                )}
-                <RightArrowSvg />
-              </button>
-            </div>
+                    {step < TOTAL_FORM_STEPS - 1 ? (
+                      <button
+                        type="submit"
+                        className="flex items-center gap-1.5 bg-blue-500 text-white text-sm md:text-base font-normal px-5 py-2.5 md:px-10 md:py-3 rounded-full hover:bg-blue-600 transition-colors"
+                      >
+                        Next Section
+                        <ArrowRight className="w-4 h-4" />
+                      </button>
+                    ) : (
+                      <button
+                        type="submit"
+                        disabled={isPending}
+                        className="bg-blue-500 text-white text-sm md:text-base font-medium px-10 py-2.5 md:py-3 rounded-full hover:bg-blue-600 transition-colors disabled:opacity-60 disabled:cursor-not-allowed flex items-center gap-2"
+                      >
+                        {isPending ? (
+                          <>
+                            <Loader2 className="w-4 h-4 animate-spin" />
+                            {isEditMode ? "Updating..." : "Submitting..."}
+                          </>
+                        ) : isEditMode ? (
+                          "Update"
+                        ) : (
+                          "Submit"
+                        )}
+                      </button>
+                    )}
+                  </div>
+                </form>
+              </FormProvider>
+            </>
           )}
-        </form>
-      </FormProvider>
-    </div>
+        </div>
+      </div>
     </RequireSubscription>
   );
 }
@@ -376,9 +420,7 @@ export default function Page() {
   return (
     <Suspense
       fallback={
-        <div className="container py-10 flex justify-center">
-          <TbLoader2 className="animate-spin text-3xl text-primary-blue" />
-        </div>
+        <div className="bg-[#F5F6F8] p-8 text-slate-500">Loading form...</div>
       }
     >
       <CreateSpotlightForm />

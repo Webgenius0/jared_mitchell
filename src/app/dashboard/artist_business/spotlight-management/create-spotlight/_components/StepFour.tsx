@@ -1,8 +1,4 @@
-import {
-  CheckSvg,
-  DownloadIconSvg,
-  ImgSvg,
-} from "@/Components/Svg/SvgContainer";
+import { CheckSvg, DownloadIconSvg } from "@/Components/Svg/SvgContainer";
 import Image from "next/image";
 import { useFormContext, useWatch } from "react-hook-form";
 
@@ -28,12 +24,7 @@ const StepFour = () => {
 
   return (
     <div className="step_box">
-      <div className="flex gap-2 text-primary-black mb-2">
-        <p className="size-10 rounded-full grid place-items-center bg-[#EFF6FF] text-2xl text-primary-blue">
-          4
-        </p>
-        <h2 className="text-3xl font-semibold">Media Uploads</h2>
-      </div>
+      <h2 className="text-3xl font-semibold mb-2">Media Uploads</h2>
 
       <p className="text-[#364153] text-xl mb-5">
         Upload photos and videos for your spotlight card, video intro, and page
@@ -43,12 +34,11 @@ const StepFour = () => {
       <div className="space-y-7">
         {/* Professional Headshot / Portrait */}
         <div>
-          <p className="artist_label mb-1">
-            <ImgSvg />
-            <span>
+          <p className="flex justify-between items-center mb-2">
+            <label htmlFor="headshot" className="auth_label">
               Professional Headshot / Portrait{" "}
               {!existingHeadshot && <span>*</span>}
-            </span>
+            </label>
           </p>
 
           <div className="flex justify-between items-center mb-3">
@@ -120,12 +110,11 @@ const StepFour = () => {
 
         {/* Photos of Your Art / Work (3-5 photos) */}
         <div>
-          <p className="artist_label mb-1">
-            <ImgSvg />
-            <span>
+          <p className="flex justify-between items-center mb-2">
+            <label htmlFor="artwork_photos" className="auth_label">
               Photos of Your Art / Work (3-5 photos){" "}
               {existingArtworkPhotos.length === 0 && <span>*</span>}
-            </span>
+            </label>
           </p>
 
           <div className="flex justify-between items-center mb-3">
@@ -209,11 +198,10 @@ const StepFour = () => {
 
         {/* Behind-the-Scenes Photo */}
         <div>
-          <p className="artist_label mb-1">
-            <ImgSvg />
-            <span>
+          <p className="flex justify-between items-center mb-2">
+            <label htmlFor="behind_scenes_photo" className="auth_label">
               Behind-the-Scenes Photo {!existingBehindScenes && <span>*</span>}
-            </span>
+            </label>
           </p>
 
           <div className="flex justify-between items-center mb-3">
@@ -287,12 +275,11 @@ const StepFour = () => {
 
         {/* Short Intro Video (15-30 seconds) */}
         <div>
-          <p className="artist_label mb-1">
-            <ImgSvg />
-            <span>
+          <p className="flex justify-between items-center mb-2">
+            <label htmlFor="intro_video" className="auth_label">
               Short Intro Video (15-30 seconds){" "}
               {!existingIntroVideo && <span>*</span>}
-            </span>
+            </label>
           </p>
 
           <div className="flex justify-between items-center mb-3">
