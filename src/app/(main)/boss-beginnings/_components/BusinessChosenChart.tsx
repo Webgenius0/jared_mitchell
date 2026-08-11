@@ -25,6 +25,7 @@ import toast from "react-hot-toast";
 import { getItem, setItem } from "@/lib/localStorage";
 import { isUsableImage } from "@/lib/utils";
 import { getRoundLeaderboard } from "@/lib/Services/cms_service";
+import { FaArrowTrendUp } from "react-icons/fa6";
 
 import brewBloomImg from "../../../../Assets/roundbg.png";
 
@@ -124,30 +125,18 @@ const pointRules: PointRule[] = [
   },
 ];
 
-// Treat placeholder/empty-ish avatar values as "no image" so we fall back to brewBloomImg
-// (placeholder detection lives in the shared isUsableImage helper)
-
-
-// ─── Shared interaction logic (Clap / Love / Fire) ──────────────────────────
-
 interface InteractionConfig {
-  /** API call to perform (already bound to a specific business id) */
   apiCall: (businessId: number) => Promise<any>;
   storageKey: string;
   markerPrefix: string;
-  /** Field on res.data that holds the authoritative count (e.g. total_claps) */
   countField: string;
-  /** Field on res.data that reports whether the interaction is currently on (e.g. is_clapped) */
   flagField: string;
-  /** Field on res.data that holds the authoritative total points (e.g. total_points) */
   pointsField: string;
   businessId: number;
   initialCount: number;
   loginMessage: string;
   failMessage: string;
-  /** Called after a successful interaction so the parent can refetch live data */
   onSuccess?: () => void;
-  /** Called with the authoritative total points from the response so the card can update instantly */
   onPointsChange?: (points: number) => void;
 }
 
@@ -172,14 +161,6 @@ const useBusinessInteraction = ({
   const [active, setActive] = useState(false);
   const submittingRef = useRef(false);
 
-  // Recompute the filled state once the logged-in user is known.
-  // On first render `user` may not be loaded yet, so the marker would be
-  // checked against the wrong id — that made an already-interacted button
-  // render unfilled and hit the API again when clicked. This only ever
-  // fills the button (never un-fills it) so an interaction performed in
-  // this session is never visually cleared. The legacy "guest:" marker is
-  // also checked because a click during the auth-loading window is stored
-  // under that key (guests can't click, so it can only belong to this user).
   useEffect(() => {
     if (user?.id == null) return;
     const realMarker = `${markerPrefix}${user.id}:${businessId}`;
@@ -205,11 +186,6 @@ const useBusinessInteraction = ({
       return;
     }
     if (submittingRef.current || loading) return;
-
-    // The endpoints are toggles: clicking an already-active button REMOVES
-    // the interaction (the response then reports is_*: false). So a repeat
-    // click should call the API to remove the clap/save/share — there is no
-    // "already done" state to block.
     submittingRef.current = true;
     setLoading(true);
     const wasActive = active;
@@ -273,7 +249,9 @@ const BusinessChosenChart = ({
   const scrollerRef = useRef<HTMLUListElement | null>(null);
   const sectionRef = useRef<HTMLElement | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
-  const [liveData, setLiveData] = useState<RoundLeaderboardData | null>(roundData ?? null);
+  const [liveData, setLiveData] = useState<RoundLeaderboardData | null>(
+    roundData ?? null,
+  );
 
   // Adopt fresh leaderboard data pushed from the server component prop
   useEffect(() => {
@@ -283,10 +261,6 @@ const BusinessChosenChart = ({
   const currentRoundData = liveData ?? roundData;
 
   const refreshTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-
-  // Auto-refetch the round leaderboard after a clap/love/fire so the
-  // displayed points, counts, and ranks stay in sync with the server.
-  // Slightly debounced so rapid interactions coalesce into one request.
   const refreshLeaderboard = useCallback(() => {
     if (!currentRoundData?.round_id) return;
     if (refreshTimerRef.current) clearTimeout(refreshTimerRef.current);
@@ -356,12 +330,9 @@ const BusinessChosenChart = ({
 
     const name = entry.display_name || entry.contestant?.display_name || "";
     const businessName = entry.contestant.contestable.business_name;
-    // Avoid showing the same string twice (name + description)
     const description =
       businessName && businessName !== name ? businessName : "";
 
-    // The leaderboard response provides claps/shares/saves per entry.
-    // Clap → claps, Love → saves (Love uses the save API), Fire → shares (Fire uses the share API).
     return {
       id: String(entry.contestant_id),
       businessId: entry.contestant.business_id,
@@ -369,10 +340,6 @@ const BusinessChosenChart = ({
       description,
       location: "",
       image: isUsableImage(rawImage) ? (rawImage as string) : brewBloomImg.src,
-      // The leaderboard endpoint returns total_score: 0 for every entry while the
-      // authoritative points live on contestant.contestable.total_points. Either
-      // field may carry the real value depending on the response, so take the
-      // greater of the two (both are 0 when there are genuinely no points).
       totalPoints: Math.max(
         entry.contestant?.contestable?.total_points ?? 0,
         entry.total_score ?? 0,
@@ -387,7 +354,6 @@ const BusinessChosenChart = ({
   const scrollByCard = (direction: "prev" | "next") => {
     const el = scrollerRef.current;
     if (!el) return;
-    // scroll roughly one card width (+ gap) at a time
     const card = el.querySelector<HTMLElement>("[data-card]");
     const cardWidth = card?.offsetWidth ?? 320;
     const gap = 24;
@@ -428,11 +394,13 @@ const BusinessChosenChart = ({
           <div className="flex flex-wrap items-center justify-center gap-2 mt-4">
             <span className="inline-flex items-center gap-2 rounded-full bg-primary-blue/10 text-primary-blue px-4 py-1.5 text-sm font-medium">
               Round {currentRoundData.round.round_number}
-              {currentRoundData.round.title && ` — ${currentRoundData.round.title}`}
+              {currentRoundData.round.title &&
+                ` — ${currentRoundData.round.title}`}
             </span>
             {currentRoundData.days_left != null && (
               <span className="inline-flex items-center rounded-full bg-slate-100 text-slate-600 px-4 py-1.5 text-sm font-medium">
-                {currentRoundData.days_left} day{currentRoundData.days_left === 1 ? "" : "s"} left
+                {currentRoundData.days_left} day
+                {currentRoundData.days_left === 1 ? "" : "s"} left
               </span>
             )}
           </div>
@@ -456,7 +424,6 @@ const BusinessChosenChart = ({
         </div>
       </div>
 
-      {/* Business cards — paginated grid (how winners are chosen page) or carousel (boss beginnings page) */}
       {paginated ? (
         <div className="container mt-16">
           {visibleBusinesses.length > 0 && (
@@ -637,8 +604,9 @@ const BusinessCardItem = ({
         {/* Total points */}
         <div className="flex items-center justify-between mt-4 bg-slate-50 rounded-xl px-3 py-2">
           <span className="text-sm text-slate-500">Total Points</span>
-          <span className="flex items-center gap-1 font-semibold">
+          <span className="flex items-center gap-1 font-semibold ">
             {biz.totalPoints.toLocaleString()}
+            <FaArrowTrendUp className="text-green-500" />
           </span>
         </div>
 

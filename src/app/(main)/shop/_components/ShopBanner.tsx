@@ -1,3 +1,5 @@
+"use client";
+
 import shopBg from "@/Assets/shop.png";
 import { RightSvg } from "@/Components/Svg/SvgContainer";
 import { CMSShopPageHero } from "@/Types/cms";
@@ -8,6 +10,12 @@ interface ShopBannerProps {
 
 const ShopBanner = ({ data }: ShopBannerProps) => {
   const bgImage = data?.bg ?? shopBg.src;
+
+  const handleShopProductsClick = () => {
+    document
+      .getElementById("featured-shop")
+      ?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
 
   return (
     <section
@@ -36,15 +44,18 @@ const ShopBanner = ({ data }: ShopBannerProps) => {
 
         {/* Call to Actions */}
         <div className="flex flex-col sm:flex-row justify-center items-center gap-3 sm:gap-4 w-full sm:w-auto">
-          <button className="w-full sm:w-auto bg-primary-blue text-white border border-primary-blue rounded-full px-6 sm:px-8 lg:px-12 py-3 text-base sm:text-lg lg:text-xl flex gap-2.5 items-center justify-center transition-all duration-200 hover:opacity-90 active:scale-95">
+          <button
+            onClick={handleShopProductsClick}
+            className="w-full sm:w-auto bg-primary-blue text-white border border-primary-blue rounded-full px-6 sm:px-8 lg:px-12 py-3 text-base sm:text-lg lg:text-xl flex gap-2.5 items-center justify-center transition-all duration-200 hover:opacity-90 active:scale-95"
+          >
             <span>Shop Products</span>
             <RightSvg />
           </button>
 
-          <button className="w-full sm:w-auto bg-white text-[#101828] border border-[#D1D5DC] rounded-full px-6 sm:px-8 lg:px-12 py-3 text-base sm:text-lg lg:text-xl flex gap-2.5 items-center justify-center transition-all duration-200 hover:bg-gray-50 active:scale-95">
+          {/* <button className="w-full sm:w-auto bg-white text-[#101828] border border-[#D1D5DC] rounded-full px-6 sm:px-8 lg:px-12 py-3 text-base sm:text-lg lg:text-xl flex gap-2.5 items-center justify-center transition-all duration-200 hover:bg-gray-50 active:scale-95">
             <span>Shop Digital Tools</span>
             <RightSvg />
-          </button>
+          </button> */}
         </div>
       </div>
     </section>
