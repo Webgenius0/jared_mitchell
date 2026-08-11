@@ -1,5 +1,10 @@
 import { useState } from "react";
-import { FieldValues, Path, UseFormRegister } from "react-hook-form";
+import {
+  FieldValues,
+  Path,
+  RegisterOptions,
+  UseFormRegister,
+} from "react-hook-form";
 import { PasswordSvg } from "../Svg/SvgContainer";
 import { IoEyeOutline } from "react-icons/io5";
 import { VscEyeClosed } from "react-icons/vsc";
@@ -8,12 +13,17 @@ type PasswordInputProps<T extends FieldValues> = {
   name: Path<T>;
   placeholder: string;
   register: UseFormRegister<T>;
+  rules?: Omit<
+    RegisterOptions<T, Path<T>>,
+    "valueAsNumber" | "valueAsDate" | "setValueAs" | "disabled"
+  >;
 };
 
 const PasswordInput = <T extends FieldValues>({
   name,
   placeholder,
   register,
+  rules,
 }: PasswordInputProps<T>) => {
   const [showPassword, setShowPassword] = useState(false);
 
@@ -23,7 +33,7 @@ const PasswordInput = <T extends FieldValues>({
 
       <input
         type={showPassword ? "text" : "password"}
-        {...register(name, { required: true })}
+        {...register(name, { required: true, ...rules })}
         placeholder={placeholder}
         className="placeholder:text-[#364153] w-full pr-10"
       />

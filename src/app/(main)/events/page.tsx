@@ -48,7 +48,7 @@ const Page = async () => {
       <EventGallery />
       <EventHighlight />
       <BossBeginningSponsor variant="events" />
-      <Sponsors data={cmsData?.partners} showButton={false} />
+      <Sponsors data={cmsData?.partners} showButton={true} />
       <NewsLetter title="Be part of the movement. Get stories, updates, and opportunities straight to your inbox." />
     </>
   );

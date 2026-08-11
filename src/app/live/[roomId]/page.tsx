@@ -19,10 +19,6 @@ import { useGetLiveKitToken } from "@/Hooks/api/live_api";
 
 type LiveRole = "host" | "audience";
 
-/* ------------------------------------------------------------------ */
-/*  Small building blocks                                              */
-/* ------------------------------------------------------------------ */
-
 function CopyLinkButton({ roomId }: { roomId: string }) {
   const [copied, setCopied] = useState(false);
 

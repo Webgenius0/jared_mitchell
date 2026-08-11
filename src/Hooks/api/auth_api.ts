@@ -52,7 +52,25 @@ export const useOtpVerification = () => {
       }
     },
     onError: (err: any) => {
-      toast.error(err?.response?.data?.message);
+      const errors = err?.response?.data?.errors;
+
+      let message = "Something went wrong";
+
+      if (typeof errors === "string") {
+        // e.g. "Invalid or expired OTP"
+        message = errors;
+      } else if (Array.isArray(errors)) {
+        // e.g. ["Invalid OTP", "OTP expired"]
+        message = errors[0];
+      } else if (errors && typeof errors === "object") {
+        // e.g. { email: ["The email field is required."] }
+        const firstKey = Object.keys(errors)[0];
+        message = Array.isArray(errors[firstKey])
+          ? errors[firstKey][0]
+          : String(errors[firstKey]);
+      }
+
+      toast.error(message);
     },
   });
 };
@@ -97,10 +115,36 @@ export const useLogin = () => {
             ? redirect
             : "/dashboard";
         router.push(safeRedirect);
+      } else {
+        // API returned 2xx but success:false — show the message it gave us
+        toast.error(res?.message || "Something went wrong. Please try again.");
       }
     },
     onError: (err: any) => {
-      toast.error(err?.response?.data?.message);
+      const payload = err?.response?.data;
+
+      // Validation errors: { errors: { field: [messages] } }
+      const fieldErrors = payload?.errors;
+      if (fieldErrors && typeof fieldErrors === "object") {
+        const firstField = Object.keys(fieldErrors)[0];
+        const firstMessage = fieldErrors[firstField]?.[0];
+        toast.error(firstMessage || payload?.message || "Validation failed.");
+        return;
+      }
+
+      // Fallback to top-level message, then generic network/server errors
+      const status = err?.response?.status;
+      if (payload?.message) {
+        toast.error(payload.message);
+      } else if (status === 401) {
+        toast.error("Invalid email or password.");
+      } else if (status >= 500) {
+        toast.error("Server error. Please try again later.");
+      } else if (err?.message === "Network Error") {
+        toast.error("Network error. Check your connection and try again.");
+      } else {
+        toast.error("Login failed. Please try again.");
+      }
     },
   });
 };
