@@ -50,7 +50,7 @@ export const useCreateArtistSpotlight = () => {
 };
 
 // Update Artist Spotlight
-export const useUpdateArtistSpotlight = (id: number) => {
+export const useUpdateArtistSpotlight = (id: number | string) => {
   const queryClient = useQueryClient();
 
   return useClientApi({
@@ -66,7 +66,7 @@ export const useUpdateArtistSpotlight = (id: number) => {
         toast.success(res?.message);
         queryClient.invalidateQueries({ queryKey: ["artist-spotlights"] });
         queryClient.invalidateQueries({
-          queryKey: ["artist-spotlight-details", id],
+          queryKey: ["artist-spotlight-edit", id],
         });
       }
     },
@@ -89,13 +89,18 @@ export const getArtistSpotlights = (params?: any, enabled: boolean = true) => {
   });
 };
 
-// Get Artist spotlight details
+// Get Artist spotlight details (the logged-in user's own spotlight, for the
+// edit form). Uses a UNIQUE query key — the public spotlight page
+// (`/v1/spotlight/details/artist/{id}`) historically shared the key
+// `["artist-spotlight-details", id]`, which made the edit page skip its
+// private request and render an empty form when the public page's cache
+// was present in the same session.
 export const getSingleArtistSpotlightDetails = (id: any) => {
   return useClientApi({
     method: "get",
     enabled: !!id,
     isPrivate: true,
-    key: ["artist-spotlight-details", id],
+    key: ["artist-spotlight-edit", id],
     endpoint: `/v1/artist-spotlight/${id}`,
   });
 };

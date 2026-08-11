@@ -4,13 +4,15 @@ import {
   LeftArrowSvg,
   RightArrowSvg,
 } from "@/Components/Svg/SvgContainer";
-import { use, useEffect, useRef, useState } from "react";
+import { Suspense, useEffect, useRef, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import { FormProvider, useForm } from "react-hook-form";
 import {
   getSingleArtistSpotlightDetails,
   useCreateArtistSpotlight,
   useUpdateArtistSpotlight,
 } from "@/Hooks/api/cms_api";
+import toast from "react-hot-toast";
 import { TbLoader2 } from "react-icons/tb";
 import StepOne from "./_components/StepOne";
 import StepTwo from "./_components/StepTwo";
@@ -36,16 +38,32 @@ const steps: StepItem[] = [
   { title: "Success", component: StepSeven },
 ];
 
-interface Props {
-  searchParams: Promise<{ id: number }>;
-}
+function CreateSpotlightForm() {
+  const searchParams = useSearchParams();
 
-const Page = ({ searchParams }: Props) => {
-  const { id } = use(searchParams);
+
+  const [id, setId] = useState<string>(() => {
+    if (typeof window === "undefined") return "";
+    return new URLSearchParams(window.location.search).get("id") || "";
+  });
+
   const isEditMode = Boolean(id);
   const [step, setStep] = useState(0);
   const formRef = useRef<HTMLDivElement | null>(null);
   const hasHydrated = useRef(false);
+  useEffect(() => {
+    const rawId =
+      new URLSearchParams(window.location.search).get("id") ||
+      searchParams.get("id") ||
+      "";
+    setId(prev => {
+      if (prev !== rawId) {
+        hasHydrated.current = false;
+        return rawId;
+      }
+      return prev;
+    });
+  }, [searchParams]);
 
   const totalSteps = steps.length;
   const CurrentStep = steps[step].component;
@@ -59,8 +77,28 @@ const Page = ({ searchParams }: Props) => {
     useUpdateArtistSpotlight(id);
   const isPending = isCreating || isUpdating;
 
-  const { data: spotlightDetails, isLoading: isDetailsLoading } =
-    getSingleArtistSpotlightDetails(id);
+  const {
+    data: spotlightDetails,
+    isLoading: isDetailsLoading,
+    isError: isDetailsError,
+    error: detailsError,
+  } = getSingleArtistSpotlightDetails(id);
+
+
+  useEffect(() => {
+    if (!isEditMode || !isDetailsError) return;
+    toast.error(
+      (detailsError as any)?.response?.data?.message ||
+        "Failed to load your spotlight data. Please try again.",
+    );
+  }, [isEditMode, isDetailsError, detailsError]);
+
+  useEffect(() => {
+    if (!isEditMode || isDetailsLoading || isDetailsError) return;
+    if (!spotlightDetails?.data) {
+      toast.error("Failed to load your spotlight data. Please try again.");
+    }
+  }, [isEditMode, isDetailsLoading, isDetailsError, spotlightDetails]);
 
   const methods = useForm({
     mode: "onBlur",
@@ -226,7 +264,7 @@ const Page = ({ searchParams }: Props) => {
       title="Subscription required"
       description="You need an active subscription to create or edit an artist spotlight. Subscribe to unlock the application form."
     >
-    <div ref={formRef} className="container py-10">
+    <div ref={formRef} className=" py-10">
       <FormProvider {...methods}>
         <form onSubmit={methods.handleSubmit(onSubmit)}>
           {/* Progress Header */}
@@ -332,6 +370,18 @@ const Page = ({ searchParams }: Props) => {
     </div>
     </RequireSubscription>
   );
-};
+}
 
-export default Page;
+export default function Page() {
+  return (
+    <Suspense
+      fallback={
+        <div className="container py-10 flex justify-center">
+          <TbLoader2 className="animate-spin text-3xl text-primary-blue" />
+        </div>
+      }
+    >
+      <CreateSpotlightForm />
+    </Suspense>
+  );
+}
