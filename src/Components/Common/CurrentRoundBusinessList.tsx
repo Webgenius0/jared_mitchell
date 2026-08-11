@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import { getActiveSeasonRounds } from "@/Hooks/api/cms_api";
 import { useMyContestRounds } from "@/Hooks/api/dashboard_api";
+import { richTextToPlainText } from "@/lib/business";
 
 /* ------------------------------------------------------------------ */
 /*  Types                                                              */
@@ -367,7 +368,7 @@ export default function CurrentRoundBusinessList({
                           </p>
                           {b.story && (
                             <p className="text-xs text-slate-400 truncate max-w-[220px] mt-0.5">
-                              {b.story}
+                              {richTextToPlainText(b.story)}
                             </p>
                           )}
                         </div>

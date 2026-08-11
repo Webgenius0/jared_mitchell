@@ -140,14 +140,10 @@ const PricingPlan = ({ plans }: { plans?: PricingPlanType[] }) => {
               return (
                 <div
                   key={plan.id}
-                  className={`relative flex flex-col custom_shadow rounded-2xl custom_border px-5 py-8 transition-all ${
+                  className={`group relative flex flex-col custom_shadow rounded-2xl custom_border px-5 py-8 transition-all hover:bg-primary-blue hover:text-white hover:border-blue-600 ${
                     isCurrent
-                      ? plan.highlighted
-                        ? "bg-primary-blue text-white border-blue-600 ring-2 ring-blue-400"
-                        : "bg-white text-primary-black border-gray-200 ring-2 ring-primary-blue"
-                      : plan.highlighted
-                        ? "bg-primary-blue text-white border-blue-600"
-                        : "bg-white text-primary-black border-gray-200"
+                      ? "bg-white text-primary-black border-gray-200 ring-2 ring-primary-blue"
+                      : "bg-white text-primary-black border-gray-200"
                   }`}
                 >
                   {plan.badge && (
@@ -188,7 +184,7 @@ const PricingPlan = ({ plans }: { plans?: PricingPlanType[] }) => {
                           {section?.items?.map(item => (
                             <li key={item} className="flex gap-2">
                               <IoCheckmarkOutline
-                                className={`size-5 shrink-0 ${plan.highlighted ? "text-white" : "text-primary-blue"}`}
+                                className="size-5 shrink-0 text-primary-blue group-hover:text-white"
                               />
                               <span>{item}</span>
                             </li>
@@ -200,9 +196,7 @@ const PricingPlan = ({ plans }: { plans?: PricingPlanType[] }) => {
 
                   <div className="mt-auto">
                     <div className="my-6 border-t border-gray-200 pt-6 opacity-80">
-                      <p
-                        className={`text-xl mb-1 ${plan.highlighted ? "text-white" : "text-primary-blue"}`}
-                      >
+                      <p className="text-xl mb-1 text-primary-blue group-hover:text-white">
                         Outcome:
                       </p>
                       {plan.outcome}
@@ -211,11 +205,7 @@ const PricingPlan = ({ plans }: { plans?: PricingPlanType[] }) => {
                     {isCurrent ? (
                       <Button
                         asChild
-                        className={`flex w-full ${
-                          plan.highlighted
-                            ? "!bg-white/90 !text-primary-blue hover:!bg-white"
-                            : "!bg-gray-100 !text-gray-500 border-gray-200 hover:!bg-gray-200"
-                        }`}
+                        className="flex w-full !bg-gray-100 !text-gray-500 border-gray-200 group-hover:!bg-white group-hover:!text-black"
                       >
                         <Link href="/dashboard/subscription">
                           <IoCheckmarkOutline className="size-5" />
@@ -224,11 +214,7 @@ const PricingPlan = ({ plans }: { plans?: PricingPlanType[] }) => {
                       </Button>
                     ) : (
                       <Button
-                        className={`flex w-full ${
-                          plan.highlighted
-                            ? "!bg-white text-primary-blue hover:bg-gray-100"
-                            : "bg-primary-blue text-white hover:bg-blue-700"
-                        }`}
+                        className="flex w-full bg-primary-blue text-white group-hover:!bg-white group-hover:!text-black"
                         onClick={() => handleGetStarted(plan)}
                         disabled={isLoading}
                       >
