@@ -239,3 +239,12 @@ button {
   background-color: #636364 !important;
   transform: scale(1.2);
 }
+
+/* =========== Rich text editor (TipTap) placeholder ================ */
+.rich-editor .ProseMirror p.is-editor-empty:first-child::before {
+  content: attr(data-placeholder);
+  color: #94a3b8;
+  float: left;
+  height: 0;
+  pointer-events: none;
+}
