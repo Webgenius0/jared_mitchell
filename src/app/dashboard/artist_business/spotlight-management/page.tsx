@@ -49,9 +49,6 @@ const statusStyles: Record<string, string> = {
   pending: "bg-amber-50 text-amber-500",
 };
 
-// The API returns `duration` as an object { voting_starts_at, voting_ends_at }
-// (or occasionally a plain string) — render it as a readable label instead of
-// trying to render the object directly (which crashes React).
 function formatDurationLabel(duration: SpotlightApiItem["duration"]): string {
   if (!duration) return "—";
   if (typeof duration === "string") return duration;
