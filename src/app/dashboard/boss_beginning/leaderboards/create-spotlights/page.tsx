@@ -3,7 +3,7 @@
 import { ArrowLeft, ArrowRight, Loader2 } from "lucide-react";
 import { useEffect, useRef, useState, Suspense } from "react";
 import { FormProvider, useForm } from "react-hook-form";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 import StepFour, {
   type ExistingImages,
@@ -13,7 +13,7 @@ import StepTwo from "@/app/(main)/business-spotlight/_Components/StepTwo";
 import StepThree from "@/app/(main)/business-spotlight/_Components/StepThree";
 import StepFive from "@/app/(main)/business-spotlight/_Components/StepFive";
 import StepSix from "@/app/(main)/business-spotlight/_Components/StepSix";
-import StepSeven from "@/app/(main)/business-spotlight/_Components/StepSeven";
+import { SuccessScreen } from "./success-screen";
 import {
   useCreateBusinessSpotlight,
   useUpdateBusinessSpotlight,
@@ -127,6 +127,7 @@ function extractExistingImages(apiData: any): ExistingImages {
 /* ------------------------------------------------------------------ */
 
 function CreateSpotlightForm() {
+  const router = useRouter();
   const searchParams = useSearchParams();
   const editId = searchParams.get("editId");
   const isEditing = !!editId;
@@ -400,7 +401,9 @@ function CreateSpotlightForm() {
         </div>
 
         {submitted ? (
-          <StepSeven />
+          <SuccessScreen
+            onDone={() => router.push("/dashboard/boss_beginning/leaderboards")}
+          />
         ) : (
           <FormProvider {...methods}>
             <form onSubmit={methods.handleSubmit(onSubmit)}>

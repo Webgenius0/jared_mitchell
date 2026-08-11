@@ -86,7 +86,7 @@ const PricingTable = ({ data, headers }: PricingTableProps) => {
           <table className="w-full border-collapse text-nowrap shadow-[0_4px_20px_0_rgba(0,0,0,0.07)]">
             <thead className="rounded-2xl text-lg xl:text-xl">
               <tr className="border-b border-gray-200 bg-white">
-                <th className="font-bold py-3 md:py-4 xl:py-5 rounded-tl-xl">
+                <th className="font-bold text-left py-3 md:py-4 xl:py-5 rounded-tl-xl">
                   Feature
                 </th>
                 <th className="font-bold py-3 md:py-4 xl:py-5">{tableHeaders.basic}</th>

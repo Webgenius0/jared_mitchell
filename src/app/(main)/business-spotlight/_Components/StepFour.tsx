@@ -40,9 +40,22 @@ const StepFour = ({
     (existingImages?.product_service_photos?.length ?? 0) > 0;
   const hasExistingTeam = !!existingImages?.team_photo;
 
-  /* When editing, images are optional — user can keep existing or upload new */
-  const requiredRule = (message: string): any =>
-    isEditing ? false : { required: message };
+  /* When editing, images are optional — user can keep existing or upload new.
+     Note: we must NOT rely on `required: false` alone — react-hook-form keeps a
+     previously registered `required` rule when re-registering with `false`,
+     which would make the step fail even though existing images are present.
+     So we explicitly clear `required` and validate instead. */
+  const requiredRule = (message: string, hasExisting: boolean): any => ({
+    required: false,
+    validate: (value: unknown) => {
+      // Existing image satisfies the requirement (edit mode)
+      if (hasExisting) return true;
+      // A newly selected file satisfies the requirement
+      if (value instanceof FileList && value.length > 0) return true;
+      if (Array.isArray(value) && value.length > 0) return true;
+      return message;
+    },
+  });
 
   return (
     <div className="step_box">
@@ -71,7 +84,7 @@ const StepFour = ({
               type="file"
               id="portrait_photo"
               className="hidden"
-              {...register("portrait_photo", requiredRule("Owner portrait is required"))}
+              {...register("portrait_photo", requiredRule("Owner portrait is required", hasExistingPortrait))}
               onChange={e => {
                 register("portrait_photo").onChange(e);
               }}
@@ -138,7 +151,7 @@ const StepFour = ({
               className="hidden"
               {...register(
                 "storefront_workspace_photo",
-                requiredRule("Workspace photo is required"),
+                requiredRule("Workspace photo is required", hasExistingWorkspace),
               )}
               onChange={e => {
                 register("storefront_workspace_photo").onChange(e);
@@ -209,7 +222,7 @@ const StepFour = ({
               className="hidden"
               {...register(
                 "product_service_photos",
-                requiredRule("Product photo is required"),
+                requiredRule("Product photo is required", hasExistingProduct),
               )}
               onChange={e => {
                 register("product_service_photos").onChange(e);
@@ -293,7 +306,7 @@ const StepFour = ({
               type="file"
               id="team_photo"
               className="hidden"
-              {...register("team_photo", requiredRule("Team photo is required"))}
+              {...register("team_photo", requiredRule("Team photo is required", hasExistingTeam))}
               onChange={e => {
                 register("team_photo").onChange(e);
               }}

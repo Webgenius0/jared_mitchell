@@ -3,6 +3,36 @@
 // any dashboard page (business list, listed-business, etc.) can render the
 // same real API data with identical formatting.
 
+import DOMPurify from "dompurify";
+
+/* ─── Rich-text helpers ────────────────────────────────────────────────────
+   Business fields like `story` / `mission` come from the rich-text editor,
+   so they may be plain strings OR HTML. These helpers let the UI render
+   each correctly: HTML as HTML, plain strings as plain text. */
+
+/** True when the string contains HTML tags (i.e. it came from the rich text editor). */
+export function isHtmlString(value: string | null | undefined): boolean {
+  if (!value) return false;
+  return /<\/?[a-z][^>]*>/i.test(value);
+}
+
+/** Sanitized HTML — safe to inject via dangerouslySetInnerHTML (HTML strings only). */
+export function sanitizeRichText(value: string | null | undefined): string {
+  return DOMPurify.sanitize(value ?? "");
+}
+
+/**
+ * HTML → plain text (safe for truncated previews / table cells).
+ * Plain strings pass through unchanged.
+ */
+export function richTextToPlainText(
+  value: string | null | undefined,
+): string {
+  if (!value) return "";
+  if (!isHtmlString(value)) return value;
+  return DOMPurify.sanitize(value, { ALLOWED_TAGS: [] });
+}
+
 export interface MediaItem {
   id: number;
   url: string;

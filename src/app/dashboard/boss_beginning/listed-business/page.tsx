@@ -5,17 +5,39 @@ import Modal from "@/Components/Common/Modal";
 import StatusBadge from "@/Components/Common/StatusBadge";
 import Image from "next/image";
 import { useGetAllBusinesses } from "@/Hooks/api/dashboard_api";
-import { mapApiBusiness, type Business } from "@/lib/business";
+import {
+  isHtmlString,
+  mapApiBusiness,
+  richTextToPlainText,
+  sanitizeRichText,
+  type Business,
+} from "@/lib/business";
 
 function InfoCard({ title, body }: { title: string; body?: string }) {
+  const hasContent = !!body && body.trim().length > 0;
   return (
     <div className="bg-white rounded-2xl border border-slate-200 p-4 md:p-5">
       <h3 className="text-sm md:text-base font-semibold text-slate-900 mb-2">
         {title}
       </h3>
-      <p className="text-xs md:text-sm text-slate-600 leading-relaxed whitespace-pre-line">
-        {body && body.trim() ? body : "No data provided."}
-      </p>
+      {hasContent ? (
+        isHtmlString(body) ? (
+          /* Rich text editor output — display as HTML */
+          <div
+            className="rich-text-body text-xs md:text-sm text-slate-600 leading-relaxed"
+            dangerouslySetInnerHTML={{ __html: sanitizeRichText(body) }}
+          />
+        ) : (
+          /* Plain string — display as text */
+          <p className="text-xs md:text-sm text-slate-600 leading-relaxed whitespace-pre-line">
+            {body}
+          </p>
+        )
+      ) : (
+        <p className="text-xs md:text-sm text-slate-600 leading-relaxed whitespace-pre-line">
+          No data provided.
+        </p>
+      )}
     </div>
   );
 }
@@ -83,7 +105,7 @@ export default function Page() {
                       {b.ownerName || "—"}
                     </td>
                     <td className="px-5 md:px-6 py-3.5 md:py-4 text-sm md:text-base text-slate-600 whitespace-nowrap max-w-[200px] truncate">
-                      {b.story || "—"}
+                      {b.story ? richTextToPlainText(b.story) : "—"}
                     </td>
                     <td className="px-5 md:px-6 py-3.5 md:py-4 text-sm md:text-base text-slate-600 whitespace-nowrap max-w-[160px] truncate">
                       {b.websiteLink || "—"}
