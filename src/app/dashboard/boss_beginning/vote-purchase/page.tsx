@@ -16,6 +16,7 @@ import { apiPurchaseVotes, apiPayVotePurchase } from "@/Hooks/api/events_api";
 import type { VotePackage } from "@/Types/cms";
 import { formatDate } from "@/helper/formatDate";
 import { resolveMediaUrl, getUserDashboardType } from "@/lib/utils";
+import { getApiErrorMessage } from "@/utils/getApiErrorMessage";
 import useAuth from "@/Hooks/useAuth";
 import Image from "next/image";
 
@@ -225,9 +226,7 @@ const VotePurchase = () => {
         setPurchaseStep("idle");
       }
     } catch (err: any) {
-      toast.error(
-        err?.response?.data?.message || "Failed to initiate purchase.",
-      );
+      toast.error(getApiErrorMessage(err));
       setPurchaseStep("idle");
     }
   };
@@ -255,7 +254,7 @@ const VotePurchase = () => {
         setPayingId(null);
       }
     } catch (err: any) {
-      toast.error(err?.response?.data?.message || "Payment failed.");
+      toast.error(getApiErrorMessage(err));
       setPurchaseStep("purchased");
       setPayingId(null);
     }

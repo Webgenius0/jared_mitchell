@@ -17,6 +17,7 @@ import StepFive from "./_components/StepFive";
 import StepSix from "./_components/StepSix";
 import StepSeven from "./_components/StepSeven";
 import RequireSubscription from "@/Components/Common/RequireSubscription";
+import { getApiErrorMessage } from "@/utils/getApiErrorMessage";
 
 type StepItem = {
   title: string;
@@ -84,10 +85,7 @@ function CreateSpotlightForm() {
 
   useEffect(() => {
     if (!isEditMode || !isDetailsError) return;
-    toast.error(
-      (detailsError as any)?.response?.data?.message ||
-        "Failed to load your spotlight data. Please try again.",
-    );
+    toast.error(getApiErrorMessage(detailsError));
   }, [isEditMode, isDetailsError, detailsError]);
 
   useEffect(() => {

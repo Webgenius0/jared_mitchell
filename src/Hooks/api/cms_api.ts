@@ -1,6 +1,7 @@
 import toast from "react-hot-toast";
 import useClientApi from "../useClientApi";
 import { useQueryClient } from "@tanstack/react-query";
+import { getApiErrorMessage } from "@/utils/getApiErrorMessage";
 
 // Create Business Spotlight
 export const useCreateBusinessSpotlight = () => {
@@ -18,7 +19,7 @@ export const useCreateBusinessSpotlight = () => {
       }
     },
     onError: (err: any) => {
-      toast.error(err?.response?.data?.message);
+      toast.error(getApiErrorMessage(err));
     },
   });
 };
@@ -44,7 +45,7 @@ export const useCreateArtistSpotlight = () => {
       }
     },
     onError: (err: any) => {
-      toast.error(err?.response?.data?.message);
+      toast.error(getApiErrorMessage(err));
     },
   });
 };
@@ -71,7 +72,7 @@ export const useUpdateArtistSpotlight = (id: number | string) => {
       }
     },
     onError: (err: any) => {
-      toast.error(err?.response?.data?.message);
+      toast.error(getApiErrorMessage(err));
     },
   });
 };
@@ -154,7 +155,7 @@ export const useUpdateBusinessSpotlight = () => {
       }
     },
     onError: (err: any) => {
-      toast.error(err?.response?.data?.message);
+      toast.error(getApiErrorMessage(err));
     },
   });
 };
@@ -181,9 +182,7 @@ export const useWithdrawSpotlightApplication = () => {
       }
     },
     onError: (err: any) => {
-      toast.error(
-        err?.response?.data?.message || "Failed to withdraw application.",
-      );
+      toast.error(getApiErrorMessage(err));
     },
   });
 };
@@ -234,7 +233,7 @@ export const useApplySpotlightToWeek = () => {
       }
     },
     onError: (err: any) => {
-      toast.error(err?.response?.data?.message || "Failed to apply.");
+      toast.error(getApiErrorMessage(err));
     },
   });
 };
@@ -378,9 +377,7 @@ export const usePurchaseVotes = () => {
     },
     onError: (err: any) => {
       import("react-hot-toast").then(({ default: toast }) =>
-        toast.error(
-          err?.response?.data?.message || "Failed to initiate purchase.",
-        ),
+        toast.error(getApiErrorMessage(err)),
       );
     },
   });
@@ -407,9 +404,7 @@ export const usePayVotePurchase = () => {
     },
     onError: (err: any) => {
       import("react-hot-toast").then(({ default: toast }) =>
-        toast.error(
-          err?.response?.data?.message || "Payment failed.",
-        ),
+        toast.error(getApiErrorMessage(err)),
       );
     },
   });
@@ -521,10 +516,7 @@ export const useApplySponsorship = () => {
       }
     },
     onError: (err: any) => {
-      toast.error(
-        err?.response?.data?.message ||
-          "Failed to submit sponsorship application.",
-      );
+      toast.error(getApiErrorMessage(err));
     },
   });
 };
@@ -551,9 +543,7 @@ export const useApplyToContest = () => {
       }
     },
     onError: (err: any) => {
-      toast.error(
-        err?.response?.data?.message || "Failed to apply to the session.",
-      );
+      toast.error(getApiErrorMessage(err));
     },
   });
 };
@@ -593,9 +583,7 @@ export const useWithdrawContestApplication = () => {
       }
     },
     onError: (err: any) => {
-      toast.error(
-        err?.response?.data?.message || "Failed to withdraw application.",
-      );
+      toast.error(getApiErrorMessage(err));
     },
   });
 };
@@ -615,9 +603,7 @@ export const useEventRegister = () => {
     },
     onError: (err: any) => {
       import("react-hot-toast").then(({ default: toast }) =>
-        toast.error(
-          err?.response?.data?.message || "Booking failed. Please try again.",
-        ),
+        toast.error(getApiErrorMessage(err)),
       );
     },
   });

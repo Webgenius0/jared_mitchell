@@ -16,20 +16,20 @@ const page = async () => {
   const pageData = (await getBossCms()) as CMSBossBeginnings;
   const CmsData = await getCMSAboutData();
 
-  // The "How Winners Are Chosen" BusinessChosenChart section only renders
-  // while the contest is in Round 1 — once the season moves to a later round
-  // the section is hidden.
+  // The "How Winners Are Chosen" BusinessChosenChart section renders while the
+  // contest is open, except during Round 2 (business decision — the cards
+  // aren't shown that round). roundData is a best-effort optimization: when
+  // the server-side fetch fails or the page is served from a stale ISR
+  // snapshot, the client component self-fetches using roundId, so the section
+  // appears whenever a round is actually open.
   let roundLeaderboard = null;
-  let isRoundOne = false;
+  let activeRoundId: number | null = null;
   try {
     const activeSeasonRes = await getActiveSeasonRounds();
     const rounds = activeSeasonRes?.data?.rounds ?? [];
-    const activeRound =
-      rounds.find(r => r.is_active) ??
-      rounds.find(r => r.round_number === 1) ??
-      rounds[0];
-    isRoundOne = activeRound?.round_number === 1;
-    if (isRoundOne) {
+    const activeRound = rounds.find(r => r.is_active) ?? null;
+    if (activeRound && activeRound.round_number !== 2) {
+      activeRoundId = activeRound.id;
       // noCache so the card points/counts always match the live API instead of
       // serving an up-to-60s stale ISR snapshot while users are voting.
       const leaderboardRes = await getRoundLeaderboard(activeRound.id, {
@@ -38,7 +38,8 @@ const page = async () => {
       roundLeaderboard = leaderboardRes?.data ?? null;
     }
   } catch {
-    // Active season may not be available yet — the section stays hidden
+    // Active season may not be available yet — the section stays hidden unless
+    // the client component can resolve the round itself.
   }
 
   return (
@@ -57,13 +58,12 @@ const page = async () => {
       </section> */}
       {/* <BusinessShower data={pageData?.boss_beginnings_features} /> */}
       {/* <BossBeginningWinner data={pageData?.boss_beginnings_video_gallery} /> */}
-      {isRoundOne && (
-        <BusinessChosenChart
-          data={pageData?.boss_beginnings_steps}
-          roundData={roundLeaderboard}
-          paginated
-        />
-      )}
+      <BusinessChosenChart
+        data={pageData?.boss_beginnings_steps}
+        roundData={roundLeaderboard}
+        roundId={activeRoundId}
+        paginated
+      />
       {/* <NewBusiness data={pageData?.boss_beginnings_section5} /> */}
       {/* <HowVotingWorks data={pageData?.boss_beginnings_steps} /> */}
       {/* <WinnerReceives data={pageData?.boss_beginnings_dynamic} /> */}
