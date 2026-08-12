@@ -136,30 +136,24 @@ interface InteractionConfig {
   apiCall: (businessId: number) => Promise<any>;
   storageKey: string;
   markerPrefix: string;
-  countField: string;
   flagField: string;
-  pointsField: string;
   businessId: number;
   initialCount: number;
   loginMessage: string;
   failMessage: string;
   onSuccess?: () => void;
-  onPointsChange?: (points: number) => void;
 }
 
 const useBusinessInteraction = ({
   apiCall,
   storageKey,
   markerPrefix,
-  countField,
   flagField,
-  pointsField,
   businessId,
   initialCount,
   loginMessage,
   failMessage,
   onSuccess,
-  onPointsChange,
 }: InteractionConfig) => {
   const { token, user } = useAuth();
   const router = useRouter();
@@ -206,7 +200,11 @@ const useBusinessInteraction = ({
     setActive(prev => !prev);
     setCount(prev => Math.max(0, prev + (wasActive ? -1 : 1)));
 
-    // Reconcile with the authoritative state the backend returns
+    // Only the on/off flag is reconciled from the interaction response (so the
+    // button state + persistence stay correct). The counts and total points are
+    // intentionally NOT shown from this response — after an interaction we
+    // refetch the round leaderboard (/v1/contest/rounds/:id/leaderboard) and
+    // set the card data from that authoritative source instead.
     const syncFromResponse = (response: any) => {
       if (response?.data?.[flagField] === true) {
         setActive(true);
@@ -214,12 +212,6 @@ const useBusinessInteraction = ({
       } else if (response?.data?.[flagField] === false) {
         setActive(false);
         markers.forEach(m => removeMarker(storageKey, m));
-      }
-      if (response?.data?.[countField] != null) {
-        setCount(response.data[countField]);
-      }
-      if (response?.data?.[pointsField] != null) {
-        onPointsChange?.(response.data[pointsField]);
       }
     };
 
@@ -248,6 +240,51 @@ const useBusinessInteraction = ({
   return { count, loading, active, trigger };
 };
 
+// ---------------------------------------------------------------------------
+// Leaderboard merge helper
+// ---------------------------------------------------------------------------
+// The background refetch after an interaction is authoritative (it uses
+// `noCache`), and interactions are reversible — the API returns responses
+// like "Business fired removed successfully" and points can go down when a
+// fire/love/clap is removed. So the freshest server values always win here;
+// previous values are only used to fill in fields the incoming entry omits.
+const mergeLeaderboardData = (
+  prev: RoundLeaderboardData | null,
+  incoming: RoundLeaderboardData,
+): RoundLeaderboardData => {
+  if (!prev) return incoming;
+
+  const prevByBusiness = new Map(
+    prev.entries.map(e => [e.contestant.business_id, e]),
+  );
+
+  return {
+    ...incoming,
+    entries: incoming.entries.map(entry => {
+      const prevEntry = prevByBusiness.get(entry.contestant.business_id);
+      if (!prevEntry) return entry;
+
+      return {
+        ...entry,
+        total_score: entry.total_score ?? prevEntry.total_score ?? 0,
+        contestant: {
+          ...entry.contestant,
+          contestable: {
+            ...entry.contestant.contestable,
+            total_points:
+              entry.contestant?.contestable?.total_points ??
+              prevEntry.contestant?.contestable?.total_points ??
+              0,
+          },
+        },
+        claps: entry.claps ?? prevEntry.claps ?? 0,
+        saves: entry.saves ?? prevEntry.saves ?? 0,
+        shares: entry.shares ?? prevEntry.shares ?? 0,
+      };
+    }),
+  };
+};
+
 const BusinessChosenChart = ({
   data,
   roundData,
@@ -262,9 +299,13 @@ const BusinessChosenChart = ({
   );
   const [noActiveRound, setNoActiveRound] = useState(false);
 
-  // Adopt fresh leaderboard data pushed from the server component prop
+  // Adopt leaderboard data pushed from the server component prop. The fresh
+  // server data is authoritative (interactions are reversible), so incoming
+  // values win; previous client-side values only fill in missing fields.
   useEffect(() => {
-    if (roundData) setLiveData(roundData);
+    if (!roundData) return;
+    setLiveData(prev => mergeLeaderboardData(prev, roundData));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [roundData]);
 
   // Self-fetch the leaderboard when the server didn't provide data — stale ISR
@@ -324,41 +365,17 @@ const BusinessChosenChart = ({
         const res = await getRoundLeaderboard(currentRoundData.round_id, {
           noCache: true,
         });
-        if (res?.data) setLiveData(res.data);
+        // Merge with the fresh server data — the refetch (noCache) is
+        // authoritative and interactions are reversible, so its values
+        // always win over the previous snapshot.
+        if (res?.data) {
+          setLiveData(prev => mergeLeaderboardData(prev, res.data));
+        }
       } catch {
         // Keep current data if the refresh fails
       }
     }, 250);
   }, [currentRoundData?.round_id]);
-
-  // Update a card's Total Points immediately from the interaction response
-  // (total_points) instead of waiting for the leaderboard refetch.
-  const handlePointsChange = useCallback(
-    (businessId: number, points: number) => {
-      setLiveData(prev => {
-        if (!prev) return prev;
-        return {
-          ...prev,
-          entries: prev.entries.map(entry =>
-            entry.contestant.business_id === businessId
-              ? {
-                  ...entry,
-                  total_score: points,
-                  contestant: {
-                    ...entry.contestant,
-                    contestable: {
-                      ...entry.contestant.contestable,
-                      total_points: points,
-                    },
-                  },
-                }
-              : entry,
-          ),
-        };
-      });
-    },
-    [],
-  );
 
   // Clear any pending refresh timer on unmount
   useEffect(() => {
@@ -491,7 +508,6 @@ const BusinessChosenChart = ({
                     key={biz.id}
                     biz={biz}
                     onInteractionSuccess={refreshLeaderboard}
-                    onPointsChange={handlePointsChange}
                   />
                 ))}
               </div>
@@ -567,7 +583,6 @@ const BusinessChosenChart = ({
                   <BusinessCardItem
                     biz={biz}
                     onInteractionSuccess={refreshLeaderboard}
-                    onPointsChange={handlePointsChange}
                   />
                 </li>
               ))}
@@ -590,56 +605,74 @@ const BusinessChosenChart = ({
 const BusinessCardItem = ({
   biz,
   onInteractionSuccess,
-  onPointsChange,
 }: {
   biz: BusinessCard;
   onInteractionSuccess?: () => void;
-  onPointsChange?: (businessId: number, points: number) => void;
 }) => {
   const clap = useBusinessInteraction({
     apiCall: apiClapBusiness,
     storageKey: CLAPPED_KEY,
     markerPrefix: MARKER_PREFIX_CLAP,
-    countField: "total_claps",
     flagField: "is_clapped",
-    pointsField: "total_points",
     businessId: biz.businessId,
     initialCount: biz.claps,
     loginMessage: "Please login to clap",
     failMessage: "Failed to clap. Please try again.",
     onSuccess: onInteractionSuccess,
-    onPointsChange: points => onPointsChange?.(biz.businessId, points),
   });
 
   const love = useBusinessInteraction({
     apiCall: apiSaveBusiness,
     storageKey: SAVED_KEY,
     markerPrefix: MARKER_PREFIX_SAVE,
-    countField: "total_saves",
     flagField: "is_saved",
-    pointsField: "total_points",
     businessId: biz.businessId,
     initialCount: biz.loves,
     loginMessage: "Please login to love this business",
     failMessage: "Failed to love. Please try again.",
     onSuccess: onInteractionSuccess,
-    onPointsChange: points => onPointsChange?.(biz.businessId, points),
   });
 
   const fire = useBusinessInteraction({
     apiCall: apiShareBusiness,
     storageKey: SHARED_KEY,
     markerPrefix: MARKER_PREFIX_SHARE,
-    countField: "total_shares",
     flagField: "is_shared",
-    pointsField: "total_points",
     businessId: biz.businessId,
     initialCount: biz.fires,
     loginMessage: "Please login to fire this business",
     failMessage: "Failed to fire. Please try again.",
     onSuccess: onInteractionSuccess,
-    onPointsChange: points => onPointsChange?.(biz.businessId, points),
   });
+
+  // Points delta badge ----------------------------------------------------
+  // Whenever the card's total points changes (from the leaderboard refetch
+  // after an interaction), float a "+N / -N PT" badge over the Total Points
+  // row so the change is visible at a glance.
+  const [pointsDelta, setPointsDelta] = useState<number | null>(null);
+  const [deltaNonce, setDeltaNonce] = useState(0);
+  const prevTotalRef = useRef(biz.totalPoints);
+  const deltaTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    const prev = prevTotalRef.current;
+    if (prev === biz.totalPoints) return;
+    prevTotalRef.current = biz.totalPoints;
+    const change = biz.totalPoints - prev;
+    if (change === 0) return;
+    setPointsDelta(change);
+    // Re-key so repeated equal deltas restart the pop animation
+    setDeltaNonce(n => n + 1);
+    if (deltaTimerRef.current) clearTimeout(deltaTimerRef.current);
+    deltaTimerRef.current = setTimeout(() => setPointsDelta(null), 1700);
+  }, [biz.totalPoints]);
+
+  // Clear any pending delta timer on unmount
+  useEffect(() => {
+    return () => {
+      if (deltaTimerRef.current) clearTimeout(deltaTimerRef.current);
+    };
+  }, []);
 
   return (
     <div className="rounded-2xl border border-slate-200 overflow-hidden bg-white">
@@ -659,12 +692,24 @@ const BusinessCardItem = ({
         )}
 
         {/* Total points */}
-        <div className="flex items-center justify-between mt-4 bg-slate-50 rounded-xl px-3 py-2">
+        <div className="relative flex items-center justify-between mt-4 bg-slate-50 rounded-xl px-3 py-2">
           <span className="text-sm text-slate-500">Total Points</span>
           <span className="flex items-center gap-1 font-semibold ">
             {biz.totalPoints.toLocaleString()}
             <FaArrowTrendUp className="text-green-500" />
           </span>
+          {pointsDelta !== null && (
+            <span
+              key={deltaNonce}
+              className={`points-delta-pop absolute -top-3 right-3 z-10 text-xs font-bold px-2 py-0.5 rounded-full shadow-sm ${
+                pointsDelta > 0
+                  ? "bg-green-100 text-green-600"
+                  : "bg-red-100 text-red-500"
+              }`}
+            >
+              {pointsDelta > 0 ? `+${pointsDelta}` : pointsDelta} PT
+            </span>
+          )}
         </div>
 
         {/* Clap / Love / Fire Action buttons */}

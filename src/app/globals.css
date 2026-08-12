@@ -114,6 +114,33 @@ button {
   animation: cart-badge-pop 0.45s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
+/* Points delta badge — pops in, then floats up and fades out when a card's
+   total points changes from an interaction */
+@keyframes points-delta-pop {
+  0% {
+    opacity: 0;
+    transform: translateY(8px) scale(0.6);
+  }
+  20% {
+    opacity: 1;
+    transform: translateY(-2px) scale(1.08);
+  }
+  40% {
+    transform: translateY(0) scale(1);
+  }
+  75% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-16px) scale(1);
+  }
+}
+
+.points-delta-pop {
+  animation: points-delta-pop 1.6s ease forwards;
+}
+
 .label {
   @apply md:text-[17px] xl:text-xl text-primary-black mb-1 xl:mb-3;
 }

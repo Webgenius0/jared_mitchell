@@ -16,6 +16,7 @@ import { CMSBossBeginnings } from "@/Types/cms";
 import Sponsors from "../_components/Sponsors";
 import BossBeginningSponsor from "./_components/BossBeginningSponsor";
 
+
 const page = async () => {
   const pageData = (await getBossCms()) as CMSBossBeginnings;
   const cmsData = await getCMSHomepageData();
@@ -56,6 +57,8 @@ const page = async () => {
         roundData={roundLeaderboard}
         roundId={activeRoundId}
       />
+
+
 
       <NewBusiness data={pageData?.boss_beginnings_section5} />
 

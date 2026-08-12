@@ -658,10 +658,27 @@ export const submitRoundVotes = async ({
   );
 
   if (!res.ok) {
-    const text = await res.text();
-    throw new Error(
-      `Failed to submit round votes — Status: ${res.status} ${text}`,
-    );
+    // Parse the error body so the backend's real message (e.g. "You cannot
+    // vote for your own entry.") survives instead of a raw JSON dump.
+    let payload: any = null;
+    try {
+      payload = await res.json();
+    } catch {
+      // Non-JSON error body — fall back to status text below
+    }
+
+    const message =
+      typeof payload?.message === "string" && payload.message.trim()
+        ? payload.message
+        : `Failed to submit round votes — Status: ${res.status}`;
+
+    // Shape the error like an axios error so callers can read it through
+    // getApiErrorMessage(err) (err.response.data.message). The `payload ??
+    // { message }` fallback keeps the status message reachable when the
+    // error body isn't JSON.
+    const error: any = new Error(message);
+    error.response = { data: payload ?? { message } };
+    throw error;
   }
 
   return res.json();
