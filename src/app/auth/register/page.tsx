@@ -141,57 +141,66 @@ const Register = () => {
               </div>
             </div>
 
-            {/* Role */}
-            <div>
-              <h3 className="label">Choose Your Role*</h3>
-              <div>
-                <p className="border border-[#00000029] bg-[#f5f5f7] pe-3 rounded-xl xl:rounded-2xl">
-                  <select
-                    {...register("role", { required: true })}
-                    className="w-full h-full border-none outline-none capitalize py-2.5 xl:py-5 px-3 xl:px-6"
-                  >
-                    <option value="">Choose your role</option>
-                    <option value="5">artisan</option>
-                    <option value="6">member</option>
-                    <option value="8">Business</option>
-                  </select>
-                </p>
-                {errors?.role && (
-                  <p className="text-red-600">Role is required</p>
-                )}
-              </div>
-            </div>
+<div
+  className={`flex flex-col md:flex-row gap-3 md:gap-5 ${
+    watch("role") === "5" ? "" : ""
+  }`}
+>
+  {/* Role */}
+  <div className={watch("role") === "5" ? "flex-1" : "w-full"}>
+    <h3 className="label">Choose Your Role*</h3>
+    <div>
+      <p className="border border-[#00000029] bg-[#f5f5f7] pe-3 rounded-xl xl:rounded-2xl">
+        <select
+          {...register("role", { required: true })}
+          className="w-full h-full border-none outline-none capitalize py-2.5 xl:py-5 px-3 xl:px-6"
+        >
+          <option value="">Choose your role</option>
+          <option value="5">artisan</option>
+          <option value="6">member</option>
+          <option value="8">Business</option>
+        </select>
+      </p>
 
-            {/* Artist Category (only for artisans) */}
-            {watch("role") === "5" && (
-              <div>
-                <h3 className="label">Artist Category*</h3>
-                <div>
-                  <p className="border border-[#00000029] bg-[#f5f5f7] pe-3 rounded-xl xl:rounded-2xl">
-                    <select
-                      {...register("artist_category_id", {
-                        required: watch("role") === "5",
-                      })}
-                      className="w-full h-full border-none outline-none capitalize py-2.5 xl:py-5 px-3 xl:px-6"
-                    >
-                      <option value="">Choose your category</option>
-                      {categoriesLoading ? (
-                        <option disabled>Loading categories...</option>
-                      ) : (
-                        categories?.data?.map((cat: any) => (
-                          <option key={cat.id} value={cat.id}>
-                            {cat.name}
-                          </option>
-                        ))
-                      )}
-                    </select>
-                  </p>
-                  {errors?.artist_category_id && (
-                    <p className="text-red-600">Category is required</p>
-                  )}
-                </div>
-              </div>
+      {errors?.role && (
+        <p className="text-red-600">Role is required</p>
+      )}
+    </div>
+  </div>
+
+  {/* Artist Category (only for artisans) */}
+  {watch("role") === "5" && (
+    <div className="flex-1">
+      <h3 className="label">Artist Category*</h3>
+      <div>
+        <p className="border border-[#00000029] bg-[#f5f5f7] pe-3 rounded-xl xl:rounded-2xl">
+          <select
+            {...register("artist_category_id", {
+              required: watch("role") === "5",
+            })}
+            className="w-full h-full border-none outline-none capitalize py-2.5 xl:py-5 px-3 xl:px-6"
+          >
+            <option value="">Choose your category</option>
+
+            {categoriesLoading ? (
+              <option disabled>Loading categories...</option>
+            ) : (
+              categories?.data?.map((cat: any) => (
+                <option key={cat.id} value={cat.id}>
+                  {cat.name}
+                </option>
+              ))
             )}
+          </select>
+        </p>
+
+        {errors?.artist_category_id && (
+          <p className="text-red-600">Category is required</p>
+        )}
+      </div>
+    </div>
+  )}
+</div>
           </div>
 
           <div className="mt-1 text-primary-black text-sm md:text-base">
