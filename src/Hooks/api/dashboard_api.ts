@@ -1,4 +1,5 @@
 import useClientApi from "../useClientApi";
+import { getApiErrorMessage } from "@/utils/getApiErrorMessage";
 
 // Get Boss Beginning Dashboard Stats
 export const useGetDashboardStats = () => {
@@ -110,7 +111,7 @@ export const useCancelEventRegistration = () => {
     onError: (err: any) => {
       const toast = import("react-hot-toast").then(m => m.default);
       toast.then(t =>
-        t.error(err?.response?.data?.message || "Failed to cancel ticket."),
+        t.error(getApiErrorMessage(err)),
       );
     },
   });
@@ -148,7 +149,7 @@ export const useCreateBusiness = () => {
     onError: (err: any) => {
       const toast = import("react-hot-toast").then(m => m.default);
       toast.then(t =>
-        t.error(err?.response?.data?.message || "Failed to create business."),
+        t.error(getApiErrorMessage(err)),
       );
     },
   });
@@ -185,7 +186,7 @@ export const useUpdateBusiness = () => {
     onError: (err: any) => {
       const toast = import("react-hot-toast").then(m => m.default);
       toast.then(t =>
-        t.error(err?.response?.data?.message || "Failed to update business."),
+        t.error(getApiErrorMessage(err)),
       );
     },
   });
@@ -208,7 +209,7 @@ export const useDeleteBusiness = () => {
     onError: (err: any) => {
       const toast = import("react-hot-toast").then(m => m.default);
       toast.then(t =>
-        t.error(err?.response?.data?.message || "Failed to delete business."),
+        t.error(getApiErrorMessage(err)),
       );
     },
   });
@@ -290,7 +291,7 @@ export const useSubmitRoundSubmission = () => {
     onError: (err: any) => {
       const toast = import("react-hot-toast").then(m => m.default);
       toast.then(t =>
-        t.error(err?.response?.data?.message || "Failed to upload submission."),
+        t.error(getApiErrorMessage(err)),
       );
     },
   });
@@ -324,7 +325,7 @@ export const useUpdateRoundSubmission = () => {
     onError: (err: any) => {
       const toast = import("react-hot-toast").then(m => m.default);
       toast.then(t =>
-        t.error(err?.response?.data?.message || "Failed to update submission."),
+        t.error(getApiErrorMessage(err)),
       );
     },
   });

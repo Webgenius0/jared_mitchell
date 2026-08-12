@@ -619,14 +619,7 @@ export const getRoundLeaderboard = async (
   return result as RoundLeaderboardResponse;
 };
 
-/**
- * Submit OSI panel ratings for a contestant in a round.
- *
- * POST /v1/contest/rounds/:roundId/votes
- * Body (form-encoded): contestant_id + scores[innovation],
- * scores[presentation], scores[impact], scores[quality], scores[growth] —
- * one score per evaluation question, on a 1–10 scale.
- */
+
 const ROUND_SCORE_KEYS = [
   "innovation",
   "presentation",

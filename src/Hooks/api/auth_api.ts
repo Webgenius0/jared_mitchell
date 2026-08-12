@@ -3,6 +3,7 @@ import toast from "react-hot-toast";
 import useAuth from "@/Hooks/useAuth";
 import { useRouter } from "next/navigation";
 import useClientApi from "@/Hooks/useClientApi";
+import { getApiErrorMessage } from "@/utils/getApiErrorMessage";
 
 // Get User Data
 export const useGetUserData = (token: any) => {
@@ -30,7 +31,7 @@ export const useRegister = () => {
       }
     },
     onError: (err: any) => {
-      toast.error(err?.response?.data?.message);
+      toast.error(getApiErrorMessage(err));
     },
   });
 };
@@ -54,23 +55,18 @@ export const useOtpVerification = () => {
     onError: (err: any) => {
       const errors = err?.response?.data?.errors;
 
-      let message = "Something went wrong";
-
-      if (typeof errors === "string") {
-        // e.g. "Invalid or expired OTP"
-        message = errors;
-      } else if (Array.isArray(errors)) {
-        // e.g. ["Invalid OTP", "OTP expired"]
-        message = errors[0];
-      } else if (errors && typeof errors === "object") {
-        // e.g. { email: ["The email field is required."] }
+      // Object-typed field errors (e.g. { email: ["The email field is required."] })
+      // aren't covered by getApiErrorMessage.
+      if (errors && typeof errors === "object" && !Array.isArray(errors)) {
         const firstKey = Object.keys(errors)[0];
-        message = Array.isArray(errors[firstKey])
+        const message = Array.isArray(errors[firstKey])
           ? errors[firstKey][0]
           : String(errors[firstKey]);
+        toast.error(message);
+        return;
       }
 
-      toast.error(message);
+      toast.error(getApiErrorMessage(err));
     },
   });
 };
@@ -87,7 +83,7 @@ export const useResendOtp = () => {
       }
     },
     onError: (err: any) => {
-      toast.error(err?.response?.data?.message);
+      toast.error(getApiErrorMessage(err));
     },
   });
 };
@@ -123,7 +119,8 @@ export const useLogin = () => {
     onError: (err: any) => {
       const payload = err?.response?.data;
 
-      // Validation errors: { errors: { field: [messages] } }
+      // Validation errors: { errors: { field: [messages] } } — object-typed,
+      // not covered by getApiErrorMessage.
       const fieldErrors = payload?.errors;
       if (fieldErrors && typeof fieldErrors === "object") {
         const firstField = Object.keys(fieldErrors)[0];
@@ -143,7 +140,7 @@ export const useLogin = () => {
       } else if (err?.message === "Network Error") {
         toast.error("Network error. Check your connection and try again.");
       } else {
-        toast.error("Login failed. Please try again.");
+        toast.error(getApiErrorMessage(err));
       }
     },
   });
@@ -161,7 +158,7 @@ export const useVerifyEmail = () => {
       }
     },
     onError: (err: any) => {
-      toast.error(err?.response?.data?.message);
+      toast.error(getApiErrorMessage(err));
     },
   });
 };
@@ -178,7 +175,7 @@ export const useVerifyOtp = () => {
       }
     },
     onError: (err: any) => {
-      toast.error(err?.response?.data?.message);
+      toast.error(getApiErrorMessage(err));
     },
   });
 };
@@ -204,7 +201,7 @@ export const useLogout = () => {
       // Even if the API fails, clear the token and redirect
       clearToken();
       router.push("/");
-      toast.error(err?.response?.data?.message || "Something went wrong");
+      toast.error(getApiErrorMessage(err));
     },
   });
 };
@@ -224,7 +221,7 @@ export const useResetPassword = () => {
       }
     },
     onError: (err: any) => {
-      toast.error(err?.response?.data?.message);
+      toast.error(getApiErrorMessage(err));
     },
   });
 };
@@ -245,7 +242,7 @@ export const useUpdateAvatar = () => {
       }
     },
     onError: (err: any) => {
-      toast.error(err?.response?.data?.message || "Failed to update avatar");
+      toast.error(getApiErrorMessage(err));
     },
   });
 };
@@ -274,7 +271,7 @@ export const useUpdateProfile = () => {
         return;
       }
 
-      toast.error(payload?.message || "Failed to update profile");
+      toast.error(getApiErrorMessage(err));
     },
   });
 };
@@ -287,7 +284,7 @@ export const useSubscriptionCheckout = () => {
     endpoint: "/v1/subscription/checkout",
     isPrivate: true,
     onError: (err: any) => {
-      toast.error(err?.response?.data?.message || "Failed to initiate checkout");
+      toast.error(getApiErrorMessage(err));
     },
   });
 };

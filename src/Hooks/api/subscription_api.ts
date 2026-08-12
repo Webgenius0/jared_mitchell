@@ -1,6 +1,7 @@
 "use client";
 import toast from "react-hot-toast";
 import useClientApi from "../useClientApi";
+import { getApiErrorMessage } from "@/utils/getApiErrorMessage";
 
 // ─────────────────────────────────────────────────────────────────────────────
 // 🔧 SUBSCRIPTION ENDPOINTS
@@ -234,9 +235,7 @@ export const useCancelSubscription = () => {
       }
     },
     onError: (err: any) => {
-      toast.error(
-        err?.response?.data?.message || "Failed to cancel subscription.",
-      );
+      toast.error(getApiErrorMessage(err));
     },
   });
 };
@@ -254,9 +253,7 @@ export const useResumeSubscription = () => {
       }
     },
     onError: (err: any) => {
-      toast.error(
-        err?.response?.data?.message || "Failed to resume subscription.",
-      );
+      toast.error(getApiErrorMessage(err));
     },
   });
 };
@@ -290,7 +287,7 @@ export const useSwapSubscription = () => {
       }
     },
     onError: (err: any) => {
-      toast.error(err?.response?.data?.message || "Failed to change plan.");
+      toast.error(getApiErrorMessage(err));
     },
   });
 };

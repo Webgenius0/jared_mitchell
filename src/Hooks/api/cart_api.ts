@@ -1,6 +1,7 @@
 "use client";
 import toast from "react-hot-toast";
 import useClientApi from "../useClientApi";
+import { getApiErrorMessage } from "@/utils/getApiErrorMessage";
 
 // Get Cart
 // GET /v1/cart
@@ -30,7 +31,7 @@ export const useAddToCart = (
       }
     },
     onError: (err: any) => {
-      toast.error(err?.response?.data?.message || "Failed to add to cart");
+      toast.error(getApiErrorMessage(err));
       onErrorOverride?.(err);
     },
   });
@@ -48,7 +49,7 @@ export const useUpdateCartItem = () => {
       }
     },
     onError: (err: any) => {
-      toast.error(err?.response?.data?.message || "Failed to update cart");
+      toast.error(getApiErrorMessage(err));
     },
   });
 };
@@ -65,9 +66,7 @@ export const useDeleteCartItem = () => {
       }
     },
     onError: (err: any) => {
-      toast.error(
-        err?.response?.data?.message || "Failed to remove item from cart",
-      );
+      toast.error(getApiErrorMessage(err));
     },
   });
 };
@@ -85,7 +84,7 @@ export const useBuyNow = () => {
       }
     },
     onError: (err: any) => {
-      toast.error(err?.response?.data?.message || "Failed to place order");
+      toast.error(getApiErrorMessage(err));
     },
   });
 };
@@ -102,7 +101,7 @@ export const usePlaceOrder = () => {
       }
     },
     onError: (err: any) => {
-      toast.error(err?.response?.data?.message || "Failed to place order");
+      toast.error(getApiErrorMessage(err));
     },
   });
 };
@@ -119,7 +118,7 @@ export const useClearCart = () => {
       }
     },
     onError: (err: any) => {
-      toast.error(err?.response?.data?.message || "Failed to clear cart");
+      toast.error(getApiErrorMessage(err));
     },
   });
 };

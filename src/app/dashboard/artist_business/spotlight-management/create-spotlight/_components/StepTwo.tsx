@@ -21,12 +21,7 @@ const StepTwo = () => {
 
   return (
     <div className="step_box">
-      <div className="flex gap-2 text-primary-black">
-        <p className="size-10 rounded-full grid place-items-center bg-[#EFF6FF] text-2xl text-primary-blue">
-          2
-        </p>
-        <h2 className="text-3xl font-semibold mb-2">Artist Category</h2>
-      </div>
+      <h2 className="text-3xl font-semibold mb-2">Artist Category</h2>
 
       <p className="text-[#364153] text-xl mb-5">
         Select your primary category. This determines your voting pool and
@@ -95,11 +90,8 @@ const StepTwo = () => {
 
       {/* Category Other Description */}
       <div className="mt-10">
-        <label htmlFor="category_other_description" className="artist_label mb-2.5">
-          <SelectSvg />
-          <span>
-            Other Category Description <span className="text-sm !text-gray-300">(Optional)</span>
-          </span>
+        <label htmlFor="category_other_description" className="auth_label mb-2.5">
+          Other Category Description <span className="text-sm !text-gray-300">(Optional)</span>
         </label>
         <textarea
           id="category_other_description"
