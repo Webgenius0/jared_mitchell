@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { Check, Loader2, Send } from "lucide-react";
 import toast from "react-hot-toast";
 import { submitRoundVotes } from "@/lib/Services/cms_service";
+import { getApiErrorMessage } from "@/utils/getApiErrorMessage";
 
 type Tag = {
   label: string;
@@ -186,16 +187,19 @@ const RoundStep = ({ roundId, contestantId }: RoundStepProps) => {
       toast.success("Ratings submitted successfully!");
     } catch (err) {
       console.error("Failed to submit round votes:", err);
-      toast.error(
-        "Failed to submit ratings. Please check your answers and try again.",
-      );
+      // Show the backend's message (e.g. "You cannot vote for your own
+      // entry.") when available, otherwise a friendly fallback.
+      toast.error(getApiErrorMessage(err));
     } finally {
       setSubmitting(false);
     }
   };
 
   return (
-    <div className="py-10 px-4">
+    // `relative z-10` keeps the ratings section above the Roundhero's video
+    // layer so its rating dots always receive clicks even when the video is
+    // playing (Chromium video compositing quirk).
+    <div className="py-10 px-4 relative z-10">
       <div className="container  mx-auto flex flex-col gap-6">
         {isEvaluation && (
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2">

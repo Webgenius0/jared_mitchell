@@ -7,7 +7,7 @@ import toast from "react-hot-toast";
 import { isBusinessUser } from "@/lib/utils";
 import { isUserSubscribed } from "@/Hooks/api/subscription_api";
 import { CMSBossBeginnings, PastSixMonthsWinner } from "@/Types/cms";
-
+import DOMPurify from "isomorphic-dompurify";
 const BOSS_BEGINNINGS_URL = "/boss-beginnings";
 
 const BossBeginnings = ({
@@ -103,9 +103,10 @@ const BossBeginnings = ({
         </div>
 
         {/* Tuned down typography scale slightly for better tight spatial structure */}
-        <p className="text-secondary-black max-w-4xl mx-auto text-sm md:text-base xl:text-xl">
-          {description}
-        </p>
+        <div
+          className="text-secondary-black max-w-4xl mx-auto text-sm md:text-base xl:text-xl"
+          dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(description) }}
+        />
 
         {/* Trimmed down top margins above the actions block */}
         <div className="flex flex-wrap items-center justify-center gap-3 lg:gap-6 mt-5 md:mt-6 xl:mt-8">

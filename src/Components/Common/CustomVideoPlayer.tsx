@@ -35,7 +35,11 @@ export default function CustomVideoPlayer({
   return (
     <div
       className={cn(
-        "relative w-full h-full overflow-hidden",
+        // `isolate` forces its own stacking context so a playing <video>'s
+        // composited layer can never escape this wrapper and block pointer
+        // events on content below (Chromium quirk with overflow-hidden +
+        // border-radius ancestors).
+        "relative w-full h-full overflow-hidden isolate",
         className,
       )}
     >
