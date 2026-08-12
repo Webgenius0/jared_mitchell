@@ -1,4 +1,3 @@
-import { BookSvg, GoalSvg, MsgSvg } from "@/Components/Svg/SvgContainer";
 import { useFormContext } from "react-hook-form";
 
 const StepThree = () => {
@@ -9,12 +8,7 @@ const StepThree = () => {
 
   return (
     <div className="step_box">
-      <div className="flex gap-2 text-primary-black">
-        <p className="size-10 rounded-full grid place-items-center bg-[#EFF6FF] text-2xl text-primary-blue">
-          3
-        </p>
-        <h2 className="text-3xl font-semibold mb-2">Artist Story</h2>
-      </div>
+      <h2 className="text-3xl font-semibold mb-2">Artist Story</h2>
 
       <p className="text-[#364153] text-xl mb-5">
         This is the most important section. Share your authentic story - this
@@ -26,9 +20,8 @@ const StepThree = () => {
       <div className="space-y-7">
         {/* Short Bio (2-4 sentences) */}
         <div>
-          <p className="artist_label mb-1">
-            <BookSvg />
-            <label htmlFor="short_bio">
+          <p className="flex justify-between items-center mb-2">
+            <label htmlFor="short_bio" className="auth_label">
               Short Bio (2-4 sentences) <span>*</span>
             </label>
           </p>
@@ -61,9 +54,8 @@ const StepThree = () => {
 
         {/* Full Artist Story (5-20 sentences) */}
         <div>
-          <p className="artist_label mb-1">
-            <BookSvg />
-            <label htmlFor="full_artist_story">
+          <p className="flex justify-between items-center mb-2">
+            <label htmlFor="full_artist_story" className="auth_label">
               Full Artist Story (5-20 sentences) <span>*</span>
             </label>
           </p>
@@ -97,9 +89,8 @@ const StepThree = () => {
 
         {/* Why Should Your Story Be Spotlighted? (3-6 sentences) */}
         <div>
-          <p className="artist_label mb-1">
-            <GoalSvg />
-            <label htmlFor="why_spotlighted">
+          <p className="flex justify-between items-center mb-2">
+            <label htmlFor="why_spotlighted" className="auth_label">
               Why Should Your Story Be Spotlighted? (3-6 sentences)
               <span>*</span>
             </label>
@@ -132,9 +123,8 @@ const StepThree = () => {
 
         {/* What Message Do You Want to Share with the Community? */}
         <div>
-          <p className="artist_label mb-1">
-            <MsgSvg />
-            <label htmlFor="community_message">
+          <p className="flex justify-between items-center mb-2">
+            <label htmlFor="community_message" className="auth_label">
               What Message Do You Want to Share with the Community?
               <span>*</span>
             </label>
@@ -167,9 +157,8 @@ const StepThree = () => {
 
         {/* What Are Your Current Goals as an Artist? */}
         <div>
-          <p className="artist_label mb-1">
-            <GoalSvg />
-            <label htmlFor="current_goals">
+          <p className="flex justify-between items-center mb-2">
+            <label htmlFor="current_goals" className="auth_label">
               What Are Your Current Goals as an Artist?
               <span>*</span>
             </label>

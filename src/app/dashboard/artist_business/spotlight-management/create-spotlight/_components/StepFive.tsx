@@ -12,13 +12,7 @@ const StepFive = () => {
 
   return (
     <div className="step_box">
-      <div className="flex gap-2 text-primary-black">
-        <p className="size-10 rounded-full grid place-items-center bg-[#EFF6FF] text-2xl text-primary-blue">
-          5
-        </p>
-
-        <h2 className="text-3xl font-semibold mb-2">Consent & Rights</h2>
-      </div>
+      <h2 className="text-3xl font-semibold mb-2">Consent & Rights</h2>
 
       <p className="text-[#364153] text-xl mb-10">
         Legal protection and content permission. Please read carefully before

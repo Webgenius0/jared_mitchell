@@ -1,9 +1,3 @@
-import {
-  AwardSvg,
-  DateSvg,
-  StarSvg,
-  UserIconSvg,
-} from "@/Components/Svg/SvgContainer";
 import { useFormContext } from "react-hook-form";
 
 const StepSix = () => {
@@ -14,13 +8,7 @@ const StepSix = () => {
 
   return (
     <div className="step_box">
-      <div className="flex gap-2 text-primary-black mb-2">
-        <p className="size-10 rounded-full grid place-items-center bg-[#EFF6FF] text-2xl text-primary-blue">
-          6
-        </p>
-
-        <h2 className="text-3xl font-semibold =">Optional Information</h2>
-      </div>
+      <h2 className="text-3xl font-semibold mb-2">Optional Information</h2>
 
       <p className="text-[#364153] text-xl mb-10">
         Help us learn more about you! While optional, this information can
@@ -31,15 +19,12 @@ const StepSix = () => {
         <div className="flex gap-7 items-center">
           {/* Talent Management Contact */}
           <div className="flex-1">
-            <div className="flex justify-between items-center mb-2.5">
-              <p className="artist_label">
-                <UserIconSvg />
-                <label htmlFor="talent_manager_contact">
-                  Talent Management Contact{" "}
-                  <span className="text-sm !text-gray-300">(Optional)</span>
-                </label>
-              </p>
-            </div>
+            <p className="flex justify-between items-center mb-2">
+              <label htmlFor="talent_manager_contact" className="auth_label">
+                Talent Management Contact{" "}
+                <span className="text-sm !text-gray-300">(Optional)</span>
+              </label>
+            </p>
 
             <input
               type="text"
@@ -52,15 +37,12 @@ const StepSix = () => {
 
           {/* Agent's Contact */}
           <div className="flex-1">
-            <div className="flex justify-between items-center mb-2.5">
-              <p className="artist_label">
-                <UserIconSvg />
-                <label htmlFor="agent_contact">
-                  Agent's Contact{" "}
-                  <span className="text-sm !text-gray-300">(Optional)</span>
-                </label>
-              </p>
-            </div>
+            <p className="flex justify-between items-center mb-2">
+              <label htmlFor="agent_contact" className="auth_label">
+                Agent's Contact{" "}
+                <span className="text-sm !text-gray-300">(Optional)</span>
+              </label>
+            </p>
 
             <input
               type="text"
@@ -74,9 +56,8 @@ const StepSix = () => {
 
         {/* Link to Press Kit */}
         <div>
-          <p className="artist_label mb-1">
-            <StarSvg />
-            <label htmlFor="press_kit_url">
+          <p className="flex justify-between items-center mb-2">
+            <label htmlFor="press_kit_url" className="auth_label">
               Link to Press Kit{" "}
               <span className="text-sm !text-gray-300">(Optional)</span>
             </label>
@@ -97,9 +78,8 @@ const StepSix = () => {
 
         {/* Previous Interviews */}
         <div>
-          <p className="artist_label mb-1">
-            <StarSvg />
-            <label htmlFor="previous_interviews">
+          <p className="flex justify-between items-center mb-2">
+            <label htmlFor="previous_interviews" className="auth_label">
               Previous Interviews{" "}
               <span className="text-sm !text-gray-300">(Optional)</span>
             </label>
@@ -120,9 +100,8 @@ const StepSix = () => {
 
         {/* Awards or Recognition */}
         <div>
-          <p className="artist_label mb-1">
-            <AwardSvg />
-            <label htmlFor="awards_recognition">
+          <p className="flex justify-between items-center mb-2">
+            <label htmlFor="awards_recognition" className="auth_label">
               Awards or Recognition{" "}
               <span className="text-sm !text-gray-300">(Optional)</span>
             </label>
@@ -144,9 +123,11 @@ const StepSix = () => {
         <div className="flex gap-7 items-center">
           {/* Preferred Pronouns */}
           <div className="flex-1">
-            <p className="artist_label mb-2.5">
-              Preferred Pronouns{" "}
-              <span className="text-sm !text-gray-300">(Optional)</span>
+            <p className="flex justify-between items-center mb-2">
+              <span className="auth_label">
+                Preferred Pronouns{" "}
+                <span className="text-sm !text-gray-300">(Optional)</span>
+              </span>
             </p>
 
             <input
@@ -159,9 +140,11 @@ const StepSix = () => {
 
           {/* Preferred Contact Method */}
           <div className="flex-1">
-            <p className="artist_label mb-2.5">
-              Preferred Contact Method{" "}
-              <span className="text-sm !text-gray-300">(Optional)</span>
+            <p className="flex justify-between items-center mb-2">
+              <span className="auth_label">
+                Preferred Contact Method{" "}
+                <span className="text-sm !text-gray-300">(Optional)</span>
+              </span>
             </p>
 
             <input
@@ -175,9 +158,8 @@ const StepSix = () => {
 
         {/* Interview Availability */}
         <div>
-          <p className="artist_label mb-1">
-            <DateSvg />
-            <label htmlFor="interview_availability">
+          <p className="flex justify-between items-center mb-2">
+            <label htmlFor="interview_availability" className="auth_label">
               Interview Availability{" "}
               <span className="text-sm !text-gray-300">(Optional)</span>
             </label>

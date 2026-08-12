@@ -24,7 +24,10 @@ import useAuth from "@/Hooks/useAuth";
 import toast from "react-hot-toast";
 import { getItem, setItem } from "@/lib/localStorage";
 import { isUsableImage } from "@/lib/utils";
-import { getRoundLeaderboard } from "@/lib/Services/cms_service";
+import {
+  getRoundLeaderboard,
+  getActiveSeasonRounds,
+} from "@/lib/Services/cms_service";
 import { FaArrowTrendUp } from "react-icons/fa6";
 
 import brewBloomImg from "../../../../Assets/roundbg.png";
@@ -76,6 +79,10 @@ const removeMarker = (storageKey: string, marker: string) => {
 interface BusinessChosenChartProps {
   data: CMSBossBeginningsSteps;
   roundData?: RoundLeaderboardData | null;
+  /** Fallback round id used to self-fetch the leaderboard on the client when
+   * `roundData` wasn't provided (e.g. the server snapshot was stale or the
+   * server-side fetch failed). */
+  roundId?: number | null;
   /** When true, render a paginated grid (CARDS_PER_PAGE cards per page) instead of the carousel */
   paginated?: boolean;
 }
@@ -244,6 +251,7 @@ const useBusinessInteraction = ({
 const BusinessChosenChart = ({
   data,
   roundData,
+  roundId,
   paginated = false,
 }: BusinessChosenChartProps) => {
   const scrollerRef = useRef<HTMLUListElement | null>(null);
@@ -252,11 +260,56 @@ const BusinessChosenChart = ({
   const [liveData, setLiveData] = useState<RoundLeaderboardData | null>(
     roundData ?? null,
   );
+  const [noActiveRound, setNoActiveRound] = useState(false);
 
   // Adopt fresh leaderboard data pushed from the server component prop
   useEffect(() => {
     if (roundData) setLiveData(roundData);
   }, [roundData]);
+
+  // Self-fetch the leaderboard when the server didn't provide data — stale ISR
+  // snapshots, failed server-side fetches, or a build-time render with no
+  // season must not silently hide this section. The show/hide decision is made
+  // from live data on the client instead of whatever was baked into the HTML.
+  useEffect(() => {
+    if (roundData) return;
+    let cancelled = false;
+
+    const load = async () => {
+      try {
+        // Prefer the round id the page already resolved server-side.
+        if (roundId) {
+          const res = await getRoundLeaderboard(roundId, { noCache: true });
+          if (cancelled) return;
+          if (res?.data) {
+            setLiveData(res.data);
+            return;
+          }
+        }
+
+        // Otherwise resolve the active round ourselves.
+        const seasonRes = await getActiveSeasonRounds();
+        const rounds = seasonRes?.data?.rounds ?? [];
+        const activeRound = rounds.find(r => r.is_active);
+        if (cancelled) return;
+        if (!activeRound) {
+          setNoActiveRound(true);
+          return;
+        }
+        const res = await getRoundLeaderboard(activeRound.id, {
+          noCache: true,
+        });
+        if (!cancelled && res?.data) setLiveData(res.data);
+      } catch {
+        // Failed to determine the round — leave the section hidden.
+      }
+    };
+
+    load();
+    return () => {
+      cancelled = true;
+    };
+  }, [roundData, roundId]);
 
   const currentRoundData = liveData ?? roundData;
 
@@ -313,6 +366,10 @@ const BusinessChosenChart = ({
       if (refreshTimerRef.current) clearTimeout(refreshTimerRef.current);
     };
   }, []);
+
+  if (noActiveRound) {
+    return null;
+  }
 
   if (!currentRoundData) {
     return null;

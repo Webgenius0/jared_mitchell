@@ -6,6 +6,7 @@ import useAxiosPublic from "@/Hooks/useAxiosPublic";
 import { FormEvent, useState } from "react";
 import toast from "react-hot-toast";
 import { LuSend, LuUpload } from "react-icons/lu";
+import { getApiErrorMessage } from "@/utils/getApiErrorMessage";
 
 const GetInTouch = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -40,10 +41,7 @@ const GetInTouch = () => {
         toast.error("Something went wrong. Please try again.");
       }
     } catch (error: any) {
-      toast.error(
-        error?.response?.data?.message ||
-          "Failed to send message. Please try again later.",
-      );
+      toast.error(getApiErrorMessage(error));
     } finally {
       setIsLoading(false);
     }
