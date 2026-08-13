@@ -272,14 +272,14 @@ export default function Page() {
                           >
                             <Eye className="w-4 h-4 md:w-[18px] md:h-[18px]" />
                           </button>
-                          <button
+                          {/* <button
                             type="button"
                             title="Buy again"
                             onClick={() => handleEdit(registration)}
                             className="text-slate-400 hover:text-blue-500 transition-colors"
                           >
                             <Pencil className="w-4 h-4 md:w-[18px] md:h-[18px]" />
-                          </button>
+                          </button> */}
                         <button
                           type="button"
                           title="Download receipt"

@@ -210,7 +210,7 @@ const Navbar = () => {
               </button> */}
 
               {/* Cart Icon */}
-              {/* <button
+              <button
                 onClick={openCart}
                 className="relative p-2 text-gray-700 hover:text-black transition"
               >
@@ -223,7 +223,7 @@ const Navbar = () => {
                     {cartCount > 99 ? "99+" : cartCount}
                   </span>
                 )}
-              </button> */}
+              </button>
 
               {user ? (
                 <div ref={userDropdownRef} className="relative">
