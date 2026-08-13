@@ -1,4 +1,4 @@
-import React from "react";
+import DOMPurify from "isomorphic-dompurify";
 
 interface ArtistStoryProps {
   spotlight?: any;
@@ -46,7 +46,7 @@ export default function ArtistStory({ spotlight, type = "artist" }: ArtistStoryP
               {isArtist ? "Full Artist story" : "Full Story"}
             </h4>
             <p className="text-base md:text-lg font-normal text-[#364153] pt-3 md:pt-4">
-              {fullStory}
+              <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(fullStory) }} />
             </p>
           </div>
           <div>
@@ -56,7 +56,8 @@ export default function ArtistStory({ spotlight, type = "artist" }: ArtistStoryP
                 : "Why should this business be Spotlighted?"}
             </h4>
             <p className="text-base md:text-lg font-normal text-[#364153] pt-3 md:pt-4">
-              {whySpotlighted}
+
+              <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(whySpotlighted) }} />
             </p>
           </div>
           <div>
@@ -66,7 +67,8 @@ export default function ArtistStory({ spotlight, type = "artist" }: ArtistStoryP
                 : "Products & Services"}
             </h4>
             <p className="text-base md:text-lg font-normal text-[#364153] pt-3 md:pt-4">
-              {communityMessage}
+
+              <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(communityMessage) }} />
             </p>
           </div>
           <div>
@@ -76,7 +78,8 @@ export default function ArtistStory({ spotlight, type = "artist" }: ArtistStoryP
                 : "Growth Vision"}
             </h4>
             <p className="text-base md:text-lg font-normal text-[#364153] pt-3 md:pt-4">
-              {currentGoals}
+       
+              <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(currentGoals) }} />
             </p>
           </div>
         </div>

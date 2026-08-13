@@ -5,6 +5,7 @@ import MediaUpload from "../../Components/MediaUpload";
 import Consent from "../../Components/Consent";
 import OptionalInformation from "../../Components/OptionalInformation";
 import NewsLetter from "@/Components/Common/NewsLetter";
+
 import {
   getCMSAboutData,
   getContestantDetails,
