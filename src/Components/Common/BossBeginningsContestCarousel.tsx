@@ -1,12 +1,6 @@
 import React from "react";
-import {
-  ActiveSeasonRound,
-  CMSRoundsSection,
-} from "@/Types/cms";
-import {
-  getActiveSeasonRounds,
-  getRoundsCms,
-} from "@/lib/Services/cms_service";
+import { ActiveSeasonRound } from "@/Types/cms";
+import { getActiveSeasonRounds } from "@/lib/Services/cms_service";
 import BossBeginningsContestCarouselClient from "./BossBeginningsContestCarouselClient";
 
 interface BossBeginningsContestCarouselProps {
@@ -15,14 +9,9 @@ interface BossBeginningsContestCarouselProps {
    * the live active-season rounds itself, so it can be dropped into any page.
    */
   rounds?: ActiveSeasonRound[];
-  /**
-   * Optional pre-fetched CMS rounds content (used by the "OSI Panel" tab).
-   * When omitted the component fetches it from the CMS.
-   */
-  roundsData?: CMSRoundsSection;
   /** ID of the round to open by default */
   activeRoundId?: number | null;
-  /** Optional section heading shown above the tabs */
+  /** Optional section heading shown above the carousel */
   title?: string;
   /** Auto-advance the carousel every few seconds */
   autoPlay?: boolean;
@@ -31,10 +20,9 @@ interface BossBeginningsContestCarouselProps {
 /**
  * Reusable "Boss Beginnings Contest" section.
  *
- * Renders the same functions as the /boss-beginnings-contest page (round
- * tabs, round stats, OSI Panel, Leader-board) but presents the contestants
- * inside a one-at-a-time Swiper carousel. "View Profile" navigates to the
- * exact same live profile route as the original page.
+ * Renders the active round's leaderboard (rounds 2–5 only) as a one-at-a-time
+ * Swiper carousel; round 1 (the open qualifier) shows nothing. "View Profile"
+ * navigates to the same live profile route as the contest page.
  *
  * Usage — drop it inside any server-rendered page:
  *
@@ -45,13 +33,11 @@ interface BossBeginningsContestCarouselProps {
  */
 const BossBeginningsContestCarousel = async ({
   rounds: roundsProp,
-  roundsData: roundsDataProp,
   activeRoundId: activeRoundIdProp,
   title,
   autoPlay,
 }: BossBeginningsContestCarouselProps) => {
-  // Live season rounds — used to render the round tabs, mark which round is
-  // active (open by default), and load its leaderboard.
+  // Live season rounds — used to find the active round and load its leaderboard.
   let rounds = roundsProp;
   let activeRoundId = activeRoundIdProp;
 
@@ -64,26 +50,14 @@ const BossBeginningsContestCarousel = async ({
           rounds.find(r => r.is_active)?.id ?? rounds[0]?.id ?? null;
       }
     } catch {
-      // No active season yet — the carousel falls back to preview data.
+      // No active season yet — the carousel renders nothing.
       rounds = [];
-    }
-  }
-
-  // Rounds CMS data is optional — fall back gracefully if unavailable.
-  let roundsData = roundsDataProp;
-  if (!roundsData) {
-    try {
-      const roundsPage = await getRoundsCms();
-      roundsData = roundsPage?.rounds;
-    } catch {
-      roundsData = undefined;
     }
   }
 
   return (
     <BossBeginningsContestCarouselClient
       rounds={rounds}
-      roundsData={roundsData}
       activeRoundId={activeRoundId}
       title={title}
       autoPlay={autoPlay}
