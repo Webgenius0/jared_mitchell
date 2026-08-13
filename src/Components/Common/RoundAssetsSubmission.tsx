@@ -355,16 +355,16 @@ export default function RoundAssetsSubmission({
       <div className="bg-white rounded-2xl border border-slate-100 shadow-[0_1px_2px_rgba(16,24,40,0.04)] text-center py-14 px-6">
         <AlertTriangle className="w-8 h-8 text-amber-400 mx-auto mb-3" />
         <p className="text-sm text-slate-500">
-          Could not load the round information.
+          The round is not available yet. Please check back later.
         </p>
-        <button
+        {/* <button
           type="button"
           onClick={() => refetchSeason()}
           className="mt-4 inline-flex items-center gap-1.5 bg-blue-500 text-white text-xs font-medium px-4 py-2 rounded-full hover:bg-blue-600 transition-colors"
         >
           <Loader2 className="w-3.5 h-3.5" />
           Retry
-        </button>
+        </button> */}
       </div>
     );
   }
