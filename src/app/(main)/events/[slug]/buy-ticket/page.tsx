@@ -594,7 +594,7 @@ export default function BuyTicketPage() {
           </div>
         </div>
       </section>
-      <Sponsors data={CmsData?.about_sponsors} />
+      <Sponsors data={CmsData?.partners} />
       <NewsLetter title="Be part of the movement. Get stories, updates, and opportunities straight to your inbox." />
     </>
   );

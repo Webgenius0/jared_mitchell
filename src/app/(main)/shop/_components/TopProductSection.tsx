@@ -98,7 +98,7 @@ export default function TopProductSection({
       {/* Details Column */}
       <div className="flex flex-col gap-6 justify-start">
         <div>
-          <h1 className="text-5xl font-semibold font-sf text-black tracking-tight mb-2">
+          <h1 className="text-5xl font-semibold font-sf text-black tracking-tight mb-2 capitalize">
             {product.title}
           </h1>
           <p className="text-xl text-gray-500 leading-relaxed">
@@ -201,7 +201,9 @@ export default function TopProductSection({
         {product.type && (
           <div className="text-xl text-gray-500 border border-gray-200 rounded-lg px-5 py-3 w-fit">
             Brand:{" "}
-            <span className="font-semibold text-gray-800">{product.type}</span>
+            <span className="font-semibold text-gray-800 capitalize">
+              {product.type}
+            </span>
           </div>
         )}
 
