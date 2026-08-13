@@ -179,7 +179,7 @@ const Navbar = () => {
           </div>
 
           {/* Right */}
-          <div className="flex gap-7 md:gap-10 2xl:gap-16 items-center">
+          <div className="flex gap-5 items-center">
             <div className="hidden md:flex items-center rounded-lg border border-[#E4E4E7]">
               <button
                 onClick={() => setLang("en")}
@@ -205,12 +205,12 @@ const Navbar = () => {
             </div>
 
             <div className="flex gap-3 md:gap-4 xl:gap-5 items-center">
-              <button>
+              {/* <button>
                 <SearchSvg />
-              </button>
+              </button> */}
 
               {/* Cart Icon */}
-              <button
+              {/* <button
                 onClick={openCart}
                 className="relative p-2 text-gray-700 hover:text-black transition"
               >
@@ -223,7 +223,7 @@ const Navbar = () => {
                     {cartCount > 99 ? "99+" : cartCount}
                   </span>
                 )}
-              </button>
+              </button> */}
 
               {user ? (
                 <div ref={userDropdownRef} className="relative">

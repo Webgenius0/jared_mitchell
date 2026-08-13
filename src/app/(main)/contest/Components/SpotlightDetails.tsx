@@ -9,6 +9,7 @@ import { usePathname, useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import useAuth from "@/Hooks/useAuth";
 import { apiVoteNominee } from "@/Hooks/api/events_api";
+import DOMPurify from "isomorphic-dompurify";
 
 interface SpotlightDetailsProps {
   spotlight: any;
@@ -153,7 +154,8 @@ export default function SpotlightDetails({
                 {displayName}
               </h3>
               <p className="text-base md:text-lg lg:text-xl font-normal text-[#364153] py-4 md:py-5 capitalize">
-                {displayBio || "No description available."}
+                {/* {displayBio || "No description available."} */}
+                <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(displayBio) }} />
               </p>
               <div className="flex flex-col gap-4 md:gap-5">
                 {/* Date of birth + Category */}
