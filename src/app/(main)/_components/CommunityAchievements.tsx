@@ -3,6 +3,7 @@ import { useEffect, useRef, useState, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { LuArrowLeft, LuArrowRight } from "react-icons/lu";
+import DOMPurify from "isomorphic-dompurify";
 import { PastSixMonthsWinner } from "@/Types/cms";
 
 interface CommunityAchievementsProps {
@@ -17,6 +18,13 @@ const extractCategory = (contestableType: string): string => {
 
 const getSpotlightLink = (winner: PastSixMonthsWinner): string => {
   return `/contest/contestants/${winner.id}`;
+};
+
+// Prefer the first uploaded media asset for the card image; fall back to the
+// contestant's avatar if no media was uploaded.
+const getCardImage = (winner: PastSixMonthsWinner): string => {
+  const firstMedia = winner.contestable?.media?.[0]?.file_path;
+  return firstMedia || winner.avatar_url;
 };
 
 const AUTOPLAY_DELAY = 3000;
@@ -145,66 +153,70 @@ const CommunityAchievements = ({
               onPointerDown={pauseAutoplay}
               className="flex gap-5 overflow-x-auto overscroll-x-contain snap-x snap-mandatory scroll-smooth [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden pb-2 px-1"
             >
-            {winners.map(winner => {
-              const title =
-                winner.display_name || winner.contestable.business_name;
-              const category = extractCategory(winner.contestable.type);
-              const description =
-                winner.contestable.story ||
-                winner.contestable.community_impact_statement ||
-                "";
-              const linkHref = getSpotlightLink(winner);
+              {winners.map(winner => {
+                const title =
+                  winner.display_name || winner.contestable.business_name;
+                const category = extractCategory(winner.contestable.type);
+                const description =
+                  winner.contestable.story ||
+                  winner.contestable.community_impact_statement ||
+                  "";
+                const linkHref = getSpotlightLink(winner);
+                const cardImage = getCardImage(winner);
 
-              return (
-                <li
-                  key={winner.id}
-                  className="shrink-0 snap-start w-[80%] sm:w-[65%] md:w-1/2 lg:w-1/3 xl:w-1/4"
-                >
-                  <Link href={linkHref}>
-                    <div className="relative w-full h-[280px] group cursor-pointer">
-                      <Image
-                        src={winner.avatar_url}
-                        fill
-                        alt={title}
-                        className="object-cover rounded-xl transition-transform duration-500"
-                      />
+                return (
+                  <li
+                    key={winner.id}
+                    className="shrink-0 snap-start w-[80%] sm:w-[65%] md:w-1/2 lg:w-1/3 xl:w-1/4"
+                  >
+                    <Link href={linkHref}>
+                      <div className="relative w-full h-[280px] group cursor-pointer">
+                        <Image
+                          src={cardImage}
+                          fill
+                          alt={title}
+                          className="object-cover rounded-xl transition-transform duration-500"
+                        />
 
-                      <div className="absolute inset-0 bg-[linear-gradient(0deg,_rgba(0,0,0,0.60)_36%,_rgba(0,0,0,0.20)_63%,_rgba(0,0,0,0.00)_100%)] rounded-xl transition-opacity duration-300 group-hover:opacity-90">
-                        {/* Category */}
-                        <div className="absolute top-4 left-4 bg-white py-1 px-3 rounded-full text-primary-black text-sm font-medium">
-                          {category}
-                        </div>
-
-                        {/* Season badge */}
-                        <div className="absolute top-4 right-4 bg-primary-blue/90 text-white py-1 px-3 rounded-full text-xs font-medium backdrop-blur-sm">
-                          {winner.season.title}
-                        </div>
-
-                        {/* Bottom Content */}
-                        <div className="absolute bottom-4 left-4 right-4 flex justify-between items-end">
-                          <div className="space-y-1.5 flex-1 min-w-0">
-                            <h4 className="text-xl font-semibold text-white truncate">
-                              {title}
-                            </h4>
-                            {description && (
-                              <p className="text-primary-gray text-sm line-clamp-2">
-                                {description}
-                              </p>
-                            )}
+                        <div className="absolute inset-0 bg-[linear-gradient(0deg,_rgba(0,0,0,0.60)_36%,_rgba(0,0,0,0.20)_63%,_rgba(0,0,0,0.00)_100%)] rounded-xl transition-opacity duration-300 group-hover:opacity-90">
+                          {/* Category */}
+                          <div className="absolute top-4 left-4 bg-white py-1 px-3 rounded-full text-primary-black text-sm font-medium">
+                            {category}
                           </div>
 
-                          <div className="text-white flex items-center gap-2 text-sm whitespace-nowrap ml-3 shrink-0 transition-transform duration-300 group-hover:translate-x-1">
-                            View Spotlight
-                            <LuArrowRight className="transition-transform duration-300 group-hover:translate-x-0.5" />
+                          {/* Season badge */}
+                          <div className="absolute top-4 right-4 bg-primary-blue/90 text-white py-1 px-3 rounded-full text-xs font-medium backdrop-blur-sm">
+                            {winner.season.title}
+                          </div>
+
+                          {/* Bottom Content */}
+                          <div className="absolute bottom-4 left-4 right-4 flex justify-between items-end">
+                            <div className="space-y-1.5 flex-1 min-w-0">
+                              <h4 className="text-xl font-semibold text-white truncate">
+                                {title}
+                              </h4>
+                              {description && (
+                                <div
+                                  className="text-primary-gray text-sm line-clamp-2 [&_*]:!bg-transparent [&_*]:!text-inherit [&_*]:!font-normal"
+                                  dangerouslySetInnerHTML={{
+                                    __html: DOMPurify.sanitize(description),
+                                  }}
+                                />
+                              )}
+                            </div>
+
+                            <div className="text-white flex items-center gap-2 text-sm whitespace-nowrap ml-3 shrink-0 transition-transform duration-300 group-hover:translate-x-1">
+                              View Spotlight
+                              <LuArrowRight className="transition-transform duration-300 group-hover:translate-x-0.5" />
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                  </Link>
-                </li>
-              );
-            })}
-          </ul>
+                    </Link>
+                  </li>
+                );
+              })}
+            </ul>
           </div>
 
           {/* Pagination dots */}

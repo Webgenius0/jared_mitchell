@@ -72,10 +72,10 @@ export default function EventDetailsBanner({ event }: EventDetailsBannerProps) {
           {eventTypeLabel}
         </span>
 
-        <h3 className="text-2xl md:text-4xl xl:text-6xl 2xl:text-7xl 2xl:font-bold text-center text-white max-w-4xl">
+        <h3 className="text-2xl md:text-4xl xl:text-6xl 2xl:text-7xl 2xl:font-bold text-center text-white max-w-4xl capitalize">
           {event.title}
         </h3>
-        <div className="flex flex-wrap justify-center mt-5 gap-x-8 gap-y-3">
+        <div className="flex flex-wrap justify-center mt-5 gap-x-8 gap-y-3 max-w-2xl">
           <div className="flex gap-2 items-center">
             <PiCalendarBlank className="text-white shrink-0 size-5 md:block hidden" />
             <p className="text-lg sm:text-xl text-white font-normal text-center">
