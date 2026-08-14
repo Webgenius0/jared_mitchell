@@ -180,7 +180,7 @@ const Navbar = () => {
 
           {/* Right */}
           <div className="flex gap-5 items-center">
-            <div className="hidden md:flex items-center rounded-lg border border-[#E4E4E7]">
+            {/* <div className="hidden md:flex items-center rounded-lg border border-[#E4E4E7]">
               <button
                 onClick={() => setLang("en")}
                 className={`px-3 md:px-3.5 lg:px-4 py-1 lg:py-1.5 cursor-pointer rounded-lg text-sm md:text-base ${
@@ -202,7 +202,7 @@ const Navbar = () => {
               >
                 ES
               </button>
-            </div>
+            </div> */}
 
             <div className="flex gap-3 md:gap-4 xl:gap-5 items-center">
               {/* <button>

@@ -1624,3 +1624,21 @@ export interface RoundLeaderboardResponse {
   errors: null | any;
   code: number;
 }
+
+// ─── Artist Spotlight Live Streams ───────────────────────────────────────────
+// GET /v1/live-streams — AWS IVS channels for the artist spotlight hero.
+// Statuses: "pending" (not broadcasting yet), "live" (broadcasting now),
+// "ended" (finished — ignored by the UI).
+
+export interface LiveStream {
+  id: number;
+  title: string;
+  description: string;
+  channel_arn: string;
+  ingest_endpoint: string;
+  stream_key: string;
+  playback_url: string;
+  status: "pending" | "live" | "ended" | string;
+  created_at: string;
+  updated_at: string;
+}

@@ -49,7 +49,7 @@ const page = async () => {
       {/* <CommunityAchievements data={cmsData?.business_spotlight_highlights} /> */}
       <SuccessStories winners={businessWinners} type="business" />
       {/* <EditorsPicks type="business" data={cmsData?.business_spotlight_picks} /> */}
-      <SpotlightLadder
+      {/* <SpotlightLadder
         title={
           cmsData?.business_spotlight_ladder?.title || "OSI Spotlight Ladder"
         }
@@ -59,7 +59,7 @@ const page = async () => {
         }
         buttonHref="/spotlight-business/spotlight-ladder"
         data={cmsData?.business_spotlight_ladder}
-      />
+      /> */}
       <BecomeAPart data={cmsData?.business_spotlight_join} />
       {/* <CreativeJourney data={cmsData?.business_spotlight_interview} /> */}
       <WhatExist data={cmsData?.business_spotlight_why_exists} />

@@ -6,9 +6,11 @@ import { cn } from "@/lib/utils";
 export default function CustomVideoPlayer({
   videoSrc,
   className,
+  loop = false,
 }: {
   videoSrc: string;
   className?: string;
+  loop?: boolean;
 }) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -48,6 +50,7 @@ export default function CustomVideoPlayer({
         src={videoSrc}
         muted={isMuted}
         playsInline
+        loop={loop}
         className="w-full h-full object-cover"
         onClick={togglePlay}
         onEnded={() => setIsPlaying(false)}

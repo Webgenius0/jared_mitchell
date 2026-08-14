@@ -32,6 +32,7 @@ import {
   BusinessSpotlightDetailsResponse,
   RoundLeaderboardResponse,
   ActiveSeasonRoundsResponse,
+  LiveStream,
 } from "@/Types/cms";
 import { getItem } from "@/lib/localStorage";
 
@@ -546,6 +547,27 @@ export const getLeaderboard = async (
 
   const result = await res.json();
   return result as LeaderboardResponse;
+};
+
+// Get the artist spotlight live streams (AWS IVS channels).
+// GET /v1/live-streams
+// Ended streams are dropped here — only pending (coming soon) and live
+// channels are relevant to the spotlight hero.
+export const getArtistLiveStreams = async (): Promise<LiveStream[]> => {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_SITE_URL}/v1/live-streams`,
+    { next: { revalidate: 30 } },
+  );
+
+  if (!res.ok) {
+    throw new Error(
+      `Failed to fetch live streams — Status: ${res.status}`,
+    );
+  }
+
+  const result = await res.json();
+  const streams = (result?.data ?? []) as LiveStream[];
+  return streams.filter(s => s.status !== "ended");
 };
 
 export const getCurrentSpotlightWeek =

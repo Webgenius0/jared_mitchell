@@ -37,6 +37,33 @@ export const useGetArtistDashboardAnalytics = () => {
   });
 };
 
+// Get My Stats (community member / user dashboard)
+// GET /v1/my/stats
+// Returns: { total_votes_given, total_bossbegging, total_spotlight,
+//            total_tickets, user: { name, email, photo },
+//            recent_activities: [{ activity, day, created_at }] }
+export const useGetMyStats = () => {
+  return useClientApi({
+    method: "get",
+    isPrivate: true,
+    key: ["my-stats"],
+    endpoint: "/v1/my/stats",
+  });
+};
+
+// Get My Event Interactions (bookmarked / shared events)
+// GET /v1/common/user-event-interactions
+// Returns: { user, bookmark_count, share_count,
+//            bookmarked_events: EventInteraction[], shared_events: EventInteraction[] }
+export const useGetUserEventInteractions = () => {
+  return useClientApi({
+    method: "get",
+    isPrivate: true,
+    key: ["user-event-interactions"],
+    endpoint: "/v1/common/user-event-interactions",
+  });
+};
+
 export const useGetBusinessDashboardStats = () => {
   return useClientApi({
     method: "get",
