@@ -6,11 +6,7 @@ export function cn(...inputs: any[]) {
   return twMerge(clsx(inputs));
 }
 
-/**
- * Resolve a media URL — prepend base URL if the path is relative.
- * Handles relative paths like "storage/uploads/..." by joining them
- * with the NEXT_PUBLIC_SITE_URL base.
- */
+
 export function resolveMediaUrl(url: string | null | undefined): string {
   if (!url || typeof url !== "string") return "";
   if (url.startsWith("http://") || url.startsWith("https://") || url.startsWith("/")) return url;
@@ -18,11 +14,6 @@ export function resolveMediaUrl(url: string | null | undefined): string {
   return `${base.replace(/\/+$/, "")}/${url.replace(/^\/+/, "")}`;
 }
 
-/**
- * Determine whether a media/avatar URL is actually usable for display.
- * Rejects placeholder/default avatar URLs (e.g. .../admin/default/user.jpg)
- * and video files (mp4/mov/webm), so callers can fall back to a branded image.
- */
 export function isUsableImage(url: string | null | undefined): boolean {
   if (!url) return false;
   const trimmed = url.trim();
@@ -46,12 +37,7 @@ export function slugify(text: string): string {
     .replace(/-+/g, "-");
 }
 
-/**
- * Validate a "strong" password: at least 8 characters with at least one
- * lowercase letter, one uppercase letter, one number, and one special character.
- * Returns `true` when valid, otherwise a human-readable error message.
- * Designed to be used directly inside react-hook-form `validate` rules.
- */
+
 export function validateStrongPassword(password: string): true | string {
   const rules: { test: (value: string) => boolean; label: string }[] = [
     { test: value => value.length >= 8, label: "at least 8 characters" },
@@ -69,13 +55,9 @@ export function validateStrongPassword(password: string): true | string {
   return `Password must include ${missing.join(", ")}`;
 }
 
-/**
- * Generate and download a booking receipt file for an event registration.
- * Produces a clean, self-contained HTML receipt the user can save/print.
- */
+
 export function downloadBookingReceipt(registration: EventRegistration) {
-  // Escape values before interpolating into the receipt HTML so that
-  // special characters (&, <, >) in API data can't break the markup.
+
   const escapeHtml = (value: unknown) =>
     String(value ?? "")
       .replace(/&/g, "&amp;")
@@ -204,11 +186,7 @@ export function downloadBookingReceipt(registration: EventRegistration) {
   URL.revokeObjectURL(url);
 }
 
-/**
- * Map a user's role to their dashboard route.
- * The API returns role as a string: "artist", "member", "sponsor", "boss".
- * Also supports numeric role IDs as fallback (5, 6, 7, 8).
- */
+
 export const ROLE_DASHBOARD_MAP: Record<string | number, string> = {
   // String role names (from API response)
   artist: "/dashboard/artist_business",
@@ -222,15 +200,6 @@ export const ROLE_DASHBOARD_MAP: Record<string | number, string> = {
   8: "/dashboard/boss_beginning",
 };
 
-/**
- * Recursively search for a key containing "role" whose value matches a known role ID.
- * This avoids false positives — only keys that include "role" (case-insensitive) are candidates.
- */
-/**
- * Extract a role ID from a value that could be:
- * - a plain number/string ("5", 5)
- * - an object with an id/role_id property ({ id: 5, name: "artisan" })
- */
 function extractRoleId(value: unknown): string | number | null {
   if (value === null || value === undefined) return null;
 
@@ -252,10 +221,6 @@ function extractRoleId(value: unknown): string | number | null {
   return null;
 }
 
-/**
- * Recursively search for a key containing "role" whose value matches a known role ID.
- * This avoids false positives — only keys that include "role" (case-insensitive) are candidates.
- */
 function findRoleId(obj: any, depth = 0, visited = new Set<any>()): number | string | null {
   if (!obj || typeof obj !== "object" || depth > 4 || visited.has(obj)) return null;
   visited.add(obj);
@@ -277,10 +242,6 @@ function findRoleId(obj: any, depth = 0, visited = new Set<any>()): number | str
   return null;
 }
 
-/**
- * Get the user's dashboard route from their user object.
- * Searches common fields first, then recursively for any key containing "role".
- */
 export function getUserDashboardRoute(user: any): string | null {
   if (!user) return null;
 
@@ -328,10 +289,7 @@ export function getUserDashboardType(user: any): string {
   return "community_member";
 }
 
-/**
- * Whether the given user object belongs to a business ("boss") account.
- * Only business accounts are allowed to submit business nominations.
- */
+
 export function isBusinessUser(user: any): boolean {
   return getUserDashboardType(user) === "boss_beginning";
 }

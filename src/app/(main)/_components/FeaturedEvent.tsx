@@ -84,8 +84,6 @@ const FeaturedEvent = ({ events }: FeaturedEventProps) => {
   );
   const { token } = useAuth();
 
-  // Use local engagement state so we can optimistically update counts
-  // Initialise from localStorage so liked/bookmarked state persists across refreshes
   const [localEngagements, setLocalEngagements] = useState<EngagementMap>(() =>
     loadPersistedEngagements(),
   );
@@ -236,43 +234,45 @@ const FeaturedEvent = ({ events }: FeaturedEventProps) => {
     if (actionLoading[loadingKey]) return;
     setActionLoading(prev => ({ ...prev, [loadingKey]: true }));
 
-    // Try native Web Share API first
-    if (navigator.share) {
-      try {
-        await navigator.share({
-          title: eventTitle,
-          text: `Check out this event: ${eventTitle}`,
-          url:
-            window.location.origin +
-            `/events/${events?.find(e => e.id === eventId)?.slug || eventId}`,
-        });
-      } catch {
-        // User cancelled or error — do nothing
-      } finally {
-        setActionLoading(prev => ({ ...prev, [loadingKey]: false }));
-      }
-      return;
-    }
+    const url =
+      window.location.origin +
+      `/events/${events?.find(e => e.id === eventId)?.slug || eventId}`;
 
-    // Fallback: copy to clipboard
     try {
-      const url =
-        window.location.origin +
-        `/events/${events?.find(e => e.id === eventId)?.slug || eventId}`;
-      await navigator.clipboard.writeText(url);
+      // Try native Web Share API first
+      if (navigator.share) {
+        try {
+          await navigator.share({
+            title: eventTitle,
+            text: `Check out this event: ${eventTitle}`,
+            url,
+          });
+        } catch {
+          // User cancelled or error — not shared, skip the API call
+          return;
+        }
+      } else {
+        // Fallback: copy to clipboard
+        try {
+          await navigator.clipboard.writeText(url);
+        } catch {
+          // Clipboard not available
+        }
+      }
+
+      // Count the share server-side (login required, same as like/bookmark)
+      if (!token) {
+        window.location.href = "/auth/login";
+        return;
+      }
+      const res = await apiShareEvent(eventId);
+      if (res?.success) {
+        toast.success(res.message || "Event shared successfully!");
+      }
     } catch {
-      // Clipboard not available
+      // Share API failed — the local share still worked, don't nag the user
     } finally {
       setActionLoading(prev => ({ ...prev, [loadingKey]: false }));
-    }
-
-    // Also fire the share API call (non-blocking)
-    if (token) {
-      try {
-        await apiShareEvent(eventId);
-      } catch {
-        // silently fail
-      }
     }
   };
 
@@ -448,7 +448,7 @@ const FeaturedEvent = ({ events }: FeaturedEventProps) => {
             )}
           </div>
 
-          <p className="text-sm md:text-base xl:text-lg text-primary-black mt-2.5">
+          <p className="text-sm md:text-base xl:text-lg text-primary-black mt-2.5 line-clamp-3">
             {event.description?.replace(/<[^>]*>/g, "")}
           </p>
 

@@ -185,18 +185,32 @@ const UpcomingEvents = () => {
     const slug = events.find((e) => e.id === eventId)?.slug || eventId;
     const url = window.location.origin + `/events/${slug}`;
 
+    // Try native Web Share API first
     if (navigator.share) {
-      try { await navigator.share({ title: eventTitle, text: `Check out this event: ${eventTitle}`, url }); }
-      catch { /* user cancelled */ }
-      return;
+      try {
+        await navigator.share({ title: eventTitle, text: `Check out this event: ${eventTitle}`, url });
+      } catch {
+        // User cancelled — not shared, skip the API call
+        return;
+      }
+    } else {
+      // Fallback: copy to clipboard
+      try { await navigator.clipboard.writeText(url); }
+      catch { /* clipboard not available */ }
     }
 
-    try { await navigator.clipboard.writeText(url); }
-    catch { /* clipboard not available */ }
-
-    if (token) {
-      try { await apiShareEvent(eventId); }
-      catch { /* silently fail */ }
+    // Count the share server-side (login required, same as like/bookmark)
+    if (!token) {
+      window.location.href = "/auth/login";
+      return;
+    }
+    try {
+      const res = await apiShareEvent(eventId);
+      if (res?.success) {
+        toast.success(res.message || "Event shared successfully!");
+      }
+    } catch {
+      // Share API failed — the local share still worked, don't nag the user
     }
   };
 

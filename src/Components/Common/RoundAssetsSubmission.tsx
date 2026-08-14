@@ -84,9 +84,6 @@ export default function RoundAssetsSubmission({
   ) ?? null;
   const roundId = round?.id ?? null;
 
-  // Submission media rules for this round (from the backend round config).
-  // Rounds that support video come back with a `video` rule (required +
-  // max_duration_sec); rounds with document rules list their accepted formats.
   const videoRule = round?.submission_requirements?.video;
   const docRule = round?.submission_requirements?.document;
   const docFormats: string[] = Array.isArray(docRule?.formats)
@@ -124,17 +121,11 @@ export default function RoundAssetsSubmission({
     isError: isBizError,
   } = useGetAllBusinesses();
 
-  // The logged-in user's own business ids (from /v1/businesses/list) so we can
-  // pick their contestant entries out of the round's business list.
+
   const myBusinessIds = useMemo(() => {
     const biz = myBizData?.data?.businesses ?? [];
     return new Set(biz.map((b: any) => String(b.id)));
   }, [myBizData]);
-
-  // The user's businesses that are ACTIVE contestants in this round — only
-  // active contestants (in_round + current_status "active") can submit assets
-  // for the round. (Eliminated businesses come back with in_round: false and
-  // current_status: "eliminated".)
   const activeContestants = useMemo<Record<string, any>[]>(() => {
     const businesses: any[] = myRoundData?.data?.businesses ?? [];
     return businesses.filter(
@@ -151,34 +142,14 @@ export default function RoundAssetsSubmission({
   const selectedIdx = Math.min(selectedIndex, activeContestants.length - 1);
   const contestant = activeContestants[selectedIdx] ?? null;
   const showPicker = activeContestants.length > 1;
-
-  // Contestant id used to load the submission/profile. The my-rounds payload
-  // names it `contestant_id` (see CurrentRoundBusinessList); some payloads
-  // nest it under `contestant.id` instead, so fall back along that chain.
   const contestantId: number | null =
     contestant?.contestant_id ??
     contestant?.contestant?.id ??
     contestant?.id ??
     null;
 
-  // Already-submitted media for the selected contestant's current round.
-  // The contestant profile endpoint
-  // (GET /v1/contest/contestants/:contestant_id, already integrated) returns
-  // `data.contestant.submission` with `id`, `media_urls` / `media_full_urls`
-  // and `submitted_at`. The round's business item may also embed a submission,
-  // so fall back to it when the profile call yields nothing.
-  //
-  // After a hard refresh the contestant-details request can come back as a
-  // 302 redirect (the backend answers stale/expired sessions with a redirect
-  // to login instead of JSON), leaving no submission data. To keep the
-  // existing video as the default value we mirror the last-known submission
-  // into localStorage and restore it here when the live request yields nothing.
   const { data: contestantDetailsData } = useContestantDetails(contestantId);
 
-  // Synchronously restored cache — shows the previous upload immediately,
-  // even on the very first render after a refresh (no flash of "no video").
-  // Scoped by (roundId, contestantId): a contestant has a separate submission
-  // per round, so the round-2 cache must never leak into round 3.
   const cachedSubmission = useMemo(
     () => getCachedRoundSubmission(roundId, contestantId),
     [roundId, contestantId],
@@ -319,9 +290,6 @@ export default function RoundAssetsSubmission({
             queryClient.invalidateQueries({
               queryKey: ["contestant-details", contestantId],
             });
-            // Best-effort: persist the fresh submission returned by the API
-            // so the default value survives the next refresh even if the
-            // details request gets redirected again.
             const freshSubmission = res?.data?.submission ?? res?.submission;
             const freshMedia = freshSubmission?.media_full_urls?.length
               ? freshSubmission.media_full_urls
