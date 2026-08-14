@@ -1,10 +1,6 @@
 import CustomVideoPlayer from "@/Components/Common/CustomVideoPlayer";
 import Image from "next/image";
-import m1 from "@/Assets/m1.jpg";
-import {
-  CMSBossBeginningsVideoGallery,
-  PastSixMonthsWinner,
-} from "@/Types/cms";
+import { CMSBossBeginningsVideoGallery, PastSixMonthsWinner } from "@/Types/cms";
 
 interface BossBeginningWinnerProps {
   data: CMSBossBeginningsVideoGallery;
@@ -16,12 +12,13 @@ const BossBeginningWinner = ({ data, winner }: BossBeginningWinnerProps) => {
   const videoSrc = data?.video ?? "/home/hero-video.mp4";
   const winnerMedia = winner?.contestable?.media ?? [];
 
-  // Priority: winner's own business media -> CMS gallery -> fallback image
+  // Real media only — the winner's own business media first, then the CMS
+  // gallery. No fabricated placeholder photos.
   const images = [
-    winnerMedia[0]?.file_path ?? gallery[0] ?? m1.src,
-    winnerMedia[1]?.file_path ?? gallery[1] ?? m1.src,
-    winnerMedia[2]?.file_path ?? gallery[2] ?? m1.src,
-  ];
+    winnerMedia[0]?.file_path ?? gallery[0],
+    winnerMedia[1]?.file_path ?? gallery[1],
+    winnerMedia[2]?.file_path ?? gallery[2],
+  ].filter((src): src is string => Boolean(src));
 
   return (
     <section className="container">
@@ -37,52 +34,66 @@ const BossBeginningWinner = ({ data, winner }: BossBeginningWinnerProps) => {
         <CustomVideoPlayer videoSrc={videoSrc} className={"!rounded-none"} />
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 items-center my-6 gap-6">
-        <figure className="max-h-[808px] !h-full relative">
-          <div className="size-full absolute bg-black/30" />
-          <Image
-            src={images[0]}
-            width={762}
-            height={808}
-            alt={winner?.contestable?.business_name ?? ""}
-            className="size-full object-cover"
-          />
-        </figure>
-        <figure className="max-h-[808px] !h-full relative">
-          <div className="size-full absolute bg-black/30" />
-          <Image
-            src={images[1]}
-            width={762}
-            height={808}
-            alt={winner?.contestable?.business_name ?? ""}
-            className="size-full object-cover"
-          />
-        </figure>
-      </div>
+      {images.length > 0 ? (
+        <>
+          <div className="grid grid-cols-1 md:grid-cols-2 items-center my-6 gap-6">
+            {images[0] && (
+              <figure className="max-h-[808px] !h-full relative">
+                <div className="size-full absolute bg-black/30" />
+                <Image
+                  src={images[0]}
+                  width={762}
+                  height={808}
+                  alt={winner?.contestable?.business_name ?? ""}
+                  className="size-full object-cover"
+                />
+              </figure>
+            )}
+            {images[1] && (
+              <figure className="max-h-[808px] !h-full relative">
+                <div className="size-full absolute bg-black/30" />
+                <Image
+                  src={images[1]}
+                  width={762}
+                  height={808}
+                  alt={winner?.contestable?.business_name ?? ""}
+                  className="size-full object-cover"
+                />
+              </figure>
+            )}
+          </div>
 
-      <figure className="h-[400px] md:h-[550px] xl:h-[808px] relative">
-        <div className="size-full absolute bg-black/30" />
-        <Image
-          src={images[2]}
-          width={762}
-          height={808}
-          alt={winner?.contestable?.business_name ?? ""}
-          className="size-full object-cover"
-        />
-        {winner && (
-          <figcaption className="absolute bottom-6 left-6 z-10 text-white">
-            <p className="text-sm uppercase tracking-wider text-white/70">
-              {winner.season?.title}
-            </p>
-            <p className="text-2xl font-bold">
-              {winner.contestable?.business_name}
-            </p>
-            <p className="text-sm text-white/80">
-              by {winner.contestable?.owner_founder_name}
-            </p>
-          </figcaption>
-        )}
-      </figure>
+          {images[2] && (
+            <figure className="h-[400px] md:h-[550px] xl:h-[808px] relative">
+              <div className="size-full absolute bg-black/30" />
+              <Image
+                src={images[2]}
+                width={762}
+                height={808}
+                alt={winner?.contestable?.business_name ?? ""}
+                className="size-full object-cover"
+              />
+              {winner && (
+                <figcaption className="absolute bottom-6 left-6 z-10 text-white">
+                  <p className="text-sm uppercase tracking-wider text-white/70">
+                    {winner.season?.title}
+                  </p>
+                  <p className="text-2xl font-bold">
+                    {winner.contestable?.business_name}
+                  </p>
+                  <p className="text-sm text-white/80">
+                    by {winner.contestable?.owner_founder_name}
+                  </p>
+                </figcaption>
+              )}
+            </figure>
+          )}
+        </>
+      ) : (
+        <div className="rounded-2xl border border-black/10 bg-white p-10 text-center text-sm sm:text-base text-black/50 my-6">
+          No winner media available yet.
+        </div>
+      )}
     </section>
   );
 };

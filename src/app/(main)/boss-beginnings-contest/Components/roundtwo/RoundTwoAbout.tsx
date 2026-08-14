@@ -42,7 +42,7 @@ export default function RoundTwoAbout({
 
   const aboutText =
     contestant?.story ||
-    "A cozy neighborhood café combining specialty coffee with a curated flower shop. We source beans from fair-trade roasters and partner with local flower farms to bring beauty and warmth to our community.";
+    "No information provided yet.";
 
   // Rounds 2-5 are weighted-score rounds: the "Support This Business" box
   // shows the total weighted score from the contestant's voting data.

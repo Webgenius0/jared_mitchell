@@ -3,7 +3,7 @@
 // any dashboard page (business list, listed-business, etc.) can render the
 // same real API data with identical formatting.
 
-import DOMPurify from "dompurify";
+
 
 /* ─── Rich-text helpers ────────────────────────────────────────────────────
    Business fields like `story` / `mission` come from the rich-text editor,
@@ -18,7 +18,7 @@ export function isHtmlString(value: string | null | undefined): boolean {
 
 /** Sanitized HTML — safe to inject via dangerouslySetInnerHTML (HTML strings only). */
 export function sanitizeRichText(value: string | null | undefined): string {
-  return DOMPurify.sanitize(value ?? "");
+  return value ?? "";
 }
 
 /**
@@ -30,7 +30,7 @@ export function richTextToPlainText(
 ): string {
   if (!value) return "";
   if (!isHtmlString(value)) return value;
-  return DOMPurify.sanitize(value, { ALLOWED_TAGS: [] });
+  return (value || "").replace(/<[^>]*>?/gm, "");
 }
 
 export interface MediaItem {

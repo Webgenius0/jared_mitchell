@@ -1,5 +1,3 @@
-import { timelineData as staticTimeline } from "@/Components/Data/data";
-
 interface TimelineEvent {
   id: number;
   time: string;
@@ -13,19 +11,28 @@ interface WeeklyTimelineProps {
 }
 
 const WeeklyTimeline = ({ title, events }: WeeklyTimelineProps) => {
-  const data = {
-    title: title || staticTimeline.title,
-    events: events || staticTimeline.events,
-  };
+  // No timeline content — show an empty state instead of fabricated events.
+  if (!events || events.length === 0) {
+    return (
+      <div className="bg-[#F5F5F7] custom_border rounded-2xl p-8 md:p-12 custom_shadow !space-y-8 container">
+        <h2 className="section_title 2xl:!text-6xl text-center">
+          {title || "Weekly Timeline"}
+        </h2>
+        <p className="text-center text-secondary-black text-lg md:text-xl">
+          No timeline information available yet.
+        </p>
+      </div>
+    );
+  }
 
   return (
     <div className="bg-[#F5F5F7] custom_border rounded-2xl p-8 md:p-12 custom_shadow !space-y-8 container">
-      <h2 className="section_title 2xl:!text-6xl text-center">
-        {data.title}
-      </h2>
+      {title && (
+        <h2 className="section_title 2xl:!text-6xl text-center">{title}</h2>
+      )}
 
       <div className="space-y-7 w-fit mx-auto">
-        {data?.events.map(event => (
+        {events.map(event => (
           <div
             key={event.id}
             className="grid grid-cols-1 md:grid-cols-[220px_1fr] gap-6"

@@ -22,233 +22,6 @@ type Business = {
   id?: number;
 };
 
-const ROUNDS = ["Round 1", "Round 2", "Round 3", "Round 4", "Round 5"] as const;
-
-interface RoundContent {
-  title: string;
-  phase: string;
-  description: string;
-  participants: number;
-  advancingPct: number;
-  advancing: number;
-  timeLeft: string;
-  votingWeight: string;
-  challengePrompt?: string;
-}
-
-const ROUND_CONTENT: RoundContent[] = [
-  {
-    title: "Open Qualifier Round",
-    phase: "Phase 1",
-    description:
-      "Narrow the field and generate buzz. Top 60% advance based on community engagement.",
-    participants: 100,
-    advancingPct: 60,
-    advancing: 60,
-    timeLeft: "3 weeks 2 days",
-    votingWeight: "100% Community",
-  },
-  {
-    title: "Community Impact Round",
-    phase: "Phase 2",
-    description:
-      "Filter for meaning, not just popularity. Submit 3-5 bullet points or 60-90 second video.",
-    participants: 60,
-    advancingPct: 50,
-    advancing: 30,
-    timeLeft: "2 weeks 4 days",
-    votingWeight: "70% Community",
-    challengePrompt: "How does your business serve the community?",
-  },
-  {
-    title: "Business Story Round",
-    phase: "Phase 3",
-    description:
-      "Identify businesses with clarity and vision. Submit 1-page pitch or 2-minute video.",
-    participants: 30,
-    advancingPct: 40,
-    advancing: 12,
-    timeLeft: "2 weeks 1 day",
-    votingWeight: "60% Community / 40% Panel",
-    challengePrompt: "Mini Business Pitch",
-  },
-  {
-    title: "Semi-Finals",
-    phase: "Phase 4",
-    description:
-      "OSI panel first involvement. Identify the strongest contenders for the final.",
-    participants: 15,
-    advancingPct: 40,
-    advancing: 6,
-    timeLeft: "1 week 5 days",
-    votingWeight: "50% Community",
-    // challengePrompt: "What's the one innovation that sets you apart?",
-  },
-  {
-    title: "Final Round",
-    phase: "Phase 5",
-    description:
-      "Crown the winner! Final voting and OSI customer experience evaluation.",
-    participants: 8,
-    advancingPct: 38,
-    advancing: 3,
-    timeLeft: "2 weeks 0 days",
-    votingWeight: "30% Community",
-    // challengePrompt: "Why should you take home the grand prize?",
-  },
-];
-
-const BASE_BUSINESSES: Omit<Business, "score" | "trend">[] = [
-  {
-    rank: 1,
-    name: "Aspire Marketing",
-    owner: "David Smith",
-    category: "Professional Services",
-  },
-  {
-    rank: 2,
-    name: "Oasis Outdoor Living",
-    owner: "Emily Williams",
-    category: "Home & Garden",
-  },
-  {
-    rank: 3,
-    name: "Chic & Co Boutique",
-    owner: "Michael Taylor",
-    category: "Retail & Fashion",
-  },
-  {
-    rank: 4,
-    name: "Urban Threads Boutique",
-    owner: "Michael Johnson",
-    category: "Retail & Fashion",
-  },
-  {
-    rank: 5,
-    name: "Copper Kettle Coffee",
-    owner: "Sara Ahmed",
-    category: "Food & Beverage",
-  },
-  {
-    rank: 6,
-    name: "Ironwood Fitness",
-    owner: "James Chen",
-    category: "Health & Wellness",
-  },
-  {
-    rank: 7,
-    name: "Willow Lane Florals",
-    owner: "Priya Patel",
-    category: "Retail & Fashion",
-  },
-  {
-    rank: 8,
-    name: "Northside Auto Care",
-    owner: "Carlos Rivera",
-    category: "Automotive",
-  },
-  {
-    rank: 9,
-    name: "The Reading Room",
-    owner: "Anna Kowalski",
-    category: "Retail & Fashion",
-  },
-  {
-    rank: 10,
-    name: "Sunset Yoga Studio",
-    owner: "Maya Thompson",
-    category: "Health & Wellness",
-  },
-  {
-    rank: 11,
-    name: "Pinnacle Consulting",
-    owner: "Robert Chen",
-    category: "Professional Services",
-  },
-  {
-    rank: 12,
-    name: "Bloom & Grow Nursery",
-    owner: "Lisa Park",
-    category: "Home & Garden",
-  },
-  {
-    rank: 13,
-    name: "Velvet & Vine",
-    owner: "Daniel Garcia",
-    category: "Retail & Fashion",
-  },
-  {
-    rank: 14,
-    name: "Summit Coffee Roasters",
-    owner: "Amanda Lee",
-    category: "Food & Beverage",
-  },
-  {
-    rank: 15,
-    name: "CoreFit Studio",
-    owner: "Marcus Brown",
-    category: "Health & Wellness",
-  },
-  {
-    rank: 16,
-    name: "Harbor Bookshop",
-    owner: "Rachel Kim",
-    category: "Retail & Fashion",
-  },
-  {
-    rank: 17,
-    name: "Evergreen Landscaping",
-    owner: "Tom Wilson",
-    category: "Home & Garden",
-  },
-  {
-    rank: 18,
-    name: "Bright Ideas Agency",
-    owner: "Jessica Taylor",
-    category: "Professional Services",
-  },
-  {
-    rank: 19,
-    name: "Golden Wheat Bakery",
-    owner: "Omar Hassan",
-    category: "Food & Beverage",
-  },
-  {
-    rank: 20,
-    name: "Tranquil Spa & Wellness",
-    owner: "Sophie Martin",
-    category: "Health & Wellness",
-  },
-];
-
-function seededScore(base: number, round: number, seed: number) {
-  const x = Math.sin(seed * 999 + round * 37) * 10000;
-  const frac = x - Math.floor(x);
-  return Math.round(base - round * 40 + frac * 300);
-}
-
-function seededTrend(round: number, seed: number): Trend {
-  const x = Math.sin(seed * 53 + round * 91) * 10000;
-  const frac = x - Math.floor(x);
-  if (frac < 0.3) return "Natural";
-  if (frac < 0.65) return "Up";
-  return "Down";
-}
-
-const ROUND_LIMITS = [20, 16, 12, 8, 5];
-
-function getRoundData(roundIndex: number): Business[] {
-  const limit = ROUND_LIMITS[roundIndex] ?? 20;
-  return BASE_BUSINESSES.slice(0, limit)
-    .map((b, i) => ({
-      ...b,
-      score: 4900 - i * 40 + (seededScore(4900, roundIndex, i) % 60),
-      trend: seededTrend(roundIndex, i),
-    }))
-    .sort((a, b) => b.score - a.score)
-    .map((b, i) => ({ ...b, rank: i + 1 }));
-}
-
 const rankBadgeStyle = (rank: number) => {
   if (rank === 1) return "bg-amber-400 text-white";
   if (rank === 2) return "bg-gray-400 text-white";
@@ -294,7 +67,7 @@ export default function VotingTab({
   // round (5) this means the whole contest is over.
   const isRoundComplete = Boolean(
     apiRound?.voting_ends_at &&
-    new Date(apiRound.voting_ends_at).getTime() < Date.now(),
+      new Date(apiRound.voting_ends_at).getTime() < Date.now(),
   );
   const isFinalRound = roundNumber === 5;
 
@@ -311,12 +84,7 @@ export default function VotingTab({
           isDisabled: !isActive,
         };
       })
-    : ROUNDS.map((label, i) => ({
-        index: i,
-        label,
-        isActive: activeRound === i,
-        isDisabled: false,
-      }));
+    : [];
 
   // Load the leaderboard for the active round from the live API.
   useEffect(() => {
@@ -338,37 +106,7 @@ export default function VotingTab({
     };
   }, [apiRound]);
 
-  // Header content — merged from live round data where available.
-  const fallbackContent = ROUND_CONTENT[activeRound] ?? ROUND_CONTENT[0];
-  const roundContent = apiRound
-    ? {
-        title: apiRound.title || fallbackContent.title,
-        phase: `Round ${apiRound.round_number}`,
-        description:
-          apiRound.goal || apiRound.requirements || fallbackContent.description,
-        participants:
-          leaderboard?.total_entries ?? fallbackContent.participants,
-        advancing: apiRound.advance_limit ?? fallbackContent.advancing,
-        advancingPct:
-          apiRound.advance_limit != null &&
-          leaderboard?.total_entries != null &&
-          leaderboard.total_entries > 0
-            ? Math.round(
-                (apiRound.advance_limit / leaderboard.total_entries) * 100,
-              )
-            : fallbackContent.advancingPct,
-        timeLeft:
-          leaderboard?.days_left != null
-            ? `${leaderboard.days_left} day${leaderboard.days_left === 1 ? "" : "s"} left`
-            : fallbackContent.timeLeft,
-        votingWeight: apiRound.voting_strategy || fallbackContent.votingWeight,
-        challengePrompt: fallbackContent.challengePrompt,
-      }
-    : fallbackContent;
-
-  // Leaderboard rows — live entries for the active round, or the static
-  // preview data when there is no live season yet.
-  const fallbackData = useMemo(() => getRoundData(activeRound), [activeRound]);
+  // Leaderboard rows — live entries for the active round only.
   const leaderboardRows = useMemo(() => {
     if (!leaderboard?.entries?.length) return [] as Business[];
     return leaderboard.entries.map(e => ({
@@ -391,16 +129,52 @@ export default function VotingTab({
     }));
   }, [leaderboard, roundNumber]);
 
-  const showFallback = !apiRound;
-  const displayRows = showFallback ? fallbackData : leaderboardRows;
-  const isFetching = !showFallback && loadingLeaderboard && !leaderboard;
-  const isEmpty =
-    !showFallback && !loadingLeaderboard && displayRows.length === 0;
+  // No live season round — nothing to vote on yet. Show an empty state
+  // instead of fabricated preview data.
+  if (!apiRound) {
+    return (
+      <div className="rounded-2xl border border-black/10 bg-white p-10 sm:p-14 flex flex-col items-center text-center">
+        <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-[#1977DD29] flex items-center justify-center mb-4">
+          <CiAlarmOn className="size-6 sm:size-7 text-blue-500" />
+        </div>
+        <h3 className="text-lg sm:text-xl font-medium text-[#101828]">
+          No Active Voting Round
+        </h3>
+        <p className="text-sm sm:text-base text-black/50 mt-2 max-w-md">
+          There is no live contest round right now. Voting will appear here once
+          the next round opens.
+        </p>
+      </div>
+    );
+  }
+
+  // Header content — built from live round + leaderboard data only.
+  const roundContent = {
+    title: apiRound.title || `Round ${roundNumber}`,
+    phase: `Round ${apiRound.round_number}`,
+    description: apiRound.goal || apiRound.requirements || "",
+    participants: leaderboard?.total_entries ?? 0,
+    advancing: apiRound.advance_limit ?? null,
+    advancingPct:
+      apiRound.advance_limit != null &&
+      leaderboard?.total_entries != null &&
+      leaderboard.total_entries > 0
+        ? Math.round(
+            (apiRound.advance_limit / leaderboard.total_entries) * 100,
+          )
+        : null,
+    timeLeft:
+      leaderboard?.days_left != null
+        ? `${leaderboard.days_left} day${leaderboard.days_left === 1 ? "" : "s"} left`
+        : null,
+    votingWeight: apiRound.voting_strategy || null,
+  };
+
+  const isFetching = loadingLeaderboard && !leaderboard;
+  const isEmpty = !loadingLeaderboard && leaderboardRows.length === 0;
 
   const handleViewProfile = (businessName: string, businessId?: number) => {
     const roundSlug = `round-${roundNumber}`;
-    // Live leaderboard entries carry the contestant ID; the static preview
-    // rows fall back to the slugified name (profile shows design defaults).
     const slug = businessId ?? slugify(businessName);
     router.push(`/boss-beginnings-contest/profile/${roundSlug}/${slug}`);
   };
@@ -446,19 +220,10 @@ export default function VotingTab({
         </div>
 
         <div className="">
-          <h4 className="text-sm sm:text-base lg:text-lg font-normal text-[#1D1D1F] mt-5">
-            {roundContent.description}
-          </h4>
-
-          {roundContent.challengePrompt && (
-            <div className="mt-4 rounded-xl bg-[#EFF6FF] p-4">
-              <p className="text-xl font-normal text-[#101828] mb-1">
-                Challenge:
-              </p>
-              <p className="text-base text-[#2563EB]">
-                {roundContent.challengePrompt}
-              </p>
-            </div>
+          {roundContent.description && (
+            <h4 className="text-sm sm:text-base lg:text-lg font-normal text-[#1D1D1F] mt-5">
+              {roundContent.description}
+            </h4>
           )}
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 mt-5">
@@ -484,8 +249,13 @@ export default function VotingTab({
                   Advancing
                 </h5>
                 <h6 className="text-base sm:text-lg lg:text-xl font-normal text-[#0F172B]">
-                  {String(roundContent.advancing).padStart(2, "0")} (
-                  {roundContent.advancingPct}%)
+                  {roundContent.advancing != null
+                    ? `${String(roundContent.advancing).padStart(2, "0")}${
+                        roundContent.advancingPct != null
+                          ? ` (${roundContent.advancingPct}%)`
+                          : ""
+                      }`
+                    : "—"}
                 </h6>
               </div>
             </div>
@@ -498,7 +268,7 @@ export default function VotingTab({
                   Time Left
                 </h5>
                 <h6 className="text-base sm:text-lg lg:text-xl font-normal text-[#0F172B]">
-                  {roundContent.timeLeft}
+                  {roundContent.timeLeft || "—"}
                 </h6>
               </div>
             </div>
@@ -511,7 +281,7 @@ export default function VotingTab({
                   Voting Weight
                 </h5>
                 <h6 className="text-base sm:text-lg lg:text-xl font-normal text-[#0F172B]">
-                  {roundContent.votingWeight}
+                  {roundContent.votingWeight || "—"}
                 </h6>
               </div>
             </div>
@@ -577,11 +347,11 @@ export default function VotingTab({
                     </td>
                   </tr>
                 ) : (
-                  displayRows.map((b, idx) => (
+                  leaderboardRows.map((b, idx) => (
                     <tr
                       key={b.id || b.name}
                       className={`text-sm sm:text-base ${
-                        idx !== displayRows.length - 1
+                        idx !== leaderboardRows.length - 1
                           ? "border-b border-gray-100"
                           : ""
                       } hover:bg-gray-50 transition-colors`}

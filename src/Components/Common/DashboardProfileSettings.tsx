@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useRef } from "react";
 import { useQueryClient } from "@tanstack/react-query";
-import { SquarePen, X, Loader2 } from "lucide-react";
+import { SquarePen, X, Loader2, User } from "lucide-react";
 import { useUpdateAvatar, useUpdateProfile } from "@/Hooks/api/auth_api";
 import useAuth from "@/Hooks/useAuth";
 import CurrentPlanCard from "./CurrentPlanCard";
@@ -24,23 +24,24 @@ type ProfileData = {
   avatar: string;
 };
 
+// Defaults are intentionally empty — real values come from the logged-in
+// user's profile via `initialData`. No fabricated placeholder data.
 const defaultProfile: ProfileData = {
-  name: "Arthur Taylor",
-  username: "arthooo11",
-  email: "john@example.com",
-  phone: "12434*******",
-  location: "7 Pepys Street, City of London, London, EC3N 4AF, United Kingdom",
-  category1: "Artist spotlight",
-  category2: "Artist spotlight",
-  bio: "Contemporary artist exploring the intersection of digital and traditional media.",
-  businessDescription: "Describe your business or creative practice...",
-  websiteLink: "www.XYZ.com",
-  youtubeLink: "www.abc.com",
-  facebookLink: "www.abc.com",
-  instagramLink: "www.abc.com",
-  joinDate: "12 Apr 2026",
-  avatar:
-    "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=256&auto=format&fit=crop",
+  name: "",
+  username: "",
+  email: "",
+  phone: "",
+  location: "",
+  category1: "",
+  category2: "",
+  bio: "",
+  businessDescription: "",
+  websiteLink: "",
+  youtubeLink: "",
+  facebookLink: "",
+  instagramLink: "",
+  joinDate: "",
+  avatar: "",
 };
 
 type FieldConfig = {
@@ -211,11 +212,17 @@ const DashboardProfileSettings = ({
         {/* Avatar Section */}
         <div className="py-6 flex items-center gap-6">
           <div className="relative inline-block group shrink-0">
-            <img
-              className="w-20 h-20 rounded-full object-cover border border-gray-100 transition duration-200"
-              src={profile.avatar}
-              alt="Avatar"
-            />
+            {profile.avatar ? (
+              <img
+                className="w-20 h-20 rounded-full object-cover border border-gray-100 transition duration-200"
+                src={profile.avatar}
+                alt="Avatar"
+              />
+            ) : (
+              <div className="w-20 h-20 rounded-full bg-gray-100 border border-gray-200 flex items-center justify-center">
+                <User className="w-8 h-8 text-gray-400" />
+              </div>
+            )}
 
             {isEditing ? (
               <label className="absolute inset-0 bg-black/40 rounded-full flex items-center justify-center cursor-pointer text-white opacity-90 hover:opacity-100 transition">
