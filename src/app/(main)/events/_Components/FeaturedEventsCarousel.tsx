@@ -207,38 +207,46 @@ const FeaturedEventsCarousel = ({ events }: FeaturedEventsCarouselProps) => {
   const handleShare = async (eventId: number, eventTitle: string) => {
     const loadingKey = `share-${eventId}`;
     if (actionLoading[loadingKey]) return;
+    setActionLoading(prev => ({ ...prev, [loadingKey]: true }));
 
     const slug = events?.find(e => e.id === eventId)?.slug || eventId;
     const url = window.location.origin + `/events/${slug}`;
 
-    // Try native Web Share API
-    if (navigator.share) {
-      try {
-        await navigator.share({
-          title: eventTitle,
-          text: `Check out this event: ${eventTitle}`,
-          url,
-        });
-      } catch {
-        // user cancelled
-      }
-      return;
-    }
-
-    // Fallback: copy link
     try {
-      await navigator.clipboard.writeText(url);
-    } catch {
-      // clipboard not available
-    }
-
-    // Fire share API in background
-    if (token) {
-      try {
-        await apiShareEvent(eventId);
-      } catch {
-        // silently fail
+      // Try native Web Share API
+      if (navigator.share) {
+        try {
+          await navigator.share({
+            title: eventTitle,
+            text: `Check out this event: ${eventTitle}`,
+            url,
+          });
+        } catch {
+          // User cancelled — not shared, skip the API call
+          return;
+        }
+      } else {
+        // Fallback: copy link
+        try {
+          await navigator.clipboard.writeText(url);
+        } catch {
+          // clipboard not available
+        }
       }
+
+      // Count the share server-side (login required, same as like/bookmark)
+      if (!token) {
+        window.location.href = "/auth/login";
+        return;
+      }
+      const res = await apiShareEvent(eventId);
+      if (res?.success) {
+        toast.success(res.message || "Event shared successfully!");
+      }
+    } catch {
+      // Share API failed — the local share still worked, don't nag the user
+    } finally {
+      setActionLoading(prev => ({ ...prev, [loadingKey]: false }));
     }
   };
 

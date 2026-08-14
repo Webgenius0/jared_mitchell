@@ -16,6 +16,7 @@ import { useGetArtistDashboardStats } from "@/Hooks/api/dashboard_api";
 import { getUpcomingEvents } from "@/Hooks/api/cms_api";
 import { CMSEventItem } from "@/Types/cms";
 import useAuth from "@/Hooks/useAuth";
+import UserEventInteractions from "@/Components/Common/UserEventInteractions";
 
 // ─── Event formatting helpers ────────────────────────────────────────────────
 const formatEventDate = (startsAt: string) => {
@@ -225,6 +226,9 @@ export default function DashboardPage() {
           )}
         </div>
       </section>
+
+      {/* ================= BOOKMARKED / SHARED EVENTS ================= */}
+      <UserEventInteractions />
 
       {/* ================= UPCOMING EVENTS SECTION ================= */}
       <section className="bg-white rounded-2xl border border-gray-100 p-6 shadow-sm">

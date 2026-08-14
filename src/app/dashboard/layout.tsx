@@ -27,6 +27,7 @@ import {
   NTwoSvg,
 } from "@/Components/Svg/SvgContainer";
 import DashboardHeader from "@/Shared/DashboardHeader";
+import ChatbotWidget from "@/Components/Common/ChatbotWidget";
 import { getUserDashboardType } from "@/lib/utils";
 import useCurrentRoundNumber from "@/Hooks/useCurrentRoundNumber";
 
@@ -103,12 +104,12 @@ const artistLinks = [
 ];
 
 const communityMemberLinks = [
-  // {
-  //   id: 8,
-  //   label: "Dashboard",
-  //   path: "/dashboard/community_member",
-  //   icon: <NOneSvg />,
-  // },
+  {
+    id: 8,
+    label: "Dashboard",
+    path: "/dashboard/community_member",
+    icon: <NOneSvg />,
+  },
   // {
   //   id: 25,
   //   label: "Boss Beginning",
@@ -374,6 +375,9 @@ export default function DashboardLayout({
             open ? "opacity-100" : "opacity-0 pointer-events-none"
           }`}
         />
+
+        {/* AI Chat Assistant (bottom-right, on every dashboard page) */}
+        <ChatbotWidget />
       </section>
     </PrivateLayout>
   );

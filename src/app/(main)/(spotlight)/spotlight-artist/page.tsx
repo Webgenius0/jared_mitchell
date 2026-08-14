@@ -12,9 +12,10 @@ import {
   getCMSAboutData,
   getCMSArtistSpotlightData,
   getArtistHistoricalWinners,
+  getArtistLiveStreams,
   getCMSHomepageData,
 } from "@/lib/Services/cms_service";
-import { HistoricalWinnersItem } from "@/Types/cms";
+import { HistoricalWinnersItem, LiveStream } from "@/Types/cms";
 import Sponsors from "../../_components/Sponsors";
 
 const FALLBACK_IMAGE = "https://placehold.co/400x600.png?text=No+Image";
@@ -22,7 +23,17 @@ const FALLBACK_IMAGE = "https://placehold.co/400x600.png?text=No+Image";
 const page = async () => {
   const cmsData = await getCMSArtistSpotlightData();
   const partners = await getCMSHomepageData();
-  
+
+  // Artist spotlight live stream (AWS IVS). Ended streams are filtered out
+  // by the service; only an actively-broadcasting channel switches the hero
+  // over to the live player — pending keeps the looping video.
+  let liveStream: LiveStream | undefined;
+  try {
+    const streams = await getArtistLiveStreams();
+    liveStream = streams.find(s => s.status === "live");
+  } catch (err) {
+    console.error("Failed to fetch artist live streams:", err);
+  }
 
   let artistWinners: HistoricalWinnersItem[] = [];
   try {
@@ -42,7 +53,10 @@ const page = async () => {
   return (
     <>
       <ArtistSpotlightBanner data={cmsData?.artist_spotlight_hero} />
-      <SpotlightHero data={cmsData?.artist_spotlight_video} />
+      <SpotlightHero
+        data={cmsData?.artist_spotlight_video}
+        liveStream={liveStream}
+      />
       <DiscoverArtists type="artist" data={cmsData?.artist_spotlight_list} />
       {/* <CommunityAchievements data={cmsData?.artist_spotlight_highlights} /> */}
       <SuccessStories winners={artistWinners} type="artist" />

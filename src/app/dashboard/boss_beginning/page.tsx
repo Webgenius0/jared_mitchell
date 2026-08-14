@@ -17,6 +17,7 @@ import { getUpcomingEvents } from "@/Hooks/api/cms_api";
 import { CMSEventItem } from "@/Types/cms";
 import { useRouter } from "next/navigation";
 import useAuth from "@/Hooks/useAuth";
+import UserEventInteractions from "@/Components/Common/UserEventInteractions";
 
 interface StatCard {
   label: string;
@@ -358,6 +359,9 @@ export default function Page() {
             </div>
           </div>
         </div>
+
+        {/* Bookmarked / Shared events */}
+        <UserEventInteractions />
 
         {/* Upcoming events */}
         <div className="bg-white rounded-2xl p-5 shadow-[0_1px_2px_rgba(16,24,40,0.04)]">
