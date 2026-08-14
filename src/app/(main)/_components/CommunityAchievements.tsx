@@ -3,7 +3,7 @@ import { useEffect, useRef, useState, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { LuArrowLeft, LuArrowRight } from "react-icons/lu";
-import DOMPurify from "isomorphic-dompurify";
+
 import { PastSixMonthsWinner } from "@/Types/cms";
 
 interface CommunityAchievementsProps {
@@ -199,7 +199,7 @@ const CommunityAchievements = ({
                                 <div
                                   className="text-primary-gray text-sm line-clamp-2 [&_*]:!bg-transparent [&_*]:!text-inherit [&_*]:!font-normal"
                                   dangerouslySetInnerHTML={{
-                                    __html: DOMPurify.sanitize(description),
+                                    __html: description,
                                   }}
                                 />
                               )}

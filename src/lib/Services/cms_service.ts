@@ -54,7 +54,7 @@ export const getCMSHomepageData = async (): Promise<CMSHomepage> => {
 
 export const getCMSAboutData = async (): Promise<CMSAbout> => {
   const res = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/v1/cms/about`, {
-    next: { revalidate: 60 },
+    cache: "no-store",
   });
 
   if (!res.ok) {
@@ -69,7 +69,7 @@ export const getCMSServicesData = async (): Promise<CMSServices> => {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_SITE_URL}/v1/cms/services`,
     {
-      next: { revalidate: 60 },
+      cache: "no-store",
     },
   );
 
@@ -86,7 +86,7 @@ export const getCMSArtistSpotlightData =
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_SITE_URL}/v1/cms/artist-spotlight`,
       {
-        next: { revalidate: 60 },
+        cache: "no-store",
       },
     );
 
@@ -103,7 +103,7 @@ export const getCMSBusinessSpotlightData =
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_SITE_URL}/v1/cms/business-spotlight`,
       {
-        next: { revalidate: 60 },
+        cache: "no-store",
       },
     );
 
@@ -120,7 +120,7 @@ export const getCMSSpotlightLadderData =
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_SITE_URL}/v1/cms/spotlight-ladder`,
       {
-        next: { revalidate: 60 },
+        cache: "no-store",
       },
     );
 
@@ -134,7 +134,7 @@ export const getCMSSpotlightLadderData =
 
 export const getCMSFAQs = async (): Promise<CMSFAQ[]> => {
   const res = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/v1/cms/faq`, {
-    next: { revalidate: 60 },
+    cache: "no-store",
   });
 
   if (!res.ok) {
@@ -147,7 +147,7 @@ export const getCMSFAQs = async (): Promise<CMSFAQ[]> => {
 
 export const getShopPageCms = async (): Promise<CMSShopPage> => {
   const res = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/v1/cms/shop`, {
-    next: { revalidate: 60 },
+    cache: "no-store",
   });
 
   if (!res.ok) {
@@ -160,7 +160,7 @@ export const getShopPageCms = async (): Promise<CMSShopPage> => {
 
 export const getEventsPageCms = async (): Promise<CMSEventsPage> => {
   const res = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/v1/cms/events`, {
-    next: { revalidate: 60 },
+    cache: "no-store",
   });
 
   if (!res.ok) {
@@ -175,7 +175,7 @@ export const getBossCms = async (): Promise<CMSBossBeginnings> => {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_SITE_URL}/v1/cms/boss-beginnings`,
     {
-      next: { revalidate: 60 },
+      cache: "no-store",
     },
   );
 
@@ -191,7 +191,7 @@ export const getRoundsCms = async (): Promise<CMSRoundsPage> => {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_SITE_URL}/v1/cms/osi-rounds`,
     {
-      next: { revalidate: 60 },
+      cache: "no-store",
     },
   );
 
@@ -207,7 +207,7 @@ export const getSponsorshipPageCms = async (): Promise<CMSSponsorshipPage> => {
   const url = `${process.env.NEXT_PUBLIC_SITE_URL}/v1/cms/sponsorsip`;
 
   const res = await fetch(url, {
-    next: { revalidate: 60 },
+    cache: "no-store",
   });
 
   if (!res.ok) {
@@ -225,7 +225,7 @@ export type EventTimeFilter = "upcoming" | "past";
 export const getFeaturedEvents = async (): Promise<FeaturedEventsResponse> => {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_SITE_URL}/v1/events/featured`,
-    { next: { revalidate: 60 } },
+    { cache: "no-store" },
   );
 
   if (!res.ok) {
@@ -239,7 +239,7 @@ export const getFeaturedEvents = async (): Promise<FeaturedEventsResponse> => {
 export const getEventGallery = async (): Promise<EventGalleryResponse> => {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_SITE_URL}/v1/events/galary`,
-    { next: { revalidate: 60 } },
+    { cache: "no-store" },
   );
 
   if (!res.ok) {
@@ -253,7 +253,7 @@ export const getEventGallery = async (): Promise<EventGalleryResponse> => {
 export const getUpcomingEvents = async (): Promise<EventsResponse> => {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_SITE_URL}/v1/events/upcomming-events`,
-    { next: { revalidate: 60 } },
+    { cache: "no-store" },
   );
 
   if (!res.ok) {
@@ -267,7 +267,7 @@ export const getUpcomingEvents = async (): Promise<EventsResponse> => {
 export const getPastEvents = async (): Promise<EventsResponse> => {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_SITE_URL}/v1/events/past-events`,
-    { next: { revalidate: 60 } },
+    { cache: "no-store" },
   );
 
   if (!res.ok) {
@@ -290,7 +290,7 @@ export const getEvents = async (
 
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_SITE_URL}/v1/events?${params.toString()}`,
-    { next: { revalidate: 60 } },
+    { cache: "no-store" },
   );
 
   if (!res.ok) {
@@ -304,7 +304,7 @@ export const getEvents = async (
 export const getCalendarEvents = async (): Promise<CalendarEventsResponse> => {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_SITE_URL}/v1/events/calendar-views`,
-    { next: { revalidate: 60 } },
+    { cache: "no-store" },
   );
 
   if (!res.ok) {
@@ -318,7 +318,7 @@ export const getCalendarEvents = async (): Promise<CalendarEventsResponse> => {
 export const getFeaturedProducts = async (): Promise<FeaturedProductItem[]> => {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_SITE_URL}/v1/products/featured`,
-    { next: { revalidate: 60 } },
+    { cache: "no-store" },
   );
 
   if (!res.ok) {
@@ -333,7 +333,7 @@ export const getFeaturedProducts = async (): Promise<FeaturedProductItem[]> => {
 
 export const getAllProducts = async (): Promise<FeaturedProductItem[]> => {
   const res = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/v1/products`, {
-    next: { revalidate: 60 },
+    cache: "no-store",
   });
 
   if (!res.ok) {
@@ -349,7 +349,7 @@ export const getProductBySlug = async (
 ): Promise<FeaturedProductDetail> => {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_SITE_URL}/v1/products/${slug}`,
-    { next: { revalidate: 60 } },
+    { cache: "no-store" },
   );
 
   if (!res.ok) {
@@ -364,7 +364,7 @@ export const getArtistHistoricalWinners =
   async (): Promise<ArtistHistoricalWinnersResponse> => {
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_SITE_URL}/v1/spotlight/historical-winners?type=artist`,
-      { next: { revalidate: 60 } },
+      { cache: "no-store" },
     );
 
     if (!res.ok) {
@@ -381,7 +381,7 @@ export const getBusinessHistoricalWinners =
   async (): Promise<BusinessHistoricalWinnersResponse> => {
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_SITE_URL}/v1/spotlight/historical-winners?type=business`,
-      { next: { revalidate: 60 } },
+      { cache: "no-store" },
     );
 
     if (!res.ok) {
@@ -398,7 +398,7 @@ export const getCurrentContestWinner =
   async (): Promise<CurrentContestWinnerResponse> => {
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_SITE_URL}/v1/contest/winners/current`,
-      { next: { revalidate: 60 } },
+      { cache: "no-store" },
     );
 
     if (!res.ok) {
@@ -415,7 +415,7 @@ export const getPastSixMonthsWinners =
   async (): Promise<PastSixMonthsWinnersResponse> => {
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_SITE_URL}/v1/contest/winners/past-six-months`,
-      { next: { revalidate: 60 } },
+      { cache: "no-store" },
     );
 
     if (!res.ok) {
@@ -431,7 +431,7 @@ export const getPastSixMonthsWinners =
 export const getRoundCountdown = async (): Promise<RoundCountdownResponse> => {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_SITE_URL}/v1/round-countdown`,
-    { next: { revalidate: 60 } },
+    { cache: "no-store" },
   );
 
   if (!res.ok) {
@@ -445,7 +445,7 @@ export const getRoundCountdown = async (): Promise<RoundCountdownResponse> => {
 export const getArtistById = async (id: number) => {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_SITE_URL}/v1/artists/${id}`,
-    { next: { revalidate: 60 } },
+    { cache: "no-store" },
   );
 
   if (!res.ok) {
@@ -459,7 +459,7 @@ export const getArtistById = async (id: number) => {
 export const getBusinessById = async (id: number) => {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_SITE_URL}/v1/businesses/list/${id}`,
-    { next: { revalidate: 60 } },
+    { cache: "no-store" },
   );
 
   if (!res.ok) {
@@ -477,7 +477,7 @@ export const getEventBySlug = async (
   const url = `${process.env.NEXT_PUBLIC_SITE_URL}/v1/events/${slug}`;
 
   const res = await fetch(url, {
-    next: { revalidate: 60 },
+    cache: "no-store",
     headers: {
       "Content-Type": "application/json",
       ...(token && { Authorization: `Bearer ${token}` }),
@@ -498,7 +498,7 @@ export const getArtistSpotlightDetails = async (
 ): Promise<ArtistSpotlightDetailsResponse> => {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_SITE_URL}/v1/spotlight/details/artist/${spotlightId}`,
-    { next: { revalidate: 60 } },
+    { cache: "no-store" },
   );
 
   if (!res.ok) {
@@ -516,7 +516,7 @@ export const getBusinessSpotlightDetails = async (
 ): Promise<BusinessSpotlightDetailsResponse> => {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_SITE_URL}/v1/spotlight/details/business/${spotlightId}`,
-    { next: { revalidate: 60 } },
+    { cache: "no-store" },
   );
 
   if (!res.ok) {
@@ -532,14 +532,19 @@ export const getBusinessSpotlightDetails = async (
 export const getLeaderboard = async (
   weekId: number = 2,
   types: ("artist" | "business")[] = ["artist", "business"],
-): Promise<LeaderboardResponse> => {
+): Promise<LeaderboardResponse | null> => {
   const params = new URLSearchParams();
   types.forEach(t => params.append("type", t));
 
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_SITE_URL}/v1/spotlight/weeks/${weekId}/leaderboard?${params.toString()}`,
-    { next: { revalidate: 60 } },
+    { cache: "no-store" },
   );
+
+  if (res.status === 404) {
+    // No leaderboard for this week — expected state, not a fatal error.
+    return null;
+  }
 
   if (!res.ok) {
     throw new Error(`Failed to fetch leaderboard — Status: ${res.status}`);
@@ -548,7 +553,6 @@ export const getLeaderboard = async (
   const result = await res.json();
   return result as LeaderboardResponse;
 };
-
 // Get the artist spotlight live streams (AWS IVS channels).
 // GET /v1/live-streams
 // Ended streams are dropped here — only pending (coming soon) and live
@@ -556,7 +560,7 @@ export const getLeaderboard = async (
 export const getArtistLiveStreams = async (): Promise<LiveStream[]> => {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_SITE_URL}/v1/live-streams`,
-    { next: { revalidate: 30 } },
+    { cache: "no-store" },
   );
 
   if (!res.ok) {
@@ -574,7 +578,7 @@ export const getCurrentSpotlightWeek =
   async (): Promise<LeaderboardResponse> => {
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_SITE_URL}/v1/spotlight/weeks/current`,
-      { next: { revalidate: 60 } },
+      { cache: "no-store" },
     );
 
     if (!res.ok) {
@@ -592,7 +596,7 @@ export const getContestantDetails = async (
 ): Promise<any> => {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_SITE_URL}/v1/contest/contestants/${contestantId}`,
-    { next: { revalidate: 60 } },
+    { cache: "no-store" },
   );
 
   if (!res.ok) {
@@ -609,7 +613,7 @@ export const getActiveSeasonRounds =
   async (): Promise<ActiveSeasonRoundsResponse> => {
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_SITE_URL}/v1/contest/active-season-rounds`,
-      { next: { revalidate: 60 } },
+      { cache: "no-store" },
     );
 
     if (!res.ok) {
@@ -628,7 +632,7 @@ export const getRoundLeaderboard = async (
 ): Promise<RoundLeaderboardResponse> => {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_SITE_URL}/v1/contest/rounds/${roundId}/leaderboard`,
-    options?.noCache ? { cache: "no-store" } : { next: { revalidate: 60 } },
+    { cache: "no-store" },
   );
 
   if (!res.ok) {
@@ -709,7 +713,7 @@ export const submitRoundVotes = async ({
 export const getSubscriptionPlans = async (): Promise<SubscriptionPlan[]> => {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_SITE_URL}/v1/subscription-plans`,
-    { next: { revalidate: 60 } },
+    { cache: "no-store" },
   );
 
   if (!res.ok) {

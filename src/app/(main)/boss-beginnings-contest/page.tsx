@@ -36,7 +36,7 @@ const page = async () => {
     activeRoundId =
       seasonRounds.find(r => r.is_active)?.id ?? seasonRounds[0]?.id ?? null;
   } catch {
-    // No active season yet — the page falls back to the static preview data
+    // No active season yet — the tabs show empty states until real rounds exist
   }
 
   return (

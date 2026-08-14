@@ -16,20 +16,33 @@ const page = async () => {
   const pageData = (await getBossCms()) as CMSBossBeginnings;
   const cmsData = await getCMSHomepageData();
 
-  // Resolve the active spotlight week dynamically, fall back to 2 if unavailable
-  let weekId = 2;
+  // Resolve the active spotlight week dynamically. If there's no active
+  // week, weekId stays null and we skip the leaderboard fetch entirely
+  // instead of guessing a hardcoded week number that may not exist.
+  let weekId: number | null = null;
   try {
     const currentWeek = await getCurrentSpotlightWeek();
-    weekId = currentWeek?.data?.week?.id ?? weekId;
+    weekId = currentWeek?.data?.week?.id ?? null;
   } catch (e) {
-    console.error("Failed to fetch current spotlight week, using fallback", e);
+    console.error("Failed to fetch current spotlight week", e);
   }
 
-  // Fetch artist and business leaderboards separately (API filters by type param)
-  const [artistData, businessData] = await Promise.all([
-    getLeaderboard(weekId, ["artist"]),
-    getLeaderboard(weekId, ["business"]),
-  ]);
+  // Fetch artist and business leaderboards separately (API filters by type
+  // param). Both can independently come back null (no active week, or a
+  // 404 from the API) — that's an expected empty state, not an error.
+  let artistData = null;
+  let businessData = null;
+
+  if (weekId) {
+    try {
+      [artistData, businessData] = await Promise.all([
+        getLeaderboard(weekId, ["artist"]),
+        getLeaderboard(weekId, ["business"]),
+      ]);
+    } catch (e) {
+      console.error("Failed to fetch leaderboard data", e);
+    }
+  }
 
   // Merge and deduplicate by nominee_id, assign global rank by total_votes
   const week = artistData?.data?.week ?? businessData?.data?.week;

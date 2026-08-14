@@ -45,13 +45,14 @@ export default function WinnersDetails({
 
   const aboutText =
     s?.story ||
-    "A cozy neighborhood café combining specialty coffee with a curated flower shop. We source beans from fair-trade roasters and partner with local flower farms to bring beauty and warmth to our community.";
+    "No information provided yet.";
 
+  // Show real interaction data only — no fabricated fallback numbers.
   const totalPoints =
-    s?.interactions?.total_points ?? s?.total_score ?? 1004;
-  const claps = s?.interactions?.likes_count ?? 342;
-  const saves = s?.interactions?.bookmarks_count ?? 89;
-  const shares = s?.interactions?.shares_count ?? 54;
+    s?.interactions?.total_points ?? s?.total_score ?? 0;
+  const claps = s?.interactions?.likes_count ?? 0;
+  const saves = s?.interactions?.bookmarks_count ?? 0;
+  const shares = s?.interactions?.shares_count ?? 0;
 
   return (
     <section className="py-12 md:py-20">

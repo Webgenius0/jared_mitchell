@@ -14,12 +14,6 @@ interface RoundFourvieoProps {
   data?: VideoItem[];
 }
 
-const defaultItems: VideoItem[] = [
-  { thumbnail: "/home/video-thumb-1.jpg", video: "/home/hero-video.mp4" },
-  { thumbnail: "/home/video-thumb-2.jpg", video: "/home/hero-video.mp4" },
-  { thumbnail: "/home/video-thumb-3.jpg", video: "/home/hero-video.mp4" },
-];
-
 const VideoTile = ({ item }: { item: VideoItem }) => {
   const [playing, setPlaying] = useState(true);
   const hasVideo = Boolean(item.video);
@@ -59,12 +53,21 @@ const VideoTile = ({ item }: { item: VideoItem }) => {
 };
 
 const RoundFourvieo = ({ data }: RoundFourvieoProps) => {
-  const items = data && data.length > 0 ? data : defaultItems;
+  // No real media submitted — show an empty state instead of fabricated videos.
+  if (!data || data.length === 0) {
+    return (
+      <section className="container pt-7 md:pt-10 xl:pt-5 2xl:pt-8">
+        <div className="rounded-2xl border border-black/10 bg-white p-10 text-center text-sm sm:text-base text-black/50 my-5 md:my-7">
+          No media submitted yet.
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section className="container pt-7 md:pt-10 xl:pt-5 2xl:pt-8">
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 md:gap-5 lg:gap-6 my-5 md:my-7">
-        {items.map((item, i) => (
+        {data.map((item, i) => (
           <VideoTile key={i} item={item} />
         ))}
       </div>

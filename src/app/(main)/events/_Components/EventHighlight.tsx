@@ -5,7 +5,7 @@ import { Button } from "@/Components/Common/Button";
 import Image from "next/image";
 import { getPastEvents } from "@/lib/Services/cms_service";
 import { CMSEventItem } from "@/Types/cms";
-import DOMPurify from "dompurify";
+
 import Link from "next/link";
 
 const formatOverlayDate = (dateStr?: string) => {
@@ -37,7 +37,7 @@ const EventHighlight = () => {
   }, []);
   const sanitizeToPlainText = (html: string) => {
     if (typeof window === "undefined") return html;
-    const clean = DOMPurify.sanitize(html, { ALLOWED_TAGS: [] });
+    const clean = (html || "").replace(/<[^>]*>?/gm, "");
     return clean;
   };
 
