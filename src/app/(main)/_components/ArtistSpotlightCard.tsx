@@ -26,9 +26,6 @@ const TABS: { label: string; value: SpotlightType }[] = [
   { label: "Business", value: "business" },
 ];
 
-const FALLBACK_DESCRIPTION =
-  "A story from our community making an impact. Through talent, dedication and heart, this week's spotlight winner keeps inspiring everyone around them.";
-
 export default function ArtistSpotlightCard({
   data,
 }: ArtistSpotlightCardProps) {
@@ -83,6 +80,8 @@ export default function ArtistSpotlightCard({
   const artistDetails = details as ArtistSpotlightDetail | undefined;
   const businessDetails = details as BusinessSpotlightDetail | undefined;
 
+  // Real story data only — no fabricated fallback text. The description
+  // paragraph is hidden when there is no content to show.
   const description =
     (type === "artist"
       ? artistDetails?.full_artist_story ||
@@ -94,7 +93,7 @@ export default function ArtistSpotlightCard({
         businessDetails?.why_spotlighted ||
         businessDetails?.community_message) ||
     data?.description ||
-    FALLBACK_DESCRIPTION;
+    "";
 
   const detailsHref = spotlight ? `/spotlight-${type}/${spotlight.id}` : null;
 
@@ -192,9 +191,11 @@ export default function ArtistSpotlightCard({
               </p>
             )}
 
-            <p className="text-secondary-black text-sm md:text-base lg:text-lg leading-relaxed">
-              {description}
-            </p>
+            {description && (
+              <p className="text-secondary-black text-sm md:text-base lg:text-lg leading-relaxed">
+                {description}
+              </p>
+            )}
 
             <div className="mt-6 md:mt-8">
               {detailsHref ? (

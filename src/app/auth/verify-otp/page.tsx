@@ -57,7 +57,7 @@ const Page = () => {
   return (
     <AuthFlexBox
       title="Welcome Back"
-      description="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+      description=""
     >
       <div>
         {/* Back Button */}

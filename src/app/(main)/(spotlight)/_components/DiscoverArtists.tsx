@@ -123,8 +123,12 @@ const DiscoverArtists = ({
   const getDetailsHref = (item: any) => {
     const basePath =
       type === "artist" ? "/spotlight-artist" : "/spotlight-business";
-    // Use spotlight ID (the detail pages expect a spotlight/artist ID, not a nominee entry ID)
-    return `${basePath}/${item.spotlight?.id || item.id}`;
+    // IMPORTANT: always use spotlight.id — item.id is the nominee entry ID which is
+    // completely different from the spotlight ID the detail API expects.
+    // Falling back to item.id causes "Artist/Business not found" on the detail page.
+    const spotlightId = item.spotlight?.id;
+    if (!spotlightId) return "#";
+    return `${basePath}/${spotlightId}`;
   };
 
   const handleVote = async (nomineeId: number, e: React.MouseEvent) => {

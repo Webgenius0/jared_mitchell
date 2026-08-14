@@ -11,7 +11,7 @@ import { RxShare1 } from "react-icons/rx";
 import { getUpcomingEvents } from "@/lib/Services/cms_service";
 import { CMSEventItem } from "@/Types/cms";
 import Link from "next/link";
-import DOMPurify from "dompurify";
+
 import useAuth from "@/Hooks/useAuth";
 import {
   apiToggleLike,
@@ -85,7 +85,7 @@ const formatDateRange = (startStr: string, endStr: string) => {
 // into a line-clamp preview can break the clamp or leave dangling tags when truncated.
 const sanitizeToPlainText = (html: string) => {
   if (typeof window === "undefined") return html; // SSR guard
-  const clean = DOMPurify.sanitize(html, { ALLOWED_TAGS: [] });
+  const clean = (html || "").replace(/<[^>]*>?/gm, "");
   return clean;
 };
 
