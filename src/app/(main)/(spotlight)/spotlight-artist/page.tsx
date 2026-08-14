@@ -60,7 +60,7 @@ const page = async () => {
       <DiscoverArtists type="artist" data={cmsData?.artist_spotlight_list} />
       {/* <CommunityAchievements data={cmsData?.artist_spotlight_highlights} /> */}
       <SuccessStories winners={artistWinners} type="artist" />
-      <SpotlightLadder
+      {/* <SpotlightLadder
         title={
           cmsData?.artist_spotlight_ladder?.title || "Weekly Spotlight Ladder"
         }
@@ -70,7 +70,7 @@ const page = async () => {
         }
         buttonHref="/spotlight-artist/spotlight-ladder"
         data={cmsData?.artist_spotlight_ladder}
-      />
+      /> */}
       <BecomeAPart data={cmsData?.artist_spotlight_join} />
       {/* <CreativeJourney data={cmsData?.artist_spotlight_interview} /> */}
       <WhatExist data={cmsData?.artist_spotlight_why_exists} />
