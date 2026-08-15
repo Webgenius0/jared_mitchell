@@ -398,6 +398,8 @@ const BusinessChosenChart = ({
     return null;
   }
 
+  const roundNumber = currentRoundData.round.round_number;
+
   const businesses: BusinessCard[] = currentRoundData.entries.map(entry => {
     const rawImage =
       entry.contestant.avatar_url || entry.avatar_url || undefined;
@@ -507,6 +509,7 @@ const BusinessChosenChart = ({
                   <BusinessCardItem
                     key={biz.id}
                     biz={biz}
+                    roundNumber={roundNumber}
                     onInteractionSuccess={refreshLeaderboard}
                   />
                 ))}
@@ -582,6 +585,7 @@ const BusinessChosenChart = ({
                 >
                   <BusinessCardItem
                     biz={biz}
+                    roundNumber={roundNumber}
                     onInteractionSuccess={refreshLeaderboard}
                   />
                 </li>
@@ -604,11 +608,16 @@ const BusinessChosenChart = ({
 
 const BusinessCardItem = ({
   biz,
+  roundNumber,
   onInteractionSuccess,
 }: {
   biz: BusinessCard;
+  roundNumber: number;
   onInteractionSuccess?: () => void;
 }) => {
+  // Only round 1 (the open qualifier) accepts community interactions — the
+  // clap/love/fire buttons are hidden for rounds 2–5.
+  const showInteractions = roundNumber === 1;
   const clap = useBusinessInteraction({
     apiCall: apiClapBusiness,
     storageKey: CLAPPED_KEY,
@@ -712,48 +721,50 @@ const BusinessCardItem = ({
           )}
         </div>
 
-        {/* Clap / Love / Fire Action buttons */}
-        <div className="grid grid-cols-3 gap-2 mt-3">
-          <ActionButton
-            icon={clap.active ? <HiThumbUp /> : <HiOutlineThumbUp />}
-            label="Clap"
-            count={clap.count}
-            onClick={clap.trigger}
-            loading={clap.loading}
-            loadingColor="text-blue-500 border-blue-200 bg-blue-50"
-            active={clap.active}
-            activeColor="text-blue-500 border-blue-200 bg-blue-50"
-            activeTextColor="text-blue-500"
-            activeHoverColor="hover:bg-blue-50"
-          />
-          <ActionButton
-            icon={love.active ? <HiHeart /> : <HiOutlineHeart />}
-            label="Love"
-            count={love.count}
-            onClick={love.trigger}
-            loading={love.loading}
-            loadingColor="text-rose-500 border-rose-200 bg-rose-50"
-            active={love.active}
-            activeColor="text-rose-500 border-rose-200 bg-rose-50"
-            activeTextColor="text-rose-500"
-            activeHoverColor="hover:bg-rose-50"
-          />
-          <ActionButton
-            icon={fire.active ? <HiFire /> : <HiOutlineFire />}
-            label="Fire"
-            count={fire.count}
-            onClick={fire.trigger}
-            loading={fire.loading}
-            loadingColor="text-orange-500 border-orange-200 bg-orange-50"
-            active={fire.active}
-            activeColor="text-orange-500 border-orange-200 bg-orange-50"
-            activeTextColor="text-orange-500"
-            activeHoverColor="hover:bg-orange-50"
-          />
-        </div>
+        {/* Clap / Love / Fire Action buttons — round 1 only */}
+        {showInteractions && (
+          <div className="grid grid-cols-3 gap-2 mt-3">
+            <ActionButton
+              icon={clap.active ? <HiThumbUp /> : <HiOutlineThumbUp />}
+              label="Clap"
+              count={clap.count}
+              onClick={clap.trigger}
+              loading={clap.loading}
+              loadingColor="text-blue-500 border-blue-200 bg-blue-50"
+              active={clap.active}
+              activeColor="text-blue-500 border-blue-200 bg-blue-50"
+              activeTextColor="text-blue-500"
+              activeHoverColor="hover:bg-blue-50"
+            />
+            <ActionButton
+              icon={love.active ? <HiHeart /> : <HiOutlineHeart />}
+              label="Love"
+              count={love.count}
+              onClick={love.trigger}
+              loading={love.loading}
+              loadingColor="text-rose-500 border-rose-200 bg-rose-50"
+              active={love.active}
+              activeColor="text-rose-500 border-rose-200 bg-rose-50"
+              activeTextColor="text-rose-500"
+              activeHoverColor="hover:bg-rose-50"
+            />
+            <ActionButton
+              icon={fire.active ? <HiFire /> : <HiOutlineFire />}
+              label="Fire"
+              count={fire.count}
+              onClick={fire.trigger}
+              loading={fire.loading}
+              loadingColor="text-orange-500 border-orange-200 bg-orange-50"
+              active={fire.active}
+              activeColor="text-orange-500 border-orange-200 bg-orange-50"
+              activeTextColor="text-orange-500"
+              activeHoverColor="hover:bg-orange-50"
+            />
+          </div>
+        )}
 
         <Link
-          href={`/how-winners-are-chosen/${biz.id}`}
+          href={`/boss-beginnings-contest/profile/round-${roundNumber}/${biz.id}`}
           className="flex justify-center"
         >
           <button className="text-blue-500 text-sm font-normal mt-3 flex items-center gap-1 hover:underline">

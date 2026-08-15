@@ -17,7 +17,6 @@ import Sponsors from "../_components/Sponsors";
 import BossBeginningSponsor from "./_components/BossBeginningSponsor";
 import BossBeginningsContestCarousel from "@/Components/Common/BossBeginningsContestCarousel";
 
-
 const page = async () => {
   const pageData = (await getBossCms()) as CMSBossBeginnings;
   const cmsData = await getCMSHomepageData();
@@ -59,7 +58,7 @@ const page = async () => {
         roundId={activeRoundId}
       />
 
-<BossBeginningsContestCarousel title="Boss Beginnings Contest"  />
+      {/* <BossBeginningsContestCarousel title="Boss Beginnings Contest" /> */}
 
       <NewBusiness data={pageData?.boss_beginnings_section5} />
 

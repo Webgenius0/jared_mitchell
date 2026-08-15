@@ -101,6 +101,7 @@ export default function RoundThreeProfile({
       <RoundStep
         contestantId={contestant?.id ?? contestantId}
         roundId={contestant?.current_round?.id}
+        videoAvailable={Boolean(submissionVideo)}
       />
       <Sponsors data={homepageData?.partners} />
       <NewsLetter title="Be part of the movement. Get stories, updates, and opportunities straight to your inbox." />
