@@ -4,7 +4,28 @@ import { FiUsers } from "react-icons/fi";
 import { SlBadge } from "react-icons/sl";
 import { HiMiniArrowTrendingUp } from "react-icons/hi2";
 
-export default function ContestSpotlights() {
+interface ContestSpotlightsProps {
+  /** Total contestants competing in the current spotlight week */
+  participants: number;
+  /** Contestants advancing to the next stage (winners of this week) */
+  advancing: number;
+  /** Advancing as a percentage of participants (null when there are none) */
+  advancingPct: number | null;
+  /** Human-readable time until voting closes, e.g. "1 week 2 days" */
+  timeLeft: string | null;
+}
+
+export default function ContestSpotlights({
+  participants,
+  advancing,
+  advancingPct,
+  timeLeft,
+}: ContestSpotlightsProps) {
+  const advancingLabel =
+    advancingPct != null
+      ? `${String(advancing).padStart(2, "0")} (${advancingPct}%)`
+      : String(advancing).padStart(2, "0");
+
   return (
     <section className="pt-20">
       <div className="container mx-auto">
@@ -23,7 +44,9 @@ export default function ContestSpotlights() {
                 <h5 className="text-base sm:text-lg lg:text-xl font-normal text-[#364153]">
                   Participants
                 </h5>
-                <h6 className="text-base sm:text-lg lg:text-xl font-normal text-[#0F172B]">15</h6>
+                <h6 className="text-base sm:text-lg lg:text-xl font-normal text-[#0F172B]">
+                  {participants}
+                </h6>
               </div>
             </div>
             <div className="flex gap-3 sm:gap-4 items-center">
@@ -34,7 +57,9 @@ export default function ContestSpotlights() {
                 <h5 className="text-base sm:text-lg lg:text-xl font-normal text-[#364153]">
                   Advancing
                 </h5>
-                <h6 className="text-base sm:text-lg lg:text-xl font-normal text-[#0F172B]">03 (20%)</h6>
+                <h6 className="text-base sm:text-lg lg:text-xl font-normal text-[#0F172B]">
+                  {advancingLabel}
+                </h6>
               </div>
             </div>
             <div className="flex gap-3 sm:gap-4 items-center">
@@ -46,7 +71,7 @@ export default function ContestSpotlights() {
                   Time Left
                 </h5>
                 <h6 className="text-base sm:text-lg lg:text-xl font-normal text-[#0F172B]">
-                  1 weeks 2 days
+                  {timeLeft || "—"}
                 </h6>
               </div>
             </div>

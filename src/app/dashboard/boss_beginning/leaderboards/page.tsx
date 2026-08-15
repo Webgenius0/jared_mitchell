@@ -179,13 +179,15 @@ export default function Page() {
               No spotlights found.
             </div>
           ) : (
-            <table className="w-full min-w-[720px] border-collapse">
+            <table className="w-full min-w-[720px] border-collapse table-fixed">
               <thead>
                 <tr className="bg-slate-50">
                   {columns.map(col => (
                     <th
                       key={col}
-                      className="text-left text-xs md:text-sm font-medium text-slate-500 px-5 md:px-6 py-3 md:py-4 whitespace-nowrap"
+                      className={`${
+                        col === "Actions" ? "text-right" : "text-left"
+                      } text-xs md:text-sm font-medium text-slate-500 px-5 md:px-6 py-3 md:py-4 whitespace-nowrap`}
                     >
                       {col}
                     </th>
@@ -198,10 +200,10 @@ export default function Page() {
                     key={s.id}
                     className="hover:bg-slate-50/60 transition-colors"
                   >
-                    <td className="px-5 md:px-6 py-3.5 md:py-4 text-sm md:text-base text-slate-800 whitespace-nowrap">
+                    <td className="px-5 md:px-6 py-3.5 md:py-4 text-sm md:text-base text-slate-800 truncate">
                       {s.businessName}
                     </td>
-                    <td className="px-5 md:px-6 py-3.5 md:py-4 text-sm md:text-base text-slate-600 whitespace-nowrap">
+                    <td className="px-5 md:px-6 py-3.5 md:py-4 text-sm md:text-base text-slate-600 truncate">
                       {s.ownerName}
                     </td>
                     <td className="px-5 md:px-6 py-3.5 md:py-4 whitespace-nowrap">
@@ -214,7 +216,7 @@ export default function Page() {
                       {s.date}
                     </td>
                     <td className="px-5 md:px-6 py-3.5 md:py-4 whitespace-nowrap">
-                      <div className="flex items-center gap-2 md:gap-3">
+                      <div className="flex items-center justify-end gap-2 md:gap-3">
                         <button
                           type="button"
                           title="View"

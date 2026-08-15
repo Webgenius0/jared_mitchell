@@ -12,10 +12,27 @@ import ContestTable from "./Components/ContestTable";
 import Sponsors from "../_components/Sponsors";
 import NewsLetter from "@/Components/Common/NewsLetter";
 
+// Format remaining voting time as "1 week 2 days"-style text. Returns null
+// when there's no end date or voting has already ended.
+const formatTimeLeft = (endsAt?: string | null): string | null => {
+  if (!endsAt) return null;
+  const end = new Date(endsAt).getTime();
+  if (Number.isNaN(end)) return null;
+  const diffMs = end - Date.now();
+  if (diffMs <= 0) return null;
+  const totalDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+  const weeks = Math.floor(totalDays / 7);
+  const days = totalDays % 7;
+  if (weeks > 0 && days > 0) {
+    return `${weeks} week${weeks > 1 ? "s" : ""} ${days} day${days > 1 ? "s" : ""}`;
+  }
+  if (weeks > 0) return `${weeks} week${weeks > 1 ? "s" : ""}`;
+  return `${days} day${days > 1 ? "s" : ""}`;
+};
+
 const page = async () => {
   const pageData = (await getBossCms()) as CMSBossBeginnings;
   const cmsData = await getCMSHomepageData();
-
 
   let weekId: number | null = null;
   try {
@@ -64,10 +81,28 @@ const page = async () => {
     rank: index + 1,
   }));
 
+  // Spotlight stats — derived from live week/leaderboard data so the
+  // dashboard cards never show fabricated numbers.
+  const participants = leaderboard.length;
+  const advancing = leaderboard.filter(e => e.is_winner).length;
+  const advancingPct =
+    participants > 0 && advancing > 0
+      ? Math.round((advancing / participants) * 100)
+      : null;
+  const timeLeft = formatTimeLeft(week?.voting_ends_at);
+
   return (
     <div>
       <ContestBanner data={pageData?.boss_beginnings_hero} />
-      <ContestSpotlights />
+      <div className="pb-10">
+        <ContestSpotlights
+          participants={participants}
+          advancing={advancing}
+          advancingPct={advancingPct}
+          timeLeft={timeLeft}
+        />
+      </div>
+
       <ContestTable
         leaderboard={leaderboard}
         weekStatus={week?.status ?? "unknown"}
