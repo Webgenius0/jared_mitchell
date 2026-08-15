@@ -298,20 +298,13 @@ const BusinessChosenChart = ({
     roundData ?? null,
   );
   const [noActiveRound, setNoActiveRound] = useState(false);
-
-  // Adopt leaderboard data pushed from the server component prop. The fresh
-  // server data is authoritative (interactions are reversible), so incoming
-  // values win; previous client-side values only fill in missing fields.
   useEffect(() => {
     if (!roundData) return;
     setLiveData(prev => mergeLeaderboardData(prev, roundData));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [roundData]);
 
-  // Self-fetch the leaderboard when the server didn't provide data — stale ISR
-  // snapshots, failed server-side fetches, or a build-time render with no
-  // season must not silently hide this section. The show/hide decision is made
-  // from live data on the client instead of whatever was baked into the HTML.
+
   useEffect(() => {
     if (roundData) return;
     let cancelled = false;
@@ -365,9 +358,8 @@ const BusinessChosenChart = ({
         const res = await getRoundLeaderboard(currentRoundData.round_id, {
           noCache: true,
         });
-        // Merge with the fresh server data — the refetch (noCache) is
-        // authoritative and interactions are reversible, so its values
-        // always win over the previous snapshot.
+
+        
         if (res?.data) {
           setLiveData(prev => mergeLeaderboardData(prev, res.data));
         }
@@ -389,12 +381,6 @@ const BusinessChosenChart = ({
   }
 
   if (!currentRoundData) {
-    return null;
-  }
-
-  // Hide this section entirely while the contest is in round 2
-  // (business decision — leaderboard/cards are not shown that round).
-  if (currentRoundData.round.round_number === 2) {
     return null;
   }
 
@@ -482,22 +468,24 @@ const BusinessChosenChart = ({
           </div>
         )}
 
-        {/* Point rules */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mt-12 max-w-4xl mx-auto">
-          {pointRules.map(rule => (
-            <div
-              key={rule.label}
-              className="border border-slate-200 rounded-2xl p-6 flex flex-col items-center text-center"
-            >
-              <div className="size-12 rounded-full bg-blue-100 text-blue-500 grid place-items-center text-xl mb-3">
-                {rule.icon}
+        {/* Point rules — shown only during round 1 (the community voting round) */}
+        {roundNumber === 1 && (
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mt-12 max-w-4xl mx-auto">
+            {pointRules.map(rule => (
+              <div
+                key={rule.label}
+                className="border border-slate-200 rounded-2xl p-6 flex flex-col items-center text-center"
+              >
+                <div className="size-12 rounded-full bg-blue-100 text-blue-500 grid place-items-center text-xl mb-3">
+                  {rule.icon}
+                </div>
+                <p className="font-medium text-slate-700">{rule.label}</p>
+                <p className="text-2xl font-bold mt-1">{rule.points} PT</p>
+                <p className="text-sm text-slate-500 mt-1">{rule.frequency}</p>
               </div>
-              <p className="font-medium text-slate-700">{rule.label}</p>
-              <p className="text-2xl font-bold mt-1">{rule.points} PT</p>
-              <p className="text-sm text-slate-500 mt-1">{rule.frequency}</p>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
       </div>
 
       {paginated ? (

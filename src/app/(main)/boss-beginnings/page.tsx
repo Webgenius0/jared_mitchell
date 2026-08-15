@@ -28,7 +28,7 @@ const page = async () => {
     const activeSeasonRes = await getActiveSeasonRounds();
     const rounds = activeSeasonRes?.data?.rounds ?? [];
     const activeRound = rounds.find(r => r.is_active) ?? null;
-    if (activeRound && activeRound.round_number !== 2) {
+    if (activeRound) {
       activeRoundId = activeRound.id;
 
       const leaderboardRes = await getRoundLeaderboard(activeRound.id, {

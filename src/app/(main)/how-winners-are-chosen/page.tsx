@@ -17,18 +17,17 @@ const page = async () => {
   const CmsData = await getCMSAboutData();
 
   // The "How Winners Are Chosen" BusinessChosenChart section renders while the
-  // contest is open, except during Round 2 (business decision — the cards
-  // aren't shown that round). roundData is a best-effort optimization: when
-  // the server-side fetch fails or the page is served from a stale ISR
-  // snapshot, the client component self-fetches using roundId, so the section
-  // appears whenever a round is actually open.
+  // contest is open. roundData is a best-effort optimization: when the
+  // server-side fetch fails or the page is served from a stale ISR snapshot,
+  // the client component self-fetches using roundId, so the section appears
+  // whenever a round is actually open.
   let roundLeaderboard = null;
   let activeRoundId: number | null = null;
   try {
     const activeSeasonRes = await getActiveSeasonRounds();
     const rounds = activeSeasonRes?.data?.rounds ?? [];
     const activeRound = rounds.find(r => r.is_active) ?? null;
-    if (activeRound && activeRound.round_number !== 2) {
+    if (activeRound) {
       activeRoundId = activeRound.id;
       // noCache so the card points/counts always match the live API instead of
       // serving an up-to-60s stale ISR snapshot while users are voting.
