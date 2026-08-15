@@ -96,14 +96,12 @@ export default function RoundAssetsSubmission({
     submissionType.includes("multi");
 
   // Build the file-picker accept string + helper label from the round rules.
+  // Rounds 2–5 accept videos only — images are intentionally excluded.
   const acceptTypes = [
-    "image/*",
     ...(videoAllowed ? ["video/*"] : []),
     ...docFormats,
   ].join(",");
   const formatLabel = [
-    "PNG",
-    "JPG",
     ...(videoAllowed ? ["MP4"] : []),
     ...docFormats.map(f => f.replace(/^.*\//, "").toUpperCase()),
   ].join(", ");
@@ -222,7 +220,11 @@ export default function RoundAssetsSubmission({
   }, []);
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const selected = Array.from(e.target.files ?? []);
+    // Rounds 2–5 are video-only — drop any image files (e.g. chosen via the
+    // picker's "All files" option or drag-and-drop).
+    const selected = Array.from(e.target.files ?? []).filter(
+      file => !file.type.startsWith("image/"),
+    );
     if (!selected.length) return;
 
     if (!multiple) {
@@ -450,12 +452,12 @@ export default function RoundAssetsSubmission({
         </div>
       )}
 
-      {/* Photo/Video upload — always shown, like a new-video upload. If the
+      {/* Video upload — always shown, like a new-video upload. If the
           user already submitted, the existing video appears as the default
           value and can be replaced with a new upload. */}
       <div>
         <label className="block text-sm md:text-base font-medium text-slate-800 mb-2">
-          Photo/Video
+          Upload Video
           {!hasSubmission && <span className="text-red-500">*</span>}
         </label>
 
@@ -573,7 +575,7 @@ export default function RoundAssetsSubmission({
               ? "Add more files"
               : hasSubmission
                 ? "Click to choose a new video"
-                : "Click to upload image or video"}
+                : "Click to upload video"}
           </span>
           <span className="text-xs md:text-sm text-slate-400">
             {hasSubmission && files.length === 0

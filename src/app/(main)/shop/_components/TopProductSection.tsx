@@ -101,10 +101,17 @@ export default function TopProductSection({
           <h1 className="text-5xl font-semibold font-sf text-black tracking-tight mb-2 capitalize">
             {product.title}
           </h1>
-          <p className="text-xl text-gray-500 leading-relaxed">
-            {product.shortDescription ||
-              "Premium quality that represents the culture."}
-          </p>
+          <div className="text-xl text-gray-500 leading-relaxed">
+            {product.longDescription ? (
+              <div
+                dangerouslySetInnerHTML={{
+                  __html: product.longDescription,
+                }}
+              />
+            ) : (
+              <p>Premium quality that represents the culture.</p>
+            )}
+          </div>
         </div>
 
         {/* Pricing */}

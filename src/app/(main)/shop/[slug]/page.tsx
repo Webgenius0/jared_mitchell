@@ -193,6 +193,7 @@ export default function ProductDetailsPage() {
         {suggestedProducts.length > 0 && (
           <SuggestedSection
             suggestedProducts={suggestedProducts.map((item: any) => ({
+              
               id: String(item.id),
               slug: item.slug,
               title: item.name,
