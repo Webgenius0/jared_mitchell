@@ -149,6 +149,20 @@ const StepOne = () => {
               placeholder="01/01/25"
               {...register("date_of_birth", {
                 required: "Date of Birth is required",
+                validate: (value: string) => {
+                  if (!value) return true; // let `required` handle empty
+                  const dob = new Date(value);
+                  const today = new Date();
+                  let age = today.getFullYear() - dob.getFullYear();
+                  const m = today.getMonth() - dob.getMonth();
+                  if (m < 0 || (m === 0 && today.getDate() < dob.getDate())) {
+                    age--;
+                  }
+                  return (
+                    age >= 18 ||
+                    "You must be at least 18 years old to submit a spotlight."
+                  );
+                },
               })}
             />
           </div>

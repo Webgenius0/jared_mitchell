@@ -1,7 +1,7 @@
 "use client";
 import { useState, useMemo } from "react";
 import { useRouter } from "next/navigation";
-import { FiEye, FiUsers } from "react-icons/fi";
+import { FiEye, FiUsers, FiInbox } from "react-icons/fi";
 import { PiSuitcaseSimple, PiPalette } from "react-icons/pi";
 import type { LeaderboardEntry } from "@/Types/cms";
 
@@ -26,18 +26,27 @@ const TAB_CONTENT = {
     description:
       "Browse all businesses and artists competing in this season's spotlight contest. Vote for your favorites and help them rise to the top.",
     totalLabel: "Total Contestants",
+    emptyTitle: "No contestants yet",
+    emptyDescription:
+      "There are no contestants to show right now. Check back soon.",
   },
   business: {
     title: "Business Spotlights",
     description:
       "Discover innovative local businesses making an impact in their communities. Support them with your votes and engagement.",
     totalLabel: "Total Businesses",
+    emptyTitle: "No business spotlights yet",
+    emptyDescription:
+      "No businesses have entered this category yet. Check back soon.",
   },
   artist: {
     title: "Artist Spotlights",
     description:
       "Explore talented artists showcasing their craft. From visual arts to performing arts — discover and support creative excellence.",
     totalLabel: "Total Artists",
+    emptyTitle: "No artist spotlights yet",
+    emptyDescription:
+      "No artists have entered this category yet. Check back soon.",
   },
 } as const;
 
@@ -61,12 +70,13 @@ export default function ContestTable({
     () =>
       activeTab === "all"
         ? leaderboard
-        : leaderboard.filter((c) => c.spotlight.type === activeTab),
+        : leaderboard.filter(c => c.spotlight.type === activeTab),
     [activeTab, leaderboard],
   );
 
   const tabContent = TAB_CONTENT[activeTab];
-  const TabIcon = TABS.find((t) => t.key === activeTab)!.icon;
+  const TabIcon = TABS.find(t => t.key === activeTab)!.icon;
+  const isEmpty = filtered.length === 0;
 
   const handleViewProfile = (spotlightId: number, type: string) => {
     router.push(`/contest/${spotlightId}?type=${type}`);
@@ -75,7 +85,7 @@ export default function ContestTable({
   return (
     <div className="container mx-auto">
       {/* Voting Status Banner */}
-      <div
+      {/* <div
         className={`rounded-2xl border p-4 sm:p-5 my-6 sm:my-8 flex items-center justify-between ${
           isVotingOpen
             ? "bg-emerald-50 border-emerald-200"
@@ -98,11 +108,11 @@ export default function ContestTable({
           Status:{" "}
           <span className="capitalize">{weekStatus.replace(/_/g, " ")}</span>
         </span>
-      </div>
+      </div> */}
 
       {/* Tabs */}
       <div className="rounded-2xl border border-black/15 bg-white shadow-[0_4px_20px_0_rgba(0,0,0,0.07)] p-3 sm:p-5 flex flex-wrap gap-2 mb-6 sm:mb-8">
-        {TABS.map((tab) => {
+        {TABS.map(tab => {
           const Icon = tab.icon;
           return (
             <button
@@ -145,89 +155,103 @@ export default function ContestTable({
         </div>
       </div>
 
-      {/* Table */}
-      <div className="bg-white border border-gray-100 shadow-sm overflow-hidden">
-        <div className="overflow-x-auto">
-          <table className="w-full min-w-[500px] sm:min-w-[720px] table-fixed">
-            <thead>
-              <tr className="bg-blue-600 text-white text-sm sm:text-base">
-                <th className="text-left font-medium px-3 sm:px-4 lg:px-6 py-3 sm:py-4 w-1/4">
-                  Rank
-                </th>
-                <th className="text-left font-medium px-3 sm:px-4 lg:px-6 py-3 sm:py-4 w-1/4">
-                  Name
-                </th>
-                <th className="text-center font-medium px-3 sm:px-4 lg:px-6 py-3 sm:py-4 w-1/4">
-                  Total Score
-                </th>
-                <th className="text-end font-medium px-3 sm:px-4 lg:px-6 py-3 sm:py-4 w-1/4">
-                  Action
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {filtered.map((c, idx) => (
-                <tr
-                  key={c.nominee_id}
-                  className={`text-sm sm:text-base ${
-                    idx !== filtered.length - 1
-                      ? "border-b border-gray-100"
-                      : ""
-                  } hover:bg-gray-50 transition-colors`}
-                >
-                  <td className="px-3 sm:px-4 lg:px-6 py-3 sm:py-4">
-                    <div className="flex items-center gap-2">
-                      <span
-                        className={`inline-flex items-center justify-center h-7 w-7 sm:h-8 sm:w-8 rounded-lg text-[10px] sm:text-xs font-semibold ${rankBadgeStyle(
-                          c.rank,
-                        )}`}
-                      >
-                        #{c.rank}
-                      </span>
-                      <span className="text-[10px] sm:text-xs text-gray-400 uppercase tracking-wider">
-                        {c.spotlight.type}
-                      </span>
-                    </div>
-                  </td>
-                  <td className="px-3 sm:px-4 lg:px-6 py-3 sm:py-4">
-                    <div className="font-medium text-gray-900 text-sm sm:text-base">
-                      {c.spotlight.name}
-                    </div>
-                    <div className="text-gray-400 text-[10px] sm:text-xs">
-                      {c.spotlight.city}, {c.spotlight.state}
-                    </div>
-                    <div className="text-gray-400 text-[10px] sm:text-xs">
-                      {c.owner.name}
-                    </div>
-                  </td>
-                  <td className="px-3 sm:px-4 lg:px-6 py-3 sm:py-4 text-center">
-                    <div className="text-blue-600 font-semibold text-sm sm:text-base">
-                      {c.total_votes.toLocaleString()}
-                    </div>
-                    <div className="text-gray-400 text-[10px] sm:text-xs">
-                      votes
-                    </div>
-                  </td>
-                  <td className="px-3 sm:px-4 lg:px-6 py-3 sm:py-4 text-end">
-                    <button
-                      onClick={() =>
-                        handleViewProfile(c.spotlight.id, c.spotlight.type)
-                      }
-                      className="inline-flex items-center gap-1.5 bg-blue-600 hover:bg-blue-700 text-white text-[10px] sm:text-xs font-medium px-2.5 sm:px-4 py-1.5 sm:py-2 rounded-sm transition-colors whitespace-nowrap"
-                    >
-                      <FiEye className="h-3 w-3 sm:h-3.5 sm:w-3.5" />
-                      Profile
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+      {/* Table or Empty state */}
+      {isEmpty ? (
+        <div className="bg-white border border-gray-100 shadow-sm rounded-2xl flex flex-col items-center justify-center text-center py-16 px-6">
+          <div className="w-14 h-14 rounded-full bg-blue-50 flex items-center justify-center mb-4">
+            <FiInbox className="size-6 text-blue-600" />
+          </div>
+          <h4 className="text-base sm:text-lg font-semibold text-[#101828] mb-1">
+            {tabContent.emptyTitle}
+          </h4>
+          <p className="text-sm text-black/50 max-w-sm">
+            {tabContent.emptyDescription}
+          </p>
         </div>
-      </div>
+      ) : (
+        <div className="bg-white border border-gray-100 shadow-sm overflow-hidden">
+          <div className="overflow-x-auto">
+            <table className="w-full min-w-[500px] sm:min-w-[720px] table-fixed">
+              <thead>
+                <tr className="bg-blue-600 text-white text-sm sm:text-base">
+                  <th className="text-left font-medium px-3 sm:px-4 lg:px-6 py-3 sm:py-4 w-1/4">
+                    Rank
+                  </th>
+                  <th className="text-left font-medium px-3 sm:px-4 lg:px-6 py-3 sm:py-4 w-1/4">
+                    Name
+                  </th>
+                  <th className="text-center font-medium px-3 sm:px-4 lg:px-6 py-3 sm:py-4 w-1/4">
+                    Total Score
+                  </th>
+                  <th className="text-end font-medium px-3 sm:px-4 lg:px-6 py-3 sm:py-4 w-1/4">
+                    Action
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {filtered.map((c, idx) => (
+                  <tr
+                    key={c.nominee_id}
+                    className={`text-sm sm:text-base ${
+                      idx !== filtered.length - 1
+                        ? "border-b border-gray-100"
+                        : ""
+                    } hover:bg-gray-50 transition-colors`}
+                  >
+                    <td className="px-3 sm:px-4 lg:px-6 py-3 sm:py-4">
+                      <div className="flex items-center gap-2">
+                        <span
+                          className={`inline-flex items-center justify-center h-7 w-7 sm:h-8 sm:w-8 rounded-lg text-[10px] sm:text-xs font-semibold ${rankBadgeStyle(
+                            c.rank,
+                          )}`}
+                        >
+                          #{c.rank}
+                        </span>
+                        <span className="text-[10px] sm:text-xs text-gray-400 uppercase tracking-wider">
+                          {c.spotlight.type}
+                        </span>
+                      </div>
+                    </td>
+                    <td className="px-3 sm:px-4 lg:px-6 py-3 sm:py-4">
+                      <div className="font-medium text-gray-900 text-sm sm:text-base">
+                        {c.spotlight.name}
+                      </div>
+                      <div className="text-gray-400 text-[10px] sm:text-xs">
+                        {c.spotlight.city}, {c.spotlight.state}
+                      </div>
+                      <div className="text-gray-400 text-[10px] sm:text-xs">
+                        {c.owner.name}
+                      </div>
+                    </td>
+                    <td className="px-3 sm:px-4 lg:px-6 py-3 sm:py-4 text-center">
+                      <div className="text-blue-600 font-semibold text-sm sm:text-base">
+                        {c.total_votes.toLocaleString()}
+                      </div>
+                      <div className="text-gray-400 text-[10px] sm:text-xs">
+                        votes
+                      </div>
+                    </td>
+                    <td className="px-3 sm:px-4 lg:px-6 py-3 sm:py-4 text-end">
+                      <button
+                        onClick={() =>
+                          handleViewProfile(c.spotlight.id, c.spotlight.type)
+                        }
+                        className="inline-flex items-center gap-1.5 bg-blue-600 hover:bg-blue-700 text-white text-[10px] sm:text-xs font-medium px-2.5 sm:px-4 py-1.5 sm:py-2 rounded-sm transition-colors whitespace-nowrap"
+                      >
+                        <FiEye className="h-3 w-3 sm:h-3.5 sm:w-3.5" />
+                        Profile
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
 
       {/* Winner indicator */}
-      {filtered.some((e) => e.is_winner) && (
+      {filtered.some(e => e.is_winner) && (
         <div className="mt-4 p-3 bg-gradient-to-r from-amber-50 to-yellow-50 border border-amber-200 rounded-lg text-center">
           <span className="text-amber-700 font-medium text-sm">
             🏆 Winners have been announced for this week!
