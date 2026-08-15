@@ -7,8 +7,11 @@ const StepFive = () => {
     formState: { errors },
   } = useFormContext();
 
-  const selected = useWatch({ name: "artistCategory" }) || [];
-  const isChecked = (value: any) => selected?.includes(value);
+  const publicRelease = useWatch({ name: "consent_public_release" });
+  const ownershipDeclaration = useWatch({
+    name: "consent_ownership_declaration",
+  });
+  const interviewPermission = useWatch({ name: "consent_interview_permission" });
 
   return (
     <div className="step_box">
@@ -37,7 +40,7 @@ const StepFive = () => {
           {/* Checkbox 1 */}
           <label
             className={`border shadow py-3 px-4 rounded-lg flex flex-col gap-2 cursor-pointer transition-all ${
-              isChecked("public_release")
+              publicRelease
                 ? "border-primary-blue bg-[#EFF6FF]"
                 : "border-gray-100 hover:border-primary-blue bg-white"
             }`}
@@ -46,7 +49,9 @@ const StepFive = () => {
               <input
                 type="checkbox"
                 className="size-4"
-                {...register("consent_public_release")}
+                {...register("consent_public_release", {
+                  required: "You must consent to the public release agreement.",
+                })}
               />
 
               <h3 className="text-xl font-medium">Public Release Agreement</h3>
@@ -57,11 +62,16 @@ const StepFive = () => {
               likeness across platforms.
             </p>
           </label>
+          {errors.consent_public_release?.message && (
+            <p className="text-red-500 text-sm mt-1">
+              {errors.consent_public_release.message as string}
+            </p>
+          )}
 
           {/* Checkbox 2 */}
           <label
             className={`border shadow py-3 px-4 rounded-lg flex flex-col gap-2 cursor-pointer transition-all ${
-              isChecked("ownership")
+              ownershipDeclaration
                 ? "border-primary-blue bg-[#EFF6FF]"
                 : "border-gray-100 hover:border-primary-blue bg-white"
             }`}
@@ -70,7 +80,9 @@ const StepFive = () => {
               <input
                 type="checkbox"
                 className="size-4"
-                {...register("consent_ownership_declaration")}
+                {...register("consent_ownership_declaration", {
+                  required: "You must declare ownership of your work.",
+                })}
               />
 
               <h3 className="text-xl font-medium">Ownership Declaration</h3>
@@ -81,11 +93,16 @@ const StepFive = () => {
               share it.
             </p>
           </label>
+          {errors.consent_ownership_declaration?.message && (
+            <p className="text-red-500 text-sm mt-1">
+              {errors.consent_ownership_declaration.message as string}
+            </p>
+          )}
 
           {/* Checkbox 3 */}
           <label
             className={`border shadow py-3 px-4 rounded-lg flex flex-col gap-2 cursor-pointer transition-all ${
-              isChecked("interview")
+              interviewPermission
                 ? "border-primary-blue bg-[#EFF6FF]"
                 : "border-gray-100 hover:border-primary-blue bg-white"
             }`}
@@ -94,7 +111,9 @@ const StepFive = () => {
               <input
                 type="checkbox"
                 className="size-4"
-                {...register("consent_interview_permission")}
+                {...register("consent_interview_permission", {
+                  required: "You must grant permission for an interview.",
+                })}
               />
 
               <h3 className="text-xl font-medium">Interview Permission</h3>
@@ -105,6 +124,11 @@ const StepFive = () => {
               them.
             </p>
           </label>
+          {errors.consent_interview_permission?.message && (
+            <p className="text-red-500 text-sm mt-1">
+              {errors.consent_interview_permission.message as string}
+            </p>
+          )}
         </div>
       </div>
     </div>

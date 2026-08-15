@@ -22,6 +22,31 @@ const StepFour = () => {
   });
   const existingIntroVideo = useWatch({ name: "existing_intro_video" });
 
+  /* File inputs lose their DOM value when the step unmounts/remounts (navigating
+     to a previous step and back), so react-hook-form's `required` rule fails even
+     though a file was already selected and is still stored in form state.
+     We clear `required` and validate against the stored value instead.
+     `existingCount` = how many images already exist (edit mode), `minCount` =
+     the minimum number of images required (e.g. 3 for artwork photos). */
+  const requiredRule = (
+    message: string,
+    existingCount: number,
+    minCount = 1,
+  ): any => ({
+    required: false,
+    validate: (value: unknown) => {
+      const newCount =
+        value instanceof FileList
+          ? value.length
+          : Array.isArray(value)
+            ? value.length
+            : 0;
+      // Newly uploaded files replace the existing set
+      const total = newCount > 0 ? newCount : existingCount;
+      return total >= minCount ? true : message;
+    },
+  });
+
   return (
     <div className="step_box">
       <h2 className="text-3xl font-semibold mb-2">Media Uploads</h2>
@@ -71,11 +96,13 @@ const StepFour = () => {
               type="file"
               id="headshot"
               className="hidden"
-              {...register("headshot", {
-                required: existingHeadshot
-                  ? false
-                  : "Owner portrait is required",
-              })}
+              {...register(
+                "headshot",
+                requiredRule(
+                  "Owner portrait is required",
+                  existingHeadshot ? 1 : 0,
+                ),
+              )}
               onChange={e => {
                 register("headshot").onChange(e);
               }}
@@ -156,12 +183,14 @@ const StepFour = () => {
               id="artwork_photos"
               multiple
               className="hidden"
-              {...register("artwork_photos", {
-                required:
-                  existingArtworkPhotos.length > 0
-                    ? false
-                    : "Workspace photo is required",
-              })}
+              {...register(
+                "artwork_photos",
+                requiredRule(
+                  "Please upload at least 3 photos of your artwork.",
+                  existingArtworkPhotos.length,
+                  3,
+                ),
+              )}
               onChange={e => {
                 register("artwork_photos").onChange(e);
               }}
@@ -234,11 +263,13 @@ const StepFour = () => {
               type="file"
               id="behind_scenes_photo"
               className="hidden"
-              {...register("behind_scenes_photo", {
-                required: existingBehindScenes
-                  ? false
-                  : "Product photo is required",
-              })}
+              {...register(
+                "behind_scenes_photo",
+                requiredRule(
+                  "Product photo is required",
+                  existingBehindScenes ? 1 : 0,
+                ),
+              )}
               onChange={e => {
                 register("behind_scenes_photo").onChange(e);
               }}
@@ -310,9 +341,10 @@ const StepFour = () => {
               accept="video/mp4"
               id="intro_video"
               className="hidden"
-              {...register("intro_video", {
-                required: existingIntroVideo ? false : "Team photo is required",
-              })}
+              {...register(
+                "intro_video",
+                requiredRule("Team photo is required", existingIntroVideo ? 1 : 0),
+              )}
               onChange={e => {
                 register("intro_video").onChange(e);
               }}
@@ -340,7 +372,7 @@ const StepFour = () => {
                 </h4>
               )}
 
-              <p className="text-gray-500 -mt-1">PNG, JPG up to 10MB</p>
+              {/* <p className="text-gray-500 -mt-1">PNG, JPG up to 10MB</p> */}
             </div>
           </label>
         </div>

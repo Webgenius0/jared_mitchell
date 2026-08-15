@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { Check, Loader2, Send } from "lucide-react";
+import { Check, Loader2, Lock, Send } from "lucide-react";
 import toast from "react-hot-toast";
 import { submitRoundVotes } from "@/lib/Services/cms_service";
 import { getApiErrorMessage } from "@/utils/getApiErrorMessage";
@@ -65,9 +65,16 @@ interface RatingRowProps {
   question: Question;
   selected?: number;
   onSelect: (value: number) => void;
+  /** When true the scale is read-only (e.g. no video submission yet) */
+  disabled?: boolean;
 }
 
-const RatingRow = ({ question, selected, onSelect }: RatingRowProps) => {
+const RatingRow = ({
+  question,
+  selected,
+  onSelect,
+  disabled = false,
+}: RatingRowProps) => {
   const tagByPosition = new Map(question.tags.map(t => [t.position, t]));
 
   return (
@@ -84,12 +91,15 @@ const RatingRow = ({ question, selected, onSelect }: RatingRowProps) => {
               <button
                 type="button"
                 onClick={() => onSelect(n)}
+                disabled={disabled}
                 aria-pressed={selected === n}
                 aria-label={`${question.title} — score ${n} out of 10`}
                 className={`flex items-center justify-center w-4 h-4 md:w-6 md:h-6 rounded-full border transition-all duration-150 ${
                   selected === n
                     ? "bg-blue-600 border-blue-600 text-white scale-110 shadow-sm"
-                    : "border-gray-300 text-transparent hover:border-blue-400 hover:bg-blue-50 cursor-pointer"
+                    : disabled
+                      ? "border-gray-200 text-transparent opacity-50 cursor-not-allowed"
+                      : "border-gray-300 text-transparent hover:border-blue-400 hover:bg-blue-50 cursor-pointer"
                 }`}
               >
                 {selected === n && (
@@ -156,24 +166,32 @@ interface RoundStepProps {
   roundId?: number;
   /** Contestant being evaluated */
   contestantId?: number;
+  /** Whether the contestant's video submission is available — ratings stay
+   * locked until it appears. */
+  videoAvailable?: boolean;
 }
 
-const RoundStep = ({ roundId, contestantId }: RoundStepProps) => {
+const RoundStep = ({ roundId, contestantId, videoAvailable }: RoundStepProps) => {
   const [selections, setSelections] = useState<Record<number, number>>({});
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
   const isEvaluation =
     roundId != null && contestantId != null && contestantId > 0;
+  // Ratings can only be given once the contestant's video is available.
+  const isLocked = videoAvailable === false;
   const answeredCount = QUESTIONS.reduce(
     (count, _, i) => count + (selections[i] != null ? 1 : 0),
     0,
   );
   const canSubmit =
-    isEvaluation && answeredCount === QUESTIONS.length && !submitted;
+    isEvaluation &&
+    answeredCount === QUESTIONS.length &&
+    !submitted &&
+    !isLocked;
 
   const handleSelect = (qIndex: number, value: number) => {
-    if (submitted) return;
+    if (submitted || isLocked) return;
     setSelections(prev => ({ ...prev, [qIndex]: value }));
   };
 
@@ -216,12 +234,27 @@ const RoundStep = ({ roundId, contestantId }: RoundStepProps) => {
             </span>
           </div>
         )}
+        {isEvaluation && isLocked && (
+          <div className="flex items-start gap-3 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3">
+            <Lock className="size-5 text-amber-600 shrink-0 mt-0.5" />
+            <div>
+              <p className="text-sm font-medium text-amber-800">
+                Ratings are locked
+              </p>
+              <p className="text-sm text-amber-700 mt-0.5">
+                This contestant's video submission isn't available yet.
+                You'll be able to rate them as soon as the video is posted.
+              </p>
+            </div>
+          </div>
+        )}
         {QUESTIONS.map((q, i) => (
           <RatingRow
             key={i}
             question={q}
             selected={selections[i]}
             onSelect={value => handleSelect(i, value)}
+            disabled={isLocked}
           />
         ))}
         {isEvaluation && (

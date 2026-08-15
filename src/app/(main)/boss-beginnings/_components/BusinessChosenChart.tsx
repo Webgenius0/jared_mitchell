@@ -298,20 +298,13 @@ const BusinessChosenChart = ({
     roundData ?? null,
   );
   const [noActiveRound, setNoActiveRound] = useState(false);
-
-  // Adopt leaderboard data pushed from the server component prop. The fresh
-  // server data is authoritative (interactions are reversible), so incoming
-  // values win; previous client-side values only fill in missing fields.
   useEffect(() => {
     if (!roundData) return;
     setLiveData(prev => mergeLeaderboardData(prev, roundData));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [roundData]);
 
-  // Self-fetch the leaderboard when the server didn't provide data — stale ISR
-  // snapshots, failed server-side fetches, or a build-time render with no
-  // season must not silently hide this section. The show/hide decision is made
-  // from live data on the client instead of whatever was baked into the HTML.
+
   useEffect(() => {
     if (roundData) return;
     let cancelled = false;
@@ -365,9 +358,8 @@ const BusinessChosenChart = ({
         const res = await getRoundLeaderboard(currentRoundData.round_id, {
           noCache: true,
         });
-        // Merge with the fresh server data — the refetch (noCache) is
-        // authoritative and interactions are reversible, so its values
-        // always win over the previous snapshot.
+
+        
         if (res?.data) {
           setLiveData(prev => mergeLeaderboardData(prev, res.data));
         }
@@ -392,11 +384,7 @@ const BusinessChosenChart = ({
     return null;
   }
 
-  // Hide this section entirely while the contest is in round 2
-  // (business decision — leaderboard/cards are not shown that round).
-  if (currentRoundData.round.round_number === 2) {
-    return null;
-  }
+  const roundNumber = currentRoundData.round.round_number;
 
   const businesses: BusinessCard[] = currentRoundData.entries.map(entry => {
     const rawImage =
@@ -480,22 +468,24 @@ const BusinessChosenChart = ({
           </div>
         )}
 
-        {/* Point rules */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mt-12 max-w-4xl mx-auto">
-          {pointRules.map(rule => (
-            <div
-              key={rule.label}
-              className="border border-slate-200 rounded-2xl p-6 flex flex-col items-center text-center"
-            >
-              <div className="size-12 rounded-full bg-blue-100 text-blue-500 grid place-items-center text-xl mb-3">
-                {rule.icon}
+        {/* Point rules — shown only during round 1 (the community voting round) */}
+        {roundNumber === 1 && (
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mt-12 max-w-4xl mx-auto">
+            {pointRules.map(rule => (
+              <div
+                key={rule.label}
+                className="border border-slate-200 rounded-2xl p-6 flex flex-col items-center text-center"
+              >
+                <div className="size-12 rounded-full bg-blue-100 text-blue-500 grid place-items-center text-xl mb-3">
+                  {rule.icon}
+                </div>
+                <p className="font-medium text-slate-700">{rule.label}</p>
+                <p className="text-2xl font-bold mt-1">{rule.points} PT</p>
+                <p className="text-sm text-slate-500 mt-1">{rule.frequency}</p>
               </div>
-              <p className="font-medium text-slate-700">{rule.label}</p>
-              <p className="text-2xl font-bold mt-1">{rule.points} PT</p>
-              <p className="text-sm text-slate-500 mt-1">{rule.frequency}</p>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
       </div>
 
       {paginated ? (
@@ -507,6 +497,7 @@ const BusinessChosenChart = ({
                   <BusinessCardItem
                     key={biz.id}
                     biz={biz}
+                    roundNumber={roundNumber}
                     onInteractionSuccess={refreshLeaderboard}
                   />
                 ))}
@@ -582,6 +573,7 @@ const BusinessChosenChart = ({
                 >
                   <BusinessCardItem
                     biz={biz}
+                    roundNumber={roundNumber}
                     onInteractionSuccess={refreshLeaderboard}
                   />
                 </li>
@@ -604,11 +596,16 @@ const BusinessChosenChart = ({
 
 const BusinessCardItem = ({
   biz,
+  roundNumber,
   onInteractionSuccess,
 }: {
   biz: BusinessCard;
+  roundNumber: number;
   onInteractionSuccess?: () => void;
 }) => {
+  // Only round 1 (the open qualifier) accepts community interactions — the
+  // clap/love/fire buttons are hidden for rounds 2–5.
+  const showInteractions = roundNumber === 1;
   const clap = useBusinessInteraction({
     apiCall: apiClapBusiness,
     storageKey: CLAPPED_KEY,
@@ -712,48 +709,50 @@ const BusinessCardItem = ({
           )}
         </div>
 
-        {/* Clap / Love / Fire Action buttons */}
-        <div className="grid grid-cols-3 gap-2 mt-3">
-          <ActionButton
-            icon={clap.active ? <HiThumbUp /> : <HiOutlineThumbUp />}
-            label="Clap"
-            count={clap.count}
-            onClick={clap.trigger}
-            loading={clap.loading}
-            loadingColor="text-blue-500 border-blue-200 bg-blue-50"
-            active={clap.active}
-            activeColor="text-blue-500 border-blue-200 bg-blue-50"
-            activeTextColor="text-blue-500"
-            activeHoverColor="hover:bg-blue-50"
-          />
-          <ActionButton
-            icon={love.active ? <HiHeart /> : <HiOutlineHeart />}
-            label="Love"
-            count={love.count}
-            onClick={love.trigger}
-            loading={love.loading}
-            loadingColor="text-rose-500 border-rose-200 bg-rose-50"
-            active={love.active}
-            activeColor="text-rose-500 border-rose-200 bg-rose-50"
-            activeTextColor="text-rose-500"
-            activeHoverColor="hover:bg-rose-50"
-          />
-          <ActionButton
-            icon={fire.active ? <HiFire /> : <HiOutlineFire />}
-            label="Fire"
-            count={fire.count}
-            onClick={fire.trigger}
-            loading={fire.loading}
-            loadingColor="text-orange-500 border-orange-200 bg-orange-50"
-            active={fire.active}
-            activeColor="text-orange-500 border-orange-200 bg-orange-50"
-            activeTextColor="text-orange-500"
-            activeHoverColor="hover:bg-orange-50"
-          />
-        </div>
+        {/* Clap / Love / Fire Action buttons — round 1 only */}
+        {showInteractions && (
+          <div className="grid grid-cols-3 gap-2 mt-3">
+            <ActionButton
+              icon={clap.active ? <HiThumbUp /> : <HiOutlineThumbUp />}
+              label="Clap"
+              count={clap.count}
+              onClick={clap.trigger}
+              loading={clap.loading}
+              loadingColor="text-blue-500 border-blue-200 bg-blue-50"
+              active={clap.active}
+              activeColor="text-blue-500 border-blue-200 bg-blue-50"
+              activeTextColor="text-blue-500"
+              activeHoverColor="hover:bg-blue-50"
+            />
+            <ActionButton
+              icon={love.active ? <HiHeart /> : <HiOutlineHeart />}
+              label="Love"
+              count={love.count}
+              onClick={love.trigger}
+              loading={love.loading}
+              loadingColor="text-rose-500 border-rose-200 bg-rose-50"
+              active={love.active}
+              activeColor="text-rose-500 border-rose-200 bg-rose-50"
+              activeTextColor="text-rose-500"
+              activeHoverColor="hover:bg-rose-50"
+            />
+            <ActionButton
+              icon={fire.active ? <HiFire /> : <HiOutlineFire />}
+              label="Fire"
+              count={fire.count}
+              onClick={fire.trigger}
+              loading={fire.loading}
+              loadingColor="text-orange-500 border-orange-200 bg-orange-50"
+              active={fire.active}
+              activeColor="text-orange-500 border-orange-200 bg-orange-50"
+              activeTextColor="text-orange-500"
+              activeHoverColor="hover:bg-orange-50"
+            />
+          </div>
+        )}
 
         <Link
-          href={`/how-winners-are-chosen/${biz.id}`}
+          href={`/boss-beginnings-contest/profile/round-${roundNumber}/${biz.id}`}
           className="flex justify-center"
         >
           <button className="text-blue-500 text-sm font-normal mt-3 flex items-center gap-1 hover:underline">

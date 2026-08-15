@@ -190,7 +190,7 @@ export default function BusinessSpotlightDetailsContent({
                       {currentVotes.toLocaleString()}
                     </p>
                   </div>
-                  {currentVoteBreakdown && (
+                  {/* {currentVoteBreakdown && (
                     <>
                       <div>
                         <h3 className="text-sm md:text-xl font-bold text-[#364153]">
@@ -209,7 +209,7 @@ export default function BusinessSpotlightDetailsContent({
                         </p>
                       </div>
                     </>
-                  )}
+                  )} */}
                 </div>
               </div>
             </div>
