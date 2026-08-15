@@ -1,7 +1,22 @@
 "use client";
 
 import React from "react";
-import { Eye, Pencil, Loader2, X, Globe, MapPin, Calendar, Heart, Bookmark, Share2, Mail, Phone, Clock, Send } from "lucide-react";
+import {
+  Eye,
+  Pencil,
+  Loader2,
+  X,
+  Globe,
+  MapPin,
+  Calendar,
+  Heart,
+  Bookmark,
+  Share2,
+  Mail,
+  Phone,
+  Clock,
+  Send,
+} from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import {
@@ -10,10 +25,6 @@ import {
 } from "@/Hooks/api/cms_api";
 import Modal from "@/Components/Common/Modal";
 import ApplySpotlightModal from "@/Components/Common/ApplySpotlightModal";
-
-/* ------------------------------------------------------------------ */
-/*  Types                                                              */
-/* ------------------------------------------------------------------ */
 
 interface ApiSpotlight {
   id: number;
@@ -354,15 +365,13 @@ function SpotlightDetailView({
               {images.team_photo && (
                 <ImageCard src={images.team_photo} label="Team" />
               )}
-              {images.product_service_photos?.map(
-                (url: string, i: number) => (
-                  <ImageCard
-                    key={`prod-${i}`}
-                    src={url}
-                    label={`Product ${i + 1}`}
-                  />
-                ),
-              )}
+              {images.product_service_photos?.map((url: string, i: number) => (
+                <ImageCard
+                  key={`prod-${i}`}
+                  src={url}
+                  label={`Product ${i + 1}`}
+                />
+              ))}
             </div>
           </div>
         )}
@@ -462,10 +471,7 @@ function SpotlightDetailView({
             </h3>
             <div className="grid grid-cols-1 gap-4">
               {data.why_featured && (
-                <TextFieldCard
-                  title="Why featured?"
-                  text={data.why_featured}
-                />
+                <TextFieldCard title="Why featured?" text={data.why_featured} />
               )}
               {data.growth_vision && (
                 <TextFieldCard
@@ -491,10 +497,7 @@ function SpotlightDetailView({
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
               {social.instagram_url && (
-                <SocialLink
-                  label="Instagram"
-                  href={social.instagram_url}
-                />
+                <SocialLink label="Instagram" href={social.instagram_url} />
               )}
               {social.facebook_url && (
                 <SocialLink label="Facebook" href={social.facebook_url} />
@@ -629,9 +632,7 @@ function InfoRow({
 }) {
   return (
     <div className="flex items-start gap-2">
-      {icon && (
-        <span className="mt-0.5 text-slate-400 shrink-0">{icon}</span>
-      )}
+      {icon && <span className="mt-0.5 text-slate-400 shrink-0">{icon}</span>}
       <div className="min-w-0">
         <span className="text-xs text-slate-400 block">{label}</span>
         {isLink && value !== "—" ? (
@@ -651,13 +652,7 @@ function InfoRow({
   );
 }
 
-function TextFieldCard({
-  title,
-  text,
-}: {
-  title: string;
-  text: string;
-}) {
+function TextFieldCard({ title, text }: { title: string; text: string }) {
   return (
     <div className="bg-slate-50 rounded-xl p-4 md:p-5 border border-slate-100">
       <h4 className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1.5">
@@ -670,13 +665,7 @@ function TextFieldCard({
   );
 }
 
-function SocialLink({
-  label,
-  href,
-}: {
-  label: string;
-  href: string;
-}) {
+function SocialLink({ label, href }: { label: string; href: string }) {
   return (
     <a
       href={href}

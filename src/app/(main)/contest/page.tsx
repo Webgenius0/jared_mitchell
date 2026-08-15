@@ -16,9 +16,7 @@ const page = async () => {
   const pageData = (await getBossCms()) as CMSBossBeginnings;
   const cmsData = await getCMSHomepageData();
 
-  // Resolve the active spotlight week dynamically. If there's no active
-  // week, weekId stays null and we skip the leaderboard fetch entirely
-  // instead of guessing a hardcoded week number that may not exist.
+
   let weekId: number | null = null;
   try {
     const currentWeek = await getCurrentSpotlightWeek();
