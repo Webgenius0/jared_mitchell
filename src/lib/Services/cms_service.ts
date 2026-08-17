@@ -553,10 +553,6 @@ export const getLeaderboard = async (
   const result = await res.json();
   return result as LeaderboardResponse;
 };
-// Get live streams (AWS IVS channels) for a given tag type.
-// GET /v1/live-streams
-// Streams of every status are returned; getFeaturedStream decides what to
-// feature (live → playback_url, ended → vod_url, pending → hide).
 export const getLiveStreams = async (tagType: string): Promise<LiveStream[]> => {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_SITE_URL}/v1/live-streams`,
@@ -574,12 +570,6 @@ export const getLiveStreams = async (tagType: string): Promise<LiveStream[]> => 
   return streams.filter(s => s.tag_type === tagType);
 };
 
-// Resolve the stream to feature for a tag type:
-//  - a live channel always wins (playback_url),
-//  - a pending channel hides the section — even if older ended recordings
-//    exist, since a new stream is scheduled (no fallback video),
-//  - otherwise the latest ended stream with a recording (vod_url) plays,
-//  - if there is no stream at all, the section falls back to its video.
 export const getFeaturedStream = (
   streams: LiveStream[],
 ): { stream: LiveStream | undefined; hasPending: boolean } => {

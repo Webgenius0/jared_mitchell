@@ -1,8 +1,10 @@
 "use client";
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
 import useAuth from "@/Hooks/useAuth";
 import PrivateLayout from "@/Private/PrivateLayout";
 import DashboardSidebar from "@/Shared/DashboardSidebar";
+import { PageLoader } from "@/Shared/PageLoader";
 import { FaRegStar } from "react-icons/fa";
 import { LuShoppingCart, LuCreditCard } from "react-icons/lu";
 
@@ -28,7 +30,11 @@ import {
 } from "@/Components/Svg/SvgContainer";
 import DashboardHeader from "@/Shared/DashboardHeader";
 import ChatbotWidget from "@/Components/Common/ChatbotWidget";
-import { getUserDashboardType } from "@/lib/utils";
+import {
+  getDashboardTypeFromPathname,
+  getUserDashboardRoute,
+  getUserDashboardType,
+} from "@/lib/utils";
 import useCurrentRoundNumber from "@/Hooks/useCurrentRoundNumber";
 
 const artistLinks = [
@@ -310,8 +316,33 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   const [open, setOpen] = useState<boolean>(false);
-  const { user: authUser } = useAuth();
+  const { user: authUser, loading } = useAuth();
   const resolvedType = getUserDashboardType(authUser);
+  const router = useRouter();
+  const pathname = usePathname();
+
+  // ─── Role-based access control ────────────────────────────────────
+  // The pathname decides which role section the user is asking for (e.g.
+  // "/dashboard/boss_beginning" belongs to business users only). If the
+  // logged-in user's role doesn't match, send them to their own dashboard
+  // instead of rendering the section. Direct URL access can't bypass this.
+  const requiredType = getDashboardTypeFromPathname(pathname);
+  const roleBlocked =
+    !loading && !!authUser && requiredType != null && resolvedType !== requiredType;
+
+  useEffect(() => {
+    if (roleBlocked) {
+      router.replace(getUserDashboardRoute(authUser) || "/dashboard");
+    }
+  }, [roleBlocked, authUser, router]);
+
+  if (roleBlocked) {
+    return (
+      <div className="h-svh flex justify-center items-center">
+        <PageLoader />
+      </div>
+    );
+  }
 
   // ─── Boss Beginning round access ───────────────────────────────────
   // Rounds open up one at a time over the season: a user can open their

@@ -15,7 +15,7 @@ import {
   getFeaturedStream,
   getLiveStreams,
 } from "@/lib/Services/cms_service";
-import { CMSBossBeginnings, LiveStream } from "@/Types/cms";
+import { CMSBossBeginnings, LiveStream, PastSixMonthsWinner } from "@/Types/cms";
 import Sponsors from "../_components/Sponsors";
 import BossBeginningSponsor from "./_components/BossBeginningSponsor";
 import BossBeginningsContestCarousel from "@/Components/Common/BossBeginningsContestCarousel";
@@ -23,7 +23,16 @@ import BossBeginningsContestCarousel from "@/Components/Common/BossBeginningsCon
 const page = async () => {
   const pageData = (await getBossCms()) as CMSBossBeginnings;
   const cmsData = await getCMSHomepageData();
-  const winnerData = await getCurrentContestWinner();
+
+  // Current Boss Beginnings winner (same API as the homepage). Kept guarded
+  // so a missing/failed winner response never takes down the whole page.
+  let winner: PastSixMonthsWinner | null = null;
+  try {
+    const res = await getCurrentContestWinner();
+    winner = res?.winner ?? null;
+  } catch (err) {
+    console.error("Failed to fetch current contest winner:", err);
+  }
 
   let roundLeaderboard = null;
   let activeRoundId: number | null = null;
@@ -44,10 +53,6 @@ const page = async () => {
     // the client component can resolve the round itself.
   }
 
-  // Boss beginnings live stream (AWS IVS). Prefers a live channel
-  // (playback_url), otherwise falls back to the latest ended stream's
-  // recording (vod_url). A pending-only channel hides the section.
-  // Streams are tagged "business" on the backend.
   let bossStream: LiveStream | undefined;
   let hasPendingStream = false;
   try {
@@ -72,10 +77,7 @@ const page = async () => {
 
       <BusinessShower data={pageData?.boss_beginnings_features} />
 
-      <BossBeginningWinner
-        data={pageData?.boss_beginnings_video_gallery}
-        winner={winnerData?.winner}
-      />
+      <BossBeginningWinner winner={winner} />
 
       <BusinessChosenChart
         data={pageData?.boss_beginnings_steps}
