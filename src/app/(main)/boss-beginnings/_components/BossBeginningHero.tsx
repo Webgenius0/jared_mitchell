@@ -1,27 +1,23 @@
 import CustomVideoPlayer from "@/Components/Common/CustomVideoPlayer";
 import LiveStreamPlayer from "@/Components/Common/LiveStreamPlayer";
 import { getStreamPlaybackUrl } from "@/lib/Services/cms_service";
-import { CMSHero, LiveStream } from "@/Types/cms";
+import { CMSBossBeginningsHero, LiveStream } from "@/Types/cms";
 
-const Hero = ({
+const BossBeginningHero = ({
   data,
   liveStream,
   hasPendingStream = false,
 }: {
-  data?: CMSHero;
+  data?: CMSBossBeginningsHero;
   liveStream?: LiveStream;
   hasPendingStream?: boolean;
 }) => {
-  // Live channels play the IVS playback URL; ended channels play the VOD.
   const streamSrc = getStreamPlaybackUrl(liveStream);
   const isLive = liveStream?.status === "live";
-
-  // A pending channel means a stream is scheduled but not broadcasting —
-  // hide the section instead of showing the fallback video.
   if (hasPendingStream && !streamSrc) return null;
 
   return (
-    <section className="container text-center pt-7 md:pt-10 xl:pt-5  2xl:pt-8">
+    <section className="container text-center pt-7 md:pt-10 xl:pt-5 2xl:pt-8">
       <div className="flex items-center justify-center my-5 md:my-7 rounded-2xl lg:rounded-4xl xl:rounded-[40px] overflow-hidden max-w-6xl mx-auto">
         {streamSrc && liveStream ? (
           <LiveStreamPlayer
@@ -30,11 +26,13 @@ const Hero = ({
             isLive={isLive}
           />
         ) : (
-          <CustomVideoPlayer videoSrc={data?.video || "/home/hero-video.mp4"} />
+          <CustomVideoPlayer
+            videoSrc={data?.video || "/home/hero-video.mp4"}
+          />
         )}
       </div>
     </section>
   );
 };
 
-export default Hero;
+export default BossBeginningHero;

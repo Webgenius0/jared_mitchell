@@ -1625,10 +1625,11 @@ export interface RoundLeaderboardResponse {
   code: number;
 }
 
-// ─── Artist Spotlight Live Streams ───────────────────────────────────────────
-// GET /v1/live-streams — AWS IVS channels for the artist spotlight hero.
+// ─── Live Streams ─────────────────────────────────────────────────────────────
+// GET /v1/live-streams — AWS IVS channels, tagged by content type via
+// `tag_type` ("artist" | "business" | "event" | ...).
 // Statuses: "pending" (not broadcasting yet), "live" (broadcasting now),
-// "ended" (finished — ignored by the UI).
+// "ended" (finished). UI rule: live → playback_url, ended → vod_url.
 
 export interface LiveStream {
   id: number;
@@ -1638,7 +1639,12 @@ export interface LiveStream {
   ingest_endpoint: string;
   stream_key: string;
   playback_url: string;
+  tag_type: string;
+  streamable_type: string;
+  streamable_id: number;
   status: "pending" | "live" | "ended" | string;
+  vod_url: string | null;
   created_at: string;
   updated_at: string;
+  streamable?: any;
 }

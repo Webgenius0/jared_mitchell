@@ -12,8 +12,9 @@ import {
   getCMSAboutData,
   getCMSArtistSpotlightData,
   getArtistHistoricalWinners,
-  getArtistLiveStreams,
   getCMSHomepageData,
+  getFeaturedStream,
+  getLiveStreams,
 } from "@/lib/Services/cms_service";
 import { HistoricalWinnersItem, LiveStream } from "@/Types/cms";
 import Sponsors from "../../_components/Sponsors";
@@ -24,13 +25,17 @@ const page = async () => {
   const cmsData = await getCMSArtistSpotlightData();
   const partners = await getCMSHomepageData();
 
-  // Artist spotlight live stream (AWS IVS). Ended streams are filtered out
-  // by the service; only an actively-broadcasting channel switches the hero
-  // over to the live player — pending keeps the looping video.
+  // Artist spotlight live stream (AWS IVS). Prefers a live channel
+  // (playback_url), otherwise falls back to the latest ended stream's
+  // recording (vod_url). A pending-only channel hides the hero section.
   let liveStream: LiveStream | undefined;
+  let hasPendingStream = false;
   try {
-    const streams = await getArtistLiveStreams();
-    liveStream = streams.find(s => s.status === "live");
+    const { stream, hasPending } = getFeaturedStream(
+      await getLiveStreams("artist"),
+    );
+    liveStream = stream;
+    hasPendingStream = hasPending;
   } catch (err) {
     console.error("Failed to fetch artist live streams:", err);
   }
@@ -56,6 +61,7 @@ const page = async () => {
       <SpotlightHero
         data={cmsData?.artist_spotlight_video}
         liveStream={liveStream}
+        hasPendingStream={hasPendingStream}
       />
       <DiscoverArtists type="artist" data={cmsData?.artist_spotlight_list} />
       {/* <CommunityAchievements data={cmsData?.artist_spotlight_highlights} /> */}

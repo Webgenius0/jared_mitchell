@@ -9,20 +9,25 @@ import { cn } from "@/lib/utils";
 // How often a viewer reports in while the stream is live.
 const HEARTBEAT_INTERVAL_MS = 15_000;
 
-// Plays an HLS (m3u8) live stream — hls.js on Chrome/Firefox/Edge,
-// native HLS on Safari. The stream auto-plays muted (browser autoplay
-// rules) with a sound toggle and a LIVE badge.
+// Plays an HLS (m3u8) stream — hls.js on Chrome/Firefox/Edge, native HLS on
+// Safari. The stream auto-plays muted (browser autoplay rules) with a sound
+// toggle.
 //
-// While mounted it also sends a viewer heartbeat to
+// When `isLive` is true it shows a LIVE badge, treats the source as an
+// infinite live stream, and sends a viewer heartbeat to
 // POST /v1/live-streams/:id/heartbeat every 15s so the backend can count
-// live viewers; the returned viewer_count is shown on the player.
+// live viewers (returned viewer_count is shown on the player).
+// When `isLive` is false (an ended stream's VOD replay) it shows a Replay
+// badge and skips the heartbeat.
 export default function LiveStreamPlayer({
   src,
   streamId,
+  isLive = true,
   className,
 }: {
   src: string;
   streamId: number;
+  isLive?: boolean;
   className?: string;
 }) {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -41,7 +46,9 @@ export default function LiveStreamPlayer({
     };
 
     if (Hls.isSupported()) {
-      hls = new Hls({ liveDurationInfinity: true });
+      // Only live manifests are infinite; a VOD manifest must keep the
+      // default (finite) duration handling.
+      hls = new Hls(isLive ? { liveDurationInfinity: true } : {});
       hls.loadSource(src);
       hls.attachMedia(video);
       hls.on(Hls.Events.MANIFEST_PARSED, startPlayback);
@@ -54,12 +61,13 @@ export default function LiveStreamPlayer({
     return () => {
       if (hls) hls.destroy();
     };
-  }, [src]);
+  }, [src, isLive]);
 
   // Viewer heartbeat — report in every 15s while the stream is open.
-  // Skipped while the tab is hidden so background tabs don't inflate the count.
+  // Only sent for live streams; skipped while the tab is hidden so
+  // background tabs don't inflate the count.
   useEffect(() => {
-    if (!streamId) return;
+    if (!isLive || !streamId) return;
 
     let cancelled = false;
 
@@ -90,7 +98,7 @@ export default function LiveStreamPlayer({
       window.clearInterval(timer);
       document.removeEventListener("visibilitychange", onVisibilityChange);
     };
-  }, [streamId]);
+  }, [isLive, streamId]);
 
   const toggleMute = () => {
     if (!videoRef.current) return;
@@ -113,17 +121,24 @@ export default function LiveStreamPlayer({
         className="w-full h-full object-cover"
       />
 
-      {/* LIVE badge */}
-      <div className="absolute top-4 left-4 z-10 flex items-center gap-1.5 rounded-full bg-red-600 px-3 py-1 text-xs font-bold uppercase tracking-wider text-white shadow-md">
-        <span className="relative flex h-2 w-2">
-          <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-white opacity-75" />
+      {/* LIVE / Replay badge */}
+      {isLive ? (
+        <div className="absolute top-4 left-4 z-10 flex items-center gap-1.5 rounded-full bg-red-600 px-3 py-1 text-xs font-bold uppercase tracking-wider text-white shadow-md">
+          <span className="relative flex h-2 w-2">
+            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-white opacity-75" />
+            <span className="relative inline-flex h-2 w-2 rounded-full bg-white" />
+          </span>
+          Live
+        </div>
+      ) : (
+        <div className="absolute top-4 left-4 z-10 flex items-center gap-1.5 rounded-full bg-black/60 px-3 py-1 text-xs font-bold uppercase tracking-wider text-white shadow-md">
           <span className="relative inline-flex h-2 w-2 rounded-full bg-white" />
-        </span>
-        Live
-      </div>
+          Replay
+        </div>
+      )}
 
       {/* Viewer count (from heartbeat responses) */}
-      {viewerCount != null && (
+      {isLive && viewerCount != null && (
         <div className="absolute top-4 left-[5rem] z-10 flex items-center gap-1.5 rounded-full bg-black/60 px-3 py-1 text-xs font-medium text-white shadow-md">
           <FaEye className="text-xs" />
           {viewerCount}
@@ -143,7 +158,7 @@ export default function LiveStreamPlayer({
       {!isPlaying && (
         <div className="absolute inset-0 flex items-center justify-center bg-black/30 pointer-events-none">
           <p className="text-sm font-medium text-white/90">
-            Starting live stream…
+            {isLive ? "Starting live stream…" : "Preparing video…"}
           </p>
         </div>
       )}

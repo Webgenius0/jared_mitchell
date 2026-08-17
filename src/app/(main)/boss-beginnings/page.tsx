@@ -4,6 +4,7 @@ import NewBusiness from "./_components/NewBusiness";
 import WinnerReceives from "./_components/WinnerReceives";
 import NewsLetter from "@/Components/Common/NewsLetter";
 import BossBeginningBanner from "./_components/BossBeginningBanner";
+import BossBeginningHero from "./_components/BossBeginningHero";
 import BusinessChosenChart from "./_components/BusinessChosenChart";
 import {
   getBossCms,
@@ -11,8 +12,10 @@ import {
   getCurrentContestWinner,
   getActiveSeasonRounds,
   getRoundLeaderboard,
+  getFeaturedStream,
+  getLiveStreams,
 } from "@/lib/Services/cms_service";
-import { CMSBossBeginnings } from "@/Types/cms";
+import { CMSBossBeginnings, LiveStream } from "@/Types/cms";
 import Sponsors from "../_components/Sponsors";
 import BossBeginningSponsor from "./_components/BossBeginningSponsor";
 import BossBeginningsContestCarousel from "@/Components/Common/BossBeginningsContestCarousel";
@@ -41,9 +44,31 @@ const page = async () => {
     // the client component can resolve the round itself.
   }
 
+  // Boss beginnings live stream (AWS IVS). Prefers a live channel
+  // (playback_url), otherwise falls back to the latest ended stream's
+  // recording (vod_url). A pending-only channel hides the section.
+  // Streams are tagged "business" on the backend.
+  let bossStream: LiveStream | undefined;
+  let hasPendingStream = false;
+  try {
+    const { stream, hasPending } = getFeaturedStream(
+      await getLiveStreams("business"),
+    );
+    bossStream = stream;
+    hasPendingStream = hasPending;
+  } catch (err) {
+    console.error("Failed to fetch boss beginnings live streams:", err);
+  }
+
   return (
     <>
       <BossBeginningBanner data={pageData?.boss_beginnings_hero} />
+
+      <BossBeginningHero
+        data={pageData?.boss_beginnings_hero}
+        liveStream={bossStream}
+        hasPendingStream={hasPendingStream}
+      />
 
       <BusinessShower data={pageData?.boss_beginnings_features} />
 
