@@ -1,38 +1,38 @@
-import CustomVideoPlayer from "@/Components/Common/CustomVideoPlayer";
 import Image from "next/image";
-import { CMSBossBeginningsVideoGallery, PastSixMonthsWinner } from "@/Types/cms";
+import { PastSixMonthsWinner } from "@/Types/cms";
 
-interface BossBeginningWinnerProps {
-  data: CMSBossBeginningsVideoGallery;
+const BossBeginningWinner = ({
+  winner,
+}: {
   winner: PastSixMonthsWinner | null;
-}
-
-const BossBeginningWinner = ({ data, winner }: BossBeginningWinnerProps) => {
-  const gallery = data?.metadata?.gallery ?? [];
-  const videoSrc = data?.video ?? "/home/hero-video.mp4";
+}) => {
   const winnerMedia = winner?.contestable?.media ?? [];
 
-  // Real media only — the winner's own business media first, then the CMS
-  // gallery. No fabricated placeholder photos.
-  const images = [
-    winnerMedia[0]?.file_path ?? gallery[0],
-    winnerMedia[1]?.file_path ?? gallery[1],
-    winnerMedia[2]?.file_path ?? gallery[2],
-  ].filter((src): src is string => Boolean(src));
+  const images = winnerMedia
+    .map(m => m.file_path)
+    .filter((src): src is string => Boolean(src));
+
+  const renderCaption = (winner: PastSixMonthsWinner) => (
+    <figcaption className="absolute bottom-6 left-6 z-10 text-white">
+      <p className="text-sm  tracking-wider text-white/70 capitalize">
+        {winner.season?.title}
+      </p>
+      <p className="text-2xl font-bold capitalize">
+        {winner.contestable?.business_name}
+      </p>
+      <p className="text-sm text-white/80 capitalize">
+        by {winner.contestable?.owner_founder_name}
+      </p>
+    </figcaption>
+  );
 
   return (
-    <section className="container">
-      <h2 className="section_title">
-        {data?.title ?? "BOSS BEGINNINGS Winner"}
-      </h2>
+    <section className="container lg:mt-10 mt-5">
+      <h2 className="section_title">BOSS BEGINNINGS Winner</h2>
       <p className="text-base md:text-lg lg:text-2xl xl:text-3xl text-center text-primary-black leading-relaxed">
-        {data?.sub_title ??
-          "See the joy, support, and community love from our previous Boss Beginnings events."}
+        See the joy, support, and community love from our previous Boss
+        Beginnings events.
       </p>
-
-      <div className="w-full mt-12">
-        <CustomVideoPlayer videoSrc={videoSrc} className={"!rounded-none"} />
-      </div>
 
       {images.length > 0 ? (
         <>
@@ -47,6 +47,7 @@ const BossBeginningWinner = ({ data, winner }: BossBeginningWinnerProps) => {
                   alt={winner?.contestable?.business_name ?? ""}
                   className="size-full object-cover"
                 />
+                {images.length === 1 && winner && renderCaption(winner)}
               </figure>
             )}
             {images[1] && (
@@ -59,6 +60,7 @@ const BossBeginningWinner = ({ data, winner }: BossBeginningWinnerProps) => {
                   alt={winner?.contestable?.business_name ?? ""}
                   className="size-full object-cover"
                 />
+                {images.length === 2 && winner && renderCaption(winner)}
               </figure>
             )}
           </div>
@@ -73,19 +75,7 @@ const BossBeginningWinner = ({ data, winner }: BossBeginningWinnerProps) => {
                 alt={winner?.contestable?.business_name ?? ""}
                 className="size-full object-cover"
               />
-              {winner && (
-                <figcaption className="absolute bottom-6 left-6 z-10 text-white">
-                  <p className="text-sm uppercase tracking-wider text-white/70">
-                    {winner.season?.title}
-                  </p>
-                  <p className="text-2xl font-bold">
-                    {winner.contestable?.business_name}
-                  </p>
-                  <p className="text-sm text-white/80">
-                    by {winner.contestable?.owner_founder_name}
-                  </p>
-                </figcaption>
-              )}
+              {winner && renderCaption(winner)}
             </figure>
           )}
         </>

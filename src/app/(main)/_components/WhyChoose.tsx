@@ -12,19 +12,15 @@ import "swiper/css/pagination";
 
 const WhyChoose = ({ data }: { data?: CMSWhyChoose }) => {
   const items = data?.metadata ?? [];
-
-  console.log(items, "from why choose");
-
   return (
     <div className= "container py-6 md:py-8 xl:py-12">
       <div className="text-center mb-6 md:mb-8">
         <h2 className="section_title">
-          {data?.title || "Why Choose OSI?"}
+          {data?.title}
         </h2>
 
         <p className="section_sub_title">
-          {data?.sub_title ||
-            "Fostering a culture of support, respect, and shared progress."}
+          {data?.sub_title}
         </p>
       </div>
 
