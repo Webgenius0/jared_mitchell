@@ -4,6 +4,7 @@ import NewBusiness from "./_components/NewBusiness";
 import WinnerReceives from "./_components/WinnerReceives";
 import NewsLetter from "@/Components/Common/NewsLetter";
 import BossBeginningBanner from "./_components/BossBeginningBanner";
+import BossBeginningHero from "./_components/BossBeginningHero";
 import BusinessChosenChart from "./_components/BusinessChosenChart";
 import {
   getBossCms,
@@ -11,8 +12,10 @@ import {
   getCurrentContestWinner,
   getActiveSeasonRounds,
   getRoundLeaderboard,
+  getFeaturedStream,
+  getLiveStreams,
 } from "@/lib/Services/cms_service";
-import { CMSBossBeginnings } from "@/Types/cms";
+import { CMSBossBeginnings, LiveStream, PastSixMonthsWinner } from "@/Types/cms";
 import Sponsors from "../_components/Sponsors";
 import BossBeginningSponsor from "./_components/BossBeginningSponsor";
 import BossBeginningsContestCarousel from "@/Components/Common/BossBeginningsContestCarousel";
@@ -20,7 +23,16 @@ import BossBeginningsContestCarousel from "@/Components/Common/BossBeginningsCon
 const page = async () => {
   const pageData = (await getBossCms()) as CMSBossBeginnings;
   const cmsData = await getCMSHomepageData();
-  const winnerData = await getCurrentContestWinner();
+
+  // Current Boss Beginnings winner (same API as the homepage). Kept guarded
+  // so a missing/failed winner response never takes down the whole page.
+  let winner: PastSixMonthsWinner | null = null;
+  try {
+    const res = await getCurrentContestWinner();
+    winner = res?.winner ?? null;
+  } catch (err) {
+    console.error("Failed to fetch current contest winner:", err);
+  }
 
   let roundLeaderboard = null;
   let activeRoundId: number | null = null;
@@ -41,16 +53,31 @@ const page = async () => {
     // the client component can resolve the round itself.
   }
 
+  let bossStream: LiveStream | undefined;
+  let hasPendingStream = false;
+  try {
+    const { stream, hasPending } = getFeaturedStream(
+      await getLiveStreams("business"),
+    );
+    bossStream = stream;
+    hasPendingStream = hasPending;
+  } catch (err) {
+    console.error("Failed to fetch boss beginnings live streams:", err);
+  }
+
   return (
     <>
       <BossBeginningBanner data={pageData?.boss_beginnings_hero} />
 
+      <BossBeginningHero
+        data={pageData?.boss_beginnings_hero}
+        liveStream={bossStream}
+        hasPendingStream={hasPendingStream}
+      />
+
       <BusinessShower data={pageData?.boss_beginnings_features} />
 
-      <BossBeginningWinner
-        data={pageData?.boss_beginnings_video_gallery}
-        winner={winnerData?.winner}
-      />
+      <BossBeginningWinner winner={winner} />
 
       <BusinessChosenChart
         data={pageData?.boss_beginnings_steps}

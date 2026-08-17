@@ -293,3 +293,31 @@ export function getUserDashboardType(user: any): string {
 export function isBusinessUser(user: any): boolean {
   return getUserDashboardType(user) === "boss_beginning";
 }
+
+/**
+ * Resolve which role section a dashboard pathname belongs to.
+ *
+ * Returns null for shared routes (e.g. "/dashboard" root and
+ * "/dashboard/subscription") that every logged-in user may visit.
+ */
+export function getDashboardTypeFromPathname(
+  pathname: string | null | undefined,
+): string | null {
+  if (!pathname) return null;
+  const segments = pathname.split("/").filter(Boolean);
+  if (segments[0] !== "dashboard" || segments.length < 2) return null;
+
+  switch (segments[1]) {
+    case "artist_business":
+      return "artist_business";
+    case "boss_beginning":
+      return "boss_beginning";
+    case "community_member":
+      return "community_member";
+    case "sponsor":
+      return "sponsor";
+    default:
+      // Shared sections (subscription, etc.) — open to all logged-in users
+      return null;
+  }
+}

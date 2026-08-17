@@ -18,8 +18,10 @@ import {
   getCMSHomepageData,
   getEventsPageCms,
   getFeaturedEvents,
+  getFeaturedStream,
+  getLiveStreams,
 } from "@/lib/Services/cms_service";
-import { CMSEventsPage, FeaturedEventItem } from "@/Types/cms";
+import { CMSEventsPage, FeaturedEventItem, LiveStream } from "@/Types/cms";
 
 const Page = async () => {
   const pageData = (await getEventsPageCms()) as CMSEventsPage;
@@ -33,10 +35,29 @@ const Page = async () => {
     console.error("Failed to fetch featured events:", err);
   }
 
+  // Event live stream (AWS IVS). Prefers a live channel (playback_url),
+  // otherwise falls back to the latest ended stream's recording (vod_url).
+  // A pending-only channel hides the EventHero section.
+  let eventStream: LiveStream | undefined;
+  let hasPendingStream = false;
+  try {
+    const { stream, hasPending } = getFeaturedStream(
+      await getLiveStreams("event"),
+    );
+    eventStream = stream;
+    hasPendingStream = hasPending;
+  } catch (err) {
+    console.error("Failed to fetch event live streams:", err);
+  }
+
   return (
     <>
       <EventsBanner data={pageData?.events_page_hero} />
-      <EventHero data={pageData?.events_page_hero} />
+      <EventHero
+        data={pageData?.events_page_hero}
+        liveStream={eventStream}
+        hasPendingStream={hasPendingStream}
+      />
       <FeaturedEventsCarousel events={featuredEvents} />
       {/* <CreatorMarket /> */}
       {/* <FilterSection /> */}

@@ -553,11 +553,7 @@ export const getLeaderboard = async (
   const result = await res.json();
   return result as LeaderboardResponse;
 };
-// Get the artist spotlight live streams (AWS IVS channels).
-// GET /v1/live-streams
-// Ended streams are dropped here — only pending (coming soon) and live
-// channels are relevant to the spotlight hero.
-export const getArtistLiveStreams = async (): Promise<LiveStream[]> => {
+export const getLiveStreams = async (tagType: string): Promise<LiveStream[]> => {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_SITE_URL}/v1/live-streams`,
     { cache: "no-store" },
@@ -571,7 +567,33 @@ export const getArtistLiveStreams = async (): Promise<LiveStream[]> => {
 
   const result = await res.json();
   const streams = (result?.data ?? []) as LiveStream[];
-  return streams.filter(s => s.status !== "ended");
+  return streams.filter(s => s.tag_type === tagType);
+};
+
+export const getFeaturedStream = (
+  streams: LiveStream[],
+): { stream: LiveStream | undefined; hasPending: boolean } => {
+  const live = streams.find(s => s.status === "live");
+  if (live) return { stream: live, hasPending: false };
+
+  const hasPending = streams.some(s => s.status === "pending");
+  if (hasPending) return { stream: undefined, hasPending: true };
+
+  return {
+    stream: streams.find(s => s.status === "ended" && Boolean(s.vod_url)),
+    hasPending: false,
+  };
+};
+
+// The URL to feed the HLS player for a given stream: live channels play the
+// IVS playback URL, ended channels play the recorded VOD.
+export const getStreamPlaybackUrl = (
+  stream?: LiveStream,
+): string | undefined => {
+  if (!stream) return undefined;
+  return stream.status === "live"
+    ? stream.playback_url
+    : (stream.vod_url ?? undefined);
 };
 
 export const getCurrentSpotlightWeek =
