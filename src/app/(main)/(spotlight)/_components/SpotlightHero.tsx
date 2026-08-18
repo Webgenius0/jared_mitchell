@@ -14,19 +14,20 @@ const SpotlightHero = ({
   liveStream?: LiveStream;
   hasPendingStream?: boolean;
 }) => {
-  // Live channels play the IVS playback URL; ended channels play the VOD.
+  // Live channels play the IVS playback URL; only show the live player
+  // when the stream status is actually "live".  Otherwise fall back to
+  // the static CMS video (like before the live-stream integration).
   const streamSrc = getStreamPlaybackUrl(liveStream);
   const isLive = liveStream?.status === "live";
 
-  // A pending channel means a stream is scheduled but not broadcasting —
-  // hide the section instead of showing the fallback video.
-  if (hasPendingStream && !streamSrc) return null;
+  // When a pending stream exists but nothing is broadcasting yet, show the
+  // static video instead of hiding the section.
 
   return (
     <section className="section">
       <Container>
         <div className="w-full h-[300px] md:h-[500px] xl:h-[627px] sm:px-5 2xl:px-0">
-          {streamSrc && liveStream ? (
+          {isLive && streamSrc && liveStream ? (
             <LiveStreamPlayer
               src={streamSrc}
               streamId={liveStream.id}
