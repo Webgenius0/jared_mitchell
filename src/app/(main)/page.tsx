@@ -35,76 +35,90 @@ import {
 
 const FALLBACK_IMAGE = "https://placehold.co/400x600.png?text=No+Image";
 
+function mapWinners(
+  winners: { spotlight: any }[] | undefined,
+  category: "Business" | "Artist",
+): HistoricalWinnersItem[] {
+  return (winners || []).map(w => ({
+    id: w.spotlight.id,
+    title: w.spotlight.name,
+    slug: "",
+    description: `${w.spotlight.city}, ${w.spotlight.state}`,
+    image: w.spotlight.media.headshot || FALLBACK_IMAGE,
+    category,
+  }));
+}
+
 const Page = async () => {
-  const cmsData = await getCMSHomepageData();
+  const [
+    cmsDataRes,
+    featuredEventsRes,
+    featuredProductsRes,
+    countdownRes,
+    businessWinnersRes,
+    artistWinnersRes,
+    pastSixMonthsWinnersRes,
+    currentWinnerRes,
+  ] = await Promise.allSettled([
+    getCMSHomepageData(),
+    getFeaturedEvents(),
+    getFeaturedProducts(),
+    getRoundCountdown(),
+    getBusinessHistoricalWinners(),
+    getArtistHistoricalWinners(),
+    getPastSixMonthsWinners(),
+    getCurrentContestWinner(),
+  ]);
 
-  let featuredEvents: FeaturedEventItem[] = [];
-  try {
-    const featuredRes = await getFeaturedEvents();
-    featuredEvents = featuredRes?.events || [];
-  } catch (err) {
-    console.error("Failed to fetch featured events:", err);
-  }
+  // Log failures the same way the original try/catch blocks did
+  [
+    ["CMS homepage data", cmsDataRes],
+    ["featured events", featuredEventsRes],
+    ["featured products", featuredProductsRes],
+    ["round countdown", countdownRes],
+    ["business winners", businessWinnersRes],
+    ["artist winners", artistWinnersRes],
+    ["past six months winners", pastSixMonthsWinnersRes],
+    ["current contest winner", currentWinnerRes],
+  ].forEach(([label, res]: any) => {
+    if (res.status === "rejected") {
+      console.error(`Failed to fetch ${label}:`, res.reason);
+    }
+  });
 
-  let featuredProducts: FeaturedProductItem[] = [];
-  try {
-    featuredProducts = await getFeaturedProducts();
-  } catch (err) {
-    console.error("Failed to fetch featured products:", err);
-  }
+  const cmsData =
+    cmsDataRes.status === "fulfilled" ? cmsDataRes.value : undefined;
 
-  let countdownData: RoundCountdownResponse | null = null;
-  try {
-    countdownData = await getRoundCountdown();
-  } catch (err) {
-    console.error("Failed to fetch round countdown:", err);
-  }
+  const featuredEvents: FeaturedEventItem[] =
+    featuredEventsRes.status === "fulfilled"
+      ? featuredEventsRes.value?.events || []
+      : [];
 
-  let businessWinners: HistoricalWinnersItem[] = [];
-  try {
-    const res = await getBusinessHistoricalWinners();
-    businessWinners = (res?.winners || []).map(w => ({
-      id: w.spotlight.id,
-      title: w.spotlight.name,
-      slug: "",
-      description: `${w.spotlight.city}, ${w.spotlight.state}`,
-      image: w.spotlight.media.headshot || FALLBACK_IMAGE,
-      category: "Business",
-    }));
-  } catch (err) {
-    console.error("Failed to fetch business winners:", err);
-  }
+  const featuredProducts: FeaturedProductItem[] =
+    featuredProductsRes.status === "fulfilled" ? featuredProductsRes.value : [];
 
-  let artistWinners: HistoricalWinnersItem[] = [];
-  try {
-    const res = await getArtistHistoricalWinners();
-    artistWinners = (res?.winners || []).map(w => ({
-      id: w.spotlight.id,
-      title: w.spotlight.name,
-      slug: "",
-      description: `${w.spotlight.city}, ${w.spotlight.state}`,
-      image: w.spotlight.media.headshot || FALLBACK_IMAGE,
-      category: "Artist",
-    }));
-  } catch (err) {
-    console.error("Failed to fetch artist winners:", err);
-  }
+  const countdownData: RoundCountdownResponse | null =
+    countdownRes.status === "fulfilled" ? countdownRes.value : null;
 
-  let pastSixMonthsWinners: PastSixMonthsWinner[] = [];
-  try {
-    const res = await getPastSixMonthsWinners();
-    pastSixMonthsWinners = res?.winners || [];
-  } catch (err) {
-    console.error("Failed to fetch past six months winners:", err);
-  }
+  const businessWinners: HistoricalWinnersItem[] =
+    businessWinnersRes.status === "fulfilled"
+      ? mapWinners(businessWinnersRes.value?.winners, "Business")
+      : [];
 
-  let currentWinner: PastSixMonthsWinner | null = null;
-  try {
-    const res = await getCurrentContestWinner();
-    currentWinner = res?.winner || null;
-  } catch (err) {
-    console.error("Failed to fetch current contest winner:", err);
-  }
+  const artistWinners: HistoricalWinnersItem[] =
+    artistWinnersRes.status === "fulfilled"
+      ? mapWinners(artistWinnersRes.value?.winners, "Artist")
+      : [];
+
+  const pastSixMonthsWinners: PastSixMonthsWinner[] =
+    pastSixMonthsWinnersRes.status === "fulfilled"
+      ? pastSixMonthsWinnersRes.value?.winners || []
+      : [];
+
+  const currentWinner: PastSixMonthsWinner | null =
+    currentWinnerRes.status === "fulfilled"
+      ? currentWinnerRes.value?.winner || null
+      : null;
 
   return (
     <>
@@ -114,9 +128,6 @@ const Page = async () => {
       <WhyChoose data={cmsData?.why_choose} />
       <CoreValues data={cmsData?.core_values} />
       <WhatYouAreGetting data={cmsData?.what_you_get} />
-      {/* <PricingPlan /> */}
-      {/* <PricingTable /> */}
-      {/* <Features data={cmsData?.features} /> */}
       <BossBeginnings
         data={cmsData?.boss_beginnings}
         currentWinner={currentWinner}
@@ -127,11 +138,6 @@ const Page = async () => {
         type="business"
       />
       <ArtistSpotlightCard data={cmsData?.spotlight} />
-
-      {/* <CommunityAchievements data={cmsData?.highlights} /> */}
-      {/* <div className="pb-15">
-        <ArtistSpotlightCard data={cmsData?.spotlight} />
-      </div> */}
       <SuccessStories
         cmsData={cmsData?.celebrating_artist_spotlight_winners}
         winners={artistWinners}

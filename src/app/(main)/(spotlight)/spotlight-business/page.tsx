@@ -8,6 +8,7 @@ import BecomeAPart from "../_components/BecomeAPart";
 import CreativeJourney from "../_components/CreativeJourney";
 import SpotlightLadder from "../_components/SpotlightLadder";
 import BusinessSpotlightBanner from "../_components/BusinessSpotlightBanner";
+import HowSpotlightWorks from "../_components/HowSpotlightWorks";
 import SuccessStories from "../../_components/SuccessStories";
 import {
   getCMSAboutData,
@@ -42,6 +43,7 @@ const page = async () => {
     <>
       <BusinessSpotlightBanner data={cmsData?.business_spotlight_hero} />
       <SpotlightHero data={cmsData?.business_spotlight_video} />
+      <HowSpotlightWorks type="business" />
       <DiscoverArtists
         type="business"
         data={cmsData?.business_spotlight_list}
