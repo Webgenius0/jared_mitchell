@@ -7,6 +7,7 @@ import SpotlightLadder from "../_components/SpotlightLadder";
 import CommunityAchievements from "../../_components/CommunityAchievements";
 import WhatExist from "../../about/_Components/WhatExist";
 import ArtistSpotlightBanner from "../_components/ArtistSpotlightBanner";
+import HowSpotlightWorks from "../_components/HowSpotlightWorks";
 import SuccessStories from "../../_components/SuccessStories";
 import {
   getCMSAboutData,
@@ -25,9 +26,6 @@ const page = async () => {
   const cmsData = await getCMSArtistSpotlightData();
   const partners = await getCMSHomepageData();
 
-  // Artist spotlight live stream (AWS IVS). Prefers a live channel
-  // (playback_url), otherwise falls back to the latest ended stream's
-  // recording (vod_url). A pending-only channel hides the hero section.
   let liveStream: LiveStream | undefined;
   let hasPendingStream = false;
   try {
@@ -63,6 +61,7 @@ const page = async () => {
         liveStream={liveStream}
         hasPendingStream={hasPendingStream}
       />
+      <HowSpotlightWorks type="artist" />
       <DiscoverArtists type="artist" data={cmsData?.artist_spotlight_list} />
       {/* <CommunityAchievements data={cmsData?.artist_spotlight_highlights} /> */}
       <SuccessStories winners={artistWinners} type="artist" />

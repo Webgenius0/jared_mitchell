@@ -5,7 +5,6 @@ import {
   CMSBusinessSpotlight,
   CMSRoundsPage,
   CalendarEventsResponse,
-  CMSEvent,
   CMSEventItem,
   CMSEventsPage,
   CMSFAQ,
@@ -36,13 +35,19 @@ import {
 } from "@/Types/cms";
 import { getItem } from "@/lib/localStorage";
 
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL;
+
+// ---------------------------------------------------------------------------
+// CMS content pages
+// These are editor-managed content — they don't change every minute, so we
+// cache with a moderate window and a tag so a CMS publish webhook can call
+// `revalidateTag(...)` to bust the cache immediately instead of waiting.
+// ---------------------------------------------------------------------------
+
 export const getCMSHomepageData = async (): Promise<CMSHomepage> => {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_SITE_URL}/v1/cms/homepage`,
-    {
-      next: { revalidate: 60 },
-    },
-  );
+  const res = await fetch(`${SITE_URL}/v1/cms/homepage`, {
+    next: { revalidate: 60, tags: ["cms-homepage"] },
+  });
 
   if (!res.ok) {
     throw new Error("Failed to fetch CMS data");
@@ -53,8 +58,8 @@ export const getCMSHomepageData = async (): Promise<CMSHomepage> => {
 };
 
 export const getCMSAboutData = async (): Promise<CMSAbout> => {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/v1/cms/about`, {
-    cache: "no-store",
+  const res = await fetch(`${SITE_URL}/v1/cms/about`, {
+    next: { revalidate: 300, tags: ["cms-about"] },
   });
 
   if (!res.ok) {
@@ -66,12 +71,9 @@ export const getCMSAboutData = async (): Promise<CMSAbout> => {
 };
 
 export const getCMSServicesData = async (): Promise<CMSServices> => {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_SITE_URL}/v1/cms/services`,
-    {
-      cache: "no-store",
-    },
-  );
+  const res = await fetch(`${SITE_URL}/v1/cms/services`, {
+    next: { revalidate: 300, tags: ["cms-services"] },
+  });
 
   if (!res.ok) {
     throw new Error("Failed to fetch CMS data");
@@ -83,12 +85,9 @@ export const getCMSServicesData = async (): Promise<CMSServices> => {
 
 export const getCMSArtistSpotlightData =
   async (): Promise<CMSArtistSpotlight> => {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_SITE_URL}/v1/cms/artist-spotlight`,
-      {
-        cache: "no-store",
-      },
-    );
+    const res = await fetch(`${SITE_URL}/v1/cms/artist-spotlight`, {
+      next: { revalidate: 300, tags: ["cms-artist-spotlight"] },
+    });
 
     if (!res.ok) {
       throw new Error("Failed to fetch CMS data");
@@ -100,12 +99,9 @@ export const getCMSArtistSpotlightData =
 
 export const getCMSBusinessSpotlightData =
   async (): Promise<CMSBusinessSpotlight> => {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_SITE_URL}/v1/cms/business-spotlight`,
-      {
-        cache: "no-store",
-      },
-    );
+    const res = await fetch(`${SITE_URL}/v1/cms/business-spotlight`, {
+      next: { revalidate: 300, tags: ["cms-business-spotlight"] },
+    });
 
     if (!res.ok) {
       throw new Error("Failed to fetch CMS data");
@@ -117,12 +113,9 @@ export const getCMSBusinessSpotlightData =
 
 export const getCMSSpotlightLadderData =
   async (): Promise<CMSSpotlightLadder> => {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_SITE_URL}/v1/cms/spotlight-ladder`,
-      {
-        cache: "no-store",
-      },
-    );
+    const res = await fetch(`${SITE_URL}/v1/cms/spotlight-ladder`, {
+      next: { revalidate: 300, tags: ["cms-spotlight-ladder"] },
+    });
 
     if (!res.ok) {
       throw new Error("Failed to fetch CMS data");
@@ -133,8 +126,8 @@ export const getCMSSpotlightLadderData =
   };
 
 export const getCMSFAQs = async (): Promise<CMSFAQ[]> => {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/v1/cms/faq`, {
-    cache: "no-store",
+  const res = await fetch(`${SITE_URL}/v1/cms/faq`, {
+    next: { revalidate: 600, tags: ["cms-faq"] },
   });
 
   if (!res.ok) {
@@ -146,8 +139,8 @@ export const getCMSFAQs = async (): Promise<CMSFAQ[]> => {
 };
 
 export const getShopPageCms = async (): Promise<CMSShopPage> => {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/v1/cms/shop`, {
-    cache: "no-store",
+  const res = await fetch(`${SITE_URL}/v1/cms/shop`, {
+    next: { revalidate: 300, tags: ["cms-shop"] },
   });
 
   if (!res.ok) {
@@ -159,8 +152,8 @@ export const getShopPageCms = async (): Promise<CMSShopPage> => {
 };
 
 export const getEventsPageCms = async (): Promise<CMSEventsPage> => {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/v1/cms/events`, {
-    cache: "no-store",
+  const res = await fetch(`${SITE_URL}/v1/cms/events`, {
+    next: { revalidate: 300, tags: ["cms-events"] },
   });
 
   if (!res.ok) {
@@ -172,12 +165,9 @@ export const getEventsPageCms = async (): Promise<CMSEventsPage> => {
 };
 
 export const getBossCms = async (): Promise<CMSBossBeginnings> => {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_SITE_URL}/v1/cms/boss-beginnings`,
-    {
-      cache: "no-store",
-    },
-  );
+  const res = await fetch(`${SITE_URL}/v1/cms/boss-beginnings`, {
+    next: { revalidate: 300, tags: ["cms-boss-beginnings"] },
+  });
 
   if (!res.ok) {
     throw new Error("Failed to fetch CMS data");
@@ -188,12 +178,9 @@ export const getBossCms = async (): Promise<CMSBossBeginnings> => {
 };
 
 export const getRoundsCms = async (): Promise<CMSRoundsPage> => {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_SITE_URL}/v1/cms/osi-rounds`,
-    {
-      cache: "no-store",
-    },
-  );
+  const res = await fetch(`${SITE_URL}/v1/cms/osi-rounds`, {
+    next: { revalidate: 300, tags: ["cms-rounds"] },
+  });
 
   if (!res.ok) {
     throw new Error(`Failed to fetch rounds CMS data — Status: ${res.status}`);
@@ -204,10 +191,10 @@ export const getRoundsCms = async (): Promise<CMSRoundsPage> => {
 };
 
 export const getSponsorshipPageCms = async (): Promise<CMSSponsorshipPage> => {
-  const url = `${process.env.NEXT_PUBLIC_SITE_URL}/v1/cms/sponsorsip`;
+  const url = `${SITE_URL}/v1/cms/sponsorsip`;
 
   const res = await fetch(url, {
-    cache: "no-store",
+    next: { revalidate: 300, tags: ["cms-sponsorship"] },
   });
 
   if (!res.ok) {
@@ -223,10 +210,9 @@ export const getSponsorshipPageCms = async (): Promise<CMSSponsorshipPage> => {
 export type EventTimeFilter = "upcoming" | "past";
 
 export const getFeaturedEvents = async (): Promise<FeaturedEventsResponse> => {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_SITE_URL}/v1/events/featured`,
-    { cache: "no-store" },
-  );
+  const res = await fetch(`${SITE_URL}/v1/events/featured`, {
+    next: { revalidate: 180, tags: ["featured-events"] },
+  });
 
   if (!res.ok) {
     throw new Error(`Failed to fetch featured events — Status: ${res.status}`);
@@ -237,10 +223,9 @@ export const getFeaturedEvents = async (): Promise<FeaturedEventsResponse> => {
 };
 
 export const getEventGallery = async (): Promise<EventGalleryResponse> => {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_SITE_URL}/v1/events/galary`,
-    { cache: "no-store" },
-  );
+  const res = await fetch(`${SITE_URL}/v1/events/galary`, {
+    next: { revalidate: 300, tags: ["event-gallery"] },
+  });
 
   if (!res.ok) {
     throw new Error(`Failed to fetch event gallery — Status: ${res.status}`);
@@ -251,10 +236,9 @@ export const getEventGallery = async (): Promise<EventGalleryResponse> => {
 };
 
 export const getUpcomingEvents = async (): Promise<EventsResponse> => {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_SITE_URL}/v1/events/upcomming-events`,
-    { cache: "no-store" },
-  );
+  const res = await fetch(`${SITE_URL}/v1/events/upcomming-events`, {
+    next: { revalidate: 120, tags: ["upcoming-events"] },
+  });
 
   if (!res.ok) {
     throw new Error(`Failed to fetch upcoming events — Status: ${res.status}`);
@@ -265,10 +249,9 @@ export const getUpcomingEvents = async (): Promise<EventsResponse> => {
 };
 
 export const getPastEvents = async (): Promise<EventsResponse> => {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_SITE_URL}/v1/events/past-events`,
-    { cache: "no-store" },
-  );
+  const res = await fetch(`${SITE_URL}/v1/events/past-events`, {
+    next: { revalidate: 600, tags: ["past-events"] },
+  });
 
   if (!res.ok) {
     throw new Error(`Failed to fetch past events — Status: ${res.status}`);
@@ -288,10 +271,9 @@ export const getEvents = async (
   params.append("page", String(page));
   params.append("per_page", String(perPage));
 
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_SITE_URL}/v1/events?${params.toString()}`,
-    { cache: "no-store" },
-  );
+  const res = await fetch(`${SITE_URL}/v1/events?${params.toString()}`, {
+    next: { revalidate: 180, tags: ["events", `events-${time ?? "all"}`] },
+  });
 
   if (!res.ok) {
     throw new Error(`Failed to fetch events — Status: ${res.status}`);
@@ -302,10 +284,9 @@ export const getEvents = async (
 };
 
 export const getCalendarEvents = async (): Promise<CalendarEventsResponse> => {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_SITE_URL}/v1/events/calendar-views`,
-    { cache: "no-store" },
-  );
+  const res = await fetch(`${SITE_URL}/v1/events/calendar-views`, {
+    next: { revalidate: 180, tags: ["calendar-events"] },
+  });
 
   if (!res.ok) {
     throw new Error(`Failed to fetch calendar events — Status: ${res.status}`);
@@ -315,11 +296,11 @@ export const getCalendarEvents = async (): Promise<CalendarEventsResponse> => {
   return result.data as CalendarEventsResponse;
 };
 
+
 export const getFeaturedProducts = async (): Promise<FeaturedProductItem[]> => {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_SITE_URL}/v1/products/featured`,
-    { cache: "no-store" },
-  );
+  const res = await fetch(`${SITE_URL}/v1/products/featured`, {
+    next: { revalidate: 300, tags: ["featured-products"] },
+  });
 
   if (!res.ok) {
     throw new Error(
@@ -332,8 +313,8 @@ export const getFeaturedProducts = async (): Promise<FeaturedProductItem[]> => {
 };
 
 export const getAllProducts = async (): Promise<FeaturedProductItem[]> => {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/v1/products`, {
-    cache: "no-store",
+  const res = await fetch(`${SITE_URL}/v1/products`, {
+    next: { revalidate: 300, tags: ["all-products"] },
   });
 
   if (!res.ok) {
@@ -347,10 +328,9 @@ export const getAllProducts = async (): Promise<FeaturedProductItem[]> => {
 export const getProductBySlug = async (
   slug: string,
 ): Promise<FeaturedProductDetail> => {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_SITE_URL}/v1/products/${slug}`,
-    { cache: "no-store" },
-  );
+  const res = await fetch(`${SITE_URL}/v1/products/${slug}`, {
+    next: { revalidate: 600, tags: ["product", `product-${slug}`] },
+  });
 
   if (!res.ok) {
     throw new Error(`Failed to fetch product by slug — Status: ${res.status}`);
@@ -363,8 +343,8 @@ export const getProductBySlug = async (
 export const getArtistHistoricalWinners =
   async (): Promise<ArtistHistoricalWinnersResponse> => {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_SITE_URL}/v1/spotlight/historical-winners?type=artist`,
-      { cache: "no-store" },
+      `${SITE_URL}/v1/spotlight/historical-winners?type=artist`,
+      { next: { revalidate: 3600, tags: ["artist-historical-winners"] } },
     );
 
     if (!res.ok) {
@@ -380,8 +360,8 @@ export const getArtistHistoricalWinners =
 export const getBusinessHistoricalWinners =
   async (): Promise<BusinessHistoricalWinnersResponse> => {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_SITE_URL}/v1/spotlight/historical-winners?type=business`,
-      { cache: "no-store" },
+      `${SITE_URL}/v1/spotlight/historical-winners?type=business`,
+      { next: { revalidate: 3600, tags: ["business-historical-winners"] } },
     );
 
     if (!res.ok) {
@@ -396,10 +376,9 @@ export const getBusinessHistoricalWinners =
 
 export const getCurrentContestWinner =
   async (): Promise<CurrentContestWinnerResponse> => {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_SITE_URL}/v1/contest/winners/current`,
-      { cache: "no-store" },
-    );
+    const res = await fetch(`${SITE_URL}/v1/contest/winners/current`, {
+      next: { revalidate: 120, tags: ["current-contest-winner"] },
+    });
 
     if (!res.ok) {
       throw new Error(
@@ -413,10 +392,9 @@ export const getCurrentContestWinner =
 
 export const getPastSixMonthsWinners =
   async (): Promise<PastSixMonthsWinnersResponse> => {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_SITE_URL}/v1/contest/winners/past-six-months`,
-      { cache: "no-store" },
-    );
+    const res = await fetch(`${SITE_URL}/v1/contest/winners/past-six-months`, {
+      next: { revalidate: 3600, tags: ["past-six-months-winners"] },
+    });
 
     if (!res.ok) {
       throw new Error(
@@ -429,10 +407,9 @@ export const getPastSixMonthsWinners =
   };
 
 export const getRoundCountdown = async (): Promise<RoundCountdownResponse> => {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_SITE_URL}/v1/round-countdown`,
-    { cache: "no-store" },
-  );
+  const res = await fetch(`${SITE_URL}/v1/round-countdown`, {
+    next: { revalidate: 30, tags: ["round-countdown"] },
+  });
 
   if (!res.ok) {
     throw new Error(`Failed to fetch round countdown — Status: ${res.status}`);
@@ -442,11 +419,11 @@ export const getRoundCountdown = async (): Promise<RoundCountdownResponse> => {
   return result.data as RoundCountdownResponse;
 };
 
+
 export const getArtistById = async (id: number) => {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_SITE_URL}/v1/artists/${id}`,
-    { cache: "no-store" },
-  );
+  const res = await fetch(`${SITE_URL}/v1/artists/${id}`, {
+    next: { revalidate: 600, tags: ["artist", `artist-${id}`] },
+  });
 
   if (!res.ok) {
     throw new Error(`Failed to fetch artist by ID — Status: ${res.status}`);
@@ -457,10 +434,9 @@ export const getArtistById = async (id: number) => {
 };
 
 export const getBusinessById = async (id: number) => {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_SITE_URL}/v1/businesses/list/${id}`,
-    { cache: "no-store" },
-  );
+  const res = await fetch(`${SITE_URL}/v1/businesses/list/${id}`, {
+    next: { revalidate: 600, tags: ["business", `business-${id}`] },
+  });
 
   if (!res.ok) {
     throw new Error(`Failed to fetch business by ID — Status: ${res.status}`);
@@ -474,14 +450,19 @@ export const getEventBySlug = async (
   slug: string,
   token?: string,
 ): Promise<CMSEventItem> => {
-  const url = `${process.env.NEXT_PUBLIC_SITE_URL}/v1/events/${slug}`;
+  const url = `${SITE_URL}/v1/events/${slug}`;
 
   const res = await fetch(url, {
-    cache: "no-store",
     headers: {
       "Content-Type": "application/json",
       ...(token && { Authorization: `Bearer ${token}` }),
     },
+    // Authenticated requests are user-specific (e.g. reveal RSVP status) —
+    // never cache those. Anonymous requests are the same for every visitor,
+    // so they're safe to cache.
+    ...(token
+      ? { cache: "no-store" as const }
+      : { next: { revalidate: 300, tags: ["event", `event-${slug}`] } }),
   });
 
   if (!res.ok) {
@@ -497,8 +478,13 @@ export const getArtistSpotlightDetails = async (
   spotlightId: number,
 ): Promise<ArtistSpotlightDetailsResponse> => {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_SITE_URL}/v1/spotlight/details/artist/${spotlightId}`,
-    { cache: "no-store" },
+    `${SITE_URL}/v1/spotlight/details/artist/${spotlightId}`,
+    {
+      next: {
+        revalidate: 300,
+        tags: ["artist-spotlight-details", `artist-spotlight-${spotlightId}`],
+      },
+    },
   );
 
   if (!res.ok) {
@@ -515,8 +501,16 @@ export const getBusinessSpotlightDetails = async (
   spotlightId: number,
 ): Promise<BusinessSpotlightDetailsResponse> => {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_SITE_URL}/v1/spotlight/details/business/${spotlightId}`,
-    { cache: "no-store" },
+    `${SITE_URL}/v1/spotlight/details/business/${spotlightId}`,
+    {
+      next: {
+        revalidate: 300,
+        tags: [
+          "business-spotlight-details",
+          `business-spotlight-${spotlightId}`,
+        ],
+      },
+    },
   );
 
   if (!res.ok) {
@@ -529,6 +523,7 @@ export const getBusinessSpotlightDetails = async (
   return result as BusinessSpotlightDetailsResponse;
 };
 
+
 export const getLeaderboard = async (
   weekId: number = 2,
   types: ("artist" | "business")[] = ["artist", "business"],
@@ -537,7 +532,7 @@ export const getLeaderboard = async (
   types.forEach(t => params.append("type", t));
 
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_SITE_URL}/v1/spotlight/weeks/${weekId}/leaderboard?${params.toString()}`,
+    `${SITE_URL}/v1/spotlight/weeks/${weekId}/leaderboard?${params.toString()}`,
     { cache: "no-store" },
   );
 
@@ -553,16 +548,16 @@ export const getLeaderboard = async (
   const result = await res.json();
   return result as LeaderboardResponse;
 };
-export const getLiveStreams = async (tagType: string): Promise<LiveStream[]> => {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_SITE_URL}/v1/live-streams`,
-    { cache: "no-store" },
-  );
+
+export const getLiveStreams = async (
+  tagType: string,
+): Promise<LiveStream[]> => {
+  const res = await fetch(`${SITE_URL}/v1/live-streams`, {
+    cache: "no-store",
+  });
 
   if (!res.ok) {
-    throw new Error(
-      `Failed to fetch live streams — Status: ${res.status}`,
-    );
+    throw new Error(`Failed to fetch live streams — Status: ${res.status}`);
   }
 
   const result = await res.json();
@@ -585,8 +580,6 @@ export const getFeaturedStream = (
   };
 };
 
-// The URL to feed the HLS player for a given stream: live channels play the
-// IVS playback URL, ended channels play the recorded VOD.
 export const getStreamPlaybackUrl = (
   stream?: LiveStream,
 ): string | undefined => {
@@ -598,10 +591,9 @@ export const getStreamPlaybackUrl = (
 
 export const getCurrentSpotlightWeek =
   async (): Promise<LeaderboardResponse> => {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_SITE_URL}/v1/spotlight/weeks/current`,
-      { cache: "no-store" },
-    );
+    const res = await fetch(`${SITE_URL}/v1/spotlight/weeks/current`, {
+      cache: "no-store",
+    });
 
     if (!res.ok) {
       throw new Error(
@@ -617,7 +609,7 @@ export const getContestantDetails = async (
   contestantId: number,
 ): Promise<any> => {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_SITE_URL}/v1/contest/contestants/${contestantId}`,
+    `${SITE_URL}/v1/contest/contestants/${contestantId}`,
     { cache: "no-store" },
   );
 
@@ -633,10 +625,9 @@ export const getContestantDetails = async (
 
 export const getActiveSeasonRounds =
   async (): Promise<ActiveSeasonRoundsResponse> => {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_SITE_URL}/v1/contest/active-season-rounds`,
-      { cache: "no-store" },
-    );
+    const res = await fetch(`${SITE_URL}/v1/contest/active-season-rounds`, {
+      cache: "no-store",
+    });
 
     if (!res.ok) {
       throw new Error(
@@ -652,8 +643,10 @@ export const getRoundLeaderboard = async (
   roundId: number,
   options?: { noCache?: boolean },
 ): Promise<RoundLeaderboardResponse> => {
+  void options;
+
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_SITE_URL}/v1/contest/rounds/${roundId}/leaderboard`,
+    `${SITE_URL}/v1/contest/rounds/${roundId}/leaderboard`,
     { cache: "no-store" },
   );
 
@@ -666,7 +659,6 @@ export const getRoundLeaderboard = async (
   const result = await res.json();
   return result as RoundLeaderboardResponse;
 };
-
 
 const ROUND_SCORE_KEYS = [
   "innovation",
@@ -693,21 +685,16 @@ export const submitRoundVotes = async ({
 
   const token = typeof window !== "undefined" ? getItem("token") : undefined;
 
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_SITE_URL}/v1/contest/rounds/${roundId}/votes`,
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-        ...(token ? { Authorization: `Bearer ${token}` } : {}),
-      },
-      body: body.toString(),
+  const res = await fetch(`${SITE_URL}/v1/contest/rounds/${roundId}/votes`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
     },
-  );
+    body: body.toString(),
+  });
 
   if (!res.ok) {
-    // Parse the error body so the backend's real message (e.g. "You cannot
-    // vote for your own entry.") survives instead of a raw JSON dump.
     let payload: any = null;
     try {
       payload = await res.json();
@@ -719,11 +706,6 @@ export const submitRoundVotes = async ({
       typeof payload?.message === "string" && payload.message.trim()
         ? payload.message
         : `Failed to submit round votes — Status: ${res.status}`;
-
-    // Shape the error like an axios error so callers can read it through
-    // getApiErrorMessage(err) (err.response.data.message). The `payload ??
-    // { message }` fallback keeps the status message reachable when the
-    // error body isn't JSON.
     const error: any = new Error(message);
     error.response = { data: payload ?? { message } };
     throw error;
@@ -733,10 +715,9 @@ export const submitRoundVotes = async ({
 };
 
 export const getSubscriptionPlans = async (): Promise<SubscriptionPlan[]> => {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_SITE_URL}/v1/subscription-plans`,
-    { cache: "no-store" },
-  );
+  const res = await fetch(`${SITE_URL}/v1/subscription-plans`, {
+    next: { revalidate: 3600, tags: ["subscription-plans"] },
+  });
 
   if (!res.ok) {
     throw new Error(
