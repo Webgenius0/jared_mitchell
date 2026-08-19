@@ -29,11 +29,11 @@ const Hero = ({ data }: { data?: CMSHero }) => {
       </p>
 
       <div className="space-x-2 md:space-x-3 mt-2 md:mt-3">
-<Link href="/auth/login">
-  <button className="bg-primary-blue text-white border border-primary-blue rounded-full px-4 md:px-6 xl:px-8 py-1 md:py-1.5 xl:py-2 text-sm lg:text-lg font-medium transition-all">
-    Join OSI
-  </button>
-</Link>
+        <Link href="/auth/login">
+          <button className="bg-primary-blue text-white border border-primary-blue rounded-full px-4 md:px-6 xl:px-8 py-1 md:py-1.5 xl:py-2 text-sm lg:text-lg font-medium transition-all">
+            Join OSI
+          </button>
+        </Link>
 
         <button
           onClick={() => setIsSponsorModalOpen(true)}

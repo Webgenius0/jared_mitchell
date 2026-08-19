@@ -1,7 +1,8 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import Container from "@/Components/Common/Container";
+import CustomVideoPlayer, { CustomVideoPlayerHandle } from "@/Components/Common/CustomVideoPlayer";
 import LiveStreamPlayer from "@/Components/Common/LiveStreamPlayer";
 import { getStreamPlaybackUrl } from "@/lib/Services/cms_service";
 import { CMSArtistSpotlightVideo, LiveStream, VideoChannelItem } from "@/Types/cms";
@@ -24,8 +25,7 @@ const SpotlightHero = ({
   const [nextIndex, setNextIndex] = useState<number | null>(null);
   const [isTransitioning, setIsTransitioning] = useState(false);
 
-  const currentRef = useRef<HTMLVideoElement>(null);
-  const nextRef = useRef<HTMLVideoElement>(null);
+  const nextRef = useRef<CustomVideoPlayerHandle>(null);
 
   const total = videoChannelVideos.length;
 
@@ -35,7 +35,7 @@ const SpotlightHero = ({
     setNextIndex(next);
     setIsTransitioning(true);
 
-    nextRef.current?.play().catch(() => {});
+    nextRef.current?.videoEl?.play().catch(() => {});
 
     setTimeout(() => {
       setCurrentIndex(next);
@@ -43,14 +43,6 @@ const SpotlightHero = ({
       setIsTransitioning(false);
     }, 600);
   }, [currentIndex, total]);
-
-  useEffect(() => {
-    if (isLive || total === 0 || !currentRef.current) return;
-
-    const video = currentRef.current;
-    video.addEventListener("ended", handleEnded);
-    return () => video.removeEventListener("ended", handleEnded);
-  }, [isLive, total, handleEnded, currentIndex]);
 
   // Live stream — show the live player
   if (isLive && streamSrc && liveStream) {
@@ -84,14 +76,14 @@ const SpotlightHero = ({
         <Container>
           <div className="relative w-full h-[300px] md:h-[500px] xl:h-[627px] rounded-[20px] md:rounded-[40px] overflow-hidden sm:px-5 2xl:px-0">
             {/* Current video (fades out during transition) */}
-            <video
-              ref={currentRef}
+            <CustomVideoPlayer
               key={`current-${currentVideo.id}`}
-              src={currentVideo.video_url}
+              videoSrc={currentVideo.video_url}
               autoPlay
-              muted
-              playsInline
-              className="absolute inset-0 w-full h-full object-cover rounded-[20px] md:rounded-[40px] z-10"
+              onEnded={handleEnded}
+              forceMuted={isTransitioning}
+              className="absolute inset-0 w-full h-full rounded-[20px] md:rounded-[40px] z-10"
+              videoClassName="w-full h-full object-cover rounded-[20px] md:rounded-[40px]"
               style={{
                 opacity: isTransitioning ? 0 : 1,
                 transition: "opacity 0.6s ease-in-out",
@@ -100,13 +92,14 @@ const SpotlightHero = ({
 
             {/* Next video (fades in during transition) */}
             {nextIndex !== null && (
-              <video
+              <CustomVideoPlayer
                 ref={nextRef}
                 key={`next-${videoChannelVideos[nextIndex].id}`}
-                src={videoChannelVideos[nextIndex].video_url}
-                muted
-                playsInline
-                className="absolute inset-0 w-full h-full object-cover rounded-[20px] md:rounded-[40px] z-0"
+                videoSrc={videoChannelVideos[nextIndex].video_url}
+                autoPlay
+                forceMuted
+                className="absolute inset-0 w-full h-full rounded-[20px] md:rounded-[40px] z-0"
+                videoClassName="w-full h-full object-cover rounded-[20px] md:rounded-[40px]"
                 style={{
                   opacity: isTransitioning ? 1 : 0,
                   transition: "opacity 0.6s ease-in-out",

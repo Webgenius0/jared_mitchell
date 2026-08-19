@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import CustomVideoPlayer, { CustomVideoPlayerHandle } from "@/Components/Common/CustomVideoPlayer";
 import LiveStreamPlayer from "@/Components/Common/LiveStreamPlayer";
 import { getStreamPlaybackUrl } from "@/lib/Services/cms_service";
 import { CMSHero, LiveStream, VideoChannelItem } from "@/Types/cms";
@@ -23,8 +24,7 @@ const Hero = ({
   const [nextIndex, setNextIndex] = useState<number | null>(null);
   const [isTransitioning, setIsTransitioning] = useState(false);
 
-  const currentRef = useRef<HTMLVideoElement>(null);
-  const nextRef = useRef<HTMLVideoElement>(null);
+  const nextRef = useRef<CustomVideoPlayerHandle>(null);
 
   const total = videoChannelVideos.length;
 
@@ -34,7 +34,8 @@ const Hero = ({
     setNextIndex(next);
     setIsTransitioning(true);
 
-    nextRef.current?.play().catch(() => {});
+    // Start playing the next video underneath
+    nextRef.current?.videoEl?.play().catch(() => {});
 
     setTimeout(() => {
       setCurrentIndex(next);
@@ -42,14 +43,6 @@ const Hero = ({
       setIsTransitioning(false);
     }, 600);
   }, [currentIndex, total]);
-
-  useEffect(() => {
-    if (isLive || total === 0 || !currentRef.current) return;
-
-    const video = currentRef.current;
-    video.addEventListener("ended", handleEnded);
-    return () => video.removeEventListener("ended", handleEnded);
-  }, [isLive, total, handleEnded, currentIndex]);
 
   // Live stream — show the live player
   if (isLive && streamSrc && liveStream) {
@@ -74,14 +67,14 @@ const Hero = ({
       <section className="container text-center pt-7 md:pt-10 xl:pt-5  2xl:pt-8">
         <div className="relative flex items-center justify-center my-5 md:my-7 rounded-2xl lg:rounded-4xl xl:rounded-[40px] overflow-hidden max-w-6xl mx-auto">
           {/* Current video (fades out during transition) */}
-          <video
-            ref={currentRef}
+          <CustomVideoPlayer
             key={`current-${currentVideo.id}`}
-            src={currentVideo.video_url}
+            videoSrc={currentVideo.video_url}
             autoPlay
-            muted
-            playsInline
-            className="w-full h-auto object-cover relative z-10"
+            onEnded={handleEnded}
+            forceMuted={isTransitioning}
+            className="w-full h-auto relative z-10"
+            videoClassName="w-full h-auto object-cover"
             style={{
               opacity: isTransitioning ? 0 : 1,
               transition: "opacity 0.6s ease-in-out",
@@ -90,13 +83,14 @@ const Hero = ({
 
           {/* Next video (fades in during transition) */}
           {nextIndex !== null && (
-            <video
+            <CustomVideoPlayer
               ref={nextRef}
               key={`next-${videoChannelVideos[nextIndex].id}`}
-              src={videoChannelVideos[nextIndex].video_url}
-              muted
-              playsInline
-              className="absolute inset-0 w-full h-full object-cover z-0"
+              videoSrc={videoChannelVideos[nextIndex].video_url}
+              autoPlay
+              forceMuted
+              className="absolute inset-0 w-full h-full z-0"
+              videoClassName="w-full h-full object-cover"
               style={{
                 opacity: isTransitioning ? 1 : 0,
                 transition: "opacity 0.6s ease-in-out",
