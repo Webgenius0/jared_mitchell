@@ -1,20 +1,57 @@
 "use client";
-import { useRef, useState } from "react";
+import { forwardRef, useEffect, useImperativeHandle, useRef, useState } from "react";
 import { MuteIcon, PlayIcon, SoundIcon } from "../Svg/SvgContainer";
 import { cn } from "@/lib/utils";
 
-export default function CustomVideoPlayer({
-  videoSrc,
-  className,
-  loop = false,
-}: {
+export interface CustomVideoPlayerHandle {
+  videoEl: HTMLVideoElement | null;
+}
+
+export default forwardRef<CustomVideoPlayerHandle, {
   videoSrc: string;
   className?: string;
   loop?: boolean;
-}) {
+  autoPlay?: boolean;
+  onEnded?: () => void;
+  /** When true the video is muted regardless of the mute toggle state (used during transitions). */
+  forceMuted?: boolean;
+  /** Inline styles on the outer wrapper div. */
+  style?: React.CSSProperties;
+  /** Additional inline styles forwarded to the <video>. */
+  videoStyle?: React.CSSProperties;
+  /** Additional class on the <video> element. */
+  videoClassName?: string;
+}>(function CustomVideoPlayer(
+  {
+    videoSrc,
+    className,
+    loop = false,
+    autoPlay = false,
+    onEnded,
+    forceMuted = false,
+    style,
+    videoStyle,
+    videoClassName,
+  },
+  ref,
+) {
   const videoRef = useRef<HTMLVideoElement>(null);
-  const [isPlaying, setIsPlaying] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(autoPlay);
   const [isMuted, setIsMuted] = useState(true);
+
+  // Expose the underlying <video> element to parent via ref
+  useImperativeHandle(ref, () => ({
+    videoEl: videoRef.current,
+  }));
+
+  // Sync isPlaying when autoPlay starts
+  useEffect(() => {
+    if (autoPlay && videoRef.current) {
+      videoRef.current.play().catch(() => {});
+      setIsPlaying(true);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [autoPlay, videoSrc]);
 
   const togglePlay = () => {
     if (!videoRef.current) return;
@@ -34,6 +71,11 @@ export default function CustomVideoPlayer({
     setIsMuted(!isMuted);
   };
 
+  const handleEnded = () => {
+    setIsPlaying(false);
+    onEnded?.();
+  };
+
   return (
     <div
       className={cn(
@@ -44,23 +86,26 @@ export default function CustomVideoPlayer({
         "relative w-full h-full overflow-hidden isolate",
         className,
       )}
+      style={style}
     >
       <video
         ref={videoRef}
         src={videoSrc}
-        muted={isMuted}
+        muted={forceMuted || isMuted}
         playsInline
         loop={loop}
-        className="w-full h-full object-cover"
+        autoPlay={autoPlay}
+        className={cn("w-full h-full object-cover", videoClassName)}
+        style={videoStyle}
         onClick={togglePlay}
-        onEnded={() => setIsPlaying(false)}
+        onEnded={handleEnded}
       />
 
-      {/* Overlay (only when paused) */}
-      {!isPlaying && (
+      {/* Overlay (only when paused and not force-muted during transition) */}
+      {!isPlaying && !forceMuted && (
         <div
           onClick={togglePlay}
-          className="absolute inset-0 flex items-center justify-center bg-black/20 cursor-pointer"
+          className="absolute inset-0 flex items-center justify-center bg-black/20 cursor-pointer z-10"
         >
           <PlayIcon />
         </div>
@@ -75,4 +120,4 @@ export default function CustomVideoPlayer({
       </button>
     </div>
   );
-}
+});

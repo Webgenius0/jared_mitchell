@@ -6,10 +6,14 @@ import { GoArrowRight } from "react-icons/go";
 import { getPastEvents } from "@/lib/Services/cms_service";
 import { CMSEventItem } from "@/Types/cms";
 import Link from "next/link";
+import { HiChevronLeft, HiChevronRight } from "react-icons/hi";
+
+const ITEMS_PER_PAGE = 6;
 
 const PastEvents = () => {
   const [events, setEvents] = useState<CMSEventItem[]>([]);
   const [loading, setLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     getPastEvents()
@@ -31,14 +35,19 @@ const PastEvents = () => {
     );
   }
 
+  // Pagination
+  const totalPages = Math.ceil(events.length / ITEMS_PER_PAGE);
+  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+  const paginatedEvents = events.slice(startIndex, startIndex + ITEMS_PER_PAGE);
+
   return (
-    <div className="container">
+    <div id="past-events-home" className="container">
       <h2 className="section_title 2xl:text-7xl 2xl:font-bold">
         Past Event Highlights
       </h2>
 
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5 md:gap-6 my-4 md:my-8">
-        {events.map(event => (
+        {paginatedEvents.map(event => (
           <div
             key={event.id}
             className="rounded-[20px] custom_border custom_shadow bg-[#F5F5F7] overflow-hidden"
@@ -71,6 +80,46 @@ const PastEvents = () => {
           </div>
         ))}
       </div>
+
+      {/* Pagination Controls */}
+      {totalPages > 1 && (
+        <div className="flex items-center justify-center gap-2 mt-8">
+          <button
+            onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+            disabled={currentPage === 1}
+            className="flex items-center justify-center size-10 rounded-lg border border-gray-300 text-gray-600 hover:bg-gray-100 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+            aria-label="Previous page"
+          >
+            <HiChevronLeft className="size-5" />
+          </button>
+
+          {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
+            <button
+              key={page}
+              onClick={() => {
+                setCurrentPage(page);
+                document.getElementById("past-events-home")?.scrollIntoView({ behavior: "smooth", block: "start" });
+              }}
+              className={`flex items-center justify-center size-10 rounded-lg text-sm font-medium transition-colors ${
+                currentPage === page
+                  ? "bg-primary-blue text-white shadow-md"
+                  : "border border-gray-300 text-gray-600 hover:bg-gray-100"
+              }`}
+            >
+              {page}
+            </button>
+          ))}
+
+          <button
+            onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+            disabled={currentPage === totalPages}
+            className="flex items-center justify-center size-10 rounded-lg border border-gray-300 text-gray-600 hover:bg-gray-100 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+            aria-label="Next page"
+          >
+            <HiChevronRight className="size-5" />
+          </button>
+        </div>
+      )}
     </div>
   );
 };

@@ -404,7 +404,7 @@ const FeaturedEventsCarousel = ({ events }: FeaturedEventsCarouselProps) => {
             )}
           </div>
 
-          <p className="text-base md:text-lg xl:text-2xl text-[#1D1D1F] leading-[150%] max-w-full xl:max-w-[80%] mb-6 md:mb-8 xl:mb-12 line-clamp-3 md:line-clamp-none">
+          <p className="text-base md:text-lg xl:text-2xl text-[#1D1D1F] leading-[150%] max-w-full xl:max-w-[80%] mb-6 md:mb-8 xl:mb-12 line-clamp-3 md:line-clamp-3">
             {event.description?.replace(/<[^>]*>/g, "")}
           </p>
 

@@ -296,7 +296,6 @@ export const getCalendarEvents = async (): Promise<CalendarEventsResponse> => {
   return result.data as CalendarEventsResponse;
 };
 
-
 export const getFeaturedProducts = async (): Promise<FeaturedProductItem[]> => {
   const res = await fetch(`${SITE_URL}/v1/products/featured`, {
     next: { revalidate: 300, tags: ["featured-products"] },
@@ -419,7 +418,6 @@ export const getRoundCountdown = async (): Promise<RoundCountdownResponse> => {
   return result.data as RoundCountdownResponse;
 };
 
-
 export const getArtistById = async (id: number) => {
   const res = await fetch(`${SITE_URL}/v1/artists/${id}`, {
     next: { revalidate: 600, tags: ["artist", `artist-${id}`] },
@@ -523,7 +521,6 @@ export const getBusinessSpotlightDetails = async (
   return result as BusinessSpotlightDetailsResponse;
 };
 
-
 export const getLeaderboard = async (
   weekId: number = 2,
   types: ("artist" | "business")[] = ["artist", "business"],
@@ -587,6 +584,19 @@ export const getStreamPlaybackUrl = (
   return stream.status === "live"
     ? stream.playback_url
     : (stream.vod_url ?? undefined);
+};
+
+export const getVideoChannels = async (): Promise<import("@/Types/cms").VideoChannelsData> => {
+  const res = await fetch(`${SITE_URL}/v1/video-channels`, {
+    next: { revalidate: 120, tags: ["video-channels"] },
+  });
+
+  if (!res.ok) {
+    throw new Error(`Failed to fetch video channels — Status: ${res.status}`);
+  }
+
+  const result = await res.json();
+  return result.data as import("@/Types/cms").VideoChannelsData;
 };
 
 export const getCurrentSpotlightWeek =

@@ -8,10 +8,13 @@ import { EventGalleryItem } from "@/Types/cms";
 import { HiPlay, HiX, HiChevronLeft, HiChevronRight } from "react-icons/hi";
 import { HiOutlinePhoto } from "react-icons/hi2";
 
+const ITEMS_PER_PAGE = 9;
+
 const EventGallery = () => {
   const [gallery, setGallery] = useState<EventGalleryItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     getEventGallery()
@@ -24,6 +27,11 @@ const EventGallery = () => {
   const images = gallery.filter(item => item.media_type === "image");
   const videos = gallery.filter(item => item.media_type === "video");
   const allMedia = gallery;
+
+  // Pagination
+  const totalPages = Math.ceil(gallery.length / ITEMS_PER_PAGE);
+  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+  const paginatedGallery = gallery.slice(startIndex, startIndex + ITEMS_PER_PAGE);
 
   const openLightbox = (index: number) => setLightboxIndex(index);
   const closeLightbox = () => setLightboxIndex(null);
@@ -88,7 +96,7 @@ const EventGallery = () => {
   }
 
   return (
-    <section className="py-10 md:py-16 xl:py-20 container">
+    <section id="event-gallery" className="py-10 md:py-16 xl:py-20 container">
       <h2 className="section_title text-2xl md:text-4xl xl:text-6xl 2xl:text-7xl 2xl:font-bold">
         Event Gallery
       </h2>
@@ -114,10 +122,10 @@ const EventGallery = () => {
 
       {/* Gallery Grid */}
       <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 md:gap-5">
-        {gallery.map((item, idx) => (
+        {paginatedGallery.map((item, idx) => (
           <button
             key={item.id}
-            onClick={() => openLightbox(idx)}
+            onClick={() => openLightbox(startIndex + idx)}
             className="group relative h-[180px] sm:h-[250px] md:h-[300px] xl:h-[369px] rounded-xl overflow-hidden focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-blue focus-visible:ring-offset-2"
           >
             {item.media_type === "video" ? (
@@ -149,6 +157,47 @@ const EventGallery = () => {
           </button>
         ))}
       </div>
+
+      {/* Pagination Controls */}
+      {totalPages > 1 && (
+        <div className="flex items-center justify-center gap-2 mt-10">
+          <button
+            onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+            disabled={currentPage === 1}
+            className="flex items-center justify-center size-10 rounded-lg border border-gray-300 text-gray-600 hover:bg-gray-100 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+            aria-label="Previous page"
+          >
+            <HiChevronLeft className="size-5" />
+          </button>
+
+          {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
+            <button
+              key={page}
+              onClick={() => {
+                setCurrentPage(page);
+                // Scroll gallery into view
+                document.getElementById("event-gallery")?.scrollIntoView({ behavior: "smooth", block: "start" });
+              }}
+              className={`flex items-center justify-center size-10 rounded-lg text-sm font-medium transition-colors ${
+                currentPage === page
+                  ? "bg-primary-blue text-white shadow-md"
+                  : "border border-gray-300 text-gray-600 hover:bg-gray-100"
+              }`}
+            >
+              {page}
+            </button>
+          ))}
+
+          <button
+            onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+            disabled={currentPage === totalPages}
+            className="flex items-center justify-center size-10 rounded-lg border border-gray-300 text-gray-600 hover:bg-gray-100 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+            aria-label="Next page"
+          >
+            <HiChevronRight className="size-5" />
+          </button>
+        </div>
+      )}
 
       {/* View Full Gallery Button */}
       <div className="flex justify-center mt-10">

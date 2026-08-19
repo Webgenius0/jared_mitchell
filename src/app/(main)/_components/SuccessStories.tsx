@@ -33,9 +33,7 @@ const SuccessStories = ({ cmsData, winners, type }: SuccessStoriesProps) => {
   return (
     <section className="section">
       <div className="container">
-        <h2 className="section_title 2xl:text-5xl">
-          {title}
-        </h2>
+        <h2 className="section_title 2xl:text-5xl">{title}</h2>
 
         <p className="section_sub_title">{subTitle}</p>
       </div>
@@ -73,8 +71,8 @@ const SuccessStories = ({ cmsData, winners, type }: SuccessStoriesProps) => {
               1536: { slidesPerView: 4 },
             }}
           >
-            {items.map(item => (
-              <SwiperSlide key={item.id}>
+            {items.map((item, index) => (
+              <SwiperSlide key={`${type}-${item.id ?? "item"}-${index}`}>
                 <div className="relative w-full h-[300px]">
                   <Image
                     src={item.image}

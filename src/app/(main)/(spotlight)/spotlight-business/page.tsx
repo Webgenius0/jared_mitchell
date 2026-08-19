@@ -14,8 +14,11 @@ import {
   getCMSAboutData,
   getCMSBusinessSpotlightData,
   getBusinessHistoricalWinners,
+  getFeaturedStream,
+  getLiveStreams,
+  getVideoChannels,
 } from "@/lib/Services/cms_service";
-import { HistoricalWinnersItem } from "@/Types/cms";
+import { HistoricalWinnersItem, LiveStream, VideoChannelItem } from "@/Types/cms";
 import Sponsors from "../../_components/Sponsors";
 
 const FALLBACK_IMAGE = "https://placehold.co/400x600.png?text=No+Image";
@@ -23,6 +26,26 @@ const FALLBACK_IMAGE = "https://placehold.co/400x600.png?text=No+Image";
 const page = async () => {
   const cmsData = await getCMSBusinessSpotlightData();
   const CmsData = await getCMSAboutData();
+
+  let liveStream: LiveStream | undefined;
+  let hasPendingStream = false;
+  try {
+    const { stream, hasPending } = getFeaturedStream(
+      await getLiveStreams("business"),
+    );
+    liveStream = stream;
+    hasPendingStream = hasPending;
+  } catch (err) {
+    console.error("Failed to fetch business live streams:", err);
+  }
+
+  let businessVideos: VideoChannelItem[] = [];
+  try {
+    const videoChannels = await getVideoChannels();
+    businessVideos = videoChannels?.business_spotlight?.videos ?? [];
+  } catch (err) {
+    console.error("Failed to fetch video channels:", err);
+  }
 
   let businessWinners: HistoricalWinnersItem[] = [];
   try {
@@ -42,7 +65,12 @@ const page = async () => {
   return (
     <>
       <BusinessSpotlightBanner data={cmsData?.business_spotlight_hero} />
-      <SpotlightHero data={cmsData?.business_spotlight_video} />
+      <SpotlightHero
+        data={cmsData?.business_spotlight_video}
+        liveStream={liveStream}
+        hasPendingStream={hasPendingStream}
+        videoChannelVideos={businessVideos}
+      />
       <HowSpotlightWorks type="business" />
       <DiscoverArtists
         type="business"
