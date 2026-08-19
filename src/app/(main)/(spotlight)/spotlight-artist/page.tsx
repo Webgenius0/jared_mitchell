@@ -16,8 +16,9 @@ import {
   getCMSHomepageData,
   getFeaturedStream,
   getLiveStreams,
+  getVideoChannels,
 } from "@/lib/Services/cms_service";
-import { HistoricalWinnersItem, LiveStream } from "@/Types/cms";
+import { HistoricalWinnersItem, LiveStream, VideoChannelItem } from "@/Types/cms";
 import Sponsors from "../../_components/Sponsors";
 
 const FALLBACK_IMAGE = "https://placehold.co/400x600.png?text=No+Image";
@@ -36,6 +37,14 @@ const page = async () => {
     hasPendingStream = hasPending;
   } catch (err) {
     console.error("Failed to fetch artist live streams:", err);
+  }
+
+  let artistVideos: VideoChannelItem[] = [];
+  try {
+    const videoChannels = await getVideoChannels();
+    artistVideos = videoChannels?.artist_spotlight?.videos ?? [];
+  } catch (err) {
+    console.error("Failed to fetch video channels:", err);
   }
 
   let artistWinners: HistoricalWinnersItem[] = [];
@@ -60,6 +69,7 @@ const page = async () => {
         data={cmsData?.artist_spotlight_video}
         liveStream={liveStream}
         hasPendingStream={hasPendingStream}
+        videoChannelVideos={artistVideos}
       />
       <HowSpotlightWorks type="artist" />
       <DiscoverArtists type="artist" data={cmsData?.artist_spotlight_list} />

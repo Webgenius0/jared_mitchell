@@ -1648,3 +1648,37 @@ export interface LiveStream {
   updated_at: string;
   streamable?: any;
 }
+
+// ─── Video Channels ─────────────────────────────────────────────────────────
+// GET /v1/video-channels — category-grouped video lists.
+
+export interface VideoChannelItem {
+  id: number;
+  category: string;
+  category_label: string;
+  video_url: string;
+  order: number;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface VideoChannelCategory {
+  category_key: string;
+  category_label: string;
+  videos: VideoChannelItem[];
+}
+
+export interface VideoChannelsData {
+  boss_beginning: VideoChannelCategory;
+  business_spotlight: VideoChannelCategory;
+  artist_spotlight: VideoChannelCategory;
+  event_video: VideoChannelCategory;
+}
+
+export interface VideoChannelsResponse {
+  success: boolean;
+  message: string;
+  data: VideoChannelsData;
+  errors: null | any;
+  code: number;
+}

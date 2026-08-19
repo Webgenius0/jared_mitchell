@@ -14,8 +14,9 @@ import {
   getRoundLeaderboard,
   getFeaturedStream,
   getLiveStreams,
+  getVideoChannels,
 } from "@/lib/Services/cms_service";
-import { CMSBossBeginnings, LiveStream, PastSixMonthsWinner } from "@/Types/cms";
+import { CMSBossBeginnings, LiveStream, PastSixMonthsWinner, VideoChannelItem } from "@/Types/cms";
 import Sponsors from "../_components/Sponsors";
 import BossBeginningSponsor from "./_components/BossBeginningSponsor";
 import BossBeginningsContestCarousel from "@/Components/Common/BossBeginningsContestCarousel";
@@ -65,6 +66,14 @@ const page = async () => {
     console.error("Failed to fetch boss beginnings live streams:", err);
   }
 
+  let bossBeginningVideos: VideoChannelItem[] = [];
+  try {
+    const videoChannels = await getVideoChannels();
+    bossBeginningVideos = videoChannels?.boss_beginning?.videos ?? [];
+  } catch (err) {
+    console.error("Failed to fetch video channels:", err);
+  }
+
   return (
     <>
       <BossBeginningBanner data={pageData?.boss_beginnings_hero} />
@@ -73,6 +82,7 @@ const page = async () => {
         data={pageData?.boss_beginnings_hero}
         liveStream={bossStream}
         hasPendingStream={hasPendingStream}
+        videoChannelVideos={bossBeginningVideos}
       />
 
       <BusinessShower data={pageData?.boss_beginnings_features} />

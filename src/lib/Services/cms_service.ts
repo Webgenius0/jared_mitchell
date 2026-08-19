@@ -586,6 +586,19 @@ export const getStreamPlaybackUrl = (
     : (stream.vod_url ?? undefined);
 };
 
+export const getVideoChannels = async (): Promise<import("@/Types/cms").VideoChannelsData> => {
+  const res = await fetch(`${SITE_URL}/v1/video-channels`, {
+    next: { revalidate: 120, tags: ["video-channels"] },
+  });
+
+  if (!res.ok) {
+    throw new Error(`Failed to fetch video channels — Status: ${res.status}`);
+  }
+
+  const result = await res.json();
+  return result.data as import("@/Types/cms").VideoChannelsData;
+};
+
 export const getCurrentSpotlightWeek =
   async (): Promise<LeaderboardResponse> => {
     const res = await fetch(`${SITE_URL}/v1/spotlight/weeks/current`, {

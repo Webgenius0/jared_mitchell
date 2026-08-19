@@ -20,8 +20,9 @@ import {
   getFeaturedEvents,
   getFeaturedStream,
   getLiveStreams,
+  getVideoChannels,
 } from "@/lib/Services/cms_service";
-import { CMSEventsPage, FeaturedEventItem, LiveStream } from "@/Types/cms";
+import { CMSEventsPage, FeaturedEventItem, LiveStream, VideoChannelItem } from "@/Types/cms";
 
 const Page = async () => {
   const pageData = (await getEventsPageCms()) as CMSEventsPage;
@@ -50,6 +51,14 @@ const Page = async () => {
     console.error("Failed to fetch event live streams:", err);
   }
 
+  let eventVideos: VideoChannelItem[] = [];
+  try {
+    const videoChannels = await getVideoChannels();
+    eventVideos = videoChannels?.event_video?.videos ?? [];
+  } catch (err) {
+    console.error("Failed to fetch video channels:", err);
+  }
+
   return (
     <>
       <EventsBanner data={pageData?.events_page_hero} />
@@ -57,6 +66,7 @@ const Page = async () => {
         data={pageData?.events_page_hero}
         liveStream={eventStream}
         hasPendingStream={hasPendingStream}
+        videoChannelVideos={eventVideos}
       />
       <FeaturedEventsCarousel events={featuredEvents} />
       {/* <CreatorMarket /> */}
