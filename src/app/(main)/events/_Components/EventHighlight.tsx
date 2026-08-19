@@ -7,6 +7,9 @@ import { getPastEvents } from "@/lib/Services/cms_service";
 import { CMSEventItem } from "@/Types/cms";
 
 import Link from "next/link";
+import { HiChevronLeft, HiChevronRight } from "react-icons/hi";
+
+const ITEMS_PER_PAGE = 6;
 
 const formatOverlayDate = (dateStr?: string) => {
   if (!dateStr) return "";
@@ -28,6 +31,7 @@ const formatRowDate = (dateStr?: string) => {
 const EventHighlight = () => {
   const [events, setEvents] = useState<CMSEventItem[]>([]);
   const [loading, setLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     getPastEvents()
@@ -54,8 +58,13 @@ const EventHighlight = () => {
     );
   }
 
+  // Pagination
+  const totalPages = Math.ceil(events.length / ITEMS_PER_PAGE);
+  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+  const paginatedEvents = events.slice(startIndex, startIndex + ITEMS_PER_PAGE);
+
   return (
-    <section className="container py-10 md:py-16 xl:py-20">
+    <section id="past-events" className="container py-10 md:py-16 xl:py-20">
       <h2 className="section_title text-2xl md:text-4xl xl:text-6xl 2xl:text-7xl 2xl:font-bold">
         Past Event Highlights
       </h2>
@@ -66,7 +75,7 @@ const EventHighlight = () => {
 
       <div className="my-6 md:my-10">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-5">
-          {events.map(event => (
+          {paginatedEvents.map(event => (
             <div
               key={event.id}
               className="group rounded-[20px] bg-white custom_shadow custom_border overflow-hidden"
@@ -132,6 +141,46 @@ const EventHighlight = () => {
           ))}
         </div>
       </div>
+
+      {/* Pagination Controls */}
+      {totalPages > 1 && (
+        <div className="flex items-center justify-center gap-2 mt-8">
+          <button
+            onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+            disabled={currentPage === 1}
+            className="flex items-center justify-center size-10 rounded-lg border border-gray-300 text-gray-600 hover:bg-gray-100 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+            aria-label="Previous page"
+          >
+            <HiChevronLeft className="size-5" />
+          </button>
+
+          {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
+            <button
+              key={page}
+              onClick={() => {
+                setCurrentPage(page);
+                document.getElementById("past-events")?.scrollIntoView({ behavior: "smooth", block: "start" });
+              }}
+              className={`flex items-center justify-center size-10 rounded-lg text-sm font-medium transition-colors ${
+                currentPage === page
+                  ? "bg-primary-blue text-white shadow-md"
+                  : "border border-gray-300 text-gray-600 hover:bg-gray-100"
+              }`}
+            >
+              {page}
+            </button>
+          ))}
+
+          <button
+            onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+            disabled={currentPage === totalPages}
+            className="flex items-center justify-center size-10 rounded-lg border border-gray-300 text-gray-600 hover:bg-gray-100 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+            aria-label="Next page"
+          >
+            <HiChevronRight className="size-5" />
+          </button>
+        </div>
+      )}
     </section>
   );
 };

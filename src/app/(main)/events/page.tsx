@@ -36,9 +36,6 @@ const Page = async () => {
     console.error("Failed to fetch featured events:", err);
   }
 
-  // Event live stream (AWS IVS). Prefers a live channel (playback_url),
-  // otherwise falls back to the latest ended stream's recording (vod_url).
-  // A pending-only channel hides the EventHero section.
   let eventStream: LiveStream | undefined;
   let hasPendingStream = false;
   try {
