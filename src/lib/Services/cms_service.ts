@@ -296,7 +296,6 @@ export const getCalendarEvents = async (): Promise<CalendarEventsResponse> => {
   return result.data as CalendarEventsResponse;
 };
 
-
 export const getFeaturedProducts = async (): Promise<FeaturedProductItem[]> => {
   const res = await fetch(`${SITE_URL}/v1/products/featured`, {
     next: { revalidate: 300, tags: ["featured-products"] },
@@ -419,7 +418,6 @@ export const getRoundCountdown = async (): Promise<RoundCountdownResponse> => {
   return result.data as RoundCountdownResponse;
 };
 
-
 export const getArtistById = async (id: number) => {
   const res = await fetch(`${SITE_URL}/v1/artists/${id}`, {
     next: { revalidate: 600, tags: ["artist", `artist-${id}`] },
@@ -522,7 +520,6 @@ export const getBusinessSpotlightDetails = async (
   const result = await res.json();
   return result as BusinessSpotlightDetailsResponse;
 };
-
 
 export const getLeaderboard = async (
   weekId: number = 2,
