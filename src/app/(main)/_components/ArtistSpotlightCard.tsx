@@ -164,7 +164,7 @@ export default function ArtistSpotlightCard({
               fill
               sizes="(max-width: 940px) 100vw, 940px"
               alt={name || "Spotlight winner"}
-              className=" size-full transition-transform duration-700 group-hover:scale-105 object-contain object-center"
+              className=" size-full transition-transform duration-700 group-hover:scale-105 object-contain"
             />
 
             {winner && (

@@ -11,7 +11,8 @@ interface CommunityAchievementsProps {
   pastSixMonthsWinners?: PastSixMonthsWinner[];
 }
 
-const extractCategory = (contestableType: string): string => {
+const extractCategory = (contestableType?: string): string => {
+  if (!contestableType) return "Business";
   const parts = contestableType.split("\\");
   return parts[parts.length - 1] || "Business";
 };
@@ -155,11 +156,11 @@ const CommunityAchievements = ({
             >
               {winners.map(winner => {
                 const title =
-                  winner.display_name || winner.contestable.business_name;
-                const category = extractCategory(winner.contestable.type);
+                  winner.display_name || winner.contestable?.business_name;
+                const category = extractCategory(winner.contestable?.type);
                 const description =
-                  winner.contestable.story ||
-                  winner.contestable.community_impact_statement ||
+                  winner.contestable?.story ||
+                  winner.contestable?.community_impact_statement ||
                   "";
                 const linkHref = getSpotlightLink(winner);
                 const cardImage = getCardImage(winner);
