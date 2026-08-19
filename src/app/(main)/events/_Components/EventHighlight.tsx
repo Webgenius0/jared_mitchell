@@ -95,7 +95,7 @@ const EventHighlight = () => {
 
                 {/* Overlay content — fades + slides in on hover */}
                 <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-4 md:px-6 opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">
-                  <h2 className="text-white text-xl md:text-2xl xl:text-3xl font-bold line-clamp-2 drop-shadow-[0_2px_6px_rgba(0,0,0,0.6)]">
+                  <h2 className="text-white text-xl md:text-2xl xl:text-3xl font-bold line-clamp-2 drop-shadow-[0_2px_6px_rgba(0,0,0,0.6)] capitalize">
                     {event.title}
                   </h2>
                   {event.starts_at && (
@@ -109,7 +109,7 @@ const EventHighlight = () => {
               {/* Content below the image */}
               <div className="py-4 md:py-7 px-4 md:px-5">
                 <div className="flex items-start justify-between gap-3">
-                  <h3 className="text-lg md:text-xl xl:text-2xl text-primary-black font-semibold line-clamp-1">
+                  <h3 className="text-lg md:text-xl xl:text-2xl text-primary-black font-semibold line-clamp-1 capitalize">
                     {event.title}
                   </h3>
                   {event.starts_at && (
@@ -159,7 +159,9 @@ const EventHighlight = () => {
               key={page}
               onClick={() => {
                 setCurrentPage(page);
-                document.getElementById("past-events")?.scrollIntoView({ behavior: "smooth", block: "start" });
+                document
+                  .getElementById("past-events")
+                  ?.scrollIntoView({ behavior: "smooth", block: "start" });
               }}
               className={`flex items-center justify-center size-10 rounded-lg text-sm font-medium transition-colors ${
                 currentPage === page
