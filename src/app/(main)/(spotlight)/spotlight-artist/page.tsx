@@ -9,6 +9,7 @@ import WhatExist from "../../about/_Components/WhatExist";
 import ArtistSpotlightBanner from "../_components/ArtistSpotlightBanner";
 import HowSpotlightWorks from "../_components/HowSpotlightWorks";
 import SuccessStories from "../../_components/SuccessStories";
+import SpotlightWinnerSection from "@/Components/Common/SpotlightWinnerSection";
 import {
   getCMSAboutData,
   getCMSArtistSpotlightData,
@@ -18,7 +19,7 @@ import {
   getLiveStreams,
   getVideoChannels,
 } from "@/lib/Services/cms_service";
-import { HistoricalWinnersItem, LiveStream, VideoChannelItem } from "@/Types/cms";
+import { HistoricalWinnersItem, LiveStream, SpotlightHistoricalWinnerItem, VideoChannelItem } from "@/Types/cms";
 import Sponsors from "../../_components/Sponsors";
 
 const FALLBACK_IMAGE = "https://placehold.co/400x600.png?text=No+Image";
@@ -48,8 +49,10 @@ const page = async () => {
   }
 
   let artistWinners: HistoricalWinnersItem[] = [];
+  let lastArtistWinner: SpotlightHistoricalWinnerItem | null = null;
   try {
     const res = await getArtistHistoricalWinners();
+    lastArtistWinner = res?.winners?.[0] ?? null;
     artistWinners = (res?.winners || []).map(w => ({
       id: w.spotlight.id,
       title: w.spotlight.name,
@@ -71,6 +74,7 @@ const page = async () => {
         hasPendingStream={hasPendingStream}
         videoChannelVideos={artistVideos}
       />
+      <SpotlightWinnerSection winner={lastArtistWinner} type="artist" />
       <HowSpotlightWorks type="artist" />
       <DiscoverArtists type="artist" data={cmsData?.artist_spotlight_list} />
       {/* <CommunityAchievements data={cmsData?.artist_spotlight_highlights} /> */}

@@ -60,6 +60,7 @@ const Navbar = () => {
   // and close whichever submenu is open.
   const navListRef = useRef<HTMLUListElement>(null);
   const userDropdownRef = useRef<HTMLDivElement>(null);
+  const hoverTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const handleLogout = () => {
     clearToken();
@@ -117,16 +118,27 @@ const Navbar = () => {
                 const hasSubMenu = Boolean(link?.subMenu?.length);
                 const isSubmenuOpen = openSubmenu === link?.label;
 
+                const handleMouseEnter = () => {
+                  if (hoverTimeoutRef.current) clearTimeout(hoverTimeoutRef.current);
+                  if (hasSubMenu) setOpenSubmenu(link?.label);
+                };
+
+                const handleMouseLeave = () => {
+                  hoverTimeoutRef.current = setTimeout(() => {
+                    setOpenSubmenu(null);
+                  }, 150);
+                };
+
                 return (
-                  <li key={link?.label} className="relative">
+                  <li
+                    key={link?.label}
+                    className="relative"
+                    onMouseEnter={handleMouseEnter}
+                    onMouseLeave={handleMouseLeave}
+                  >
                     {hasSubMenu ? (
                       <button
                         type="button"
-                        onClick={() =>
-                          setOpenSubmenu(prev =>
-                            prev === link?.label ? null : link?.label,
-                          )
-                        }
                         className={`cursor-pointer ${
                           isActive
                             ? "text-secondary-blue font-medium"

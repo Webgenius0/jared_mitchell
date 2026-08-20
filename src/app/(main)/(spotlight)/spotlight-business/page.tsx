@@ -10,6 +10,7 @@ import SpotlightLadder from "../_components/SpotlightLadder";
 import BusinessSpotlightBanner from "../_components/BusinessSpotlightBanner";
 import HowSpotlightWorks from "../_components/HowSpotlightWorks";
 import SuccessStories from "../../_components/SuccessStories";
+import SpotlightWinnerSection from "@/Components/Common/SpotlightWinnerSection";
 import {
   getCMSAboutData,
   getCMSBusinessSpotlightData,
@@ -18,7 +19,7 @@ import {
   getLiveStreams,
   getVideoChannels,
 } from "@/lib/Services/cms_service";
-import { HistoricalWinnersItem, LiveStream, VideoChannelItem } from "@/Types/cms";
+import { HistoricalWinnersItem, LiveStream, SpotlightHistoricalWinnerItem, VideoChannelItem } from "@/Types/cms";
 import Sponsors from "../../_components/Sponsors";
 
 const FALLBACK_IMAGE = "https://placehold.co/400x600.png?text=No+Image";
@@ -48,8 +49,10 @@ const page = async () => {
   }
 
   let businessWinners: HistoricalWinnersItem[] = [];
+  let lastBusinessWinner: SpotlightHistoricalWinnerItem | null = null;
   try {
     const res = await getBusinessHistoricalWinners();
+    lastBusinessWinner = res?.winners?.[0] ?? null;
     businessWinners = (res?.winners || []).map(w => ({
       id: w.spotlight.id,
       title: w.spotlight.name,
@@ -71,6 +74,7 @@ const page = async () => {
         hasPendingStream={hasPendingStream}
         videoChannelVideos={businessVideos}
       />
+      <SpotlightWinnerSection winner={lastBusinessWinner} type="business" />
       <HowSpotlightWorks type="business" />
       <DiscoverArtists
         type="business"

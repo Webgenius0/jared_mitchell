@@ -1,7 +1,7 @@
 "use client";
-import { CalenderSvg, VideoSvg } from "@/Components/Svg/SvgContainer";
 import { useRef, useState } from "react";
 import { PlayIcon } from "@/Components/Svg/SvgContainer";
+import { CalenderSvg, VideoSvg } from "@/Components/Svg/SvgContainer";
 
 const CreatorMarket = () => {
   const videoRef = useRef<HTMLVideoElement>(null);

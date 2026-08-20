@@ -3,47 +3,12 @@ import React, { useEffect, useRef, useState } from "react";
 import { FaMinus, FaMicrophone, FaPlus, FaRobot } from "react-icons/fa";
 import { IoSend } from "react-icons/io5";
 import { RxCross2 } from "react-icons/rx";
+import { useAskChatbot, apiGetConversation } from "@/Hooks/api/chat_api";
 
 type ChatMessage = {
   id: number;
   role: "user" | "assistant";
   text: string;
-};
-
-// ─── Mock assistant replies (frontend-only placeholder) ──────────────────
-// Swap this out for a real AI endpoint later — send the conversation history
-// and render the returned message the same way.
-const getMockReply = (input: string): string => {
-  const text = input.toLowerCase();
-
-  if (/(vote|voting|votepurchase)/.test(text)) {
-    return "You can purchase votes from the dashboard's Vote Purchase page. Head to Spotlight Management → Vote Purchase, pick a package, and follow the checkout — votes are applied to your active entry right away.";
-  }
-  if (/(round|boss beginning|boss)/.test(text)) {
-    return "Boss Beginning rounds open up one at a time over the season. From the Boss Beginning menu you can open your current round plus every round before it. Each round has its own asset submission page.";
-  }
-  if (/(event|ticket|booking)/.test(text)) {
-    return "You'll find upcoming events on the Events page of your dashboard. You can browse the schedule, grab tickets, and manage your bookings from there.";
-  }
-  if (/(spotlight|apply|application)/.test(text)) {
-    return "Spotlight applications live under Spotlight Management → My Applications. You can apply, track the status, and withdraw an application if your plans change.";
-  }
-  if (/(subscription|plan|premium)/.test(text)) {
-    return "Your subscription and available plans are on the Subscription page. You can view your current plan, upgrade, or manage billing from there.";
-  }
-  if (/(purchase|order|payment|refund)/.test(text)) {
-    return "All of your purchases — votes, tickets, subscriptions and more — are listed on the Purchase List page, where you can review order status and payments.";
-  }
-  if (/(support|help|contact|human|agent)/.test(text)) {
-    return "If you need a hand from our team, reach out through the Settings page's support options and we'll get back to you as soon as possible.";
-  }
-  if (/(analytics|performance|insight|stats)/.test(text)) {
-    return "The Analytics page gives you an overview of your performance — engagement, points and key metrics — so you can track how your entries are doing.";
-  }
-  if (/(hello|hi|hey)\b/.test(text)) {
-    return "Hello! 👋 I'm here to help you navigate your OSI dashboard. Ask me about votes, rounds, events, subscriptions or anything else.";
-  }
-  return "Thanks for your question! To give you the most relevant guidance, could you tell me a bit more about what you're trying to do — for example votes, events, rounds or subscriptions?";
 };
 
 const WELCOME_MESSAGE =
@@ -54,9 +19,11 @@ const ChatbotWidget = () => {
   const [minimized, setMinimized] = useState(false);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [input, setInput] = useState("");
-  const [typing, setTyping] = useState(false);
+  const [conversationId, setConversationId] = useState<string | null>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
   const idRef = useRef(0);
+
+  const askChatbot = useAskChatbot();
 
   // Greet the user the first time the popup is opened
   useEffect(() => {
@@ -71,31 +38,87 @@ const ChatbotWidget = () => {
   useEffect(() => {
     const el = scrollRef.current;
     if (el) el.scrollTo({ top: el.scrollHeight, behavior: "smooth" });
-  }, [messages, typing, open]);
+  }, [messages, askChatbot.isPending, open]);
 
-  const sendMessage = (text?: string) => {
+  const sendMessage = async (text?: string) => {
     const content = (text ?? input).trim();
-    if (!content || typing) return;
+    if (!content || askChatbot.isPending) return;
 
     setMessages(prev => [
       ...prev,
       { id: ++idRef.current, role: "user", text: content },
     ]);
     setInput("");
-    setTyping(true);
 
-    // Simulated "thinking" delay before the mock reply
-    window.setTimeout(() => {
+    try {
+      // Step 1: Send the prompt to create/update the conversation
+      const askRes: any = await new Promise((resolve, reject) => {
+        askChatbot.mutate(
+          { data: { prompt: content, conversation_id: conversationId } },
+          { onSuccess: resolve, onError: reject },
+        );
+      });
+
+      // Extract conversation_id from the ask response
+      const convId =
+        askRes?.data?.conversation_id ??
+        askRes?.conversation_id ??
+        askRes?.data?.id ??
+        askRes?.id;
+
+      if (convId) {
+        setConversationId(convId);
+      }
+
+      // Step 2: Fetch the full conversation to get the assistant reply
+      const targetId = convId || conversationId;
+      if (targetId) {
+        const convRes = await apiGetConversation(targetId);
+        const messages = convRes?.data?.messages ?? [];
+        // Get the last assistant message
+        const lastAssistant = [...messages]
+          .reverse()
+          .find((m: any) => m.role === "assistant");
+
+        if (lastAssistant?.content) {
+          setMessages(prev => [
+            ...prev,
+            {
+              id: ++idRef.current,
+              role: "assistant",
+              text: lastAssistant.content,
+            },
+          ]);
+        } else {
+          setMessages(prev => [
+            ...prev,
+            {
+              id: ++idRef.current,
+              role: "assistant",
+              text: "Sorry, I couldn't process that.",
+            },
+          ]);
+        }
+      } else {
+        setMessages(prev => [
+          ...prev,
+          {
+            id: ++idRef.current,
+            role: "assistant",
+            text: "Sorry, I couldn't process that.",
+          },
+        ]);
+      }
+    } catch {
       setMessages(prev => [
         ...prev,
         {
           id: ++idRef.current,
           role: "assistant",
-          text: getMockReply(content),
+          text: "Sorry, something went wrong. Please try again.",
         },
       ]);
-      setTyping(false);
-    }, 900);
+    }
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -141,13 +164,13 @@ const ChatbotWidget = () => {
               </p>
             </div>
             <div className="flex items-center gap-1">
-              <button
+              {/* <button
                 onClick={() => setMinimized(m => !m)}
                 aria-label={minimized ? "Expand chat" : "Minimize chat"}
                 className="grid h-8 w-8 place-items-center rounded-md hover:bg-white/15"
               >
                 <FaMinus className="text-sm" />
-              </button>
+              </button> */}
               <button
                 onClick={closeChat}
                 aria-label="Close chat"
@@ -181,7 +204,7 @@ const ChatbotWidget = () => {
                   ),
                 )}
 
-                {typing && (
+                {askChatbot.isPending && (
                   <div className="flex justify-start">
                     <div className="flex items-center gap-1.5 rounded-2xl rounded-bl-md bg-white px-4 py-3 shadow-sm">
                       <span className="h-2 w-2 animate-bounce rounded-full bg-gray-400 [animation-delay:0ms]" />
@@ -209,18 +232,12 @@ const ChatbotWidget = () => {
                       placeholder="Ask me anything..."
                       className="w-full bg-transparent py-2.5 text-sm outline-none placeholder:text-gray-400"
                     />
-                    <button
-                      aria-label="Voice input"
-                      className="grid h-8 w-8 shrink-0 place-items-center rounded-full text-[#364153] hover:text-primary-blue"
-                    >
-                      <FaMicrophone className="text-sm" />
-                    </button>
                   </div>
                   <button
                     onClick={() => sendMessage()}
                     aria-label="Send message"
                     className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-primary-blue text-white transition-transform hover:scale-105 active:scale-95 disabled:opacity-50"
-                    disabled={!input.trim() || typing}
+                    disabled={!input.trim() || askChatbot.isPending}
                   >
                     <IoSend className="text-sm -translate-x-px translate-y-px" />
                   </button>

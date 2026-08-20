@@ -58,12 +58,12 @@ const ShopCard = ({
         key={itemKey}
         className="pb-5 rounded-2xl overflow-hidden custom_border custom_shadow bg-white"
       >
-        <div className="relative w-full h-[300px]">
+        <div className="relative w-full h-[250px]">
           <div className="absolute size-full bg-black/10" />
           <Image
             src={data.image}
             width={358}
-            height={378}
+            height={300}
             alt=""
             className="size-full object-cover object-center"
           />
