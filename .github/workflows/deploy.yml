@@ -76,6 +76,21 @@ jobs:
           ssh -i private_key.pem -o StrictHostKeyChecking=no \
             ${EC2_USERNAME}@${EC2_HOST} << 'EOF'
             
+            # Ensure Node.js and PM2 are installed
+            if ! command -v node &> /dev/null; then
+              echo "Node.js not found, installing..."
+              curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
+              sudo apt-get install -y nodejs
+            fi
+            
+            if ! command -v pm2 &> /dev/null; then
+              echo "PM2 not found, installing..."
+              sudo npm install -g pm2
+            fi
+
+            # Create directory if it doesn't exist
+            sudo mkdir -p /var/www/frontend
+            
             # Navigate to app directory
             cd /var/www/frontend
 
@@ -115,7 +130,7 @@ jobs:
             mkdir -p logs
             
             # Zero-downtime reload with PM2
-            if pm2 describe frontend > /dev/null 2>&1; then
+            if sudo pm2 describe frontend > /dev/null 2>&1; then
               echo "Reloading PM2 app (zero-downtime)..."
               sudo pm2 reload ecosystem.config.cjs --update-env
             else
@@ -182,7 +197,7 @@ jobs:
             if [ -n "$latest_backup" ]; then
               echo "Found backup: $latest_backup"
               tar -xzf "$latest_backup" -C /var/www/frontend
-              pm2 reload ecosystem.config.cjs
+              sudo pm2 reload ecosystem.config.cjs
               echo "✅ Rolled back to previous version"
             else
               echo "⚠️ No backup found, cannot rollback"
