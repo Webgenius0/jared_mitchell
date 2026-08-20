@@ -11,7 +11,10 @@ interface FeaturedShopProps {
 }
 
 const FeaturedShopSkeleton = () => (
-  <div id="featured-shop" className="container section rounded-[20px] custom_border bg-secondary-gray space-y-11 scroll-mt-24">
+  <div
+    id="featured-shop"
+    className="container section rounded-[20px] custom_border bg-secondary-gray space-y-11 scroll-mt-24"
+  >
     <h2 className="section_title">Featured from the OSI Shop</h2>
     <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 px-8 mt-10">
       {[1, 2, 3, 4].map(i => (
@@ -41,7 +44,10 @@ const FeaturedShop = ({ products, isLoading }: FeaturedShopProps) => {
 
   if (!products || products.length === 0) {
     return (
-      <div id="featured-shop" className="container section rounded-[20px] custom_border bg-secondary-gray space-y-11 scroll-mt-24">
+      <div
+        id="featured-shop"
+        className="container section rounded-[20px] custom_border bg-secondary-gray space-y-11 scroll-mt-24"
+      >
         <h2 className="section_title">Featured from the OSI Shop</h2>
         <p className="text-center text-secondary-black text-xl py-10">
           No featured products available at the moment.
@@ -52,10 +58,13 @@ const FeaturedShop = ({ products, isLoading }: FeaturedShopProps) => {
 
   return (
     <Container>
-      <div id="featured-shop" className=" container section rounded-[20px] custom_border bg-secondary-gray space-y-11 scroll-mt-24">
+      <div
+        id="featured-shop"
+        className="  section rounded-[20px] custom_border bg-secondary-gray space-y-11 scroll-mt-24"
+      >
         <h2 className="section_title">Featured from the OSI Shop</h2>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 px-8 mt-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 lg:px-8 px-4 mt-10">
           {products.map(product => (
             <ShopCard
               data={mapProductToCardProps(product)}
