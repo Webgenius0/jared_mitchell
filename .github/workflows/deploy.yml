@@ -109,10 +109,10 @@ jobs:
                   }
               }
               NGINX_EOF'
-                            sudo ln -sf /etc/nginx/sites-available/frontend /etc/nginx/sites-enabled/
-                            sudo rm -f /etc/nginx/sites-enabled/default
-                            sudo systemctl restart nginx
-                          fi
+              sudo ln -sf /etc/nginx/sites-available/frontend /etc/nginx/sites-enabled/
+              sudo rm -f /etc/nginx/sites-enabled/default
+              sudo systemctl restart nginx
+            fi
 
             # Create directory if it doesn't exist
             sudo mkdir -p /var/www/frontend
@@ -175,17 +175,23 @@ jobs:
       - name: Verify deployment
         env:
           EC2_HOST: ${{ secrets.EC2_HOST }}
+          EC2_USERNAME: ${{ secrets.EC2_USERNAME }}
+          SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
         run: |
+          echo "$SSH_PRIVATE_KEY" > private_key.pem
+          chmod 600 private_key.pem
+          
           echo "Waiting for application to start..."
           sleep 10
 
-          # Check if app responds via nginx (try multiple times)
+          # Check if app responds internally (via SSH)
           for i in {1..2}; do
             echo "Attempt $i of 2..."
-            response=$(curl -s -o /dev/null -w "%{http_code}" http://${EC2_HOST} 2>/dev/null || echo "000")
+            response=$(ssh -i private_key.pem -o StrictHostKeyChecking=no ${EC2_USERNAME}@${EC2_HOST} "curl -s -o /dev/null -w '%{http_code}' http://localhost:8000" 2>/dev/null || echo "000")
             
             if [ "$response" = "200" ] || [ "$response" = "301" ] || [ "$response" = "302" ]; then
               echo "✅ Deployment successful! App is responding with status: $response"
+              rm private_key.pem
               exit 0
             fi
             
@@ -195,6 +201,7 @@ jobs:
 
           echo "❌ Deployment verification failed after 2 attempts"
           echo "Please check PM2 logs on the server"
+          rm private_key.pem
           exit 1
 
       - name: Rollback on failure
