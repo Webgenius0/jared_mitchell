@@ -1,20 +1,20 @@
-import Sponsors from "@/app/(main)/_components/Sponsors";
-import CoreValues from "@/app/(main)/_components/CoreValues";
 import Hero from "@/app/(main)/_components/Hero";
-import WhyChoose from "@/app/(main)/_components/WhyChoose";
-import WhatYouAreGetting from "@/app/(main)/_components/WhatYouAreGetting";
-import BossBeginnings from "@/app/(main)/_components/BossBeginnings";
-import OSIApparel from "@/app/(main)/_components/OSIApparel";
-import SuccessStories from "@/app/(main)/_components/SuccessStories";
-import CommunityAchievements from "@/app/(main)/_components/CommunityAchievements";
-import Countdown from "@/app/(main)/_components/Countdown";
-import ArtistSpotlightCard from "@/app/(main)/_components/ArtistSpotlightCard";
-import PastEvents from "@/app/(main)/_components/PastEvents";
-import UpcomingEvents from "@/app/(main)/_components/UpcomingEvents";
 import EventBanner from "./_components/EventBanner";
 import PoweredByOSI from "./_components/PoweredByOSI";
 import FeaturedEvent from "./_components/FeaturedEvent";
 import NewsLetter from "@/Components/Common/NewsLetter";
+import Sponsors from "@/app/(main)/_components/Sponsors";
+import WhyChoose from "@/app/(main)/_components/WhyChoose";
+import Countdown from "@/app/(main)/_components/Countdown";
+import OSIApparel from "@/app/(main)/_components/OSIApparel";
+import PastEvents from "@/app/(main)/_components/PastEvents";
+import CoreValues from "@/app/(main)/_components/CoreValues";
+import BossBeginnings from "@/app/(main)/_components/BossBeginnings";
+import SuccessStories from "@/app/(main)/_components/SuccessStories";
+import UpcomingEvents from "@/app/(main)/_components/UpcomingEvents";
+import WhatYouAreGetting from "@/app/(main)/_components/WhatYouAreGetting";
+import ArtistSpotlightCard from "@/app/(main)/_components/ArtistSpotlightCard";
+import CommunityAchievements from "@/app/(main)/_components/CommunityAchievements";
 import {
   getCMSHomepageData,
   getCurrentContestWinner,
@@ -70,7 +70,6 @@ const Page = async () => {
     getCurrentContestWinner(),
   ]);
 
-  // Log failures the same way the original try/catch blocks did
   [
     ["CMS homepage data", cmsDataRes],
     ["featured events", featuredEventsRes],

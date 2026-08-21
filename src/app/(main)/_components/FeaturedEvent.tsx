@@ -1,25 +1,25 @@
 "use client";
 
-import { useState, useEffect, useCallback, useRef } from "react";
-import { Button } from "@/Components/Common/Button";
-import { FeaturedEventItem } from "@/Types/cms";
-import Image from "next/image";
 import Link from "next/link";
-import { FaHeart, FaRegHeart, FaBookmark, FaRegBookmark } from "react-icons/fa";
-import { GrLocation } from "react-icons/gr";
-import { MdOutlineAccessTime } from "react-icons/md";
-import { PiCaretLeftBold, PiCaretRightBold } from "react-icons/pi";
-import { RxShare1 } from "react-icons/rx";
-import { CalenderSvg, VideoSvg, PlayIcon } from "@/Components/Svg/SvgContainer";
+import Image from "next/image";
+import toast from "react-hot-toast";
 import useAuth from "@/Hooks/useAuth";
+import { RxShare1 } from "react-icons/rx";
+import { GrLocation } from "react-icons/gr";
+import { FeaturedEventItem } from "@/Types/cms";
+import { Button } from "@/Components/Common/Button";
+import { MdOutlineAccessTime } from "react-icons/md";
+import { getItem, setItem } from "@/lib/localStorage";
+import { useState, useEffect, useCallback, useRef } from "react";
+import { PiCaretLeftBold, PiCaretRightBold } from "react-icons/pi";
+import { CalenderSvg, VideoSvg, PlayIcon } from "@/Components/Svg/SvgContainer";
+import { FaHeart, FaRegHeart, FaBookmark, FaRegBookmark } from "react-icons/fa";
 import {
   apiGetFeaturedEvents,
   apiToggleLike,
   apiToggleBookmark,
   apiShareEvent,
 } from "@/Hooks/api/events_api";
-import toast from "react-hot-toast";
-import { getItem, setItem } from "@/lib/localStorage";
 
 const ENGAGEMENT_STORAGE_KEY = "event_engagements";
 
@@ -33,7 +33,6 @@ type EngagementValue = {
 
 type EngagementMap = Record<number, EngagementValue>;
 
-/** Load persisted engagement data from localStorage */
 const loadPersistedEngagements = (): EngagementMap => {
   try {
     const raw = getItem(ENGAGEMENT_STORAGE_KEY);
@@ -44,7 +43,6 @@ const loadPersistedEngagements = (): EngagementMap => {
   }
 };
 
-/** Save engagement data to localStorage */
 const persistEngagements = (map: EngagementMap) => {
   try {
     setItem(ENGAGEMENT_STORAGE_KEY, JSON.stringify(map));
@@ -111,7 +109,6 @@ const FeaturedEvent = ({ events }: FeaturedEventProps) => {
     setActionLoading(prev => ({ ...prev, [loadingKey]: true }));
 
     const prev = getEngagement(eventId);
-    // Optimistic update
     setLocalEngagements(prevState => ({
       ...prevState,
       [eventId]: {
@@ -126,7 +123,6 @@ const FeaturedEvent = ({ events }: FeaturedEventProps) => {
     try {
       const res = await apiToggleLike(eventId);
       if (res?.success) {
-        // Sync with actual server state from response
         setLocalEngagements(prevState => ({
           ...prevState,
           [eventId]: {
@@ -142,7 +138,6 @@ const FeaturedEvent = ({ events }: FeaturedEventProps) => {
         if (res.message) toast.success(res.message);
       }
     } catch {
-      // Revert on error
       setLocalEngagements(prevState => ({
         ...prevState,
         [eventId]: {
@@ -155,7 +150,6 @@ const FeaturedEvent = ({ events }: FeaturedEventProps) => {
       }));
       toast.error("Failed to toggle like");
     } finally {
-      // Persist the updated state to localStorage
       setLocalEngagements(current => {
         persistEngagements(current);
         return current;
@@ -174,7 +168,6 @@ const FeaturedEvent = ({ events }: FeaturedEventProps) => {
     setActionLoading(prev => ({ ...prev, [loadingKey]: true }));
 
     const prev = getEngagement(eventId);
-    // Optimistic update
     setLocalEngagements(prevState => ({
       ...prevState,
       [eventId]: {
@@ -191,7 +184,6 @@ const FeaturedEvent = ({ events }: FeaturedEventProps) => {
     try {
       const res = await apiToggleBookmark(eventId);
       if (res?.success) {
-        // Sync with actual server state from response
         setLocalEngagements(prevState => ({
           ...prevState,
           [eventId]: {
@@ -207,7 +199,6 @@ const FeaturedEvent = ({ events }: FeaturedEventProps) => {
         if (res.message) toast.success(res.message);
       }
     } catch {
-      // Revert on error
       setLocalEngagements(prevState => ({
         ...prevState,
         [eventId]: {
@@ -220,7 +211,6 @@ const FeaturedEvent = ({ events }: FeaturedEventProps) => {
       }));
       toast.error("Failed to toggle bookmark");
     } finally {
-      // Persist the updated state to localStorage
       setLocalEngagements(current => {
         persistEngagements(current);
         return current;
@@ -239,7 +229,6 @@ const FeaturedEvent = ({ events }: FeaturedEventProps) => {
       `/events/${events?.find(e => e.id === eventId)?.slug || eventId}`;
 
     try {
-      // Try native Web Share API first
       if (navigator.share) {
         try {
           await navigator.share({
@@ -260,7 +249,6 @@ const FeaturedEvent = ({ events }: FeaturedEventProps) => {
         }
       }
 
-      // Count the share server-side (login required, same as like/bookmark)
       if (!token) {
         window.location.href = "/auth/login";
         return;
@@ -270,7 +258,6 @@ const FeaturedEvent = ({ events }: FeaturedEventProps) => {
         toast.success(res.message || "Event shared successfully!");
       }
     } catch {
-      // Share API failed — the local share still worked, don't nag the user
     } finally {
       setActionLoading(prev => ({ ...prev, [loadingKey]: false }));
     }
@@ -301,7 +288,6 @@ const FeaturedEvent = ({ events }: FeaturedEventProps) => {
     setTimeout(() => setIsTransitioning(false), 500);
   }, [events, isTransitioning]);
 
-  // Fetch engagement state from authenticated endpoint on mount (overlays persisted data)
   useEffect(() => {
     if (!token || !events || events.length === 0) return;
     let cancelled = false;
@@ -333,7 +319,6 @@ const FeaturedEvent = ({ events }: FeaturedEventProps) => {
     };
   }, [token]);
 
-  // Auto-rotate with pause on hover
   useEffect(() => {
     if (!events || events.length <= 1 || isHovered) return;
     const interval = setInterval(goToNext, 6000);
@@ -371,7 +356,6 @@ const FeaturedEvent = ({ events }: FeaturedEventProps) => {
           </>
         )}
 
-        {/* Left - Video (with image fallback) */}
         <div
           key={event.id}
           className="lg:basis-1/2 relative w-full lg:w-[716px] h-[300px] md:h-[460px] 2xl:h-[520px] rounded-2xl md:rounded-3xl xl:rounded-[40px] overflow-hidden bg-black"

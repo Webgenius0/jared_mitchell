@@ -1,8 +1,8 @@
 "use client";
 import React, { useState } from "react";
-import SponsorSlider from "@/Components/Common/SponsorSlider";
 import { CMSPartner } from "@/Types/cms";
 import { Button } from "@/Components/Common/Button";
+import SponsorSlider from "@/Components/Common/SponsorSlider";
 import { SponsorModal } from "@/Components/Common/BecomeSponsorModal";
 
 interface SponsorsProps {
@@ -14,14 +14,13 @@ interface SponsorsProps {
 const Sponsors = ({ data, title, showButton = true }: SponsorsProps) => {
   const [isSponsorModalOpen, setIsSponsorModalOpen] = useState(false);
 
-  // Real sponsor logos only — no fabricated fallback logos.
-  const logos = data?.metadata?.map((m: any, i: number) => ({
-    id: i + 1,
-    image: m.image,
-    link: m.link,
-  })) ?? [];
+  const logos =
+    data?.metadata?.map((m: any, i: number) => ({
+      id: i + 1,
+      image: m.image,
+      link: m.link,
+    })) ?? [];
 
-  // No sponsors available — hide the section entirely.
   if (logos.length === 0) return null;
 
   return (

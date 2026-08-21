@@ -1,9 +1,9 @@
 "use client";
-import { useState } from "react";
-import CustomVideoPlayer from "@/Components/Common/CustomVideoPlayer";
-import { CMSHero } from "@/Types/cms";
-import { SponsorModal } from "@/Components/Common/BecomeSponsorModal";
 import Link from "next/link";
+import { useState } from "react";
+import { CMSHero } from "@/Types/cms";
+import CustomVideoPlayer from "@/Components/Common/CustomVideoPlayer";
+import { SponsorModal } from "@/Components/Common/BecomeSponsorModal";
 
 const Hero = ({ data }: { data?: CMSHero }) => {
   const [isSponsorModalOpen, setIsSponsorModalOpen] = useState(false);
