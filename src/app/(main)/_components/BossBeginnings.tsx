@@ -1,10 +1,10 @@
 "use client";
-import { Button } from "@/Components/Common/Button";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
-import useAuth from "@/Hooks/useAuth";
 import toast from "react-hot-toast";
+import useAuth from "@/Hooks/useAuth";
+import { useRouter } from "next/navigation";
 import { isBusinessUser } from "@/lib/utils";
+import { Button } from "@/Components/Common/Button";
 import { isUserSubscribed } from "@/Hooks/api/subscription_api";
 import { CMSBossBeginnings, PastSixMonthsWinner } from "@/Types/cms";
 
@@ -21,7 +21,6 @@ const BossBeginnings = ({
   const { token, user } = useAuth();
 
   const isBusiness = isBusinessUser(user);
-  // Logged-in non-business accounts are not allowed to nominate.
   const restricted = Boolean(token) && !isBusiness;
 
   const handleNominate = () => {
@@ -62,20 +61,15 @@ const BossBeginnings = ({
             bring the community together to give resources and opportunities.`;
 
   return (
-    // Kept standard vertical padding light
     <section className="text-center bg-[#F5F5F7] py-10 2xl:py-12">
       <div className="container">
-        {/* Reduced text line-height from xl:leading-[100px] to tight/snug options */}
         <h2 className="text-primary-black text-3xl md:text-4xl lg:text-5xl 2xl:text-6xl font-bold leading-tight xl:leading-[1.1] tracking-[-1.28px]">
           {data?.title || "Boss Beginnings"}
         </h2>
-
-        {/* Removed fallback extra margin if section_title has high defaults */}
         <h3 className="section_title mt-1 md:mt-2">
           {data?.sub_title || "A Business Shower"}
         </h3>
 
-        {/* Scaled down the explicit heights across all responsive breakpoints and lowered vertical margin to my-4 md:my-5 */}
         <div className="relative flex items-center max-w-[1179px] w-full h-[200px] sm:h-[240px] md:h-[300px] lg:h-[360px] xl:h-[420px] justify-center my-3 md:my-4 rounded-2xl md:rounded-[32px] overflow-hidden mx-auto">
           <div className="absolute top-0 left-0 size-full bg-black/40" />
           <Image
@@ -83,7 +77,7 @@ const BossBeginnings = ({
             fill
             alt={winnerName || "boss beginnings"}
             className="object-cover size-full"
-            priority // Added priority since it is a large key banner image
+            priority
           />
 
           {winner && (winnerName || winner.season?.title) && (
@@ -102,13 +96,11 @@ const BossBeginnings = ({
           )}
         </div>
 
-        {/* Tuned down typography scale slightly for better tight spatial structure */}
         <div
           className="text-secondary-black max-w-4xl mx-auto text-sm md:text-base xl:text-xl"
           dangerouslySetInnerHTML={{ __html: description }}
         />
 
-        {/* Trimmed down top margins above the actions block */}
         <div className="flex flex-wrap items-center justify-center gap-3 lg:gap-6 mt-5 md:mt-6 xl:mt-8">
           <Button
             variant={"outline"}

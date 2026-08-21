@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { Button } from "@/Components/Common/Button";
 import { CMSNewsletter } from "@/Types/cms";
+import { Button } from "@/Components/Common/Button";
 
 type NewsletterProps = {
   title?: string;

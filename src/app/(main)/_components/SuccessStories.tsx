@@ -1,7 +1,6 @@
 "use client";
-import { Button } from "@/Components/Common/Button";
-import Image from "next/image";
 import Link from "next/link";
+import Image from "next/image";
 import { LuArrowRight } from "react-icons/lu";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, Autoplay } from "swiper/modules";
@@ -82,13 +81,11 @@ const SuccessStories = ({ cmsData, winners, type }: SuccessStoriesProps) => {
                   />
 
                   <div className="absolute inset-0 bg-[linear-gradient(0deg,_rgba(0,0,0,0.60)_36%,_rgba(0,0,0,0.20)_63%,_rgba(0,0,0,0.00)_100%)] rounded-lg">
-                    {/* Category */}
                     <div className="absolute top-4 left-4 bg-white py-1 px-3 rounded-full text-primary-black text-sm">
                       {item.category ||
                         (type === "business" ? "Business" : "Artist")}
                     </div>
 
-                    {/* Bottom Content */}
                     <div className="absolute bottom-4 left-4 right-4 flex justify-between items-end">
                       <div className="space-y-1.5">
                         <h4 className="text-lg xl:text-xl font-semibold text-white capitalize">

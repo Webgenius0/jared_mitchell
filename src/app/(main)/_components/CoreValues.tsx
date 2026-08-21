@@ -1,6 +1,6 @@
-import coreValueBg from "@/Assets/core_values.jpg";
 import Image from "next/image";
 import { CMSCoreValue } from "@/Types/cms";
+import coreValueBg from "@/Assets/core_values.jpg";
 
 const defaultData = [
   {

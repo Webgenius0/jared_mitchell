@@ -1,12 +1,12 @@
 "use client";
 
-import { Button } from "@/Components/Common/Button";
-import { cn } from "@/lib/utils";
-import Image from "next/image";
 import Link from "next/link";
+import Image from "next/image";
+import { cn } from "@/lib/utils";
 import { useState } from "react";
-import { FiAward, FiMapPin } from "react-icons/fi";
 import useClientApi from "@/Hooks/useClientApi";
+import { FiAward, FiMapPin } from "react-icons/fi";
+import { Button } from "@/Components/Common/Button";
 import {
   ArtistSpotlightDetail,
   BusinessSpotlightDetail,
@@ -31,7 +31,6 @@ export default function ArtistSpotlightCard({
 }: ArtistSpotlightCardProps) {
   const [type, setType] = useState<SpotlightType>("artist");
 
-  // Spotlight of the week — refetches automatically when the tab changes.
   const {
     data: weekData,
     isLoading,
@@ -46,10 +45,6 @@ export default function ArtistSpotlightCard({
   const winner: SpotlightOfTheWeekWinner | null =
     weekData?.data?.current_winner ?? null;
   const spotlight = winner?.spotlight;
-
-  // Fetch the full profile so we can show a real story/description. Gated on
-  // `weekData?.data?.type` so a stale winner from the previous tab can never
-  // be paired with the new tab's type.
   const { data: detailsData } = useClientApi({
     method: "get",
     key: ["spotlight-of-the-week-details", type, spotlight?.id],
@@ -80,8 +75,6 @@ export default function ArtistSpotlightCard({
   const artistDetails = details as ArtistSpotlightDetail | undefined;
   const businessDetails = details as BusinessSpotlightDetail | undefined;
 
-  // Real story data only — no fabricated fallback text. The description
-  // paragraph is hidden when there is no content to show.
   const description =
     (type === "artist"
       ? artistDetails?.full_artist_story ||
@@ -106,7 +99,6 @@ export default function ArtistSpotlightCard({
 
       <p className="section_sub_title">{subTitle}</p>
 
-      {/* Artist / Business tabs */}
       <div className="flex flex-wrap items-center justify-center gap-3 mb-7 md:mb-9">
         {TABS.map(tab => (
           <button

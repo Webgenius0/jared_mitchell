@@ -1,10 +1,9 @@
 "use client";
-import { useEffect, useRef, useState, useCallback } from "react";
-import Image from "next/image";
 import Link from "next/link";
-import { LuArrowLeft, LuArrowRight } from "react-icons/lu";
-
+import Image from "next/image";
 import { PastSixMonthsWinner } from "@/Types/cms";
+import { LuArrowLeft, LuArrowRight } from "react-icons/lu";
+import { useEffect, useRef, useState, useCallback } from "react";
 
 interface CommunityAchievementsProps {
   data?: any;
@@ -21,8 +20,6 @@ const getSpotlightLink = (winner: PastSixMonthsWinner): string => {
   return `/contest/contestants/${winner.id}`;
 };
 
-// Prefer the first uploaded media asset for the card image; fall back to the
-// contestant's avatar if no media was uploaded.
 const getCardImage = (winner: PastSixMonthsWinner): string => {
   const firstMedia = winner.contestable?.media?.[0]?.file_path;
   return firstMedia || winner.avatar_url;
@@ -90,7 +87,6 @@ const CommunityAchievements = ({
     if (autoplayRef.current) clearInterval(autoplayRef.current);
   };
 
-  // Keep activeIndex in sync with manual scrolling (for pagination dots)
   const handleScroll = () => {
     const el = scrollerRef.current;
     if (!el) return;
@@ -122,7 +118,6 @@ const CommunityAchievements = ({
       {winners.length > 0 && (
         <div className="my-5 md:mt-8">
           <div className="relative">
-            {/* Prev / Next arrows — visible on all screen sizes */}
             {winners.length > 1 && (
               <>
                 <button

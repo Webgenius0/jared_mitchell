@@ -1,5 +1,5 @@
-import { CMSFeature } from "@/Types/cms";
 import Image from "next/image";
+import { CMSFeature } from "@/Types/cms";
 
 const PoweredByOSI = ({ data }: { data?: CMSFeature }) => {
   return (

@@ -1,9 +1,7 @@
 "use client";
-import { Button } from "@/Components/Common/Button";
-import Container from "@/Components/Common/Container";
 import { useEffect, useState } from "react";
-import { BsArrowRight } from "react-icons/bs";
 import { RoundCountdownResponse } from "@/Types/cms";
+import Container from "@/Components/Common/Container";
 
 type TimeLeft = {
   days: number;
@@ -40,7 +38,7 @@ export default function Countdown({ data }: CountdownProps) {
   useEffect(() => {
     if (initialTotalSeconds <= 0) return;
     const timer = setInterval(() => {
-      setTotalSeconds((prev) => Math.max(prev - 1, 0));
+      setTotalSeconds(prev => Math.max(prev - 1, 0));
     }, 1000);
     return () => clearInterval(timer);
   }, [initialTotalSeconds]);
@@ -59,7 +57,8 @@ export default function Countdown({ data }: CountdownProps) {
       <Container>
         <div className="w-full bg-primary-gray rounded-[20px] py-10 text-center custom_border">
           <h2 className="text-xl md:text-2xl lg:text-3xl font-semibold md:font-bold text-primary-black mb-6 md:mb-8">
-            {data?.season?.title || "Next Boss Beginnings – Westside Beauty Lounge"}
+            {data?.season?.title ||
+              "Next Boss Beginnings – Westside Beauty Lounge"}
           </h2>
 
           <div className="flex justify-center gap-2 md:gap-4 mb-7">

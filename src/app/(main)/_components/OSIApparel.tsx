@@ -1,16 +1,16 @@
 "use client";
+import Link from "next/link";
 import Image from "next/image";
-import { Button } from "@/Components/Common/Button";
+import { useRouter } from "next/navigation";
 import { Swiper, SwiperSlide } from "swiper/react";
+import { Button } from "@/Components/Common/Button";
+import { useState, useEffect, useMemo } from "react";
+import { CMSShop, FeaturedProductItem } from "@/Types/cms";
+import { EffectCoverflow, Pagination } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/effect-coverflow";
 import "swiper/css/pagination";
-import { EffectCoverflow, Pagination } from "swiper/modules";
-import { CMSShop, FeaturedProductItem } from "@/Types/cms";
-import { useState, useEffect, useMemo } from "react";
 import { SponsorModal } from "@/Components/Common/BecomeSponsorModal";
-import { useRouter } from "next/navigation";
-import Link from "next/link";
 
 interface OSIApparelProps {
   data?: CMSShop;
@@ -32,7 +32,7 @@ const OSIApparel = ({ data, featuredProducts }: OSIApparelProps) => {
   const products = useMemo(
     () =>
       featuredProducts && featuredProducts.length > 0
-        ? featuredProducts.map((p) => ({
+        ? featuredProducts.map(p => ({
             id: p.id,
             slug: p.slug,
             title: p.name,
@@ -78,7 +78,7 @@ const OSIApparel = ({ data, featuredProducts }: OSIApparelProps) => {
                 modules={[EffectCoverflow, Pagination]}
                 className="osi-coverflow"
               >
-                {products.map((item) => (
+                {products.map(item => (
                   <SwiperSlide key={item.id} className="osi-slide">
                     <div className="osi-card">
                       <Image
@@ -88,7 +88,6 @@ const OSIApparel = ({ data, featuredProducts }: OSIApparelProps) => {
                         className="object-cover"
                       />
 
-                      {/* Dark overlay — lighter on active slide via CSS */}
                       <div className="osi-overlay" />
 
                       {/* Tag */}
@@ -114,7 +113,7 @@ const OSIApparel = ({ data, featuredProducts }: OSIApparelProps) => {
                               {item.price}
                             </span>
                             <button
-                              onClick={(e) => {
+                              onClick={e => {
                                 e.preventDefault();
                                 e.stopPropagation();
                                 router.push(`/shop/${item.slug}`);
@@ -157,19 +156,16 @@ const OSIApparel = ({ data, featuredProducts }: OSIApparelProps) => {
       )}
 
       <style jsx global>{`
-        /* Wrapper to control overflow */
         .osi-swiper-wrapper {
           overflow: hidden;
         }
 
-        /* Swiper container */
         .osi-coverflow {
           width: 100% !important;
           padding-top: 10px !important;
           padding-bottom: 40px !important;
         }
 
-        /* Each slide — fluid sizing */
         .osi-slide {
           width: min(640px, 88vw) !important;
           height: clamp(200px, 56vw, 420px) !important;
@@ -180,7 +176,6 @@ const OSIApparel = ({ data, featuredProducts }: OSIApparelProps) => {
             opacity 0.4s ease;
         }
 
-        /* Card inner */
         .osi-card {
           position: relative;
           width: 100%;
@@ -189,7 +184,6 @@ const OSIApparel = ({ data, featuredProducts }: OSIApparelProps) => {
           overflow: hidden;
         }
 
-        /* Overlay: darker on non-active slides */
         .osi-overlay {
           position: absolute;
           inset: 0;
@@ -198,7 +192,6 @@ const OSIApparel = ({ data, featuredProducts }: OSIApparelProps) => {
           z-index: 1;
         }
 
-        /* Active (center) slide */
         .swiper-slide-active .osi-card {
           box-shadow: 0 30px 80px rgba(0, 0, 0, 0.25);
         }
@@ -207,13 +200,11 @@ const OSIApparel = ({ data, featuredProducts }: OSIApparelProps) => {
           background: rgba(0, 0, 0, 0.15);
         }
 
-        /* Prev/next slides — dimmer */
         .swiper-slide-prev .osi-overlay,
         .swiper-slide-next .osi-overlay {
           background: rgba(0, 0, 0, 0.55);
         }
 
-        /* Slides further away */
         .osi-slide:not(.swiper-slide-active):not(.swiper-slide-prev):not(
             .swiper-slide-next
           )
@@ -221,7 +212,6 @@ const OSIApparel = ({ data, featuredProducts }: OSIApparelProps) => {
           background: rgba(0, 0, 0, 0.65);
         }
 
-        /* Pagination dots */
         .osi-coverflow .swiper-pagination {
           bottom: 4px;
         }
@@ -239,7 +229,6 @@ const OSIApparel = ({ data, featuredProducts }: OSIApparelProps) => {
           border-radius: 4px;
         }
 
-        /* ── Mobile tweaks ── */
         @media (max-width: 639px) {
           .osi-slide {
             border-radius: 14px;
@@ -253,7 +242,6 @@ const OSIApparel = ({ data, featuredProducts }: OSIApparelProps) => {
             padding-bottom: 30px !important;
           }
 
-          /* Slightly tighter pagination on mobile */
           .osi-coverflow .swiper-pagination-bullet {
             width: 6px;
             height: 6px;
@@ -264,7 +252,6 @@ const OSIApparel = ({ data, featuredProducts }: OSIApparelProps) => {
           }
         }
 
-        /* ── Extra-small screens (< 375px) ── */
         @media (max-width: 374px) {
           .osi-slide {
             width: 92vw !important;
@@ -272,7 +259,6 @@ const OSIApparel = ({ data, featuredProducts }: OSIApparelProps) => {
           }
         }
 
-        /* xs breakpoint helper for the "Add to" text */
         @media (min-width: 480px) {
           .xs\\:inline {
             display: inline;
