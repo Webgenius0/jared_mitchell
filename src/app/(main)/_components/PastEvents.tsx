@@ -1,11 +1,11 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import Link from "next/link";
 import Image from "next/image";
+import { CMSEventItem } from "@/Types/cms";
+import { useEffect, useState } from "react";
 import { GoArrowRight } from "react-icons/go";
 import { getPastEvents } from "@/lib/Services/cms_service";
-import { CMSEventItem } from "@/Types/cms";
-import Link from "next/link";
 import { HiChevronLeft, HiChevronRight } from "react-icons/hi";
 
 const ITEMS_PER_PAGE = 6;
@@ -25,9 +25,7 @@ const PastEvents = () => {
   if (loading) {
     return (
       <div className="container">
-        <h2 className="section_title 2xl:text-5xl">
-          Past Event Highlights
-        </h2>
+        <h2 className="section_title 2xl:text-5xl">Past Event Highlights</h2>
         <div className="h-[300px] flex items-center justify-center text-xl text-gray-400">
           Loading events...
         </div>
@@ -98,7 +96,9 @@ const PastEvents = () => {
               key={page}
               onClick={() => {
                 setCurrentPage(page);
-                document.getElementById("past-events-home")?.scrollIntoView({ behavior: "smooth", block: "start" });
+                document
+                  .getElementById("past-events-home")
+                  ?.scrollIntoView({ behavior: "smooth", block: "start" });
               }}
               className={`flex items-center justify-center size-10 rounded-lg text-sm font-medium transition-colors ${
                 currentPage === page

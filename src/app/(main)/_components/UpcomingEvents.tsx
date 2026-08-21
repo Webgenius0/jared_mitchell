@@ -1,27 +1,27 @@
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
-import { Button } from "@/Components/Common/Button";
+import Link from "next/link";
 import Image from "next/image";
-import { FaHeart, FaRegHeart, FaBookmark, FaRegBookmark } from "react-icons/fa";
-import { GrLocation } from "react-icons/gr";
-import { PiCalendarBlank, PiCalendarX } from "react-icons/pi";
+import useAuth from "@/Hooks/useAuth";
 import { RxShare1 } from "react-icons/rx";
+import { CMSEventItem } from "@/Types/cms";
+import { GrLocation } from "react-icons/gr";
 import { Swiper, SwiperSlide } from "swiper/react";
+import { Button } from "@/Components/Common/Button";
+import { getItem, setItem } from "@/lib/localStorage";
 import { Pagination, Autoplay } from "swiper/modules";
+import { useEffect, useState, useCallback } from "react";
+import { PiCalendarBlank, PiCalendarX } from "react-icons/pi";
 import "swiper/css";
 import "swiper/css/pagination";
 import { getUpcomingEvents } from "@/lib/Services/cms_service";
-import { CMSEventItem } from "@/Types/cms";
-import Link from "next/link";
-import useAuth from "@/Hooks/useAuth";
+import { FaHeart, FaRegHeart, FaBookmark, FaRegBookmark } from "react-icons/fa";
 import {
   apiToggleLike,
   apiToggleBookmark,
   apiShareEvent,
 } from "@/Hooks/api/events_api";
 import toast from "react-hot-toast";
-import { getItem, setItem } from "@/lib/localStorage";
 
 const ENGAGEMENT_STORAGE_KEY = "upcoming_event_engagements";
 
@@ -185,7 +185,6 @@ const UpcomingEvents = () => {
     const slug = events.find((e) => e.id === eventId)?.slug || eventId;
     const url = window.location.origin + `/events/${slug}`;
 
-    // Try native Web Share API first
     if (navigator.share) {
       try {
         await navigator.share({ title: eventTitle, text: `Check out this event: ${eventTitle}`, url });
@@ -199,7 +198,6 @@ const UpcomingEvents = () => {
       catch { /* clipboard not available */ }
     }
 
-    // Count the share server-side (login required, same as like/bookmark)
     if (!token) {
       window.location.href = "/auth/login";
       return;
