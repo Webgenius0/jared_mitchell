@@ -31,9 +31,6 @@ import CommunityAchievements from "../_components/CommunityAchievements";
 const page = async () => {
   const pageData = (await getBossCms()) as CMSBossBeginnings;
   const cmsData = await getCMSHomepageData();
-
-  // Current Boss Beginnings winner (same API as the homepage). Kept guarded
-  // so a missing/failed winner response never takes down the whole page.
   let winner: PastSixMonthsWinner | null = null;
   try {
     const res = await getCurrentContestWinner();
