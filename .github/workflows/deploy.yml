@@ -88,32 +88,7 @@ jobs:
               sudo npm install -g pm2
             fi
 
-            # Setup Nginx as a reverse proxy if not installed
-            if ! command -v nginx &> /dev/null; then
-              echo "Nginx not found, installing and configuring..."
-              sudo apt-get update
-              sudo apt-get install -y nginx
-              
-              sudo tee /etc/nginx/sites-available/frontend > /dev/null <<< '
-              server {
-                  listen 80;
-                  server_name _;
-
-                  location / {
-                      proxy_pass http://localhost:8000;
-                      proxy_http_version 1.1;
-                      proxy_set_header Upgrade $http_upgrade;
-                      proxy_set_header Connection "upgrade";
-                      proxy_set_header Host $host;
-                      proxy_cache_bypass $http_upgrade;
-                  }
-              }
-              '
-
-              sudo ln -sf /etc/nginx/sites-available/frontend /etc/nginx/sites-enabled/
-              sudo rm -f /etc/nginx/sites-enabled/default
-              sudo systemctl restart nginx
-            fi
+            
 
             # Create directory if it doesn't exist
             sudo mkdir -p /var/www/frontend
@@ -181,7 +156,7 @@ jobs:
         run: |
           echo "$SSH_PRIVATE_KEY" > private_key.pem
           chmod 600 private_key.pem
-          
+
           echo "Waiting for application to start..."
           sleep 10
 
