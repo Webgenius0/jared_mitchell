@@ -15,11 +15,18 @@ import {
   getFeaturedStream,
   getLiveStreams,
   getVideoChannels,
+  getPastSixMonthsWinners,
 } from "@/lib/Services/cms_service";
-import { CMSBossBeginnings, LiveStream, PastSixMonthsWinner, VideoChannelItem } from "@/Types/cms";
+import {
+  CMSBossBeginnings,
+  LiveStream,
+  PastSixMonthsWinner,
+  VideoChannelItem,
+} from "@/Types/cms";
 import Sponsors from "../_components/Sponsors";
 import BossBeginningSponsor from "./_components/BossBeginningSponsor";
 import BossBeginningsContestCarousel from "@/Components/Common/BossBeginningsContestCarousel";
+import CommunityAchievements from "../_components/CommunityAchievements";
 
 const page = async () => {
   const pageData = (await getBossCms()) as CMSBossBeginnings;
@@ -74,6 +81,14 @@ const page = async () => {
     console.error("Failed to fetch video channels:", err);
   }
 
+  let pastSixMonthsWinners: PastSixMonthsWinner[] = [];
+  try {
+    const res = await getPastSixMonthsWinners();
+    pastSixMonthsWinners = res?.winners ?? [];
+  } catch (err) {
+    console.error("Failed to fetch past six months winners:", err);
+  }
+
   return (
     <>
       <BossBeginningBanner data={pageData?.boss_beginnings_hero} />
@@ -98,6 +113,10 @@ const page = async () => {
       {/* <BossBeginningsContestCarousel title="Boss Beginnings Contest" /> */}
 
       <NewBusiness data={pageData?.boss_beginnings_section5} />
+      <CommunityAchievements
+        data={cmsData?.past_6_month_boss_beginnings_highlight}
+        pastSixMonthsWinners={pastSixMonthsWinners}
+      />
 
       <WinnerReceives data={pageData?.boss_beginnings_dynamic} />
 
