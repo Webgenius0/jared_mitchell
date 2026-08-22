@@ -1,8 +1,8 @@
 "use client";
-import React, { useEffect, useRef, useState } from "react";
-import { FaMinus, FaMicrophone, FaPlus, FaRobot } from "react-icons/fa";
 import { IoSend } from "react-icons/io5";
+import { FaRobot } from "react-icons/fa";
 import { RxCross2 } from "react-icons/rx";
+import React, { useEffect, useRef, useState } from "react";
 import { useAskChatbot, apiGetConversation } from "@/Hooks/api/chat_api";
 
 type ChatMessage = {
@@ -25,7 +25,6 @@ const ChatbotWidget = () => {
 
   const askChatbot = useAskChatbot();
 
-  // Greet the user the first time the popup is opened
   useEffect(() => {
     if (open && messages.length === 0) {
       setMessages([
@@ -34,7 +33,6 @@ const ChatbotWidget = () => {
     }
   }, [open, messages.length]);
 
-  // Keep the latest message in view
   useEffect(() => {
     const el = scrollRef.current;
     if (el) el.scrollTo({ top: el.scrollHeight, behavior: "smooth" });
@@ -51,7 +49,6 @@ const ChatbotWidget = () => {
     setInput("");
 
     try {
-      // Step 1: Send the prompt to create/update the conversation
       const askRes: any = await new Promise((resolve, reject) => {
         askChatbot.mutate(
           { data: { prompt: content, conversation_id: conversationId } },
@@ -59,7 +56,6 @@ const ChatbotWidget = () => {
         );
       });
 
-      // Extract conversation_id from the ask response
       const convId =
         askRes?.data?.conversation_id ??
         askRes?.conversation_id ??
@@ -70,12 +66,10 @@ const ChatbotWidget = () => {
         setConversationId(convId);
       }
 
-      // Step 2: Fetch the full conversation to get the assistant reply
       const targetId = convId || conversationId;
       if (targetId) {
         const convRes = await apiGetConversation(targetId);
         const messages = convRes?.data?.messages ?? [];
-        // Get the last assistant message
         const lastAssistant = [...messages]
           .reverse()
           .find((m: any) => m.role === "assistant");
@@ -132,7 +126,6 @@ const ChatbotWidget = () => {
 
   return (
     <>
-      {/* ─── Floating launcher button (bottom-right) ─── */}
       {!open && (
         <button
           onClick={() => setOpen(true)}
@@ -143,14 +136,12 @@ const ChatbotWidget = () => {
         </button>
       )}
 
-      {/* ─── Chat popup ─── */}
       {open && (
         <div
           className={`fixed bottom-24 right-6 z-[100] flex w-[min(92vw,400px)] flex-col overflow-hidden rounded-2xl bg-white shadow-[0_20px_60px_rgba(0,0,0,0.25)] ${
             minimized ? "h-auto" : "h-[min(560px,calc(100vh-130px))]"
           }`}
         >
-          {/* Header */}
           <div className="flex items-center gap-3 bg-primary-blue px-4 py-3 text-white">
             <div className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-white text-primary-blue">
               <FaRobot className="text-xl" />
@@ -181,7 +172,6 @@ const ChatbotWidget = () => {
             </div>
           </div>
 
-          {/* Chat body */}
           {!minimized && (
             <>
               <div
@@ -215,15 +205,14 @@ const ChatbotWidget = () => {
                 )}
               </div>
 
-              {/* Input bar */}
               <div className="border-t border-gray-100 bg-white px-3 py-3">
                 <div className="flex items-center gap-2">
-                  <button
+                  {/* <button
                     aria-label="Attach file"
                     className="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-[#F1F3F6] text-[#364153] hover:bg-gray-200"
                   >
                     <FaPlus className="text-sm" />
-                  </button>
+                  </button> */}
                   <div className="flex flex-1 items-center gap-2 rounded-full bg-[#F1F3F6] px-4">
                     <input
                       value={input}
