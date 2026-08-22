@@ -14,6 +14,7 @@ if (siteUrl) {
 }
 
 const nextConfig: NextConfig = {
+  output: "standalone",
   images: {
     dangerouslyAllowSVG: true,
     contentDispositionType: "attachment",
