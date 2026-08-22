@@ -2,7 +2,7 @@ name: Deploy to EC2
 
 on:
   push:
-    branches: [najim]
+    branches: [main]
   workflow_dispatch: # manual trigger
 
 jobs:
