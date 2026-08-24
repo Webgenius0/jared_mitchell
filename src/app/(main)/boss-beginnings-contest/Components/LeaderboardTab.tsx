@@ -75,7 +75,7 @@ const TIMELINE_EVENTS: TimelineEvent[] = [
     date: "Week 12 (1 Week Total)",
     status: "upcoming",
     description:
-      "Judges finalize scores across all rounds and the Boss Beginnings Winner is announced.",
+      "Judges finalize scores across all rounds and the Business Launch Award Winner is announced.",
   },
 ];
 

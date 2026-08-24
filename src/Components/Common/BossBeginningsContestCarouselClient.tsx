@@ -96,7 +96,7 @@ interface BossBeginningsContestCarouselClientProps {
 export default function BossBeginningsContestCarouselClient({
   rounds,
   activeRoundId,
-  title = "Boss Beginnings Contest",
+  title = "Business Launch Award Contest",
   autoPlay = true,
 }: BossBeginningsContestCarouselClientProps) {
   const router = useRouter();

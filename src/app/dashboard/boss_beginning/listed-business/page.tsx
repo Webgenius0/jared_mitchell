@@ -282,7 +282,7 @@ export default function Page() {
           <h2 className="text-lg md:text-2xl font-semibold text-slate-900 mb-3">
             Your business succesfully applied
             <br />
-            for boss beginning
+            for Business Launch Award
           </h2>
           <p className="text-sm md:text-base text-slate-500 leading-relaxed mb-8">
             Your business has been submitted for review. You&apos;ll be notified

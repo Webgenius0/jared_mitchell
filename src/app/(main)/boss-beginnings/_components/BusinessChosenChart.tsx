@@ -448,7 +448,7 @@ const BusinessChosenChart = ({
         </h2>
         <p className="section_sub_title text-center">
           {data?.sub_title ??
-            "Boss Beginnings is decided by the community, with OSI guardrails for fairness."}
+            "Business Launch Award is decided by the community, with OSI guardrails for fairness."}
         </p>
 
         {/* Active round badge */}

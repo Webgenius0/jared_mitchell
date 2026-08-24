@@ -111,7 +111,7 @@ export default function Page() {
 
   const statCards: StatCard[] = [
     { label: "Total Votes", value: stats?.total_votes_given ?? "—", icon: Cloud },
-    { label: "Boss Beginning", value: stats?.total_bossbegging ?? "—", icon: Briefcase },
+    { label: "Business Launch Award", value: stats?.total_bossbegging ?? "—", icon: Briefcase },
     { label: "Spotlight", value: stats?.total_spotlight ?? "—", icon: Sparkles },
     { label: "My tickets", value: stats?.total_tickets ?? "—", icon: Ticket },
   ];
