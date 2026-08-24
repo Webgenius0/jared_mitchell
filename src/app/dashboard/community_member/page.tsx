@@ -121,7 +121,7 @@ export default function Page() {
       icon: Cloud,
     },
     {
-      label: "OSI Top Business Launch Award",
+      label: "OSI Top Business Award",
       value: stats?.total_bossbegging ?? "—",
       icon: Briefcase,
     },

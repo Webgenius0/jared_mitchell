@@ -17,7 +17,7 @@ const fallbackData = [
   },
   {
     icon: CelebrationSvg,
-    title: "OSI Top Business Launch Award Celebrations",
+    title: "OSI Top Business Award Celebrations",
     description: "Celebrate new business launches with community support.",
   },
   {

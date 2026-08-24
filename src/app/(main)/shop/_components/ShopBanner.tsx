@@ -39,7 +39,7 @@ const ShopBanner = ({ data }: ShopBannerProps) => {
         {/* Description */}
         <p className="text-white text-base sm:text-lg md:text-xl text-center max-w-3xl mx-auto leading-relaxed pb-8 md:pb-10 opacity-90">
           {data?.description ??
-            "Every purchase helps power OSI spotlights, OSI Top Business Launch Award celebrations, local events, and tools for artists and businesses."}
+            "Every purchase helps power OSI spotlights, OSI Top Business Award celebrations, local events, and tools for artists and businesses."}
         </p>
 
         {/* Call to Actions */}

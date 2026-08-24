@@ -29,7 +29,7 @@ const helpData = [
 const businessData = [
   { label: "Sponsorships", path: "/sponsorships" },
   { label: "Partner With OSI", path: "/sponsorships" },
-  { label: "OSI Top Business Launch Award", path: "/boss-beginnings" },
+  { label: "OSI Top Business Award", path: "/boss-beginnings" },
   { label: "Event Submissions", path: "/events" },
   {
     label: "partners@oursocialimage.net",

@@ -27,7 +27,7 @@ const TIMELINE_EVENTS: TimelineEvent[] = [
     id: 1,
     icon: Users,
     title: "Open Nominations",
-    date: "Weeks 1–2 (2 Weeks Total)",
+    date: "Week 1 (1 Week Total)",
     status: "completed",
     description:
       "Businesses submit nominations to enter the competition. Up to 100 businesses can secure a spot.",
@@ -36,7 +36,7 @@ const TIMELINE_EVENTS: TimelineEvent[] = [
     id: 2,
     icon: Heart,
     title: "Momentum Round",
-    date: "Weeks 3–5 (3 Weeks Total)",
+    date: "Week 2 (1 Week Total)",
     status: "completed",
     description:
       "Community engagement determines which businesses build enough momentum to advance. Top 60 move forward.",
@@ -45,7 +45,7 @@ const TIMELINE_EVENTS: TimelineEvent[] = [
     id: 3,
     icon: Users,
     title: "Community Impact Round",
-    date: "Weeks 6–7 (2 Weeks Total)",
+    date: "Week 3 (1 Week Total)",
     status: "completed",
     description:
       "Businesses demonstrate how they serve the community. Top 30 advance based on impact and engagement.",
@@ -54,7 +54,7 @@ const TIMELINE_EVENTS: TimelineEvent[] = [
     id: 4,
     icon: Briefcase,
     title: "Business Pitch and Journey Round",
-    date: "Weeks 8–9 (2 Weeks Total)",
+    date: "Week 4 (1 Week Total)",
     status: "completed",
     description:
       "Businesses present their mission, vision, and story. Top 15 advance to the customer experience stage.",
@@ -63,7 +63,7 @@ const TIMELINE_EVENTS: TimelineEvent[] = [
     id: 5,
     icon: ShoppingBag,
     title: "OSI Customer Experience Round",
-    date: "Weeks 10–11 (2 Weeks Total)",
+    date: "Week 5 (1 Week Total)",
     status: "active",
     description:
       "OSI experiences each business firsthand by purchasing a product or service. Top 3 are selected.",
@@ -72,10 +72,10 @@ const TIMELINE_EVENTS: TimelineEvent[] = [
     id: 6,
     icon: Trophy,
     title: "Final Decision & Announcement",
-    date: "Week 12 (1 Week Total)",
+    date: "Week 6 (1 Week Total)",
     status: "upcoming",
     description:
-      "Judges finalize scores across all rounds and the OSI Top Business Launch Award Winner is announced.",
+      "Judges finalize scores across all rounds and the OSI Top Business Award Winner is announced.",
   },
 ];
 

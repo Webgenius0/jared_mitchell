@@ -25,7 +25,7 @@ const MainChoseBanner = ({ data }: BossBeginningBannerProps) => {
 
         <p className="text-white font-medium text-sm sm:text-lg md:text-2xl lg:text-3xl pt-3 sm:pt-4 pb-2 sm:pb-3 text-center px-2 text-balance">
           {
-            "OSI Top Business Launch Award is decided by the community, with OSI guardrails for fairness."
+            "OSI Top Business Award is decided by the community, with OSI guardrails for fairness."
           }
         </p>
 

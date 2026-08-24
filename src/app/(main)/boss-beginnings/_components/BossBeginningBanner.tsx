@@ -59,7 +59,7 @@ const BossBeginningBanner = ({ data }: BossBeginningBannerProps) => {
     >
       <div className="h-full container flex flex-col items-center justify-center">
         <h2 className="text-3xl sm:text-4xl md:text-5xl xl:text-6xl font-bold leading-[130%] text-white text-center max-w-[968px] mx-auto">
-          {data?.title ?? "OSI Top Business Launch Award"}
+          {data?.title ?? "OSI Top Business Award"}
         </h2>
 
         <p className="text-white font-medium text-xl sm:text-2xl lg:text-3xl pt-4 pb-3 text-center px-2">

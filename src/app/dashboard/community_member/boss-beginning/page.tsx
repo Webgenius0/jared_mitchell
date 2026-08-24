@@ -36,7 +36,7 @@ export default function Page() {
         {/* Header */}
         <div className="flex items-center justify-between px-5 md:px-6 py-4 md:py-5">
           <h1 className="text-base md:text-lg font-semibold text-slate-900">
-            OSI Top Business Launch Award round
+            OSI Top Business Award round
           </h1>
           <button
             type="button"

@@ -28,7 +28,7 @@ const BossBeginningWinner = ({
 
   return (
     <section className="container lg:mt-10 mt-5">
-      <h2 className="section_title">OSI Top Business Launch Award Winner</h2>
+      <h2 className="section_title">OSI Top Business Award Winner</h2>
       <p className="text-base md:text-lg lg:text-2xl xl:text-3xl text-center text-primary-black leading-relaxed">
         See the joy, support, and community love from our previous OSI Top
         Business Launch Award events.

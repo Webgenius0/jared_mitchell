@@ -26,7 +26,7 @@ const defaultData = [
   {
     id: 3,
     icon: <WThreeSvg />,
-    title: "OSI Top Business Launch Award: A Business Shower",
+    title: "OSI Top Business Award: A Business Shower",
     description: "A celebration and support system for new business owners.",
   },
   {

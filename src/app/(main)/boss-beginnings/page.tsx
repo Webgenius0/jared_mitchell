@@ -67,10 +67,7 @@ const page = async () => {
     bossStream = stream;
     hasPendingStream = hasPending;
   } catch (err) {
-    console.error(
-      "Failed to fetch OSI Top Business Launch Award live streams:",
-      err,
-    );
+    console.error("Failed to fetch OSI Top Business Award live streams:", err);
   }
 
   let bossBeginningVideos: VideoChannelItem[] = [];

@@ -30,16 +30,16 @@ const navLinks = [
   { label: "Pricing", path: "/pricing" },
   // { label: "Sponsorships", path: "/sponsorships" },
   {
-    label: "OSI Top Business Launch Award",
+    label: "OSI Top Business Award",
     path: "",
     subMenu: [
-      { label: "OSI Top Business Launch Award", path: "/boss-beginnings" },
+      { label: "OSI Top Business Award", path: "/boss-beginnings" },
       {
         label: "How Winners Are Chosen",
         path: "/how-winners-are-chosen",
       },
       {
-        label: "OSI Top Business Launch Award Contest",
+        label: "OSI Top Business Award Contest",
         path: "/boss-beginnings-contest",
       },
     ],
@@ -107,10 +107,7 @@ const Navbar = () => {
         <div className="flex justify-between items-center">
           {/* Left */}
           <div className="flex gap-10 2xl:gap-14 items-center">
-            <Link
-              href="/"
-              className="flex items-center cursor-pointer"
-            >
+            <Link href="/" className="flex items-center cursor-pointer">
               <Image
                 src={logo}
                 alt="OSI logo"

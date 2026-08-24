@@ -9,7 +9,7 @@ import {
 const supportCards = [
   {
     id: "business-launch",
-    title: "OSI Top Business Launch Award Support Credit",
+    title: "OSI Top Business Award Support Credit",
     subtitle: "Help celebrate a new business launch.",
     impactText: "Funds celebration posts, features, and support packages",
     price: 25,

@@ -60,7 +60,7 @@ export default function OSIPanelTab({ data }: { data?: CMSRoundsSection }) {
               {block.image && (
                 <img
                   src={block.image}
-                  alt={block.title || "OSI Top Business Launch Award"}
+                  alt={block.title || "OSI Top Business Award"}
                   className="absolute inset-0 w-full h-full object-cover"
                 />
               )}
