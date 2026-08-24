@@ -28,16 +28,16 @@ const navLinks = [
   { label: "Pricing", path: "/pricing" },
   // { label: "Sponsorships", path: "/sponsorships" },
   {
-    label: "Boss Beginnings",
+    label: "Business Launch Award",
     path: "",
     subMenu: [
-      { label: "Boss Beginnings", path: "/boss-beginnings" },
+      { label: "Business Launch Award", path: "/boss-beginnings" },
       {
         label: "How Winners Are Chosen",
         path: "/how-winners-are-chosen",
       },
       {
-        label: "Boss Beginnings Contest",
+        label: "Business Launch Award Contest",
         path: "/boss-beginnings-contest",
       },
     ],

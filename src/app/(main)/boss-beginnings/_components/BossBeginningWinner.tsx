@@ -28,10 +28,9 @@ const BossBeginningWinner = ({
 
   return (
     <section className="container lg:mt-10 mt-5">
-      <h2 className="section_title">BOSS BEGINNINGS Winner</h2>
+      <h2 className="section_title">Business Launch Award Winner</h2>
       <p className="text-base md:text-lg lg:text-2xl xl:text-3xl text-center text-primary-black leading-relaxed">
-        See the joy, support, and community love from our previous Boss
-        Beginnings events.
+        See the joy, support, and community love from our previous Business Launch Award events.
       </p>
 
       {images.length > 0 ? (

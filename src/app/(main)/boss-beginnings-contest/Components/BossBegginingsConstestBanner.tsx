@@ -21,7 +21,7 @@ const BossBegginingsConstestBanner = ({ data }: BossBeginningBannerProps) => {
     >
       <div className="h-full container flex flex-col items-center justify-center px-4 sm:px-6">
         <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-[130%] text-white text-center max-w-[968px] mx-auto">
-          Boss Beginnings{" "}
+          Business Launch Award{" "}
         </h2>
 
         <p className="text-white font-medium text-sm sm:text-lg md:text-2xl lg:text-3xl pt-3 sm:pt-4 pb-2 sm:pb-3 text-center px-2">

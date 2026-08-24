@@ -26,7 +26,7 @@ const helpData = [
 const businessData = [
   { label: "Sponsorships", path: "/sponsorships" },
   { label: "Partner With OSI", path: "/sponsorships" },
-  { label: "Boss Beginnings", path: "/boss-beginnings" },
+  { label: "Business Launch Award", path: "/boss-beginnings" },
   { label: "Event Submissions", path: "/events" },
   { label: "partners@oursocialimage.net", path: "mailto:partners@oursocialimage.net" },
 ];

@@ -17,7 +17,7 @@ const fallbackData = [
   },
   {
     icon: CelebrationSvg,
-    title: "Boss Beginnings Celebrations",
+    title: "Business Launch Award Celebrations",
     description: "Celebrate new business launches with community support.",
   },
   {

@@ -67,7 +67,7 @@ const page = async () => {
     bossStream = stream;
     hasPendingStream = hasPending;
   } catch (err) {
-    console.error("Failed to fetch boss beginnings live streams:", err);
+    console.error("Failed to fetch Business Launch Award live streams:", err);
   }
 
   let bossBeginningVideos: VideoChannelItem[] = [];

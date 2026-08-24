@@ -26,7 +26,7 @@ const defaultData = [
   {
     id: 3,
     icon: <WThreeSvg />,
-    title: "Boss Beginnings: A Business Shower",
+    title: "Business Launch Award: A Business Shower",
     description: "A celebration and support system for new business owners.",
   },
   {
