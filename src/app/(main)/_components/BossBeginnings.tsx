@@ -56,7 +56,7 @@ const BossBeginnings = ({
     winner?.contestable?.story ||
     winner?.contestable?.community_impact_statement ||
     data?.description ||
-    `Boss Beginnings is our signature celebration for brand‑new
+    `Business Launch Award is our signature celebration for brand‑new
             entrepreneurs. We highlight their story, support their launch, and
             bring the community together to give resources and opportunities.`;
 
@@ -64,7 +64,7 @@ const BossBeginnings = ({
     <section className="text-center bg-[#F5F5F7] py-10 2xl:py-12">
       <div className="container">
         <h2 className="text-primary-black text-3xl md:text-4xl lg:text-5xl 2xl:text-6xl font-bold leading-tight xl:leading-[1.1] tracking-[-1.28px]">
-          {data?.title || "Boss Beginnings"}
+          {data?.title || "Business Launch Award"}
         </h2>
         <h3 className="section_title mt-1 md:mt-2">
           {data?.sub_title || "A Business Shower"}
@@ -75,7 +75,7 @@ const BossBeginnings = ({
           <Image
             src={bannerImage}
             fill
-            alt={winnerName || "boss beginnings"}
+            alt={winnerName || "business launch award"}
             className="object-cover size-full"
             priority
           />

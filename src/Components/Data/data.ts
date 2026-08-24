@@ -383,7 +383,7 @@ export const testimonials: Testimonial[] = [
     name: "Paula G.",
     role: "Entrepreneur",
     quote:
-      "Boss Beginnings was a blessing. OSI gave my business a real start with encouragement, community, and exposure.",
+      "Business Launch Award was a blessing. OSI gave my business a real start with encouragement, community, and exposure.",
     rating: 5,
   },
 ];

@@ -3,8 +3,8 @@ import { SCardSvg1, SCardSvg2, SCardSvg3, SCardSvg4 } from "@/Components/Svg/Svg
 
 const supportCards = [
   {
-    id: "boss-beginnings",
-    title: "Boss Beginnings Support Credit",
+    id: "business-launch",
+    title: "Business Launch Award Support Credit",
     subtitle: "Help celebrate a new business launch.",
     impactText: "Funds celebration posts, features, and support packages",
     price: 25,

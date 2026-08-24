@@ -58,7 +58,7 @@ export default function Countdown({ data }: CountdownProps) {
         <div className="w-full bg-primary-gray rounded-[20px] py-10 text-center custom_border">
           <h2 className="text-xl md:text-2xl lg:text-3xl font-semibold md:font-bold text-primary-black mb-6 md:mb-8">
             {data?.season?.title ||
-              "Next Boss Beginnings – Westside Beauty Lounge"}
+              "Next Business Launch Award – Westside Beauty Lounge"}
           </h2>
 
           <div className="flex justify-center gap-2 md:gap-4 mb-7">
