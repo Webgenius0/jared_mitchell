@@ -70,7 +70,7 @@ const removeMarker = (storageKey: string, marker: string) => {
     const raw = getItem(storageKey) || "[]";
     const entries: string[] = JSON.parse(raw);
     if (!Array.isArray(entries)) return;
-    setItem(storageKey, JSON.stringify(entries.filter(e => e !== marker)));
+    setItem(storageKey, JSON.stringify(entries.filter((e) => e !== marker)));
   } catch {
     // localStorage unavailable — visual state just won't persist
   }
@@ -167,7 +167,7 @@ const useBusinessInteraction = ({
     const realMarker = `${markerPrefix}${user.id}:${businessId}`;
     const guestMarker = `${markerPrefix}guest:${businessId}`;
     setActive(
-      prev =>
+      (prev) =>
         prev ||
         hasMarker(storageKey, realMarker) ||
         hasMarker(storageKey, guestMarker),
@@ -197,8 +197,8 @@ const useBusinessInteraction = ({
       : [guestMarker];
 
     // Optimistic toggle
-    setActive(prev => !prev);
-    setCount(prev => Math.max(0, prev + (wasActive ? -1 : 1)));
+    setActive((prev) => !prev);
+    setCount((prev) => Math.max(0, prev + (wasActive ? -1 : 1)));
 
     // Only the on/off flag is reconciled from the interaction response (so the
     // button state + persistence stay correct). The counts and total points are
@@ -208,10 +208,10 @@ const useBusinessInteraction = ({
     const syncFromResponse = (response: any) => {
       if (response?.data?.[flagField] === true) {
         setActive(true);
-        markers.forEach(m => persistMarker(storageKey, m));
+        markers.forEach((m) => persistMarker(storageKey, m));
       } else if (response?.data?.[flagField] === false) {
         setActive(false);
-        markers.forEach(m => removeMarker(storageKey, m));
+        markers.forEach((m) => removeMarker(storageKey, m));
       }
     };
 
@@ -255,12 +255,12 @@ const mergeLeaderboardData = (
   if (!prev) return incoming;
 
   const prevByBusiness = new Map(
-    prev.entries.map(e => [e.contestant.business_id, e]),
+    prev.entries.map((e) => [e.contestant.business_id, e]),
   );
 
   return {
     ...incoming,
-    entries: incoming.entries.map(entry => {
+    entries: incoming.entries.map((entry) => {
       const prevEntry = prevByBusiness.get(entry.contestant.business_id);
       if (!prevEntry) return entry;
 
@@ -300,10 +300,9 @@ const BusinessChosenChart = ({
   const [noActiveRound, setNoActiveRound] = useState(false);
   useEffect(() => {
     if (!roundData) return;
-    setLiveData(prev => mergeLeaderboardData(prev, roundData));
+    setLiveData((prev) => mergeLeaderboardData(prev, roundData));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [roundData]);
-
 
   useEffect(() => {
     if (roundData) return;
@@ -324,7 +323,7 @@ const BusinessChosenChart = ({
         // Otherwise resolve the active round ourselves.
         const seasonRes = await getActiveSeasonRounds();
         const rounds = seasonRes?.data?.rounds ?? [];
-        const activeRound = rounds.find(r => r.is_active);
+        const activeRound = rounds.find((r) => r.is_active);
         if (cancelled) return;
         if (!activeRound) {
           setNoActiveRound(true);
@@ -359,9 +358,8 @@ const BusinessChosenChart = ({
           noCache: true,
         });
 
-        
         if (res?.data) {
-          setLiveData(prev => mergeLeaderboardData(prev, res.data));
+          setLiveData((prev) => mergeLeaderboardData(prev, res.data));
         }
       } catch {
         // Keep current data if the refresh fails
@@ -386,7 +384,7 @@ const BusinessChosenChart = ({
 
   const roundNumber = currentRoundData.round.round_number;
 
-  const businesses: BusinessCard[] = currentRoundData.entries.map(entry => {
+  const businesses: BusinessCard[] = currentRoundData.entries.map((entry) => {
     const rawImage =
       entry.contestant.avatar_url || entry.avatar_url || undefined;
 
@@ -448,7 +446,7 @@ const BusinessChosenChart = ({
         </h2>
         <p className="section_sub_title text-center">
           {data?.sub_title ??
-            "Business Launch Award is decided by the community, with OSI guardrails for fairness."}
+            "OSI Top Business Award is decided by the community, with OSI guardrails for fairness."}
         </p>
 
         {/* Active round badge */}
@@ -471,7 +469,7 @@ const BusinessChosenChart = ({
         {/* Point rules — shown only during round 1 (the community voting round) */}
         {roundNumber === 1 && (
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mt-12 max-w-4xl mx-auto">
-            {pointRules.map(rule => (
+            {pointRules.map((rule) => (
               <div
                 key={rule.label}
                 className="border border-slate-200 rounded-2xl p-6 flex flex-col items-center text-center"
@@ -493,7 +491,7 @@ const BusinessChosenChart = ({
           {visibleBusinesses.length > 0 && (
             <>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                {visibleBusinesses.map(biz => (
+                {visibleBusinesses.map((biz) => (
                   <BusinessCardItem
                     key={biz.id}
                     biz={biz}
@@ -516,7 +514,7 @@ const BusinessChosenChart = ({
                   </button>
 
                   {Array.from({ length: pageCount }, (_, i) => i + 1).map(
-                    page => (
+                    (page) => (
                       <button
                         key={page}
                         onClick={() => goToPage(page)}
@@ -565,7 +563,7 @@ const BusinessChosenChart = ({
               ref={scrollerRef}
               className="flex gap-6 overflow-x-auto overscroll-x-contain snap-x snap-mandatory scroll-smooth [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden px-4 sm:px-8 lg:pl-[max(2rem,calc((100vw-1280px)/2+2rem))] lg:pr-8"
             >
-              {businesses.map(biz => (
+              {businesses.map((biz) => (
                 <li
                   key={biz.id}
                   data-card
@@ -659,7 +657,7 @@ const BusinessCardItem = ({
     if (change === 0) return;
     setPointsDelta(change);
     // Re-key so repeated equal deltas restart the pop animation
-    setDeltaNonce(n => n + 1);
+    setDeltaNonce((n) => n + 1);
     if (deltaTimerRef.current) clearTimeout(deltaTimerRef.current);
     deltaTimerRef.current = setTimeout(() => setPointsDelta(null), 1700);
   }, [biz.totalPoints]);

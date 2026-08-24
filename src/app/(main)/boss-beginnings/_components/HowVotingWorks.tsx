@@ -59,7 +59,7 @@ const HowVotingWorks = ({ data }: HowVotingWorksProps) => {
       </h2>
       <p className="section_sub_title">
         {data?.sub_title ??
-          "Help us choose which new business will be celebrated at our next Business Launch Award event."}
+          "Help us choose which new business will be celebrated at our next OSI Top Business Award event."}
       </p>
       <div className="py-[60px] bg-[#1977DD33] mt-11">
         <Container>

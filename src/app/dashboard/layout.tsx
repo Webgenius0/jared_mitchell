@@ -276,7 +276,7 @@ const bossLinks = [
   },
   {
     id: 25,
-    label: "Business Launch Rounds",
+    label: "OSI Top Business Launch Rounds",
     path: "/dashboard/boss_beginning/boss-beginning",
     icon: <NTwentySvg />,
     subMenu: [
