@@ -36,7 +36,7 @@ export default function Page() {
         {/* Header */}
         <div className="flex items-center justify-between px-5 md:px-6 py-4 md:py-5">
           <h1 className="text-base md:text-lg font-semibold text-slate-900">
-            Business Launch Award round
+            OSI Top Business Launch Award round
           </h1>
           <button
             type="button"
@@ -54,7 +54,7 @@ export default function Page() {
               No rounds available yet.
             </div>
           ) : (
-            rounds.map(item => (
+            rounds.map((item) => (
               <div
                 key={item.id}
                 className={`grid grid-cols-[1.6fr_0.8fr_1fr_1fr_1fr_auto] items-center gap-4 px-5 md:px-6 py-3.5 md:py-4 ${

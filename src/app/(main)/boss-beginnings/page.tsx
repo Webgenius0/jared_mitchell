@@ -44,7 +44,7 @@ const page = async () => {
   try {
     const activeSeasonRes = await getActiveSeasonRounds();
     const rounds = activeSeasonRes?.data?.rounds ?? [];
-    const activeRound = rounds.find(r => r.is_active) ?? null;
+    const activeRound = rounds.find((r) => r.is_active) ?? null;
     if (activeRound) {
       activeRoundId = activeRound.id;
 
@@ -67,7 +67,10 @@ const page = async () => {
     bossStream = stream;
     hasPendingStream = hasPending;
   } catch (err) {
-    console.error("Failed to fetch Business Launch Award live streams:", err);
+    console.error(
+      "Failed to fetch OSI Top Business Launch Award live streams:",
+      err,
+    );
   }
 
   let bossBeginningVideos: VideoChannelItem[] = [];

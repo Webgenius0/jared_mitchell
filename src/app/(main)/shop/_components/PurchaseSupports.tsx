@@ -17,7 +17,7 @@ const fallbackData = [
   },
   {
     icon: CelebrationSvg,
-    title: "Business Launch Award Celebrations",
+    title: "OSI Top Business Launch Award Celebrations",
     description: "Celebrate new business launches with community support.",
   },
   {
@@ -51,7 +51,7 @@ const PurchaseSupports = ({ data }: PurchaseSupportsProps) => {
         <div className="section rounded-[20px] custom_border bg-secondary-gray space-y-11">
           <div>
             <h2 className="section_title ">
-            {/* <h2 className="section_title 2xl:!text-7xl"> */}
+              {/* <h2 className="section_title 2xl:!text-7xl"> */}
               {data?.title ?? "What Your Purchase Supports"}
             </h2>
             <p className="section_sub_title">

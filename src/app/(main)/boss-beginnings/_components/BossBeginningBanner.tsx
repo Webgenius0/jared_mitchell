@@ -10,7 +10,8 @@ import toast from "react-hot-toast";
 import { isBusinessUser } from "@/lib/utils";
 import { isUserSubscribed } from "@/Hooks/api/subscription_api";
 
-const CREATE_BUSINESS_URL = "/dashboard/boss_beginning/business/create-business";
+const CREATE_BUSINESS_URL =
+  "/dashboard/boss_beginning/business/create-business";
 
 interface BossBeginningBannerProps {
   data: CMSBossBeginningsHero;
@@ -39,9 +40,7 @@ const BossBeginningBanner = ({ data }: BossBeginningBannerProps) => {
       return;
     }
     if (!isUserSubscribed(user)) {
-      toast.error(
-        "An active subscription is required to nominate a business",
-      );
+      toast.error("An active subscription is required to nominate a business");
       router.push("/pricing");
       return;
     }
@@ -60,7 +59,7 @@ const BossBeginningBanner = ({ data }: BossBeginningBannerProps) => {
     >
       <div className="h-full container flex flex-col items-center justify-center">
         <h2 className="text-3xl sm:text-4xl md:text-5xl xl:text-6xl font-bold leading-[130%] text-white text-center max-w-[968px] mx-auto">
-          {data?.title ?? "Business Launch Award"}
+          {data?.title ?? "OSI Top Business Launch Award"}
         </h2>
 
         <p className="text-white font-medium text-xl sm:text-2xl lg:text-3xl pt-4 pb-3 text-center px-2">

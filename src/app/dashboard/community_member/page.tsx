@@ -50,7 +50,12 @@ const formatEventMeta = (event: CMSEventItem) => {
 /*  Small building blocks                                              */
 /* ------------------------------------------------------------------ */
 
-function StatCardItem({ label, value, icon: Icon, loading }: StatCard & { loading: boolean }) {
+function StatCardItem({
+  label,
+  value,
+  icon: Icon,
+  loading,
+}: StatCard & { loading: boolean }) {
   return (
     <div className="bg-white rounded-2xl p-4 md:p-5 shadow-[0_1px_2px_rgba(16,24,40,0.04)]">
       <div className="flex items-center gap-2 mb-5 md:mb-6">
@@ -110,14 +115,29 @@ export default function Page() {
     (eventsData?.data?.events as CMSEventItem[] | undefined) ?? [];
 
   const statCards: StatCard[] = [
-    { label: "Total Votes", value: stats?.total_votes_given ?? "—", icon: Cloud },
-    { label: "Business Launch Award", value: stats?.total_bossbegging ?? "—", icon: Briefcase },
-    { label: "Spotlight", value: stats?.total_spotlight ?? "—", icon: Sparkles },
+    {
+      label: "Total Votes",
+      value: stats?.total_votes_given ?? "—",
+      icon: Cloud,
+    },
+    {
+      label: "OSI Top Business Launch Award",
+      value: stats?.total_bossbegging ?? "—",
+      icon: Briefcase,
+    },
+    {
+      label: "Spotlight",
+      value: stats?.total_spotlight ?? "—",
+      icon: Sparkles,
+    },
     { label: "My tickets", value: stats?.total_tickets ?? "—", icon: Ticket },
   ];
 
   const displayName =
-    userInfo?.name || authUser?.profile?.name || authUser?.profile?.username || "User";
+    userInfo?.name ||
+    authUser?.profile?.name ||
+    authUser?.profile?.username ||
+    "User";
 
   return (
     <div className="bg-[#F5F6F8]">
@@ -132,7 +152,7 @@ export default function Page() {
 
         {/* Stat cards */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
-          {statCards.map(stat => (
+          {statCards.map((stat) => (
             <StatCardItem key={stat.label} {...stat} loading={isLoading} />
           ))}
         </div>
@@ -198,7 +218,7 @@ export default function Page() {
             </p>
           ) : (
             <div className="divide-y divide-slate-100">
-              {upcomingEvents.map(event => {
+              {upcomingEvents.map((event) => {
                 const { day, month } = formatEventDate(event.starts_at);
                 return (
                   <div

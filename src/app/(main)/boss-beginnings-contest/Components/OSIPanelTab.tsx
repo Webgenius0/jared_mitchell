@@ -14,7 +14,7 @@ export default function OSIPanelTab({ data }: { data?: CMSRoundsSection }) {
         new Set(
           bottom.description
             .split("\n")
-            .map(s => s.trim())
+            .map((s) => s.trim())
             .filter(Boolean),
         ),
       )
@@ -22,7 +22,7 @@ export default function OSIPanelTab({ data }: { data?: CMSRoundsSection }) {
 
   const hasBlock = Boolean(
     block &&
-      (block.title || block.subtitle || block.description || block.image),
+    (block.title || block.subtitle || block.description || block.image),
   );
   const hasBottom = Boolean(
     bottom && (bottom.title || bottom.subtitle || fairPoints.length > 0),
@@ -51,45 +51,45 @@ export default function OSIPanelTab({ data }: { data?: CMSRoundsSection }) {
       {/* Block header */}
       {block &&
         (block.title || block.subtitle || block.description || block.image) && (
-        <div className="rounded-2xl border border-black/10 bg-white overflow-hidden">
-          <div
-            className={`relative min-h-[200px] flex items-end ${
-              block.image ? "" : "bg-[#2563EB]"
-            }`}
-          >
-            {block.image && (
-              <img
-                src={block.image}
-                alt={block.title || "Business Launch Award"}
-                className="absolute inset-0 w-full h-full object-cover"
-              />
-            )}
+          <div className="rounded-2xl border border-black/10 bg-white overflow-hidden">
             <div
-              className={`relative w-full p-6 sm:p-10 ${
-                block.image
-                  ? "bg-gradient-to-t from-black/80 via-black/40 to-transparent text-white"
-                  : "text-white"
+              className={`relative min-h-[200px] flex items-end ${
+                block.image ? "" : "bg-[#2563EB]"
               }`}
             >
-              {block.title && (
-                <h2 className="text-2xl sm:text-4xl font-bold uppercase tracking-wider">
-                  {block.title}
-                </h2>
+              {block.image && (
+                <img
+                  src={block.image}
+                  alt={block.title || "OSI Top Business Launch Award"}
+                  className="absolute inset-0 w-full h-full object-cover"
+                />
               )}
-              {block.subtitle && (
-                <p className="mt-2 text-base sm:text-lg text-white/90">
-                  {block.subtitle}
-                </p>
-              )}
-              {block.description && (
-                <p className="mt-3 text-sm sm:text-base text-white/80 max-w-3xl leading-relaxed">
-                  {block.description}
-                </p>
-              )}
+              <div
+                className={`relative w-full p-6 sm:p-10 ${
+                  block.image
+                    ? "bg-gradient-to-t from-black/80 via-black/40 to-transparent text-white"
+                    : "text-white"
+                }`}
+              >
+                {block.title && (
+                  <h2 className="text-2xl sm:text-4xl font-bold uppercase tracking-wider">
+                    {block.title}
+                  </h2>
+                )}
+                {block.subtitle && (
+                  <p className="mt-2 text-base sm:text-lg text-white/90">
+                    {block.subtitle}
+                  </p>
+                )}
+                {block.description && (
+                  <p className="mt-3 text-sm sm:text-base text-white/80 max-w-3xl leading-relaxed">
+                    {block.description}
+                  </p>
+                )}
+              </div>
             </div>
           </div>
-        </div>
-      )}
+        )}
 
       {/* Rounds */}
       {cmsRounds.map((round, idx) => (

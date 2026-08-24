@@ -10,6 +10,8 @@ import { useEffect, useRef, useState } from "react";
 import { FaBars } from "react-icons/fa";
 import { FiShoppingCart } from "react-icons/fi";
 
+import logo from "../Assets/logo.png";
+
 const navLinks = [
   { label: "Home", path: "/" },
   { label: "About", path: "/about" },
@@ -28,16 +30,16 @@ const navLinks = [
   { label: "Pricing", path: "/pricing" },
   // { label: "Sponsorships", path: "/sponsorships" },
   {
-    label: "Business Launch Award",
+    label: "OSI Top Business Launch Award",
     path: "",
     subMenu: [
-      { label: "Business Launch Award", path: "/boss-beginnings" },
+      { label: "OSI Top Business Launch Award", path: "/boss-beginnings" },
       {
         label: "How Winners Are Chosen",
         path: "/how-winners-are-chosen",
       },
       {
-        label: "Business Launch Award Contest",
+        label: "OSI Top Business Launch Award Contest",
         path: "/boss-beginnings-contest",
       },
     ],
@@ -107,19 +109,25 @@ const Navbar = () => {
           <div className="flex gap-10 2xl:gap-14 items-center">
             <Link
               href="/"
-              className="text-[#2A2929] font-poppins text-xl font-semibold cursor-pointer"
+              className="flex items-center cursor-pointer"
             >
-              OSI
+              <Image
+                src={logo}
+                alt="OSI logo"
+                className="h-24 w-auto"
+                priority
+              />
             </Link>
 
             <ul ref={navListRef} className="hidden xl:flex gap-7 items-center">
-              {navLinks?.map(link => {
+              {navLinks?.map((link) => {
                 const isActive = pathname === link?.path;
                 const hasSubMenu = Boolean(link?.subMenu?.length);
                 const isSubmenuOpen = openSubmenu === link?.label;
 
                 const handleMouseEnter = () => {
-                  if (hoverTimeoutRef.current) clearTimeout(hoverTimeoutRef.current);
+                  if (hoverTimeoutRef.current)
+                    clearTimeout(hoverTimeoutRef.current);
                   if (hasSubMenu) setOpenSubmenu(link?.label);
                 };
 
@@ -164,7 +172,7 @@ const Navbar = () => {
                     {/* Sub Menu — sibling of the trigger, not nested inside it */}
                     {hasSubMenu && isSubmenuOpen && (
                       <div className="absolute top-full mt-3 left-0 bg-white z-50 shadow rounded-xl px-4 w-55">
-                        {link?.subMenu?.map(subItem => {
+                        {link?.subMenu?.map((subItem) => {
                           const isActiveSubmenu = pathname === subItem?.path;
 
                           return (
@@ -346,7 +354,7 @@ const Navbar = () => {
         </Link>
 
         <ul className="flex flex-col gap-5 mt-7">
-          {navLinks?.map(link => {
+          {navLinks?.map((link) => {
             const isActive = pathname === link?.path;
             const hasSubMenu = Boolean(link?.subMenu?.length);
             const isSubmenuOpen = openSubmenu === link?.label;
@@ -357,7 +365,7 @@ const Navbar = () => {
                   <button
                     type="button"
                     onClick={() =>
-                      setOpenSubmenu(prev =>
+                      setOpenSubmenu((prev) =>
                         prev === link?.label ? null : link?.label,
                       )
                     }
@@ -400,7 +408,7 @@ const Navbar = () => {
 
                 {hasSubMenu && isSubmenuOpen && (
                   <ul className="flex flex-col gap-3 mt-3 ml-3 border-l border-gray-200 pl-3">
-                    {link?.subMenu?.map(subItem => {
+                    {link?.subMenu?.map((subItem) => {
                       const isActiveSubmenu = pathname === subItem?.path;
 
                       return (

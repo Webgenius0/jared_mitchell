@@ -75,7 +75,7 @@ const TIMELINE_EVENTS: TimelineEvent[] = [
     date: "Week 12 (1 Week Total)",
     status: "upcoming",
     description:
-      "Judges finalize scores across all rounds and the Business Launch Award Winner is announced.",
+      "Judges finalize scores across all rounds and the OSI Top Business Launch Award Winner is announced.",
   },
 ];
 
@@ -165,7 +165,7 @@ export default function LeaderboardTab() {
 
       {/* Timeline events */}
       <div className="space-y-4">
-        {TIMELINE_EVENTS.map(event => {
+        {TIMELINE_EVENTS.map((event) => {
           const cfg = statusConfig[event.status];
           const EventIcon = event.icon;
           return (
@@ -248,7 +248,7 @@ export default function LeaderboardTab() {
         2025 Quarterly Cycle
       </h3>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
-        {QUARTERLY_CYCLES.map(cycle => (
+        {QUARTERLY_CYCLES.map((cycle) => (
           <div
             key={cycle.id}
             className={`p-4 sm:p-5 rounded-xl border transition-all ${

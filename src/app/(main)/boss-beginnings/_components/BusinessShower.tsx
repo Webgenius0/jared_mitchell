@@ -15,12 +15,12 @@ const BusinessShower = ({ data }: BusinessShowerProps) => {
     <section className="section">
       <Container>
         <h2 className="section_title">
-        {/* <h2 className="section_title 2xl:!text-[76px]"> */}
+          {/* <h2 className="section_title 2xl:!text-[76px]"> */}
           {data?.title ?? "What Is a Business Shower?"}
         </h2>
         <p className="text-center text-primary-black text-base md:text-lg xl:text-2xl max-w-[1414px] mx-auto">
           {data?.description ??
-            "Business Launch Award is Our Social Image's groundbreaking celebration for entrepreneurs launching new businesses. Just like a baby shower or bridal shower — but for business — we gather the community to show support, bring gifts, offer resources, and uplift the entrepreneur with love, visibility, and opportunity."}
+            "OSI Top Business Launch Award is Our Social Image's groundbreaking celebration for entrepreneurs launching new businesses. Just like a baby shower or bridal shower — but for business — we gather the community to show support, bring gifts, offer resources, and uplift the entrepreneur with love, visibility, and opportunity."}
         </p>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">
           {features.map((item, idx) => {

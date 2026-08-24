@@ -26,7 +26,7 @@ const defaultData = [
   {
     id: 3,
     icon: <WThreeSvg />,
-    title: "Business Launch Award: A Business Shower",
+    title: "OSI Top Business Launch Award: A Business Shower",
     description: "A celebration and support system for new business owners.",
   },
   {
@@ -51,12 +51,17 @@ const defaultData = [
 ];
 
 const WhatWeDo = ({ data: cmsData }: { data?: CMSAboutWhatWeDo }) => {
-  const items = cmsData?.metadata?.map((m, i) => ({
-    id: i + 1,
-    icon: m.icon ? <i className={`${m.icon} text-3xl text-primary-blue`} /> : defaultData[i % defaultData.length].icon,
-    title: m.title,
-    description: m.description
-  })) || defaultData;
+  const items =
+    cmsData?.metadata?.map((m, i) => ({
+      id: i + 1,
+      icon: m.icon ? (
+        <i className={`${m.icon} text-3xl text-primary-blue`} />
+      ) : (
+        defaultData[i % defaultData.length].icon
+      ),
+      title: m.title,
+      description: m.description,
+    })) || defaultData;
 
   return (
     <section className="container md:py-10 xl:py-20">
@@ -65,8 +70,11 @@ const WhatWeDo = ({ data: cmsData }: { data?: CMSAboutWhatWeDo }) => {
       </h2>
 
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">
-        {items?.map(item => (
-          <div key={item.id} className="border border-[#00000013] rounded-xl px-5 py-10 shadow-[0_4px_20px_0_rgba(0,0,0,0.07)] flex flex-col gap-4 justify-between">
+        {items?.map((item) => (
+          <div
+            key={item.id}
+            className="border border-[#00000013] rounded-xl px-5 py-10 shadow-[0_4px_20px_0_rgba(0,0,0,0.07)] flex flex-col gap-4 justify-between"
+          >
             <div className="space-y-4">
               <span className="size-16 grid place-items-center rounded-xl border border-[#00000013]">
                 {item?.icon}

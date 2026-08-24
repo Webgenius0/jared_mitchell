@@ -9,7 +9,7 @@ const BossBeginningWinner = ({
   const winnerMedia = winner?.contestable?.media ?? [];
 
   const images = winnerMedia
-    .map(m => m.file_path)
+    .map((m) => m.file_path)
     .filter((src): src is string => Boolean(src));
 
   const renderCaption = (winner: PastSixMonthsWinner) => (
@@ -28,9 +28,10 @@ const BossBeginningWinner = ({
 
   return (
     <section className="container lg:mt-10 mt-5">
-      <h2 className="section_title">Business Launch Award Winner</h2>
+      <h2 className="section_title">OSI Top Business Launch Award Winner</h2>
       <p className="text-base md:text-lg lg:text-2xl xl:text-3xl text-center text-primary-black leading-relaxed">
-        See the joy, support, and community love from our previous Business Launch Award events.
+        See the joy, support, and community love from our previous OSI Top
+        Business Launch Award events.
       </p>
 
       {images.length > 0 ? (
