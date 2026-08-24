@@ -54,6 +54,8 @@ export default function WinnersDetails({
   const saves = s?.interactions?.bookmarks_count ?? 0;
   const shares = s?.interactions?.shares_count ?? 0;
 
+  const isAboutHtml = /<[a-z][\s\S]*>/i.test(aboutText);
+
   return (
     <section className="py-12 md:py-20">
       <div className="container mx-auto px-4">
@@ -62,9 +64,16 @@ export default function WinnersDetails({
           <div className="w-full lg:w-3/4">
             <div className="bg-[#F5F5F7] rounded-xl p-4 md:p-6 flex flex-col gap-5 md:gap-8">
               <h2 className="text-3xl md:text-4xl lg:text-5xl font-medium">About</h2>
-              <p className="text-lg md:text-xl lg:text-2xl font-normal text-[#364153]">
-                {aboutText}
-              </p>
+{isAboutHtml ? (
+  <div
+    className="text-lg md:text-xl lg:text-2xl font-normal text-[#364153]"
+    dangerouslySetInnerHTML={{ __html: aboutText }}
+  />
+) : (
+  <p className="text-lg md:text-xl lg:text-2xl font-normal text-[#364153]">
+    {aboutText}
+  </p>
+)}
               {website && (
                 <div>
                   <h4 className="text-lg md:text-xl lg:text-2xl font-normal text-[#1D1D1F]">

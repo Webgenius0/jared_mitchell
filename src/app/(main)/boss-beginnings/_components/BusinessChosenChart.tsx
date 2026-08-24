@@ -756,7 +756,7 @@ const BusinessCardItem = ({
           className="flex justify-center"
         >
           <button className="text-blue-500 text-sm font-normal mt-3 flex items-center gap-1 hover:underline">
-            Learn More <span aria-hidden>→</span>
+            Score This Business <span aria-hidden>→</span>
           </button>
         </Link>
       </div>
