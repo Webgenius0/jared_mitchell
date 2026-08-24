@@ -38,7 +38,7 @@ const VendorOpportunities = () => {
                 <p className='text-secondary-black text-2xl'>{data.description}</p>
               </div>
                 <div className='mt-auto'>
-                  <Button className='w-full'>Learn More <IoArrowForwardSharp /></Button>
+                  <Button className='w-full'>Score This Business <IoArrowForwardSharp /></Button>
                 </div>
             </div>
           ))}

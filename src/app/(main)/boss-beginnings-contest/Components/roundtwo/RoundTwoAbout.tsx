@@ -40,13 +40,12 @@ export default function RoundTwoAbout({
         parsedSocial?.instagram_url
       : "";
 
-  const aboutText =
-    contestant?.story ||
-    "No information provided yet.";
+  const aboutText = contestant?.story || "No information provided yet.";
 
   // Rounds 2-5 are weighted-score rounds: the "Support This Business" box
   // shows the total weighted score from the contestant's voting data.
   const totalWeightedScore = contestant?.voting?.total_weighted_score ?? 0;
+  const isAboutHtml = /<[a-z][\s\S]*>/i.test(aboutText);
 
   return (
     <section className="py-12 md:py-20">
@@ -63,9 +62,16 @@ export default function RoundTwoAbout({
               <h2 className="text-3xl md:text-4xl lg:text-5xl font-medium">
                 About
               </h2>
-              <p className="text-lg md:text-xl lg:text-2xl font-normal text-[#364153]">
-                {aboutText}
-              </p>
+              {isAboutHtml ? (
+                <div
+                  className="text-lg md:text-xl lg:text-2xl font-normal text-[#364153]"
+                  dangerouslySetInnerHTML={{ __html: aboutText }}
+                />
+              ) : (
+                <p className="text-lg md:text-xl lg:text-2xl font-normal text-[#364153]">
+                  {aboutText}
+                </p>
+              )}
               {website && (
                 <div>
                   <h4 className="text-lg md:text-xl lg:text-2xl font-normal text-[#1D1D1F]">
