@@ -11,7 +11,7 @@ const StepSix = () => {
       <h2 className="text-3xl font-semibold mb-2">Optional Information</h2>
 
       <p className="text-[#364153] text-xl mb-10">
-        Help us learn more about you! While optional, this information can
+        Help us Score This Business about you! While optional, this information can
         enhance your spotlight profile and help us serve you better.
       </p>
 
