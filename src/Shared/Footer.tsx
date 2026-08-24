@@ -20,15 +20,21 @@ const helpData = [
   { label: "FAQ", path: "/contact" },
   { label: "Getting Started", path: "/services" },
   { label: "Contact Support", path: "/contact" },
-  { label: "admin@oursocialimage.net", path: "mailto:admin@oursocialimage.net" },
+  {
+    label: "admin@oursocialimage.net",
+    path: "mailto:admin@oursocialimage.net",
+  },
 ];
 
 const businessData = [
   { label: "Sponsorships", path: "/sponsorships" },
   { label: "Partner With OSI", path: "/sponsorships" },
-  { label: "Business Launch Award", path: "/boss-beginnings" },
+  { label: "OSI Top Business Award", path: "/boss-beginnings" },
   { label: "Event Submissions", path: "/events" },
-  { label: "partners@oursocialimage.net", path: "mailto:partners@oursocialimage.net" },
+  {
+    label: "partners@oursocialimage.net",
+    path: "mailto:partners@oursocialimage.net",
+  },
 ];
 
 const socialData = [

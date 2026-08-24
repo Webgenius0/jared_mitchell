@@ -1,12 +1,7 @@
 "use client";
 import React, { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
-import {
-  FiEye,
-  FiUsers,
-  FiMinus,
-  FiAward,
-} from "react-icons/fi";
+import { FiEye, FiUsers, FiMinus, FiAward } from "react-icons/fi";
 import { SlBadge } from "react-icons/sl";
 import {
   HiMiniArrowTrendingUp,
@@ -65,7 +60,12 @@ const TrendBadge = ({ trend }: { trend: Trend }) => {
       : trend === "Down"
         ? HiMiniArrowTrendingDown
         : FiMinus;
-  const label = trend === "Up" ? "Trending Up" : trend === "Down" ? "Trending Down" : "Steady";
+  const label =
+    trend === "Up"
+      ? "Trending Up"
+      : trend === "Down"
+        ? "Trending Down"
+        : "Steady";
   return (
     <span
       className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-[11px] sm:text-xs font-semibold ${
@@ -96,7 +96,7 @@ interface BossBeginningsContestCarouselClientProps {
 export default function BossBeginningsContestCarouselClient({
   rounds,
   activeRoundId,
-  title = "Business Launch Award Contest",
+  title = "OSI Top Business Award Contest",
   autoPlay = true,
 }: BossBeginningsContestCarouselClientProps) {
   const router = useRouter();
@@ -105,9 +105,9 @@ export default function BossBeginningsContestCarouselClient({
   // carousel. Falls back to the first round when no live season data exists.
   const activeRound = useMemo(() => {
     if (!rounds?.length) return 0;
-    const activeIdx = rounds.findIndex(r => r.id === activeRoundId);
+    const activeIdx = rounds.findIndex((r) => r.id === activeRoundId);
     if (activeIdx >= 0) return activeIdx;
-    const isActiveIdx = rounds.findIndex(r => r.is_active);
+    const isActiveIdx = rounds.findIndex((r) => r.is_active);
     return isActiveIdx >= 0 ? isActiveIdx : 0;
   }, [rounds, activeRoundId]);
 
@@ -127,7 +127,7 @@ export default function BossBeginningsContestCarouselClient({
   // round (5) this means the whole contest is over.
   const isRoundComplete = Boolean(
     apiRound?.voting_ends_at &&
-      new Date(apiRound.voting_ends_at).getTime() < Date.now(),
+    new Date(apiRound.voting_ends_at).getTime() < Date.now(),
   );
   const isFinalRound = roundNumber === 5;
 
@@ -141,7 +141,7 @@ export default function BossBeginningsContestCarouselClient({
     let cancelled = false;
     setLoadingLeaderboard(true);
     getRoundLeaderboard(apiRound.id, { noCache: true })
-      .then(res => {
+      .then((res) => {
         if (!cancelled) setLeaderboard(res?.data ?? null);
       })
       .catch(() => {
@@ -165,7 +165,7 @@ export default function BossBeginningsContestCarouselClient({
   // Contestant rows — live entries for the active round.
   const displayRows = useMemo(() => {
     if (!leaderboard?.entries?.length) return [] as Business[];
-    return leaderboard.entries.map(e => ({
+    return leaderboard.entries.map((e) => ({
       rank: e.rank,
       name:
         e.contestable_name ||
@@ -232,9 +232,7 @@ export default function BossBeginningsContestCarouselClient({
         ) : isFetching ? (
           <div className="rounded-2xl border border-black/10 bg-white p-10 sm:p-14 flex flex-col items-center text-center">
             <div className="size-10 border-4 border-[#2563EB]/20 border-t-[#2563EB] rounded-full animate-spin mb-4" />
-            <p className="text-sm text-black/40">
-              Loading contestants…
-            </p>
+            <p className="text-sm text-black/40">Loading contestants…</p>
           </div>
         ) : isEmpty ? (
           <div className="rounded-2xl border border-black/10 bg-white p-10 sm:p-14 flex flex-col items-center text-center">
@@ -245,8 +243,8 @@ export default function BossBeginningsContestCarouselClient({
               No contestants yet
             </h3>
             <p className="text-sm sm:text-base text-black/50 mt-2 max-w-md">
-              No leaderboard data is available for this round yet. Check
-              back soon.
+              No leaderboard data is available for this round yet. Check back
+              soon.
             </p>
           </div>
         ) : (
@@ -270,10 +268,10 @@ export default function BossBeginningsContestCarouselClient({
                         }
                       : false
                   }
-                  onSwiper={s => setSwiper(s)}
-                  onSlideChange={s => setActiveIndex(s.activeIndex)}
+                  onSwiper={(s) => setSwiper(s)}
+                  onSlideChange={(s) => setActiveIndex(s.activeIndex)}
                 >
-                  {displayRows.map(b => (
+                  {displayRows.map((b) => (
                     <SwiperSlide key={b.id ?? `${b.name}-${b.rank}`}>
                       <div className="overflow-hidden rounded-2xl border border-black/10 bg-white shadow-[0_10px_40px_-12px_rgba(37,99,235,0.25)]">
                         {/* Gradient header */}

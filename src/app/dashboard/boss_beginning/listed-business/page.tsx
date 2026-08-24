@@ -82,7 +82,7 @@ export default function Page() {
             <table className="w-full min-w-[720px] border-collapse">
               <thead>
                 <tr className="bg-slate-50">
-                  {columns.map(col => (
+                  {columns.map((col) => (
                     <th
                       key={col}
                       className="text-left text-xs md:text-sm font-medium text-slate-500 px-5 md:px-6 py-3 md:py-4 whitespace-nowrap"
@@ -93,7 +93,7 @@ export default function Page() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100">
-                {businesses.map(b => (
+                {businesses.map((b) => (
                   <tr
                     key={b.id}
                     className="hover:bg-slate-50/60 transition-colors"
@@ -282,7 +282,7 @@ export default function Page() {
           <h2 className="text-lg md:text-2xl font-semibold text-slate-900 mb-3">
             Your business succesfully applied
             <br />
-            for Business Launch Award
+            for OSI Top Business Award
           </h2>
           <p className="text-sm md:text-base text-slate-500 leading-relaxed mb-8">
             Your business has been submitted for review. You&apos;ll be notified
