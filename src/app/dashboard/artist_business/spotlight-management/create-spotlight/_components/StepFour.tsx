@@ -49,14 +49,14 @@ const StepFour = () => {
 
   return (
     <div className="step_box">
-      <h2 className="text-3xl font-semibold mb-2">Media Uploads</h2>
+      <h2 className="text-xl md:text-3xl font-semibold mb-2">Media Uploads</h2>
 
-      <p className="text-[#364153] text-xl mb-5">
+      <p className="text-[#364153] text-sm md:text-xl mb-5">
         Upload photos and videos for your spotlight card, video intro, and page
         visuals. High-quality images make a better impression!
       </p>
 
-      <div className="space-y-7">
+      <div className="space-y-5 md:space-y-7">
         {/* Professional Headshot / Portrait */}
         <div>
           <p className="flex justify-between items-center mb-2">
@@ -66,8 +66,8 @@ const StepFour = () => {
             </label>
           </p>
 
-          <div className="flex justify-between items-center mb-3">
-            <p className="text-[#364153]">
+          <div className="flex flex-col md:flex-row md:justify-between md:items-center mb-3 gap-1">
+            <p className="text-[#364153] text-sm md:text-base">
               A clear, professional photo of you. This will be your main
               spotlight image.
               {existingHeadshot && " Leave blank to keep your current photo."}
@@ -144,8 +144,8 @@ const StepFour = () => {
             </label>
           </p>
 
-          <div className="flex justify-between items-center mb-3">
-            <p className="text-[#364153]">
+          <div className="flex flex-col md:flex-row md:justify-between md:items-center mb-3 gap-1">
+            <p className="text-[#364153] text-sm md:text-base">
               High-quality photos showcasing your best work. These will appear
               in your spotlight gallery.
               {existingArtworkPhotos.length > 0 &&
@@ -160,7 +160,7 @@ const StepFour = () => {
           </div>
 
           {existingArtworkPhotos.length > 0 && !workspacePhoto && (
-            <div className="grid grid-cols-3 gap-3 mb-3">
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-2 md:gap-3 mb-3">
               {existingArtworkPhotos.map((src, idx) => (
                 <div
                   key={idx}
@@ -233,8 +233,8 @@ const StepFour = () => {
             </label>
           </p>
 
-          <div className="flex justify-between items-center mb-3">
-            <p className="text-[#364153]">
+          <div className="flex flex-col md:flex-row md:justify-between md:items-center mb-3 gap-1">
+            <p className="text-[#364153] text-sm md:text-base">
               Show your creative process! This adds authenticity to your story.
               {existingBehindScenes &&
                 " Leave blank to keep your current photo."}
@@ -313,8 +313,8 @@ const StepFour = () => {
             </label>
           </p>
 
-          <div className="flex justify-between items-center mb-3">
-            <p className="text-[#364153]">
+          <div className="flex flex-col md:flex-row md:justify-between md:items-center mb-3 gap-1">
+            <p className="text-[#364153] text-sm md:text-base">
               Introduce yourself on camera! This helps the community connect
               with you.
               {existingIntroVideo && " Leave blank to keep your current video."}

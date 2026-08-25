@@ -6,7 +6,7 @@ import React, { useCallback, useState } from "react";
 import { FiLogOut, FiLock } from "react-icons/fi";
 import { FaAngleDown } from "react-icons/fa6";
 import Image from "next/image";
-import logo from "../Assets/logo.png";
+import logo from "../Assets/logo.jpeg";
 
 type SubMenu = {
   label: string;
