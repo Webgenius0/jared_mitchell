@@ -130,9 +130,9 @@ const ChatbotWidget = () => {
         <button
           onClick={() => setOpen(true)}
           aria-label="Open AI chat assistant"
-          className="fixed bottom-6 right-6 z-[100] grid h-14 w-14 place-items-center rounded-full bg-primary-blue text-white shadow-[0_8px_24px_rgba(24,119,242,0.45)] transition-transform duration-200 hover:scale-105 active:scale-95"
+          className="fixed bottom-6 right-6 z-[100] grid h-8 md:h-14 w-8 md:w-14 place-items-center rounded-full bg-primary-blue text-white shadow-[0_8px_24px_rgba(24,119,242,0.45)] transition-transform duration-200 hover:scale-105 active:scale-95"
         >
-          <FaRobot className="text-2xl" />
+          <FaRobot className=" md:text-2xl" />
         </button>
       )}
 
