@@ -267,17 +267,17 @@ function CreateSpotlightForm() {
       description="You need an active subscription to create or edit an artist spotlight. Subscribe to unlock the application form."
     >
       <div className="bg-[#F5F6F8]">
-        <div ref={formRef} className="space-y-5">
+        <div ref={formRef} className="space-y-3 md:space-y-5">
           {isSuccessStep ? (
             <StepSeven />
           ) : (
             <>
               {/* Header */}
-              <div className="bg-white rounded-2xl border border-slate-100 p-5 md:p-6">
-                <h1 className="text-lg md:text-xl font-semibold text-slate-900">
+              <div className="bg-white rounded-2xl border border-slate-100 p-4 md:p-6">
+                <h1 className="text-base md:text-xl font-semibold text-slate-900">
                   {isEditMode ? "Edit Spotlight" : "Create Spotlight"}
                 </h1>
-                <p className="text-sm text-slate-500 mt-1">
+                <p className="text-xs md:text-sm text-slate-500 mt-1">
                   {isEditMode
                     ? "Update your artist spotlight information below"
                     : "Fill in the details to create an artist spotlight"}
@@ -285,24 +285,24 @@ function CreateSpotlightForm() {
               </div>
 
               {/* Progress stepper */}
-              <div className="bg-white rounded-2xl border border-slate-100 p-5 md:p-6">
+              <div className="bg-white rounded-2xl border border-slate-100 p-4 md:p-6">
                 <div className="flex items-center justify-between mb-3">
-                  <span className="text-xs md:text-sm text-slate-500">
+                  <span className="text-[10px] md:text-sm text-slate-500">
                     Section {step + 1} of {TOTAL_FORM_STEPS}
                   </span>
-                  <span className="text-xs md:text-sm font-medium text-emerald-500">
+                  <span className="text-[10px] md:text-sm font-medium text-emerald-500">
                     {progressPercent}% Complete
                   </span>
                 </div>
 
-                <div className="w-full h-2 bg-slate-100 rounded-full overflow-hidden mb-5">
+                <div className="w-full h-2 bg-slate-100 rounded-full overflow-hidden mb-4 md:mb-5">
                   <div
                     className="h-full bg-blue-500 rounded-full transition-all duration-300"
                     style={{ width: `${progressPercent}%` }}
                   />
                 </div>
 
-                <div className="flex items-start justify-between">
+                <div className="flex items-start justify-between overflow-x-auto gap-1">
                   {steps.slice(0, TOTAL_FORM_STEPS).map((s, i) => {
                     const isActive = i === step;
                     const isDone = i < step;
@@ -311,10 +311,10 @@ function CreateSpotlightForm() {
                         key={s.title}
                         type="button"
                         onClick={() => setStep(i)}
-                        className="flex flex-col items-center gap-1.5 flex-1 group"
+                        className="flex flex-col items-center gap-1 flex-1 min-w-0 group"
                       >
                         <span
-                          className={`w-7 h-7 md:w-10 md:h-10 rounded-full flex items-center justify-center text-xs md:text-sm font-medium transition-colors
+                          className={`w-6 h-6 md:w-10 md:h-10 rounded-full flex items-center justify-center text-[10px] md:text-sm font-medium transition-colors
                             ${
                               isDone
                                 ? "bg-blue-500 text-white"
@@ -325,7 +325,7 @@ function CreateSpotlightForm() {
                         >
                           {isDone ? (
                             <svg
-                              className="w-3.5 h-3.5 md:w-4 md:h-4"
+                              className="w-3 h-3 md:w-4 md:h-4"
                               fill="none"
                               viewBox="0 0 24 24"
                               stroke="currentColor"
@@ -342,7 +342,7 @@ function CreateSpotlightForm() {
                           )}
                         </span>
                         <span
-                          className={`text-[10px] md:text-xs whitespace-nowrap ${
+                          className={`text-[8px] md:text-xs whitespace-nowrap overflow-hidden text-ellipsis max-w-[50px] md:max-w-none ${
                             isActive
                               ? "text-blue-500 font-medium"
                               : "text-slate-400"
@@ -366,30 +366,31 @@ function CreateSpotlightForm() {
                   />
 
                   {/* Nav buttons */}
-                  <div className="flex items-center justify-between mt-5">
+                  <div className="flex items-center justify-between mt-4 md:mt-5">
                     <button
                       type="button"
                       onClick={onPrev}
                       disabled={step === 0}
-                      className="flex items-center gap-1.5 text-sm md:text-base font-medium text-slate-500 px-5 py-2.5 md:px-10 md:py-3 rounded-full border border-slate-200 hover:bg-slate-50 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+                      className="flex items-center gap-1.5 text-xs md:text-base font-medium text-slate-500 px-3 py-2 md:px-10 md:py-3 rounded-full border border-slate-200 hover:bg-slate-50 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
                     >
-                      <ArrowLeft className="w-4 h-4" />
-                      Previous
+                      <ArrowLeft className="w-3.5 h-3.5 md:w-4 md:h-4" />
+                      <span className="hidden sm:inline">Previous</span>
+                      <span className="sm:hidden">Back</span>
                     </button>
 
                     {step < TOTAL_FORM_STEPS - 1 ? (
                       <button
                         type="submit"
-                        className="flex items-center gap-1.5 bg-blue-500 text-white text-sm md:text-base font-normal px-5 py-2.5 md:px-10 md:py-3 rounded-full hover:bg-blue-600 transition-colors"
+                        className="flex items-center gap-1.5 bg-blue-500 text-white text-xs md:text-base font-normal px-3 py-2 md:px-10 md:py-3 rounded-full hover:bg-blue-600 transition-colors"
                       >
-                        Next Section
-                        <ArrowRight className="w-4 h-4" />
+                        Next
+                        <ArrowRight className="w-3.5 h-3.5 md:w-4 md:h-4" />
                       </button>
                     ) : (
                       <button
                         type="submit"
                         disabled={isPending}
-                        className="bg-blue-500 text-white text-sm md:text-base font-medium px-10 py-2.5 md:py-3 rounded-full hover:bg-blue-600 transition-colors disabled:opacity-60 disabled:cursor-not-allowed flex items-center gap-2"
+                        className="bg-blue-500 text-white text-xs md:text-base font-medium px-6 md:px-10 py-2 md:py-3 rounded-full hover:bg-blue-600 transition-colors disabled:opacity-60 disabled:cursor-not-allowed flex items-center gap-2"
                       >
                         {isPending ? (
                           <>
