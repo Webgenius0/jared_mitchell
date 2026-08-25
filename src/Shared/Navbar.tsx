@@ -10,7 +10,7 @@ import { useEffect, useRef, useState } from "react";
 import { FaBars } from "react-icons/fa";
 import { FiShoppingCart } from "react-icons/fi";
 
-import logo from "../Assets/logo.png";
+import logo from "../Assets/logo.jpeg";
 
 const navLinks = [
   { label: "Home", path: "/" },

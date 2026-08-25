@@ -9,6 +9,9 @@ import useAuth from "@/Hooks/useAuth";
 import toast from "react-hot-toast";
 import { isBusinessUser } from "@/lib/utils";
 import { isUserSubscribed } from "@/Hooks/api/subscription_api";
+import Image from "next/image";
+import Link from "next/link";
+import logo2 from "@/Assets/logo2.png";
 
 const CREATE_BUSINESS_URL =
   "/dashboard/boss_beginning/business/create-business";
@@ -58,6 +61,17 @@ const BossBeginningBanner = ({ data }: BossBeginningBannerProps) => {
       className="min-h-[500px] py-16 md:py-20 lg:py-24 bg-no-repeat bg-center bg-cover"
     >
       <div className="h-full container flex flex-col items-center justify-center">
+                    <Link
+              href="/"
+              className="flex items-center cursor-pointer"
+            >
+              <Image
+                src={logo2}
+                alt="OSI logo"
+                className="h-20 lg:h-60 w-auto mb-4"
+                priority
+              />
+            </Link>
         <h2 className="text-3xl sm:text-4xl md:text-5xl xl:text-6xl font-bold leading-[130%] text-white text-center max-w-[968px] mx-auto">
           {data?.title ?? "OSI Top Business Award"}
         </h2>
