@@ -9,6 +9,7 @@ import WhatExist from "../../about/_Components/WhatExist";
 import ArtistSpotlightBanner from "../_components/ArtistSpotlightBanner";
 import HowSpotlightWorks from "../_components/HowSpotlightWorks";
 import SpotlightGuide from "../_components/SpotlightGuide";
+import SpotlightCountdown from "../_components/SpotlightCountdown";
 import SuccessStories from "../../_components/SuccessStories";
 import SpotlightWinnerSection from "@/Components/Common/SpotlightWinnerSection";
 import {
@@ -69,6 +70,7 @@ const page = async () => {
   return (
     <>
       <ArtistSpotlightBanner data={cmsData?.artist_spotlight_hero} />
+      <SpotlightCountdown />
       <SpotlightHero
         data={cmsData?.artist_spotlight_video}
         liveStream={liveStream}
