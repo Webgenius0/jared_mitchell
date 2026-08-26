@@ -56,6 +56,7 @@ const PricingPlan = ({ plans }: { plans?: PricingPlanType[] }) => {
     () => normalizeSubscriptionResponse(subRes),
     [subRes],
   );
+  console.log(subRes ,"Pricing plan")
   // Only fall back to the profile subscription once the status query has
   // settled — avoids a brief flash of a name-matched highlight while it loads.
   const profileSub = useMemo(
@@ -132,7 +133,7 @@ const PricingPlan = ({ plans }: { plans?: PricingPlanType[] }) => {
         <h2 className="section_title">Choose Your Growth Plan</h2>
 
         <div className="w-full py-5 md:py-10 xl:py-16">
-          <div className="grid gap-4 md:gap-5 xl:gap-6 lg:grid-cols-3">
+          <div className="grid gap-4 md:gap-5 xl:gap-6 md:grid-cols-2 xl:grid-cols-4">
             {pricingPlans.map(plan => {
               const isLoading = isPlanLoading(plan.id);
               const isCurrent = currentPlanId === plan.id;

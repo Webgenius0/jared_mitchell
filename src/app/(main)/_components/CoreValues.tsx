@@ -71,7 +71,7 @@ const CoreValues = ({ data: cmsData }: { data?: CMSCoreValue }) => {
         </h2>
 
         {/* Desktop / tablet view */}
-        <div className="w-full overflow-hidden hidden md:flex items-center justify-center rounded-2xl relative isolate min-h-[320px]">
+        <div className="w-full overflow-hidden hidden lg:flex items-center justify-center rounded-2xl relative isolate min-h-[280px] lg:min-h-[320px]">
           <Image
             src={cmsData?.bg || coreValueBg}
             fill
@@ -80,7 +80,7 @@ const CoreValues = ({ data: cmsData }: { data?: CMSCoreValue }) => {
           />
 
           <div className="w-full relative z-10 bg-[linear-gradient(0deg,rgba(255,255,255,0.40),rgba(255,255,255,0.40))] rounded-2xl">
-            <div className="grid grid-cols-3 gap-3 lg:gap-5 2xl:gap-10 p-5 lg:p-8 2xl:p-12">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 lg:gap-5 2xl:gap-10 p-4 md:p-5 lg:p-8 2xl:p-12">
               {values?.map(val => (
                 <div
                   key={val.id}
@@ -119,8 +119,8 @@ const CoreValues = ({ data: cmsData }: { data?: CMSCoreValue }) => {
           </div>
         </div>
 
-        {/* Mobile view */}
-        <div className="space-y-3 md:hidden">
+        {/* Mobile/tablet view */}
+        <div className="space-y-3 lg:hidden">
           {values?.map(val => (
             <div
               key={val.id}

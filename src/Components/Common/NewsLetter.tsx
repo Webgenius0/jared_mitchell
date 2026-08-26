@@ -60,18 +60,18 @@ const NewsLetter = ({ title, sub_title, data }: NewsletterProps) => {
 
         <form
           onSubmit={handleSubmit}
-          className="flex items-center justify-between max-w-[870px] w-full py-1 md:py-2.5 px-3 md:px-5 rounded-full bg-white mx-auto mt-10"
+          className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-0 sm:justify-between max-w-[870px] w-full py-2 px-3 md:px-5 rounded-2xl sm:rounded-full bg-white mx-auto mt-10"
         >
           <input
             type="email"
             value={email}
             onChange={e => setEmail(e.target.value)}
             placeholder="Enter your email address"
-            className="w-full outline-none md:text-lg"
+            className="w-full outline-none md:text-lg min-w-0 px-2 py-2 sm:py-0"
             required
             disabled={status === "loading"}
           />
-          <Button type="submit" disabled={status === "loading"}>
+          <Button type="submit" disabled={status === "loading"} className="w-full sm:w-auto shrink-0">
             {status === "loading" ? "Submitting..." : "Get started now"}
           </Button>
         </form>

@@ -57,47 +57,47 @@ const GetInTouch = () => {
           media inquiries, technical assistance, or billing concerns — use the
           form below. Our team typically responds within 24–48 hours.
         </p>
-        <form onSubmit={handleSubmit} className="mt-[120px]">
+        <form onSubmit={handleSubmit} className="mt-8 md:mt-16 lg:mt-[120px]">
           <div className="space-y-5">
-            <div className="flex items-center gap-6">
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-5 sm:gap-6">
               <div className="space-y-[18px] w-full">
-                <div className="text-primary-black text-2xl">First Name*</div>
+                <div className="text-primary-black text-lg md:text-2xl">First Name*</div>
                 <input
                   type="text"
                   name="first_name"
                   required
                   placeholder="John"
-                  className="px-6 py-3 rounded-full bg-[#F5F5F7] border border-[#00000029] text-xl text-[#99A1AF] w-full"
+                  className="px-4 sm:px-6 py-2.5 sm:py-3 rounded-full bg-[#F5F5F7] border border-[#00000029] text-base sm:text-xl text-[#99A1AF] w-full"
                 />
               </div>
               <div className="space-y-[18px] w-full">
-                <div className="text-primary-black text-2xl">Last Name *</div>
+                <div className="text-primary-black text-lg md:text-2xl">Last Name *</div>
                 <input
                   type="text"
                   name="last_name"
                   required
                   placeholder="Doe"
-                  className="px-6 py-3 rounded-full bg-[#F5F5F7] border border-[#00000029] text-xl text-[#99A1AF] w-full"
+                  className="px-4 sm:px-6 py-2.5 sm:py-3 rounded-full bg-[#F5F5F7] border border-[#00000029] text-base sm:text-xl text-[#99A1AF] w-full"
                 />
               </div>
             </div>
             <div className="space-y-[18px]">
-              <div className="text-primary-black text-2xl">Email Address *</div>
+              <div className="text-primary-black text-lg md:text-2xl">Email Address *</div>
               <input
                 type="email"
                 name="email"
                 required
                 placeholder="Type your email..."
-                className="px-6 py-3 rounded-full bg-[#F5F5F7] border border-[#00000029] text-xl text-[#99A1AF] w-full"
+                className="px-4 sm:px-6 py-2.5 sm:py-3 rounded-full bg-[#F5F5F7] border border-[#00000029] text-base sm:text-xl text-[#99A1AF] w-full"
               />
             </div>
             <div className="space-y-[18px]">
-              <div className="text-primary-black text-2xl">Subject *</div>
+              <div className="text-primary-black text-lg md:text-2xl">Subject *</div>
               <select
                 name="subject"
                 required
                 defaultValue=""
-                className="px-6 py-3 rounded-full bg-[#F5F5F7] border border-[#00000029] text-xl text-[#99A1AF] w-full"
+                className="px-4 sm:px-6 py-2.5 sm:py-3 rounded-full bg-[#F5F5F7] border border-[#00000029] text-base sm:text-xl text-[#99A1AF] w-full"
               >
                 <option disabled value="">
                   Select a subject
@@ -113,20 +113,20 @@ const GetInTouch = () => {
               </select>
             </div>
             <div className="space-y-[18px]">
-              <div className="text-primary-black text-2xl">Message *</div>
+              <div className="text-primary-black text-lg md:text-2xl">Message *</div>
               <textarea
                 name="message"
                 required
                 rows={5}
                 placeholder="Tell us how we can help..."
-                className="px-6 py-3 rounded-lg bg-[#F5F5F7] border border-[#00000029] text-xl text-[#99A1AF] w-full"
+                className="px-4 sm:px-6 py-2.5 sm:py-3 rounded-lg bg-[#F5F5F7] border border-[#00000029] text-base sm:text-xl text-[#99A1AF] w-full"
               ></textarea>
             </div>
             <div className="space-y-[18px]">
-              <div className="text-primary-black text-2xl">
+              <div className="text-primary-black text-lg md:text-2xl">
                 Optional Upload (Screenshots or Files)
               </div>
-              <label className="px-6 py-3 rounded-full flex items-center justify-center cursor-pointer gap-2 bg-white border border-[#00000029] text-xl text-[#364153] w-full hover:bg-gray-50 transition-colors">
+              <label className="px-4 sm:px-6 py-2.5 sm:py-3 rounded-full flex items-center justify-center cursor-pointer gap-2 bg-white border border-[#00000029] text-base sm:text-xl text-[#364153] w-full hover:bg-gray-50 transition-colors">
                 <input
                   type="file"
                   name="file"

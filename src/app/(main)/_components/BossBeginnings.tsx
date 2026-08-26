@@ -70,7 +70,7 @@ const BossBeginnings = ({
           {data?.sub_title || "A Business Shower"}
         </h3>
 
-        <div className="relative flex items-center max-w-[1179px] w-full h-[200px] sm:h-[240px] md:h-[300px] lg:h-[360px] xl:h-[420px] justify-center my-3 md:my-4 rounded-2xl md:rounded-[32px] overflow-hidden mx-auto">
+        <div className="relative flex items-center max-w-[1179px] w-full h-[180px] sm:h-[220px] md:h-[280px] lg:h-[340px] xl:h-[420px] justify-center my-4 md:my-6 rounded-2xl md:rounded-[32px] overflow-hidden mx-auto">
           <div className="absolute top-0 left-0 size-full bg-black/40" />
           <Image
             src={bannerImage}
