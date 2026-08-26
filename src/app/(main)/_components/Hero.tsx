@@ -20,7 +20,7 @@ const Hero = ({ data }: { data?: CMSHero }) => {
       <div className="flex items-center justify-center my-3 md:my-10  overflow-hidden max-w-6xl mx-auto">
         <CustomVideoPlayer
           videoSrc={data?.video || "/home/hero-video.mp4"}
-          className="max-h-[420px]"
+          className=""
         />
       </div>
 

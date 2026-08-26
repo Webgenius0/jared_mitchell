@@ -342,13 +342,14 @@ const Navbar = () => {
           isOpen ? "translate-x-0" : "-translate-x-full"
         } duration-500 transition-transform fixed top-0 z-[999] left-0 bg-white p-5 lg:p-7 shadow-lg overflow-y-auto border-r border-gray-200 max-h-screen min-h-screen w-[250px] lg:w-[270px] xl:hidden`}
       >
-        <Link
-          href="/"
-          onClick={() => setOpen(false)}
-          className="text-[#2A2929] font-poppins text-xl font-semibold cursor-pointer"
-        >
-          OSI
-        </Link>
+            <Link href="/" className="flex items-center cursor-pointer">
+              <Image
+                src={logo}
+                alt="OSI logo"
+                className="h-24 w-auto"
+                priority
+              />
+            </Link>
 
         <ul className="flex flex-col gap-5 mt-7">
           {navLinks?.map((link) => {
