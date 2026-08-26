@@ -8,6 +8,7 @@ import CommunityAchievements from "../../_components/CommunityAchievements";
 import WhatExist from "../../about/_Components/WhatExist";
 import ArtistSpotlightBanner from "../_components/ArtistSpotlightBanner";
 import HowSpotlightWorks from "../_components/HowSpotlightWorks";
+import SpotlightGuide from "../_components/SpotlightGuide";
 import SuccessStories from "../../_components/SuccessStories";
 import SpotlightWinnerSection from "@/Components/Common/SpotlightWinnerSection";
 import {
@@ -76,6 +77,7 @@ const page = async () => {
       />
       <SpotlightWinnerSection winner={lastArtistWinner} type="artist" />
       <HowSpotlightWorks type="artist" />
+      <SpotlightGuide type="artist" />
       <DiscoverArtists type="artist" data={cmsData?.artist_spotlight_list} />
       {/* <CommunityAchievements data={cmsData?.artist_spotlight_highlights} /> */}
       <SuccessStories winners={artistWinners} type="artist" />

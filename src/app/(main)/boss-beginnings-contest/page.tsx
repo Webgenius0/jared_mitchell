@@ -14,6 +14,7 @@ import {
 import Sponsors from "../_components/Sponsors";
 import NewsLetter from "@/Components/Common/NewsLetter";
 import OpenQualifierRound from "./Components/Openqualifierround";
+import BossBeginningGuide from "../boss-beginnings/_components/BossBeginningGuide";
 
 const page = async () => {
   const pageData = (await getBossCms()) as CMSBossBeginnings;
@@ -47,6 +48,7 @@ const page = async () => {
         rounds={seasonRounds}
         activeRoundId={activeRoundId}
       />
+      <BossBeginningGuide />
       <Sponsors data={CmsData?.partners} />
       <NewsLetter title="Be part of the movement. Get stories, updates, and opportunities straight to your inbox." />
     </>

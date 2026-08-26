@@ -319,7 +319,7 @@ const Navbar = () => {
 
               <button
                 onClick={() => setOpen(!isOpen)}
-                className="bg-primary-blue text-white size-8 lg:size-9 rounded grid xl:hidden place-items-center cursor-pointer"
+                className="bg-primary-blue text-white size-8 lg:size-9 rounded grid lg:hidden place-items-center cursor-pointer"
               >
                 <FaBars className="text-lg lg:text-[22px]" />
               </button>
@@ -331,7 +331,7 @@ const Navbar = () => {
       {/* Blur Overlay */}
       <div
         onClick={() => setOpen(false)}
-        className={`fixed inset-0 bg-primary-black/30 backdrop-blur-sm transition-opacity duration-300 xl:hidden z-[999] ${
+        className={`fixed inset-0 bg-primary-black/30 backdrop-blur-sm transition-opacity duration-300 lg:hidden z-[999] ${
           isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
         }`}
       />
@@ -340,7 +340,7 @@ const Navbar = () => {
       <div
         className={`${
           isOpen ? "translate-x-0" : "-translate-x-full"
-        } duration-500 transition-transform fixed top-0 z-[999] left-0 bg-white p-5 lg:p-7 shadow-lg overflow-y-auto border-r border-gray-200 max-h-screen min-h-screen w-[250px] lg:w-[270px] xl:hidden`}
+        } duration-500 transition-transform fixed top-0 z-[999] left-0 bg-white p-5 lg:p-7 shadow-lg overflow-y-auto border-r border-gray-200 max-h-screen min-h-screen w-[250px] lg:w-[270px] lg:hidden`}
       >
             <Link href="/" className="flex items-center cursor-pointer">
               <Image

@@ -107,7 +107,7 @@ const CommunityAchievements = ({
   return (
     <section className="section">
       <h2 className="section_title 2xl:text-5xl">
-        {data?.title || "Past Six Months Boss Beginning Winners"}
+        {data?.title || "Past Six Months OSI Top Business Award Winners"}
       </h2>
 
       <p className="section_sub_title">
