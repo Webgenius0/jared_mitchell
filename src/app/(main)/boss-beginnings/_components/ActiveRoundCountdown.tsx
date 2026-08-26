@@ -1,32 +1,18 @@
 "use client";
 
 import { useEffect, useState, useRef, useCallback } from "react";
-import Container from "@/Components/Common/Container";
 import { axiosPublic } from "@/Hooks/useAxiosPublic";
+import { ActiveRoundCountdownRound } from "@/Types/cms";
 import { FiClock, FiArrowRight } from "react-icons/fi";
-
-interface CountdownData {
-  id: number;
-  week_number: number;
-  year: number;
-  name: string;
-  status: string;
-  phase: string;
-  is_accepting_applications: boolean;
-  is_voting_open: boolean;
-  voting_starts_at: string;
-  voting_ends_at: string;
-  target_date: string;
-  countdown: {
-    formatted: string;
-    formatted_short: string;
-  };
-}
 
 interface ApiResponse {
   success: boolean;
   message: string;
-  data: CountdownData | null;
+  data: {
+    season_id: number;
+    season_title: string;
+    rounds: ActiveRoundCountdownRound[];
+  } | null;
   errors: any;
   code: number;
 }
@@ -55,17 +41,15 @@ function calculateTimeLeft(targetDate: string): TimeLeft | null {
   };
 }
 
-function formatTargetDate(dateStr: string): string {
+function formatDate(dateStr: string): string {
   try {
     const date = new Date(dateStr);
     return date.toLocaleDateString("en-US", {
-      weekday: "long",
-      year: "numeric",
       month: "long",
       day: "numeric",
+      year: "numeric",
       hour: "numeric",
       minute: "2-digit",
-      timeZoneName: "short",
     });
   } catch {
     return dateStr;
@@ -139,14 +123,12 @@ const CountdownSeparator = () => (
   </div>
 );
 
-const SpotlightCountdown = () => {
-  const [countdownData, setCountdownData] = useState<CountdownData | null>(
-    null,
-  );
+const ActiveRoundCountdown = () => {
+  const [activeRound, setActiveRound] =
+    useState<ActiveRoundCountdownRound | null>(null);
+  const [seasonTitle, setSeasonTitle] = useState<string>("");
   const [timeLeft, setTimeLeft] = useState<TimeLeft | null>(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
-  const [phase, setPhase] = useState<"running" | "upcoming" | null>(null);
   const [shouldReload, setShouldReload] = useState(false);
 
   const timerRef = useRef<NodeJS.Timeout | null>(null);
@@ -166,47 +148,25 @@ const SpotlightCountdown = () => {
 
   const fetchCountdown = useCallback(async () => {
     try {
-      // Try running countdown first
-      const runningRes = await axiosPublic.get<ApiResponse>(
-        "/v1/spotlight/weeks/running-countdown",
+      const res = await axiosPublic.get<ApiResponse>(
+        "/v1/contest/active-round-countdown",
       );
 
-      if (
-        runningRes.data.success &&
-        runningRes.data.data?.target_date &&
-        runningRes.data.data?.countdown
-      ) {
-        setCountdownData(runningRes.data.data);
-        setPhase("running");
-        setLoading(false);
-        setError(false);
-        return;
+      if (res.data.success && res.data.data?.rounds) {
+        const round = res.data.data.rounds.find((r) => r.is_active);
+
+        if (round && round.target_date && round.countdown) {
+          setActiveRound(round);
+          setSeasonTitle(res.data.data.season_title || "");
+          setLoading(false);
+          return;
+        }
       }
 
-      // Fallback to upcoming countdown
-      const upcomingRes = await axiosPublic.get<ApiResponse>(
-        "/v1/spotlight/weeks/upcoming-countdown",
-      );
-
-      if (
-        upcomingRes.data.success &&
-        upcomingRes.data.data?.target_date &&
-        upcomingRes.data.data?.countdown
-      ) {
-        setCountdownData(upcomingRes.data.data);
-        setPhase("upcoming");
-        setLoading(false);
-        setError(false);
-        return;
-      }
-
-      // No valid countdown data
       setLoading(false);
-      setError(false);
     } catch (err) {
-      console.error("Failed to fetch spotlight countdown:", err);
+      console.error("Failed to fetch active round countdown:", err);
       setLoading(false);
-      setError(true);
     }
   }, []);
 
@@ -217,15 +177,13 @@ const SpotlightCountdown = () => {
 
   // Start countdown timer when data is available
   useEffect(() => {
-    if (!countdownData?.target_date) return;
+    if (!activeRound?.target_date) return;
 
     reloadTriggeredRef.current = false;
 
-    // Calculate initial time
-    const initial = calculateTimeLeft(countdownData.target_date);
+    const initial = calculateTimeLeft(activeRound.target_date);
     setTimeLeft(initial);
 
-    // Check if already expired
     if (
       initial &&
       initial.days === 0 &&
@@ -240,15 +198,13 @@ const SpotlightCountdown = () => {
       return;
     }
 
-    // Start interval
     timerRef.current = setInterval(() => {
-      const remaining = calculateTimeLeft(countdownData.target_date);
+      const remaining = calculateTimeLeft(activeRound.target_date);
 
       if (!remaining) return;
 
       setTimeLeft(remaining);
 
-      // Check if countdown completed
       if (
         remaining.days === 0 &&
         remaining.hours === 0 &&
@@ -267,11 +223,11 @@ const SpotlightCountdown = () => {
     }, 1000);
 
     return cleanup;
-  }, [countdownData?.target_date, cleanup]);
+  }, [activeRound?.target_date, cleanup]);
 
   // Periodic API refresh (every 5 minutes)
   useEffect(() => {
-    if (!countdownData) return;
+    if (!activeRound) return;
 
     pollRef.current = setInterval(
       () => {
@@ -286,7 +242,7 @@ const SpotlightCountdown = () => {
         pollRef.current = null;
       }
     };
-  }, [countdownData, fetchCountdown]);
+  }, [activeRound, fetchCountdown]);
 
   // Cleanup on unmount
   useEffect(() => {
@@ -301,7 +257,6 @@ const SpotlightCountdown = () => {
   }, [shouldReload]);
 
   // Compute display values
-  const isRunning = phase === "running";
   const isExpired =
     timeLeft !== null &&
     timeLeft.days === 0 &&
@@ -309,8 +264,7 @@ const SpotlightCountdown = () => {
     timeLeft.minutes === 0 &&
     timeLeft.seconds === 0;
 
-  const shouldShow =
-    !loading && !error && countdownData && timeLeft && !isExpired;
+  const shouldShow = !loading && activeRound && timeLeft && !isExpired;
 
   if (!shouldShow) {
     return null;
@@ -318,7 +272,7 @@ const SpotlightCountdown = () => {
 
   return (
     <section className="py-10 md:py-16 lg:py-20">
-      <Container>
+      <div className="container mx-auto px-4">
         <div className="relative overflow-hidden rounded-3xl md:rounded-[2rem]">
           {/* Animated gradient background */}
           <div className="absolute inset-0 bg-gradient-to-br from-[#0f172a] via-[#1e3a5f] to-[#0f172a]" />
@@ -346,25 +300,26 @@ const SpotlightCountdown = () => {
                   <span className="relative inline-flex rounded-full h-2 w-2 bg-green-400" />
                 </span>
                 <span className="text-white/90 text-xs sm:text-sm font-medium">
-                  {isRunning ? "Voting in Progress" : "Upcoming Week"}
+                  Round in Progress
                 </span>
               </div>
             </div>
 
-            {/* Week name */}
+            {/* Season & Round info */}
             <div className="text-center mb-8 md:mb-10">
-              <p className="text-white/50 text-xs sm:text-sm uppercase tracking-[0.25em] mb-2">
-                Spotlight Contest
-              </p>
+              {seasonTitle && (
+                <p className="text-white/50 text-xs sm:text-sm uppercase tracking-[0.25em] mb-2">
+                  OSI Top Business Award
+                </p>
+              )}
               <h3 className="text-white text-2xl sm:text-3xl md:text-4xl font-bold mb-2">
-                {countdownData!.name}
+                Round {activeRound!.round_number}
               </h3>
-              <p className="text-white/70 text-sm sm:text-base max-w-md mx-auto">
-                {isRunning
-                  ? "Voting ends"
-                  : "Applications close & voting starts"}{" "}
-                {formatTargetDate(countdownData!.target_date)}
-              </p>
+              {activeRound!.title && (
+                <p className="text-white/70 text-sm sm:text-base max-w-md mx-auto">
+                  {activeRound!.title}
+                </p>
+              )}
             </div>
 
             {/* Countdown digits */}
@@ -378,23 +333,26 @@ const SpotlightCountdown = () => {
               <CountdownDigit value={timeLeft!.seconds} label="Seconds" />
             </div>
 
-            {/* CTA */}
-            {countdownData!.is_accepting_applications && (
-              <div className="flex justify-center">
-                <a
-                  href="/dashboard/artist_business/spotlight-management"
-                  className="group inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white text-[#0f172a] font-semibold text-sm sm:text-base hover:bg-white/90 transition-all duration-300 hover:shadow-lg hover:shadow-white/20"
-                >
-                  Apply Now
-                  <FiArrowRight className="size-4 transition-transform duration-300 group-hover:translate-x-1" />
-                </a>
+            {/* End date & CTA */}
+            <div className="flex flex-col items-center gap-4">
+              <div className="flex items-center gap-2 text-white/60 text-xs sm:text-sm">
+                <FiClock className="size-3.5 sm:size-4" />
+                <span>Ends {formatDate(activeRound!.ends_at)}</span>
               </div>
-            )}
+
+              <a
+                href="/dashboard"
+                className="group inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white text-[#0f172a] font-semibold text-sm sm:text-base hover:bg-white/90 transition-all duration-300 hover:shadow-lg hover:shadow-white/20"
+              >
+                Apply Now
+                <FiArrowRight className="size-4 transition-transform duration-300 group-hover:translate-x-1" />
+              </a>
+            </div>
           </div>
         </div>
-      </Container>
+      </div>
     </section>
   );
 };
 
-export default SpotlightCountdown;
+export default ActiveRoundCountdown;

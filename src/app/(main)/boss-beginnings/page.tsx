@@ -26,6 +26,7 @@ import {
 import Sponsors from "../_components/Sponsors";
 import BossBeginningSponsor from "./_components/BossBeginningSponsor";
 import BossBeginningGuide from "./_components/BossBeginningGuide";
+import ActiveRoundCountdown from "./_components/ActiveRoundCountdown";
 import BossBeginningsContestCarousel from "@/Components/Common/BossBeginningsContestCarousel";
 import CommunityAchievements from "../_components/CommunityAchievements";
 
@@ -107,6 +108,8 @@ const page = async () => {
         roundData={roundLeaderboard}
         roundId={activeRoundId}
       />
+
+      <ActiveRoundCountdown />
 
       {/* <BossBeginningsContestCarousel title="OSI Top Business Award Contest" /> */}
 
