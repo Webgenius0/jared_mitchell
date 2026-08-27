@@ -198,8 +198,8 @@ const Navbar = () => {
           </div>
 
           {/* Right */}
-          <div className="flex gap-5 items-center">
-            <div className="flex gap-2.5 md:gap-3 xl:gap-5 items-center">
+          <div className="flex gap-2 2xl:gap-5 items-center">
+            <div className="flex gap-2 2xl:gap-5 items-center">
               <GoogleTranslate />
               {/* <button>
                 <SearchSvg />
