@@ -14,24 +14,24 @@ interface StepSectionProps {
 
 export const StepSection = ({ id, stepNumber, title, children }: StepSectionProps) => (
   <section id={id} className="scroll-mt-20">
-    <div className="bg-white rounded-2xl md:rounded-3xl border border-slate-100 p-6 md:p-8 lg:p-10">
+    <div className="bg-white rounded-xl md:rounded-2xl lg:rounded-3xl border border-slate-100 p-4 md:p-5 lg:p-6 xl:p-10">
       {/* Step Header */}
-      <div className="flex items-center gap-4 mb-6">
-        <span className="w-12 h-12 md:w-14 md:h-14 rounded-full bg-primary-blue text-white flex items-center justify-center text-lg md:text-xl font-bold shrink-0">
+      <div className="flex items-center gap-3 md:gap-4 mb-4 md:mb-5 lg:mb-6">
+        <span className="w-10 h-10 md:w-11 md:h-11 lg:w-12 lg:h-12 rounded-full bg-primary-blue text-white flex items-center justify-center text-base md:text-lg lg:text-xl font-bold shrink-0">
           {stepNumber}
         </span>
         <div>
           <span className="text-xs md:text-sm font-medium text-primary-blue uppercase tracking-wider">
             Step {stepNumber}
           </span>
-          <h2 className="text-xl md:text-2xl lg:text-3xl font-bold text-primary-black mt-1">
+          <h2 className="text-base md:text-lg lg:text-xl xl:text-2xl font-bold text-primary-black mt-1">
             {title}
           </h2>
         </div>
       </div>
 
       {/* Content */}
-      <div className="space-y-5">{children}</div>
+      <div className="space-y-4 md:space-y-5">{children}</div>
     </div>
   </section>
 );

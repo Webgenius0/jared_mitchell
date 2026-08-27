@@ -83,12 +83,12 @@ const HowSpotlightWorks = ({ type }: HowSpotlightWorksProps) => {
         </p>
 
         {/* Two categories banner */}
-        <div className="mt-8 md:mt-10 rounded-2xl md:rounded-3xl bg-primary-blue px-6 md:px-10 py-8 md:py-10 text-center custom_shadow">
-          <p className="text-white text-xl md:text-2xl xl:text-3xl font-semibold leading-[140%]">
+        <div className="mt-6 md:mt-8 lg:mt-10 rounded-xl lg:rounded-2xl xl:rounded-3xl bg-primary-blue px-4 md:px-6 lg:px-8 xl:px-10 py-6 md:py-7 lg:py-8 xl:py-10 text-center custom_shadow">
+          <p className="text-white text-base md:text-lg lg:text-xl xl:text-3xl font-semibold leading-[140%]">
             Two Categories. Two Weekly Winners. One Community.
           </p>
 
-          <div className="mt-5 flex flex-wrap items-center justify-center gap-3">
+          <div className="mt-4 md:mt-5 flex flex-wrap items-center justify-center gap-2 md:gap-3">
             <span
               className={cn(
                 "px-5 md:px-7 py-2 rounded-full text-sm md:text-base font-medium transition-colors",
@@ -111,28 +111,28 @@ const HowSpotlightWorks = ({ type }: HowSpotlightWorksProps) => {
             </span>
           </div>
 
-          <p className="mt-5 text-white/90 text-sm md:text-base font-medium tracking-wide uppercase">
+          <p className="mt-4 md:mt-5 text-white/90 text-xs md:text-sm lg:text-base font-medium tracking-wide uppercase">
             This is our social image.
           </p>
         </div>
 
         {/* Weekly competition cycle */}
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5 md:gap-6 mt-8 md:mt-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-3 md:gap-4 lg:gap-5 xl:gap-6 mt-6 md:mt-8 lg:mt-10 xl:mt-12">
           {steps.map((step, idx) => (
             <div
               key={idx}
-              className="bg-white custom_border custom_shadow rounded-2xl p-6 md:p-8 flex flex-col gap-4 h-full"
+              className="bg-white custom_border custom_shadow rounded-xl lg:rounded-2xl p-4 md:p-5 lg:p-6 xl:p-8 flex flex-col gap-3 lg:gap-4 h-full"
             >
               <div className="flex items-center justify-between">
-                <span className="size-12 md:size-14 rounded-full bg-primary-blue/10 flex items-center justify-center">
-                  <step.icon className="size-5 md:size-6 text-primary-blue" />
+                <span className="size-10 md:size-11 lg:size-12 xl:size-14 rounded-full bg-primary-blue/10 flex items-center justify-center">
+                  <step.icon className="size-4 md:size-5 lg:size-6 text-primary-blue" />
                 </span>
-                <span className="text-2xl md:text-3xl font-bold text-primary-blue/20">
+                <span className="text-xl md:text-2xl lg:text-3xl font-bold text-primary-blue/20">
                   {String(idx + 1).padStart(2, "0")}
                 </span>
               </div>
 
-              <h3 className="text-lg md:text-xl font-semibold text-primary-black">
+              <h3 className="text-sm md:text-base lg:text-lg xl:text-xl font-semibold text-primary-black">
                 {step.title}
               </h3>
 

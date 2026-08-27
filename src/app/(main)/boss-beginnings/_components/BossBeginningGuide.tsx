@@ -62,11 +62,11 @@ const BossBeginningGuide = () => {
         </div>
 
         {/* Visual Flow */}
-        <div className="mt-10 md:mt-14">
-          <div className="grid grid-cols-2 md:grid-cols-5 gap-4 md:gap-5">
+        <div className="mt-6 md:mt-8 lg:mt-10 xl:mt-14">
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-3 md:gap-3.5 lg:gap-4 xl:gap-5">
             {steps.map((step, idx) => (
               <div key={idx} className="relative group">
-                <div className="bg-white custom_border custom_shadow rounded-2xl p-5 md:p-6 text-center flex flex-col items-center gap-3 h-full transition-transform duration-300 hover:-translate-y-1">
+                <div className="bg-white custom_border custom_shadow rounded-xl lg:rounded-2xl p-3.5 md:p-4 lg:p-5 xl:p-6 text-center flex flex-col items-center gap-2 lg:gap-3 h-full transition-transform duration-300 hover:-translate-y-1">
                   {/* Number Badge */}
                   <span className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-primary-blue/10 flex items-center justify-center">
                     <step.icon className="w-5 h-5 md:w-6 md:h-6 text-primary-blue" />
@@ -100,17 +100,17 @@ const BossBeginningGuide = () => {
         </div>
 
         {/* CTA to Dedicated Guide Page */}
-        <div className="mt-12 md:mt-16">
-          <div className="relative rounded-2xl md:rounded-3xl p-6 md:p-8 bg-primary-blue text-white text-center">
+        <div className="mt-8 md:mt-10 lg:mt-12 xl:mt-16">
+          <div className="relative rounded-xl md:rounded-2xl lg:rounded-3xl p-4 md:p-5 lg:p-6 xl:p-8 bg-primary-blue text-white text-center">
             <div className="flex flex-col items-center">
-              <span className="w-14 h-14 md:w-16 md:h-16 rounded-xl bg-white/20 flex items-center justify-center mb-4">
+              <span className="w-10 h-10 md:w-12 md:h-12 lg:w-14 lg:h-14 rounded-xl bg-white/20 flex items-center justify-center mb-3 lg:mb-4">
                 <FiBriefcase className="w-7 h-7 md:w-8 md:h-8 text-white" />
               </span>
 
-              <h3 className="text-xl md:text-2xl font-semibold text-white">
+              <h3 className="text-base md:text-lg lg:text-xl xl:text-2xl font-semibold text-white">
                 Ready to Get Started?
               </h3>
-              <p className="text-sm md:text-base text-white/80 mt-2 max-w-lg">
+              <p className="text-xs md:text-sm lg:text-base text-white/80 mt-1.5 lg:mt-2 max-w-lg">
                 Follow the complete step-by-step guide to understand exactly
                 what to do, where to click, and how to submit your OSI Top Business Award
                 entry.
@@ -118,7 +118,7 @@ const BossBeginningGuide = () => {
 
               <Link
                 href="/osi-top-business-award-guide"
-                className="inline-flex items-center gap-2 mt-6 px-6 py-3 rounded-full bg-white text-primary-blue text-sm font-medium hover:bg-white/90 transition-colors"
+                className="inline-flex items-center gap-2 mt-4 md:mt-5 lg:mt-6 px-4 md:px-5 lg:px-6 py-2 md:py-2.5 lg:py-3 rounded-full bg-white text-primary-blue text-xs md:text-sm font-medium hover:bg-white/90 transition-colors"
               >
                 View OSI Top Business Award Guide
                 <FiArrowRight className="w-4 h-4" />

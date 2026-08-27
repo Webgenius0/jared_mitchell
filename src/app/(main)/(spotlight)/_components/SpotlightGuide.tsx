@@ -64,11 +64,11 @@ const SpotlightGuide = ({ type }: SpotlightGuideProps) => {
         </div>
 
         {/* Visual Flow */}
-        <div className="mt-10 md:mt-14">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+        <div className="mt-6 md:mt-8 lg:mt-10 xl:mt-14">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 lg:gap-5 xl:gap-6">
             {steps.map((step, idx) => (
               <div key={idx} className="relative group">
-                <div className="bg-white custom_border custom_shadow rounded-2xl p-5 md:p-6 text-center flex flex-col items-center gap-3 h-full transition-transform duration-300 hover:-translate-y-1">
+                <div className="bg-white custom_border custom_shadow rounded-xl lg:rounded-2xl p-3.5 md:p-4 lg:p-5 xl:p-6 text-center flex flex-col items-center gap-2 lg:gap-3 h-full transition-transform duration-300 hover:-translate-y-1">
                   {/* Number Badge */}
                   <span className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-primary-blue/10 flex items-center justify-center">
                     <step.icon className="w-5 h-5 md:w-6 md:h-6 text-primary-blue" />
@@ -102,10 +102,10 @@ const SpotlightGuide = ({ type }: SpotlightGuideProps) => {
         </div>
 
         {/* Two Choice Cards */}
-        <div className="mt-12 md:mt-16 grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6">
+        <div className="mt-8 md:mt-10 lg:mt-12 xl:mt-16 grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5 lg:gap-6">
           {/* Artist Card */}
           <div
-            className={`relative rounded-2xl md:rounded-3xl p-6 md:p-8 transition-all duration-300 hover:shadow-lg ${
+            className={`relative rounded-xl md:rounded-2xl lg:rounded-3xl p-4 md:p-5 lg:p-6 xl:p-8 transition-all duration-300 hover:shadow-lg ${
               isArtist
                 ? "bg-primary-blue text-white ring-2 ring-primary-blue ring-offset-2"
                 : "bg-white custom_border custom_shadow"
@@ -113,12 +113,12 @@ const SpotlightGuide = ({ type }: SpotlightGuideProps) => {
           >
             <div className="flex items-start gap-4">
               <span
-                className={`w-12 h-12 md:w-14 md:h-14 rounded-xl flex items-center justify-center shrink-0 ${
+                className={`w-10 h-10 md:w-12 md:h-12 lg:w-14 lg:h-14 rounded-xl flex items-center justify-center shrink-0 ${
                   isArtist ? "bg-white/20" : "bg-primary-blue/10"
                 }`}
               >
                 <FiAward
-                  className={`w-6 h-6 md:w-7 md:h-7 ${
+                  className={`w-5 h-5 md:w-6 md:h-6 lg:w-7 lg:h-7 ${
                     isArtist ? "text-white" : "text-primary-blue"
                   }`}
                 />
@@ -126,14 +126,14 @@ const SpotlightGuide = ({ type }: SpotlightGuideProps) => {
 
               <div className="flex-1">
                 <h3
-                  className={`text-lg md:text-xl font-semibold ${
+                  className={`text-base md:text-lg lg:text-xl font-semibold ${
                     isArtist ? "text-white" : "text-primary-black"
                   }`}
                 >
                   Artist Spotlight
                 </h3>
                 <p
-                  className={`text-sm md:text-base mt-2 ${
+                  className={`text-xs md:text-sm lg:text-base mt-1.5 lg:mt-2 ${
                     isArtist ? "text-white/80" : "text-secondary-black"
                   }`}
                 >
@@ -143,7 +143,7 @@ const SpotlightGuide = ({ type }: SpotlightGuideProps) => {
 
                 <Link
                   href="/spotlight-guide/artist"
-                  className={`inline-flex items-center gap-2 mt-4 px-5 py-2.5 rounded-full text-sm font-medium transition-colors ${
+                  className={`inline-flex items-center gap-2 mt-3 lg:mt-4 px-4 md:px-5 py-2 md:py-2.5 rounded-full text-xs md:text-sm font-medium transition-colors ${
                     isArtist
                       ? "bg-white text-primary-blue hover:bg-white/90"
                       : "bg-primary-blue text-white hover:bg-primary-blue/95"
@@ -158,7 +158,7 @@ const SpotlightGuide = ({ type }: SpotlightGuideProps) => {
 
           {/* Business Card */}
           <div
-            className={`relative rounded-2xl md:rounded-3xl p-6 md:p-8 transition-all duration-300 hover:shadow-lg ${
+            className={`relative rounded-xl md:rounded-2xl lg:rounded-3xl p-4 md:p-5 lg:p-6 xl:p-8 transition-all duration-300 hover:shadow-lg ${
               !isArtist
                 ? "bg-primary-blue text-white ring-2 ring-primary-blue ring-offset-2"
                 : "bg-white custom_border custom_shadow"
@@ -166,12 +166,12 @@ const SpotlightGuide = ({ type }: SpotlightGuideProps) => {
           >
             <div className="flex items-start gap-4">
               <span
-                className={`w-12 h-12 md:w-14 md:h-14 rounded-xl flex items-center justify-center shrink-0 ${
+                className={`w-10 h-10 md:w-12 md:h-12 lg:w-14 lg:h-14 rounded-xl flex items-center justify-center shrink-0 ${
                   !isArtist ? "bg-white/20" : "bg-primary-blue/10"
                 }`}
               >
                 <FiBriefcase
-                  className={`w-6 h-6 md:w-7 md:h-7 ${
+                  className={`w-5 h-5 md:w-6 md:h-6 lg:w-7 lg:h-7 ${
                     !isArtist ? "text-white" : "text-primary-blue"
                   }`}
                 />
@@ -179,14 +179,14 @@ const SpotlightGuide = ({ type }: SpotlightGuideProps) => {
 
               <div className="flex-1">
                 <h3
-                  className={`text-lg md:text-xl font-semibold ${
+                  className={`text-base md:text-lg lg:text-xl font-semibold ${
                     !isArtist ? "text-white" : "text-primary-black"
                   }`}
                 >
                   Business Spotlight
                 </h3>
                 <p
-                  className={`text-sm md:text-base mt-2 ${
+                  className={`text-xs md:text-sm lg:text-base mt-1.5 lg:mt-2 ${
                     !isArtist ? "text-white/80" : "text-secondary-black"
                   }`}
                 >
@@ -196,7 +196,7 @@ const SpotlightGuide = ({ type }: SpotlightGuideProps) => {
 
                 <Link
                   href="/spotlight-guide/business"
-                  className={`inline-flex items-center gap-2 mt-4 px-5 py-2.5 rounded-full text-sm font-medium transition-colors ${
+                  className={`inline-flex items-center gap-2 mt-3 lg:mt-4 px-4 md:px-5 py-2 md:py-2.5 rounded-full text-xs md:text-sm font-medium transition-colors ${
                     !isArtist
                       ? "bg-white text-primary-blue hover:bg-white/90"
                       : "bg-primary-blue text-white hover:bg-primary-blue/95"

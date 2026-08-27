@@ -45,15 +45,15 @@ button {
 }
 
 .container {
-  @apply max-w-[1440px] w-full mx-auto px-4 lg:px-5 xl:px-8;
+  @apply max-w-[1440px] w-full mx-auto px-4 md:px-5 lg:px-6 xl:px-8;
 }
 
 .section_title {
-  @apply text-primary-black text-2xl md:text-2xl lg:text-3xl xl:text-5xl font-bold leading-[140%] text-center mb-3 xl:mb-4;
+  @apply text-primary-black text-xl md:text-xl lg:text-2xl xl:text-5xl font-bold leading-[140%] text-center mb-2 md:mb-3 xl:mb-4;
 }
 
 .section_sub_title {
-  @apply text-center text-[15px] md:text-lg xl:text-2xl text-secondary-black mt-2 mb-4 xl:mb-5;
+  @apply text-center text-sm md:text-base lg:text-lg xl:text-2xl text-secondary-black mt-1.5 md:mt-2 mb-3 xl:mb-5;
 }
 
 .section_description {
@@ -61,7 +61,7 @@ button {
 }
 
 .section {
-  @apply py-10 md:py-12 xl:py-16;
+  @apply py-8 md:py-8 lg:py-10 xl:py-16;
 }
 
 .custom_border {
@@ -142,7 +142,7 @@ button {
 }
 
 .label {
-  @apply md:text-[17px] xl:text-xl text-primary-black mb-1 xl:mb-3;
+  @apply text-sm md:text-sm lg:text-base xl:text-xl text-primary-black mb-1 xl:mb-3;
 }
 
 .auth_input {
@@ -227,15 +227,15 @@ button {
 }
 
 .step_box {
-  @apply px-4 py-6 md:px-7 md:py-10 rounded-lg shadow-[0_4px_15px_rgba(0,0,0,0.05)] bg-white border border-gray-100;
+  @apply px-3 py-5 md:px-5 md:py-7 lg:px-6 lg:py-8 rounded-lg shadow-[0_4px_15px_rgba(0,0,0,0.05)] bg-white border border-gray-100;
 }
 
 .step_input {
-  @apply rounded-full px-4 py-2.5 md:px-5 md:py-3 border text-base md:text-lg w-full block outline-none;
+  @apply rounded-full px-4 py-2 md:px-4 md:py-2.5 lg:px-5 lg:py-3 border text-sm md:text-base lg:text-lg w-full block outline-none;
 }
 
 .auth_label {
-  @apply text-base md:text-xl text-[#1D1D1F] block;
+  @apply text-base md:text-base lg:text-xl text-[#1D1D1F] block;
 }
 
 .artist_label {
@@ -247,7 +247,7 @@ button {
 }
 
 .card {
-  @apply bg-white border border-gray-100 p-5 rounded-lg;
+  @apply bg-white border border-gray-100 p-4 md:p-4 lg:p-5 rounded-lg;
 }
 
 .swiper-pagination {

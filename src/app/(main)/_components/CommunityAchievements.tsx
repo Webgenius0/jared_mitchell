@@ -163,10 +163,10 @@ const CommunityAchievements = ({
                 return (
                   <li
                     key={winner.id}
-                    className="shrink-0 snap-start w-[80%] sm:w-[65%] md:w-1/2 lg:w-1/3 xl:w-1/4"
+                    className="shrink-0 snap-start w-[80%] sm:w-[65%] md:w-1/2 lg:w-[40%] xl:w-1/4"
                   >
                     <Link href={linkHref}>
-                      <div className="relative w-full h-[280px] group cursor-pointer">
+                      <div className="relative w-full h-[220px] md:h-[240px] lg:h-[260px] xl:h-[280px] group cursor-pointer">
                         <Image
                           src={cardImage}
                           fill
@@ -176,19 +176,19 @@ const CommunityAchievements = ({
 
                         <div className="absolute inset-0 bg-[linear-gradient(0deg,_rgba(0,0,0,0.60)_36%,_rgba(0,0,0,0.20)_63%,_rgba(0,0,0,0.00)_100%)] rounded-xl transition-opacity duration-300 group-hover:opacity-90">
                           {/* Category */}
-                          <div className="absolute top-4 left-4 bg-white py-1 px-3 rounded-full text-primary-black text-sm font-medium">
+                          <div className="absolute top-3 left-3 md:top-4 md:left-4 bg-white py-0.5 px-2 md:py-1 md:px-3 rounded-full text-primary-black text-xs md:text-sm font-medium">
                             {category}
                           </div>
 
                           {/* Season badge */}
-                          <div className="absolute top-4 right-4 bg-primary-blue/90 text-white py-1 px-3 rounded-full text-xs font-medium backdrop-blur-sm">
+                          <div className="absolute top-3 right-3 md:top-4 md:right-4 bg-primary-blue/90 text-white py-0.5 px-2 md:py-1 md:px-3 rounded-full text-[10px] md:text-xs font-medium backdrop-blur-sm">
                             {winner.season.title}
                           </div>
 
                           {/* Bottom Content */}
-                          <div className="absolute bottom-4 left-4 right-4 flex justify-between items-end">
-                            <div className="space-y-1.5 flex-1 min-w-0">
-                              <h4 className="text-xl font-semibold text-white truncate">
+                          <div className="absolute bottom-3 left-3 right-3 md:bottom-4 md:left-4 md:right-4 flex justify-between items-end">
+                            <div className="space-y-1 lg:space-y-1.5 flex-1 min-w-0">
+                              <h4 className="text-sm md:text-base lg:text-lg xl:text-xl font-semibold text-white truncate">
                                 {title}
                               </h4>
                               {description && (

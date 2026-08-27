@@ -102,7 +102,7 @@ const Navbar = () => {
   }, [pathname]);
 
   return (
-    <nav className="py-3 md:py-4 xl:py-5 border-b border-[#0000001C] sticky top-0 z-50 bg-white">
+    <nav className="py-2.5 md:py-3 lg:py-3.5 xl:py-5 border-b border-[#0000001C] sticky top-0 z-50 bg-white">
       <div className="container">
         <div className="flex justify-between items-center">
           {/* Left */}
@@ -111,12 +111,12 @@ const Navbar = () => {
               <Image
                 src={logo}
                 alt="OSI logo"
-                className="h-24 w-auto"
+                className="h-20 md:h-20 lg:h-22 xl:h-24 w-auto"
                 priority
               />
             </Link>
 
-            <ul ref={navListRef} className="hidden xl:flex gap-7 items-center">
+            <ul ref={navListRef} className="hidden xl:flex gap-6 lg:gap-7 items-center">
               {navLinks?.map((link) => {
                 const isActive = pathname === link?.path;
                 const hasSubMenu = Boolean(link?.subMenu?.length);
@@ -219,9 +219,7 @@ const Navbar = () => {
               >
                 ES
               </button>
-            </div> */}
-
-            <div className="flex gap-3 md:gap-4 xl:gap-5 items-center">
+            </div> */}              <div className="flex gap-2.5 md:gap-3 xl:gap-5 items-center">
               {/* <button>
                 <SearchSvg />
               </button> */}
@@ -311,7 +309,7 @@ const Navbar = () => {
               ) : (
                 <Link
                   href="/auth/register"
-                  className="bg-primary-blue text-white py-1.5 px-4 rounded-lg cursor-pointer hover:bg-primary-blue/90 transition-colors duration-200"
+                  className="bg-primary-blue text-white py-1 md:py-1.5 px-3 md:px-4 rounded-lg cursor-pointer hover:bg-primary-blue/90 transition-colors duration-200 text-sm md:text-sm"
                 >
                   Sign Up
                 </Link>
@@ -321,7 +319,7 @@ const Navbar = () => {
                 onClick={() => setOpen(!isOpen)}
                 className="bg-primary-blue text-white size-8 lg:size-9 rounded grid lg:hidden place-items-center cursor-pointer"
               >
-                <FaBars className="text-lg lg:text-[22px]" />
+                <FaBars className="text-base lg:text-[22px]" />
               </button>
             </div>
           </div>

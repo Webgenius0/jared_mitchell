@@ -46,8 +46,8 @@ const BossBeginningHero = ({
   // Live stream — show the live player
   if (isLive && streamSrc && liveStream) {
     return (
-      <section className="container text-center pt-7 md:pt-10 xl:pt-5 2xl:pt-8">
-        <div className="flex items-center justify-center my-5 md:my-7 rounded-2xl lg:rounded-4xl xl:rounded-[40px] overflow-hidden max-w-6xl mx-auto">
+      <section className="container text-center pt-5 md:pt-6 lg:pt-7 xl:pt-5 2xl:pt-8">
+        <div className="flex items-center justify-center my-3 md:my-4 lg:my-5 xl:my-7 rounded-xl lg:rounded-2xl xl:rounded-[40px] overflow-hidden max-w-5xl xl:max-w-6xl mx-auto">
           <LiveStreamPlayer
             src={streamSrc}
             streamId={liveStream.id}
@@ -63,8 +63,8 @@ const BossBeginningHero = ({
     const currentVideo = videoChannelVideos[currentIndex];
 
     return (
-      <section className="container text-center pt-7 md:pt-10 xl:pt-5 2xl:pt-8">
-        <div className="relative flex items-center justify-center my-5 md:my-7 rounded-2xl lg:rounded-4xl xl:rounded-[40px] overflow-hidden max-w-6xl mx-auto">
+      <section className="container text-center pt-5 md:pt-6 lg:pt-7 xl:pt-5 2xl:pt-8">
+        <div className="relative flex items-center justify-center my-3 md:my-4 lg:my-5 xl:my-7 rounded-xl lg:rounded-2xl xl:rounded-[40px] overflow-hidden max-w-5xl xl:max-w-6xl mx-auto">
           {/* Current video (fades out during transition) */}
           <CustomVideoPlayer
             key={`current-${currentVideo.id}`}

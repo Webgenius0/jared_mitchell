@@ -42,20 +42,20 @@ const BusinessGuidePage = () => {
   return (
     <GuideLayout type="business">
       {/* Hero */}
-      <div className="bg-gradient-to-br from-primary-blue to-secondary-blue rounded-2xl md:rounded-3xl p-8 md:p-12 lg:p-16 text-center text-white mb-8 md:mb-12">
+      <div className="bg-gradient-to-br from-primary-blue to-secondary-blue rounded-xl md:rounded-2xl lg:rounded-3xl p-6 md:p-8 lg:p-12 xl:p-16 text-center text-white mb-6 md:mb-8 lg:mb-12">
         <span className="inline-block px-4 py-1.5 rounded-full bg-white/15 text-sm font-medium mb-4">
           Business Spotlight Guide
         </span>
-        <h1 className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold leading-tight">
+        <h1 className="text-2xl md:text-3xl lg:text-4xl xl:text-6xl font-bold leading-tight">
           Your Step-by-Step Guide to Entering Business Spotlight
         </h1>
-        <p className="text-white/80 text-base md:text-lg lg:text-xl mt-4 md:mt-6 max-w-[800px] mx-auto">
+        <p className="text-white/80 text-sm md:text-base lg:text-lg xl:text-xl mt-3 md:mt-4 lg:mt-6 max-w-[800px] mx-auto">
           From creating your account to submitting your application, we&apos;ll
           show you exactly where to go and what to do next.
         </p>
 
         {/* Progress indicator */}
-        <div className="flex items-center justify-center gap-2 md:gap-3 mt-8 flex-wrap">
+        <div className="flex items-center justify-center gap-1.5 md:gap-2 lg:gap-3 mt-5 md:mt-6 lg:mt-8 flex-wrap">
           {businessSteps.map((step, idx) => (
             <span
               key={step.id}
@@ -71,7 +71,7 @@ const BusinessGuidePage = () => {
       </div>
 
       <Container>
-        <div className="max-w-[900px] mx-auto space-y-8 md:space-y-10">
+        <div className="max-w-[900px] mx-auto space-y-6 md:space-y-8 lg:space-y-10">
           {/* ─── STEP 01: Create Account ─────────────────────────────── */}
           <StepSection id="get-started" stepNumber="01" title="Create an Account or Log In">
             <p className="text-secondary-black text-sm md:text-base">
@@ -756,8 +756,8 @@ const BusinessGuidePage = () => {
           </StepSection>
 
           {/* ─── Final CTA ───────────────────────────────────────────── */}
-          <div className="bg-gradient-to-br from-primary-blue to-secondary-blue rounded-2xl md:rounded-3xl p-8 md:p-12 text-center text-white">
-            <h2 className="text-2xl md:text-3xl font-bold">
+          <div className="bg-gradient-to-br from-primary-blue to-secondary-blue rounded-xl md:rounded-2xl lg:rounded-3xl p-6 md:p-8 lg:p-12 text-center text-white">
+            <h2 className="text-xl md:text-2xl lg:text-3xl font-bold">
               You&apos;re Ready for Business Spotlight.
             </h2>
             <p className="text-white/80 mt-3 max-w-[600px] mx-auto">

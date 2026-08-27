@@ -53,7 +53,7 @@ const NewBusiness = ({ data }: NewBusinessProps) => {
           {data?.description ??
             "Nominate an entrepreneur in our community who is launching a new business and deserves to be celebrated."}
         </p>
-        <div className="text-center mt-9">
+        <div className="text-center mt-6 md:mt-7 lg:mt-9">
           <button
             onClick={handleNominate}
             title={
@@ -61,7 +61,7 @@ const NewBusiness = ({ data }: NewBusinessProps) => {
                 ? "Only business accounts can submit a nomination"
                 : undefined
             }
-            className={`inline-flex items-center justify-center w-full sm:w-auto py-3.5 px-8 sm:px-[67px] bg-primary-blue text-white rounded-full text-base sm:text-lg lg:text-xl font-medium transition-opacity ${
+            className={`inline-flex items-center justify-center w-full sm:w-auto py-2.5 md:py-3 lg:py-3.5 px-6 md:px-7 lg:px-8 sm:px-[67px] bg-primary-blue text-white rounded-full text-sm sm:text-base lg:text-xl font-medium transition-opacity ${
               restricted
                 ? "opacity-50 cursor-not-allowed"
                 : "cursor-pointer hover:opacity-90"

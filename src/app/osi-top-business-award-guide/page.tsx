@@ -26,19 +26,19 @@ export default function BossBeginningGuidePage() {
       <div className="max-w-4xl mx-auto space-y-6 md:space-y-8">
         {/* Hero */}
         <div className="bg-gradient-to-br from-blue-600 via-blue-700 to-indigo-800 rounded-2xl md:rounded-3xl p-8 md:p-12 text-center text-white">
-          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold leading-tight">
+          <h1 className="text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold leading-tight">
             OSI Top Business Award Contest
           </h1>
-          <p className="text-lg md:text-xl text-white/80 mt-3">
+          <p className="text-base md:text-lg lg:text-xl text-white/80 mt-2 md:mt-3">
             Your step-by-step guide to entering the OSI Top Business Award.
           </p>
-          <p className="text-sm md:text-base text-white/60 mt-3 max-w-2xl mx-auto">
+          <p className="text-xs md:text-sm lg:text-base text-white/60 mt-2 md:mt-3 max-w-2xl mx-auto">
             Everything you need to know — from creating your account and
             business profile to completing and submitting your contest entry.
           </p>
 
           {/* Visual Progress */}
-          <div className="flex items-center justify-center gap-2 md:gap-3 mt-8 flex-wrap">
+          <div className="flex items-center justify-center gap-1.5 md:gap-2 lg:gap-3 mt-5 md:mt-6 lg:mt-8 flex-wrap">
             {["Account", "Business", "Spotlight", "Apply", "Submit"].map(
               (label, idx) => (
                 <span key={label} className="flex items-center gap-2">
@@ -700,16 +700,16 @@ export default function BossBeginningGuidePage() {
         </StepSection>
 
         {/* Final CTA */}
-        <div className="bg-gradient-to-br from-blue-600 via-blue-700 to-indigo-800 rounded-2xl md:rounded-3xl p-8 md:p-12 text-center text-white">
-          <h2 className="text-2xl md:text-3xl font-bold">
+        <div className="bg-gradient-to-br from-blue-600 via-blue-700 to-indigo-800 rounded-xl md:rounded-2xl lg:rounded-3xl p-6 md:p-8 lg:p-10 xl:p-12 text-center text-white">
+          <h2 className="text-xl md:text-2xl lg:text-3xl font-bold">
             You&apos;re Ready for the OSI Top Business Award
           </h2>
-          <p className="text-base md:text-lg text-white/80 mt-3 max-w-lg mx-auto">
+          <p className="text-sm md:text-base lg:text-lg text-white/80 mt-2 md:mt-3 max-w-lg mx-auto">
             Your business profile is complete and your application is ready to
             go. Follow the steps above to make sure everything is in place.
           </p>
 
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mt-8">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-2.5 md:gap-3 mt-5 md:mt-6 lg:mt-8">
             <Link
               href="/dashboard/boss_beginning/business"
               className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white text-primary-blue text-sm font-medium hover:bg-white/90 transition-colors"

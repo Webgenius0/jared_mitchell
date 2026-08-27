@@ -317,7 +317,7 @@ const SpotlightCountdown = () => {
   }
 
   return (
-    <section className="py-10 md:py-16 lg:py-20">
+    <section className="py-8 md:py-10 lg:py-14 xl:py-20">
       <Container>
         <div className="relative overflow-hidden rounded-3xl md:rounded-[2rem]">
           {/* Animated gradient background */}
@@ -337,9 +337,9 @@ const SpotlightCountdown = () => {
           <div className="absolute bottom-10 right-10 w-40 h-40 bg-purple-500/15 rounded-full blur-3xl animate-pulse delay-1000" />
 
           {/* Content */}
-          <div className="relative z-10 px-6 py-10 md:px-10 md:py-14 lg:px-16 lg:py-16">
+          <div className="relative z-10 px-4 md:px-6 lg:px-10 py-6 md:py-8 lg:py-12 xl:py-16">
             {/* Top badge */}
-            <div className="flex justify-center mb-6 md:mb-8">
+            <div className="flex justify-center mb-4 md:mb-6 lg:mb-8">
               <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm border border-white/10">
                 <span className="relative flex h-2 w-2">
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />
@@ -352,11 +352,11 @@ const SpotlightCountdown = () => {
             </div>
 
             {/* Week name */}
-            <div className="text-center mb-8 md:mb-10">
+            <div className="text-center mb-5 md:mb-7 lg:mb-8 xl:mb-10">
               <p className="text-white/50 text-xs sm:text-sm uppercase tracking-[0.25em] mb-2">
                 Spotlight Contest
               </p>
-              <h3 className="text-white text-2xl sm:text-3xl md:text-4xl font-bold mb-2">
+              <h3 className="text-white text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl font-bold mb-1.5 md:mb-2">
                 {countdownData!.name}
               </h3>
               <p className="text-white/70 text-sm sm:text-base max-w-md mx-auto">
@@ -368,7 +368,7 @@ const SpotlightCountdown = () => {
             </div>
 
             {/* Countdown digits */}
-            <div className="flex items-start justify-center gap-3 sm:gap-4 md:gap-6 lg:gap-8 mb-8 md:mb-10">
+            <div className="flex items-start justify-center gap-2 sm:gap-3 md:gap-4 lg:gap-6 xl:gap-8 mb-5 md:mb-7 lg:mb-8 xl:mb-10">
               <CountdownDigit value={timeLeft!.days} label="Days" />
               <CountdownSeparator />
               <CountdownDigit value={timeLeft!.hours} label="Hours" />

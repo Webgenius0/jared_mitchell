@@ -67,14 +67,14 @@ export default function BossBeginningSponsor({
   return (
     <section>
       <div className="container mx-auto">
-        <h2 className="section_title text-center mb-6 md:mb-10">
+        <h2 className="section_title text-center mb-4 md:mb-6 lg:mb-8 xl:mb-10">
           Sponsor the event
         </h2>
-        <p className="text-black font-normal text-center text-lg">
+        <p className="text-black font-normal text-center text-sm md:text-base lg:text-lg">
           Take a look back at some of our most memorable events and
           celebrations.
         </p>
-        <div className="pt-10">
+        <div className="pt-6 md:pt-8 lg:pt-10">
           {logos.length > 1 ? (
             // Multiple sponsors — auto-slide with pagination dots
             <div>

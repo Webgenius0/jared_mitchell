@@ -23,7 +23,7 @@ const page = async () => {
     <>
       <SponsorshipBanner data={pageData?.sponsorship_page_hero} />
       <section className="section container">
-        <div className="w-full h-[627px]">
+        <div className="w-full h-[300px] md:h-[400px] lg:h-[500px] xl:h-[627px]">
           <CustomVideoPlayer
             videoSrc={
               pageData?.sponsorship_page_video?.sub_title ??

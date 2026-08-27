@@ -13,10 +13,10 @@ const AboutBanner = ({ data }: { data?: CMSAboutHero }) => {
           url(${bgImage})
         `,
       }}
-      className="h-[300px] md:h-[400px] xl:h-[500px] bg-no-repeat bg-center bg-cover"
+      className="h-[260px] md:h-[320px] lg:h-[360px] xl:h-[500px] bg-no-repeat bg-center bg-cover"
     >
       <div className="h-full container flex flex-col items-center justify-center">
-        <figure className="w-[170px] md:w-[200px] xl:w-[238px] xl:h-[161px]">
+        <figure className="w-[140px] md:w-[160px] lg:w-[180px] xl:w-[238px] xl:h-[161px]">
           <Image
             src={data?.image || about_us_logo}
             alt="about_us_logo"
@@ -27,11 +27,11 @@ const AboutBanner = ({ data }: { data?: CMSAboutHero }) => {
           />
         </figure>
 
-        <h2 className="text-3xl md:text-5xl xl:text-[70px] font-bold text-white">
+        <h2 className="text-2xl md:text-3xl lg:text-4xl xl:text-[70px] font-bold text-white">
           {data?.title || "About Us"}
         </h2>
 
-        <p className="text-[#F5F5F7] text-center md:text-xl xl:text-[26px] pt-3 md:pt-5">
+        <p className="text-[#F5F5F7] text-center text-sm md:text-base lg:text-lg xl:text-[26px] pt-2 md:pt-3 lg:pt-5">
           {data?.sub_title || "Building bridges between business, art, and community"}
         </p>
       </div>

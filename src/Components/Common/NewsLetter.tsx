@@ -46,8 +46,8 @@ const NewsLetter = ({ title, sub_title, data }: NewsletterProps) => {
   };
 
   return (
-    <section className="bg-[#F5F5F7] section mt-8">
-      <div className="container space-y-6">
+    <section className="bg-[#F5F5F7] section mt-6 md:mt-8">
+      <div className="container space-y-4 md:space-y-5 lg:space-y-6">
         <h2 className="section_title font-bold leading-[130%] max-w-[1200px] mx-auto">
           {data?.title || title}
         </h2>
@@ -60,14 +60,14 @@ const NewsLetter = ({ title, sub_title, data }: NewsletterProps) => {
 
         <form
           onSubmit={handleSubmit}
-          className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-0 sm:justify-between max-w-[870px] w-full py-2 px-3 md:px-5 rounded-2xl sm:rounded-full bg-white mx-auto mt-10"
+          className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 sm:gap-0 sm:justify-between max-w-[700px] md:max-w-[800px] lg:max-w-[870px] w-full py-1.5 md:py-2 px-2.5 md:px-3 lg:px-5 rounded-xl sm:rounded-full bg-white mx-auto mt-6 md:mt-8 lg:mt-10"
         >
           <input
             type="email"
             value={email}
             onChange={e => setEmail(e.target.value)}
             placeholder="Enter your email address"
-            className="w-full outline-none md:text-lg min-w-0 px-2 py-2 sm:py-0"
+            className="w-full outline-none text-sm md:text-base lg:text-lg min-w-0 px-2 py-2 sm:py-0"
             required
             disabled={status === "loading"}
           />
