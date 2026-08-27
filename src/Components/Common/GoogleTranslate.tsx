@@ -76,7 +76,7 @@ const GoogleTranslate = () => {
             key={lang}
             onClick={() => handleLangSelect(lang)}
             translate="no"
-            className={`px-3 py-1 cursor-pointer rounded-lg text-sm transition-colors notranslate ${
+            className={`px-3 py-1 cursor-pointer rounded-lg text-xs 2xl:text-sm transition-colors notranslate ${
               activeLang === lang
                 ? "bg-secondary-blue text-white font-medium"
                 : "text-[#161C24]"

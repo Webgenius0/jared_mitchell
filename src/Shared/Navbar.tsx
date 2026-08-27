@@ -107,7 +107,7 @@ const Navbar = () => {
       <div className="container">
         <div className="flex justify-between items-center">
           {/* Left */}
-          <div className="flex gap-10 2xl:gap-14 items-center">
+          <div className="flex gap-2 2xl:gap-14 items-center">
             <Link href="/" className="flex items-center cursor-pointer">
               <Image
                 src={logo}
@@ -118,7 +118,7 @@ const Navbar = () => {
               />
             </Link>
 
-            <ul ref={navListRef} className="hidden lg:flex gap-6 lg:gap-7 items-center">
+            <ul ref={navListRef} className="hidden lg:flex gap-4 justify-center  text-base lg:text-sm 2xl:text-base 2xl:gap-7 items-center">
               {navLinks?.map((link) => {
                 const isActive = pathname === link?.path;
                 const hasSubMenu = Boolean(link?.subMenu?.length);
@@ -198,8 +198,8 @@ const Navbar = () => {
           </div>
 
           {/* Right */}
-          <div className="flex gap-5 items-center">
-            <div className="flex gap-2.5 md:gap-3 xl:gap-5 items-center">
+          <div className="flex gap-2 2xl:gap-5 items-center">
+            <div className="flex gap-2 2xl:gap-5 items-center">
               <GoogleTranslate />
               {/* <button>
                 <SearchSvg />
@@ -293,7 +293,7 @@ const Navbar = () => {
               ) : (
                 <Link
                   href="/auth/register"
-                  className="bg-primary-blue text-white py-1 md:py-1.5 px-3 md:px-4 rounded-lg cursor-pointer hover:bg-primary-blue/90 transition-colors duration-200 text-sm md:text-sm"
+                  className="bg-primary-blue text-white py-1 2xl:py-1.5 px-1 2xl:px-3 md:px-4 rounded-lg cursor-pointer hover:bg-primary-blue/90 transition-colors duration-200 text-xs 2xl:text-sm"
                 >
                   Sign Up
                 </Link>
