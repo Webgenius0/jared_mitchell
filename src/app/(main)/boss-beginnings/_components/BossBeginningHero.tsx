@@ -1,10 +1,16 @@
 "use client";
 
 import { useCallback, useRef, useState } from "react";
-import CustomVideoPlayer, { CustomVideoPlayerHandle } from "@/Components/Common/CustomVideoPlayer";
+import CustomVideoPlayer, {
+  CustomVideoPlayerHandle,
+} from "@/Components/Common/CustomVideoPlayer";
 import LiveStreamPlayer from "@/Components/Common/LiveStreamPlayer";
 import { getStreamPlaybackUrl } from "@/lib/Services/cms_service";
-import { CMSBossBeginningsHero, LiveStream, VideoChannelItem } from "@/Types/cms";
+import {
+  CMSBossBeginningsHero,
+  LiveStream,
+  VideoChannelItem,
+} from "@/Types/cms";
 
 const BossBeginningHero = ({
   data,
@@ -19,6 +25,7 @@ const BossBeginningHero = ({
 }) => {
   const streamSrc = getStreamPlaybackUrl(liveStream);
   const isLive = liveStream?.status === "live";
+  const isEnded = liveStream?.status === "ended";
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [nextIndex, setNextIndex] = useState<number | null>(null);
@@ -58,14 +65,28 @@ const BossBeginningHero = ({
     );
   }
 
-  // Not live — show video channel videos with crossfade transition
+  // Stream ended — still show it via the same playback_url
+  if (isEnded && streamSrc && liveStream) {
+    return (
+      <section className="container text-center pt-5 md:pt-6 lg:pt-7 xl:pt-5 2xl:pt-8">
+        <div className="flex items-center justify-center my-3 md:my-4 lg:my-5 xl:my-7 rounded-xl lg:rounded-2xl xl:rounded-[40px] overflow-hidden max-w-5xl xl:max-w-6xl mx-auto">
+          <LiveStreamPlayer
+            src={streamSrc}
+            streamId={liveStream.id}
+            isLive={false}
+          />
+        </div>
+      </section>
+    );
+  }
+
+  // No live/ended stream available — show video channel videos with crossfade transition
   if (total > 0) {
     const currentVideo = videoChannelVideos[currentIndex];
 
     return (
       <section className="container text-center pt-5 md:pt-6 lg:pt-7 xl:pt-5 2xl:pt-8">
         <div className="relative flex items-center justify-center my-3 md:my-4 lg:my-5 xl:my-7 rounded-xl lg:rounded-2xl xl:rounded-[40px] overflow-hidden max-w-5xl xl:max-w-6xl mx-auto">
-          {/* Current video (fades out during transition) */}
           <CustomVideoPlayer
             key={`current-${currentVideo.id}`}
             videoSrc={currentVideo.video_url}
@@ -80,7 +101,6 @@ const BossBeginningHero = ({
             }}
           />
 
-          {/* Next video (fades in during transition) */}
           {nextIndex !== null && (
             <CustomVideoPlayer
               ref={nextRef}
