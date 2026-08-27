@@ -25,8 +25,10 @@ import {
 } from "@/Types/cms";
 import Sponsors from "../_components/Sponsors";
 import BossBeginningSponsor from "./_components/BossBeginningSponsor";
-import CommunityAchievements from "../_components/CommunityAchievements";
+import BossBeginningGuide from "./_components/BossBeginningGuide";
+import ActiveRoundCountdown from "./_components/ActiveRoundCountdown";
 import BossBeginningsContestCarousel from "@/Components/Common/BossBeginningsContestCarousel";
+import CommunityAchievements from "../_components/CommunityAchievements";
 
 const page = async () => {
   const pageData = (await getBossCms()) as CMSBossBeginnings;
