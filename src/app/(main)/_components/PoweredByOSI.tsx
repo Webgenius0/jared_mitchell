@@ -3,7 +3,7 @@ import { CMSFeature } from "@/Types/cms";
 
 const PoweredByOSI = ({ data }: { data?: CMSFeature }) => {
   return (
-    <section className="w-full h-[240px] md:h-[300px] xl:h-[340px] overflow-hidden flex items-center relative">
+    <section className="w-full h-[200px] md:h-[240px] lg:h-[260px] xl:h-[340px] overflow-hidden flex items-center relative">
       <Image
         src={data?.bg || "/home/home-banner-1.jpg"}
         fill

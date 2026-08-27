@@ -49,7 +49,7 @@ const SpotlightHero = ({
     return (
       <section className="section">
         <Container>
-          <div className="w-full h-[300px] md:h-[500px] xl:h-[627px] sm:px-5 2xl:px-0">
+          <div className="w-full h-[200px] md:h-[350px] lg:h-[400px] xl:h-[627px] sm:px-5 2xl:px-0">
             <LiveStreamPlayer
               src={streamSrc}
               streamId={liveStream.id}
@@ -58,7 +58,7 @@ const SpotlightHero = ({
             />
           </div>
           {data?.sub_title && (
-            <p className="text-center text-lg md:text-xl text-secondary-black mt-4 max-w-[900px] mx-auto">
+            <p className="text-center text-sm md:text-base lg:text-lg xl:text-xl text-secondary-black mt-3 md:mt-4 max-w-[900px] mx-auto">
               {data.sub_title}
             </p>
           )}
@@ -74,7 +74,7 @@ const SpotlightHero = ({
     return (
       <section className="section">
         <Container>
-          <div className="relative w-full h-[300px] md:h-[500px] xl:h-[627px] rounded-[20px] md:rounded-[40px] overflow-hidden sm:px-5 2xl:px-0">
+          <div className="relative w-full h-[200px] md:h-[350px] lg:h-[400px] xl:h-[627px] rounded-xl md:rounded-[32px] lg:rounded-[40px] overflow-hidden sm:px-5 2xl:px-0">
             {/* Current video (fades out during transition) */}
             <CustomVideoPlayer
               key={`current-${currentVideo.id}`}
@@ -108,7 +108,7 @@ const SpotlightHero = ({
             )}
           </div>
           {data?.sub_title && (
-            <p className="text-center text-lg md:text-xl text-secondary-black mt-4 max-w-[900px] mx-auto">
+            <p className="text-center text-sm md:text-base lg:text-lg xl:text-xl text-secondary-black mt-3 md:mt-4 max-w-[900px] mx-auto">
               {data.sub_title}
             </p>
           )}

@@ -16,7 +16,7 @@ const BecomeAPart = ({ data }: { data?: CMSArtistSpotlightJoin }) => {
           {data?.title ||
             "Become part of a growing network that celebrates art, business, and community."}
         </h2>
-        <div className="text-center mt-10 space-x-4">
+        <div className="text-center mt-6 md:mt-8 lg:mt-10 space-x-3 md:space-x-4">
           <Button asChild>
             <Link href="/auth/login">Join OSI</Link>
           </Button>

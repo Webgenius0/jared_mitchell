@@ -27,16 +27,16 @@ const BossBeginningWinner = ({
   );
 
   return (
-    <section className="container lg:mt-10 mt-5">
+    <section className="container lg:mt-8 xl:lg:mt-10 mt-4 lg:mt-5 xl:mt-8">
       <h2 className="section_title">OSI Top Business Award Winner</h2>
-      <p className="text-base md:text-lg lg:text-2xl xl:text-3xl text-center text-primary-black leading-relaxed">
+      <p className="text-sm md:text-base lg:text-lg xl:text-3xl text-center text-primary-black leading-relaxed">
         See the joy, support, and community love from our previous OSI Top
         Business Launch Award events.
       </p>
 
       {images.length > 0 ? (
         <>
-          <div className="grid grid-cols-1 md:grid-cols-2 items-center my-6 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 items-center my-4 md:my-5 lg:my-6 gap-4 lg:gap-6">
             {images[0] && (
               <figure className="max-h-[808px] !h-full relative">
                 <div className="size-full absolute bg-black/30" />

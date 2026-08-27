@@ -62,22 +62,22 @@ const socialData = [
 
 const Footer = () => {
   return (
-    <footer className="bg-[#18181B] text-white pt-7 md:pt-10 lg:pt-14 pb-5 md:pb-7 xl:pb-8">
+    <footer className="bg-[#18181B] text-white pt-6 md:pt-8 lg:pt-10 xl:pt-14 pb-4 md:pb-6 lg:pb-7 xl:pb-8">
       <div className="container">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-5 md:gap-8 xl:gap-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-6 lg:gap-8 xl:gap-12">
           {/* First Column */}
-          <div className="xl:col-span-2 space-y-3 md:space-y-5 ">
-            <h3 className="text-white font-medium text-lg xl:text-xl mb-3">
+          <div className="xl:col-span-2 space-y-2.5 md:space-y-4 lg:space-y-5">
+            <h3 className="text-white font-medium text-base md:text-lg xl:text-xl mb-2 md:mb-3">
               Image Features & Visibility
             </h3>
 
-            <p className="text-[#99A1AF] xl:text-lg max-w-md">
+            <p className="text-[#99A1AF] text-sm md:text-base xl:text-lg max-w-md">
               OSI is a digital platform supporting creators, entrepreneurs, and
               community-driven businesses through curated visibility,
               storytelling, and exposure.
             </p>
 
-            <p className="text-[#99A1AF] xl:text-lg max-w-md">
+            <p className="text-[#99A1AF] text-sm md:text-base xl:text-lg max-w-md">
               Features are not guaranteed and selection varies. Our Social Image
               LLC is not a talent agency, financial advisor, or legal
               representative. Platform services are promotional in nature.
@@ -86,10 +86,10 @@ const Footer = () => {
 
           {/* Second Column */}
           <div className="">
-            <h3 className="text-white font-medium text-lg xl:text-xl mb-3">
+            <h3 className="text-white font-medium text-base md:text-lg xl:text-xl mb-2 md:mb-3">
               Explore OSI
             </h3>
-            <ul className="space-y-2 md:space-y-3">
+            <ul className="space-y-1.5 md:space-y-2 lg:space-y-3">
               {exploreData?.map((item, idx) => (
                 <li key={idx} className="xl:text-lg">
                   <Link
@@ -105,10 +105,10 @@ const Footer = () => {
 
           {/* Third Column */}
           <div className="">
-            <h3 className="text-white font-medium text-lg xl:text-xl mb-3">
+            <h3 className="text-white font-medium text-base md:text-lg xl:text-xl mb-2 md:mb-3">
               Help & Support
             </h3>
-            <ul className="space-y-2 md:space-y-3">
+            <ul className="space-y-1.5 md:space-y-2 lg:space-y-3">
               {helpData?.map((item, idx) => (
                 <li key={idx} className="xl:text-lg">
                   <Link
@@ -125,10 +125,10 @@ const Footer = () => {
           {/* Forth Column */}
           <div className="space-y-7">
             <div>
-              <h3 className="text-white font-medium text-lg xl:text-xl mb-3">
-                For Creators & Businesses
-              </h3>
-              <ul className="space-y-2">
+            <h3 className="text-white font-medium text-base md:text-lg xl:text-xl mb-2 md:mb-3">
+              For Creators & Businesses
+            </h3>
+            <ul className="space-y-1.5 md:space-y-2">
                 {businessData?.map((item, idx) => (
                   <li key={idx} className="xl:text-lg">
                     <Link
@@ -143,25 +143,25 @@ const Footer = () => {
             </div>
 
             <div>
-              <h3 className="text-white font-medium text-lg xl:text-xl  mb-1">
+              <h3 className="text-white font-medium text-base md:text-lg xl:text-xl mb-1">
                 Our Social Image LLC
               </h3>
-              <p className="text-[#99A1AF] xl:text-lg">Indianapolis, IN</p>
+              <p className="text-[#99A1AF] text-sm md:text-base xl:text-lg">Indianapolis, IN</p>
             </div>
 
             <div>
-              <h3 className="text-white font-medium text-lg xl:text-xl mb-1">
+              <h3 className="text-white font-medium text-base md:text-lg xl:text-xl mb-1">
                 Media & Press
               </h3>
               <a
                 href="mailto:press@oursocialimage.net"
-                className="text-[#99A1AF] xl:text-lg hover:text-white transition-colors duration-200 cursor-pointer"
+                className="text-[#99A1AF] text-sm md:text-base xl:text-lg hover:text-white transition-colors duration-200 cursor-pointer"
               >
                 press@oursocialimage.net
               </a>
             </div>
 
-            <div className="flex gap-3 xl:gap-5 items-center mt-5 md:mt-8">
+            <div className="flex gap-2.5 md:gap-3 xl:gap-5 items-center mt-4 md:mt-6 lg:mt-8">
               {socialData?.map(({ label, path, Icon }) => (
                 <a
                   key={label}
@@ -178,9 +178,9 @@ const Footer = () => {
           </div>
         </div>
 
-        <hr className="text-[#99A1AF] mt-5 md:mt-12" />
+        <hr className="text-[#99A1AF] mt-4 md:mt-8 lg:mt-12" />
 
-        <div className="flex flex-col lg:flex-row gap-3 lg:gap-5 items-center justify-between pt-4 md:pt-6">
+        <div className="flex flex-col lg:flex-row gap-3 lg:gap-4 items-center justify-between pt-3 md:pt-5 lg:pt-6">
           <p className="flex flex-wrap justify-center gap-2 md:gap-3 items-center text-[#99A1AF] text-sm lg:text-base">
             <span>Privacy Policy</span>
             <span>Terms of Use</span>

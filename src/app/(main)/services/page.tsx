@@ -28,8 +28,8 @@ const page = async () => {
 
       {/* Overview Section */}
       <section className="section container">
-        <div className="text-center space-y-5 md:space-y-10">
-          <p className="md:text-lg lg:text-xl xl:text-2xl text-primary-black font-medium max-w-[1200px] mx-auto">
+        <div className="text-center space-y-4 md:space-y-5 lg:space-y-8 xl:space-y-10">
+          <p className="text-sm md:text-base lg:text-lg xl:text-2xl text-primary-black font-medium max-w-[1200px] mx-auto">
             {cmsData?.services_overview?.description ||
               `Our Social Image (OSI) gives creators, small businesses,
             entrepreneurs, and emerging talent the exposure, support, and modern
@@ -58,7 +58,7 @@ const page = async () => {
           {cmsData?.services_artist_spotlight?.title ||
             "Artist Spotlight Submission Form"}
         </h2>
-        <p className="section_sub_title mt-8 mb-12 max-w-[1000px] mx-auto">
+        <p className="section_sub_title mt-6 md:mt-8 mb-8 lg:mb-10 xl:mb-12 max-w-[1000px] mx-auto">
           {cmsData?.services_artist_spotlight?.sub_title ||
             "Apply for our weekly artist spotlight program. Share your story, showcase your work, and connect with the community."}
         </p>
@@ -71,7 +71,7 @@ const page = async () => {
           {cmsData?.services_business_spotlight?.title ||
             "BUSINESS SPOTLIGHT Submission Form"}
         </h2>
-        <p className="section_sub_title mt-8 mb-12 max-w-[1000px] mx-auto">
+        <p className="section_sub_title mt-6 md:mt-8 mb-8 lg:mb-10 xl:mb-12 max-w-[1000px] mx-auto">
           {cmsData?.services_business_spotlight?.sub_title ||
             "Apply for our weekly Business Spotlight program. Share your brand story, showcase your business, and connect with the community."}
         </p>
@@ -82,10 +82,10 @@ const page = async () => {
 
       {/* Risk Free Guarantee / CTA Section */}
       {cmsData?.services_risk_free && (
-        <section className="bg-[#4680FF] py-16 px-6 mt-20">
+        <section className="bg-[#4680FF] py-10 md:py-12 lg:py-14 xl:py-16 px-4 md:px-6 mt-12 md:mt-16 lg:mt-20">
           <div className="container mx-auto max-w-4xl text-center flex flex-col items-center">
             {/* Top Shield Badge */}
-            <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-full bg-white/20 backdrop-blur-sm text-white border border-white/30">
+            <div className="mb-4 md:mb-5 lg:mb-6 flex h-10 w-10 md:h-12 md:w-12 lg:h-14 lg:w-14 items-center justify-center rounded-full bg-white/20 backdrop-blur-sm text-white border border-white/30">
               {/* Simple crisp SVG Shield Icon */}
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -104,12 +104,12 @@ const page = async () => {
             </div>
 
             {/* Main Title */}
-            <h2 className="text-3xl md:text-5xl font-bold mb-5 text-white tracking-wide">
+            <h2 className="text-xl md:text-3xl lg:text-4xl xl:text-5xl font-bold mb-3 md:mb-4 lg:mb-5 text-white tracking-wide">
               {cmsData.services_risk_free.title}
             </h2>
 
             {/* Subtitle - constrained width forces clean wrapping */}
-            <p className="text-base md:text-lg text-white/90 mb-8 max-w-2xl leading-relaxed">
+            <p className="text-sm md:text-base lg:text-lg text-white/90 mb-5 md:mb-6 lg:mb-8 max-w-2xl leading-relaxed">
               {cmsData.services_risk_free.sub_title}
             </p>
 

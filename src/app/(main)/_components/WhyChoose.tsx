@@ -11,8 +11,8 @@ import "swiper/css/pagination";
 const WhyChoose = ({ data }: { data?: CMSWhyChoose }) => {
   const items = data?.metadata ?? [];
   return (
-    <div className="container py-6 md:py-8 xl:py-12">
-      <div className="text-center mb-6 md:mb-8">
+    <div className="container py-5 md:py-6 lg:py-8 xl:py-12">
+      <div className="text-center mb-4 md:mb-5 lg:mb-6 xl:mb-8">
         <h2 className="section_title">{data?.title}</h2>
 
         <p className="section_sub_title">{data?.sub_title}</p>
@@ -42,7 +42,7 @@ const WhyChoose = ({ data }: { data?: CMSWhyChoose }) => {
       >
         {items.map((item, index) => (
           <SwiperSlide key={index}>
-            <section className="w-full h-[320px] lg:h-[380px] xl:h-[460px] overflow-hidden flex items-center relative">
+            <section className="w-full h-[260px] md:h-[280px] lg:h-[320px] xl:h-[460px] overflow-hidden flex items-center relative">
               <Image
                 src={item?.image || osi}
                 fill
@@ -56,7 +56,7 @@ const WhyChoose = ({ data }: { data?: CMSWhyChoose }) => {
                     {item?.title || "Creators"}
                   </h2>
 
-                  <h4 className="text-white text-lg md:text-2xl text-center font-medium mb-2 md:mb-3">
+                  <h4 className="text-white text-base md:text-lg lg:text-xl xl:text-2xl text-center font-medium mb-1.5 md:mb-2 lg:mb-3">
                     {item?.sub_title ||
                       "Build exposure without chasing algorithms"}
                   </h4>

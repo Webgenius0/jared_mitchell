@@ -11,14 +11,14 @@ const BusinessSpotlightBanner = ({ data }: { data?: CMSBusinessSpotlightHero }) 
           url(${bgImage})
         `,
       }}
-      className="h-[300px] md:h-[400px] xl:h-[500px] bg-no-repeat bg-center bg-cover"
+      className="h-[260px] md:h-[320px] lg:h-[360px] xl:h-[500px] bg-no-repeat bg-center bg-cover"
     >
       <div className="h-full container flex flex-col items-center justify-center text-center">
-        <h2 className="text-3xl md:text-5xl xl:text-[70px] font-bold text-white">
+        <h2 className="text-2xl md:text-3xl lg:text-4xl xl:text-[70px] font-bold text-white">
           {data?.title || "Local Business Spotlights"}
         </h2>
 
-        <p className="text-[#F5F5F7] text-lg md:text-xl xl:text-[26px] pt-5 max-w-[900px]">
+        <p className="text-[#F5F5F7] text-sm md:text-base lg:text-lg xl:text-[26px] pt-3 md:pt-4 lg:pt-5 max-w-[900px]">
           {data?.sub_title || "Celebrating the entrepreneurs, small businesses, and community leaders shaping our neighborhoods."}
         </p>
       </div>

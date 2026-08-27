@@ -222,7 +222,7 @@ const DiscoverArtists = ({
             </p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 mt-12">
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-5 lg:gap-6 mt-8 md:mt-10 lg:mt-12">
             {nominees.map((nominee: any, index: number) => {
               const spotlight = nominee.spotlight || {};
               const rawImage = spotlight.headshot || "";
@@ -241,7 +241,7 @@ const DiscoverArtists = ({
                 <Link
                   key={nomineeId || index}
                   href={getDetailsHref(nominee)}
-                  className="group relative block rounded-2xl overflow-hidden custom_shadow bg-white transition-shadow duration-300 hover:shadow-lg cursor-pointer"
+                  className="group relative block rounded-xl lg:rounded-2xl overflow-hidden custom_shadow bg-white transition-shadow duration-300 hover:shadow-lg cursor-pointer"
                 >
                   {/* Image */}
                   <div className="relative w-full aspect-[4/3]">
@@ -268,11 +268,11 @@ const DiscoverArtists = ({
                   <div className="absolute inset-x-0 bottom-0 px-5 pb-4">
                     <div className="flex items-start justify-between gap-2">
                       <div className="min-w-0 flex-1">
-                        <h4 className="text-lg text-white font-semibold drop-shadow-sm capitalize">
+                        <h4 className="text-sm md:text-base lg:text-lg text-white font-semibold drop-shadow-sm capitalize">
                           {name}
                         </h4>
                         {location && (
-                          <p className="text-sm text-white/85 line-clamp-2 mt-1 drop-shadow-sm">
+                          <p className="text-xs md:text-sm text-white/85 line-clamp-2 mt-1 drop-shadow-sm">
                             {location}
                           </p>
                         )}
