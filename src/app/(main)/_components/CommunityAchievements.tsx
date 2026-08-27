@@ -32,10 +32,9 @@ const CommunityAchievements = ({
   pastSixMonthsWinners,
 }: CommunityAchievementsProps) => {
   const winners = pastSixMonthsWinners || [];
-
+  const [activeIndex, setActiveIndex] = useState(0);
   const scrollerRef = useRef<HTMLUListElement | null>(null);
   const autoplayRef = useRef<ReturnType<typeof setInterval> | null>(null);
-  const [activeIndex, setActiveIndex] = useState(0);
 
   const scrollToIndex = useCallback((index: number) => {
     const el = scrollerRef.current;
