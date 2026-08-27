@@ -326,3 +326,24 @@ button {
   border-radius: 0.5rem;
   margin: 0.5rem 0;
 }
+
+/* Hide all default Google Translate elements */
+.skiptranslate iframe,
+.goog-te-banner-frame.skiptranslate,
+.goog-te-gadget-icon,
+.goog-te-gadget-simple,
+#goog-gt-tt,
+.goog-te-spinner-pos,
+.goog-te-spinner-animation,
+.VIpgJd-ZVi9od-ORHb-OEVmcd,
+.VIpgJd-ZVi9od-aZ2wEe-wOHMyf,
+.VIpgJd-ZVi9od-aZ2wEe-OiiCO {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+body {
+  top: 0px !important;
+}

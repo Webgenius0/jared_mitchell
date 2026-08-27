@@ -1,7 +1,7 @@
 import NewBusiness from "./_components/NewBusiness";
 import NewsLetter from "@/Components/Common/NewsLetter";
-import BusinessShower from "./_components/BusinessShower";
 import WinnerReceives from "./_components/WinnerReceives";
+import BusinessShower from "./_components/BusinessShower";
 import BossBeginningHero from "./_components/BossBeginningHero";
 import BossBeginningBanner from "./_components/BossBeginningBanner";
 import BusinessChosenChart from "./_components/BusinessChosenChart";
@@ -24,10 +24,9 @@ import {
   VideoChannelItem,
 } from "@/Types/cms";
 import Sponsors from "../_components/Sponsors";
-import BossBeginningSponsor from "./_components/BossBeginningSponsor";
 import BossBeginningGuide from "./_components/BossBeginningGuide";
+import BossBeginningSponsor from "./_components/BossBeginningSponsor";
 import ActiveRoundCountdown from "./_components/ActiveRoundCountdown";
-import BossBeginningsContestCarousel from "@/Components/Common/BossBeginningsContestCarousel";
 import CommunityAchievements from "../_components/CommunityAchievements";
 
 const page = async () => {

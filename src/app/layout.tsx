@@ -5,6 +5,7 @@ import { Toaster } from "react-hot-toast";
 import AosProvider from "@/Provider/AosProvider/AosProvider";
 import AuthProvider from "@/Provider/AuthProvider/AuthProvider";
 import QueryProvider from "@/Provider/QueryProvider/QueryProvider";
+import GoogleTranslateLoader from "@/Components/Common/GoogleTranslateLoader";
 
 // Metadata
 export const metadata: Metadata = {
@@ -25,6 +26,7 @@ export default async function RootLayout({
         <link rel="icon" href={faviconUrl} />
       </head>
       <body>
+        <GoogleTranslateLoader />
         <QueryProvider>
           <AuthProvider>
             <AosProvider>
