@@ -11,8 +11,8 @@ const Roundhero = ({
   const resolvedVideoSrc = videoSrc || data?.video || null;
 
   return (
-    <section className="container text-center pt-7 md:pt-10 xl:pt-5  2xl:pt-8">
-      <div className="w-full h-[60vh] md:h-[70vh] lg:h-[75vh] my-5 md:my-7 rounded-2xl lg:rounded-4xl xl:rounded-[40px] overflow-hidden bg-black relative isolate z-0">
+    <section className="container text-center pt-5 md:pt-6 lg:pt-7 xl:pt-5 2xl:pt-8">
+      <div className="w-full h-[40vh] md:h-[50vh] lg:h-[55vh] xl:h-[60vh] my-3 md:my-4 lg:my-5 xl:my-7 rounded-xl lg:rounded-2xl xl:rounded-[40px] overflow-hidden bg-black relative isolate z-0">
         {resolvedVideoSrc ? (
           <CustomVideoPlayer videoSrc={resolvedVideoSrc} />
         ) : (

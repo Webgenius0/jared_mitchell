@@ -18,7 +18,7 @@ interface BossBeginningsContestCarouselProps {
 }
 
 /**
- * Reusable "Boss Beginnings Contest" section.
+ * Reusable "OSI Top Business Award Contest" section.
  *
  * Renders the active round's leaderboard (rounds 2–5 only) as a one-at-a-time
  * Swiper carousel; round 1 (the open qualifier) shows nothing. "View Profile"
@@ -26,7 +26,7 @@ interface BossBeginningsContestCarouselProps {
  *
  * Usage — drop it inside any server-rendered page:
  *
- *   <BossBeginningsContestCarousel title="Boss Beginnings" />
+ *   <BossBeginningsContestCarousel title="OSI Top Business Award" />
  *
  * Data is fetched server-side with the same CMS services the contest page
  * uses, and falls back gracefully when the endpoints are unavailable.

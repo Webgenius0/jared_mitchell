@@ -15,22 +15,21 @@ const StepFive = () => {
 
   return (
     <div className="step_box">
-      <h2 className="text-3xl font-semibold mb-2">Consent & Rights</h2>
+      <h2 className="text-xl md:text-3xl font-semibold mb-2">Consent & Rights</h2>
 
-      <p className="text-[#364153] text-xl mb-10">
+      <p className="text-[#364153] text-sm md:text-xl mb-6 md:mb-10">
         Legal protection and content permission. Please read carefully before
         agreeing.
       </p>
 
-      <div className="rounded-xl bg-[#F5F5F7] p-7">
+      <div className="rounded-xl bg-[#F5F5F7] p-4 md:p-7">
         {/* Info */}
         <div className="mb-7">
           <div className="flex gap-3 items-center mb-1">
-            <ImportantSvg />
-            <h2 className="text-[22px]">Important Legal Information</h2>
-          </div>
+            <ImportantSvg />          <h2 className="text-lg md:text-[22px]">Important Legal Information</h2>
+        </div>
 
-          <p className="text-[#364153cb] text-xl">
+          <p className="text-[#364153cb] text-sm md:text-xl">
             By checking the boxes below, you grant OSI permission to feature
             your work. You still keep ownership of your content.
           </p>
@@ -54,10 +53,10 @@ const StepFive = () => {
                 })}
               />
 
-              <h3 className="text-xl font-medium">Public Release Agreement</h3>
+              <h3 className="text-base md:text-xl font-medium">Public Release Agreement</h3>
             </div>
 
-            <p className="text-[#6A7282] text-lg">
+            <p className="text-[#6A7282] text-sm md:text-lg">
               I agree that OSI can publish my photos, videos, story, and
               likeness across platforms.
             </p>
@@ -85,10 +84,10 @@ const StepFive = () => {
                 })}
               />
 
-              <h3 className="text-xl font-medium">Ownership Declaration</h3>
+              <h3 className="text-base md:text-xl font-medium">Ownership Declaration</h3>
             </div>
 
-            <p className="text-[#6A7282] text-lg">
+            <p className="text-[#6A7282] text-sm md:text-lg">
               I confirm that I own all submitted content and have full rights to
               share it.
             </p>
@@ -116,10 +115,10 @@ const StepFive = () => {
                 })}
               />
 
-              <h3 className="text-xl font-medium">Interview Permission</h3>
+              <h3 className="text-base md:text-xl font-medium">Interview Permission</h3>
             </div>
 
-            <p className="text-[#6A7282] text-lg">
+            <p className="text-[#6A7282] text-sm md:text-lg">
               I agree to participate in interviews and allow OSI to publish
               them.
             </p>

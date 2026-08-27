@@ -94,12 +94,12 @@ export default function ArtistSpotlightCard({
   const showEmpty = !isLoading && (isError || !winner);
 
   return (
-    <section className="container py-10 md:py-14 2xl:py-16">
+    <section className="container py-8 md:py-10 lg:py-12 2xl:py-16">
       <h2 className="section_title 2xl:text-5xl">{title}</h2>
 
       <p className="section_sub_title">{subTitle}</p>
 
-      <div className="flex flex-wrap items-center justify-center gap-3 mb-7 md:mb-9">
+      <div className="flex flex-wrap items-center justify-center gap-2.5 md:gap-3 mb-5 md:mb-6 lg:mb-7 xl:mb-9">
         {TABS.map(tab => (
           <button
             key={tab.value}
@@ -107,7 +107,7 @@ export default function ArtistSpotlightCard({
             onClick={() => setType(tab.value)}
             aria-pressed={type === tab.value}
             className={cn(
-              "px-8 md:px-11 py-2.5 md:py-3 rounded-full text-sm md:text-base font-medium transition-all duration-300",
+              "px-6 md:px-8 lg:px-10 xl:px-11 py-2 md:py-2.5 lg:py-3 rounded-full text-xs md:text-sm lg:text-base font-medium transition-all duration-300",
               type === tab.value
                 ? "bg-primary-blue text-white shadow-md shadow-primary-blue/25 scale-[1.02]"
                 : "bg-white text-secondary-black border border-[#D1D5DC] hover:border-primary-blue hover:text-primary-blue",
@@ -120,8 +120,8 @@ export default function ArtistSpotlightCard({
 
       {showSkeleton ? (
         <div className="overflow-hidden max-w-[940px] w-full mx-auto rounded-2xl md:rounded-3xl bg-white custom_border custom_shadow animate-pulse">
-          <div className="w-full h-[260px] sm:h-[320px] md:h-[380px] lg:h-[440px] bg-secondary-gray" />
-          <div className="p-6 md:p-8 lg:p-10 space-y-3">
+          <div className="w-full h-[200px] sm:h-[260px] md:h-[300px] lg:h-[340px] xl:h-[440px] bg-secondary-gray" />
+          <div className="p-4 md:p-5 lg:p-6 xl:p-10 space-y-2.5 lg:space-y-3">
             <div className="h-7 md:h-9 w-1/2 rounded-lg bg-secondary-gray" />
             <div className="h-4 w-1/4 rounded bg-secondary-gray" />
             <div className="h-4 w-full rounded bg-secondary-gray" />
@@ -130,16 +130,16 @@ export default function ArtistSpotlightCard({
           </div>
         </div>
       ) : showEmpty ? (
-        <div className="max-w-[940px] w-full mx-auto rounded-2xl md:rounded-3xl bg-white custom_border custom_shadow p-10 md:p-16 flex flex-col items-center text-center">
-          <div className="size-14 md:size-16 rounded-full bg-primary-blue/10 flex items-center justify-center mb-4">
+        <div className="max-w-[940px] w-full mx-auto rounded-xl lg:rounded-2xl xl:rounded-3xl bg-white custom_border custom_shadow p-6 md:p-8 lg:p-10 xl:p-16 flex flex-col items-center text-center">
+          <div className="size-10 md:size-12 lg:size-14 rounded-full bg-primary-blue/10 flex items-center justify-center mb-3 lg:mb-4">
             <FiAward className="size-6 md:size-7 text-primary-blue" />
           </div>
-          <h3 className="text-lg md:text-2xl font-semibold text-primary-black">
+          <h3 className="text-base md:text-lg lg:text-xl xl:text-2xl font-semibold text-primary-black">
             {isError
               ? "Couldn't load the spotlight"
               : `No ${type} spotlight winner yet`}
           </h3>
-          <p className="text-sm md:text-base text-secondary-black/70 mt-2 max-w-md">
+          <p className="text-xs md:text-sm lg:text-base text-secondary-black/70 mt-2 max-w-md">
             {isError
               ? "Something went wrong while loading this week's winner. Please try again later."
               : `The ${type} winner for this week hasn't been announced. Check back soon!`}
@@ -150,7 +150,7 @@ export default function ArtistSpotlightCard({
           key={type}
           className="group overflow-hidden  w-full mx-auto rounded-2xl md:rounded-3xl bg-white custom_border custom_shadow fade-up"
         >
-          <figure className="relative w-full h-[260px] sm:h-[320px] md:h-[380px] lg:h-[440px] overflow-hidden bg-secondary-gray">
+          <figure className="relative w-full h-[200px] sm:h-[260px] md:h-[300px] lg:h-[340px] xl:h-[440px] overflow-hidden bg-secondary-gray">
             <Image
               src={imageSrc}
               fill
@@ -169,27 +169,27 @@ export default function ArtistSpotlightCard({
             )}
           </figure>
 
-          <div className="p-6 md:p-8 lg:p-10 text-left">
+          <div className="p-4 md:p-5 lg:p-6 xl:p-10 text-left">
             {name && (
-              <h3 className="text-2xl md:text-3xl xl:text-4xl font-bold text-primary-black mb-2">
+              <h3 className="text-xl md:text-2xl lg:text-3xl xl:text-4xl font-bold text-primary-black mb-1.5 md:mb-2">
                 {name}
               </h3>
             )}
 
             {cityState && (
-              <p className="inline-flex items-center gap-1.5 text-sm md:text-base text-black/50 mb-4">
+              <p className="inline-flex items-center gap-1.5 text-xs md:text-sm lg:text-base text-black/50 mb-3 lg:mb-4">
                 <FiMapPin className="size-4 shrink-0" />
                 {cityState}
               </p>
             )}
 
             {description && (
-              <p className="text-secondary-black text-sm md:text-base lg:text-lg leading-relaxed">
+              <p className="text-secondary-black text-xs md:text-sm lg:text-base xl:text-lg leading-relaxed">
                 {description}
               </p>
             )}
 
-            <div className="mt-6 md:mt-8">
+            <div className="mt-4 md:mt-5 lg:mt-6 xl:mt-8">
               {detailsHref ? (
                 <Link href={detailsHref}>
                   <Button>Spotlight details</Button>

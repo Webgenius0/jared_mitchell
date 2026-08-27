@@ -5601,29 +5601,29 @@ export const CIROneSvg = () => {
         d="M24 31.5V28.5C24 26.9087 23.3679 25.3826 22.2426 24.2574C21.1174 23.1321 19.5913 22.5 18 22.5H9C7.4087 22.5 5.88258 23.1321 4.75736 24.2574C3.63214 25.3826 3 26.9087 3 28.5V31.5"
         stroke="#1977DD"
         strokeWidth="1.66667"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
       <path
         d="M24 4.69238C25.2866 5.02594 26.4261 5.77728 27.2395 6.82848C28.0529 7.87967 28.4943 9.17122 28.4943 10.5004C28.4943 11.8295 28.0529 13.1211 27.2395 14.1723C26.4261 15.2235 25.2866 15.9748 24 16.3084"
         stroke="#1977DD"
         strokeWidth="1.66667"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
       <path
         d="M33 31.5003V28.5003C32.999 27.1709 32.5565 25.8795 31.742 24.8288C30.9276 23.7781 29.7872 23.0277 28.5 22.6953"
         stroke="#1977DD"
         strokeWidth="1.66667"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
       <path
         d="M13.5 16.5C16.8137 16.5 19.5 13.8137 19.5 10.5C19.5 7.18629 16.8137 4.5 13.5 4.5C10.1863 4.5 7.5 7.18629 7.5 10.5C7.5 13.8137 10.1863 16.5 13.5 16.5Z"
         stroke="#1977DD"
         strokeWidth="1.66667"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
     </svg>
   );
@@ -5642,15 +5642,15 @@ export const CIRTwoSvg = () => {
         d="M24 10.5H33V19.5"
         stroke="#1977DD"
         strokeWidth="1.66667"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
       <path
         d="M33 10.5L20.25 23.25L12.75 15.75L3 25.5"
         stroke="#1977DD"
         strokeWidth="1.66667"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
     </svg>
   );
@@ -5669,15 +5669,15 @@ export const CIRThreeSvg = () => {
         d="M18 9V18L24 21"
         stroke="#1977DD"
         strokeWidth="1.66667"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
       <path
         d="M18 33C26.2843 33 33 26.2843 33 18C33 9.71573 26.2843 3 18 3C9.71573 3 3 9.71573 3 18C3 26.2843 9.71573 33 18 33Z"
         stroke="#1977DD"
         strokeWidth="1.66667"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
     </svg>
   );
@@ -5696,15 +5696,15 @@ export const CIRFourSvg = () => {
         d="M23.2161 19.335L25.4886 32.124C25.5141 32.2746 25.4929 32.4293 25.428 32.5676C25.3632 32.7058 25.2576 32.821 25.1255 32.8977C24.9934 32.9743 24.841 33.0088 24.6888 32.9965C24.5366 32.9842 24.3917 32.9258 24.2736 32.829L18.9036 28.7985C18.6444 28.6048 18.3294 28.5001 18.0059 28.5001C17.6823 28.5001 17.3673 28.6048 17.1081 28.7985L11.7291 32.8275C11.6111 32.9241 11.4664 32.9825 11.3143 32.9948C11.1623 33.0071 11.0101 32.9727 10.8781 32.8963C10.7461 32.8198 10.6405 32.705 10.5755 32.567C10.5104 32.429 10.489 32.2744 10.5141 32.124L12.7851 19.335"
         stroke="#1977DD"
         strokeWidth="1.66667"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
       <path
         d="M18 21C22.9706 21 27 16.9706 27 12C27 7.02944 22.9706 3 18 3C13.0294 3 9 7.02944 9 12C9 16.9706 13.0294 21 18 21Z"
         stroke="#1977DD"
         strokeWidth="1.66667"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
     </svg>
   );
@@ -5723,8 +5723,8 @@ export const PanelSvg = () => {
         d="M9.99964 20C9.99955 20.1858 10.0512 20.368 10.1489 20.5261C10.2466 20.6842 10.3864 20.8119 10.5526 20.895L12.5526 21.895C12.7051 21.9712 12.8746 22.0072 13.0449 21.9994C13.2152 21.9917 13.3807 21.9406 13.5257 21.8509C13.6707 21.7613 13.7903 21.636 13.8733 21.4871C13.9562 21.3381 13.9997 21.1705 13.9996 21V14C13.9999 13.5044 14.1841 13.0265 14.5166 12.659L21.7396 4.67C21.8691 4.52656 21.9542 4.34868 21.9847 4.15788C22.0152 3.96708 21.9898 3.77153 21.9115 3.59487C21.8333 3.41822 21.7055 3.26802 21.5436 3.16245C21.3818 3.05688 21.1929 3.00046 20.9996 3H2.99964C2.80625 3.00007 2.61702 3.05622 2.45489 3.16164C2.29276 3.26706 2.16467 3.41723 2.08614 3.59396C2.00762 3.7707 1.98203 3.96641 2.01246 4.15739C2.0429 4.34837 2.12807 4.52643 2.25764 4.67L9.48264 12.659C9.81518 13.0265 9.99942 13.5044 9.99964 14V20Z"
         stroke="#314158"
         strokeWidth="1.33333"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
     </svg>
   );
@@ -5743,29 +5743,29 @@ export const DoubleArrowSvg = () => {
         d="M21 16L17 20L13 16"
         stroke="#314158"
         strokeWidth="1.33333"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
       <path
         d="M17 20V4"
         stroke="#314158"
         strokeWidth="1.33333"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
       <path
         d="M3 8L7 4L11 8"
         stroke="#314158"
         strokeWidth="1.33333"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
       <path
         d="M7 4V20"
         stroke="#314158"
         strokeWidth="1.33333"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
     </svg>
   );
@@ -5832,15 +5832,15 @@ export const NTwoSvg = () => {
         d="M17.2902 4.14097L17.2202 7.93095C17.2102 8.45095 17.5403 9.14097 17.9603 9.45097L20.4403 11.3309C22.0303 12.5309 21.7703 14.001 19.8703 14.601L16.6403 15.6109C16.1003 15.7809 15.5303 16.371 15.3903 16.921L14.6203 19.8609C14.0103 22.1809 12.4902 22.411 11.2302 20.371L9.47024 17.5209C9.15024 17.0009 8.39024 16.611 7.79024 16.641L4.45028 16.811C2.06028 16.931 1.38027 15.551 2.94027 13.731L4.92025 11.4309C5.29025 11.0009 5.46024 10.201 5.29024 9.66096L4.28029 6.43095C3.69029 4.53095 4.75028 3.48096 6.64028 4.10096L9.59029 5.07096C10.0903 5.23096 10.8403 5.12095 11.2603 4.81095L14.3403 2.59095C16.0003 1.39095 17.3302 2.09097 17.2902 4.14097Z"
         stroke="currentColor"
         strokeWidth="1.5"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
       <path
         d="M21.9099 22.0027L18.8799 18.9727"
         stroke="currentColor"
         strokeWidth="1.5"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
     </svg>
   );
@@ -5937,45 +5937,45 @@ export const NSixSvg = () => {
         d="M22 6V8.42C22 10 21 11 19.42 11H16V4.01C16 2.9 16.91 2 18.02 2C19.11 2.01 20.11 2.45 20.83 3.17C21.55 3.9 22 4.9 22 6Z"
         stroke="currentColor"
         strokeWidth="1.5"
-        stroke-miterlimit="10"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeMiterlimit="10"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
       <path
         d="M2 7V21C2 21.83 2.94 22.3 3.6 21.8L5.31 20.52C5.71 20.22 6.27 20.26 6.63 20.62L8.29 22.29C8.68 22.68 9.32 22.68 9.71 22.29L11.39 20.61C11.74 20.26 12.3 20.22 12.69 20.52L14.4 21.8C15.06 22.29 16 21.82 16 21V4C16 2.9 16.9 2 18 2H7H6C3 2 2 3.79 2 6V7Z"
         stroke="currentColor"
         strokeWidth="1.5"
-        stroke-miterlimit="10"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeMiterlimit="10"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
       <path
         d="M9 13.0117H12"
         stroke="currentColor"
         strokeWidth="1.5"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
       <path
         d="M9 9.01172H12"
         stroke="currentColor"
         strokeWidth="1.5"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
       <path
         d="M5.99609 13H6.00508"
         stroke="currentColor"
         strokeWidth="1.5"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
       <path
         d="M5.99609 9H6.00508"
         stroke="currentColor"
         strokeWidth="1.5"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
     </svg>
   );
@@ -5994,17 +5994,17 @@ export const NSevenSvg = () => {
         d="M12 15C13.6569 15 15 13.6569 15 12C15 10.3431 13.6569 9 12 9C10.3431 9 9 10.3431 9 12C9 13.6569 10.3431 15 12 15Z"
         stroke="currentColor"
         strokeWidth="1.5"
-        stroke-miterlimit="10"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeMiterlimit="10"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
       <path
         d="M2 12.8814V11.1214C2 10.0814 2.85 9.2214 3.9 9.2214C5.71 9.2214 6.45 7.9414 5.54 6.3714C5.02 5.4714 5.33 4.3014 6.24 3.7814L7.97 2.7914C8.76 2.3214 9.78 2.6014 10.25 3.3914L10.36 3.5814C11.26 5.1514 12.74 5.1514 13.65 3.5814L13.76 3.3914C14.23 2.6014 15.25 2.3214 16.04 2.7914L17.77 3.7814C18.68 4.3014 18.99 5.4714 18.47 6.3714C17.56 7.9414 18.3 9.2214 20.11 9.2214C21.15 9.2214 22.01 10.0714 22.01 11.1214V12.8814C22.01 13.9214 21.16 14.7814 20.11 14.7814C18.3 14.7814 17.56 16.0614 18.47 17.6314C18.99 18.5414 18.68 19.7014 17.77 20.2214L16.04 21.2114C15.25 21.6814 14.23 21.4014 13.76 20.6114L13.65 20.4214C12.75 18.8514 11.27 18.8514 10.36 20.4214L10.25 20.6114C9.78 21.4014 8.76 21.6814 7.97 21.2114L6.24 20.2214C5.33 19.7014 5.02 18.5314 5.54 17.6314C6.45 16.0614 5.71 14.7814 3.9 14.7814C2.85 14.7814 2 13.9214 2 12.8814Z"
         stroke="currentColor"
         strokeWidth="1.5"
-        stroke-miterlimit="10"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeMiterlimit="10"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
     </svg>
   );
@@ -6105,22 +6105,22 @@ export const NEightSvg = () => {
         d="M9 12L11 14L15 10"
         stroke="currentColor"
         strokeWidth="1.66667"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
       <path
         d="M5 7C5 5.9 5.9 5 7 5H17C17.5304 5 18.0391 5.21071 18.4142 5.58579C18.7893 5.96086 19 6.46957 19 7V19H5V7Z"
         stroke="currentColor"
         strokeWidth="1.66667"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
       <path
         d="M22 19H2"
         stroke="currentColor"
         strokeWidth="1.66667"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
     </svg>
   );
@@ -6139,8 +6139,8 @@ export const NNineSvg = () => {
         d="M19 21L12 17L5 21V5C5 4.46957 5.21071 3.96086 5.58579 3.58579C5.96086 3.21071 6.46957 3 7 3H17C17.5304 3 18.0391 3.21071 18.4142 3.58579C18.7893 3.96086 19 4.46957 19 5V21Z"
         stroke="currentColor"
         strokeWidth="1.66667"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
     </svg>
   );
@@ -6159,8 +6159,8 @@ export const NTenSvg = () => {
         d="M2 9.50053C2.00002 8.38773 2.33759 7.30111 2.96813 6.38419C3.59867 5.46727 4.49252 4.76319 5.53161 4.36493C6.5707 3.96667 7.70616 3.89297 8.78801 4.15357C9.86987 4.41417 10.8472 4.99681 11.591 5.82453C11.6434 5.88054 11.7067 5.9252 11.7771 5.95573C11.8474 5.98626 11.9233 6.00201 12 6.00201C12.0767 6.00201 12.1526 5.98626 12.2229 5.95573C12.2933 5.9252 12.3566 5.88054 12.409 5.82453C13.1504 4.99143 14.128 4.4039 15.2116 4.14013C16.2952 3.87636 17.4335 3.94887 18.4749 4.34801C19.5163 4.74715 20.4114 5.45398 21.0411 6.37443C21.6708 7.29488 22.0053 8.38529 22 9.50053C22 11.7905 20.5 13.5005 19 15.0005L13.508 20.3135C13.3217 20.5275 13.0919 20.6994 12.834 20.8178C12.5762 20.9362 12.296 20.9984 12.0123 21.0002C11.7285 21.002 11.4476 20.9434 11.1883 20.8283C10.9289 20.7131 10.697 20.5442 10.508 20.3325L5 15.0005C3.5 13.5005 2 11.8005 2 9.50053Z"
         stroke="currentColor"
         strokeWidth="1.66667"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
     </svg>
   );
@@ -6179,17 +6179,17 @@ export const NElevenSvg = () => {
         d="M12 15C13.6569 15 15 13.6569 15 12C15 10.3431 13.6569 9 12 9C10.3431 9 9 10.3431 9 12C9 13.6569 10.3431 15 12 15Z"
         stroke="currentColor"
         strokeWidth="1.5"
-        stroke-miterlimit="10"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeMiterlimit="10"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
       <path
         d="M2 12.8814V11.1214C2 10.0814 2.85 9.2214 3.9 9.2214C5.71 9.2214 6.45 7.9414 5.54 6.3714C5.02 5.4714 5.33 4.3014 6.24 3.7814L7.97 2.7914C8.76 2.3214 9.78 2.6014 10.25 3.3914L10.36 3.5814C11.26 5.1514 12.74 5.1514 13.65 3.5814L13.76 3.3914C14.23 2.6014 15.25 2.3214 16.04 2.7914L17.77 3.7814C18.68 4.3014 18.99 5.4714 18.47 6.3714C17.56 7.9414 18.3 9.2214 20.11 9.2214C21.15 9.2214 22.01 10.0714 22.01 11.1214V12.8814C22.01 13.9214 21.16 14.7814 20.11 14.7814C18.3 14.7814 17.56 16.0614 18.47 17.6314C18.99 18.5414 18.68 19.7014 17.77 20.2214L16.04 21.2114C15.25 21.6814 14.23 21.4014 13.76 20.6114L13.65 20.4214C12.75 18.8514 11.27 18.8514 10.36 20.4214L10.25 20.6114C9.78 21.4014 8.76 21.6814 7.97 21.2114L6.24 20.2214C5.33 19.7014 5.02 18.5314 5.54 17.6314C6.45 16.0614 5.71 14.7814 3.9 14.7814C2.85 14.7814 2 13.9214 2 12.8814Z"
         stroke="currentColor"
         strokeWidth="1.5"
-        stroke-miterlimit="10"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeMiterlimit="10"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
     </svg>
   );
@@ -6208,29 +6208,29 @@ export const NTwelveSvg = () => {
         d="M3 3V19C3 19.5304 3.21071 20.0391 3.58579 20.4142C3.96086 20.7893 4.46957 21 5 21H21"
         stroke="currentColor"
         strokeWidth="1.66667"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
       <path
         d="M18 17V9"
         stroke="currentColor"
         strokeWidth="1.66667"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
       <path
         d="M13 17V5"
         stroke="currentColor"
         strokeWidth="1.66667"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
       <path
         d="M8 17V14"
         stroke="currentColor"
         strokeWidth="1.66667"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
     </svg>
   );
@@ -6249,8 +6249,8 @@ export const NThirteenSvg = () => {
         d="M19 21L12 17L5 21V5C5 4.46957 5.21071 3.96086 5.58579 3.58579C5.96086 3.21071 6.46957 3 7 3H17C17.5304 3 18.0391 3.21071 18.4142 3.58579C18.7893 3.96086 19 4.46957 19 5V21Z"
         stroke="currentColor"
         strokeWidth="1.66667"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
     </svg>
   );
@@ -6269,15 +6269,15 @@ export const NFourteenSvg = () => {
         d="M16 7H22V13"
         stroke="currentColor"
         strokeWidth="1.66667"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
       <path
         d="M22 7L13.5 15.5L8.5 10.5L2 17"
         stroke="currentColor"
         strokeWidth="1.66667"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
     </svg>
   );
@@ -6296,22 +6296,22 @@ export const NFifteenSvg = () => {
         d="M19 3H5C3.89543 3 3 3.89543 3 5V19C3 20.1046 3.89543 21 5 21H19C20.1046 21 21 20.1046 21 19V5C21 3.89543 20.1046 3 19 3Z"
         stroke="currentColor"
         strokeWidth="1.66667"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
       <path
         d="M9 11C10.1046 11 11 10.1046 11 9C11 7.89543 10.1046 7 9 7C7.89543 7 7 7.89543 7 9C7 10.1046 7.89543 11 9 11Z"
         stroke="currentColor"
         strokeWidth="1.66667"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
       <path
         d="M21 14.9997L17.914 11.9137C17.5389 11.5388 17.0303 11.3281 16.5 11.3281C15.9697 11.3281 15.4611 11.5388 15.086 11.9137L6 20.9997"
         stroke="currentColor"
         strokeWidth="1.66667"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
     </svg>
   );
@@ -6330,15 +6330,15 @@ export const NSixteenSvg = () => {
         d="M20 5H4C2.89543 5 2 5.89543 2 7V17C2 18.1046 2.89543 19 4 19H20C21.1046 19 22 18.1046 22 17V7C22 5.89543 21.1046 5 20 5Z"
         stroke="currentColor"
         strokeWidth="1.66667"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
       <path
         d="M2 10H22"
         stroke="currentColor"
         strokeWidth="1.66667"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
     </svg>
   );
@@ -6357,22 +6357,22 @@ export const NSeventeenSvg = () => {
         d="M9 12L11 14L15 10"
         stroke="currentColor"
         strokeWidth="1.66667"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
       <path
         d="M5 7C5 5.9 5.9 5 7 5H17C17.5304 5 18.0391 5.21071 18.4142 5.58579C18.7893 5.96086 19 6.46957 19 7V19H5V7Z"
         stroke="currentColor"
         strokeWidth="1.66667"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
       <path
         d="M22 19H2"
         stroke="currentColor"
         strokeWidth="1.66667"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
     </svg>
   );
@@ -6391,43 +6391,43 @@ export const NEighteenSvg = () => {
         d="M10 14.6602V16.2862C9.99622 16.6288 9.90448 16.9647 9.73358 17.2617C9.56268 17.5586 9.31834 17.8067 9.024 17.9822C8.39914 18.445 7.89084 19.0471 7.53948 19.7408C7.18813 20.4345 7.00341 21.2006 7 21.9782"
         stroke="currentColor"
         strokeWidth="1.66667"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
       <path
         d="M14 14.6602V16.2862C14.0038 16.6288 14.0955 16.9647 14.2664 17.2617C14.4373 17.5586 14.6817 17.8067 14.976 17.9822C15.6009 18.445 16.1092 19.0471 16.4605 19.7408C16.8119 20.4345 16.9966 21.2006 17 21.9782"
         stroke="currentColor"
         strokeWidth="1.66667"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
       <path
         d="M18 9H19.5C20.163 9 20.7989 8.73661 21.2678 8.26777C21.7366 7.79893 22 7.16304 22 6.5C22 5.83696 21.7366 5.20107 21.2678 4.73223C20.7989 4.26339 20.163 4 19.5 4H18"
         stroke="currentColor"
         strokeWidth="1.66667"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
       <path
         d="M4 22H20"
         stroke="currentColor"
         strokeWidth="1.66667"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
       <path
         d="M6 9C6 10.5913 6.63214 12.1174 7.75736 13.2426C8.88258 14.3679 10.4087 15 12 15C13.5913 15 15.1174 14.3679 16.2426 13.2426C17.3679 12.1174 18 10.5913 18 9V3C18 2.73478 17.8946 2.48043 17.7071 2.29289C17.5196 2.10536 17.2652 2 17 2H7C6.73478 2 6.48043 2.10536 6.29289 2.29289C6.10536 2.48043 6 2.73478 6 3V9Z"
         stroke="currentColor"
         strokeWidth="1.66667"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
       <path
         d="M6 9H4.5C3.83696 9 3.20107 8.73661 2.73223 8.26777C2.26339 7.79893 2 7.16304 2 6.5C2 5.83696 2.26339 5.20107 2.73223 4.73223C3.20107 4.26339 3.83696 4 4.5 4H6"
         stroke="currentColor"
         strokeWidth="1.66667"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
     </svg>
   );
@@ -6446,22 +6446,22 @@ export const NNineTeenSvg = () => {
         d="M11 6C14.0414 6.07835 17.0139 5.0875 19.4 3.2C19.5486 3.08857 19.7252 3.02072 19.9102 3.00404C20.0952 2.98736 20.2811 3.02252 20.4472 3.10557C20.6133 3.18863 20.753 3.31629 20.8507 3.47427C20.9483 3.63225 21 3.81429 21 4V16C21 16.1857 20.9483 16.3678 20.8507 16.5257C20.753 16.6837 20.6133 16.8114 20.4472 16.8944C20.2811 16.9775 20.0952 17.0126 19.9102 16.996C19.7252 16.9793 19.5486 16.9114 19.4 16.8C17.0139 14.9125 14.0414 13.9217 11 14H5C4.46957 14 3.96086 13.7893 3.58579 13.4142C3.21071 13.0391 3 12.5304 3 12V8C3 7.46957 3.21071 6.96086 3.58579 6.58579C3.96086 6.21071 4.46957 6 5 6H11Z"
         stroke="currentColor"
         strokeWidth="1.66667"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
       <path
         d="M6 14C6 16.5964 6.84213 19.1228 8.4 21.2C8.71826 21.6243 9.19206 21.9049 9.71716 21.9799C10.2423 22.0549 10.7757 21.9183 11.2 21.6C11.6243 21.2817 11.9049 20.8079 11.9799 20.2828C12.0549 19.7577 11.9183 19.2243 11.6 18.8C10.5614 17.4152 10 15.731 10 14"
         stroke="currentColor"
         strokeWidth="1.66667"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
       <path
         d="M8 6V14"
         stroke="currentColor"
         strokeWidth="1.66667"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
     </svg>
   );
@@ -6480,29 +6480,29 @@ export const NTwentySvg = () => {
         d="M8 2V6"
         stroke="currentColor"
         strokeWidth="1.66667"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
       <path
         d="M16 2V6"
         stroke="currentColor"
         strokeWidth="1.66667"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
       <path
         d="M19 4H5C3.89543 4 3 4.89543 3 6V20C3 21.1046 3.89543 22 5 22H19C20.1046 22 21 21.1046 21 20V6C21 4.89543 20.1046 4 19 4Z"
         stroke="currentColor"
         strokeWidth="1.66667"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
       <path
         d="M3 10H21"
         stroke="currentColor"
         strokeWidth="1.66667"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
     </svg>
   );
@@ -6521,29 +6521,29 @@ export const NTwentyOneSvg = () => {
         d="M16 21V19C16 17.9391 15.5786 16.9217 14.8284 16.1716C14.0783 15.4214 13.0609 15 12 15H6C4.93913 15 3.92172 15.4214 3.17157 16.1716C2.42143 16.9217 2 17.9391 2 19V21"
         stroke="currentColor"
         strokeWidth="1.66667"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
       <path
         d="M16 3.12891C16.8578 3.35128 17.6174 3.85217 18.1597 4.55297C18.702 5.25377 18.9962 6.1148 18.9962 7.00091C18.9962 7.88702 18.702 8.74805 18.1597 9.44884C17.6174 10.1496 16.8578 10.6505 16 10.8729"
         stroke="currentColor"
         strokeWidth="1.66667"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
       <path
         d="M22 20.9989V18.9989C21.9993 18.1126 21.7044 17.2517 21.1614 16.5512C20.6184 15.8508 19.8581 15.3505 19 15.1289"
         stroke="currentColor"
         strokeWidth="1.66667"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
       <path
         d="M9 11C11.2091 11 13 9.20914 13 7C13 4.79086 11.2091 3 9 3C6.79086 3 5 4.79086 5 7C5 9.20914 6.79086 11 9 11Z"
         stroke="currentColor"
         strokeWidth="1.66667"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
     </svg>
   );
@@ -6562,8 +6562,8 @@ export const NTwentyTwoSvg = () => {
         d="M22 12H19.52C19.083 11.9991 18.6577 12.1413 18.3091 12.405C17.9606 12.6686 17.708 13.0392 17.59 13.46L15.24 21.82C15.2249 21.8719 15.1933 21.9175 15.15 21.95C15.1067 21.9825 15.0541 22 15 22C14.9459 22 14.8933 21.9825 14.85 21.95C14.8067 21.9175 14.7751 21.8719 14.76 21.82L9.24 2.18C9.22485 2.12807 9.19327 2.08246 9.15 2.05C9.10673 2.01754 9.05409 2 9 2C8.94591 2 8.89327 2.01754 8.85 2.05C8.80673 2.08246 8.77515 2.12807 8.76 2.18L6.41 10.54C6.29246 10.9592 6.04138 11.3285 5.69486 11.592C5.34835 11.8555 4.92532 11.9988 4.49 12H2"
         stroke="currentColor"
         strokeWidth="1.66667"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
     </svg>
   );
@@ -6586,15 +6586,15 @@ export const ClockSvg = () => {
         d="M10 5V10L13.3333 11.6667"
         stroke="#1977DD"
         strokeWidth="1.66667"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
       <path
         d="M10.0013 18.3337C14.6037 18.3337 18.3346 14.6027 18.3346 10.0003C18.3346 5.39795 14.6037 1.66699 10.0013 1.66699C5.39893 1.66699 1.66797 5.39795 1.66797 10.0003C1.66797 14.6027 5.39893 18.3337 10.0013 18.3337Z"
         stroke="#1977DD"
         strokeWidth="1.66667"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
     </svg>
   );
@@ -6613,15 +6613,15 @@ export const BlueBadgeSvg = () => {
         d="M15.4787 12.8896L16.9937 21.4156C17.0107 21.516 16.9966 21.6192 16.9533 21.7114C16.9101 21.8036 16.8397 21.8803 16.7516 21.9314C16.6636 21.9825 16.562 22.0055 16.4605 21.9974C16.359 21.9892 16.2624 21.9502 16.1837 21.8856L12.6037 19.1986C12.4309 19.0695 12.2209 18.9998 12.0052 18.9998C11.7895 18.9998 11.5795 19.0695 11.4067 19.1986L7.8207 21.8846C7.74202 21.9491 7.64557 21.988 7.5442 21.9962C7.44283 22.0044 7.34138 21.9815 7.25337 21.9305C7.16536 21.8796 7.09498 21.803 7.05162 21.711C7.00827 21.619 6.99399 21.516 7.0107 21.4156L8.5247 12.8896"
         stroke="#1977DD"
         strokeWidth="1.66667"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
       <path
         d="M12 14C15.3137 14 18 11.3137 18 8C18 4.68629 15.3137 2 12 2C8.68629 2 6 4.68629 6 8C6 11.3137 8.68629 14 12 14Z"
         stroke="#1977DD"
         strokeWidth="1.66667"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
     </svg>
   );

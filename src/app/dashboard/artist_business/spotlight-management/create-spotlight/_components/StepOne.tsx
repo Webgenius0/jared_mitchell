@@ -9,16 +9,16 @@ const StepOne = () => {
 
   return (
     <div className="step_box">
-      <h2 className="text-3xl font-semibold mb-2">Artist Identification</h2>
+      <h2 className="text-xl md:text-3xl font-semibold mb-2">Artist Identification</h2>
 
-      <p className="text-[#364153] text-xl mb-5">
+      <p className="text-[#364153] text-sm md:text-xl mb-5">
         Verify who you are and create your clean profile. All required fields
         must be completed.
       </p>
 
-      <hr className="text-gray-200 mb-10 block" />
+      <hr className="text-gray-200 mb-6 md:mb-10 block" />
 
-      <div className="grid grid-cols-2 gap-7">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-7">
         {/* Full Legal Name */}
         <div>
           <p className="flex justify-between items-center mb-2">
@@ -125,7 +125,7 @@ const StepOne = () => {
           />
         </div>
 
-        <div className="col-span-2 flex gap-7 items-center">
+        <div className="col-span-1 md:col-span-2 flex flex-col md:flex-row gap-4 md:gap-7 items-stretch md:items-center">
           {/* Date of Birth */}
           <div className="flex-1">
             <p className="flex justify-between items-center mb-2">
@@ -218,15 +218,15 @@ const StepOne = () => {
           </div>
         </div>
 
-        <div className="mb-5 mt-10 col-span-2">
+        <div className="mb-5 mt-6 md:mt-10 col-span-1 md:col-span-2">
           <div className="flex gap-3 items-center mb-1">
             <p className="size-10 rounded-full grid place-items-center bg-[#EFF6FF]">
               <WorldSvg />
             </p>
-            <h2 className="text-[22px]">Social Media Handles</h2>
+            <h2 className="text-lg md:text-[22px]">Social Media Handles</h2>
           </div>
 
-          <p className="text-[#364153] text-xl">
+          <p className="text-[#364153] text-sm md:text-xl">
             At least one social media handle is required
           </p>
         </div>
@@ -234,7 +234,7 @@ const StepOne = () => {
         {/* Instagram */}
         <div>
           <label htmlFor="instagram_handle" className="auth_label mb-2">
-            Instagram <span className="text-sm !text-gray-300">(Optional)</span>
+            Instagram <span className="text-xs md:text-sm !text-gray-300">(Optional)</span>
           </label>
           <input
             type="text"
@@ -248,7 +248,7 @@ const StepOne = () => {
         {/* TikTok */}
         <div>
           <label htmlFor="tiktok_handle" className="auth_label mb-2">
-            TikTok <span className="text-sm !text-gray-300">(Optional)</span>
+            TikTok <span className="text-xs md:text-sm !text-gray-300">(Optional)</span>
           </label>
           <input
             type="text"
@@ -262,7 +262,7 @@ const StepOne = () => {
         {/* Facebook */}
         <div>
           <label htmlFor="facebook_url" className="auth_label mb-2">
-            Facebook <span className="text-sm !text-gray-300">(Optional)</span>
+            Facebook <span className="text-xs md:text-sm !text-gray-300">(Optional)</span>
           </label>
           <input
             type="url"
@@ -276,7 +276,7 @@ const StepOne = () => {
         {/* YouTube */}
         <div>
           <label htmlFor="youtube_url" className="auth_label mb-2">
-            YouTube <span className="text-sm !text-gray-300">(Optional)</span>
+            YouTube <span className="text-xs md:text-sm !text-gray-300">(Optional)</span>
           </label>
           <input
             type="url"
@@ -288,7 +288,7 @@ const StepOne = () => {
         </div>
 
         {/* Website */}
-        <div className="col-span-2">
+        <div className="col-span-1 md:col-span-2">
           <label htmlFor="website_portfolio_url" className="auth_label mb-2">
             Website or Portfolio Link
             <span className="text-sm !text-gray-300">(Optional)</span>

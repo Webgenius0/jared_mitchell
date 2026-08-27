@@ -8,16 +8,16 @@ const StepThree = () => {
 
   return (
     <div className="step_box">
-      <h2 className="text-3xl font-semibold mb-2">Artist Story</h2>
+      <h2 className="text-xl md:text-3xl font-semibold mb-2">Artist Story</h2>
 
-      <p className="text-[#364153] text-xl mb-5">
+      <p className="text-[#364153] text-sm md:text-xl mb-5">
         This is the most important section. Share your authentic story - this
         content will be used for spotlight pages and interviews.
       </p>
 
-      <hr className="text-gray-200 mb-10 block" />
+      <hr className="text-gray-200 mb-6 md:mb-10 block" />
 
-      <div className="space-y-7">
+      <div className="space-y-5 md:space-y-7">
         {/* Short Bio (2-4 sentences) */}
         <div>
           <p className="flex justify-between items-center mb-2">
@@ -26,8 +26,8 @@ const StepThree = () => {
             </label>
           </p>
 
-          <div className="flex justify-between items-center mb-3">
-            <p className="text-[#364153]">
+          <div className="flex flex-col md:flex-row md:justify-between md:items-center mb-3 gap-1">
+            <p className="text-[#364153] text-sm md:text-base">
               This appears on your spotlight card. Describe who you are as an
               artist and what your work represents.
             </p>
@@ -60,8 +60,8 @@ const StepThree = () => {
             </label>
           </p>
 
-          <div className="flex justify-between items-center mb-3">
-            <p className="text-[#364153]">
+          <div className="flex flex-col md:flex-row md:justify-between md:items-center mb-3 gap-1">
+            <p className="text-[#364153] text-sm md:text-base">
               This is your long-form story for the main spotlight page. How did
               you get started? What struggles shaped you? What does your work
               stand for? How do you want your art to impact the community?
@@ -96,8 +96,8 @@ const StepThree = () => {
             </label>
           </p>
 
-          <div className="flex justify-between items-center mb-3">
-            <p className="text-[#364153]">
+          <div className="flex flex-col md:flex-row md:justify-between md:items-center mb-3 gap-1">
+            <p className="text-[#364153] text-sm md:text-base">
               Explain your uniqueness, impact, message, and authenticity.
             </p>
 
@@ -130,8 +130,8 @@ const StepThree = () => {
             </label>
           </p>
 
-          <div className="flex justify-between items-center mb-3">
-            <p className="text-[#364153]">
+          <div className="flex flex-col md:flex-row md:justify-between md:items-center mb-3 gap-1">
+            <p className="text-[#364153] text-sm md:text-base">
               This will be used for the "pull quote" section of your spotlight.
             </p>
 
@@ -164,8 +164,8 @@ const StepThree = () => {
             </label>
           </p>
 
-          <div className="flex justify-between items-center mb-3">
-            <p className="text-[#364153]">
+          <div className="flex flex-col md:flex-row md:justify-between md:items-center mb-3 gap-1">
+            <p className="text-[#364153] text-sm md:text-base">
               This creates the "what's next" section of your spotlight page.
             </p>
 
