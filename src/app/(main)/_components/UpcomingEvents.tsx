@@ -232,15 +232,14 @@ const UpcomingEvents = () => {
       </h2>
 
       {events.length === 0 ? (
-        <div className="mt-4 md:my-8">
-          <div className="flex flex-col items-center justify-center text-center px-6 py-16 md:py-24 rounded-2xl xl:rounded-[20px] bg-[#F5F5F7] custom_shadow border border-gray-200">
-            <div className="flex items-center justify-center size-16 md:size-20 rounded-full bg-white custom_shadow custom_border mb-5">
-              <PiCalendarX className="size-7 md:size-9 text-gray-300" />
+        <div className="mt-4 md:my-8">            <div className="flex flex-col items-center justify-center text-center px-4 md:px-6 py-10 md:py-14 lg:py-16 xl:py-24 rounded-xl lg:rounded-2xl xl:rounded-[20px] bg-[#F5F5F7] custom_shadow border border-gray-200">
+            <div className="flex items-center justify-center size-12 md:size-14 lg:size-16 rounded-full bg-white custom_shadow custom_border mb-4">
+              <PiCalendarX className="size-6 md:size-7 text-gray-300" />
             </div>
-            <h3 className="text-xl md:text-2xl text-primary-black font-semibold">
+            <h3 className="text-lg md:text-xl lg:text-2xl text-primary-black font-semibold">
               No Upcoming Events
             </h3>
-            <p className="text-secondary-black text-base md:text-lg mt-2 max-w-md">
+            <p className="text-secondary-black text-sm md:text-base lg:text-lg mt-2 max-w-md">
               We're busy planning something special. Check back soon for new
               events.
             </p>
@@ -264,7 +263,7 @@ const UpcomingEvents = () => {
         >
           {events.map(event => (
             <SwiperSlide key={event.id}>
-              <div className="w-full rounded-xl xl:rounded-[20px] bg-[#F5F5F7] custom_shadow border border-gray-200 overflow-hidden mx-3">
+              <div className="w-full rounded-lg lg:rounded-xl xl:rounded-[20px] bg-[#F5F5F7] custom_shadow border border-gray-200 overflow-hidden mx-3">
                 <div className="relative w-full">
                   <div className="absolute size-full bg-[linear-gradient(0deg,_rgba(0,0,0,0.5)_0%,_rgba(0,0,0,0.5)_100%)]" />
                   <Image
@@ -272,45 +271,45 @@ const UpcomingEvents = () => {
                     width={500}
                     height={300}
                     alt={event.title}
-                    className="object-cover w-full h-[220px] xl:h-[260px]"
+                    className="object-cover w-full h-[180px] md:h-[200px] lg:h-[220px] xl:h-[260px]"
                   />
                 </div>
 
-                <div className="py-4 xl:py-5 px-3 xl:px-5">
-                  <h2 className="text-xl text-primary-black font-semibold">
+                <div className="py-3 md:py-3.5 lg:py-4 xl:py-5 px-2.5 md:px-3 xl:px-5">
+                  <h2 className="text-base md:text-lg lg:text-xl text-primary-black font-semibold">
                     {event.title}
                   </h2>
 
-                  <p className="text-lg xl:text-xl text-primary-black flex items-center gap-2 mt-1 xl:mt-2">
+                  <p className="text-sm md:text-base lg:text-lg xl:text-xl text-primary-black flex items-center gap-1.5 lg:gap-2 mt-1 lg:mt-2">
                     <PiCalendarBlank className="text-primary-blue" />
                     {formatDate(event.starts_at)}
                   </p>
 
-                  <p className="text-lg xl:text-xl text-primary-black flex items-center gap-2 mt-1 xl:mt-2">
+                  <p className="text-sm md:text-base lg:text-lg xl:text-xl text-primary-black flex items-center gap-1.5 lg:gap-2 mt-1 lg:mt-2">
                     <GrLocation className="text-primary-blue" />
                     {event.city}, {event.state}
                   </p>
 
-                  <div className="pb-4 my-4 border-b border-gray-200 flex items-center justify-between">
+                  <div className="pb-3 md:pb-3.5 lg:pb-4 my-3 lg:my-4 border-b border-gray-200 flex items-center justify-between">
                     <div className="flex items-center gap-4">
                       {/* Like */}
                       <button
                         onClick={() => handleToggleLike(event.id)}
                         disabled={actionLoading[`like-${event.id}`]}
-                        className="flex items-center gap-2 group cursor-pointer"
+                        className="flex items-center gap-1.5 lg:gap-2 group cursor-pointer"
                       >
-                        <div className={`flex items-center justify-center size-6 aspect-square rounded-full bg-white custom_shadow custom_border transition-all duration-300 ${
+                        <div className={`flex items-center justify-center size-5 md:size-6 aspect-square rounded-full bg-white custom_shadow custom_border transition-all duration-300 ${
                           getEngagement(event.id).is_liked
                             ? "!bg-red-50 !border-red-200"
                             : "group-hover:!bg-red-50 group-hover:!border-red-200"
                         }`}>
                           {getEngagement(event.id).is_liked ? (
-                            <FaHeart className="size-[18px] text-red-500 transition-all duration-300 scale-110" />
+                            <FaHeart className="size-4 md:size-[18px] text-red-500 transition-all duration-300 scale-110" />
                           ) : (
-                            <FaRegHeart className="size-[18px] text-primary-black transition-all duration-300 group-hover:scale-110" />
+                            <FaRegHeart className="size-4 md:size-[18px] text-primary-black transition-all duration-300 group-hover:scale-110" />
                           )}
                         </div>
-                        <span className="text-secondary-black text-xl">
+                        <span className="text-secondary-black text-sm md:text-base lg:text-lg xl:text-xl">
                           {getEngagement(event.id).like_count.toLocaleString()}
                         </span>
                       </button>
@@ -319,20 +318,20 @@ const UpcomingEvents = () => {
                       <button
                         onClick={() => handleToggleBookmark(event.id)}
                         disabled={actionLoading[`bookmark-${event.id}`]}
-                        className="flex items-center gap-2 group cursor-pointer"
+                        className="flex items-center gap-1.5 lg:gap-2 group cursor-pointer"
                       >
-                        <div className={`flex items-center justify-center size-6 aspect-square rounded-full bg-white custom_shadow custom_border transition-all duration-300 ${
+                        <div className={`flex items-center justify-center size-5 md:size-6 aspect-square rounded-full bg-white custom_shadow custom_border transition-all duration-300 ${
                           getEngagement(event.id).is_bookmarked
                             ? "!bg-blue-50 !border-primary-blue"
                             : "group-hover:!bg-blue-50 group-hover:!border-primary-blue"
                         }`}>
                           {getEngagement(event.id).is_bookmarked ? (
-                            <FaBookmark className="size-[18px] text-primary-blue transition-all duration-300 scale-110" />
+                            <FaBookmark className="size-4 md:size-[18px] text-primary-blue transition-all duration-300 scale-110" />
                           ) : (
-                            <FaRegBookmark className="size-[18px] text-primary-black transition-all duration-300 group-hover:scale-110" />
+                            <FaRegBookmark className="size-4 md:size-[18px] text-primary-black transition-all duration-300 group-hover:scale-110" />
                           )}
                         </div>
-                        <span className="text-secondary-black text-xl">
+                        <span className="text-secondary-black text-sm md:text-base lg:text-lg xl:text-xl">
                           {getEngagement(event.id).is_bookmarked ? "Saved" : "Save"}
                         </span>
                       </button>
@@ -340,12 +339,12 @@ const UpcomingEvents = () => {
                       {/* Share */}
                       <button
                         onClick={() => handleShare(event.id, event.title)}
-                        className="flex items-center gap-2 group cursor-pointer"
+                        className="flex items-center gap-1.5 lg:gap-2 group cursor-pointer"
                       >
-                        <div className="flex items-center justify-center size-6 aspect-square rounded-full bg-white custom_shadow custom_border group-hover:!bg-green-50 group-hover:!border-green-400 transition-all duration-300">
-                          <RxShare1 className="size-[18px] text-primary-black transition-all duration-300 group-hover:scale-110 group-hover:text-green-600" />
+                        <div className="flex items-center justify-center size-5 md:size-6 aspect-square rounded-full bg-white custom_shadow custom_border group-hover:!bg-green-50 group-hover:!border-green-400 transition-all duration-300">
+                          <RxShare1 className="size-4 md:size-[18px] text-primary-black transition-all duration-300 group-hover:scale-110 group-hover:text-green-600" />
                         </div>
-                        <span className="text-secondary-black text-xl">Share</span>
+                        <span className="text-secondary-black text-sm md:text-base lg:text-lg xl:text-xl">Share</span>
                       </button>
                     </div>
                   </div>

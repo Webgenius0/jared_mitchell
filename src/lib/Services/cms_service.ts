@@ -31,6 +31,7 @@ import {
   BusinessSpotlightDetailsResponse,
   RoundLeaderboardResponse,
   ActiveSeasonRoundsResponse,
+  ActiveRoundCountdownResponse,
   LiveStream,
 } from "@/Types/cms";
 import { getItem } from "@/lib/localStorage";
@@ -404,6 +405,21 @@ export const getPastSixMonthsWinners =
     const result = await res.json();
     return result.data as PastSixMonthsWinnersResponse;
   };
+
+export const getActiveRoundCountdown = async (): Promise<ActiveRoundCountdownResponse> => {
+  const res = await fetch(`${SITE_URL}/v1/contest/active-round-countdown`, {
+    cache: "no-store",
+  });
+
+  if (!res.ok) {
+    throw new Error(
+      `Failed to fetch active round countdown — Status: ${res.status}`,
+    );
+  }
+
+  const result = await res.json();
+  return result as ActiveRoundCountdownResponse;
+};
 
 export const getRoundCountdown = async (): Promise<RoundCountdownResponse> => {
   const res = await fetch(`${SITE_URL}/v1/round-countdown`, {

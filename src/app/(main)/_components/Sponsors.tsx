@@ -24,8 +24,8 @@ const Sponsors = ({ data, title, showButton = true }: SponsorsProps) => {
   if (logos.length === 0) return null;
 
   return (
-    <section className="py-20">
-      <h2 className="section_title text-center mb-5 md:mb-8">
+    <section className="py-10 md:py-12 lg:py-14 xl:py-20">
+      <h2 className="section_title text-center mb-3 md:mb-4 lg:mb-5 xl:mb-8">
         {title || data?.title || "Powered by our community partners"}
       </h2>
 

@@ -22,13 +22,13 @@ const WhoOSIIsFor = ({ data: cmsData }: { data?: CMSServicesWhoFor }) => {
             "Below is a breakdown of exactly what each membership provides so you can make the best choice for your goals."}
         </p>
 
-        <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-3 md:gap-5 my-8 xl:my-14">
+        <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-2.5 md:gap-3 lg:gap-4 xl:gap-5 my-6 md:my-8 lg:my-10 xl:my-14">
           {items.map(item => (
             <div
               key={item.id}
               className="p-3 flex flex-col items-center justify-center gap-2 custom_border custom_shadow rounded-[14px] bg-white"
             >
-              <div className="p-2 bg-primary-blue rounded-full custom_shadow size-18 2xl:size-[80px]">
+              <div className="p-1.5 md:p-2 bg-primary-blue rounded-full custom_shadow size-14 md:size-16 lg:size-18 2xl:size-[80px]">
                 <div className="relative size-full overflow-hidden rounded-full">
                   {item.image && (
                     <Image
@@ -40,7 +40,7 @@ const WhoOSIIsFor = ({ data: cmsData }: { data?: CMSServicesWhoFor }) => {
                   )}
                 </div>
               </div>
-              <p className="text-primary-black xl:text-xl font-semibold uppercase text-center">
+              <p className="text-primary-black text-xs md:text-sm lg:text-base xl:text-xl font-semibold uppercase text-center">
                 {item.title}
               </p>
             </div>

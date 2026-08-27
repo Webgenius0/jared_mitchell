@@ -25,6 +25,8 @@ import {
 } from "@/Types/cms";
 import Sponsors from "../_components/Sponsors";
 import BossBeginningSponsor from "./_components/BossBeginningSponsor";
+import BossBeginningGuide from "./_components/BossBeginningGuide";
+import ActiveRoundCountdown from "./_components/ActiveRoundCountdown";
 import BossBeginningsContestCarousel from "@/Components/Common/BossBeginningsContestCarousel";
 import CommunityAchievements from "../_components/CommunityAchievements";
 
@@ -107,7 +109,9 @@ const page = async () => {
         roundId={activeRoundId}
       />
 
-      {/* <BossBeginningsContestCarousel title="Boss Beginnings Contest" /> */}
+      <ActiveRoundCountdown />
+
+      {/* <BossBeginningsContestCarousel title="OSI Top Business Award Contest" /> */}
 
       <NewBusiness data={pageData?.boss_beginnings_section5} />
       <CommunityAchievements
@@ -116,6 +120,8 @@ const page = async () => {
       />
 
       <WinnerReceives data={pageData?.boss_beginnings_dynamic} />
+
+      <BossBeginningGuide />
 
       <BossBeginningSponsor />
 
