@@ -1022,16 +1022,27 @@ export interface CurrentContestWinnerResponse {
 // ─── Spotlight of the Week (home page Artist/Business tabs) ──────────────────
 // GET /v1/spotlight/weeks/spotlight-of-the-week?type=artist|business
 
+export interface SpotlightCustomMediaItem {
+  id: string;
+  file_name: string;
+  url: string;
+  mime_type: string;
+  type: "image" | "video" | string;
+}
+
 export interface SpotlightOfTheWeekMedia {
   headshot: string | null;
   artwork_photos: string[];
   behind_scenes_photo: string | null;
+  intro_video?: string | null;
+  custom_media?: SpotlightCustomMediaItem[];
 }
 
 export interface SpotlightOfTheWeekSpotlight {
   id: number;
   type: string;
   name: string;
+  default_name?: string;
   city: string;
   state: string;
   media: SpotlightOfTheWeekMedia;
@@ -1042,11 +1053,21 @@ export interface SpotlightOfTheWeekOwner {
   name: string;
 }
 
+export interface SpotlightShowcase {
+  title: string;
+  description: string;
+  custom_media?: SpotlightCustomMediaItem[];
+  excluded_media_ids?: number[];
+}
+
 export interface SpotlightOfTheWeekWinner {
   id: number;
   week_number: number;
   year: number;
+  title?: string;
+  description?: string;
   spotlight: SpotlightOfTheWeekSpotlight;
+  showcase?: SpotlightShowcase;
   owner: SpotlightOfTheWeekOwner;
   total_votes: number;
   free_votes: number;

@@ -14,13 +14,7 @@ const langCodeMap: Record<Lang, string> = {
   Spanish: "es",
 };
 
-/**
- * GoogleTranslate
- *
- * Renders a custom language switcher with EN/BN/ES buttons.
- * The buttons manipulate the hidden Google Translate <select> element
- * and persist the language choice in localStorage.
- */
+
 const GoogleTranslate = () => {
   const [activeLang, setActiveLang] = useState<Lang>("English");
   const containerRef = useRef<HTMLDivElement>(null);
