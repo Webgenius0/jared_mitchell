@@ -25,14 +25,10 @@ import {
 } from "@/Types/cms";
 import Sponsors from "../_components/Sponsors";
 import BossBeginningSponsor from "./_components/BossBeginningSponsor";
-<<<<<<< HEAD
-=======
 import BossBeginningGuide from "./_components/BossBeginningGuide";
 import ActiveRoundCountdown from "./_components/ActiveRoundCountdown";
 import BossBeginningsContestCarousel from "@/Components/Common/BossBeginningsContestCarousel";
->>>>>>> a1a1ecac9abf1f2b00737888473a0e948643bea0
 import CommunityAchievements from "../_components/CommunityAchievements";
-import BossBeginningsContestCarousel from "@/Components/Common/BossBeginningsContestCarousel";
 
 const page = async () => {
   const pageData = (await getBossCms()) as CMSBossBeginnings;
