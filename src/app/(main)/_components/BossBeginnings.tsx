@@ -47,11 +47,23 @@ const BossBeginnings = ({
   const winnerMedia = winner?.contestable?.media ?? [];
   const winnerName =
     winner?.display_name || winner?.contestable?.business_name || "";
+
+  // Headshot from avatar_url
+  const headshotSrc = winner?.avatar_url || null;
+
+  // Media items with file_path
+  const mediaItems: string[] = winnerMedia
+    .map((m: any) => m.file_path)
+    .filter((src: string | undefined): src is string => Boolean(src));
+
+  // Main banner image: first media or fallback
   const bannerImage =
-    winnerMedia[0]?.file_path ||
-    winner?.avatar_url ||
+    mediaItems[0] ||
+    headshotSrc ||
     data?.image ||
     "/home/boss-beginnings-banner.jpg";
+
+  // Description: prefer contestable story, then community impact, then CMS
   const description =
     winner?.contestable?.story ||
     winner?.contestable?.community_impact_statement ||
@@ -70,31 +82,79 @@ const BossBeginnings = ({
           {data?.sub_title || "A Business Shower"}
         </h3>
 
-        <div className="relative flex items-center max-w-[1179px] w-full h-[160px] sm:h-[200px] md:h-[240px] lg:h-[280px] xl:h-[420px] justify-center my-3 md:my-4 lg:my-6 rounded-xl md:rounded-2xl lg:rounded-[32px] overflow-hidden mx-auto">
-          <div className="absolute top-0 left-0 size-full bg-black/40" />
-          <Image
-            src={bannerImage}
-            fill
-            alt={winnerName || "OSI Top Business Award"}
-            className="object-cover size-full"
-            priority
-          />
+        <div className="max-w-[1179px] w-full mx-auto my-3 md:my-4 lg:my-6">
+          {/* Main media area */}
+          <div className="relative w-full h-[160px] sm:h-[200px] md:h-[240px] lg:h-[280px] xl:h-[420px] rounded-xl md:rounded-2xl lg:rounded-[32px] overflow-hidden">
+            <div className="absolute top-0 left-0 size-full bg-black/40 z-[1]" />
+            {mediaItems.length > 0 ? (
+              <Image
+                src={mediaItems[0]}
+                fill
+                alt={winnerName || "OSI Top Business Award"}
+                className="object-cover size-full"
+                priority
+              />
+            ) : (
+              <Image
+                src={bannerImage}
+                fill
+                alt={winnerName || "OSI Top Business Award"}
+                className="object-cover size-full"
+                priority
+              />
+            )}
 
-          {winner && (winnerName || winner.season?.title) && (
-            <div className="absolute top-4 left-4 right-4 z-10 flex flex-wrap items-center justify-center gap-2 sm:justify-between">
-              {winnerName && (
-                <span className="max-w-[70%] truncate bg-white/95 text-primary-black px-3 py-1.5 rounded-full text-sm font-medium">
-                  {winnerName}
-                </span>
+            {winner && (winnerName || winner.season?.title) && (
+              <div className="absolute top-4 left-4 right-4 z-10 flex flex-wrap items-center justify-center gap-2 sm:justify-between">
+                {winnerName && (
+                  <span className="max-w-[70%] truncate bg-white/95 text-primary-black px-3 py-1.5 rounded-full text-sm font-medium">
+                    {winnerName}
+                  </span>
+                )}
+                {winner.season?.title && (
+                  <span className="bg-[#155DFC] text-white px-3 py-1.5 rounded-full text-sm font-medium backdrop-blur-sm">
+                    {winner.season.title}
+                  </span>
+                )}
+              </div>
+            )}
+          </div>
+
+          {/* Headshot + media thumbnails row */}
+          {(headshotSrc || mediaItems.length > 1) && (
+            <div className="flex items-center gap-3 mt-3 md:mt-4">
+              {headshotSrc && (
+                <div className="relative w-14 h-14 md:w-16 md:h-16 lg:w-20 lg:h-20 rounded-full overflow-hidden border-2 border-white shadow-md shrink-0">
+                  <Image
+                    src={headshotSrc}
+                    fill
+                    sizes="80px"
+                    alt={`${winnerName} headshot`}
+                    className="object-cover"
+                  />
+                </div>
               )}
-              {winner.season?.title && (
-                <span className="bg-[#155DFC] text-white px-3 py-1.5 rounded-full text-sm font-medium backdrop-blur-sm">
-                  {winner.season.title}
-                </span>
-              )}
+              <div className="flex gap-2 overflow-x-auto">
+                {mediaItems.slice(1).map((src, idx) => (
+                  <div
+                    key={idx}
+                    className="relative w-14 h-14 md:w-16 md:h-16 rounded-lg overflow-hidden border border-gray-200 shrink-0"
+                  >
+                    <Image
+                      src={src}
+                      fill
+                      sizes="64px"
+                      alt="Contest media"
+                      className="object-cover"
+                    />
+                  </div>
+                ))}
+              </div>
             </div>
           )}
-        </div>        <div className="text-secondary-black max-w-4xl mx-auto text-xs md:text-sm lg:text-base xl:text-xl"
+        </div>
+
+        <div className="text-secondary-black max-w-4xl mx-auto text-xs md:text-sm lg:text-base xl:text-xl"
           dangerouslySetInnerHTML={{ __html: description }}
         />
 
