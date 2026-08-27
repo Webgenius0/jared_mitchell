@@ -56,26 +56,26 @@ const BossBeginnings = ({
     winner?.contestable?.story ||
     winner?.contestable?.community_impact_statement ||
     data?.description ||
-    `Business Launch Award is our signature celebration for brand‑new
+    `OSI Top Business Award is our signature celebration for brand‑new
             entrepreneurs. We highlight their story, support their launch, and
             bring the community together to give resources and opportunities.`;
 
   return (
-    <section className="text-center bg-[#F5F5F7] py-10 2xl:py-12">
+    <section className="text-center bg-[#F5F5F7] py-8 md:py-8 lg:py-10 2xl:py-12">
       <div className="container">
-        <h2 className="text-primary-black text-3xl md:text-4xl lg:text-5xl 2xl:text-6xl font-bold leading-tight xl:leading-[1.1] tracking-[-1.28px]">
-          {data?.title || "Business Launch Award"}
+        <h2 className="text-primary-black text-2xl md:text-2xl lg:text-3xl xl:text-4xl 2xl:text-6xl font-bold leading-tight xl:leading-[1.1] tracking-[-1.28px]">
+          {data?.title || "OSI Top Business Award"}
         </h2>
         <h3 className="section_title mt-1 md:mt-2">
           {data?.sub_title || "A Business Shower"}
         </h3>
 
-        <div className="relative flex items-center max-w-[1179px] w-full h-[200px] sm:h-[240px] md:h-[300px] lg:h-[360px] xl:h-[420px] justify-center my-3 md:my-4 rounded-2xl md:rounded-[32px] overflow-hidden mx-auto">
+        <div className="relative flex items-center max-w-[1179px] w-full h-[160px] sm:h-[200px] md:h-[240px] lg:h-[280px] xl:h-[420px] justify-center my-3 md:my-4 lg:my-6 rounded-xl md:rounded-2xl lg:rounded-[32px] overflow-hidden mx-auto">
           <div className="absolute top-0 left-0 size-full bg-black/40" />
           <Image
             src={bannerImage}
             fill
-            alt={winnerName || "business launch award"}
+            alt={winnerName || "OSI Top Business Award"}
             className="object-cover size-full"
             priority
           />
@@ -94,14 +94,11 @@ const BossBeginnings = ({
               )}
             </div>
           )}
-        </div>
-
-        <div
-          className="text-secondary-black max-w-4xl mx-auto text-sm md:text-base xl:text-xl"
+        </div>        <div className="text-secondary-black max-w-4xl mx-auto text-xs md:text-sm lg:text-base xl:text-xl"
           dangerouslySetInnerHTML={{ __html: description }}
         />
 
-        <div className="flex flex-wrap items-center justify-center gap-3 lg:gap-6 mt-5 md:mt-6 xl:mt-8">
+        <div className="flex flex-wrap items-center justify-center gap-2 md:gap-3 lg:gap-4 xl:gap-6 mt-4 md:mt-5 xl:mt-8">
           <Button
             variant={"outline"}
             onClick={handleNominate}

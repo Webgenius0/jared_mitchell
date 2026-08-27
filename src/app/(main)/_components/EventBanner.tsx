@@ -3,7 +3,7 @@ import { CMSCTA } from "@/Types/cms";
 
 const EventBanner = ({ data }: { data?: CMSCTA }) => {
   return (
-    <section className="w-full max-h-[460px] h-full overflow-hidden flex items-center relative">
+    <section className="w-full h-[220px] sm:h-[280px] md:h-[300px] lg:h-[340px] xl:h-[460px] overflow-hidden flex items-center relative">
       <Image
         src={data?.bg || "/home/home-banner-2.jpg"}
         width={1920}

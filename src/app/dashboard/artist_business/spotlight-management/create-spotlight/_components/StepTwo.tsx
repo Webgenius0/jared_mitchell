@@ -21,27 +21,27 @@ const StepTwo = () => {
 
   return (
     <div className="step_box">
-      <h2 className="text-3xl font-semibold mb-2">Artist Category</h2>
+      <h2 className="text-xl md:text-3xl font-semibold mb-2">Artist Category</h2>
 
-      <p className="text-[#364153] text-xl mb-5">
+      <p className="text-[#364153] text-sm md:text-xl mb-5">
         Select your primary category. This determines your voting pool and
         spotlight placement.
       </p>
 
-      <hr className="text-gray-200 mb-10 block" />
+      <hr className="text-gray-200 mb-6 md:mb-10 block" />
 
-      <div className="mb-5 mt-10 col-span-2">
+      <div className="mb-5 mt-6 md:mt-10 col-span-2">
         <div className="flex gap-3 items-center mb-1">
           <SelectSvg />
-          <h2 className="text-[22px]">Select Your Category</h2>
+          <h2 className="text-lg md:text-[22px]">Select Your Category</h2>
         </div>
 
-        <p className="text-[#364153] text-xl">
+        <p className="text-[#364153] text-sm md:text-xl">
           At least one social media handle is required
         </p>
       </div>
 
-      <div className="grid grid-cols-2 gap-5">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5">
         {isLoading
           ? Array.from({ length: 4 })?.map((_, idx) => (
               <ArtistCategorySkeleton key={idx} />

@@ -64,18 +64,18 @@ const HowSponsorshipWorks = ({ data }: HowSponsorshipWorksProps) => {
         {/* <h2 className="section_title 2xl:!text-[76px]"> */}
           {data?.title ?? "How Sponsorship Works"}
         </h2>
-        <div className="grid grid-cols-2 gap-6 items-center mt-11">
+        <div className="grid grid-cols-2 gap-3 md:gap-4 lg:gap-5 xl:gap-6 items-center mt-6 md:mt-8 lg:mt-10 xl:mt-11">
           {mainSteps.map((step, idx) => (
             <div
               key={idx}
-              className="bg-white max-lg:col-span-2 custom_border custom_shadow rounded-2xl flex flex-col gap-4 justify-center p-6 h-fit"
+              className="bg-white max-lg:col-span-2 custom_border custom_shadow rounded-xl lg:rounded-2xl flex flex-col gap-3 lg:gap-4 justify-center p-4 md:p-5 lg:p-6 h-fit"
             >
-              <p className="text-2xl text-primary-black font-semibold">
+              <p className="text-lg md:text-xl lg:text-2xl text-primary-black font-semibold">
                 {step.title}
               </p>
-              <p className="text-2xl text-primary-black">{step.description}</p>
+              <p className="text-sm md:text-base lg:text-lg xl:text-2xl text-primary-black">{step.description}</p>
               {step.list?.length > 0 && (
-                <div className="space-y-1 text-primary-black text-xl">
+                <div className="space-y-1 text-primary-black text-sm md:text-base lg:text-lg xl:text-xl">
                   {step.list.map((item, i) => (
                     <p key={i} className="flex items-center gap-2">
                       <HiArrowLongRight className="text-[#155DFC] size-6" />
@@ -88,15 +88,15 @@ const HowSponsorshipWorks = ({ data }: HowSponsorshipWorksProps) => {
           ))}
 
           {lastStep && (
-            <div className="bg-white col-span-2 max-w-[762px] w-full mx-auto custom_border custom_shadow rounded-2xl flex flex-col gap-4 justify-center p-6 h-fit">
-              <p className="text-2xl text-primary-black font-semibold">
+            <div className="bg-white col-span-2 max-w-[762px] w-full mx-auto custom_border custom_shadow rounded-xl lg:rounded-2xl flex flex-col gap-3 lg:gap-4 justify-center p-4 md:p-5 lg:p-6 h-fit">
+              <p className="text-lg md:text-xl lg:text-2xl text-primary-black font-semibold">
                 {lastStep.title}
               </p>
-              <p className="text-2xl text-primary-black">
+              <p className="text-sm md:text-base lg:text-lg xl:text-2xl text-primary-black">
                 {lastStep.description}
               </p>
               {lastStep.list?.length > 0 && (
-                <div className="space-y-1 text-primary-black text-xl">
+                <div className="space-y-1 text-primary-black text-sm md:text-base lg:text-lg xl:text-xl">
                   {lastStep.list.map((item, i) => (
                     <p key={i} className="flex items-center gap-2">
                       <HiArrowLongRight className="text-[#155DFC] size-6" />

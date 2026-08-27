@@ -5,6 +5,8 @@ import { usePathname, useRouter } from "next/navigation";
 import React, { useCallback, useState } from "react";
 import { FiLogOut, FiLock } from "react-icons/fi";
 import { FaAngleDown } from "react-icons/fa6";
+import Image from "next/image";
+import logo from "../Assets/logo.jpeg";
 
 type SubMenu = {
   label: string;
@@ -81,10 +83,17 @@ const DashboardSidebar = ({
           open ? "translate-x-0" : "-translate-x-full xl:translate-x-0"
         } fixed top-0 left-0 z-[999] 2xl:static max-2xl:h-screen w-[275px] duration-500 transition-transform shadow bg-white px-5 py-7 shrink-0 overflow-y-auto flex flex-col`}
       >
-        {/* Logo */}
-        <Link href="/" className="text-2xl font-medium mb-7 block">
-          OSI
-        </Link>
+            <Link
+              href="/"
+              className="flex items-center cursor-pointer"
+            >
+              <Image
+                src={logo}
+                alt="OSI logo"
+                className="h-24 w-auto mb-4"
+                priority
+              />
+            </Link>
 
         {/* Nav Links */}
         <nav className="flex flex-col gap-4 flex-1">

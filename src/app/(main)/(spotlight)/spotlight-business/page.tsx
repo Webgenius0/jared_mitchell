@@ -9,6 +9,8 @@ import CreativeJourney from "../_components/CreativeJourney";
 import SpotlightLadder from "../_components/SpotlightLadder";
 import BusinessSpotlightBanner from "../_components/BusinessSpotlightBanner";
 import HowSpotlightWorks from "../_components/HowSpotlightWorks";
+import SpotlightGuide from "../_components/SpotlightGuide";
+import SpotlightCountdown from "../_components/SpotlightCountdown";
 import SuccessStories from "../../_components/SuccessStories";
 import SpotlightWinnerSection from "@/Components/Common/SpotlightWinnerSection";
 import {
@@ -68,6 +70,7 @@ const page = async () => {
   return (
     <>
       <BusinessSpotlightBanner data={cmsData?.business_spotlight_hero} />
+      <SpotlightCountdown />
       <SpotlightHero
         data={cmsData?.business_spotlight_video}
         liveStream={liveStream}
@@ -76,6 +79,7 @@ const page = async () => {
       />
       <SpotlightWinnerSection winner={lastBusinessWinner} type="business" />
       <HowSpotlightWorks type="business" />
+      <SpotlightGuide type="business" />
       <DiscoverArtists
         type="business"
         data={cmsData?.business_spotlight_list}

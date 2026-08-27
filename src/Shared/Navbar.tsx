@@ -10,6 +10,8 @@ import { useEffect, useRef, useState } from "react";
 import { FaBars } from "react-icons/fa";
 import { FiShoppingCart } from "react-icons/fi";
 
+import logo from "../Assets/logo.jpeg";
+
 const navLinks = [
   { label: "Home", path: "/" },
   { label: "About", path: "/about" },
@@ -28,16 +30,16 @@ const navLinks = [
   { label: "Pricing", path: "/pricing" },
   // { label: "Sponsorships", path: "/sponsorships" },
   {
-    label: "Business Launch Award",
+    label: "OSI Top Business Award",
     path: "",
     subMenu: [
-      { label: "Business Launch Award", path: "/boss-beginnings" },
+      { label: "OSI Top Business Award", path: "/boss-beginnings" },
       {
         label: "How Winners Are Chosen",
         path: "/how-winners-are-chosen",
       },
       {
-        label: "Business Launch Award Contest",
+        label: "OSI Top Business Award Contest",
         path: "/boss-beginnings-contest",
       },
     ],
@@ -100,26 +102,29 @@ const Navbar = () => {
   }, [pathname]);
 
   return (
-    <nav className="py-3 md:py-4 xl:py-5 border-b border-[#0000001C] sticky top-0 z-50 bg-white">
+    <nav className="py-2.5 md:py-3 lg:py-3.5 xl:py-5 border-b border-[#0000001C] sticky top-0 z-50 bg-white">
       <div className="container">
         <div className="flex justify-between items-center">
           {/* Left */}
           <div className="flex gap-10 2xl:gap-14 items-center">
-            <Link
-              href="/"
-              className="text-[#2A2929] font-poppins text-xl font-semibold cursor-pointer"
-            >
-              OSI
+            <Link href="/" className="flex items-center cursor-pointer">
+              <Image
+                src={logo}
+                alt="OSI logo"
+                className="h-20 md:h-20 lg:h-22 xl:h-24 w-auto"
+                priority
+              />
             </Link>
 
-            <ul ref={navListRef} className="hidden xl:flex gap-7 items-center">
-              {navLinks?.map(link => {
+            <ul ref={navListRef} className="hidden xl:flex gap-6 lg:gap-7 items-center">
+              {navLinks?.map((link) => {
                 const isActive = pathname === link?.path;
                 const hasSubMenu = Boolean(link?.subMenu?.length);
                 const isSubmenuOpen = openSubmenu === link?.label;
 
                 const handleMouseEnter = () => {
-                  if (hoverTimeoutRef.current) clearTimeout(hoverTimeoutRef.current);
+                  if (hoverTimeoutRef.current)
+                    clearTimeout(hoverTimeoutRef.current);
                   if (hasSubMenu) setOpenSubmenu(link?.label);
                 };
 
@@ -164,7 +169,7 @@ const Navbar = () => {
                     {/* Sub Menu — sibling of the trigger, not nested inside it */}
                     {hasSubMenu && isSubmenuOpen && (
                       <div className="absolute top-full mt-3 left-0 bg-white z-50 shadow rounded-xl px-4 w-55">
-                        {link?.subMenu?.map(subItem => {
+                        {link?.subMenu?.map((subItem) => {
                           const isActiveSubmenu = pathname === subItem?.path;
 
                           return (
@@ -214,9 +219,7 @@ const Navbar = () => {
               >
                 ES
               </button>
-            </div> */}
-
-            <div className="flex gap-3 md:gap-4 xl:gap-5 items-center">
+            </div> */}              <div className="flex gap-2.5 md:gap-3 xl:gap-5 items-center">
               {/* <button>
                 <SearchSvg />
               </button> */}
@@ -306,7 +309,7 @@ const Navbar = () => {
               ) : (
                 <Link
                   href="/auth/register"
-                  className="bg-primary-blue text-white py-1.5 px-4 rounded-lg cursor-pointer hover:bg-primary-blue/90 transition-colors duration-200"
+                  className="bg-primary-blue text-white py-1 md:py-1.5 px-3 md:px-4 rounded-lg cursor-pointer hover:bg-primary-blue/90 transition-colors duration-200 text-sm md:text-sm"
                 >
                   Sign Up
                 </Link>
@@ -314,9 +317,9 @@ const Navbar = () => {
 
               <button
                 onClick={() => setOpen(!isOpen)}
-                className="bg-primary-blue text-white size-8 lg:size-9 rounded grid xl:hidden place-items-center cursor-pointer"
+                className="bg-primary-blue text-white size-8 lg:size-9 rounded grid lg:hidden place-items-center cursor-pointer"
               >
-                <FaBars className="text-lg lg:text-[22px]" />
+                <FaBars className="text-base lg:text-[22px]" />
               </button>
             </div>
           </div>
@@ -326,7 +329,7 @@ const Navbar = () => {
       {/* Blur Overlay */}
       <div
         onClick={() => setOpen(false)}
-        className={`fixed inset-0 bg-primary-black/30 backdrop-blur-sm transition-opacity duration-300 xl:hidden z-[999] ${
+        className={`fixed inset-0 bg-primary-black/30 backdrop-blur-sm transition-opacity duration-300 lg:hidden z-[999] ${
           isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
         }`}
       />
@@ -335,18 +338,19 @@ const Navbar = () => {
       <div
         className={`${
           isOpen ? "translate-x-0" : "-translate-x-full"
-        } duration-500 transition-transform fixed top-0 z-[999] left-0 bg-white p-5 lg:p-7 shadow-lg overflow-y-auto border-r border-gray-200 max-h-screen min-h-screen w-[250px] lg:w-[270px] xl:hidden`}
+        } duration-500 transition-transform fixed top-0 z-[999] left-0 bg-white p-5 lg:p-7 shadow-lg overflow-y-auto border-r border-gray-200 max-h-screen min-h-screen w-[250px] lg:w-[270px] lg:hidden`}
       >
-        <Link
-          href="/"
-          onClick={() => setOpen(false)}
-          className="text-[#2A2929] font-poppins text-xl font-semibold cursor-pointer"
-        >
-          OSI
-        </Link>
+            <Link href="/" className="flex items-center cursor-pointer">
+              <Image
+                src={logo}
+                alt="OSI logo"
+                className="h-24 w-auto"
+                priority
+              />
+            </Link>
 
         <ul className="flex flex-col gap-5 mt-7">
-          {navLinks?.map(link => {
+          {navLinks?.map((link) => {
             const isActive = pathname === link?.path;
             const hasSubMenu = Boolean(link?.subMenu?.length);
             const isSubmenuOpen = openSubmenu === link?.label;
@@ -357,7 +361,7 @@ const Navbar = () => {
                   <button
                     type="button"
                     onClick={() =>
-                      setOpenSubmenu(prev =>
+                      setOpenSubmenu((prev) =>
                         prev === link?.label ? null : link?.label,
                       )
                     }
@@ -400,7 +404,7 @@ const Navbar = () => {
 
                 {hasSubMenu && isSubmenuOpen && (
                   <ul className="flex flex-col gap-3 mt-3 ml-3 border-l border-gray-200 pl-3">
-                    {link?.subMenu?.map(subItem => {
+                    {link?.subMenu?.map((subItem) => {
                       const isActiveSubmenu = pathname === subItem?.path;
 
                       return (

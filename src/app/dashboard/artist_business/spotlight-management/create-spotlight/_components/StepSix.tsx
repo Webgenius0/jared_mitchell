@@ -8,15 +8,15 @@ const StepSix = () => {
 
   return (
     <div className="step_box">
-      <h2 className="text-3xl font-semibold mb-2">Optional Information</h2>
+      <h2 className="text-xl md:text-3xl font-semibold mb-2">Optional Information</h2>
 
-      <p className="text-[#364153] text-xl mb-10">
-        Help us learn more about you! While optional, this information can
+      <p className="text-[#364153] text-sm md:text-xl mb-6 md:mb-10">
+        Help us Score This Business about you! While optional, this information can
         enhance your spotlight profile and help us serve you better.
       </p>
 
-      <div className="space-y-7">
-        <div className="flex gap-7 items-center">
+      <div className="space-y-5 md:space-y-7">
+        <div className="flex flex-col md:flex-row gap-4 md:gap-7 items-stretch md:items-center">
           {/* Talent Management Contact */}
           <div className="flex-1">
             <p className="flex justify-between items-center mb-2">
@@ -63,7 +63,7 @@ const StepSix = () => {
             </label>
           </p>
 
-          <p className="text-[#364153]  mb-2.5">
+          <p className="text-[#364153] text-sm md:text-base mb-2.5">
             If you have a press kit or media kit, share the link here
           </p>
 
@@ -85,7 +85,7 @@ const StepSix = () => {
             </label>
           </p>
 
-          <p className="text-[#364153]  mb-2.5">
+          <p className="text-[#364153] text-sm md:text-base mb-2.5">
             Links to any previous interviews, podcasts, or features
           </p>
 
@@ -107,7 +107,7 @@ const StepSix = () => {
             </label>
           </p>
 
-          <p className="text-[#364153]  mb-2.5">
+          <p className="text-[#364153] text-sm md:text-base mb-2.5">
             List any awards, recognitions, or notable achievements
           </p>
 
@@ -120,7 +120,7 @@ const StepSix = () => {
           ></textarea>
         </div>
 
-        <div className="flex gap-7 items-center">
+        <div className="flex flex-col md:flex-row gap-4 md:gap-7 items-stretch md:items-center">
           {/* Preferred Pronouns */}
           <div className="flex-1">
             <p className="flex justify-between items-center mb-2">
@@ -165,7 +165,7 @@ const StepSix = () => {
             </label>
           </p>
 
-          <p className="text-[#364153]  mb-2.5">
+          <p className="text-[#364153] text-sm md:text-base mb-2.5">
             List any awards, recognitions, or notable achievements
           </p>
 

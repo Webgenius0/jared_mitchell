@@ -4,15 +4,15 @@ import { CMSAboutWhoWeServe } from "@/Types/cms";
 
 const WeServe = ({ data }: { data?: CMSAboutWhoWeServe }) => {
   return (
-    <section className="py-10 xl:py-20">
-      <div className="container grid md:grid-cols-2 gap-5 md:gap-10 xl:gap-20 items-center">
+    <section className="py-8 md:py-8 lg:py-12 xl:py-20">
+      <div className="container grid md:grid-cols-2 gap-4 md:gap-6 lg:gap-8 xl:gap-20 items-center">
         {/* Left */}
         <div>
-          <h2 className="text-primary-black text-3xl md:text-4xl xl:text-5xl font-bold leading-[140%] max-w-[602px] mb-3 xl:mb-5">
+          <h2 className="text-primary-black text-2xl md:text-2xl lg:text-3xl xl:text-5xl font-bold leading-[140%] max-w-[602px] mb-2 md:mb-2.5 lg:mb-3 xl:mb-5">
             {data?.title || "Who We Serve"}
           </h2>
 
-          <div className="text-lg md:text-xl xl:text-2xl text-[#364153] leading-[150%] space-y-4">
+          <div className="text-sm md:text-base lg:text-lg xl:text-2xl text-[#364153] leading-[150%] space-y-3 lg:space-y-4">
             {data?.description ? (
               <p>{data.description}</p>
             ) : (
@@ -33,7 +33,7 @@ const WeServe = ({ data }: { data?: CMSAboutWhoWeServe }) => {
         </div>
 
         {/* Right */}
-        <div className="h-[320px] md:h-[480px] w-full rounded-xl">
+        <div className="h-[260px] md:h-[340px] lg:h-[400px] xl:h-[480px] w-full rounded-xl">
           <Image
             src={data?.image || a3}
             alt="a3"

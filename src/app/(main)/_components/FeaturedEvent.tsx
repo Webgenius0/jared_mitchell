@@ -358,7 +358,7 @@ const FeaturedEvent = ({ events }: FeaturedEventProps) => {
 
         <div
           key={event.id}
-          className="lg:basis-1/2 relative w-full lg:w-[716px] h-[300px] md:h-[460px] 2xl:h-[520px] rounded-2xl md:rounded-3xl xl:rounded-[40px] overflow-hidden bg-black"
+          className="lg:basis-1/2 relative w-full h-[250px] sm:h-[300px] md:h-[380px] lg:h-[400px] xl:h-[460px] 2xl:h-[520px] rounded-2xl md:rounded-3xl xl:rounded-[40px] overflow-hidden bg-black"
         >
           {event.promo_video_url ? (
             <>
@@ -498,13 +498,13 @@ const FeaturedEvent = ({ events }: FeaturedEventProps) => {
             </button>
           </div>
 
-          <div className="space-x-4">
+          <div className="flex flex-wrap items-center gap-3 sm:gap-4">
             <Link href={`/events/${event.slug}`}>
               <Button className="!py-2.5">Get Tickets</Button>
             </Link>
             <Link href={`/events/${event.slug}`}>
               <Button variant="outline" className="!py-2.5">
-                Learn More
+             Score This Business
               </Button>
             </Link>
           </div>

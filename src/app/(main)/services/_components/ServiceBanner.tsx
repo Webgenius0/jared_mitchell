@@ -13,10 +13,10 @@ const ServiceBanner = ({ data }: { data?: CMSServicesHero }) => {
           url(${bgImage})
         `,
       }}
-      className="h-[300px] md:h-[400px] xl:h-[500px] bg-no-repeat bg-center bg-cover"
+      className="h-[260px] md:h-[320px] lg:h-[360px] xl:h-[500px] bg-no-repeat bg-center bg-cover"
     >
       <div className="h-full container flex flex-col items-center justify-center">
-        <figure className="w-[150px] md:w-[200px] xl:w-[238px] xl:h-[161px]">
+        <figure className="w-[120px] md:w-[150px] lg:w-[170px] xl:w-[238px] xl:h-[161px]">
           <Image
             src={data?.image || about_us_logo}
             alt="about_us_logo"
@@ -27,11 +27,11 @@ const ServiceBanner = ({ data }: { data?: CMSServicesHero }) => {
           />
         </figure>
 
-        <h2 className="text-[22px] md:text-5xl font-semibold md:leading-[150%] text-white text-center max-w-[968px] mx-auto">
+        <h2 className="text-[18px] md:text-3xl lg:text-4xl xl:text-5xl font-semibold md:leading-[150%] text-white text-center max-w-[968px] mx-auto">
           {data?.title || "Empower your growth with the tools, visibility, and AI insights of"}
         </h2>
 
-        <p className="text-[#5E90FF] text-center md:text-xl xl:text-[26px] pt-3 md:pt-5">
+        <p className="text-[#5E90FF] text-center text-sm md:text-base lg:text-lg xl:text-[26px] pt-2 md:pt-3 lg:pt-5">
           {data?.sub_title || "Our Social Image"}
         </p>
       </div>

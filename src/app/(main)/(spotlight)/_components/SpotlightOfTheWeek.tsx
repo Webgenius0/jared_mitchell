@@ -28,12 +28,12 @@ const SpotlightOfTheWeek = () => {
       <Container>
         <div className="flex items-end justify-between">
           <h2 className="section_title 2xl:!text-6xl">Spotlight of the Week</h2>
-          <p className="text-3xl text-secondary-black">
+          <p className="text-sm md:text-base lg:text-lg xl:text-xl text-secondary-black">
             Winner from last week's Final 6
           </p>
         </div>
-        <div className="mt-8 py-8 px-5 flex justify-between bg-secondary-gray rounded-2xl custom_border custom_shadow">
-          <div className="flex gap-5">
+        <div className="mt-6 md:mt-8 py-5 md:py-6 lg:py-8 px-4 md:px-5 flex flex-col lg:flex-row lg:justify-between gap-4 bg-secondary-gray rounded-xl lg:rounded-2xl custom_border custom_shadow">
+          <div className="flex gap-3 md:gap-4 lg:gap-5">
             <figure className="size-[60px]">
               <Image
                 src={winnerData.avatar}
@@ -44,19 +44,19 @@ const SpotlightOfTheWeek = () => {
               />
             </figure>
             <div>
-              <h5 className="text-[28px] text-primary-black font-medium">
+              <h5 className="text-lg md:text-xl lg:text-[28px] text-primary-black font-medium">
                 {winnerData.name}
               </h5>
-              <p className="text-xl text-secondary-black">{winnerData.title}</p>
+              <p className="text-sm md:text-base lg:text-xl text-secondary-black">{winnerData.title}</p>
               <div className="space-y-3">
-                <p className="text-primary-black text-2xl">
+                <p className="text-primary-black text-sm md:text-base lg:text-xl">
                   {winnerData.description}
                 </p>
-                <div className="py-2 px-4 bg-[#e8e9eb] text-lg rounded-lg inline-block text-secondary-black">
+                <div className="py-1.5 px-3 bg-[#e8e9eb] text-sm md:text-base lg:text-lg rounded-lg inline-block text-secondary-black">
                   {winnerData.tag}
                 </div>
                 {winnerData.socials && (
-                  <div className="flex items-center gap-5 text-xl text-primary-blue">
+                  <div className="flex items-center gap-4 lg:gap-5 text-base md:text-lg lg:text-xl text-primary-blue">
                     {winnerData.socials.website && (
                       <Link href={winnerData.socials.website}>
                         <FiExternalLink />
@@ -69,7 +69,7 @@ const SpotlightOfTheWeek = () => {
                     )}
                   </div>
                 )}
-                <div className="flex items-center gap-9 text-xl text-secondary-black">
+                <div className="flex items-center gap-5 md:gap-6 lg:gap-9 text-sm md:text-base lg:text-xl text-secondary-black">
                   <div className="flex items-center gap-2">
                     <span>👏</span> {winnerData.claps ?? "0"}
                   </div>
@@ -87,7 +87,7 @@ const SpotlightOfTheWeek = () => {
               </div>
             </div>
           </div>
-          <div className="inline-flex h-fit items-center px-4 py-2 rounded-lg border border-[#FDC700] bg-[#FDC70029] text-lg text-primary-black">
+          <div className="inline-flex h-fit items-center px-3 md:px-4 py-1.5 md:py-2 rounded-lg border border-[#FDC700] bg-[#FDC70029] text-sm md:text-base lg:text-lg text-primary-black">
             🏆 Winner
           </div>
         </div>

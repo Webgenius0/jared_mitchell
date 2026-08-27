@@ -15,26 +15,26 @@ const BusinessShower = ({ data }: BusinessShowerProps) => {
     <section className="section">
       <Container>
         <h2 className="section_title">
-        {/* <h2 className="section_title 2xl:!text-[76px]"> */}
+          {/* <h2 className="section_title 2xl:!text-[76px]"> */}
           {data?.title ?? "What Is a Business Shower?"}
         </h2>
-        <p className="text-center text-primary-black text-base md:text-lg xl:text-2xl max-w-[1414px] mx-auto">
+        <p className="text-center text-primary-black text-sm md:text-base lg:text-lg xl:text-2xl max-w-[1414px] mx-auto">
           {data?.description ??
-            "Business Launch Award is Our Social Image's groundbreaking celebration for entrepreneurs launching new businesses. Just like a baby shower or bridal shower — but for business — we gather the community to show support, bring gifts, offer resources, and uplift the entrepreneur with love, visibility, and opportunity."}
+            "OSI Top Business Award is Our Social Image's groundbreaking celebration for entrepreneurs launching new businesses. Just like a baby shower or bridal shower — but for business — we gather the community to show support, bring gifts, offer resources, and uplift the entrepreneur with love, visibility, and opportunity."}
         </p>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-5 lg:gap-6 mt-8 md:mt-10 lg:mt-12">
           {features.map((item, idx) => {
             const Icon = iconMap[idx % iconMap.length];
             return (
-              <div key={idx} className="flex items-center flex-col gap-7">
-                <div className="size-[100px] flex items-center justify-center rounded-full bg-[#1977DD29]">
+              <div key={idx} className="flex items-center flex-col gap-5 md:gap-6 lg:gap-7">
+                <div className="size-16 md:size-18 lg:size-20 xl:size-[100px] flex items-center justify-center rounded-full bg-[#1977DD29]">
                   <Icon />
                 </div>
-                <div className="space-y-3 text-center">
-                  <h5 className="text-primary-black text-2xl md:text-[28px] xl:text-[32px] font-semibold leading-snug">
+                <div className="space-y-2 md:space-y-3 text-center">
+                  <h5 className="text-primary-black text-lg md:text-xl lg:text-2xl xl:text-[32px] font-semibold leading-snug">
                     {item.title}
                   </h5>
-                  <p className="text-[#4A5565] text-base md:text-lg xl:text-2xl">
+                  <p className="text-[#4A5565] text-sm md:text-base lg:text-lg xl:text-2xl">
                     {item.description}
                   </p>
                 </div>

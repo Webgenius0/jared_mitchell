@@ -25,6 +25,12 @@ import {
 } from "@/Types/cms";
 import Sponsors from "../_components/Sponsors";
 import BossBeginningSponsor from "./_components/BossBeginningSponsor";
+<<<<<<< HEAD
+=======
+import BossBeginningGuide from "./_components/BossBeginningGuide";
+import ActiveRoundCountdown from "./_components/ActiveRoundCountdown";
+import BossBeginningsContestCarousel from "@/Components/Common/BossBeginningsContestCarousel";
+>>>>>>> a1a1ecac9abf1f2b00737888473a0e948643bea0
 import CommunityAchievements from "../_components/CommunityAchievements";
 import BossBeginningsContestCarousel from "@/Components/Common/BossBeginningsContestCarousel";
 
@@ -44,7 +50,7 @@ const page = async () => {
   try {
     const activeSeasonRes = await getActiveSeasonRounds();
     const rounds = activeSeasonRes?.data?.rounds ?? [];
-    const activeRound = rounds.find(r => r.is_active) ?? null;
+    const activeRound = rounds.find((r) => r.is_active) ?? null;
     if (activeRound) {
       activeRoundId = activeRound.id;
 
@@ -67,7 +73,7 @@ const page = async () => {
     bossStream = stream;
     hasPendingStream = hasPending;
   } catch (err) {
-    console.error("Failed to fetch Business Launch Award live streams:", err);
+    console.error("Failed to fetch OSI Top Business Award live streams:", err);
   }
 
   let bossBeginningVideos: VideoChannelItem[] = [];
@@ -107,7 +113,9 @@ const page = async () => {
         roundId={activeRoundId}
       />
 
-      {/* <BossBeginningsContestCarousel title="Boss Beginnings Contest" /> */}
+      <ActiveRoundCountdown />
+
+      {/* <BossBeginningsContestCarousel title="OSI Top Business Award Contest" /> */}
 
       <NewBusiness data={pageData?.boss_beginnings_section5} />
       <CommunityAchievements
@@ -116,6 +124,8 @@ const page = async () => {
       />
 
       <WinnerReceives data={pageData?.boss_beginnings_dynamic} />
+
+      <BossBeginningGuide />
 
       <BossBeginningSponsor />
 

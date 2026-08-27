@@ -1544,6 +1544,38 @@ export interface ActiveSeasonRoundsResponse {
   code: number;
 }
 
+// ─── Active Round Countdown ─────────────────────────────────────────────────
+// GET /v1/contest/active-round-countdown
+
+export interface ActiveRoundCountdownRound {
+  round_id: number;
+  round_number: number;
+  title: string;
+  is_active: boolean;
+  status: string;
+  starts_at: string;
+  ends_at: string;
+  target_date: string;
+  countdown: {
+    formatted: string;
+    formatted_short: string;
+  };
+}
+
+export interface ActiveRoundCountdownData {
+  season_id: number;
+  season_title: string;
+  rounds: ActiveRoundCountdownRound[];
+}
+
+export interface ActiveRoundCountdownResponse {
+  success: boolean;
+  message: string;
+  data: ActiveRoundCountdownData;
+  errors: null | any;
+  code: number;
+}
+
 // ─── Event Sponsors ───────────────────────────────────────────────────────────
 // GET /v1/events/sponsors
 

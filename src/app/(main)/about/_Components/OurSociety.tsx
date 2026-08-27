@@ -4,15 +4,15 @@ import { CMSAboutSociety } from "@/Types/cms";
 
 const OurSociety = ({ data }: { data?: CMSAboutSociety }) => {
   return (
-    <section className="py-10 lg:py-20">
-      <div className="container grid md:grid-cols-2 gap-5 md:gap-10 xl:gap-20 items-center">
+    <section className="py-8 md:py-8 lg:py-12 xl:py-20">
+      <div className="container grid md:grid-cols-2 gap-4 md:gap-6 lg:gap-8 xl:gap-20 items-center">
         {/* Left */}
         <div>
-          <h2 className="text-primary-black text-xl md:text-3xl xl:text-5xl font-bold leading-[140%] max-w-[602px] mb-3 md:mb-4 xl:mb-7">
+          <h2 className="text-primary-black text-xl md:text-2xl lg:text-3xl xl:text-5xl font-bold leading-[140%] max-w-[602px] mb-2 md:mb-3 lg:mb-4 xl:mb-7">
             {data?.title || "We Are the Image of Our Society"}
           </h2>
 
-          <p className="md:text-xl xl:text-2xl text-[#364153] leading-[150%]">
+          <p className="text-base md:text-base lg:text-lg xl:text-2xl text-[#364153] leading-[150%]">
             {data?.description || `Our Social Image (OSI) is more than a platform — it is a movement
             designed to uplift voices, celebrate creativity, and build stronger
             communities. We highlight the culture, stories, and entrepreneurial
@@ -22,7 +22,7 @@ const OurSociety = ({ data }: { data?: CMSAboutSociety }) => {
         </div>
 
         {/* Right */}
-        <div className="h-[320px] md:h-[480px] w-full rounded-xl">
+        <div className="h-[260px] md:h-[340px] lg:h-[400px] xl:h-[480px] w-full rounded-xl">
           <Image
             src={data?.image || a1}
             alt="a1"
