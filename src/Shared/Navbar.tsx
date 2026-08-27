@@ -116,7 +116,7 @@ const Navbar = () => {
               />
             </Link>
 
-            <ul ref={navListRef} className="hidden xl:flex gap-6 lg:gap-7 items-center">
+            <ul ref={navListRef} className="hidden lg:flex gap-6 lg:gap-7 items-center">
               {navLinks?.map((link) => {
                 const isActive = pathname === link?.path;
                 const hasSubMenu = Boolean(link?.subMenu?.length);
