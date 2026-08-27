@@ -9,6 +9,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { FaBars } from "react-icons/fa";
 import { FiShoppingCart } from "react-icons/fi";
+import GoogleTranslate from "@/Components/Common/GoogleTranslate";
 
 import logo from "../Assets/logo.jpeg";
 
@@ -52,7 +53,7 @@ const Navbar = () => {
   const [isOpen, setOpen] = useState<boolean>(false);
   const [openSubmenu, setOpenSubmenu] = useState<string | null>(null);
   const [userDropdownOpen, setUserDropdownOpen] = useState<boolean>(false);
-  const [lang, setLang] = useState<string>("en");
+
   const pathname = usePathname();
   const router = useRouter();
   const { user, clearToken } = useAuth();
@@ -113,6 +114,7 @@ const Navbar = () => {
                 alt="OSI logo"
                 className="h-20 md:h-20 lg:h-22 xl:h-24 w-auto"
                 priority
+                translate="no"
               />
             </Link>
 
@@ -197,29 +199,8 @@ const Navbar = () => {
 
           {/* Right */}
           <div className="flex gap-5 items-center">
-            {/* <div className="hidden md:flex items-center rounded-lg border border-[#E4E4E7]">
-              <button
-                onClick={() => setLang("en")}
-                className={`px-3 md:px-3.5 lg:px-4 py-1 lg:py-1.5 cursor-pointer rounded-lg text-sm md:text-base ${
-                  lang === "en"
-                    ? "bg-secondary-blue text-white font-medium"
-                    : "text-[#161C24]"
-                }`}
-              >
-                EN
-              </button>
-
-              <button
-                onClick={() => setLang("es")}
-                className={`px-3 md:px-3.5 lg:px-4 py-1 lg:py-1.5 cursor-pointer rounded-lg text-sm md:text-base ${
-                  lang === "es"
-                    ? "bg-secondary-blue text-white font-medium"
-                    : "text-[#161C24]"
-                }`}
-              >
-                ES
-              </button>
-            </div> */}              <div className="flex gap-2.5 md:gap-3 xl:gap-5 items-center">
+            <div className="flex gap-2.5 md:gap-3 xl:gap-5 items-center">
+              <GoogleTranslate />
               {/* <button>
                 <SearchSvg />
               </button> */}
@@ -228,6 +209,7 @@ const Navbar = () => {
               <button
                 onClick={openCart}
                 className="relative p-2 text-gray-700 hover:text-black transition"
+                translate="no"
               >
                 <FiShoppingCart className="size-5" />
                 {cartCount > 0 && (
@@ -245,6 +227,7 @@ const Navbar = () => {
                   <button
                     onClick={() => setUserDropdownOpen(!userDropdownOpen)}
                     className="size-11 rounded-full grid place-items-center overflow-hidden bg-blue-500/20 font-bold text-black capitalize text-lg cursor-pointer hover:bg-blue-500/30 transition-colors duration-200"
+                    translate="no"
                   >
                     {user?.profile?.avatar ? (
                       <Image
@@ -253,6 +236,7 @@ const Navbar = () => {
                         width={44}
                         height={44}
                         className="size-full object-cover"
+                        translate="no"
                       />
                     ) : (
                       <span>{user?.profile?.name?.at(0)}</span>
@@ -346,10 +330,15 @@ const Navbar = () => {
                 alt="OSI logo"
                 className="h-24 w-auto"
                 priority
+                translate="no"
               />
             </Link>
 
-        <ul className="flex flex-col gap-5 mt-7">
+        <div className="mt-4">
+          <GoogleTranslate />
+        </div>
+
+        <ul className="flex flex-col gap-5 mt-5">
           {navLinks?.map((link) => {
             const isActive = pathname === link?.path;
             const hasSubMenu = Boolean(link?.subMenu?.length);
