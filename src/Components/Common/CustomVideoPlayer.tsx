@@ -83,7 +83,7 @@ export default forwardRef<CustomVideoPlayerHandle, {
         // composited layer can never escape this wrapper and block pointer
         // events on content below (Chromium quirk with overflow-hidden +
         // border-radius ancestors).
-        "relative w-full h-full overflow-hidden isolate 2xl:px-5 3xl:px-5",
+        "relative w-full h-full overflow-hidden isolate",
         className,
       )}
       style={style}
