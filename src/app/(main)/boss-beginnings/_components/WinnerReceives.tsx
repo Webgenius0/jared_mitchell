@@ -60,21 +60,21 @@ const WinnerReceives = ({ data }: WinnerReceivesProps) => {
           {data?.description ??
             "A comprehensive package of support, exposure, and resources to launch with confidence."}
         </p>
-        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3 md:gap-4 lg:gap-5 xl:gap-6 mt-6 md:mt-8 lg:mt-10 xl:mt-11">
+        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-2.5 md:gap-3 lg:gap-4 xl:gap-6 mt-4 md:mt-5 lg:mt-6 xl:mt-11">
           {items.map((item, idx) => {
             const Icon = iconMap[idx % iconMap.length];
             return (
               <div
                 key={idx}
-                className="px-4 py-7 md:px-5 md:py-8 lg:px-6 lg:py-10 custom_border bg-primary-gray rounded-xl text-center"
+                className="px-3 py-5 md:px-4 md:py-6 lg:px-5 lg:py-7 custom_border bg-primary-gray rounded-xl text-center"
               >
                 <p className="mx-auto w-fit mb-3">
                   <Icon />
                 </p>
-                <h5 className="text-primary-black text-lg md:text-xl lg:text-2xl font-semibold mb-1.5 lg:mb-2">
+                <h5 className="text-primary-black text-base md:text-lg lg:text-xl font-semibold mb-1 lg:mb-1.5">
                   {item.title}
                 </h5>
-                <p className="mt-1 text-secondary-black text-sm md:text-base lg:text-lg xl:text-xl">
+                <p className="mt-0.5 text-secondary-black text-xs md:text-sm lg:text-base xl:text-xl">
                   {item.description}
                 </p>
               </div>

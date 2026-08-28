@@ -22,14 +22,14 @@ const FilterSection = () => {
   const [activeView, setActiveView] = useState("firstView");
 
   return (
-    <section className="py-10 md:py-16 xl:py-20">
-      <div className="shadow-[0_4px_20px_0_rgba(0,0,0,0.07)] border border-[#00000029] p-4 md:p-6 rounded-xl">
-        <div className="flex gap-3 md:gap-5 items-center py-4 md:py-6 container overflow-x-auto hide-scrollbar">
+    <section className="py-8 md:py-10 lg:py-12 xl:py-20">
+      <div className="shadow-[0_4px_20px_0_rgba(0,0,0,0.07)] border border-[#00000029] p-3 md:p-4 lg:p-5 rounded-xl">
+        <div className="flex gap-2.5 md:gap-3.5 lg:gap-4 items-center py-3 md:py-4 container overflow-x-auto hide-scrollbar">
           {filterBtns?.map((btn, idx) => (
             <button
               key={idx}
               onClick={() => setActiveBtn(btn)}
-              className={`text-sm md:text-lg xl:text-xl px-4 md:px-7 py-2 md:py-3 rounded-full cursor-pointer whitespace-nowrap shrink-0 ${
+              className={`text-xs md:text-sm lg:text-base xl:text-xl px-3 md:px-5 lg:px-6 py-1.5 md:py-2 lg:py-2.5 rounded-full cursor-pointer whitespace-nowrap shrink-0 ${
                 activeBtn === btn
                   ? "text-white bg-secondary-blue"
                   : "text-[#314158] bg-[#F1F5F9]"

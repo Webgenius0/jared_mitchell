@@ -42,13 +42,13 @@ const PastEvents = () => {
     <div id="past-events-home" className="container">
       <h2 className="section_title 2xl:text-7xl 2xl:font-bold">
         Past Event Highlights
-      </h2>        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 lg:gap-5 my-3 md:my-5 lg:my-6 xl:my-8">
+      </h2>        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5 sm:gap-3 lg:gap-4 my-2.5 md:my-4 lg:my-5 xl:my-8">
         {paginatedEvents.map(event => (
           <div
             key={event.id}
             className="rounded-[20px] custom_border custom_shadow bg-[#F5F5F7] overflow-hidden"
           >
-            <div className="relative flex items-center justify-center w-full h-[200px] sm:h-[220px] md:h-[240px] lg:h-[260px]">
+            <div className="relative flex items-center justify-center w-full h-[170px] sm:h-[190px] md:h-[200px] lg:h-[220px] xl:h-[260px]">
               <Image
                 src={event.cover_image_url}
                 width={500}
@@ -56,19 +56,19 @@ const PastEvents = () => {
                 alt={event.title}
                 className="size-full object-cover"
               />
-              <div className="absolute flex items-end pl-4 md:pl-5 lg:pl-6 pb-3 md:pb-4 top-0 left-0 size-full bg-[linear-gradient(0deg,_rgba(0,0,0,0.5)_0%,_rgba(0,0,0,0.5)_100%)]">
-                <div className="space-y-1.5 md:space-y-2">
-                  <h4 className="text-base md:text-lg lg:text-xl xl:text-2xl font-semibold text-white">
+              <div className="absolute flex items-end pl-3 md:pl-4 lg:pl-5 pb-2.5 md:pb-3 top-0 left-0 size-full bg-[linear-gradient(0deg,_rgba(0,0,0,0.5)_0%,_rgba(0,0,0,0.5)_100%)]">
+                <div className="space-y-1 md:space-y-1.5">
+                  <h4 className="text-sm md:text-base lg:text-base xl:text-2xl font-semibold text-white">
                     {event.title}
                   </h4>
-                  <p className="text-primary-gray text-lg md:text-xl tracking-wider">
+                  <p className="text-primary-gray text-sm md:text-base xl:text-xl tracking-wider">
                     {event.city}, {event.state}
                   </p>
                 </div>
               </div>
             </div>
             <Link key={event.slug} href={`/events/${event.slug}?from=past`}>
-              <div className="text-sm md:text-base lg:text-lg xl:text-xl text-primary-blue flex items-center gap-2 px-3 md:px-4 lg:px-6 py-2.5 md:py-3 lg:py-4 xl:py-5">
+              <div className="text-xs md:text-sm lg:text-sm xl:text-xl text-primary-blue flex items-center gap-1.5 px-2.5 md:px-3 lg:px-5 py-2 md:py-2.5 lg:py-3 xl:py-5">
                 View Details
                 <GoArrowRight />
               </div>

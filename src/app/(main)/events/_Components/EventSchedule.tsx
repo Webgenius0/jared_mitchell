@@ -33,7 +33,7 @@ const EventSchedule = ({ video }: EventScheduleProps) => {
   };
 
   return (
-    <section className="py-20 container">
+    <section className="py-10 md:py-14 lg:py-16 xl:py-20 container">
       <h2 className="section_title 2xl:text-7xl 2xl:font-bold">
         Upcoming Events
       </h2>

@@ -108,20 +108,19 @@ export default function ArtistSpotlightCard({
   const showEmpty = !isLoading && (isError || !winner);
 
   return (
-    <section className="container py-8 md:py-10 lg:py-12 2xl:py-16">
+    <section className="container py-6 md:py-7 lg:py-8 2xl:py-16">
       <h2 className="section_title 2xl:text-5xl">{title}</h2>
 
       <p className="section_sub_title">{subTitle}</p>
 
-      <div className="flex flex-wrap items-center justify-center gap-2.5 md:gap-3 mb-5 md:mb-6 lg:mb-7 xl:mb-9">
+      <div className="flex flex-wrap items-center justify-center gap-2 md:gap-2.5 mb-3.5 md:mb-4 lg:mb-5 xl:mb-9">
         {TABS.map(tab => (
           <button
             key={tab.value}
             type="button"
             onClick={() => setType(tab.value)}
-            aria-pressed={type === tab.value}
-            className={cn(
-              "px-6 md:px-8 lg:px-10 xl:px-11 py-2 md:py-2.5 lg:py-3 rounded-full text-xs md:text-sm lg:text-base font-medium transition-all duration-300",
+            aria-pressed={type === tab.value}              className={cn(
+              "px-5 md:px-6 lg:px-8 xl:px-11 py-1.5 md:py-2 lg:py-2.5 rounded-full text-xs md:text-sm lg:text-sm xl:text-base font-medium transition-all duration-300",
               type === tab.value
                 ? "bg-primary-blue text-white shadow-md shadow-primary-blue/25 scale-[1.02]"
                 : "bg-white text-secondary-black border border-[#D1D5DC] hover:border-primary-blue hover:text-primary-blue",
@@ -134,26 +133,26 @@ export default function ArtistSpotlightCard({
 
       {showSkeleton ? (
         <div className="overflow-hidden max-w-[940px] w-full mx-auto rounded-2xl md:rounded-3xl bg-white custom_border custom_shadow animate-pulse">
-          <div className="w-full h-[200px] sm:h-[260px] md:h-[300px] lg:h-[340px] xl:h-[440px] bg-secondary-gray" />
-          <div className="p-4 md:p-5 lg:p-6 xl:p-10 space-y-2.5 lg:space-y-3">
-            <div className="h-7 md:h-9 w-1/2 rounded-lg bg-secondary-gray" />
-            <div className="h-4 w-1/4 rounded bg-secondary-gray" />
-            <div className="h-4 w-full rounded bg-secondary-gray" />
-            <div className="h-4 w-3/4 rounded bg-secondary-gray" />
-            <div className="h-12 w-44 rounded-full bg-secondary-gray" />
+          <div className="w-full h-[170px] sm:h-[220px] md:h-[240px] lg:h-[270px] xl:h-[440px] bg-secondary-gray" />
+          <div className="p-3 md:p-4 lg:p-5 xl:p-10 space-y-2 lg:space-y-2.5">
+            <div className="h-5 md:h-7 w-1/2 rounded-lg bg-secondary-gray" />
+            <div className="h-3 w-1/4 rounded bg-secondary-gray" />
+            <div className="h-3 w-full rounded bg-secondary-gray" />
+            <div className="h-3 w-3/4 rounded bg-secondary-gray" />
+            <div className="h-9 w-36 rounded-full bg-secondary-gray" />
           </div>
         </div>
       ) : showEmpty ? (
-        <div className="max-w-[940px] w-full mx-auto rounded-xl lg:rounded-2xl xl:rounded-3xl bg-white custom_border custom_shadow p-6 md:p-8 lg:p-10 xl:p-16 flex flex-col items-center text-center">
-          <div className="size-10 md:size-12 lg:size-14 rounded-full bg-primary-blue/10 flex items-center justify-center mb-3 lg:mb-4">
-            <FiAward className="size-6 md:size-7 text-primary-blue" />
+        <div className="max-w-[940px] w-full mx-auto rounded-xl lg:rounded-2xl xl:rounded-3xl bg-white custom_border custom_shadow p-5 md:p-6 lg:p-8 xl:p-16 flex flex-col items-center text-center">
+          <div className="size-8 md:size-10 lg:size-12 rounded-full bg-primary-blue/10 flex items-center justify-center mb-2.5 lg:mb-3">
+            <FiAward className="size-5 md:size-6 text-primary-blue" />
           </div>
-          <h3 className="text-base md:text-lg lg:text-xl xl:text-2xl font-semibold text-primary-black">
+          <h3 className="text-sm md:text-base lg:text-lg xl:text-2xl font-semibold text-primary-black">
             {isError
               ? "Couldn't load the spotlight"
               : `No ${type} spotlight winner yet`}
           </h3>
-          <p className="text-xs md:text-sm lg:text-base text-secondary-black/70 mt-2 max-w-md">
+          <p className="text-xs md:text-xs lg:text-sm text-secondary-black/70 mt-1.5 max-w-md">
             {isError
               ? "Something went wrong while loading this week's winner. Please try again later."
               : `The ${type} winner for this week hasn't been announced. Check back soon!`}
@@ -169,7 +168,7 @@ export default function ArtistSpotlightCard({
             {showcaseMedia.length > 0 ? (
               <div className="w-full">
                 {/* Showcase media grid */}
-                <div className="relative w-full h-[200px] sm:h-[260px] md:h-[300px] lg:h-[340px] xl:h-[440px] overflow-hidden">
+                <div className="relative w-full h-[170px] sm:h-[220px] md:h-[240px] lg:h-[270px] xl:h-[440px] overflow-hidden">
                   {showcaseMedia.slice(0, 1).map((media, idx) => (
                     media.type === "video" ? (
                       <video
@@ -197,9 +196,9 @@ export default function ArtistSpotlightCard({
 
                 {/* Headshot + remaining showcase media thumbnails row */}
                 {(headshotSrc || showcaseMedia.length > 1) && (
-                  <div className="flex items-center gap-3 p-3 md:p-4">
+                  <div className="flex items-center gap-2.5 p-2.5 md:p-3">
                     {headshotSrc && (
-                      <div className="relative w-16 h-16 md:w-20 md:h-20 lg:w-24 lg:h-24 rounded-full overflow-hidden border-2 border-white shadow-md shrink-0">
+                      <div className="relative w-14 h-14 md:w-16 md:h-16 lg:w-20 lg:h-20 rounded-full overflow-hidden border-2 border-white shadow-md shrink-0">
                         <Image
                           src={headshotSrc}
                           fill
@@ -213,7 +212,7 @@ export default function ArtistSpotlightCard({
                       {showcaseMedia.slice(1).map((media) => (
                         <div
                           key={media.id}
-                          className="relative w-16 h-16 md:w-20 md:h-20 rounded-lg overflow-hidden border border-gray-200 shrink-0"
+                          className="relative w-14 h-14 md:w-16 md:h-16 rounded-lg overflow-hidden border border-gray-200 shrink-0"
                         >
                           {media.type === "video" ? (
                             <video
@@ -238,7 +237,7 @@ export default function ArtistSpotlightCard({
               </div>
             ) : (
               /* Fallback: show the main image with headshot overlay */
-              <div className="relative w-full h-[200px] sm:h-[260px] md:h-[300px] lg:h-[340px] xl:h-[440px]">
+              <div className="relative w-full h-[170px] sm:h-[220px] md:h-[240px] lg:h-[270px] xl:h-[440px]">
                 <Image
                   src={imageSrc}
                   fill
@@ -259,27 +258,27 @@ export default function ArtistSpotlightCard({
             )}
           </figure>
 
-          <div className="p-4 md:p-5 lg:p-6 xl:p-10 text-left">
+          <div className="p-3 md:p-4 lg:p-5 xl:p-10 text-left">
             {name && (
-              <h3 className="text-xl md:text-2xl lg:text-3xl xl:text-4xl font-bold text-primary-black mb-1.5 md:mb-2">
+              <h3 className="text-lg md:text-xl lg:text-2xl xl:text-4xl font-bold text-primary-black mb-1 md:mb-1.5">
                 {name}
               </h3>
             )}
 
             {cityState && (
-              <p className="inline-flex items-center gap-1.5 text-xs md:text-sm lg:text-base text-black/50 mb-3 lg:mb-4">
+              <p className="inline-flex items-center gap-1.5 text-xs md:text-xs lg:text-sm text-black/50 mb-2 lg:mb-3">
                 <FiMapPin className="size-4 shrink-0" />
                 {cityState}
               </p>
             )}
 
             {description && (
-              <p className="text-secondary-black text-xs md:text-sm lg:text-base xl:text-lg leading-relaxed">
+              <p className="text-secondary-black text-xs md:text-xs lg:text-sm xl:text-lg leading-relaxed">
                 {description}
               </p>
             )}
 
-            <div className="mt-4 md:mt-5 lg:mt-6 xl:mt-8">
+            <div className="mt-3 md:mt-3.5 lg:mt-4 xl:mt-8">
               {detailsHref ? (
                 <Link href={detailsHref}>
                   <Button>Spotlight details</Button>

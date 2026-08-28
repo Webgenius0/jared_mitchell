@@ -15,8 +15,7 @@ const FeaturedShopSkeleton = () => (
     id="featured-shop"
     className="container section rounded-[20px] custom_border bg-secondary-gray space-y-11 scroll-mt-24"
   >
-    <h2 className="section_title">Featured from the OSI Shop</h2>
-    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 px-8 mt-10">
+    <h2 className="section_title">Featured from the OSI Shop</h2>        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4 md:gap-5 px-6 mt-6">
       {[1, 2, 3, 4].map(i => (
         <div
           key={i}
@@ -64,7 +63,7 @@ const FeaturedShop = ({ products, isLoading }: FeaturedShopProps) => {
       >
         <h2 className="section_title">Featured from the OSI Shop</h2>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 lg:px-8 px-4 mt-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4 md:gap-5 lg:px-8 px-4 mt-6">
           {products.map(product => (
             <ShopCard
               data={mapProductToCardProps(product)}

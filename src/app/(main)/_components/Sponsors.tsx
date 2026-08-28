@@ -24,12 +24,12 @@ const Sponsors = ({ data, title, showButton = true }: SponsorsProps) => {
   if (logos.length === 0) return null;
 
   return (
-    <section className="py-10 md:py-12 lg:py-14 xl:py-20">
-      <h2 className="section_title text-center mb-3 md:mb-4 lg:mb-5 xl:mb-8">
+    <section className="py-6 md:py-8 lg:py-10 xl:py-20">
+      <h2 className="section_title text-center mb-2 md:mb-2.5 lg:mb-3 xl:mb-8">
         {title || data?.title || "Powered by our community partners"}
       </h2>
 
-      <div className="flex flex-col gap-5 my-5">
+      <div className="flex flex-col gap-3 my-3 lg:my-4">
         <SponsorSlider logos={logos} />
 
         {showButton && (

@@ -21,23 +21,23 @@ const OurImpact = ({ data: cmsData }: { data?: CMSAboutOurImpact }) => {
   }
 
   return (
-    <section className="py-8 md:py-8 lg:py-12 xl:py-30 container">
+    <section className="py-6 md:py-6 lg:py-8 xl:py-30 container">
       <div className="max-w-[1200px] mx-auto">
-        <h2 className="text-primary-black text-2xl md:text-2xl lg:text-3xl xl:text-5xl font-bold leading-[140%] text-center mb-2 md:mb-2.5 lg:mb-3">
+        <h2 className="text-primary-black text-xl md:text-xl lg:text-2xl xl:text-5xl font-bold leading-[140%] text-center mb-1.5 md:mb-2 lg:mb-2.5">
           {cmsData?.title || "Our Impact"}
         </h2>
 
-        <p className="text-[#1D1D1F] text-center text-sm md:text-base lg:text-lg xl:text-xl leading-[150%] max-w-[900px] mx-auto mb-5 md:mb-6 lg:mb-7 xl:mb-12">
+        <p className="text-[#1D1D1F] text-center text-xs md:text-sm lg:text-base xl:text-xl leading-[150%] max-w-[900px] mx-auto mb-3.5 md:mb-4 lg:mb-5 xl:mb-12">
           {cmsData?.sub_title || "Every story shared, every business spotlighted, and every celebration hosted contributes to a stronger, more connected community."}
         </p>
 
-        <div className="grid md:grid-cols-3 gap-3 md:gap-0 justify-between md:items-center">
+        <div className="grid md:grid-cols-3 gap-2.5 md:gap-0 justify-between md:items-center">
           {chunkedItems.map((chunk, chunkIdx) => (
             <div key={chunkIdx} className="space-y-4 md:space-y-5">
               {chunk.map((item, idx) => (
                 <div
                   key={idx}
-                  className="flex items-center gap-2 md:gap-2.5 text-[#364153] text-sm md:text-base lg:text-lg xl:text-xl"
+                  className="flex items-center gap-1.5 md:gap-2 text-[#364153] text-xs md:text-sm lg:text-base xl:text-xl"
                 >
                   <VisibilitySvg />
                   <span>{item}</span>

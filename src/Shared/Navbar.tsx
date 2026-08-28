@@ -103,7 +103,7 @@ const Navbar = () => {
   }, [pathname]);
 
   return (
-    <nav className="py-2.5 md:py-3 lg:py-3.5 xl:py-5 border-b border-[#0000001C] sticky top-0 z-50 bg-white">
+    <nav className="py-2 md:py-2.5 lg:py-3 xl:py-5 border-b border-[#0000001C] sticky top-0 z-50 bg-white">
       <div className="container">
         <div className="flex justify-between items-center">
           {/* Left */}
@@ -112,13 +112,13 @@ const Navbar = () => {
               <Image
                 src={logo}
                 alt="OSI logo"
-                className="h-20 md:h-20 lg:h-22 xl:h-24 w-auto"
+                className="h-16 md:h-16 lg:h-18 xl:h-24 w-auto"
                 priority
                 translate="no"
               />
             </Link>
 
-            <ul ref={navListRef} className="hidden lg:flex gap-4 justify-center  text-base lg:text-sm 2xl:text-base 2xl:gap-7 items-center">
+            <ul ref={navListRef} className="hidden lg:flex gap-3.5 justify-center text-sm lg:text-xs xl:text-sm 2xl:text-base 2xl:gap-7 items-center">
               {navLinks?.map((link) => {
                 const isActive = pathname === link?.path;
                 const hasSubMenu = Boolean(link?.subMenu?.length);

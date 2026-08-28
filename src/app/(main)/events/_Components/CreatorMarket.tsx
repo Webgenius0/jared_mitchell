@@ -21,10 +21,10 @@ const CreatorMarket = () => {
   };
 
   return (
-    <section className="py-20 container">
-      <div className="flex gap-16  items-center">
+    <section className="py-10 md:py-14 lg:py-16 xl:py-20 container">
+      <div className="flex flex-col lg:flex-row gap-6 lg:gap-10 xl:gap-16 items-center">
         {/* Left */}
-        <div className="w-[600px] h-[550px] rounded-lg relative overflow-hidden shrink-0">
+        <div className="w-full lg:w-[500px] xl:w-[600px] h-[300px] md:h-[400px] lg:h-[450px] xl:h-[550px] rounded-lg relative overflow-hidden shrink-0">
           <video
             ref={videoRef}
             src="/hero-video.mp4"
@@ -48,15 +48,15 @@ const CreatorMarket = () => {
 
         {/* Right */}
         <div className="">
-          <p className="text-primary-blue rounded-full w-fit bg-[#EFF6FF] px-4 py-1 mb-5">
+          <p className="text-primary-blue rounded-full w-fit bg-[#EFF6FF] px-3 py-0.5 md:py-1 text-xs md:text-sm mb-3 md:mb-4">
             Featured Event
           </p>
 
-          <h3 className="text-primary-black text-5xl font-bold leading-[140%] mb-5">
+          <h3 className="text-primary-black text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold leading-[140%] mb-3 md:mb-4">
             Indianapolis Creator Market
           </h3>
 
-          <div className="mb-5 space-y-2 text-[#1D1D1F] text-xl">
+          <div className="mb-3 md:mb-4 space-y-1.5 text-[#1D1D1F] text-sm md:text-base lg:text-lg">
             <p className="flex gap-2 items-center">
               <CalenderSvg />
               <span>Monday, December 15, 2025</span>
@@ -67,14 +67,14 @@ const CreatorMarket = () => {
             </p>
           </div>
 
-          <p className="text-2xl text-[#1D1D1F] leading-[150%] max-w-[80%] mb-12">
+          <p className="text-sm md:text-base lg:text-lg xl:text-2xl text-[#1D1D1F] leading-[150%] max-w-full xl:max-w-[80%] mb-6 md:mb-8">
             Join us for an evening of celebration, networking, and community
             building. This year's gala features live performances, a silent
             auction, and special guest speakers from across the region.
           </p>
 
           <div className="">
-            <button className="flex-1 rounded-full cursor-pointer bg-primary-blue text-white py-3 font-normal text-lg !w-fit px-5">
+            <button className="flex-1 rounded-full cursor-pointer bg-primary-blue text-white py-2 md:py-2.5 font-normal text-sm md:text-base !w-fit px-4">
               Booking Event Ticket
             </button>
             {/* <button className="flex-1 rounded-full cursor-pointer text-primary-blue bg-transparent border-2 border-[#1977DD] py-3 font-bold text-lg">

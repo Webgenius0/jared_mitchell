@@ -263,7 +263,7 @@ const UpcomingEvents = () => {
         >
           {events.map(event => (
             <SwiperSlide key={event.id}>
-              <div className="w-full rounded-lg lg:rounded-xl xl:rounded-[20px] bg-[#F5F5F7] custom_shadow border border-gray-200 overflow-hidden mx-3">
+              <div className="w-full rounded-lg lg:rounded-lg xl:rounded-[20px] bg-[#F5F5F7] custom_shadow border border-gray-200 overflow-hidden mx-3">
                 <div className="relative w-full">
                   <div className="absolute size-full bg-[linear-gradient(0deg,_rgba(0,0,0,0.5)_0%,_rgba(0,0,0,0.5)_100%)]" />
                   <Image
@@ -271,27 +271,26 @@ const UpcomingEvents = () => {
                     width={500}
                     height={300}
                     alt={event.title}
-                    className="object-cover w-full h-[180px] md:h-[200px] lg:h-[220px] xl:h-[260px]"
+                    className="object-cover w-full h-[160px] md:h-[170px] lg:h-[190px] xl:h-[260px]"
                   />
                 </div>
 
-                <div className="py-3 md:py-3.5 lg:py-4 xl:py-5 px-2.5 md:px-3 xl:px-5">
-                  <h2 className="text-base md:text-lg lg:text-xl text-primary-black font-semibold">
+                <div className="py-2.5 md:py-2.5 lg:py-3 xl:py-5 px-2 md:px-2.5 xl:px-5">
+                  <h2 className="text-sm md:text-base lg:text-base xl:text-xl text-primary-black font-semibold">
                     {event.title}
                   </h2>
 
-                  <p className="text-sm md:text-base lg:text-lg xl:text-xl text-primary-black flex items-center gap-1.5 lg:gap-2 mt-1 lg:mt-2">
+                  <p className="text-xs md:text-sm lg:text-sm xl:text-xl text-primary-black flex items-center gap-1.5 lg:gap-2 mt-1 lg:mt-1.5">
                     <PiCalendarBlank className="text-primary-blue" />
                     {formatDate(event.starts_at)}
                   </p>
 
-                  <p className="text-sm md:text-base lg:text-lg xl:text-xl text-primary-black flex items-center gap-1.5 lg:gap-2 mt-1 lg:mt-2">
+                  <p className="text-xs md:text-sm lg:text-sm xl:text-xl text-primary-black flex items-center gap-1.5 lg:gap-2 mt-1 lg:mt-1.5">
                     <GrLocation className="text-primary-blue" />
                     {event.city}, {event.state}
                   </p>
 
-                  <div className="pb-3 md:pb-3.5 lg:pb-4 my-3 lg:my-4 border-b border-gray-200 flex items-center justify-between">
-                    <div className="flex items-center gap-4">
+                  <div className="pb-2.5 md:pb-2.5 lg:pb-3 my-2 lg:my-2.5 border-b border-gray-200 flex items-center justify-between">                        <div className="flex items-center gap-3">
                       {/* Like */}
                       <button
                         onClick={() => handleToggleLike(event.id)}
@@ -304,12 +303,12 @@ const UpcomingEvents = () => {
                             : "group-hover:!bg-red-50 group-hover:!border-red-200"
                         }`}>
                           {getEngagement(event.id).is_liked ? (
-                            <FaHeart className="size-4 md:size-[18px] text-red-500 transition-all duration-300 scale-110" />
+                            <FaHeart className="size-3.5 md:size-4 text-red-500 transition-all duration-300 scale-110" />
                           ) : (
-                            <FaRegHeart className="size-4 md:size-[18px] text-primary-black transition-all duration-300 group-hover:scale-110" />
+                            <FaRegHeart className="size-3.5 md:size-4 text-primary-black transition-all duration-300 group-hover:scale-110" />
                           )}
                         </div>
-                        <span className="text-secondary-black text-sm md:text-base lg:text-lg xl:text-xl">
+                        <span className="text-secondary-black text-xs md:text-sm lg:text-sm xl:text-xl">
                           {getEngagement(event.id).like_count.toLocaleString()}
                         </span>
                       </button>
@@ -326,12 +325,12 @@ const UpcomingEvents = () => {
                             : "group-hover:!bg-blue-50 group-hover:!border-primary-blue"
                         }`}>
                           {getEngagement(event.id).is_bookmarked ? (
-                            <FaBookmark className="size-4 md:size-[18px] text-primary-blue transition-all duration-300 scale-110" />
+                            <FaBookmark className="size-3.5 md:size-4 text-primary-blue transition-all duration-300 scale-110" />
                           ) : (
-                            <FaRegBookmark className="size-4 md:size-[18px] text-primary-black transition-all duration-300 group-hover:scale-110" />
+                            <FaRegBookmark className="size-3.5 md:size-4 text-primary-black transition-all duration-300 group-hover:scale-110" />
                           )}
                         </div>
-                        <span className="text-secondary-black text-sm md:text-base lg:text-lg xl:text-xl">
+                        <span className="text-secondary-black text-xs md:text-sm lg:text-sm xl:text-xl">
                           {getEngagement(event.id).is_bookmarked ? "Saved" : "Save"}
                         </span>
                       </button>
@@ -342,9 +341,9 @@ const UpcomingEvents = () => {
                         className="flex items-center gap-1.5 lg:gap-2 group cursor-pointer"
                       >
                         <div className="flex items-center justify-center size-5 md:size-6 aspect-square rounded-full bg-white custom_shadow custom_border group-hover:!bg-green-50 group-hover:!border-green-400 transition-all duration-300">
-                          <RxShare1 className="size-4 md:size-[18px] text-primary-black transition-all duration-300 group-hover:scale-110 group-hover:text-green-600" />
+                          <RxShare1 className="size-3.5 md:size-4 text-primary-black transition-all duration-300 group-hover:scale-110 group-hover:text-green-600" />
                         </div>
-                        <span className="text-secondary-black text-sm md:text-base lg:text-lg xl:text-xl">Share</span>
+                        <span className="text-secondary-black text-xs md:text-sm lg:text-sm xl:text-xl">Share</span>
                       </button>
                     </div>
                   </div>

@@ -115,7 +115,7 @@ const CommunityAchievements = ({
       </p>
 
       {winners.length > 0 && (
-        <div className="my-5 md:mt-8">
+        <div className="my-4 md:mt-6">
           <div className="relative">
             {winners.length > 1 && (
               <>
@@ -125,7 +125,7 @@ const CommunityAchievements = ({
                     goToPrev();
                   }}
                   aria-label="Previous winners"
-                  className="absolute left-1 sm:left-4 top-1/2 -translate-y-1/2 z-10 size-9 rounded-full bg-white shadow-md grid place-items-center hover:bg-slate-50 border border-slate-200 transition-transform hover:scale-105"
+                  className="absolute left-1 sm:left-4 top-1/2 -translate-y-1/2 z-10 size-8 rounded-full bg-white shadow-md grid place-items-center hover:bg-slate-50 border border-slate-200 transition-transform hover:scale-105"
                 >
                   <LuArrowLeft className="text-lg" />
                 </button>
@@ -135,7 +135,7 @@ const CommunityAchievements = ({
                     goToNext();
                   }}
                   aria-label="Next winners"
-                  className="absolute right-1 sm:right-4 top-1/2 -translate-y-1/2 z-10 size-9 rounded-full bg-white shadow-md grid place-items-center hover:bg-slate-50 border border-slate-200 transition-transform hover:scale-105"
+                  className="absolute right-1 sm:right-4 top-1/2 -translate-y-1/2 z-10 size-8 rounded-full bg-white shadow-md grid place-items-center hover:bg-slate-50 border border-slate-200 transition-transform hover:scale-105"
                 >
                   <LuArrowRight className="text-lg" />
                 </button>
@@ -146,7 +146,7 @@ const CommunityAchievements = ({
               ref={scrollerRef}
               onScroll={handleScroll}
               onPointerDown={pauseAutoplay}
-              className="flex gap-5 overflow-x-auto overscroll-x-contain snap-x snap-mandatory scroll-smooth [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden pb-2 px-1"
+              className="flex gap-3.5 lg:gap-4 overflow-x-auto overscroll-x-contain snap-x snap-mandatory scroll-smooth [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden pb-2 px-1"
             >
               {winners.map(winner => {
                 const title =
@@ -162,10 +162,10 @@ const CommunityAchievements = ({
                 return (
                   <li
                     key={winner.id}
-                    className="shrink-0 snap-start w-[80%] sm:w-[65%] md:w-1/2 lg:w-[40%] xl:w-1/4"
+                    className="shrink-0 snap-start w-[75%] sm:w-[60%] md:w-[45%] lg:w-[35%] xl:w-1/4"
                   >
                     <Link href={linkHref}>
-                      <div className="relative w-full h-[220px] md:h-[240px] lg:h-[260px] xl:h-[280px] group cursor-pointer">
+                      <div className="relative w-full h-[190px] md:h-[200px] lg:h-[220px] xl:h-[280px] group cursor-pointer">
                         <Image
                           src={cardImage}
                           fill
@@ -175,19 +175,19 @@ const CommunityAchievements = ({
 
                         <div className="absolute inset-0 bg-[linear-gradient(0deg,_rgba(0,0,0,0.60)_36%,_rgba(0,0,0,0.20)_63%,_rgba(0,0,0,0.00)_100%)] rounded-xl transition-opacity duration-300 group-hover:opacity-90">
                           {/* Category */}
-                          <div className="absolute top-3 left-3 md:top-4 md:left-4 bg-white py-0.5 px-2 md:py-1 md:px-3 rounded-full text-primary-black text-xs md:text-sm font-medium">
+                          <div className="absolute top-2.5 left-2.5 md:top-3 md:left-3 bg-white py-0.5 px-2 md:py-0.5 md:px-2.5 rounded-full text-primary-black text-[10px] md:text-xs font-medium">
                             {category}
                           </div>
 
                           {/* Season badge */}
-                          <div className="absolute top-3 right-3 md:top-4 md:right-4 bg-primary-blue/90 text-white py-0.5 px-2 md:py-1 md:px-3 rounded-full text-[10px] md:text-xs font-medium backdrop-blur-sm">
+                          <div className="absolute top-2.5 right-2.5 md:top-3 md:right-3 bg-primary-blue/90 text-white py-0.5 px-2 md:py-0.5 md:px-2.5 rounded-full text-[9px] md:text-[10px] font-medium backdrop-blur-sm">
                             {winner.season.title}
                           </div>
 
                           {/* Bottom Content */}
-                          <div className="absolute bottom-3 left-3 right-3 md:bottom-4 md:left-4 md:right-4 flex justify-between items-end">
-                            <div className="space-y-1 lg:space-y-1.5 flex-1 min-w-0">
-                              <h4 className="text-sm md:text-base lg:text-lg xl:text-xl font-semibold text-white truncate">
+                          <div className="absolute bottom-2.5 left-2.5 right-2.5 md:bottom-3 md:left-3 md:right-3 flex justify-between items-end">
+                            <div className="space-y-0.5 lg:space-y-1 flex-1 min-w-0">
+                              <h4 className="text-xs md:text-sm lg:text-base xl:text-xl font-semibold text-white truncate">
                                 {title}
                               </h4>
                               {description && (
@@ -200,7 +200,7 @@ const CommunityAchievements = ({
                               )}
                             </div>
 
-                            <div className="text-white flex items-center gap-2 text-sm whitespace-nowrap ml-3 shrink-0 transition-transform duration-300 group-hover:translate-x-1">
+                            <div className="text-white flex items-center gap-1.5 text-xs lg:text-sm whitespace-nowrap ml-2 shrink-0 transition-transform duration-300 group-hover:translate-x-1">
                               View Spotlight
                               <LuArrowRight className="transition-transform duration-300 group-hover:translate-x-0.5" />
                             </div>
