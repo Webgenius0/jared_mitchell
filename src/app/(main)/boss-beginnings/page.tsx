@@ -1,11 +1,11 @@
-import NewBusiness from "./_components/NewBusiness";
-import NewsLetter from "@/Components/Common/NewsLetter";
-import WinnerReceives from "./_components/WinnerReceives";
 import BusinessShower from "./_components/BusinessShower";
-import BossBeginningHero from "./_components/BossBeginningHero";
-import BossBeginningBanner from "./_components/BossBeginningBanner";
-import BusinessChosenChart from "./_components/BusinessChosenChart";
 import BossBeginningWinner from "./_components/BossBeginningWinner";
+import NewBusiness from "./_components/NewBusiness";
+import WinnerReceives from "./_components/WinnerReceives";
+import NewsLetter from "@/Components/Common/NewsLetter";
+import BossBeginningBanner from "./_components/BossBeginningBanner";
+import BossBeginningHero from "./_components/BossBeginningHero";
+import BusinessChosenChart from "./_components/BusinessChosenChart";
 import {
   getBossCms,
   getCMSHomepageData,
@@ -24,9 +24,10 @@ import {
   VideoChannelItem,
 } from "@/Types/cms";
 import Sponsors from "../_components/Sponsors";
-import BossBeginningGuide from "./_components/BossBeginningGuide";
 import BossBeginningSponsor from "./_components/BossBeginningSponsor";
+import BossBeginningGuide from "./_components/BossBeginningGuide";
 import ActiveRoundCountdown from "./_components/ActiveRoundCountdown";
+import BossBeginningsContestCarousel from "@/Components/Common/BossBeginningsContestCarousel";
 import CommunityAchievements from "../_components/CommunityAchievements";
 
 const page = async () => {

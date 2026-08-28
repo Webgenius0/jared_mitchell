@@ -20,7 +20,7 @@ const FAQAccordion = ({ data: cmsData }: { data?: CMSFAQ[] }) => {
           Frequently Asked Questions
         </h2>
 
-        <div className="space-y-2.5 md:space-y-3 lg:space-y-4 xl:space-y-7 mt-4 md:mt-5 lg:mt-7">
+        <div className="space-y-2.5 md:space-y-3 lg:space-y-4 xl:space-y-7 mt-4 md:mt-5 lg:mt-7 2xl:px-5 3xl:px-5">
           {items.map(faq => (
             <div
               key={faq.id}

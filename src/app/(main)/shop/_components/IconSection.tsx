@@ -67,7 +67,7 @@ const IconSection = ({ data }: IconSectionProps) => {
   return (
     <div className="section">
       <Container>
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-5">
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-5 ">
           {items.map((item, index) => (
             <div
               key={index}

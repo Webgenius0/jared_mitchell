@@ -329,7 +329,7 @@ const FeaturedEventsCarousel = ({ events }: FeaturedEventsCarouselProps) => {
           <>
             <button
               onClick={goToPrev}
-              className="absolute left-0 lg:-left-10 top-1/2 -translate-y-1/2 size-10 md:size-12 rounded-full bg-white shadow-lg flex items-center justify-center z-20 cursor-pointer hover:bg-primary-blue hover:text-white transition-all duration-300 group"
+              className="absolute left-0 lg:-left-6 top-1/2 -translate-y-1/2 size-10 md:size-12 rounded-full bg-white shadow-lg flex items-center justify-center z-20 cursor-pointer hover:bg-primary-blue hover:text-white transition-all duration-300 group"
               aria-label="Previous event"
             >
               <PiCaretLeftBold className="size-4 md:size-5 group-hover:scale-110 transition-transform" />

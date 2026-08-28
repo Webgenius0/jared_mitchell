@@ -317,7 +317,7 @@ const SpotlightCountdown = () => {
   }
 
   return (
-    <section className="py-8 md:py-10 lg:py-14 xl:py-20">
+    <section className="py-8 md:py-10 lg:py-14 xl:py-20  2xl:px-5 3xl:px-5">
       <Container>
         <div className="relative overflow-hidden rounded-3xl md:rounded-[2rem]">
           {/* Animated gradient background */}
