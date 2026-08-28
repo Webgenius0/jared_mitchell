@@ -12,7 +12,7 @@ const page = async () => {
   const CmsData = await getCMSAboutData();
 
   return (
-    <>
+    <div className="xl:px-5">
       <ContactBanner />
       <GetInTouch />
       <TalentApplication />
@@ -24,7 +24,7 @@ const page = async () => {
         title="Proudly supported by our community partners"
       />
       <NewsLetter title="Be part of the movement. Get stories, updates, and opportunities straight to your inbox." />
-    </>
+    </div>
   );
 };
 

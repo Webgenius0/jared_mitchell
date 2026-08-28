@@ -119,9 +119,11 @@ const page = async () => {
         pastSixMonthsWinners={pastSixMonthsWinners}
       />
 
-      <WinnerReceives data={pageData?.boss_beginnings_dynamic} />
-
+      <div className="xl:px-5">
+        <WinnerReceives data={pageData?.boss_beginnings_dynamic} />
       <BossBeginningGuide />
+      </div>
+
 
       <BossBeginningSponsor />
 
