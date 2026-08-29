@@ -73,18 +73,18 @@ const BossBeginnings = ({
             bring the community together to give resources and opportunities.`;
 
   return (
-    <section className="text-center bg-[#F5F5F7] py-6 md:py-6 lg:py-7 2xl:py-12">
+    <section className="text-center bg-[#F5F5F7] py-8 md:py-10 lg:py-10 2xl:py-12">
       <div className="container">
-        <h2 className="text-primary-black text-xl md:text-xl lg:text-2xl xl:text-4xl 2xl:text-6xl font-bold leading-tight xl:leading-[1.1] tracking-[-1.28px]">
+        <h2 className="text-primary-black text-2xl md:text-3xl lg:text-3xl xl:text-4xl 2xl:text-6xl font-bold leading-tight xl:leading-[1.1] tracking-[-1.28px]">
           {data?.title || "OSI Top Business Award"}
         </h2>
-        <h3 className="section_title mt-0.5 md:mt-1">
+        <h3 className="section_title mt-1 md:mt-2">
           {data?.sub_title || "A Business Shower"}
         </h3>
 
-        <div className="max-w-[1179px] w-full mx-auto my-3 md:my-4 lg:my-6">
-          {/* Main media area */}
-          <div className="relative w-full h-[140px] sm:h-[180px] md:h-[200px] lg:h-[230px] xl:h-[420px] rounded-xl md:rounded-xl lg:rounded-2xl overflow-hidden">
+        <div className="max-w-[1179px] w-full mx-auto my-3 md:w-[620px] md:mx-auto md:my-4 lg:w-[620px] lg:mx-auto lg:my-4 xl:max-w-[1179px] xl:w-full xl:my-6">
+          {/* Main media area — original on mobile/large device, fixed & same for tab+laptop */}
+          <div className="relative w-full aspect-video overflow-hidden">
             <div className="absolute top-0 left-0 size-full bg-black/40 z-[1]" />
             {mediaItems.length > 0 ? (
               <Image
@@ -107,12 +107,12 @@ const BossBeginnings = ({
             {winner && (winnerName || winner.season?.title) && (
               <div className="absolute top-4 left-4 right-4 z-10 flex flex-wrap items-center justify-center gap-2 sm:justify-between">
                 {winnerName && (
-                  <span className="max-w-[70%] truncate bg-white/95 text-primary-black px-3 py-1.5 rounded-full text-sm font-medium">
+                  <span className="max-w-[70%] truncate bg-white/95 text-primary-black px-3 py-1.5 text-sm font-medium">
                     {winnerName}
                   </span>
                 )}
                 {winner.season?.title && (
-                  <span className="bg-[#155DFC] text-white px-3 py-1.5 rounded-full text-sm font-medium backdrop-blur-sm">
+                  <span className="bg-[#155DFC] text-white px-3 py-1.5 text-sm font-medium backdrop-blur-sm">
                     {winner.season.title}
                   </span>
                 )}
@@ -122,9 +122,9 @@ const BossBeginnings = ({
 
           {/* Headshot + media thumbnails row */}
           {(headshotSrc || mediaItems.length > 1) && (
-            <div className="flex items-center gap-2.5 mt-2 md:mt-3">
+            <div className="flex items-center gap-3 mt-3 md:mt-4">
               {headshotSrc && (
-                <div className="relative w-12 h-12 md:w-14 md:h-14 lg:w-16 lg:h-16 rounded-full overflow-hidden border-2 border-white shadow-md shrink-0">
+                <div className="relative w-14 h-14 md:w-16 md:h-16 lg:w-16 lg:h-16 xl:w-20 xl:h-20 overflow-hidden border-2 border-white shadow-md shrink-0">
                   <Image
                     src={headshotSrc}
                     fill
@@ -133,11 +133,12 @@ const BossBeginnings = ({
                     className="object-cover"
                   />
                 </div>
-              )}                <div className="flex gap-1.5 overflow-x-auto">
+              )}
+              <div className="flex gap-2 overflow-x-auto">
                 {mediaItems.slice(1).map((src, idx) => (
                   <div
                     key={idx}
-                    className="relative w-12 h-12 md:w-13 md:h-13 rounded-lg overflow-hidden border border-gray-200 shrink-0"
+                    className="relative w-14 h-14 md:w-16 md:h-16 lg:w-16 lg:h-16 overflow-hidden border border-gray-200 shrink-0"
                   >
                     <Image
                       src={src}
@@ -153,11 +154,12 @@ const BossBeginnings = ({
           )}
         </div>
 
-        <div className="text-secondary-black max-w-4xl mx-auto text-[11px] md:text-xs lg:text-sm xl:text-xl"
+        <div
+          className="text-secondary-black max-w-4xl mx-auto text-xs md:text-sm lg:text-sm xl:text-base 2xl:text-xl"
           dangerouslySetInnerHTML={{ __html: description }}
         />
 
-        <div className="flex flex-wrap items-center justify-center gap-2 md:gap-2.5 lg:gap-3 xl:gap-6 mt-3 md:mt-4 xl:mt-8">
+        <div className="flex flex-wrap items-center justify-center gap-2 md:gap-4 lg:gap-4 xl:gap-6 mt-4 md:mt-5 lg:mt-5 xl:mt-8">
           <Button
             variant={"outline"}
             onClick={handleNominate}

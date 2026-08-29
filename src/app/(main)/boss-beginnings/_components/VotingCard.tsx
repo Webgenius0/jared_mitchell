@@ -16,7 +16,7 @@ const VotingCard: React.FC<CardProps> = ({ imageUrl, title, author, description,
   const percentage = ((votes / totalVotes) * 100).toFixed(1);
 
   return (
-    <div className="bg-white rounded-2xl custom_shadow custom_border overflow-hidden">
+    <div className="bg-white custom_shadow custom_border overflow-hidden">
       <figure className='w-full h-[401px] relative'>
         <div className='size-full absolute bg-black/30' />
         <Image src={imageUrl} width={762} height={401} alt={title} className="size-full object-cover" />

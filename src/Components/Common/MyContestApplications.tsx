@@ -100,7 +100,7 @@ const MyContestApplications = () => {
   };
 
   return (
-    <div className="bg-white rounded-2xl border border-slate-100 overflow-hidden">
+    <div className="bg-white border border-slate-100 overflow-hidden">
       {/* Header */}
       <div className="flex items-center justify-between px-5 md:px-6 py-4 md:py-5">
         <div>

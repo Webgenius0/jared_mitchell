@@ -74,7 +74,7 @@ export default function PurchaseList({
 
   return (
     <>
-      <div className=" bg-white rounded-2xl border border-slate-100 overflow-hidden">
+      <div className=" bg-white border border-slate-100 overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full min-w-[720px] border-collapse">
             <thead>

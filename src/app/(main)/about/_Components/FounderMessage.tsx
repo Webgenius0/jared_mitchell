@@ -12,17 +12,17 @@ const FounderMessage = ({ data }: { data?: CMSAboutFounderMessage }) => {
 
       <div className="flex flex-col md:flex-row justify-center gap-3 md:gap-4 lg:gap-5 xl:gap-14 items-center">
         {/* Left */}
-        <figure className="w-full md:w-[200px] lg:w-[220px] xl:w-[300px] h-[250px] md:h-[260px] lg:h-[290px] xl:h-[400px] rounded-xl shrink-0 relative">
+        <figure className="w-full md:w-[200px] lg:w-[220px] xl:w-[300px] h-[250px] md:h-[260px] lg:h-[290px] xl:h-[400px] shrink-0 relative">
           <Image
             src={founder?.image || author}
             alt="author"
             fill
-            className="w-full h-full rounded-xl object-cover"
+            className="w-full h-full object-cover"
           />
         </figure>
 
         {/* Right */}
-        <div className="rounded-xl max-w-[666.672px] p-3 md:p-4 lg:p-5 xl:p-12 border-l-4 md:border-l-6 lg:border-l-8 border-l-primary-blue shadow-[0_4px_20px_0_rgba(0,0,0,0.07)]">
+        <div className="max-w-[666.672px] p-3 md:p-4 lg:p-5 xl:p-12 border-l-4 md:border-l-6 lg:border-l-8 border-l-primary-blue shadow-[0_4px_20px_0_rgba(0,0,0,0.07)]">
           <blockquote className="text-[#364153] leading-[150%] text-xs md:text-sm lg:text-base xl:text-2xl mb-3 lg:mb-4">
             "{founder?.message || `Our Social Image was built with love, purpose, and belief in
             people. This platform exists to highlight the culture of our society

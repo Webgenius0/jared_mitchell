@@ -347,7 +347,7 @@ const FeaturedEventsCarousel = ({ events }: FeaturedEventsCarouselProps) => {
         {/* Left - Video (with image fallback) */}
         <div
           key={event.id}
-          className="w-full lg:w-[400px] xl:w-[600px] h-[220px] sm:h-[280px] md:h-[340px] lg:h-[380px] xl:h-[550px] rounded-lg relative overflow-hidden shrink-0 bg-black"
+          className="w-full lg:w-[400px] xl:w-[600px] h-[220px] sm:h-[280px] md:h-[340px] lg:h-[380px] xl:h-[550px] relative overflow-hidden shrink-0 bg-black"
         >
           {event.promo_video_url ? (
             <>
@@ -356,14 +356,14 @@ const FeaturedEventsCarousel = ({ events }: FeaturedEventsCarouselProps) => {
                 src={event.promo_video_url}
                 muted={isMuted}
                 playsInline
-                className="w-full h-full object-cover rounded-lg"
+                className="w-full h-full object-cover"
                 onClick={togglePlay}
                 onEnded={() => setIsPlaying(false)}
               />
               {!isPlaying && (
                 <div
                   onClick={togglePlay}
-                  className="absolute inset-0 flex items-center justify-center bg-black/20 cursor-pointer rounded-lg"
+                  className="absolute inset-0 flex items-center justify-center bg-black/20 cursor-pointer"
                 >
                   <PlayIcon />
                 </div>
@@ -374,7 +374,7 @@ const FeaturedEventsCarousel = ({ events }: FeaturedEventsCarouselProps) => {
               src={event.cover_image_url}
               alt={event.title}
               fill
-              className="object-cover rounded-lg"
+              className="object-cover"
               sizes="(max-width: 768px) 100vw, 600px"
               priority
             />

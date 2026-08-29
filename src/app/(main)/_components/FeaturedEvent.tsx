@@ -358,7 +358,7 @@ const FeaturedEvent = ({ events }: FeaturedEventProps) => {
 
         <div
           key={event.id}
-          className="lg:basis-1/2 relative w-full h-[220px] sm:h-[260px] md:h-[300px] lg:h-[320px] xl:h-[460px] 2xl:h-[520px] rounded-xl md:rounded-2xl xl:rounded-[40px] overflow-hidden bg-black"
+          className="lg:basis-1/2 relative w-full h-[220px] sm:h-[260px] md:h-[300px] lg:h-[320px] xl:h-[460px] 2xl:h-[520px] overflow-hidden bg-black"
         >
           {event.promo_video_url ? (
             <>
@@ -367,14 +367,14 @@ const FeaturedEvent = ({ events }: FeaturedEventProps) => {
                 src={event.promo_video_url}
                 muted={isMuted}
                 playsInline
-                className="w-full h-full object-cover rounded-2xl md:rounded-3xl xl:rounded-[40px]"
+                className="w-full h-full object-cover"
                 onClick={togglePlay}
                 onEnded={() => setIsPlaying(false)}
               />
               {!isPlaying && (
                 <div
                   onClick={togglePlay}
-                  className="absolute inset-0 flex items-center justify-center bg-black/20 cursor-pointer rounded-2xl md:rounded-3xl xl:rounded-[40px]"
+                  className="absolute inset-0 flex items-center justify-center bg-black/20 cursor-pointer"
                 >
                   <PlayIcon />
                 </div>
@@ -385,7 +385,7 @@ const FeaturedEvent = ({ events }: FeaturedEventProps) => {
               src={event.cover_image_url || "/home/featured-event-img.jpg"}
               fill
               alt={event.title || "featured event"}
-              className="size-full object-cover rounded-xl md:rounded-2xl xl:rounded-[40px]"
+              className="size-full object-cover"
             />
           )}
 

@@ -210,7 +210,7 @@ const RichTextEditor = ({
       </label>
 
       <div
-        className={`bg-white rounded-2xl border overflow-hidden ${
+        className={`bg-white border overflow-hidden ${
           error ? "border-red-300" : "border-slate-200"
         }`}
       >

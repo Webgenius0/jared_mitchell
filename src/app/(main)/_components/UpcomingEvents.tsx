@@ -263,7 +263,7 @@ const UpcomingEvents = () => {
         >
           {events.map(event => (
             <SwiperSlide key={event.id}>
-              <div className="w-full rounded-lg lg:rounded-lg xl:rounded-[20px] bg-[#F5F5F7] custom_shadow border border-gray-200 overflow-hidden mx-3">
+              <div className="w-full bg-[#F5F5F7] custom_shadow border border-gray-200 overflow-hidden mx-3">
                 <div className="relative w-full">
                   <div className="absolute size-full bg-[linear-gradient(0deg,_rgba(0,0,0,0.5)_0%,_rgba(0,0,0,0.5)_100%)]" />
                   <Image

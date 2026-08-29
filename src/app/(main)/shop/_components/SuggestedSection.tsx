@@ -70,7 +70,7 @@ export default function SuggestedSection({
                 <Link href={`/shop/${item?.slug}`} className="block">
                   <div>
                     {/* Media Header */}
-                    <div className="w-full aspect-square bg-[#F5F5F7] rounded-xl overflow-hidden mb-4 relative">
+                    <div className="w-full aspect-video bg-[#F5F5F7] overflow-hidden mb-4 relative">
                       <img
                         src={imageSrc}
                         alt={item.title}

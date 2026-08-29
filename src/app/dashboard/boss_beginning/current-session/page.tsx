@@ -61,7 +61,7 @@ const CurrentSessionPage = () => {
 
   return (
     <div className="space-y-6">
-      <div className="rounded-2xl border border-slate-100 bg-white overflow-hidden shadow-sm">
+      <div className="border border-slate-100 bg-white overflow-hidden shadow-sm">
         {/* Header */}
         <div className="bg-blue-600 px-6 py-5 md:px-8 md:py-6 flex items-center gap-3">
           <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center shrink-0">

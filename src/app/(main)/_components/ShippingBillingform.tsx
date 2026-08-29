@@ -360,7 +360,7 @@ export default function ShippingBillingForm(): React.JSX.Element {
           <div className="mt-4 flex flex-col gap-4">
             {buyNowItem ? (
               <div className="flex items-center gap-3">
-                <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-lg bg-gray-100 overflow-hidden">
+                <div className="flex h-14 w-14 shrink-0 items-center justify-center bg-gray-100 overflow-hidden">
                   <img
                     src={buyNowItem.thumbnail || "/fallback-product.png"}
                     alt={buyNowItem.name || "Product"}
@@ -392,7 +392,7 @@ export default function ShippingBillingForm(): React.JSX.Element {
 
                 return (
                   <div key={item.id} className="flex items-center gap-3">
-                    <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-lg bg-gray-100 overflow-hidden">
+                    <div className="flex h-14 w-14 shrink-0 items-center justify-center bg-gray-100 overflow-hidden">
                       <img
                         src={imageSrc}
                         alt={product?.name || "Product"}
