@@ -65,12 +65,12 @@ export default function SuggestedSection({
             return (
               <div
                 key={item.id}
-                className="rounded-2xl border border-gray-100 shadow-sm p-4 flex flex-col justify-between group bg-white"
+                className="border border-gray-100 shadow-sm p-4 flex flex-col justify-between group bg-white"
               >
                 <Link href={`/shop/${item?.slug}`} className="block">
                   <div>
                     {/* Media Header */}
-                    <div className="w-full aspect-square bg-[#F5F5F7] rounded-xl overflow-hidden mb-4 relative">
+                    <div className="w-full aspect-square bg-[#F5F5F7] overflow-hidden mb-4 relative">
                       <img
                         src={imageSrc}
                         alt={item.title}

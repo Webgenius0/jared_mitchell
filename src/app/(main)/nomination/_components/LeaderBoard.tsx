@@ -3,7 +3,7 @@ const LeaderBoard = () => {
   // instead of fabricated timeline and quarterly-cycle content.
   return (
     <div>
-      <div className="rounded-2xl custom_border custom_shadow bg-white p-10 sm:p-16 flex flex-col items-center text-center">
+      <div className="custom_border custom_shadow bg-white p-10 sm:p-16 flex flex-col items-center text-center">
         <h4 className="text-[#101828] text-xl md:text-2xl font-medium mb-2">
           No Leaderboard Yet
         </h4>

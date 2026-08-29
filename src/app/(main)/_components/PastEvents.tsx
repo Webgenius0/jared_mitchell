@@ -46,7 +46,7 @@ const PastEvents = () => {
         {paginatedEvents.map(event => (
           <div
             key={event.id}
-            className="rounded-[20px] custom_border custom_shadow bg-[#F5F5F7] overflow-hidden"
+            className=" custom_border custom_shadow bg-[#F5F5F7] overflow-hidden"
           >
             <div className="relative flex items-center justify-center w-full h-[200px] sm:h-[220px] md:h-[240px] lg:h-[260px]">
               <Image

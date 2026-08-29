@@ -92,7 +92,7 @@ const OSIApparel = ({ data, featuredProducts }: OSIApparelProps) => {
 
                       {/* Tag */}
                       {item.tag && (
-                        <span className="absolute top-3 right-3 sm:top-4 sm:right-4 bg-white text-black text-xs font-medium px-2 py-0.5 sm:px-3 sm:py-1 rounded-full z-10">
+                        <span className="absolute top-3 right-3 sm:top-4 sm:right-4 bg-white text-black text-xs font-medium px-2 py-0.5 sm:px-3 sm:py-1  z-10">
                           {item.tag}
                         </span>
                       )}

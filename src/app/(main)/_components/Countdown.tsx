@@ -45,7 +45,7 @@ export default function Countdown({ data }: CountdownProps) {
 
   const Item = ({ value, label }: { value: number; label: string }) => (
     <div className="flex flex-col gap-2 md:gap-2.5 lg:gap-3 items-center">
-      <div className="bg-white custom_border custom_shadow rounded-[10px] px-3 md:px-3.5 lg:px-4 py-2 md:py-2 lg:py-2.5 text-primary-blue text-base md:text-lg lg:text-xl xl:text-2xl text-center">
+      <div className="bg-white custom_border custom_shadow px-3 md:px-3.5 lg:px-4 py-2 md:py-2 lg:py-2.5 text-primary-blue text-base md:text-lg lg:text-xl xl:text-2xl text-center">
         {String(value).padStart(2, "0")}
       </div>
       <span className="max-sm:text-sm text-[#62748E] text-center">{label}</span>
@@ -55,7 +55,7 @@ export default function Countdown({ data }: CountdownProps) {
   return (
     <section className="section">
       <Container>
-        <div className="w-full bg-primary-gray rounded-xl lg:rounded-[20px] py-7 md:py-8 lg:py-10 text-center custom_border">
+        <div className="w-full bg-primary-gray py-7 md:py-8 lg:py-10 text-center custom_border">
           <h2 className="text-lg md:text-xl lg:text-2xl xl:text-3xl font-semibold md:font-bold text-primary-black mb-5 md:mb-6 lg:mb-8">
             {data?.season?.title ||
               "Next OSI Top Business Award – Westside Beauty Lounge"}

@@ -22,7 +22,7 @@ const SponsorshipLevel = ({ data }: SponsorshipLevelProps) => {
         {membershipPlans?.map((plan, idx) => (
           <div
             key={idx}
-            className="bg-white custom_shadow custom_border rounded-xl lg:rounded-2xl px-4 md:px-5 py-6 md:py-7 lg:py-8 flex flex-col justify-between gap-6 lg:gap-[35px] h-full"
+            className="bg-white custom_shadow custom_border px-4 md:px-5 py-6 md:py-7 lg:py-8 flex flex-col justify-between gap-6 lg:gap-[35px] h-full"
           >
             <div>
               <div className="flex gap-2.5 lg:gap-3 items-center mb-3 lg:mb-4">

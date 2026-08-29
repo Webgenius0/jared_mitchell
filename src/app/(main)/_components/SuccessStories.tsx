@@ -80,7 +80,7 @@ const SuccessStories = ({ cmsData, winners, type }: SuccessStoriesProps) => {
                     className="object-contain rounded-lg h-full w-full"
                   />
 
-                  <div className="absolute inset-0 bg-[linear-gradient(0deg,_rgba(0,0,0,0.60)_36%,_rgba(0,0,0,0.20)_63%,_rgba(0,0,0,0.00)_100%)] rounded-lg">
+                  <div className="absolute inset-0 bg-[linear-gradient(0deg,_rgba(0,0,0,0.60)_36%,_rgba(0,0,0,0.20)_63%,_rgba(0,0,0,0.00)_100%)]">
                     <div className="absolute top-4 left-4 bg-white py-1 px-3 rounded-full text-primary-black text-sm">
                       {item.category ||
                         (type === "business" ? "Business" : "Artist")}

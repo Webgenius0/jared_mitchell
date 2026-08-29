@@ -67,7 +67,7 @@ const DigitalResources = () => {
         </p>
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 mt-12">
           {resources?.map((resource) => (
-            <div key={resource.id} className="px-5 py-6 space-y-3 bg-[#EFF6FF] custom_border custom_shadow rounded-xl">
+            <div key={resource.id} className="px-5 py-6 space-y-3 bg-[#EFF6FF] custom_border custom_shadow">
               <div className="flex justify-between">
                 <div className="bg-primary-blue text-white flex items-center justify-center size-[70px] rounded-full">
                   {<resource.icon />}

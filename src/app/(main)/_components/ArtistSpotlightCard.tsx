@@ -133,7 +133,7 @@ export default function ArtistSpotlightCard({
       </div>
 
       {showSkeleton ? (
-        <div className="overflow-hidden max-w-[940px] w-full mx-auto rounded-2xl md:rounded-3xl bg-white custom_border custom_shadow animate-pulse">
+        <div className="overflow-hidden max-w-[940px] w-full mx-auto bg-white custom_border custom_shadow animate-pulse">
           <div className="w-full h-[200px] sm:h-[260px] md:h-[300px] lg:h-[340px] xl:h-[440px] bg-secondary-gray" />
           <div className="p-4 md:p-5 lg:p-6 xl:p-10 space-y-2.5 lg:space-y-3">
             <div className="h-7 md:h-9 w-1/2 rounded-lg bg-secondary-gray" />
@@ -144,7 +144,7 @@ export default function ArtistSpotlightCard({
           </div>
         </div>
       ) : showEmpty ? (
-        <div className="max-w-[940px] w-full mx-auto rounded-xl lg:rounded-2xl xl:rounded-3xl bg-white custom_border custom_shadow p-6 md:p-8 lg:p-10 xl:p-16 flex flex-col items-center text-center">
+        <div className="max-w-[940px] w-full mx-auto bg-white custom_border custom_shadow p-6 md:p-8 lg:p-10 xl:p-16 flex flex-col items-center text-center">
           <div className="size-10 md:size-12 lg:size-14 rounded-full bg-primary-blue/10 flex items-center justify-center mb-3 lg:mb-4">
             <FiAward className="size-6 md:size-7 text-primary-blue" />
           </div>
@@ -162,7 +162,7 @@ export default function ArtistSpotlightCard({
       ) : (
         <div
           key={type}
-          className="group overflow-hidden  w-full mx-auto rounded-2xl md:rounded-3xl bg-white custom_border custom_shadow fade-up"
+          className="group overflow-hidden  w-full mx-auto bg-white custom_border custom_shadow fade-up"
         >
           <figure className="relative w-full overflow-hidden bg-secondary-gray">
             {/* Main media area: show headshot + showcase media if available */}

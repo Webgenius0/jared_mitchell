@@ -29,7 +29,7 @@ const page = async () => {
               pageData?.sponsorship_page_video?.sub_title ??
               "/home/hero-video.mp4"
             }
-            className={"!rounded-[40px]"}
+            className={""}
           />
         </div>
       </section>

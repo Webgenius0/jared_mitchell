@@ -198,7 +198,7 @@ export default function Page() {
                 </h3>
 
                 {selectedBusiness.videoThumbnail && (
-                  <div className="relative rounded-2xl overflow-hidden border border-slate-200">
+                  <div className="relative aspect-square overflow-hidden border border-slate-200">
                     <img
                       src={selectedBusiness.videoThumbnail}
                       alt="Video thumbnail"
@@ -226,7 +226,7 @@ export default function Page() {
                           key={i}
                           src={src}
                           alt={`Gallery ${i + 1}`}
-                          className="w-full object-cover rounded-xl border border-slate-200"
+                          className="w-full aspect-square object-cover border border-slate-200"
                         />
                       ))}
                     </div>

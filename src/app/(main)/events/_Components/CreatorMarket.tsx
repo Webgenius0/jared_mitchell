@@ -24,13 +24,13 @@ const CreatorMarket = () => {
     <section className="py-20 container">
       <div className="flex gap-16  items-center">
         {/* Left */}
-        <div className="w-[600px] h-[550px] rounded-lg relative overflow-hidden shrink-0">
+        <div className="w-[600px] h-[550px] relative overflow-hidden shrink-0">
           <video
             ref={videoRef}
             src="/hero-video.mp4"
             muted={isMuted}
             playsInline
-            className="w-full h-full object-cover rounded-lg"
+            className="w-full h-full object-cover"
             onClick={togglePlay}
             onEnded={() => setIsPlaying(false)}
           />

@@ -68,7 +68,7 @@ const HowSponsorshipWorks = ({ data }: HowSponsorshipWorksProps) => {
           {mainSteps.map((step, idx) => (
             <div
               key={idx}
-              className="bg-white max-lg:col-span-2 custom_border custom_shadow rounded-xl lg:rounded-2xl flex flex-col gap-3 lg:gap-4 justify-center p-4 md:p-5 lg:p-6 h-fit"
+              className="bg-white max-lg:col-span-2 custom_border custom_shadow flex flex-col gap-3 lg:gap-4 justify-center p-4 md:p-5 lg:p-6 h-fit"
             >
               <p className="text-lg md:text-xl lg:text-2xl text-primary-black font-semibold">
                 {step.title}
@@ -88,7 +88,7 @@ const HowSponsorshipWorks = ({ data }: HowSponsorshipWorksProps) => {
           ))}
 
           {lastStep && (
-            <div className="bg-white col-span-2 max-w-[762px] w-full mx-auto custom_border custom_shadow rounded-xl lg:rounded-2xl flex flex-col gap-3 lg:gap-4 justify-center p-4 md:p-5 lg:p-6 h-fit">
+            <div className="bg-white col-span-2 max-w-[762px] w-full mx-auto custom_border custom_shadow flex flex-col gap-3 lg:gap-4 justify-center p-4 md:p-5 lg:p-6 h-fit">
               <p className="text-lg md:text-xl lg:text-2xl text-primary-black font-semibold">
                 {lastStep.title}
               </p>

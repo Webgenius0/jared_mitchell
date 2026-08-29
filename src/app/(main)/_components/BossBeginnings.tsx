@@ -84,7 +84,7 @@ const BossBeginnings = ({
 
         <div className="max-w-[1179px] w-full mx-auto my-3 md:my-4 lg:my-6">
           {/* Main media area */}
-          <div className="relative w-full h-[160px] sm:h-[200px] md:h-[240px] lg:h-[280px] xl:h-[420px] rounded-xl md:rounded-2xl lg:rounded-[32px] overflow-hidden">
+          <div className="relative w-full h-[160px] sm:h-[200px] md:h-[240px] lg:h-[280px] xl:h-[420px] overflow-hidden">
             <div className="absolute top-0 left-0 size-full bg-black/40 z-[1]" />
             {mediaItems.length > 0 ? (
               <Image

@@ -71,7 +71,7 @@ const IconSection = ({ data }: IconSectionProps) => {
           {items.map((item, index) => (
             <div
               key={index}
-              className="space-y-2 py-10 px-[94px] rounded-xl custom_border custom_shadow bg-secondary-gray flex flex-col items-center justify-center text-center"
+              className="space-y-2 py-10 px-[94px] custom_border custom_shadow bg-secondary-gray flex flex-col items-center justify-center text-center"
             >
               <div className="size-[100px] flex items-center justify-center rounded-full bg-primary-blue/15 text-primary-blue mb-3">
                 <item.icon />

@@ -64,7 +64,7 @@ const PurchaseSupports = ({ data }: PurchaseSupportsProps) => {
             {items.map((item, index) => (
               <div
                 key={index}
-                className="space-y-2 p-5 rounded-xl custom_border custom_shadow bg- flex flex-col items-center bg-white justify-center text-center"
+                className="space-y-2 p-5 custom_border custom_shadow bg- flex flex-col items-center bg-white justify-center text-center"
               >
                 <div className="size-[100px] flex items-center justify-center rounded-full bg-primary-blue/15 text-primary-blue mb-3">
                   <item.icon />

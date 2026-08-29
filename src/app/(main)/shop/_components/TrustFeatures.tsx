@@ -30,12 +30,12 @@ const TrustFeatures = ({ data }: TrustFeaturesProps) => {
   return (
     <section className="section">
       <Container>
-        <div className="bg-white rounded-2xl custom_border pb-6 pt-15 px-5">
+        <div className="bg-white custom_border pb-6 pt-15 px-5">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {items.map((item, index) => (
               <div
                 key={index}
-                className="bg-secondary-gray rounded-xl px-6 py-6 custom_border"
+                className="bg-secondary-gray px-6 py-6 custom_border"
               >
                 <h3 className="text-2xl font-semibold text-primary-black mb-2 text-center">
                   {item.title}

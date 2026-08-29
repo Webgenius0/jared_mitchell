@@ -32,7 +32,7 @@ const SpotlightOfTheWeek = () => {
             Winner from last week's Final 6
           </p>
         </div>
-        <div className="mt-6 md:mt-8 py-5 md:py-6 lg:py-8 px-4 md:px-5 flex flex-col lg:flex-row lg:justify-between gap-4 bg-secondary-gray rounded-xl lg:rounded-2xl custom_border custom_shadow">
+        <div className="mt-6 md:mt-8 py-5 md:py-6 lg:py-8 px-4 md:px-5 flex flex-col lg:flex-row lg:justify-between gap-4 bg-secondary-gray custom_border custom_shadow">
           <div className="flex gap-3 md:gap-4 lg:gap-5">
             <figure className="size-[60px]">
               <Image

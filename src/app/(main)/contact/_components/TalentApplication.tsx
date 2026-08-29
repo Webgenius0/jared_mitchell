@@ -23,7 +23,7 @@ const TalentApplication = () => {
             .map((_, index) => (
               <div
                 key={index}
-                className="flex flex-col gap-4 md:gap-5 lg:gap-6 rounded-xl lg:rounded-2xl custom_border custom_shadow bg-white overflow-hidden"
+                className="flex flex-col gap-4 md:gap-5 lg:gap-6 custom_border custom_shadow bg-white overflow-hidden"
               >
                 <figure className="h-[200px] md:h-[240px] lg:h-[280px] xl:h-[300px] relative">
                   <div className="size-full absolute bg-black/60" />

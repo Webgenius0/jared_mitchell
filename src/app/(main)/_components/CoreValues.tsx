@@ -71,20 +71,20 @@ const CoreValues = ({ data: cmsData }: { data?: CMSCoreValue }) => {
         </h2>
 
         {/* Desktop / tablet view */}
-        <div className="w-full overflow-hidden hidden lg:flex items-center justify-center rounded-xl lg:rounded-2xl relative isolate min-h-[240px] lg:min-h-[280px] xl:min-h-[320px]">
+        <div className="w-full overflow-hidden hidden lg:flex items-center justify-center relative isolate min-h-[240px] lg:min-h-[280px] xl:min-h-[320px]">
           <Image
             src={cmsData?.bg || coreValueBg}
             fill
             alt="home banner"
-            className="object-cover w-full rounded-2xl z-0"
+            className="object-cover w-full z-0"
           />
 
-          <div className="w-full relative z-10 bg-[linear-gradient(0deg,rgba(255,255,255,0.40),rgba(255,255,255,0.40))] rounded-2xl">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2.5 md:gap-3 lg:gap-4 xl:gap-5 2xl:gap-10 p-3 md:p-4 lg:p-6 xl:p-8 2xl:p-12">
+          <div className="w-full relative z-10 bg-[linear-gradient(0deg,rgba(255,255,255,0.40),rgba(255,255,255,0.40))]">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2.5 md:gap-3 lg:gap-10 p-3 md:p-4 lg:p-6 xl:p-8 2xl:p-12">
               {values?.map(val => (
                 <div
                   key={val.id}
-                  className="rounded-xl lg:rounded-2xl border space-y-3 lg:space-y-4 border-[rgba(0,0,0,0.16)] bg-white shadow-[0_4px_20px_0_rgba(0,0,0,0.07)] p-3 lg:py-3 xl:py-4 2xl:py-6 lg:px-4 xl:px-6 2xl:px-8"
+                  className="border space-y-3 lg:space-y-4 border-[rgba(0,0,0,0.16)] bg-white shadow-[0_4px_20px_0_rgba(0,0,0,0.07)] p-3 lg:py-3 xl:py-4 2xl:py-6 lg:px-4 xl:px-6 2xl:px-8"
                 >
                   <div className="flex gap-2.5 lg:gap-3 items-center">
                     {val.image ? (
@@ -124,7 +124,7 @@ const CoreValues = ({ data: cmsData }: { data?: CMSCoreValue }) => {
           {values?.map(val => (
             <div
               key={val.id}
-              className="rounded-xl lg:rounded-2xl border space-y-3 border-[rgba(0,0,0,0.16)] bg-white shadow-[0_4px_20px_0_rgba(0,0,0,0.07)] p-3 lg:py-4 2xl:py-6 lg:px-4 xl:px-6 2xl:px-8"
+              className="border space-y-3 border-[rgba(0,0,0,0.16)] bg-white shadow-[0_4px_20px_0_rgba(0,0,0,0.07)] p-3 lg:py-4 2xl:py-6 lg:px-4 xl:px-6 2xl:px-8"
             >
               <div className="flex gap-2.5 lg:gap-3 items-center">
                 {val.image ? (

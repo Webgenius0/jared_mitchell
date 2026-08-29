@@ -20,7 +20,7 @@ const VideoTile = ({ item }: { item: VideoItem }) => {
 
   if (hasVideo && playing) {
     return (
-      <div className="rounded-2xl lg:rounded-3xl overflow-hidden aspect-[4/3]">
+      <div className="overflow-hidden aspect-square">
         <CustomVideoPlayer videoSrc={item.video} />
       </div>
     );
@@ -30,7 +30,7 @@ const VideoTile = ({ item }: { item: VideoItem }) => {
     <button
       type="button"
       onClick={() => hasVideo && setPlaying(true)}
-      className={`relative w-full aspect-[4/3] rounded-2xl lg:rounded-3xl overflow-hidden group ${
+      className={`relative w-full aspect-square overflow-hidden group ${
         hasVideo ? "" : "cursor-default"
       }`}
     >

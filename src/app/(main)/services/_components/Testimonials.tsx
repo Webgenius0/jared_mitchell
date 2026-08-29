@@ -13,7 +13,7 @@ export default function Testimonials() {
         {testimonials.map(testimonial => (
           <div
             key={testimonial.id}
-            className="bg-white rounded-xl lg:rounded-2xl custom_border custom_shadow p-4 md:p-4 lg:p-5 xl:p-6 space-y-3 lg:space-y-4"
+            className="bg-white custom_border custom_shadow p-4 md:p-4 lg:p-5 xl:p-6 space-y-3 lg:space-y-4"
           >
             <div className="flex items-center gap-1">
               {Array.from({ length: testimonial.rating }).map((_, i) => (

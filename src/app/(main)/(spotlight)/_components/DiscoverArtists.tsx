@@ -241,7 +241,7 @@ const DiscoverArtists = ({
                 <Link
                   key={nomineeId || index}
                   href={getDetailsHref(nominee)}
-                  className="group relative block rounded-xl lg:rounded-2xl overflow-hidden custom_shadow bg-white transition-shadow duration-300 hover:shadow-lg cursor-pointer"
+                  className="group relative block overflow-hidden custom_shadow bg-white transition-shadow duration-300 hover:shadow-lg cursor-pointer"
                 >
                   {/* Image */}
                   <div className="relative w-full aspect-[4/3]">

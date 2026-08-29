@@ -141,7 +141,7 @@ const PricingPlan = ({ plans }: { plans?: PricingPlanType[] }) => {
               return (
                 <div
                   key={plan.id}
-                  className={`group relative flex flex-col custom_shadow rounded-xl lg:rounded-2xl custom_border px-4 md:px-5 py-6 md:py-7 lg:py-8 transition-all hover:bg-primary-blue hover:text-white hover:border-blue-600 ${
+                  className={`group relative flex flex-col custom_shadow custom_border px-4 md:px-5 py-6 md:py-7 lg:py-8 transition-all hover:bg-primary-blue hover:text-white hover:border-blue-600 ${
                     isCurrent
                       ? "bg-white text-primary-black border-gray-200 ring-2 ring-primary-blue"
                       : "bg-white text-primary-black border-gray-200"

@@ -11,14 +11,14 @@ const CreativeJourney = ({ data }: { data?: CMSArtistSpotlightInterview }) => {
         <p className="section_sub_title">
           {data?.sub_title || "Celebrating our community's achievements and creative milestones"}
         </p>
-        <div className="max-w-[1048px] w-full mx-auto rounded-xl custom_border custom_shadow bg-white space-y-8 p-5 md:p-[30px]">
+        <div className="max-w-[1048px] w-full mx-auto custom_border custom_shadow bg-white space-y-8 p-5 md:p-[30px]">
           <figure className="w-full h-[300px] md:h-[400px]">
             <Image
               src={data?.image || "/spotlight/artist-pick-img.jpg"}
               width={988}
               height={400}
               alt=""
-              className="size-full object-cover rounded-3xl"
+              className="size-full object-cover"
             />
           </figure>
           <div className="space-y-6">

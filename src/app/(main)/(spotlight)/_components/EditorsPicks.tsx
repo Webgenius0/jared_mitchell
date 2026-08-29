@@ -63,7 +63,7 @@ const EditorsPicks = ({
               {data?.map((item: any, index: number) => (
                 <div
                   key={item.id || index}
-                  className="bg-white p-5 md:p-6 lg:p-[30px] rounded-xl custom_border custom_shadow"
+                  className="bg-white p-5 md:p-6 lg:p-[30px] custom_border custom_shadow"
                 >
                   <figure className="w-full">
                     <Image
@@ -79,7 +79,7 @@ const EditorsPicks = ({
                       }
                       width={500}
                       height={290}
-                      className="w-full h-[200px] md:h-[240px] lg:h-[290px] object-cover rounded-2xl lg:rounded-3xl"
+                      className="w-full h-[200px] md:h-[240px] lg:h-[290px] object-cover"
                     />
                   </figure>
 

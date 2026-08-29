@@ -14,7 +14,7 @@ const WeeklyTimeline = ({ title, events }: WeeklyTimelineProps) => {
   // No timeline content — show an empty state instead of fabricated events.
   if (!events || events.length === 0) {
     return (
-      <div className="bg-[#F5F5F7] custom_border rounded-2xl p-8 md:p-12 custom_shadow !space-y-8 container">
+      <div className="bg-[#F5F5F7] custom_border p-8 md:p-12 custom_shadow !space-y-8 container">
         <h2 className="section_title 2xl:!text-6xl text-center">
           {title || "Weekly Timeline"}
         </h2>

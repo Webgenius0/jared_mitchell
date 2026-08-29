@@ -17,7 +17,7 @@ const Hero = ({ data }: { data?: CMSHero }) => {
         {data?.sub_title}
       </p>
 
-      <div className="flex items-center justify-center my-2 md:my-6 lg:my-8 overflow-hidden max-w-5xl lg:max-w-6xl rounded-xl lg:rounded-2xl mx-auto">
+      <div className="flex items-center justify-center my-2 md:my-6 lg:my-8 overflow-hidden max-w-5xl lg:max-w-6xl mx-auto">
         <CustomVideoPlayer
           videoSrc={data?.video || "/home/hero-video.mp4"}
           className=""

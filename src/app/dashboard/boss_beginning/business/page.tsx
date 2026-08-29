@@ -375,7 +375,7 @@ export default function Page() {
                     return (
                       <div
                         key={item.id || i}
-                        className="aspect-video rounded-xl overflow-hidden border border-slate-200 bg-slate-50"
+                        className="aspect-square overflow-hidden border border-slate-200 bg-slate-50"
                       >
                         {item.mime_type?.startsWith("video/") ? (
                           <video

@@ -378,7 +378,7 @@ const Page = () => {
                 <p className="text-xs md:text-sm text-slate-400 mb-2">
                   Behind the Scenes
                 </p>
-                <div className="relative aspect-video rounded-xl overflow-hidden bg-slate-100">
+                <div className="relative aspect-square overflow-hidden bg-slate-100">
                   <Image
                     src={spotlight.media.behind_scenes_photo}
                     alt="Behind the scenes"
@@ -397,7 +397,7 @@ const Page = () => {
                 <video
                   src={spotlight.media.intro_video}
                   controls
-                  className="w-full aspect-video rounded-xl bg-slate-900"
+                  className="w-full aspect-square bg-slate-900"
                 />
               </div>
             )}
