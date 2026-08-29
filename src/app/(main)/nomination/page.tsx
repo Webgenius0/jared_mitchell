@@ -20,12 +20,12 @@ const Page = () => {
     <section>
       <Container>
         {/* Tabs */}
-        <div className="w-full border-b border-[#E5E7EB] flex items-center gap-6 my-[40px]">
+        <div className="w-full border-b border-[#E5E7EB] flex items-center gap-4 md:gap-5 my-6 md:my-8">
           {tabs.map((item) => (
             <button
               key={item.id}
               onClick={() => setActiveTab(item.id)}
-              className={`pb-4 px-4 md:px-6 relative font-medium transition-colors
+              className={`pb-3 px-3 md:px-4 lg:px-5 relative font-medium text-sm md:text-base transition-colors
                 ${
                   activeTab === item.id
                     ? "text-[#155DFC] border-b-2 border-[#155DFC]"

@@ -3,7 +3,7 @@ import { CMSFeature } from "@/Types/cms";
 
 const PoweredByOSI = ({ data }: { data?: CMSFeature }) => {
   return (
-    <section className="w-full h-[200px] md:h-[240px] lg:h-[260px] xl:h-[340px] overflow-hidden flex items-center relative">
+    <section className="w-full h-[200px] md:h-[220px] lg:h-[240px] xl:h-[340px] overflow-hidden flex items-center relative">
       <Image
         src={data?.bg || "/home/home-banner-1.jpg"}
         fill
@@ -16,7 +16,7 @@ const PoweredByOSI = ({ data }: { data?: CMSFeature }) => {
         <div className="flex flex-col container w-full mx-auto h-full items-center justify-center text-center px-4">
           <h2 className="section_title !text-white">{data?.title}</h2>
 
-          <p className="section_sub_title max-w-[1280px] mx-auto !text-[#F5F5F7] mt-2 md:mt-3">
+          <p className="section_sub_title max-w-[1280px] mx-auto !text-[#F5F5F7] mt-1.5 md:mt-2">
             {data?.description}
           </p>
         </div>

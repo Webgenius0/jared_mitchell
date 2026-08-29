@@ -71,7 +71,7 @@ const CoreValues = ({ data: cmsData }: { data?: CMSCoreValue }) => {
         </h2>
 
         {/* Desktop / tablet view */}
-        <div className="w-full overflow-hidden hidden lg:flex items-center justify-center rounded-xl lg:rounded-2xl relative isolate min-h-[240px] lg:min-h-[280px] xl:min-h-[320px]">
+        <div className="w-full overflow-hidden hidden lg:flex items-center justify-center rounded-xl lg:rounded-2xl relative isolate min-h-[200px] lg:min-h-[220px] xl:min-h-[320px]">
           <Image
             src={cmsData?.bg || coreValueBg}
             fill
@@ -80,13 +80,13 @@ const CoreValues = ({ data: cmsData }: { data?: CMSCoreValue }) => {
           />
 
           <div className="w-full relative z-10 bg-[linear-gradient(0deg,rgba(255,255,255,0.40),rgba(255,255,255,0.40))] rounded-2xl">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2.5 md:gap-3 lg:gap-4 xl:gap-5 2xl:gap-10 p-3 md:p-4 lg:p-6 xl:p-8 2xl:p-12">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 md:gap-2.5 lg:gap-3 xl:gap-5 2xl:gap-10 p-2.5 md:p-3 lg:p-4 xl:p-8 2xl:p-12">
               {values?.map(val => (
                 <div
                   key={val.id}
-                  className="rounded-xl lg:rounded-2xl border space-y-3 lg:space-y-4 border-[rgba(0,0,0,0.16)] bg-white shadow-[0_4px_20px_0_rgba(0,0,0,0.07)] p-3 lg:py-3 xl:py-4 2xl:py-6 lg:px-4 xl:px-6 2xl:px-8"
+                  className="rounded-xl lg:rounded-2xl border space-y-2 lg:space-y-2.5 border-[rgba(0,0,0,0.16)] bg-white shadow-[0_4px_20px_0_rgba(0,0,0,0.07)] p-2.5 lg:py-2.5 xl:py-4 2xl:py-6 lg:px-3 xl:px-6 2xl:px-8"
                 >
-                  <div className="flex gap-2.5 lg:gap-3 items-center">
+                  <div className="flex gap-2 lg:gap-2.5 items-center">
                     {val.image ? (
                       <div className="size-8 lg:size-10 xl:size-13 rounded-full overflow-hidden border border-[#D6E5F5] shadow-[0_4px_20px_0_rgba(0,0,0,0.07)] bg-[#D6E5F5] shrink-0 relative">
                         <Image
@@ -101,16 +101,16 @@ const CoreValues = ({ data: cmsData }: { data?: CMSCoreValue }) => {
                       <div className="size-8 lg:size-10 xl:size-13 rounded-full bg-[#D6E5F5] shrink-0" />
                     )}
 
-                    <h3 className="text-sm lg:text-base xl:text-lg 2xl:text-xl text-primary-black font-semibold truncate">
+                    <h3 className="text-xs lg:text-sm xl:text-lg 2xl:text-xl text-primary-black font-semibold truncate">
                       {val?.title}
                     </h3>
                   </div>
 
-                  <h4 className="text-xs lg:text-sm xl:text-base font-medium text-primary-black">
+                  <h4 className="text-xs lg:text-xs xl:text-base font-medium text-primary-black">
                     {val?.sub_title}
                   </h4>
 
-                  <p className="text-xs lg:text-sm xl:text-base text-secondary-black">
+                  <p className="text-[11px] lg:text-xs xl:text-base text-secondary-black">
                     {val?.description}
                   </p>
                 </div>
@@ -126,7 +126,7 @@ const CoreValues = ({ data: cmsData }: { data?: CMSCoreValue }) => {
               key={val.id}
               className="rounded-xl lg:rounded-2xl border space-y-3 border-[rgba(0,0,0,0.16)] bg-white shadow-[0_4px_20px_0_rgba(0,0,0,0.07)] p-3 lg:py-4 2xl:py-6 lg:px-4 xl:px-6 2xl:px-8"
             >
-              <div className="flex gap-2.5 lg:gap-3 items-center">
+              <div className="flex gap-2 lg:gap-2.5 items-center">
                 {val.image ? (
                   <div className="size-8 lg:size-10 xl:size-13 rounded-full overflow-hidden border border-[#D6E5F5] shadow-[0_4px_20px_0_rgba(0,0,0,0.07)] bg-[#D6E5F5] shrink-0 relative">
                     <Image
@@ -141,16 +141,12 @@ const CoreValues = ({ data: cmsData }: { data?: CMSCoreValue }) => {
                   <div className="size-8 lg:size-10 xl:size-13 rounded-full bg-[#D6E5F5] shrink-0" />
                 )}
 
-                <h3 className="text-sm lg:text-base xl:text-lg 2xl:text-xl text-primary-black font-semibold truncate">
+                <h3 className="text-xs lg:text-sm xl:text-lg 2xl:text-xl text-primary-black font-semibold truncate">
                   {val?.title}
                 </h3>
-              </div>
-
-              <h4 className="text-xs lg:text-sm xl:text-base font-medium text-primary-black">
+              </div>                <h4 className="text-xs lg:text-xs xl:text-base font-medium text-primary-black">
                 {val?.sub_title}
-              </h4>
-
-              <p className="text-xs lg:text-sm xl:text-base text-secondary-black">
+              </h4>                <p className="text-[11px] lg:text-xs xl:text-base text-secondary-black">
                 {val?.description}
               </p>
             </div>

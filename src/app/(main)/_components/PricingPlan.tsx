@@ -132,8 +132,8 @@ const PricingPlan = ({ plans }: { plans?: PricingPlanType[] }) => {
       <div className="container">
         <h2 className="section_title">Choose Your Growth Plan</h2>
 
-        <div className="w-full py-5 md:py-10 xl:py-16">
-          <div className="grid gap-3 md:gap-3.5 lg:gap-4 xl:gap-6 md:grid-cols-2 xl:grid-cols-4">
+        <div className="w-full py-4 md:py-6 lg:py-8 xl:py-16">
+          <div className="grid gap-2.5 md:gap-3 lg:gap-3.5 xl:gap-6 md:grid-cols-2 xl:grid-cols-4">
             {pricingPlans.map(plan => {
               const isLoading = isPlanLoading(plan.id);
               const isCurrent = currentPlanId === plan.id;
@@ -141,7 +141,7 @@ const PricingPlan = ({ plans }: { plans?: PricingPlanType[] }) => {
               return (
                 <div
                   key={plan.id}
-                  className={`group relative flex flex-col custom_shadow rounded-xl lg:rounded-2xl custom_border px-4 md:px-5 py-6 md:py-7 lg:py-8 transition-all hover:bg-primary-blue hover:text-white hover:border-blue-600 ${
+                  className={`group relative flex flex-col custom_shadow rounded-xl lg:rounded-2xl custom_border px-3.5 md:px-4 lg:px-5 py-5 md:py-5 lg:py-6 transition-all hover:bg-primary-blue hover:text-white hover:border-blue-600 ${
                     isCurrent
                       ? "bg-white text-primary-black border-gray-200 ring-2 ring-primary-blue"
                       : "bg-white text-primary-black border-gray-200"
@@ -164,24 +164,24 @@ const PricingPlan = ({ plans }: { plans?: PricingPlanType[] }) => {
                       Current Plan
                     </span>
                   )}
-                  <h3 className="text-base md:text-lg lg:text-xl xl:text-2xl font-semibold uppercase">
+                  <h3 className="text-sm md:text-base lg:text-lg xl:text-2xl font-semibold uppercase">
                     {plan.title}
                   </h3>
-                  <div className="mt-1.5 md:mt-2 flex items-end gap-1">
-                    <span className="text-xl md:text-2xl lg:text-3xl xl:text-4xl">
+                  <div className="mt-1 md:mt-1.5 flex items-end gap-1">
+                    <span className="text-lg md:text-xl lg:text-2xl xl:text-4xl">
                       {plan.price}
                     </span>
                     <span className="text-sm opacity-70">{plan.period}</span>
                   </div>
-                  <p className="mt-3 md:mt-4 text-sm md:text-base lg:text-xl">Best for:</p>
+                  <p className="mt-2.5 md:mt-3 text-xs md:text-sm lg:text-base xl:text-xl">Best for:</p>
                   <p className="">{plan.bestFor}</p>
-                  <div className="mt-4 md:mt-5 lg:mt-6 space-y-4 md:space-y-5 lg:space-y-6">
+                  <div className="mt-3 md:mt-3.5 lg:mt-4 space-y-3 md:space-y-3.5 lg:space-y-4">
                     {plan.sections.map(section => (
                       <div key={section.title}>
-                        <h4 className="mb-3 md:text-lg font-medium">
+                        <h4 className="mb-2 md:mb-2.5 text-sm md:text-base font-medium">
                           {section.title}
                         </h4>
-                        <ul className="space-y-2">
+                        <ul className="space-y-1.5">
                           {section?.items?.map(item => (
                             <li key={item} className="flex gap-2">
                               <IoCheckmarkOutline
@@ -196,8 +196,8 @@ const PricingPlan = ({ plans }: { plans?: PricingPlanType[] }) => {
                   </div>
 
                   <div className="mt-auto">
-                    <div className="my-4 md:my-5 lg:my-6 border-t border-gray-200 pt-4 md:pt-5 lg:pt-6 opacity-80">
-                      <p className="text-sm md:text-base lg:text-xl mb-1 text-primary-blue group-hover:text-white">
+                    <div className="my-3 md:my-3.5 lg:my-4 border-t border-gray-200 pt-3 md:pt-3.5 lg:pt-4 opacity-80">
+                      <p className="text-xs md:text-sm lg:text-base xl:text-xl mb-1 text-primary-blue group-hover:text-white">
                         Outcome:
                       </p>
                       {plan.outcome}

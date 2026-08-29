@@ -4,15 +4,15 @@ import { CMSAboutWhoWeServe } from "@/Types/cms";
 
 const WeServe = ({ data }: { data?: CMSAboutWhoWeServe }) => {
   return (
-    <section className="py-8 md:py-8 lg:py-12 xl:py-20">
-      <div className="container grid md:grid-cols-2 gap-4 md:gap-6 lg:gap-8 xl:gap-20 items-center">
+    <section className="py-6 md:py-6 lg:py-8 xl:py-20">
+      <div className="container grid md:grid-cols-2 gap-3 md:gap-5 lg:gap-6 xl:gap-20 items-center">
         {/* Left */}
         <div>
-          <h2 className="text-primary-black text-2xl md:text-2xl lg:text-3xl xl:text-5xl font-bold leading-[140%] max-w-[602px] mb-2 md:mb-2.5 lg:mb-3 xl:mb-5">
+          <h2 className="text-primary-black text-xl md:text-xl lg:text-2xl xl:text-5xl font-bold leading-[140%] max-w-[602px] mb-1.5 md:mb-2 lg:mb-2.5 xl:mb-5">
             {data?.title || "Who We Serve"}
           </h2>
 
-          <div className="text-sm md:text-base lg:text-lg xl:text-2xl text-[#364153] leading-[150%] space-y-3 lg:space-y-4">
+          <div className="text-sm md:text-sm lg:text-base xl:text-2xl text-[#364153] leading-[150%] space-y-2.5 lg:space-y-3">
             {data?.description ? (
               <p>{data.description}</p>
             ) : (
@@ -33,7 +33,7 @@ const WeServe = ({ data }: { data?: CMSAboutWhoWeServe }) => {
         </div>
 
         {/* Right */}
-        <div className="h-[260px] md:h-[340px] lg:h-[400px] xl:h-[480px] w-full rounded-xl">
+        <div className="h-[220px] md:h-[280px] lg:h-[340px] xl:h-[480px] w-full rounded-xl">
           <Image
             src={data?.image || a3}
             alt="a3"

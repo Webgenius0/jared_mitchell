@@ -245,8 +245,8 @@ const UpcomingEvents = () => {
 
   if (loading) {
     return (
-      <section className="container py-10 md:py-16 xl:py-20">
-        <h2 className="section_title text-2xl md:text-4xl xl:text-6xl 2xl:text-7xl 2xl:font-bold text-center">
+      <section className="container py-8 md:py-10 lg:py-12 xl:py-20">
+        <h2 className="section_title text-xl md:text-3xl lg:text-4xl xl:text-6xl 2xl:text-7xl 2xl:font-bold text-center">
           Upcoming Events
         </h2>
         <div className="h-[200px] md:h-[300px] flex items-center justify-center text-base md:text-xl text-gray-400">
@@ -258,32 +258,32 @@ const UpcomingEvents = () => {
 
   return (
     <div className="bg-white">
-      <section className="container py-10 md:py-16 xl:py-20">
-        <h2 className="section_title text-2xl md:text-4xl xl:text-6xl 2xl:text-7xl 2xl:font-bold text-center">
+      <section className="container py-8 md:py-10 lg:py-12 xl:py-20">
+        <h2 className="section_title text-xl md:text-3xl lg:text-4xl xl:text-6xl 2xl:text-7xl 2xl:font-bold text-center">
           Upcoming Events
         </h2>
-        <p className="section_sub_title text-center mt-2">
+        <p className="section_sub_title text-center mt-1">
           Discover workshops, markets, and community gatherings near you.
         </p>
 
         {events.length === 0 ? (
-          <div className="my-6 md:my-10">
-            <div className="flex flex-col items-center justify-center text-center px-6 py-16 md:py-24 rounded-2xl xl:rounded-[20px] bg-[#F5F5F7] custom_shadow custom_border">
-              <div className="flex items-center justify-center size-16 md:size-20 rounded-full bg-white custom_shadow custom_border mb-5">
+          <div className="my-4 md:my-6 lg:my-8">
+            <div className="flex flex-col items-center justify-center text-center px-5 py-10 md:py-14 lg:py-16 rounded-2xl xl:rounded-[20px] bg-[#F5F5F7] custom_shadow custom_border">
+              <div className="flex items-center justify-center size-13 md:size-15 rounded-full bg-white custom_shadow custom_border mb-4">
                 <PiCalendarX className="size-7 md:size-9 text-gray-300" />
               </div>
-              <h3 className="text-xl md:text-2xl text-primary-black font-semibold">
+              <h3 className="text-lg md:text-xl text-primary-black font-semibold">
                 No Upcoming Events
               </h3>
-              <p className="text-secondary-black text-base md:text-lg mt-2 max-w-md">
+              <p className="text-secondary-black text-sm md:text-base mt-1.5 max-w-md">
                 We're busy planning something special. Check back soon for new
                 events.
               </p>
             </div>
           </div>
         ) : (
-          <div className="my-6 md:my-10">
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">
+          <div className="my-4 md:my-6 lg:my-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-3.5 lg:gap-4">
               {events.map(event => (
               <div
                 key={event.id}
@@ -296,7 +296,7 @@ const UpcomingEvents = () => {
                     width={500}
                     height={300}
                     alt={event.title}
-                    className="object-cover w-full h-[180px] md:h-[200px] xl:h-[220px]"
+                    className="object-cover w-full h-[160px] md:h-[170px] lg:h-[190px] xl:h-[220px]"
                   />
 
                   <span className="absolute top-3 left-3 bg-white/95 text-primary-black text-xs font-medium px-3 py-1 rounded-full capitalize">
@@ -312,19 +312,19 @@ const UpcomingEvents = () => {
                 </div>
 
                 {/* Content */}
-                <div className="py-5 md:py-6 px-4 md:px-5 flex flex-col flex-1">
-                  <h2 className="text-lg md:text-xl xl:text-2xl text-primary-black font-semibold line-clamp-1">
+                <div className="py-3.5 md:py-4 px-3 md:px-4 flex flex-col flex-1">
+                  <h2 className="text-base md:text-base lg:text-lg xl:text-2xl text-primary-black font-semibold line-clamp-1">
                     {event.title}
                   </h2>
 
-                  <p className="text-sm md:text-base text-primary-black flex items-center gap-2 mt-3">
+                  <p className="text-xs md:text-sm text-primary-black flex items-center gap-1.5 mt-2">
                     <PiCalendarBlank className="text-primary-blue shrink-0" />
                     <span className="truncate">
                       {formatDateRange(event.starts_at, event.ends_at)}
                     </span>
                   </p>
 
-                  <p className="text-sm md:text-base text-primary-black flex items-center gap-2 mt-2">
+                  <p className="text-xs md:text-sm text-primary-black flex items-center gap-1.5 mt-1.5">
                     <GrLocation className="text-primary-blue shrink-0" />
                     <span className="truncate">
                       {event.city}, {event.state}
@@ -332,7 +332,7 @@ const UpcomingEvents = () => {
                   </p>
 
                   {event.hosted_by && (
-                    <p className="text-sm md:text-base text-primary-black flex items-center gap-2 mt-2">
+                    <p className="text-xs md:text-sm text-primary-black flex items-center gap-1.5 mt-1.5">
                       <PiUser className="text-primary-blue shrink-0" />
                       <span className="truncate">
                         Hosted by {event.hosted_by}
@@ -341,13 +341,13 @@ const UpcomingEvents = () => {
                   )}
 
                   {event.description && (
-                    <p className="text-sm md:text-base text-secondary-black mt-3 line-clamp-2">
+                    <p className="text-xs md:text-sm text-secondary-black mt-2 line-clamp-2">
                       {sanitizeToPlainText(event.description)}
                     </p>
                   )}
 
                   {/* Engagement Buttons */}
-                  <div className="flex items-center gap-4 md:gap-5 mt-4 py-3 border-y border-gray-100 text-secondary-black">
+                  <div className="flex items-center gap-3 mt-3 py-2.5 border-y border-gray-100 text-secondary-black">
                     {/* Like */}
                     <button
                       onClick={() => handleToggleLike(event.id)}
@@ -414,7 +414,7 @@ const UpcomingEvents = () => {
               ))}
             </div>
 
-            <div className="flex justify-center mt-10">
+            <div className="flex justify-center mt-8">
               <Button size="xl">View All Events</Button>
             </div>
           </div>

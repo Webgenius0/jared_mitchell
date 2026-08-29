@@ -59,13 +59,13 @@ const SocialWorks = ({ data: cmsData }: { data?: CMSAboutHowItWorks }) => {
   })) || defaultData;
 
   return (
-    <section className="py-8 md:py-8 lg:py-12 xl:py-20">
+    <section className="py-6 md:py-6 lg:py-8 xl:py-20">
       <div className="container">
-        <h2 className="text-primary-black text-2xl md:text-2xl lg:text-3xl xl:text-5xl font-bold leading-[140%] text-center mb-2 md:mb-2.5 lg:mb-3 xl:mb-5">
+        <h2 className="text-primary-black text-xl md:text-xl lg:text-2xl xl:text-5xl font-bold leading-[140%] text-center mb-1.5 md:mb-2 lg:mb-2.5 xl:mb-5">
           {cmsData?.title || "How Our Social Image Works"}
         </h2>
 
-        <p className="text-[#1D1D1F] text-center text-sm md:text-base lg:text-lg xl:text-xl leading-[150%] mb-5 md:mb-6 lg:mb-7 xl:mb-12">
+        <p className="text-[#1D1D1F] text-center text-xs md:text-sm lg:text-base xl:text-xl leading-[150%] mb-3.5 md:mb-4 lg:mb-5 xl:mb-12">
           {cmsData?.sub_title || "A simple ecosystem built to support creators, businesses, and community—together."}
         </p>
       </div>
@@ -73,16 +73,16 @@ const SocialWorks = ({ data: cmsData }: { data?: CMSAboutHowItWorks }) => {
       <Marquee autoFill={true}>
         <div className="flex">
           {items?.map(item => (
-            <div key={item.id} className="border border-[#00000013] rounded-xl px-4 lg:px-5 py-7 md:py-7 lg:py-8 xl:py-10 shadow-[0_4px_20px_0_rgba(0,0,0,0.07)] flex flex-col gap-2.5 md:gap-3 lg:gap-4 xl:gap-5 justify-between w-[300px] md:w-[360px] lg:w-[400px] xl:w-[450px] text-center mr-4 lg:mr-5">
-              <span className="size-12 md:size-14 lg:size-20 xl:size-28 mx-auto grid place-items-center rounded-full bg-gray-50 shadow border border-[#00000007]">
+            <div key={item.id} className="border border-[#00000013] rounded-xl px-3.5 lg:px-4 py-5 md:py-5 lg:py-6 xl:py-10 shadow-[0_4px_20px_0_rgba(0,0,0,0.07)] flex flex-col gap-2 md:gap-2.5 lg:gap-3 xl:gap-5 justify-between w-[260px] md:w-[300px] lg:w-[340px] xl:w-[450px] text-center mr-3 lg:mr-4">
+              <span className="size-10 md:size-11 lg:size-14 xl:size-28 mx-auto grid place-items-center rounded-full bg-gray-50 shadow border border-[#00000007]">
                 {item?.icon}
               </span>
 
-              <h3 className="font-bold text-base md:text-lg lg:text-xl xl:text-2xl text-[#1D1D1F] leading-[150%]">
+              <h3 className="font-bold text-sm md:text-base lg:text-lg xl:text-2xl text-[#1D1D1F] leading-[150%]">
                 {item?.title}
               </h3>
 
-              <p className="text-[#1D1D1F] text-sm md:text-base lg:text-lg xl:text-xl leading-[150%]">
+              <p className="text-[#1D1D1F] text-xs md:text-sm lg:text-sm xl:text-xl leading-[150%]">
                 {item?.description}
               </p>
             </div>

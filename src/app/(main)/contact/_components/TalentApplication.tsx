@@ -17,15 +17,15 @@ const TalentApplication = () => {
           the appropriate submission form below. Do not use the general contact
           form for spotlight submissions.
         </p>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5 lg:gap-6 mt-8 md:mt-10 lg:mt-12 xl:mt-14">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4 lg:gap-5 mt-5 md:mt-6 lg:mt-8 xl:mt-14">
           {Array(2)
             .fill(null)
             .map((_, index) => (
               <div
                 key={index}
-                className="flex flex-col gap-4 md:gap-5 lg:gap-6 rounded-xl lg:rounded-2xl custom_border custom_shadow bg-white overflow-hidden"
+                className="flex flex-col gap-3 md:gap-3.5 lg:gap-4 rounded-xl lg:rounded-2xl custom_border custom_shadow bg-white overflow-hidden"
               >
-                <figure className="h-[200px] md:h-[240px] lg:h-[280px] xl:h-[300px] relative">
+                <figure className="h-[170px] md:h-[190px] lg:h-[220px] xl:h-[300px] relative">
                   <div className="size-full absolute bg-black/60" />
                   <Image
                     src={
@@ -37,16 +37,16 @@ const TalentApplication = () => {
                     className="size-full object-cover"
                   />
                 </figure>
-                <div className="px-4 md:px-5 lg:px-6 space-y-2 md:space-y-3">
-                  <h5 className="text-primary-black text-xl md:text-2xl lg:text-[28px] font-semibold">
+                <div className="px-3 md:px-4 lg:px-5 space-y-1.5 md:space-y-2">
+                  <h5 className="text-primary-black text-lg md:text-xl lg:text-2xl font-semibold">
                     Artist Spotlight
                   </h5>
-                  <p className="text-primary-black text-base md:text-lg lg:text-xl xl:text-2xl">
+                  <p className="text-primary-black text-sm md:text-base lg:text-base xl:text-2xl">
                     Share your creative journey, showcase your work, and connect
                     with a community that celebrates artistry.
                   </p>
                 </div>
-                <div className="px-4 md:px-5 lg:px-6 pb-5 md:pb-6 lg:pb-[31px]">
+                <div className="px-3 md:px-4 lg:px-5 pb-4 md:pb-5 lg:pb-6">
                   <Button className="w-full">
                     Artist Submission Form{" "}
                     <IoArrowForwardSharp className="size-6" />

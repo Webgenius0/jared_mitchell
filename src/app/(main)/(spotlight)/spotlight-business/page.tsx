@@ -78,8 +78,10 @@ const page = async () => {
         videoChannelVideos={businessVideos}
       />
       <SpotlightWinnerSection winner={lastBusinessWinner} type="business" />
-      <HowSpotlightWorks type="business" />
+<div className="2xl:px-5 3xl:px-5">
+        <HowSpotlightWorks type="business" />
       <SpotlightGuide type="business" />
+</div>
       <DiscoverArtists
         type="business"
         data={cmsData?.business_spotlight_list}

@@ -64,28 +64,28 @@ const WhatWeDo = ({ data: cmsData }: { data?: CMSAboutWhatWeDo }) => {
     })) || defaultData;
 
   return (
-    <section className="container py-8 md:py-8 lg:py-12 xl:py-20">
-      <h2 className="text-primary-black text-2xl md:text-2xl lg:text-3xl xl:text-5xl font-bold leading-[140%] text-center mb-5 md:mb-6 lg:mb-7 xl:mb-12">
+    <section className="container py-6 md:py-6 lg:py-8 xl:py-20">
+      <h2 className="text-primary-black text-xl md:text-xl lg:text-2xl xl:text-5xl font-bold leading-[140%] text-center mb-3.5 md:mb-4 lg:mb-5 xl:mb-12">
         {cmsData?.title || "What We Do"}
       </h2>
 
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-3.5 lg:gap-4 xl:gap-5">
+      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-2.5 md:gap-3 lg:gap-3.5 xl:gap-5">
         {items?.map((item) => (
           <div
             key={item.id}
-            className="border border-[#00000013] rounded-xl px-4 md:px-4 lg:px-5 py-7 md:py-7 lg:py-8 xl:py-10 shadow-[0_4px_20px_0_rgba(0,0,0,0.07)] flex flex-col gap-3 lg:gap-4 justify-between"
+            className="border border-[#00000013] rounded-xl px-3.5 md:px-3.5 lg:px-4 py-5 md:py-5 lg:py-6 xl:py-10 shadow-[0_4px_20px_0_rgba(0,0,0,0.07)] flex flex-col gap-2.5 lg:gap-3 justify-between"
           >
-            <div className="space-y-4">
-              <span className="size-12 md:size-12 lg:size-14 xl:size-16 grid place-items-center rounded-xl border border-[#00000013]">
+            <div className="space-y-3">
+              <span className="size-10 md:size-10 lg:size-12 xl:size-16 grid place-items-center rounded-xl border border-[#00000013]">
                 {item?.icon}
               </span>
 
-              <h3 className="font-medium text-base md:text-base lg:text-lg xl:text-2xl text-[#1D1D1F] max-w-[350px] leading-[150%]">
+              <h3 className="font-medium text-sm md:text-sm lg:text-base xl:text-2xl text-[#1D1D1F] max-w-[350px] leading-[150%]">
                 {item?.title}
               </h3>
             </div>
 
-            <p className="text-[#1D1D1F] text-sm md:text-base lg:text-lg xl:text-xl leading-[150%]">
+            <p className="text-[#1D1D1F] text-xs md:text-xs lg:text-sm xl:text-xl leading-[150%]">
               {item?.description}
             </p>
           </div>

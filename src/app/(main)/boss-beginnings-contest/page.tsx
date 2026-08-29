@@ -50,7 +50,9 @@ const page = async () => {
         rounds={seasonRounds}
         activeRoundId={activeRoundId}
       />
-      <BossBeginningGuide />
+      <div className="xl:px-5">
+        <BossBeginningGuide />
+      </div>
       <Sponsors data={CmsData?.partners} />
       <NewsLetter title="Be part of the movement. Get stories, updates, and opportunities straight to your inbox." />
     </>

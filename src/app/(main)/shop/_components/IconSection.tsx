@@ -67,19 +67,19 @@ const IconSection = ({ data }: IconSectionProps) => {
   return (
     <div className="section">
       <Container>
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-5 ">
           {items.map((item, index) => (
             <div
               key={index}
-              className="space-y-2 py-10 px-[94px] rounded-xl custom_border custom_shadow bg-secondary-gray flex flex-col items-center justify-center text-center"
+              className="space-y-1.5 py-6 md:py-8 px-6 md:px-10 lg:px-14 rounded-xl custom_border custom_shadow bg-secondary-gray flex flex-col items-center justify-center text-center"
             >
-              <div className="size-[100px] flex items-center justify-center rounded-full bg-primary-blue/15 text-primary-blue mb-3">
+              <div className="size-16 md:size-18 lg:size-[80px] flex items-center justify-center rounded-full bg-primary-blue/15 text-primary-blue mb-2.5">
                 <item.icon />
               </div>
-              <p className="text-2xl text-primary-black font-medium">
+              <p className="text-lg md:text-xl lg:text-2xl text-primary-black font-medium">
                 {item.title}
               </p>
-              <p className="text-xl text-[#4A5565]">{item.description}</p>
+              <p className="text-sm md:text-base lg:text-lg text-[#4A5565]">{item.description}</p>
             </div>
           ))}
         </div>
