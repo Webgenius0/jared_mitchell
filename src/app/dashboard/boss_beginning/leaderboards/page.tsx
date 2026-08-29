@@ -149,7 +149,7 @@ export default function Page() {
 
   return (
     <div className="min-h-screen bg-[#F5F6F8]">
-      <div className="bg-white rounded-2xl border border-slate-100 overflow-hidden">
+      <div className="bg-white border border-slate-100 overflow-hidden">
         {/* Header */}
         <div className="flex items-center justify-between px-5 md:px-6 py-4 md:py-5">
           <h1 className="text-base md:text-lg font-semibold text-slate-900">
@@ -588,7 +588,7 @@ function SpotlightDetailView({
 
 function ImageCard({ src, label }: { src: string; label: string }) {
   return (
-    <div className="relative group aspect-square rounded-xl overflow-hidden border border-slate-200 bg-slate-50">
+    <div className="relative group aspect-video overflow-hidden border border-slate-200 bg-slate-50">
       <img
         src={src}
         alt={label}

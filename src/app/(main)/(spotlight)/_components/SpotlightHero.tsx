@@ -54,7 +54,7 @@ const SpotlightHero = ({
               src={streamSrc}
               streamId={liveStream.id}
               isLive={isLive}
-              className={"!rounded-[20px] md:!rounded-[40px] w-full h-full"}
+              className={"w-full h-full"}
             />
           </div>
           {data?.sub_title && (
@@ -74,7 +74,7 @@ const SpotlightHero = ({
     return (
       <section className="section">
         <Container>
-          <div className="relative w-full h-[200px] md:h-[350px] lg:h-[400px] xl:h-[627px] rounded-xl md:rounded-[32px] lg:rounded-[40px] overflow-hidden sm:px-5 2xl:px-5 3xl:px-5">
+          <div className="relative w-full h-[200px] md:h-[350px] lg:h-[400px] xl:h-[627px] overflow-hidden sm:px-5 2xl:px-5 3xl:px-5">
             {/* Current video (fades out during transition) */}
             <CustomVideoPlayer
               key={`current-${currentVideo.id}`}
@@ -82,8 +82,8 @@ const SpotlightHero = ({
               autoPlay
               onEnded={handleEnded}
               forceMuted={isTransitioning}
-              className="absolute inset-0 w-full h-full rounded-[20px] md:rounded-[40px] z-10"
-              videoClassName="w-full h-full object-cover rounded-[20px] md:rounded-[40px]"
+              className="absolute inset-0 w-full h-full z-10"
+              videoClassName="w-full h-full object-cover"
               style={{
                 opacity: isTransitioning ? 0 : 1,
                 transition: "opacity 0.6s ease-in-out",
@@ -98,8 +98,8 @@ const SpotlightHero = ({
                 videoSrc={videoChannelVideos[nextIndex].video_url}
                 autoPlay
                 forceMuted
-                className="absolute inset-0 w-full h-full rounded-[20px] md:rounded-[40px] z-0"
-                videoClassName="w-full h-full object-cover rounded-[20px] md:rounded-[40px]"
+                className="absolute inset-0 w-full h-full z-0"
+                videoClassName="w-full h-full object-cover"
                 style={{
                   opacity: isTransitioning ? 1 : 0,
                   transition: "opacity 0.6s ease-in-out",

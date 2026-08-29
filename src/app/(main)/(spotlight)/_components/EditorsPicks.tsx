@@ -44,12 +44,12 @@ const EditorsPicks = ({
               {Array.from({ length: 3 }).map((_, idx) => (
                 <div
                   key={idx}
-                  className="h-[300px] md:h-[350px] lg:h-[400px] bg-gray-100 animate-pulse rounded-xl"
+                  className="h-[300px] md:h-[350px] lg:h-[400px] bg-gray-100 animate-pulse"
                 />
               ))}
             </div>
           ) : !data || data.length === 0 ? (
-            <div className="mt-8 md:mt-10 lg:mt-11 rounded-xl lg:rounded-2xl border border-dashed border-gray-200 bg-gray-50 py-10 md:py-12 lg:py-16 px-5 md:px-6 text-center">
+            <div className="mt-8 md:mt-10 lg:mt-11 border border-dashed border-gray-200 bg-gray-50 py-10 md:py-12 lg:py-16 px-5 md:px-6 text-center">
               <p className="text-4xl mb-4">🎨</p>
               <h4 className="text-xl font-semibold text-primary-black mb-2">
                 No {type === "artist" ? "artists" : "businesses"} available yet
@@ -63,7 +63,7 @@ const EditorsPicks = ({
               {data?.map((item: any, index: number) => (
                 <div
                   key={item.id || index}
-                  className="bg-white p-5 md:p-6 lg:p-[30px] rounded-xl custom_border custom_shadow"
+                  className="bg-white p-5 md:p-6 lg:p-[30px] custom_border custom_shadow"
                 >
                   <figure className="w-full">
                     <Image
@@ -79,7 +79,7 @@ const EditorsPicks = ({
                       }
                       width={500}
                       height={290}
-                      className="w-full h-[200px] md:h-[240px] lg:h-[290px] object-cover rounded-2xl lg:rounded-3xl"
+                      className="w-full h-[200px] md:h-[240px] lg:h-[290px] object-cover"
                     />
                   </figure>
 

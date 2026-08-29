@@ -22,13 +22,13 @@ const OurSociety = ({ data }: { data?: CMSAboutSociety }) => {
         </div>
 
         {/* Right */}
-        <div className="h-[220px] md:h-[280px] lg:h-[340px] xl:h-[480px] w-full rounded-xl">
+        <div className="h-[220px] md:h-[280px] lg:h-[340px] xl:h-[480px] w-full">
           <Image
             src={data?.image || a1}
             alt="a1"
             width={800}
             height={480}
-            className="w-full h-full object-cover rounded-xl"
+            className="w-full h-full object-cover"
           />
         </div>
       </div>

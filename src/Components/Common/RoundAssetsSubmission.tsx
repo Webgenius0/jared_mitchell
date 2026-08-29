@@ -486,7 +486,7 @@ export default function RoundAssetsSubmission({
             submittedMedia.map((url, idx) => (
               <div
                 key={`current-${url}-${idx}`}
-                className="relative aspect-square rounded-xl overflow-hidden border-2 border-blue-200 bg-slate-50 group"
+                className="relative aspect-video overflow-hidden border-2 border-blue-200 bg-slate-50 group"
               >
                 {isVideoUrl(url) ? (
                   <video
@@ -525,7 +525,7 @@ export default function RoundAssetsSubmission({
             return (
               <div
                 key={`${file.name}-${idx}`}
-                className="relative group aspect-square rounded-xl overflow-hidden border border-slate-200 bg-slate-50"
+                className="relative group aspect-video overflow-hidden border border-slate-200 bg-slate-50"
               >
                 {file.type.startsWith("video/") ? (
                   <video

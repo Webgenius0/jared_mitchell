@@ -32,7 +32,7 @@ const page = () => {
           </button>
         </div>
 
-        <div className="rounded-lg overflow-hidden">
+        <div className="overflow-hidden">
           <table className="table-auto w-full">
             <thead>
               <tr className="bg-[#E8EFFF]">

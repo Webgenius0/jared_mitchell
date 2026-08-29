@@ -208,7 +208,7 @@ interface MockScreenProps {
 export const MockScreen = ({ title, children, className }: MockScreenProps) => (
   <div
     className={cn(
-      "rounded-xl border border-slate-200 bg-white overflow-hidden shadow-sm",
+      "border border-slate-200 bg-white overflow-hidden shadow-sm",
       className
     )}
   >

@@ -222,7 +222,7 @@ export default function CartDrawer({
 
                 return (
                   <div key={item.id} className="flex gap-4 items-start">
-                    <div className="w-24 h-24 bg-[#F5F5F7] rounded-xl overflow-hidden shrink-0">
+                    <div className="w-24 h-24 bg-[#F5F5F7] overflow-hidden shrink-0">
                       <img
                         src={imageSrc}
                         alt={product?.name || "Product"}
@@ -314,7 +314,7 @@ export default function CartDrawer({
                     <Link
                       href={`/shop/${p.slug}`}
                       onClick={closeCart}
-                      className="w-full h-28 bg-[#F5F5F7] rounded-lg overflow-hidden block"
+                      className="w-full h-28 bg-[#F5F5F7] overflow-hidden block"
                     >
                       <img
                         src={p.thumbnail || "/fallback-product.png"}

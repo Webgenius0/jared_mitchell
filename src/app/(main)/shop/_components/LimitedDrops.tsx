@@ -15,7 +15,7 @@ const LimitedDropsSkeleton = () => (    <div className="container section rounde
       {[1, 2, 3].map(i => (
         <div
           key={i}
-          className="pb-5 rounded-2xl overflow-hidden custom_border custom_shadow bg-white animate-pulse"
+          className="pb-5 overflow-hidden custom_border custom_shadow bg-white animate-pulse"
         >
           <div className="w-full h-[378px] bg-gray-200" />
           <div className="py-4 space-y-5 px-4">

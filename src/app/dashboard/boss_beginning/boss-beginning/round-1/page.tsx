@@ -104,7 +104,7 @@ export default function Round1Page() {
           <h2 className="text-sm md:text-base font-semibold text-slate-900 mb-4">
             Voting summary
           </h2>
-          <div className="grid grid-cols-2 md:grid-cols-4 divide-x divide-slate-100 border border-slate-100 rounded-xl overflow-hidden">
+          <div className="grid grid-cols-2 md:grid-cols-4 divide-x divide-slate-100 border border-slate-100 overflow-hidden">
             {votingSummary.map(item => (
               <div key={item.label} className="text-center py-5 md:py-6 px-2">
                 <div className="text-lg md:text-xl font-semibold text-slate-900">

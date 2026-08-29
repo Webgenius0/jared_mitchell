@@ -55,7 +55,7 @@ export default function ThisEventGallery({
         <div className="space-y-6">
           {/* Main Top Promo Video/Featured Media */}
           {promoVideoUrl && (
-            <div className="w-full max-w-6xl overflow-hidden rounded-2xl shadow-md max-h-[650px] aspect-video relative group">
+            <div className="w-full max-w-6xl overflow-hidden shadow-md max-h-[650px] aspect-video relative group">
               <video
                 src={promoVideoUrl}
                 controls
@@ -75,7 +75,7 @@ export default function ThisEventGallery({
               {galleryItems.map(item => (
                 <div
                   key={item.id}
-                  className="relative group aspect-[4/3] w-full overflow-hidden rounded-2xl bg-gray-900 shadow-sm border border-gray-100"
+                  className="relative group aspect-video w-full overflow-hidden bg-gray-900 shadow-sm border border-gray-100"
                 >
                   {item.type === "video" ? (
                     activeVideo === item.src ? (

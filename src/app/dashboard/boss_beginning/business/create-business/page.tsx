@@ -366,7 +366,7 @@ function CreateBusinessForm() {
                 {existingMedia.map((url, idx) => (
                   <div
                     key={`existing-${idx}`}
-                    className="relative group aspect-square rounded-xl overflow-hidden border border-slate-200 bg-slate-50"
+                    className="relative group aspect-video overflow-hidden border border-slate-200 bg-slate-50"
                   >
                     <img
                       src={resolveMediaUrl(url)}
@@ -401,7 +401,7 @@ function CreateBusinessForm() {
                   return (
                     <div
                       key={`new-${idx}`}
-                      className="relative group aspect-square rounded-xl overflow-hidden border border-slate-200 bg-slate-50"
+                      className="relative group aspect-video overflow-hidden border border-slate-200 bg-slate-50"
                     >
                       {file.type.startsWith("video/") ? (
                         <video

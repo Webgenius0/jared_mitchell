@@ -56,7 +56,7 @@ const ShopCard = ({
     <Link href={linkHref}>
       <div
         key={itemKey}
-        className="pb-5 rounded-2xl overflow-hidden custom_border custom_shadow bg-white"
+        className="pb-5 overflow-hidden custom_border custom_shadow bg-white"
       >
         <div className="relative w-full h-[250px]">
           <div className="absolute size-full bg-black/10" />
