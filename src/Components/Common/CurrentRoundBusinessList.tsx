@@ -203,7 +203,7 @@ export default function CurrentRoundBusinessList({
 
   if (isSeasonLoading) {
     return (
-      <div className="bg-white rounded-2xl border border-slate-100 shadow-[0_1px_2px_rgba(16,24,40,0.04)] flex items-center justify-center py-20">
+      <div className="bg-white border border-slate-100 shadow-[0_1px_2px_rgba(16,24,40,0.04)] flex items-center justify-center py-20">
         <Loader2 className="w-6 h-6 text-blue-500 animate-spin" />
         <span className="ml-3 text-sm text-slate-500">Loading round...</span>
       </div>
@@ -212,7 +212,7 @@ export default function CurrentRoundBusinessList({
 
   if (isSeasonError) {
     return (
-      <div className="bg-white rounded-2xl border border-slate-100 shadow-[0_1px_2px_rgba(16,24,40,0.04)] text-center py-16 px-6">
+      <div className="bg-white border border-slate-100 shadow-[0_1px_2px_rgba(16,24,40,0.04)] text-center py-16 px-6">
         <Trophy className="w-10 h-10 text-slate-300 mx-auto mb-3" />
         <p className="text-sm text-slate-500">Could not load this round.</p>
         <button
@@ -229,7 +229,7 @@ export default function CurrentRoundBusinessList({
 
   if (!targetRound) {
     return (
-      <div className="bg-white rounded-2xl border border-slate-100 shadow-[0_1px_2px_rgba(16,24,40,0.04)] text-center py-20">
+      <div className="bg-white border border-slate-100 shadow-[0_1px_2px_rgba(16,24,40,0.04)] text-center py-20">
         <Trophy className="w-10 h-10 text-slate-300 mx-auto mb-3" />
         <p className="text-sm text-slate-500">
           {roundNumber != null
@@ -243,7 +243,7 @@ export default function CurrentRoundBusinessList({
   return (
     <div className="space-y-5">
       {/* Round header */}
-      <div className="bg-gradient-to-r from-blue-600 to-indigo-600 rounded-2xl px-5 md:px-7 py-5 md:py-6 shadow-[0_4px_14px_rgba(37,99,235,0.18)]">
+      <div className="bg-gradient-to-r from-blue-600 to-indigo-600 px-5 md:px-7 py-5 md:py-6 shadow-[0_4px_14px_rgba(37,99,235,0.18)]">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <div className="w-11 h-11 rounded-2xl bg-white/15 flex items-center justify-center shrink-0">
@@ -285,7 +285,7 @@ export default function CurrentRoundBusinessList({
       </div>
 
       {/* Businesses table */}
-      <div className="bg-white rounded-2xl border border-slate-100 shadow-[0_1px_2px_rgba(16,24,40,0.04)] overflow-hidden">
+      <div className="bg-white border border-slate-100 shadow-[0_1px_2px_rgba(16,24,40,0.04)] overflow-hidden">
         <div className="px-5 md:px-6 py-4 border-b border-slate-100">
           <h3 className="text-sm md:text-base font-semibold text-slate-900">
             Businesses in this round

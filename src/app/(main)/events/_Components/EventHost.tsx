@@ -92,13 +92,13 @@ const EventHost = ({ data }: EventHostProps) => {
         </div>
 
         {/* Right */}
-        <div className="order-1 lg:order-2 w-full lg:w-[400px] xl:w-[600px] h-[240px] md:h-[300px] lg:h-[350px] xl:h-[550px] rounded-lg relative overflow-hidden shrink-0">
+        <div className="order-1 lg:order-2 w-full lg:w-[400px] xl:w-[600px] h-[240px] md:h-[300px] lg:h-[350px] xl:h-[550px] relative overflow-hidden shrink-0">
           <Image
             src={data?.image ?? hostImg}
             alt="host_img"
             fill
             unoptimized
-            className="object-cover rounded-lg"
+            className="object-cover"
           />
         </div>
       </div>

@@ -81,7 +81,7 @@ const StepFour = () => {
           </div>
 
           {existingHeadshot && !ownerPhoto && (
-            <div className="relative w-24 h-24 rounded-xl overflow-hidden mb-3 border border-gray-200">
+            <div className="relative w-24 h-24 overflow-hidden mb-3 border border-gray-200">
               <Image
                 src={existingHeadshot}
                 alt="Current headshot"
@@ -164,7 +164,7 @@ const StepFour = () => {
               {existingArtworkPhotos.map((src, idx) => (
                 <div
                   key={idx}
-                  className="relative aspect-square rounded-xl overflow-hidden border border-gray-200"
+                  className="relative aspect-video overflow-hidden border border-gray-200"
                 >
                   <Image
                     src={src}
@@ -248,7 +248,7 @@ const StepFour = () => {
           </div>
 
           {existingBehindScenes && !servicePhoto && (
-            <div className="relative w-24 h-24 rounded-xl overflow-hidden mb-3 border border-gray-200">
+            <div className="relative w-24 h-24 overflow-hidden mb-3 border border-gray-200">
               <Image
                 src={existingBehindScenes}
                 alt="Current behind-the-scenes photo"

@@ -56,7 +56,7 @@ export default function TopProductSection({
     <div className="p-6 sm:p-8 grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12 container mx-auto">
       {/* Gallery Column */}
       <div className="flex flex-col gap-4 w-full">
-        <div className="relative w-full aspect-[4/5] bg-[#F5F5F7] h-[650px] rounded-2xl overflow-hidden flex items-center justify-center border border-gray-100">
+        <div className="relative w-full aspect-video bg-[#F5F5F7] h-[650px] overflow-hidden flex items-center justify-center border border-gray-100">
           {/* Discount Badge */}
           {discountPercentage > 0 && (
             <div className="absolute top-4 left-4 z-10 bg-red-500 text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-lg">
@@ -78,7 +78,7 @@ export default function TopProductSection({
                 key={idx}
                 type="button"
                 onClick={() => setActiveImage(img)}
-                className={`w-20 h-20 bg-[#F5F5F7] rounded-xl overflow-hidden border-2 transition-all ${
+                className={`w-20 h-20 bg-[#F5F5F7] overflow-hidden border-2 transition-all ${
                   activeImage === img
                     ? "border-[#1977DD]"
                     : "border-transparent opacity-80 hover:opacity-100"

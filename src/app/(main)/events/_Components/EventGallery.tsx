@@ -69,7 +69,7 @@ const EventGallery = () => {
           {Array.from({ length: 6 }).map((_, i) => (
             <div
               key={i}
-              className="h-[180px] sm:h-[250px] md:h-[300px] xl:h-[369px] rounded-xl bg-gray-100 animate-pulse"
+              className="h-[180px] sm:h-[250px] md:h-[300px] xl:h-[369px] bg-gray-100 animate-pulse"
             />
           ))}
         </div>
@@ -126,7 +126,7 @@ const EventGallery = () => {
           <button
             key={item.id}
             onClick={() => openLightbox(startIndex + idx)}
-            className="group relative h-[150px] sm:h-[200px] md:h-[230px] lg:h-[260px] xl:h-[369px] rounded-xl overflow-hidden focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-blue focus-visible:ring-offset-2"
+            className="group relative h-[150px] sm:h-[200px] md:h-[230px] lg:h-[260px] xl:h-[369px] overflow-hidden focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-blue focus-visible:ring-offset-2"
           >
             {item.media_type === "video" ? (
               <>

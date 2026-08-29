@@ -239,7 +239,7 @@ const Page = () => {
       {/* Header */}
       <div className="bg-white rounded-2xl border border-slate-100 p-5 md:p-6">
         <div className="flex flex-col md:flex-row gap-5 md:gap-6">
-          <div className="relative w-24 h-24 md:w-28 md:h-28 rounded-2xl overflow-hidden bg-slate-100 shrink-0">
+          <div className="relative w-24 h-24 md:w-28 md:h-28 overflow-hidden bg-slate-100 shrink-0">
             {spotlight.media.headshot ? (
               <Image
                 src={spotlight.media.headshot}
@@ -358,7 +358,7 @@ const Page = () => {
                 {spotlight.media.artwork_photos.map((src, idx) => (
                   <div
                     key={idx}
-                    className="relative aspect-square rounded-xl overflow-hidden bg-slate-100"
+                    className="relative aspect-video overflow-hidden bg-slate-100"
                   >
                     <Image
                       src={src}
@@ -378,7 +378,7 @@ const Page = () => {
                 <p className="text-xs md:text-sm text-slate-400 mb-2">
                   Behind the Scenes
                 </p>
-                <div className="relative aspect-video rounded-xl overflow-hidden bg-slate-100">
+                <div className="relative aspect-video overflow-hidden bg-slate-100">
                   <Image
                     src={spotlight.media.behind_scenes_photo}
                     alt="Behind the scenes"
@@ -397,7 +397,7 @@ const Page = () => {
                 <video
                   src={spotlight.media.intro_video}
                   controls
-                  className="w-full aspect-video rounded-xl bg-slate-900"
+                  className="w-full aspect-video bg-slate-900"
                 />
               </div>
             )}

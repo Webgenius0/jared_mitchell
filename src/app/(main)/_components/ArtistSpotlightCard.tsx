@@ -198,7 +198,7 @@ export default function ArtistSpotlightCard({
                 {(headshotSrc || showcaseMedia.length > 1) && (
                   <div className="flex items-center gap-2.5 p-2.5 md:p-3">
                     {headshotSrc && (
-                      <div className="relative w-14 h-14 md:w-16 md:h-16 lg:w-20 lg:h-20 rounded-full overflow-hidden border-2 border-white shadow-md shrink-0">
+                      <div                        className="relative w-14 h-14 md:w-16 md:h-16 lg:w-20 lg:h-20 overflow-hidden border-2 border-white shadow-md shrink-0">
                         <Image
                           src={headshotSrc}
                           fill
@@ -212,7 +212,7 @@ export default function ArtistSpotlightCard({
                       {showcaseMedia.slice(1).map((media) => (
                         <div
                           key={media.id}
-                          className="relative w-14 h-14 md:w-16 md:h-16 rounded-lg overflow-hidden border border-gray-200 shrink-0"
+                          className="relative w-14 h-14 md:w-16 md:h-16 overflow-hidden border border-gray-200 shrink-0"
                         >
                           {media.type === "video" ? (
                             <video

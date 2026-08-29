@@ -202,7 +202,7 @@ const Page = () => {
         </section>
 
         {/* Booking history */}
-        <section className="bg-white rounded-2xl border border-gray-100 overflow-hidden shadow-sm">
+        <section className="bg-white border border-gray-100 overflow-hidden shadow-sm">
           <div className="flex justify-between items-center p-6 bg-white border-b border-gray-100">
             <h2 className="text-xl font-semibold text-gray-900">
               Booking history

@@ -31,7 +31,7 @@ export default function OSIPanelTab({ data }: { data?: CMSRoundsSection }) {
   // No CMS content for this section yet — show an empty state.
   if (cmsRounds.length === 0 && !hasBlock && !hasBottom) {
     return (
-      <div className="rounded-2xl border border-black/10 bg-white p-10 sm:p-16 flex flex-col items-center text-center">
+      <div className="border border-black/10 bg-white p-10 sm:p-16 flex flex-col items-center text-center">
         <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-[#1977DD29] flex items-center justify-center mb-4">
           <FiCheckCircle className="size-6 sm:size-7 text-blue-500" />
         </div>
@@ -51,7 +51,7 @@ export default function OSIPanelTab({ data }: { data?: CMSRoundsSection }) {
       {/* Block header */}
       {block &&
         (block.title || block.subtitle || block.description || block.image) && (
-          <div className="rounded-2xl border border-black/10 bg-white overflow-hidden">
+          <div className="border border-black/10 bg-white overflow-hidden">
             <div
               className={`relative min-h-[200px] flex items-end ${
                 block.image ? "" : "bg-[#2563EB]"
@@ -95,7 +95,7 @@ export default function OSIPanelTab({ data }: { data?: CMSRoundsSection }) {
       {cmsRounds.map((round, idx) => (
         <div
           key={idx}
-          className="rounded-2xl border border-black/10 bg-white overflow-hidden"
+          className="border border-black/10 bg-white overflow-hidden"
         >
           {/* Round header */}
           <div className="bg-[#2563EB] px-4 sm:px-6 py-4 sm:py-5 flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-5 text-white">

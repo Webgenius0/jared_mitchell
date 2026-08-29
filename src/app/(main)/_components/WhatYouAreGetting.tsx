@@ -58,7 +58,7 @@ const WhatYouAreGetting = ({ data: cmsData }: { data?: CMSWhatYouGet }) => {
           {items?.map(item => (
             <div
               key={item.id}
-              className="rounded-xl w-full py-4 md:py-4 lg:py-5 2xl:py-12 px-3 md:px-3 lg:px-4 2xl:px-6 flex items-center flex-col border space-y-2 lg:space-y-3 border-[rgba(0,0,0,0.16)] shadow"
+              className="w-full py-4 md:py-4 lg:py-5 2xl:py-12 px-3 md:px-3 lg:px-4 2xl:px-6 flex items-center flex-col border space-y-2 lg:space-y-3 border-[rgba(0,0,0,0.16)] shadow"
             >
               <div className="flex items-center justify-center aspect-square bg-[rgba(25,119,221,0.16)] size-10 md:size-12 lg:size-14 xl:size-[100px] rounded-full">
                 <div className="md:scale-[130%] 2xl:scale-[160%]">

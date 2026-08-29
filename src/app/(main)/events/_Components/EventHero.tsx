@@ -48,7 +48,7 @@ const Hero = ({
   if (isLive && streamSrc && liveStream) {
     return (
       <section className="container text-center pt-7 md:pt-10 xl:pt-5  2xl:pt-8">
-        <div className="flex items-center justify-center my-5 md:my-7 rounded-2xl lg:rounded-4xl xl:rounded-[40px] overflow-hidden max-w-6xl mx-auto">
+        <div className="flex items-center justify-center my-5 md:my-7 overflow-hidden max-w-6xl mx-auto">
           <LiveStreamPlayer
             src={streamSrc}
             streamId={liveStream.id}
@@ -65,7 +65,7 @@ const Hero = ({
 
     return (
       <section className="container text-center pt-7 md:pt-10 xl:pt-5  2xl:pt-8">
-        <div className="relative flex items-center justify-center my-5 md:my-7 rounded-2xl lg:rounded-4xl xl:rounded-[40px] overflow-hidden max-w-6xl mx-auto">
+        <div className="relative flex items-center justify-center my-5 md:my-7 overflow-hidden max-w-6xl mx-auto">
           {/* Current video (fades out during transition) */}
           <CustomVideoPlayer
             key={`current-${currentVideo.id}`}

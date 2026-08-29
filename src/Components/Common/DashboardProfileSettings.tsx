@@ -183,7 +183,7 @@ const DashboardProfileSettings = ({
         <CurrentPlanCard subscription={user?.subscription} />
       </div>
 
-      <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden p-6 sm:p-8">
+      <div className="bg-white border border-gray-100 shadow-sm overflow-hidden p-6 sm:p-8">
         {/* Header Section */}
         <div className="flex justify-between items-center pb-6 border-b border-gray-100">
           <h1 className="text-2xl font-bold text-gray-900 tracking-tight">

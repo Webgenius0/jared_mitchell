@@ -65,7 +65,7 @@ export default function Page() {
 
   return (
     <div className="">
-      <div className=" bg-white rounded-2xl border border-slate-100 overflow-hidden">
+      <div className=" bg-white border border-slate-100 overflow-hidden">
         <div className="overflow-x-auto">
           {isLoading ? (
             <div className="flex items-center justify-center py-20">
@@ -198,7 +198,7 @@ export default function Page() {
                 </h3>
 
                 {selectedBusiness.videoThumbnail && (
-                  <div className="relative rounded-2xl overflow-hidden border border-slate-200">
+                  <div className="relative overflow-hidden border border-slate-200">
                     <img
                       src={selectedBusiness.videoThumbnail}
                       alt="Video thumbnail"

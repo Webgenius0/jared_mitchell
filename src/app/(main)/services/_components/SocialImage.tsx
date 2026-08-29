@@ -28,7 +28,7 @@ const SocialImage = ({ data }: { data?: CMSServicesGrow }) => {
           </div>
 
           {/* Right */}
-          <figure className="w-full max-w-[665px] lg:w-1/2 2xl:w-full h-[280px] md:h-[400px] lg:h-[480px] rounded-xl md:rounded-2xl overflow-hidden relative">
+          <figure className="w-full max-w-[665px] lg:w-1/2 2xl:w-full h-[280px] md:h-[400px] lg:h-[480px] overflow-hidden relative">
             <Image
               src={data?.image || "/services/social-image.jpg"}
               fill
