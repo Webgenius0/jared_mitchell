@@ -54,7 +54,7 @@ const WhatYouAreGetting = ({ data: cmsData }: { data?: CMSWhatYouGet }) => {
             "You're not buying a membership — you're buying:"}
         </p>
 
-        <div className="grid md:grid-cols-2 xl:grid-cols-4 gap-2.5 md:gap-2.5 lg:gap-3 xl:gap-5 mt-3 md:mt-4 lg:mt-5 xl:mt-8">
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-2.5 md:gap-2.5 lg:gap-3 xl:gap-5 mt-3 md:mt-4 lg:mt-5 xl:mt-8">
           {items?.map(item => (
             <div
               key={item.id}

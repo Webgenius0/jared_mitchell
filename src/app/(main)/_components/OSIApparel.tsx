@@ -85,7 +85,7 @@ const OSIApparel = ({ data, featuredProducts }: OSIApparelProps) => {
                         src={item.image}
                         alt={item.title}
                         fill
-                        className="object-cover"
+                        className="object-cover aspect-square"
                       />
 
                       <div className="osi-overlay" />
@@ -234,9 +234,7 @@ const OSIApparel = ({ data, featuredProducts }: OSIApparelProps) => {
             border-radius: 14px;
           }
 
-          .osi-card {
-            border-radius: 14px;
-          }
+ 
 
           .osi-coverflow {
             padding-bottom: 30px !important;
