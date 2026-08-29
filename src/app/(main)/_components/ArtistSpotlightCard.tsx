@@ -170,29 +170,33 @@ export default function ArtistSpotlightCard({
               <div className="w-full">
                 {/* Showcase media grid */}
                 <div className="relative w-full h-[200px] sm:h-[260px] md:h-[300px] lg:h-[340px] xl:h-[440px] overflow-hidden">
-                  {showcaseMedia.slice(0, 1).map((media, idx) => (
-                    media.type === "video" ? (
-                      <video
-                        key={media.id}
-                        src={media.url}
-                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                        autoPlay
-                        loop
-                        muted
-                        playsInline
-                        poster={typeof imageSrc === 'string' ? imageSrc : undefined}
-                      />
-                    ) : (
-                      <Image
-                        key={media.id}
-                        src={media.url}
-                        fill
-                        sizes="(max-width: 940px) 100vw, 940px"
-                        alt={name || "Spotlight winner"}
-                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                      />
-                    )
-                  ))}
+                  {showcaseMedia
+                    .slice(0, 1)
+                    .map((media) =>
+                      media.type === "video" ? (
+                        <video
+                          key={media.id}
+                          src={media.url}
+                          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                          autoPlay
+                          loop
+                          muted
+                          playsInline
+                          poster={
+                            typeof imageSrc === "string" ? imageSrc : undefined
+                          }
+                        />
+                      ) : (
+                        <Image
+                          key={media.id}
+                          src={media.url}
+                          fill
+                          sizes="(max-width: 940px) 100vw, 940px"
+                          alt={name || "Spotlight winner"}
+                          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                        />
+                      ),
+                    )}
                 </div>
 
                 {/* Headshot + remaining showcase media thumbnails row */}
@@ -210,7 +214,7 @@ export default function ArtistSpotlightCard({
                       </div>
                     )}
                     <div className="flex gap-2 overflow-x-auto">
-                      {showcaseMedia.slice(1).map((media) => (
+                      {showcaseMedia.slice(1).map(media => (
                         <div
                           key={media.id}
                           className="relative w-16 h-16 md:w-20 md:h-20 rounded-lg overflow-hidden border border-gray-200 shrink-0"
@@ -244,7 +248,7 @@ export default function ArtistSpotlightCard({
                   fill
                   sizes="(max-width: 940px) 100vw, 940px"
                   alt={name || "Spotlight winner"}
-                  className="size-full transition-transform duration-700 group-hover:scale-105 object-contain"
+                  className="size-full transition-transform duration-700 group-hover:scale-105 object-cover object-center"
                 />
               </div>
             )}
