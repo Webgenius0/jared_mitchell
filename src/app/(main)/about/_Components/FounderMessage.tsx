@@ -12,12 +12,12 @@ const FounderMessage = ({ data }: { data?: CMSAboutFounderMessage }) => {
 
       <div className="flex flex-col md:flex-row justify-center gap-4 md:gap-5 lg:gap-6 xl:gap-14 items-center">
         {/* Left */}
-        <figure className="w-full md:w-[240px] lg:w-[260px] xl:w-[300px] h-[300px] md:h-[320px] lg:h-[350px] xl:h-[400px] rounded-xl shrink-0 relative">
+        <figure className="w-full md:w-[240px] lg:w-[260px] xl:w-[300px] h-[300px] md:h-[320px] lg:h-[350px] xl:h-[400px] shrink-0 relative">
           <Image
             src={founder?.image || author}
             alt="author"
             fill
-            className="w-full h-full rounded-xl object-cover"
+            className="w-full h-full object-cover"
           />
         </figure>
 

@@ -73,7 +73,8 @@ const WhatWeDo = ({ data: cmsData }: { data?: CMSAboutWhatWeDo }) => {
         {items?.map((item) => (
           <div
             key={item.id}
-            className="border border-[#00000013] rounded-xl px-4 md:px-4 lg:px-5 py-7 md:py-7 lg:py-8 xl:py-10 shadow-[0_4px_20px_0_rgba(0,0,0,0.07)] flex flex-col gap-3 lg:gap-4 justify-between"
+            className="border border-[#00000013] 
+             px-4 md:px-4 lg:px-5 py-7 md:py-7 lg:py-8 xl:py-10 shadow-[0_4px_20px_0_rgba(0,0,0,0.07)] flex flex-col gap-3 lg:gap-4 justify-between"
           >
             <div className="space-y-4">
               <span className="size-12 md:size-12 lg:size-14 xl:size-16 grid place-items-center rounded-xl border border-[#00000013]">

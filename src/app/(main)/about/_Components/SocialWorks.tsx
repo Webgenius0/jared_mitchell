@@ -73,7 +73,8 @@ const SocialWorks = ({ data: cmsData }: { data?: CMSAboutHowItWorks }) => {
       <Marquee autoFill={true}>
         <div className="flex">
           {items?.map(item => (
-            <div key={item.id} className="border border-[#00000013] rounded-xl px-4 lg:px-5 py-7 md:py-7 lg:py-8 xl:py-10 shadow-[0_4px_20px_0_rgba(0,0,0,0.07)] flex flex-col gap-2.5 md:gap-3 lg:gap-4 xl:gap-5 justify-between w-[300px] md:w-[360px] lg:w-[400px] xl:w-[450px] text-center mr-4 lg:mr-5">
+            <div key={item.id} className="border border-[#00000013] 
+             px-4 lg:px-5 py-7 md:py-7 lg:py-8 xl:py-10 shadow-[0_4px_20px_0_rgba(0,0,0,0.07)] flex flex-col gap-2.5 md:gap-3 lg:gap-4 xl:gap-5 justify-between w-[300px] md:w-[360px] lg:w-[400px] xl:w-[450px] text-center mr-4 lg:mr-5">
               <span className="size-12 md:size-14 lg:size-20 xl:size-28 mx-auto grid place-items-center rounded-full bg-gray-50 shadow border border-[#00000007]">
                 {item?.icon}
               </span>

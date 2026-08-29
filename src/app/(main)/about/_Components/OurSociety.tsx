@@ -4,7 +4,7 @@ import { CMSAboutSociety } from "@/Types/cms";
 
 const OurSociety = ({ data }: { data?: CMSAboutSociety }) => {
   return (
-    <section className="py-8 md:py-8 lg:py-12 xl:py-20">
+    <section className="py-8 md:py-8 lg:py-12 xl:py-20 px-10">
       <div className="container grid md:grid-cols-2 gap-4 md:gap-6 lg:gap-8 xl:gap-20 items-center">
         {/* Left */}
         <div>
@@ -13,7 +13,8 @@ const OurSociety = ({ data }: { data?: CMSAboutSociety }) => {
           </h2>
 
           <p className="text-base md:text-base lg:text-lg xl:text-2xl text-[#364153] leading-[150%]">
-            {data?.description || `Our Social Image (OSI) is more than a platform — it is a movement
+            {data?.description ||
+              `Our Social Image (OSI) is more than a platform — it is a movement
             designed to uplift voices, celebrate creativity, and build stronger
             communities. We highlight the culture, stories, and entrepreneurial
             spirit that often go unseen, giving everyday people a place to be
@@ -22,13 +23,13 @@ const OurSociety = ({ data }: { data?: CMSAboutSociety }) => {
         </div>
 
         {/* Right */}
-        <div className="h-[260px] md:h-[340px] lg:h-[400px] xl:h-[480px] w-full rounded-xl">
+        <div className="h-[260px] md:h-[340px] lg:h-[400px] xl:h-[480px] w-full">
           <Image
             src={data?.image || a1}
             alt="a1"
             width={800}
             height={480}
-            className="w-full h-full object-cover rounded-xl"
+            className="w-full h-full object-cover"
           />
         </div>
       </div>

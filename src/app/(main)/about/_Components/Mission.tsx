@@ -26,7 +26,7 @@ const Mission = ({ data }: { data?: CMSAboutMission }) => {
         {items.map((item, index) => (
           <div 
             key={index}
-            className={`flex-1 ${index === 0 ? 'bg-[#DB0F190A]' : 'bg-[#FFCE290A]'} py-6 md:py-6 lg:py-8 xl:py-12 flex flex-col justify-center items-center rounded-xl space-y-2.5 md:space-y-3 lg:space-y-5 text-center px-5 md:px-8 lg:px-10 xl:px-20 shadow-[0_4px_20px_0_rgba(0,0,0,0.07)] border border-[#0000000e]`}
+            className={`flex-1 ${index === 0 ? 'bg-[#DB0F190A]' : 'bg-[#FFCE290A]'} py-6 md:py-6 lg:py-8 xl:py-12 flex flex-col justify-center items-center  space-y-2.5 md:space-y-3 lg:space-y-5 text-center px-5 md:px-8 lg:px-10 xl:px-20 shadow-[0_4px_20px_0_rgba(0,0,0,0.07)] border border-[#0000000e]`}
           >
             {item.image ? (
               <div className="relative w-12 h-12 md:w-14 md:h-14 lg:w-16 lg:h-16 xl:w-20 xl:h-20">

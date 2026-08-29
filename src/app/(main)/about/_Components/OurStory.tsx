@@ -4,16 +4,16 @@ import { CMSAboutOrigin } from "@/Types/cms";
 
 const OurStory = ({ data }: { data?: CMSAboutOrigin }) => {
   return (
-    <section className="py-8 md:py-8 lg:py-12 xl:py-20 bg-[#F5F5F7]">
+    <section className="py-8 md:py-8 lg:py-12 xl:py-20 bg-[#F5F5F7] px-10">
       <div className="container grid md:grid-cols-2 gap-4 md:gap-6 lg:gap-8 xl:gap-12 items-center">
         {/* Left */}
-        <div className="h-[260px] md:h-[340px] lg:h-[400px] xl:h-[480px] w-full rounded-xl order-1 md:order-0">
+        <div className="h-[260px] md:h-[340px] lg:h-[400px] xl:h-[480px] w-full order-1 md:order-0">
           <Image
             src={data?.image || a2}
             alt="a2"
             width={800}
             height={480}
-            className="w-full h-full object-cover rounded-xl"
+            className="w-full h-full object-cover "
           />
         </div>
 
