@@ -155,7 +155,7 @@ const BossBeginnings = ({
         </div>
 
         <div
-          className="text-secondary-black max-w-4xl mx-auto text-xs md:text-sm lg:text-sm xl:text-base 2xl:text-xl"
+          className="text-secondary-black max-w-3xl mx-auto text-xs md:text-sm lg:text-sm xl:text-base 2xl:text-xl"
           dangerouslySetInnerHTML={{ __html: description }}
         />
 

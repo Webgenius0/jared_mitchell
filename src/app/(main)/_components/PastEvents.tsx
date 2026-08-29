@@ -42,19 +42,20 @@ const PastEvents = () => {
     <div id="past-events-home" className="container">
       <h2 className="section_title 2xl:text-7xl 2xl:font-bold">
         Past Event Highlights
-      </h2>        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5 sm:gap-3 lg:gap-4 my-2.5 md:my-4 lg:my-5 xl:my-8">
+      </h2>{" "}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5 sm:gap-3 lg:gap-4 my-2.5 md:my-4 lg:my-5 xl:my-8">
         {paginatedEvents.map(event => (
           <div
             key={event.id}
-            className="rounded-[20px] custom_border custom_shadow bg-[#F5F5F7] overflow-hidden"
+            className=" custom_border custom_shadow bg-[#F5F5F7] overflow-hidden"
           >
-            <div className="relative flex items-center justify-center w-full h-[170px] sm:h-[190px] md:h-[200px] lg:h-[220px] xl:h-[260px]">
+            <div className="relative flex items-center justify-center w-full h-full">
               <Image
                 src={event.cover_image_url}
                 width={500}
                 height={300}
                 alt={event.title}
-                className="size-full object-cover"
+                className="size-full object-cover aspect-square"
               />
               <div className="absolute flex items-end pl-3 md:pl-4 lg:pl-5 pb-2.5 md:pb-3 top-0 left-0 size-full bg-[linear-gradient(0deg,_rgba(0,0,0,0.5)_0%,_rgba(0,0,0,0.5)_100%)]">
                 <div className="space-y-1 md:space-y-1.5">
@@ -76,7 +77,6 @@ const PastEvents = () => {
           </div>
         ))}
       </div>
-
       {/* Pagination Controls */}
       {totalPages > 1 && (
         <div className="flex items-center justify-center gap-2 mt-8">
