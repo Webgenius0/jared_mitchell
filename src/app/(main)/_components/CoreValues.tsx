@@ -80,7 +80,7 @@ const CoreValues = ({ data: cmsData }: { data?: CMSCoreValue }) => {
           />
 
           <div className="w-full relative z-10 bg-[linear-gradient(0deg,rgba(255,255,255,0.40),rgba(255,255,255,0.40))]">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 md:gap-2.5 lg:gap-3 xl:gap-5 2xl:gap-10 p-2.5 md:p-3 lg:p-4 xl:p-8 2xl:p-12">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 p-2.5 md:p-3 lg:p-4 xl:p-8 2xl:p-12">
               {values?.map(val => (
                 <div
                   key={val.id}

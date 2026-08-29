@@ -119,7 +119,8 @@ export default function ArtistSpotlightCard({
             key={tab.value}
             type="button"
             onClick={() => setType(tab.value)}
-            aria-pressed={type === tab.value}              className={cn(
+            aria-pressed={type === tab.value}
+            className={cn(
               "px-5 md:px-6 lg:px-8 xl:px-11 py-1.5 md:py-2 lg:py-2.5 rounded-full text-xs md:text-sm lg:text-sm xl:text-base font-medium transition-all duration-300",
               type === tab.value
                 ? "bg-primary-blue text-white shadow-md shadow-primary-blue/25 scale-[1.02]"
@@ -161,44 +162,48 @@ export default function ArtistSpotlightCard({
       ) : (
         <div
           key={type}
-          className="group overflow-hidden  w-full mx-auto rounded-2xl md:rounded-3xl bg-white custom_border custom_shadow fade-up"
+          className="group overflow-hidden xl:w-full max-w-3xl mx-auto  bg-white custom_border custom_shadow fade-up"
         >
           <figure className="relative w-full overflow-hidden bg-secondary-gray">
             {/* Main media area: show headshot + showcase media if available */}
             {showcaseMedia.length > 0 ? (
               <div className="w-full">
                 {/* Showcase media grid */}
-                <div className="relative w-full h-[170px] sm:h-[220px] md:h-[240px] lg:h-[270px] xl:h-[440px] overflow-hidden">
-                  {showcaseMedia.slice(0, 1).map((media, idx) => (
-                    media.type === "video" ? (
-                      <video
-                        key={media.id}
-                        src={media.url}
-                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                        autoPlay
-                        loop
-                        muted
-                        playsInline
-                        poster={typeof imageSrc === 'string' ? imageSrc : undefined}
-                      />
-                    ) : (
-                      <Image
-                        key={media.id}
-                        src={media.url}
-                        fill
-                        sizes="(max-width: 940px) 100vw, 940px"
-                        alt={name || "Spotlight winner"}
-                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                      />
-                    )
-                  ))}
+                <div className="relative w-full h-[440px] overflow-hidden">
+                  {showcaseMedia
+                    .slice(0, 1)
+                    .map((media, idx) =>
+                      media.type === "video" ? (
+                        <video
+                          key={media.id}
+                          src={media.url}
+                          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 aspect-video"
+                          autoPlay
+                          loop
+                          muted
+                          playsInline
+                          poster={
+                            typeof imageSrc === "string" ? imageSrc : undefined
+                          }
+                        />
+                      ) : (
+                        <Image
+                          key={media.id}
+                          src={media.url}
+                          fill
+                          sizes="(max-width: 940px) 100vw, 940px"
+                          alt={name || "Spotlight winner"}
+                          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                        />
+                      ),
+                    )}
                 </div>
 
                 {/* Headshot + remaining showcase media thumbnails row */}
                 {(headshotSrc || showcaseMedia.length > 1) && (
                   <div className="flex items-center gap-2.5 p-2.5 md:p-3">
                     {headshotSrc && (
-                      <div                        className="relative w-14 h-14 md:w-16 md:h-16 lg:w-20 lg:h-20 overflow-hidden border-2 border-white shadow-md shrink-0">
+                      <div className="relative w-14 h-14 md:w-16 md:h-16 lg:w-20 lg:h-20 overflow-hidden border-2 border-white shadow-md shrink-0">
                         <Image
                           src={headshotSrc}
                           fill
@@ -209,7 +214,7 @@ export default function ArtistSpotlightCard({
                       </div>
                     )}
                     <div className="flex gap-2 overflow-x-auto">
-                      {showcaseMedia.slice(1).map((media) => (
+                      {showcaseMedia.slice(1).map(media => (
                         <div
                           key={media.id}
                           className="relative w-14 h-14 md:w-16 md:h-16 overflow-hidden border border-gray-200 shrink-0"

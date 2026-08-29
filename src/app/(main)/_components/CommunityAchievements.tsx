@@ -165,15 +165,15 @@ const CommunityAchievements = ({
                     className="shrink-0 snap-start w-[75%] sm:w-[60%] md:w-[45%] lg:w-[35%] xl:w-1/4"
                   >
                     <Link href={linkHref}>
-                      <div className="relative w-full h-[190px] md:h-[200px] lg:h-[220px] xl:h-[280px] group cursor-pointer">
+                      <div className="relative w-full h-[300px] group cursor-pointer">
                         <Image
                           src={cardImage}
                           fill
                           alt={title}
-                          className="object-cover rounded-xl transition-transform duration-500"
+                          className="object-cover  transition-transform duration-500 aspect-square"
                         />
 
-                        <div className="absolute inset-0 bg-[linear-gradient(0deg,_rgba(0,0,0,0.60)_36%,_rgba(0,0,0,0.20)_63%,_rgba(0,0,0,0.00)_100%)] rounded-xl transition-opacity duration-300 group-hover:opacity-90">
+                        <div className="absolute inset-0 bg-[linear-gradient(0deg,_rgba(0,0,0,0.60)_36%,_rgba(0,0,0,0.20)_63%,_rgba(0,0,0,0.00)_100%)]  transition-opacity duration-300 group-hover:opacity-90">
                           {/* Category */}
                           <div className="absolute top-2.5 left-2.5 md:top-3 md:left-3 bg-white py-0.5 px-2 md:py-0.5 md:px-2.5 rounded-full text-primary-black text-[10px] md:text-xs font-medium">
                             {category}
