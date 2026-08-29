@@ -29,7 +29,7 @@ const page = async () => {
   const allProducts = await getAllProducts();
 
   return (
-    <>
+    <div className="xl:px-5 px-0">
       <ShopBanner data={shopData?.shop_page_hero} />
       <IconSection data={shopData?.shop_page_features} />
       <FeaturedShop products={featuredProducts} />
@@ -43,7 +43,7 @@ const page = async () => {
       <FAQAccordion data={faqData} />
       <Sponsors data={CmsData?.partners} title="Our Sponsors" />
       <NewsLetter title="Be part of the movement. Get stories, updates, and opportunities straight to your inbox." />
-    </>
+    </div>
   );
 };
 

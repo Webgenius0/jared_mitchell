@@ -6,14 +6,14 @@ const SocialImage = ({ data }: { data?: CMSServicesGrow }) => {
   return (
     <section className="section">
       <div className="container">
-        <div className="flex max-lg:flex-col items-center gap-10 2xl:gap-20">
+        <div className="flex max-lg:flex-col items-center gap-6 lg:gap-8 2xl:gap-20">
           {/* Left */}
           <div className="flex-1">
             <h2 className="section_title !text-left">
               {data?.title || "Grow With Our Social Image"}
             </h2>
 
-            <p className="text-lg md:text-xl xl:text-2xl text-secondary-black mt-3 md:mt-5 lg:mt-7 mb-5 md:mb-9">
+            <p className="text-sm md:text-base lg:text-lg xl:text-2xl text-secondary-black mt-2 md:mt-3 lg:mt-5 mb-4 md:mb-6">
               {data?.description || `Our Social Image isn't just a platform — it's an ecosystem
               designed to amplify your voice, elevate your work, and help you
               grow your brand with purpose. You'll gain access to tools,
@@ -28,7 +28,7 @@ const SocialImage = ({ data }: { data?: CMSServicesGrow }) => {
           </div>
 
           {/* Right */}
-          <figure className="w-full max-w-[665px] lg:w-1/2 2xl:w-full h-[350px] md:h-[616px] rounded-2xl md:rounded-3xl overflow-hidden relative">
+          <figure className="w-full max-w-[665px] lg:w-1/2 2xl:w-full h-[280px] md:h-[400px] lg:h-[480px] rounded-xl md:rounded-2xl overflow-hidden relative">
             <Image
               src={data?.image || "/services/social-image.jpg"}
               fill

@@ -335,7 +335,7 @@ const FeaturedEvent = ({ events }: FeaturedEventProps) => {
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <div className="flex gap-5 md:gap-7 xl:gap-10 2xl:gap-14 max-lg:flex-col container relative">
+      <div className="flex gap-4 md:gap-5 xl:gap-10 2xl:gap-14 max-lg:flex-col container relative">
         {/* Navigation Arrows */}
         {events.length > 1 && (
           <>
@@ -358,7 +358,7 @@ const FeaturedEvent = ({ events }: FeaturedEventProps) => {
 
         <div
           key={event.id}
-          className="lg:basis-1/2 relative w-full h-[250px] sm:h-[300px] md:h-[380px] lg:h-[400px] xl:h-[460px] 2xl:h-[520px] rounded-2xl md:rounded-3xl xl:rounded-[40px] overflow-hidden bg-black"
+          className="lg:basis-1/2 relative w-full h-[220px] sm:h-[260px] md:h-[300px] lg:h-[320px] xl:h-[460px] 2xl:h-[520px] rounded-xl md:rounded-2xl xl:rounded-[40px] overflow-hidden bg-black"
         >
           {event.promo_video_url ? (
             <>
@@ -385,7 +385,7 @@ const FeaturedEvent = ({ events }: FeaturedEventProps) => {
               src={event.cover_image_url || "/home/featured-event-img.jpg"}
               fill
               alt={event.title || "featured event"}
-              className="size-full object-cover rounded-2xl md:rounded-3xl xl:rounded-[40px]"
+              className="size-full object-cover rounded-xl md:rounded-2xl xl:rounded-[40px]"
             />
           )}
 
@@ -396,19 +396,19 @@ const FeaturedEvent = ({ events }: FeaturedEventProps) => {
 
         {/* Right */}
         <div key={`content-${event.id}`} className="lg:basis-1/2">
-          <h2 className="section_title !text-left 2xl:font-bold 2xl:text-4xl tracking-tight mb-4 leading-[1.15] capitalize">
+          <h2 className="section_title !text-left 2xl:font-bold 2xl:text-4xl tracking-tight mb-3 leading-[1.15] capitalize">
             {event.title}
           </h2>
 
           <div className="space-y-1.5 md:space-y-3">
-            <div className="flex items-center md:text-lg xl:text-xl gap-3">
+            <div className="flex items-center md:text-base xl:text-xl gap-2.5">
               <CalenderSvg />
               <p className="text-primary-black">
                 {formatDate(event.starts_at)}
               </p>
             </div>
 
-            <div className="flex items-center md:text-lg xl:text-xl gap-3">
+            <div className="flex items-center md:text-base xl:text-xl gap-2.5">
               <MdOutlineAccessTime className="text-black" />
               <p className="text-primary-black">
                 {formatTime(event.starts_at)} - {formatTime(event.ends_at)}
@@ -416,14 +416,14 @@ const FeaturedEvent = ({ events }: FeaturedEventProps) => {
             </div>
 
             {event.promo_video_url && (
-              <div className="flex items-center md:text-lg xl:text-xl gap-3">
+              <div className="flex items-center md:text-base xl:text-xl gap-2.5">
                 <VideoSvg />
                 <p className="text-primary-black">Highlight Video Available</p>
               </div>
             )}
 
             {event.city && event.state && (
-              <div className="flex items-center md:text-lg xl:text-xl gap-3">
+              <div className="flex items-center md:text-base xl:text-xl gap-2.5">
                 <GrLocation className="text-black" />
                 <p className="text-primary-black">
                   {event.city}, {event.state}
@@ -432,31 +432,31 @@ const FeaturedEvent = ({ events }: FeaturedEventProps) => {
             )}
           </div>
 
-          <p className="text-sm md:text-base xl:text-lg text-primary-black mt-2.5 line-clamp-3">
+          <p className="text-xs md:text-sm xl:text-lg text-primary-black mt-2 line-clamp-3">
             {event.description?.replace(/<[^>]*>/g, "")}
           </p>
 
-          <div className="py-3 md:mt-2.5 mb-5 border-b border-gray-200 text-secondary-black flex items-center gap-7 md:gap-12">
+          <div className="py-2.5 md:mt-2 mb-4 border-b border-gray-200 text-secondary-black flex items-center gap-5 md:gap-8">
             {/* Like Button */}
             <button
               onClick={() => handleToggleLike(event.id)}
               disabled={actionLoading[`like-${event.id}`]}
-              className="flex items-center gap-2 md:gap-4 2xl:gap-6 group cursor-pointer"
+              className="flex items-center gap-1.5 md:gap-3 2xl:gap-6 group cursor-pointer"
             >
               <div
-                className={`flex items-center justify-center size-6 md:size-9 xl:size-[42px] aspect-square rounded-full bg-white custom_shadow transition-all duration-300 ${
+                className={`flex items-center justify-center size-5 md:size-7 xl:size-[42px] aspect-square rounded-full bg-white custom_shadow transition-all duration-300 ${
                   getEngagement(event.id).is_liked
                     ? "!bg-red-50 !shadow-[0_0_0_2px_rgba(239,68,68,0.3)]"
                     : "group-hover:!bg-red-50 group-hover:!shadow-[0_0_0_2px_rgba(239,68,68,0.15)]"
                 }`}
               >
                 {getEngagement(event.id).is_liked ? (
-                  <FaHeart className="size-3.5 md:size-4 xl:size-6 text-red-500 transition-all duration-300 scale-110" />
+                  <FaHeart className="size-3 md:size-3.5 xl:size-6 text-red-500 transition-all duration-300 scale-110" />
                 ) : (
-                  <FaRegHeart className="size-3.5 md:size-4 xl:size-6 transition-all duration-300 group-hover:scale-110" />
+                  <FaRegHeart className="size-3 md:size-3.5 xl:size-6 transition-all duration-300 group-hover:scale-110" />
                 )}
               </div>
-              <span className="md:text-lg xl:text-xl">
+              <span className="md:text-sm xl:text-xl">
                 {getEngagement(event.id).like_count}
               </span>
             </button>
@@ -465,22 +465,22 @@ const FeaturedEvent = ({ events }: FeaturedEventProps) => {
             <button
               onClick={() => handleToggleBookmark(event.id)}
               disabled={actionLoading[`bookmark-${event.id}`]}
-              className="flex items-center gap-2 md:gap-4 2xl:gap-6 group cursor-pointer"
+              className="flex items-center gap-1.5 md:gap-3 2xl:gap-6 group cursor-pointer"
             >
               <div
-                className={`flex items-center justify-center size-6 md:size-9 xl:size-[42px] aspect-square rounded-full bg-white custom_shadow transition-all duration-300 ${
+                className={`flex items-center justify-center size-5 md:size-7 xl:size-[42px] aspect-square rounded-full bg-white custom_shadow transition-all duration-300 ${
                   getEngagement(event.id).is_bookmarked
                     ? "!bg-blue-50 !shadow-[0_0_0_2px_rgba(25,119,221,0.3)]"
                     : "group-hover:!bg-blue-50 group-hover:!shadow-[0_0_0_2px_rgba(25,119,221,0.15)]"
                 }`}
               >
                 {getEngagement(event.id).is_bookmarked ? (
-                  <FaBookmark className="size-3.5 md:size-4 xl:size-6 text-primary-blue transition-all duration-300 scale-110" />
+                  <FaBookmark className="size-3 md:size-3.5 xl:size-6 text-primary-blue transition-all duration-300 scale-110" />
                 ) : (
-                  <FaRegBookmark className="size-3.5 md:size-4 xl:size-6 transition-all duration-300 group-hover:scale-110" />
+                  <FaRegBookmark className="size-3 md:size-3.5 xl:size-6 transition-all duration-300 group-hover:scale-110" />
                 )}
               </div>
-              <span className="md:text-lg xl:text-xl">
+              <span className="md:text-sm xl:text-xl">
                 {getEngagement(event.id).is_bookmarked ? "Saved" : "Save"}
               </span>
             </button>
@@ -489,12 +489,12 @@ const FeaturedEvent = ({ events }: FeaturedEventProps) => {
             <button
               onClick={() => handleShare(event.id, event.title)}
               disabled={actionLoading[`share-${event.id}`]}
-              className="flex items-center gap-2 md:gap-4 2xl:gap-6 group cursor-pointer"
+              className="flex items-center gap-1.5 md:gap-3 2xl:gap-6 group cursor-pointer"
             >
-              <div className="flex items-center justify-center size-6 md:size-9 xl:size-[42px] aspect-square rounded-full bg-white custom_shadow group-hover:!bg-green-50 group-hover:!shadow-[0_0_0_2px_rgba(34,197,94,0.15)] transition-all duration-300">
-                <RxShare1 className="size-3.5 md:size-4 xl:size-6 transition-all duration-300 group-hover:scale-110 group-hover:text-green-600" />
+              <div className="flex items-center justify-center size-5 md:size-7 xl:size-[42px] aspect-square rounded-full bg-white custom_shadow group-hover:!bg-green-50 group-hover:!shadow-[0_0_0_2px_rgba(34,197,94,0.15)] transition-all duration-300">
+                <RxShare1 className="size-3 md:size-3.5 xl:size-6 transition-all duration-300 group-hover:scale-110 group-hover:text-green-600" />
               </div>
-              <span className="md:text-lg xl:text-xl">Share</span>
+              <span className="md:text-sm xl:text-xl">Share</span>
             </button>
           </div>
 

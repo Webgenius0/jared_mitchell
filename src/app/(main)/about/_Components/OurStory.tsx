@@ -4,10 +4,10 @@ import { CMSAboutOrigin } from "@/Types/cms";
 
 const OurStory = ({ data }: { data?: CMSAboutOrigin }) => {
   return (
-    <section className="py-8 md:py-8 lg:py-12 xl:py-20 bg-[#F5F5F7]">
-      <div className="container grid md:grid-cols-2 gap-4 md:gap-6 lg:gap-8 xl:gap-12 items-center">
+    <section className="py-6 md:py-6 lg:py-8 xl:py-20 bg-[#F5F5F7]">
+      <div className="container grid md:grid-cols-2 gap-3 md:gap-5 lg:gap-6 xl:gap-12 items-center">
         {/* Left */}
-        <div className="h-[260px] md:h-[340px] lg:h-[400px] xl:h-[480px] w-full rounded-xl order-1 md:order-0">
+        <div className="h-[220px] md:h-[280px] lg:h-[340px] xl:h-[480px] w-full rounded-xl order-1 md:order-0">
           <Image
             src={data?.image || a2}
             alt="a2"
@@ -19,11 +19,11 @@ const OurStory = ({ data }: { data?: CMSAboutOrigin }) => {
 
         {/* Right */}
         <div className="order-0 md:order-1">
-          <h2 className="text-primary-black text-xl md:text-2xl lg:text-3xl xl:text-5xl font-bold leading-[140%] max-w-[602px] mb-2 md:mb-3 lg:mb-5">
+          <h2 className="text-primary-black text-lg md:text-xl lg:text-2xl xl:text-5xl font-bold leading-[140%] max-w-[602px] mb-1.5 md:mb-2 lg:mb-4">
             {data?.title || "Our Origin Story"}
           </h2>
 
-          <div className="space-y-3 md:space-y-3.5 text-sm md:text-base lg:text-lg xl:text-[22px] text-[#364153] leading-[150%]">
+          <div className="space-y-2.5 md:space-y-3 text-sm md:text-sm lg:text-base xl:text-[22px] text-[#364153] leading-[150%]">
             {data?.description ? (
               <p>{data.description}</p>
             ) : (

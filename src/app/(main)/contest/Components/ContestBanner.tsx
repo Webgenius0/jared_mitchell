@@ -16,14 +16,14 @@ const ContestBanner = ({ data }: BossBeginningBannerProps) => {
           url(${bgImage})
         `,
       }}
-      className="h-[240px] sm:h-[300px] md:h-[340px] lg:h-[380px] xl:h-[500px] bg-no-repeat bg-center bg-cover"
+      className="h-[200px] sm:h-[250px] md:h-[280px] lg:h-[320px] xl:h-[500px] bg-no-repeat bg-center bg-cover"
     >
       <div className="h-full container flex flex-col items-center justify-center px-4 sm:px-6">
-        <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold leading-[130%] text-white text-center max-w-[968px] mx-auto">
+        <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-6xl font-bold leading-[130%] text-white text-center max-w-[968px] mx-auto">
           {"Spotlights"}
         </h2>
 
-        <p className="text-white font-medium text-xs sm:text-sm md:text-base lg:text-lg xl:text-3xl pt-2 sm:pt-3 lg:pt-4 pb-1.5 sm:pb-2 lg:pb-3 text-center px-2">
+        <p className="text-white font-medium text-[10px] sm:text-xs md:text-sm lg:text-base xl:text-3xl pt-1.5 sm:pt-2 lg:pt-3 pb-1 sm:pb-1.5 text-center px-2">
           {"Multi-Round Playoff System • Scalable • Fair • Community-Driven"}
         </p>
 

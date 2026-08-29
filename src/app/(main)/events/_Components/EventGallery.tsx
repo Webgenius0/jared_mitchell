@@ -61,8 +61,8 @@ const EventGallery = () => {
 
   if (loading) {
     return (
-      <section className="py-10 md:py-16 xl:py-20 container">
-        <h2 className="section_title text-2xl md:text-4xl xl:text-6xl 2xl:text-7xl 2xl:font-bold">
+      <section className="py-8 md:py-10 lg:py-12 xl:py-20 container">
+        <h2 className="section_title text-xl md:text-3xl lg:text-4xl xl:text-6xl 2xl:text-7xl 2xl:font-bold">
           Event Gallery
         </h2>
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 md:gap-5 mt-8">
@@ -79,11 +79,11 @@ const EventGallery = () => {
 
   if (gallery.length === 0) {
     return (
-      <section className="py-10 md:py-16 xl:py-20 container">
-        <h2 className="section_title text-2xl md:text-4xl xl:text-6xl 2xl:text-7xl 2xl:font-bold">
+      <section className="py-8 md:py-10 lg:py-12 xl:py-20 container">
+        <h2 className="section_title text-xl md:text-3xl lg:text-4xl xl:text-6xl 2xl:text-7xl 2xl:font-bold">
           Event Gallery
         </h2>
-        <p className="text-base md:text-lg xl:text-xl text-[#1D1D1F] text-center mb-6 md:mb-8 xl:mb-12 max-w-[90%] md:max-w-[70%] mx-auto">
+        <p className="text-sm md:text-base lg:text-lg xl:text-xl text-[#1D1D1F] text-center mb-4 md:mb-5 lg:mb-6 xl:mb-12 max-w-[90%] md:max-w-[70%] mx-auto">
           Explore photos and videos from past OSI events. See the energy,
           creativity, and community that makes each gathering special.
         </p>
@@ -107,7 +107,7 @@ const EventGallery = () => {
       </p>
 
       {/* Stats bar */}
-      <div className="flex items-center justify-center gap-6 mb-8 text-sm md:text-base text-gray-500">
+      <div className="flex items-center justify-center gap-5 mb-5 md:mb-6 text-xs md:text-sm text-gray-500">
         <span className="flex items-center gap-1.5">
           <HiOutlinePhoto className="size-4" />
           {images.length} {images.length === 1 ? "Photo" : "Photos"}
@@ -121,12 +121,12 @@ const EventGallery = () => {
       </div>
 
       {/* Gallery Grid */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 md:gap-5">
+      <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5 md:gap-3.5 lg:gap-4">
         {paginatedGallery.map((item, idx) => (
           <button
             key={item.id}
             onClick={() => openLightbox(startIndex + idx)}
-            className="group relative h-[180px] sm:h-[250px] md:h-[300px] xl:h-[369px] rounded-xl overflow-hidden focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-blue focus-visible:ring-offset-2"
+            className="group relative h-[150px] sm:h-[200px] md:h-[230px] lg:h-[260px] xl:h-[369px] rounded-xl overflow-hidden focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-blue focus-visible:ring-offset-2"
           >
             {item.media_type === "video" ? (
               <>

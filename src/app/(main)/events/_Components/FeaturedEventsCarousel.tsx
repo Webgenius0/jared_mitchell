@@ -319,17 +319,17 @@ const FeaturedEventsCarousel = ({ events }: FeaturedEventsCarouselProps) => {
 
   return (
     <section
-      className="py-10 md:py-16 xl:py-20 container"
+      className="py-8 md:py-10 lg:py-12 xl:py-20 container"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <div className="flex flex-col lg:flex-row gap-8 md:gap-12 xl:gap-16 items-center relative">
+      <div className="flex flex-col lg:flex-row gap-5 md:gap-8 lg:gap-10 xl:gap-16 items-center relative">
         {/* Navigation Arrows — on the whole section edges */}
         {events.length > 1 && (
           <>
             <button
               onClick={goToPrev}
-              className="absolute left-0 lg:-left-10 top-1/2 -translate-y-1/2 size-10 md:size-12 rounded-full bg-white shadow-lg flex items-center justify-center z-20 cursor-pointer hover:bg-primary-blue hover:text-white transition-all duration-300 group"
+              className="absolute left-0 lg:-left-6 top-1/2 -translate-y-1/2 size-10 md:size-12 rounded-full bg-white shadow-lg flex items-center justify-center z-20 cursor-pointer hover:bg-primary-blue hover:text-white transition-all duration-300 group"
               aria-label="Previous event"
             >
               <PiCaretLeftBold className="size-4 md:size-5 group-hover:scale-110 transition-transform" />
@@ -347,7 +347,7 @@ const FeaturedEventsCarousel = ({ events }: FeaturedEventsCarouselProps) => {
         {/* Left - Video (with image fallback) */}
         <div
           key={event.id}
-          className="w-full lg:w-[500px] xl:w-[600px] h-[280px] sm:h-[350px] md:h-[450px] xl:h-[550px] rounded-lg relative overflow-hidden shrink-0 bg-black"
+          className="w-full lg:w-[400px] xl:w-[600px] h-[220px] sm:h-[280px] md:h-[340px] lg:h-[380px] xl:h-[550px] rounded-lg relative overflow-hidden shrink-0 bg-black"
         >
           {event.promo_video_url ? (
             <>
@@ -383,15 +383,15 @@ const FeaturedEventsCarousel = ({ events }: FeaturedEventsCarouselProps) => {
 
         {/* Right - Content */}
         <div className="flex-1 w-full">
-          <p className="text-primary-blue rounded-full w-fit bg-[#EFF6FF] px-3 md:px-4 py-1 text-sm md:text-base mb-4 md:mb-5">
+          <p className="text-primary-blue rounded-full w-fit bg-[#EFF6FF] px-2.5 md:px-3 py-0.5 md:py-1 text-xs md:text-sm mb-3 md:mb-4">
             Featured Event
           </p>
 
-          <h3 className="text-primary-black text-2xl md:text-3xl xl:text-5xl font-bold leading-[130%] xl:leading-[140%] mb-4 md:mb-5 capitalize">
+          <h3 className="text-primary-black text-xl md:text-2xl lg:text-3xl xl:text-5xl font-bold leading-[130%] xl:leading-[140%] mb-3 md:mb-4 capitalize">
             {event.title}
           </h3>
 
-          <div className="mb-4 md:mb-5 space-y-2 text-[#1D1D1F] text-base md:text-lg xl:text-xl">
+          <div className="mb-3 md:mb-4 space-y-1.5 text-[#1D1D1F] text-sm md:text-base lg:text-lg xl:text-xl">
             <p className="flex gap-2 items-center">
               <CalenderSvg />
               <span>{formatDate(event.starts_at)}</span>
@@ -404,12 +404,12 @@ const FeaturedEventsCarousel = ({ events }: FeaturedEventsCarouselProps) => {
             )}
           </div>
 
-          <p className="text-base md:text-lg xl:text-2xl text-[#1D1D1F] leading-[150%] max-w-full xl:max-w-[80%] mb-6 md:mb-8 xl:mb-12 line-clamp-3 md:line-clamp-3">
+          <p className="text-sm md:text-base lg:text-lg xl:text-2xl text-[#1D1D1F] leading-[150%] max-w-full xl:max-w-[80%] mb-4 md:mb-5 lg:mb-6 xl:mb-12 line-clamp-3 md:line-clamp-3">
             {event.description?.replace(/<[^>]*>/g, "")}
           </p>
 
           {/* Engagement Buttons */}
-          <div className="flex items-center gap-4 md:gap-6 mb-5 text-secondary-black">
+          <div className="flex items-center gap-3 md:gap-4 mb-4 text-secondary-black">
             {/* Like */}
             <button
               onClick={() => handleToggleLike(event.id)}
@@ -424,12 +424,12 @@ const FeaturedEventsCarousel = ({ events }: FeaturedEventsCarouselProps) => {
                 }`}
               >
                 {getEngagement(event.id).is_liked ? (
-                  <FaHeart className="size-4 md:size-5 text-red-500 transition-all duration-300 scale-110" />
+                  <FaHeart className="size-3.5 md:size-4 text-red-500 transition-all duration-300 scale-110" />
                 ) : (
-                  <FaRegHeart className="size-4 md:size-5 transition-all duration-300 group-hover:scale-110" />
+                  <FaRegHeart className="size-3.5 md:size-4 transition-all duration-300 group-hover:scale-110" />
                 )}
               </div>
-              <span className="text-sm md:text-base">
+              <span className="text-xs md:text-sm">
                 {getEngagement(event.id).like_count}
               </span>
             </button>
@@ -448,12 +448,12 @@ const FeaturedEventsCarousel = ({ events }: FeaturedEventsCarouselProps) => {
                 }`}
               >
                 {getEngagement(event.id).is_bookmarked ? (
-                  <FaBookmark className="size-4 md:size-5 text-primary-blue transition-all duration-300 scale-110" />
+                  <FaBookmark className="size-3.5 md:size-4 text-primary-blue transition-all duration-300 scale-110" />
                 ) : (
-                  <FaRegBookmark className="size-4 md:size-5 transition-all duration-300 group-hover:scale-110" />
+                  <FaRegBookmark className="size-3.5 md:size-4 transition-all duration-300 group-hover:scale-110" />
                 )}
               </div>
-              <span className="text-sm md:text-base">
+              <span className="text-xs md:text-sm">
                 {getEngagement(event.id).is_bookmarked ? "Saved" : "Save"}
               </span>
             </button>
@@ -464,15 +464,15 @@ const FeaturedEventsCarousel = ({ events }: FeaturedEventsCarouselProps) => {
               className="flex items-center gap-1.5 md:gap-2.5 group cursor-pointer"
             >
               <div className="flex items-center justify-center size-8 md:size-10 aspect-square rounded-full bg-white custom_shadow group-hover:!bg-green-50 group-hover:!shadow-[0_0_0_2px_rgba(34,197,94,0.15)] transition-all duration-300">
-                <RxShare1 className="size-4 md:size-5 transition-all duration-300 group-hover:scale-110 group-hover:text-green-600" />
+                <RxShare1 className="size-3.5 md:size-4 transition-all duration-300 group-hover:scale-110 group-hover:text-green-600" />
               </div>
-              <span className="text-sm md:text-base">Share</span>
+              <span className="text-xs md:text-sm">Share</span>
             </button>
           </div>
 
-          <div className="flex flex-wrap items-center gap-3 md:gap-4">
+          <div className="flex flex-wrap items-center gap-2.5 md:gap-3">
             <Link href={`/events/${event.slug}`}>
-              <button className="rounded-full cursor-pointer bg-primary-blue text-white py-2.5 md:py-3 font-normal text-sm md:text-lg !w-fit px-4 md:px-5 hover:bg-primary-blue/90 transition-colors whitespace-nowrap">
+              <button className="rounded-full cursor-pointer bg-primary-blue text-white py-2 md:py-2.5 font-normal text-xs md:text-sm lg:text-base !w-fit px-3.5 md:px-4 hover:bg-primary-blue/90 transition-colors whitespace-nowrap">
                 Booking Event Ticket
               </button>
             </Link>

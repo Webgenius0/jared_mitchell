@@ -20,7 +20,7 @@ const FAQAccordion = ({ data: cmsData }: { data?: CMSFAQ[] }) => {
           Frequently Asked Questions
         </h2>
 
-        <div className="space-y-3 md:space-y-4 lg:space-y-5 xl:space-y-7 mt-6 md:mt-8 lg:mt-10">
+        <div className="space-y-2.5 md:space-y-3 lg:space-y-4 xl:space-y-7 mt-4 md:mt-5 lg:mt-7 2xl:px-5 3xl:px-5">
           {items.map(faq => (
             <div
               key={faq.id}
@@ -28,9 +28,9 @@ const FAQAccordion = ({ data: cmsData }: { data?: CMSFAQ[] }) => {
             >
               <button
                 onClick={() => toggle(faq.id)}
-                className="w-full flex items-center justify-between p-3 md:p-4 lg:p-5 xl:p-6 text-left"
+                className="w-full flex items-center justify-between p-2.5 md:p-3 lg:p-4 xl:p-6 text-left"
               >
-                <span className="text-base md:text-lg lg:text-xl text-gray-900">{faq.question}</span>
+                <span className="text-sm md:text-base lg:text-lg xl:text-xl text-gray-900">{faq.question}</span>
                 <IoIosArrowDown
                   className={`size-7 text-primary-blue transition-transform duration-300 ${
                     openId === faq.id ? "rotate-180" : ""
@@ -39,7 +39,7 @@ const FAQAccordion = ({ data: cmsData }: { data?: CMSFAQ[] }) => {
               </button>
 
               {openId === faq.id && (
-                <div className="px-3 pb-3 md:px-4 md:pb-4 lg:px-6 lg:pb-6 text-sm md:text-base lg:text-lg text-gray-600">
+                <div className="px-2.5 pb-2.5 md:px-3 md:pb-3 lg:px-5 lg:pb-5 text-xs md:text-sm lg:text-base text-gray-600">
                   {faq.answer}
                 </div>
               )}

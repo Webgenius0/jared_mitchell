@@ -74,7 +74,7 @@ const SpotlightHero = ({
     return (
       <section className="section">
         <Container>
-          <div className="relative w-full h-[200px] md:h-[350px] lg:h-[400px] xl:h-[627px] rounded-xl md:rounded-[32px] lg:rounded-[40px] overflow-hidden sm:px-5 2xl:px-0">
+          <div className="relative w-full h-[200px] md:h-[350px] lg:h-[400px] xl:h-[627px] rounded-xl md:rounded-[32px] lg:rounded-[40px] overflow-hidden sm:px-5 2xl:px-5 3xl:px-5">
             {/* Current video (fades out during transition) */}
             <CustomVideoPlayer
               key={`current-${currentVideo.id}`}

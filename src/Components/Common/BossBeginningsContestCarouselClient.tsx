@@ -199,56 +199,56 @@ export default function BossBeginningsContestCarouselClient({
   if (!showRoundData) return null;
 
   return (
-    <section className="py-12 sm:py-16">
+    <section className="py-8 sm:py-10 lg:py-12">
       <div className="container mx-auto px-4">
         {/* Section heading */}
         {title && (
-          <div className="mb-6 sm:mb-8 text-center">
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-[#101828]">
+          <div className="mb-4 sm:mb-5 lg:mb-6 text-center">
+            <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-[#101828]">
               {title}
             </h2>
-            <p className="text-[12px] sm:text-sm tracking-[0.2em] uppercase text-black/40 mt-2">
+            <p className="text-[10px] sm:text-xs tracking-[0.2em] uppercase text-black/40 mt-1.5">
               Community-Driven • Fair • Scalable
             </p>
           </div>
         )}
 
         {isRoundComplete ? (
-          <div className="rounded-2xl border border-black/10 bg-white p-10 sm:p-14 flex flex-col items-center text-center">
-            <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-[#1977DD29] flex items-center justify-center mb-4">
+          <div className="rounded-2xl border border-black/10 bg-white p-6 sm:p-8 lg:p-10 flex flex-col items-center text-center">
+            <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-[#1977DD29] flex items-center justify-center mb-3">
               <SlBadge className="size-6 sm:size-7 text-blue-500" />
             </div>
-            <h3 className="text-lg sm:text-xl font-medium text-[#101828]">
+            <h3 className="text-base sm:text-lg font-medium text-[#101828]">
               {isFinalRound
                 ? "Contest Complete"
                 : `Round ${roundNumber} Complete`}
             </h3>
-            <p className="text-sm sm:text-base text-black/50 mt-2 max-w-md">
+            <p className="text-xs sm:text-sm text-black/50 mt-1.5 max-w-md">
               {isFinalRound
                 ? "Voting has ended for the Final Round. Thanks to everyone who took part — the winner will be announced soon."
                 : `Voting has ended for Round ${roundNumber}. Check back once the next round opens.`}
             </p>
           </div>
         ) : isFetching ? (
-          <div className="rounded-2xl border border-black/10 bg-white p-10 sm:p-14 flex flex-col items-center text-center">
+          <div className="rounded-2xl border border-black/10 bg-white p-6 sm:p-8 lg:p-10 flex flex-col items-center text-center">
             <div className="size-10 border-4 border-[#2563EB]/20 border-t-[#2563EB] rounded-full animate-spin mb-4" />
             <p className="text-sm text-black/40">Loading contestants…</p>
           </div>
         ) : isEmpty ? (
-          <div className="rounded-2xl border border-black/10 bg-white p-10 sm:p-14 flex flex-col items-center text-center">
-            <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-[#1977DD29] flex items-center justify-center mb-4">
+          <div className="rounded-2xl border border-black/10 bg-white p-6 sm:p-8 lg:p-10 flex flex-col items-center text-center">
+            <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-[#1977DD29] flex items-center justify-center mb-3">
               <FiUsers className="size-6 sm:size-7 text-blue-500" />
             </div>
-            <h3 className="text-lg sm:text-xl font-medium text-[#101828]">
+            <h3 className="text-base sm:text-lg font-medium text-[#101828]">
               No contestants yet
             </h3>
-            <p className="text-sm sm:text-base text-black/50 mt-2 max-w-md">
+            <p className="text-xs sm:text-sm text-black/50 mt-1.5 max-w-md">
               No leaderboard data is available for this round yet. Check back
               soon.
             </p>
           </div>
         ) : (
-          <div className="rounded-2xl border border-black/10 bg-white p-4 sm:p-6 lg:p-8">
+          <div className="rounded-2xl border border-black/10 bg-white p-3 sm:p-4 lg:p-6">
             <div className="boss-carousel">
               <div className="relative max-w-2xl mx-auto">
                 <Swiper
@@ -275,10 +275,10 @@ export default function BossBeginningsContestCarouselClient({
                     <SwiperSlide key={b.id ?? `${b.name}-${b.rank}`}>
                       <div className="overflow-hidden rounded-2xl border border-black/10 bg-white shadow-[0_10px_40px_-12px_rgba(37,99,235,0.25)]">
                         {/* Gradient header */}
-                        <div className="bg-gradient-to-br from-[#1D4ED8] via-[#2563EB] to-[#3B82F6] px-5 sm:px-7 py-5 sm:py-6 text-white flex items-center justify-between gap-4">
-                          <div className="flex items-center gap-3 sm:gap-4">
+                        <div className="bg-gradient-to-br from-[#1D4ED8] via-[#2563EB] to-[#3B82F6] px-4 sm:px-5 py-4 sm:py-5 text-white flex items-center justify-between gap-3">
+                          <div className="flex items-center gap-2.5 sm:gap-3">
                             <span
-                              className={`flex h-12 w-12 sm:h-14 sm:w-14 items-center justify-center rounded-xl text-lg sm:text-2xl font-bold shadow-lg ${rankBadgeStyle(
+                              className={`flex h-10 w-10 sm:h-11 sm:w-11 items-center justify-center rounded-lg text-base sm:text-xl font-bold shadow-lg ${rankBadgeStyle(
                                 b.rank,
                               )}`}
                             >
@@ -290,10 +290,10 @@ export default function BossBeginningsContestCarouselClient({
                               <img
                                 src={b.avatar}
                                 alt={b.name}
-                                className="h-12 w-12 sm:h-14 sm:w-14 rounded-full border-2 border-white/40 object-cover"
+                                className="h-10 w-10 sm:h-11 sm:w-11 rounded-full border-2 border-white/40 object-cover"
                               />
                             ) : (
-                              <span className="flex h-12 w-12 sm:h-14 sm:w-14 items-center justify-center rounded-full bg-white/15 border border-white/25">
+                              <span className="flex h-10 w-10 sm:h-11 sm:w-11 items-center justify-center rounded-full bg-white/15 border border-white/25">
                                 <FiAward className="size-5 sm:size-6" />
                               </span>
                             )}
@@ -303,40 +303,40 @@ export default function BossBeginningsContestCarouselClient({
                         </div>
 
                         {/* Body */}
-                        <div className="p-5 sm:p-7">
-                          <h3 className="text-lg sm:text-2xl font-semibold text-[#101828] leading-tight">
+                        <div className="p-4 sm:p-5">
+                          <h3 className="text-base sm:text-lg lg:text-xl font-semibold text-[#101828] leading-tight">
                             {b.name}
                           </h3>
-                          <p className="text-[12px] sm:text-sm text-black/50 mt-1">
+                          <p className="text-[10px] sm:text-xs text-black/50 mt-1">
                             {b.owner}
                           </p>
 
-                          <div className="grid grid-cols-3 gap-3 sm:gap-4 mt-5 sm:mt-6">
-                            <div className="rounded-xl bg-[#F5F7FB] px-3 py-3 sm:py-4 text-center">
-                              <p className="text-[10px] sm:text-xs text-black/45 uppercase tracking-wide">
+                          <div className="grid grid-cols-3 gap-2.5 sm:gap-3 mt-4 sm:mt-5">
+                            <div className="rounded-xl bg-[#F5F7FB] px-2.5 py-2.5 sm:py-3 text-center">
+                              <p className="text-[9px] sm:text-[10px] text-black/45 uppercase tracking-wide">
                                 Score
                               </p>
-                              <p className="text-sm sm:text-lg font-bold text-[#2563EB] mt-1">
+                              <p className="text-xs sm:text-sm lg:text-base font-bold text-[#2563EB] mt-0.5">
                                 {b.score.toLocaleString()}
                               </p>
                             </div>
-                            <div className="rounded-xl bg-[#F5F7FB] px-3 py-3 sm:py-4 text-center">
-                              <p className="text-[10px] sm:text-xs text-black/45 uppercase tracking-wide">
+                            <div className="rounded-xl bg-[#F5F7FB] px-2.5 py-2.5 sm:py-3 text-center">
+                              <p className="text-[9px] sm:text-[10px] text-black/45 uppercase tracking-wide">
                                 Trend
                               </p>
                               <p
-                                className={`text-sm sm:text-lg font-bold mt-1 ${trendStyle(
+                                className={`text-xs sm:text-sm lg:text-base font-bold mt-0.5 ${trendStyle(
                                   b.trend,
                                 )}`}
                               >
                                 {b.trend}
                               </p>
                             </div>
-                            <div className="rounded-xl bg-[#F5F7FB] px-3 py-3 sm:py-4 text-center">
-                              <p className="text-[10px] sm:text-xs text-black/45 uppercase tracking-wide">
+                            <div className="rounded-xl bg-[#F5F7FB] px-2.5 py-2.5 sm:py-3 text-center">
+                              <p className="text-[9px] sm:text-[10px] text-black/45 uppercase tracking-wide">
                                 {b.votes != null ? "Votes" : "Category"}
                               </p>
-                              <p className="text-sm sm:text-lg font-bold text-[#101828] mt-1 truncate">
+                              <p className="text-xs sm:text-sm lg:text-base font-bold text-[#101828] mt-0.5 truncate">
                                 {b.votes != null
                                   ? b.votes.toLocaleString()
                                   : b.category}
@@ -346,10 +346,10 @@ export default function BossBeginningsContestCarouselClient({
                         </div>
 
                         {/* Footer */}
-                        <div className="px-5 sm:px-7 pb-5 sm:pb-7">
+                        <div className="px-4 sm:px-5 pb-4 sm:pb-5">
                           <button
                             onClick={() => handleViewProfile(b.name, b.id)}
-                            className="inline-flex w-full items-center justify-center gap-2 bg-[#2563EB] hover:bg-[#1D4ED8] text-white text-sm sm:text-base font-medium px-6 py-3 rounded-xl transition-colors cursor-pointer"
+                            className="inline-flex w-full items-center justify-center gap-2 bg-[#2563EB] hover:bg-[#1D4ED8] text-white text-xs sm:text-sm font-medium px-5 py-2.5 rounded-xl transition-colors cursor-pointer"
                           >
                             <FiEye className="size-4 sm:size-5" />
                             View Profile
@@ -381,7 +381,7 @@ export default function BossBeginningsContestCarouselClient({
             </div>
 
             {/* Counter + mobile prev/next */}
-            <div className="mt-6 flex items-center justify-center gap-4">
+            <div className="mt-4 flex items-center justify-center gap-3">
               <button
                 onClick={() => swiper?.slidePrev()}
                 disabled={activeIndex === 0}

@@ -80,18 +80,18 @@ const PricingTable = ({ data, headers }: PricingTableProps) => {
   if (!pricingTableData.length) return null;
 
   return (
-    <section className="section py-8 md:py-12 bg-[#F5F5F7]">
+    <section className="section py-6 md:py-8 bg-[#F5F5F7]">
       <div className="container">
         <div className="w-full md:w-[700px] mx-auto lg:w-full overflow-x-auto">
           <table className="w-full border-collapse text-nowrap shadow-[0_4px_20px_0_rgba(0,0,0,0.07)]">
-            <thead className="rounded-2xl text-lg xl:text-xl">
+            <thead className="rounded-2xl text-sm md:text-base lg:text-base xl:text-xl">
               <tr className="border-b border-gray-200 bg-white">
-                <th className="font-bold text-left py-3 md:py-4 xl:py-5 rounded-tl-xl">
+                <th className="font-bold text-left py-2.5 md:py-3 lg:py-3.5 xl:py-5 rounded-tl-xl">
                   Feature
                 </th>
-                <th className="font-bold py-3 md:py-4 xl:py-5">{tableHeaders.basic}</th>
-                <th className="font-bold py-3 md:py-4 xl:py-5">{tableHeaders.growth}</th>
-                <th className="font-bold py-3 md:py-4 xl:py-5 rounded-tr-xl">
+                <th className="font-bold py-2.5 md:py-3 lg:py-3.5 xl:py-5">{tableHeaders.basic}</th>
+                <th className="font-bold py-2.5 md:py-3 lg:py-3.5 xl:py-5">{tableHeaders.growth}</th>
+                <th className="font-bold py-2.5 md:py-3 lg:py-3.5 xl:py-5 rounded-tr-xl">
                   {tableHeaders.pro}
                 </th>
               </tr>

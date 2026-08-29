@@ -49,18 +49,18 @@ const WhatYouAreGetting = ({ data: cmsData }: { data?: CMSWhatYouGet }) => {
           {cmsData?.title || "What You're Really Getting"}
         </h2>
 
-        <p className="text-base md:text-lg lg:text-xl text-center text-secondary-black mt-2 md:mt-3">
+        <p className="text-sm md:text-base lg:text-lg text-center text-secondary-black mt-1.5 md:mt-2">
           {cmsData?.sub_title ||
             "You're not buying a membership — you're buying:"}
         </p>
 
-        <div className="grid md:grid-cols-2 xl:grid-cols-4 gap-3 md:gap-3 lg:gap-4 xl:gap-5 mt-4 md:mt-5 lg:mt-6 xl:mt-8">
+        <div className="grid md:grid-cols-2 xl:grid-cols-4 gap-2.5 md:gap-2.5 lg:gap-3 xl:gap-5 mt-3 md:mt-4 lg:mt-5 xl:mt-8">
           {items?.map(item => (
             <div
               key={item.id}
-              className="rounded-xl w-full py-6 md:py-6 lg:py-8 2xl:py-12 px-4 md:px-4 lg:px-5 2xl:px-6 flex items-center flex-col border space-y-3 lg:space-y-4 border-[rgba(0,0,0,0.16)] shadow"
+              className="rounded-xl w-full py-4 md:py-4 lg:py-5 2xl:py-12 px-3 md:px-3 lg:px-4 2xl:px-6 flex items-center flex-col border space-y-2 lg:space-y-3 border-[rgba(0,0,0,0.16)] shadow"
             >
-              <div className="flex items-center justify-center aspect-square bg-[rgba(25,119,221,0.16)] size-12 md:size-16 lg:size-[80px] xl:size-[100px] rounded-full">
+              <div className="flex items-center justify-center aspect-square bg-[rgba(25,119,221,0.16)] size-10 md:size-12 lg:size-14 xl:size-[100px] rounded-full">
                 <div className="md:scale-[130%] 2xl:scale-[160%]">
                   {typeof item.image === "string" && item.image ? (
                     <div className="size-10 xl:size-13 rounded-full overflow-hidden border border-[#D6E5F5] shadow-[0_4px_20px_0_rgba(0,0,0,0.07)] bg-[#D6E5F5] shrink-0 relative">
@@ -80,7 +80,7 @@ const WhatYouAreGetting = ({ data: cmsData }: { data?: CMSWhatYouGet }) => {
                 </div>
               </div>
 
-              <h4 className="text-base md:text-base lg:text-lg xl:text-xl text-center self-stretch font-semibold text-primary-black">
+              <h4 className="text-sm md:text-sm lg:text-base xl:text-xl text-center self-stretch font-semibold text-primary-black">
                 {item.title}
               </h4>
             </div>

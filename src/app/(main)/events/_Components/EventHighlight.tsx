@@ -48,7 +48,7 @@ const EventHighlight = () => {
   if (loading) {
     return (
       <section className="container py-10 md:py-16 xl:py-20">
-        <h2 className="section_title text-2xl md:text-4xl xl:text-6xl 2xl:text-7xl 2xl:font-bold">
+        <h2 className="section_title text-xl md:text-3xl lg:text-4xl xl:text-6xl 2xl:text-7xl 2xl:font-bold">
           Past Event Highlights
         </h2>
         <div className="h-[200px] md:h-[300px] flex items-center justify-center text-base md:text-xl text-gray-400">
@@ -64,24 +64,24 @@ const EventHighlight = () => {
   const paginatedEvents = events.slice(startIndex, startIndex + ITEMS_PER_PAGE);
 
   return (
-    <section id="past-events" className="container py-10 md:py-16 xl:py-20">
+    <section id="past-events" className="container py-8 md:py-10 lg:py-12 xl:py-20">
       <h2 className="section_title text-2xl md:text-4xl xl:text-6xl 2xl:text-7xl 2xl:font-bold">
         Past Event Highlights
       </h2>
 
-      <p className="text-base md:text-lg xl:text-xl text-[#1D1D1F] text-center mb-6 md:mb-8 xl:mb-12 max-w-[90%] md:max-w-[70%] mx-auto">
+      <p className="text-sm md:text-base lg:text-lg xl:text-xl text-[#1D1D1F] text-center mb-4 md:mb-5 lg:mb-6 xl:mb-12 max-w-[90%] md:max-w-[70%] mx-auto">
         Take a look back at some of our most memorable events and celebrations.
       </p>
 
-      <div className="my-6 md:my-10">
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-5">
+      <div className="my-4 md:my-6 lg:my-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-3.5 lg:gap-4">
           {paginatedEvents.map(event => (
             <div
               key={event.id}
               className="group rounded-[20px] bg-white custom_shadow custom_border overflow-hidden"
             >
               {/* Image with title + date overlay (shown on hover) */}
-              <div className="relative w-full h-[200px] md:h-[280px] xl:h-[380px] overflow-hidden">
+              <div className="relative w-full h-[170px] md:h-[220px] lg:h-[250px] xl:h-[380px] overflow-hidden">
                 <Image
                   src={event.cover_image_url}
                   fill
@@ -107,31 +107,30 @@ const EventHighlight = () => {
               </div>
 
               {/* Content below the image */}
-              <div className="py-4 md:py-7 px-4 md:px-5">
+              <div className="py-3 md:py-4 lg:py-5 px-3 md:px-4">
                 <div className="flex items-start justify-between gap-3">
-                  <h3 className="text-lg md:text-xl xl:text-2xl text-primary-black font-semibold line-clamp-1 capitalize">
+                  <h3 className="text-base md:text-lg lg:text-xl xl:text-2xl text-primary-black font-semibold line-clamp-1 capitalize">
                     {event.title}
                   </h3>
                   {event.starts_at && (
-                    <span className="shrink-0 text-xs md:text-sm text-secondary-black whitespace-nowrap mt-1">
+                    <span className="shrink-0 text-[10px] md:text-xs text-secondary-black whitespace-nowrap mt-1">
                       Date: {formatRowDate(event.starts_at)}
                     </span>
                   )}
                 </div>
 
                 {event.description && (
-                  <p className="text-sm md:text-base text-secondary-black mt-3 line-clamp-2">
+                  <p className="text-xs md:text-sm text-secondary-black mt-2 line-clamp-2">
                     {sanitizeToPlainText(event.description)}
                   </p>
                 )}
 
                 <Link
-                  href={`/events/${event.slug}?from=past`}
-                  className="block"
+                  href={`/events/${event.slug}?from=past`}                    className="block"
                 >
                   <Button
                     size={"lg"}
-                    className="!px-8 md:!px-12 !h-[36px] md:!h-[45px] text-sm md:text-base mt-5"
+                    className="!px-6 md:!px-8 !h-[32px] md:!h-[38px] text-xs md:text-sm mt-3"
                   >
                     View Recap
                   </Button>
