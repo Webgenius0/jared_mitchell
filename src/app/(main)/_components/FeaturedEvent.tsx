@@ -505,7 +505,7 @@ const FeaturedEvent = ({ events }: FeaturedEventProps) => {
             </Link>
             <Link href={`/events/${event.slug}`}>
               <Button variant="outline" className="!py-2.5">
-             Score This Business
+             View Details
               </Button>
             </Link>
           </div>

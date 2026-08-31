@@ -4,10 +4,12 @@ import { useState, useEffect, useCallback, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { FeaturedEventItem } from "@/Types/cms";
-import { CalenderSvg, VideoSvg, PlayIcon } from "@/Components/Svg/SvgContainer";
+import { GrLocation } from "react-icons/gr";
+import { Button } from "@/Components/Common/Button";
+import { getItem, setItem } from "@/lib/localStorage";
+import { MdOutlineAccessTime } from "react-icons/md";
 import { PiCaretLeftBold, PiCaretRightBold } from "react-icons/pi";
-import { FaHeart, FaRegHeart, FaBookmark, FaRegBookmark } from "react-icons/fa";
-import { RxShare1 } from "react-icons/rx";
+import { CalenderSvg, VideoSvg, PlayIcon } from "@/Components/Svg/SvgContainer";
 import useAuth from "@/Hooks/useAuth";
 import {
   apiGetFeaturedEvents,
@@ -16,9 +18,10 @@ import {
   apiShareEvent,
 } from "@/Hooks/api/events_api";
 import toast from "react-hot-toast";
-import { getItem, setItem } from "@/lib/localStorage";
+import { FaHeart, FaRegHeart, FaBookmark, FaRegBookmark } from "react-icons/fa";
+import { RxShare1 } from "react-icons/rx";
 
-const ENGAGEMENT_STORAGE_KEY = "event_engagements";
+const ENGAGEMENT_STORAGE_KEY = "featured_event_engagements";
 
 type EngagementValue = {
   is_liked: boolean;
@@ -59,6 +62,13 @@ const formatDate = (dateStr: string) =>
     year: "numeric",
   });
 
+const formatTime = (dateStr: string) =>
+  new Date(dateStr).toLocaleTimeString("en-US", {
+    hour: "numeric",
+    minute: "2-digit",
+    hour12: true,
+  });
+
 const FeaturedEventsCarousel = ({ events }: FeaturedEventsCarouselProps) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
@@ -76,17 +86,20 @@ const FeaturedEventsCarousel = ({ events }: FeaturedEventsCarouselProps) => {
     loadPersistedEngagements(),
   );
 
-  const getEngagement = (eventId: number) => {
-    const event = events?.find(e => e.id === eventId);
-    const local = localEngagements[eventId];
-    return {
-      is_liked: local?.is_liked ?? event?.is_liked ?? false,
-      is_bookmarked: local?.is_bookmarked ?? event?.is_bookmarked ?? false,
-      like_count:
-        local?.like_count ?? event?.likes_count ?? event?.like_count ?? 0,
-      bookmarks_count: local?.bookmarks_count ?? event?.bookmarks_count ?? 0,
-    };
-  };
+  const getEngagement = useCallback(
+    (eventId: number) => {
+      const event = events?.find(e => e.id === eventId);
+      const local = localEngagements[eventId];
+      return {
+        is_liked: local?.is_liked ?? event?.is_liked ?? false,
+        is_bookmarked: local?.is_bookmarked ?? event?.is_bookmarked ?? false,
+        like_count:
+          local?.like_count ?? event?.likes_count ?? event?.like_count ?? 0,
+        bookmarks_count: local?.bookmarks_count ?? event?.bookmarks_count ?? 0,
+      };
+    },
+    [events, localEngagements],
+  );
 
   const handleToggleLike = async (eventId: number) => {
     if (!token) {
@@ -136,7 +149,6 @@ const FeaturedEventsCarousel = ({ events }: FeaturedEventsCarouselProps) => {
       }));
       toast.error("Failed to toggle like");
     } finally {
-      // Persist to localStorage
       setLocalEngagements(current => {
         persistEngagements(current);
         return current;
@@ -195,7 +207,6 @@ const FeaturedEventsCarousel = ({ events }: FeaturedEventsCarouselProps) => {
       }));
       toast.error("Failed to toggle bookmark");
     } finally {
-      // Persist to localStorage
       setLocalEngagements(current => {
         persistEngagements(current);
         return current;
@@ -205,48 +216,38 @@ const FeaturedEventsCarousel = ({ events }: FeaturedEventsCarouselProps) => {
   };
 
   const handleShare = async (eventId: number, eventTitle: string) => {
-    const loadingKey = `share-${eventId}`;
-    if (actionLoading[loadingKey]) return;
-    setActionLoading(prev => ({ ...prev, [loadingKey]: true }));
-
     const slug = events?.find(e => e.id === eventId)?.slug || eventId;
     const url = window.location.origin + `/events/${slug}`;
 
-    try {
-      // Try native Web Share API
-      if (navigator.share) {
-        try {
-          await navigator.share({
-            title: eventTitle,
-            text: `Check out this event: ${eventTitle}`,
-            url,
-          });
-        } catch {
-          // User cancelled — not shared, skip the API call
-          return;
-        }
-      } else {
-        // Fallback: copy link
-        try {
-          await navigator.clipboard.writeText(url);
-        } catch {
-          // clipboard not available
-        }
-      }
-
-      // Count the share server-side (login required, same as like/bookmark)
-      if (!token) {
-        window.location.href = "/auth/login";
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: eventTitle,
+          text: `Check out this event: ${eventTitle}`,
+          url,
+        });
+      } catch {
         return;
       }
+    } else {
+      try {
+        await navigator.clipboard.writeText(url);
+      } catch {
+        // clipboard not available
+      }
+    }
+
+    if (!token) {
+      window.location.href = "/auth/login";
+      return;
+    }
+    try {
       const res = await apiShareEvent(eventId);
       if (res?.success) {
         toast.success(res.message || "Event shared successfully!");
       }
     } catch {
-      // Share API failed — the local share still worked, don't nag the user
-    } finally {
-      setActionLoading(prev => ({ ...prev, [loadingKey]: false }));
+      // Share API failed — the local share still worked
     }
   };
 
@@ -262,20 +263,20 @@ const FeaturedEventsCarousel = ({ events }: FeaturedEventsCarouselProps) => {
   };
 
   const goToNext = useCallback(() => {
-    if (isTransitioning || events.length <= 1) return;
+    if (isTransitioning || !events || events.length <= 1) return;
     setIsTransitioning(true);
     setCurrentIndex(prev => (prev + 1) % events.length);
     setTimeout(() => setIsTransitioning(false), 500);
-  }, [events.length, isTransitioning]);
+  }, [events, isTransitioning]);
 
   const goToPrev = useCallback(() => {
-    if (isTransitioning || events.length <= 1) return;
+    if (isTransitioning || !events || events.length <= 1) return;
     setIsTransitioning(true);
     setCurrentIndex(prev => (prev - 1 + events.length) % events.length);
     setTimeout(() => setIsTransitioning(false), 500);
-  }, [events.length, isTransitioning]);
+  }, [events, isTransitioning]);
 
-  // Fetch engagement state from authenticated endpoint on mount (overlays persisted data)
+  // Fetch engagement state from authenticated endpoint on mount
   useEffect(() => {
     if (!token || !events || events.length === 0) return;
     let cancelled = false;
@@ -298,7 +299,7 @@ const FeaturedEventsCarousel = ({ events }: FeaturedEventsCarouselProps) => {
           return merged;
         });
       } catch {
-        // silently fail — fall back to localStorage data
+        // silently fail
       }
     })();
     return () => {
@@ -306,12 +307,12 @@ const FeaturedEventsCarousel = ({ events }: FeaturedEventsCarouselProps) => {
     };
   }, [token]);
 
-  // Auto-rotate with pause on hover
+  // Auto-advance
   useEffect(() => {
-    if (events.length <= 1 || isHovered) return;
+    if (!events || events.length <= 1 || isHovered) return;
     const interval = setInterval(goToNext, 6000);
     return () => clearInterval(interval);
-  }, [goToNext, events.length, isHovered]);
+  }, [goToNext, events, isHovered]);
 
   if (!events || events.length === 0) return null;
 
@@ -319,162 +320,187 @@ const FeaturedEventsCarousel = ({ events }: FeaturedEventsCarouselProps) => {
 
   return (
     <section
-      className="py-8 md:py-10 lg:py-12 xl:py-20 container"
+      className="section bg-[#F5F5F7]"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <div className="flex flex-col lg:flex-row gap-5 md:gap-8 lg:gap-10 xl:gap-16 items-center relative">
-        {/* Navigation Arrows — on the whole section edges */}
-        {events.length > 1 && (
-          <>
-            <button
-              onClick={goToPrev}
-              className="absolute left-0 lg:-left-6 top-1/2 -translate-y-1/2 size-10 md:size-12 rounded-full bg-white shadow-lg flex items-center justify-center z-20 cursor-pointer hover:bg-primary-blue hover:text-white transition-all duration-300 group"
-              aria-label="Previous event"
-            >
-              <PiCaretLeftBold className="size-4 md:size-5 group-hover:scale-110 transition-transform" />
-            </button>
-            <button
-              onClick={goToNext}
-              className="absolute right-0 lg:-right-5 top-1/2 -translate-y-1/2 size-10 md:size-12 rounded-full bg-white shadow-lg flex items-center justify-center z-20 cursor-pointer hover:bg-primary-blue hover:text-white transition-all duration-300 group"
-              aria-label="Next event"
-            >
-              <PiCaretRightBold className="size-4 md:size-5 group-hover:scale-110 transition-transform" />
-            </button>
-          </>
-        )}
+      <h2 className="section_title 2xl:text-7xl 2xl:font-bold">
+        Featured Events
+      </h2>
 
-        {/* Left - Video (with image fallback) */}
+      <div className="flex gap-4 md:gap-5 xl:gap-10 2xl:gap-14 max-lg:flex-col container md:max-w-[70%] relative mt-4 md:my-8">
+        {/* Left — Image / Video */}
         <div
           key={event.id}
-          className="w-full lg:w-[400px] xl:w-[600px] h-[220px] sm:h-[280px] md:h-[340px] lg:h-[380px] xl:h-[550px] relative overflow-hidden shrink-0 bg-black"
+          className="lg:basis-1/2 relative w-full h-[350px] sm:h-[350px] md:h-[460px] lg:h-[460px] xl:h-[460px] 2xl:h-[520px] bg-black"
         >
-          {event.promo_video_url ? (
+          {/* Navigation Arrows */}
+          {events.length > 1 && (
             <>
-              <video
-                ref={videoRef}
-                src={event.promo_video_url}
-                muted={isMuted}
-                playsInline
-                className="w-full h-full object-cover"
-                onClick={togglePlay}
-                onEnded={() => setIsPlaying(false)}
-              />
-              {!isPlaying && (
-                <div
-                  onClick={togglePlay}
-                  className="absolute inset-0 flex items-center justify-center bg-black/20 cursor-pointer"
-                >
-                  <PlayIcon />
-                </div>
-              )}
+              <button
+                onClick={goToPrev}
+                className="absolute left-2 md:left-3 lg:left-4 top-1/2 -translate-y-1/2 size-6 md:size-8 rounded-full bg-white/90 shadow-lg flex items-center justify-center z-20 cursor-pointer hover:bg-primary-blue hover:text-white transition-all duration-300 group"
+                aria-label="Previous event"
+              >
+                <PiCaretLeftBold className="size-4 md:size-5 group-hover:scale-110 transition-transform" />
+              </button>
+              <button
+                onClick={goToNext}
+                className="absolute right-2 md:right-3 lg:right-4 top-1/2 -translate-y-1/2 size-6 md:size-8 rounded-full bg-white/90 shadow-lg flex items-center justify-center z-20 cursor-pointer hover:bg-primary-blue hover:text-white transition-all duration-300 group"
+                aria-label="Next event"
+              >
+                <PiCaretRightBold className="size-4 md:size-5 group-hover:scale-110 transition-transform" />
+              </button>
             </>
-          ) : event.cover_image_url ? (
-            <Image
-              src={event.cover_image_url}
-              alt={event.title}
-              fill
-              className="object-cover"
-              sizes="(max-width: 768px) 100vw, 600px"
-              priority
-            />
-          ) : null}
-        </div>
-
-        {/* Right - Content */}
-        <div className="flex-1 w-full">
-          <p className="text-primary-blue rounded-full w-fit bg-[#EFF6FF] px-2.5 md:px-3 py-0.5 md:py-1 text-xs md:text-sm mb-3 md:mb-4">
-            Featured Event
-          </p>
-
-          <h3 className="text-primary-black text-xl md:text-2xl lg:text-3xl xl:text-5xl font-bold leading-[130%] xl:leading-[140%] mb-3 md:mb-4 capitalize">
-            {event.title}
-          </h3>
-
-          <div className="mb-3 md:mb-4 space-y-1.5 text-[#1D1D1F] text-sm md:text-base lg:text-lg xl:text-xl">
-            <p className="flex gap-2 items-center">
-              <CalenderSvg />
-              <span>{formatDate(event.starts_at)}</span>
-            </p>
-            {event.promo_video_url && (
-              <p className="flex gap-2 items-center">
-                <VideoSvg />
-                <span>Highlight Video Available</span>
-              </p>
+          )}
+          <div className="absolute inset-0 overflow-hidden">
+            {event.promo_video_url ? (
+              <>
+                <video
+                  ref={videoRef}
+                  src={event.promo_video_url}
+                  muted={isMuted}
+                  playsInline
+                  className="w-full h-full object-cover"
+                  onClick={togglePlay}
+                  onEnded={() => setIsPlaying(false)}
+                />
+                {!isPlaying && (
+                  <div
+                    onClick={togglePlay}
+                    className="absolute inset-0 flex items-center justify-center bg-black/20 cursor-pointer"
+                  >
+                    <PlayIcon />
+                  </div>
+                )}
+              </>
+            ) : (
+              <Image
+                src={event.cover_image_url || "/home/featured-event-img.jpg"}
+                fill
+                alt={event.title || "featured event"}
+                className="size-full object-cover"
+              />
             )}
           </div>
 
-          <p className="text-sm md:text-base lg:text-lg xl:text-2xl text-[#1D1D1F] leading-[150%] max-w-full xl:max-w-[80%] mb-4 md:mb-5 lg:mb-6 xl:mb-12 line-clamp-3 md:line-clamp-3">
+          <div className="absolute top-4 xl:top-7 left-4 xl:left-7 xl:text-xl px-3 xl:px-5 py-1 xl:py-2 text-sm font-normal rounded-full text-primary-blue bg-[#eff6ff] z-10">
+            Featured Event
+          </div>
+        </div>
+
+        {/* Right — Content */}
+        <div key={`content-${event.id}`} className="lg:basis-1/2">
+          <h2 className="section_title !text-left 2xl:font-bold 2xl:text-4xl tracking-tight mb-3 leading-[1.15] capitalize">
+            {event.title}
+          </h2>
+
+          <div className="space-y-1.5 md:space-y-3">
+            <div className="flex items-center md:text-base xl:text-xl gap-2.5">
+              <CalenderSvg />
+              <p className="text-primary-black">
+                {formatDate(event.starts_at)}
+              </p>
+            </div>
+
+            <div className="flex items-center md:text-base xl:text-xl gap-2.5">
+              <MdOutlineAccessTime className="text-black" />
+              <p className="text-primary-black">
+                {formatTime(event.starts_at)} - {formatTime(event.ends_at)}
+              </p>
+            </div>
+
+            {event.promo_video_url && (
+              <div className="flex items-center md:text-base xl:text-xl gap-2.5">
+                <VideoSvg />
+                <p className="text-primary-black">Highlight Video Available</p>
+              </div>
+            )}
+
+            {event.city && event.state && (
+              <div className="flex items-center md:text-base xl:text-xl gap-2.5">
+                <GrLocation className="text-black" />
+                <p className="text-primary-black">
+                  {event.city}, {event.state}
+                </p>
+              </div>
+            )}
+          </div>
+
+          <p className="text-xs md:text-sm xl:text-lg text-primary-black mt-2 line-clamp-3">
             {event.description?.replace(/<[^>]*>/g, "")}
           </p>
 
-          {/* Engagement Buttons */}
-          <div className="flex items-center gap-3 md:gap-4 mb-4 text-secondary-black">
-            {/* Like */}
+          <div className="py-2.5 md:mt-2 mb-4 border-b border-gray-200 text-secondary-black flex items-center gap-5 md:gap-8">
+            {/* Like Button */}
             <button
               onClick={() => handleToggleLike(event.id)}
               disabled={actionLoading[`like-${event.id}`]}
-              className="flex items-center gap-1.5 md:gap-2.5 group cursor-pointer"
+              className="flex items-center gap-1.5 md:gap-3 2xl:gap-6 group cursor-pointer"
             >
               <div
-                className={`flex items-center justify-center size-8 md:size-10 aspect-square rounded-full bg-white custom_shadow transition-all duration-300 ${
+                className={`flex items-center justify-center size-5 md:size-7 xl:size-[42px] aspect-square rounded-full bg-white custom_shadow transition-all duration-300 ${
                   getEngagement(event.id).is_liked
                     ? "!bg-red-50 !shadow-[0_0_0_2px_rgba(239,68,68,0.3)]"
                     : "group-hover:!bg-red-50 group-hover:!shadow-[0_0_0_2px_rgba(239,68,68,0.15)]"
                 }`}
               >
                 {getEngagement(event.id).is_liked ? (
-                  <FaHeart className="size-3.5 md:size-4 text-red-500 transition-all duration-300 scale-110" />
+                  <FaHeart className="size-3 md:size-3.5 xl:size-6 text-red-500 transition-all duration-300 scale-110" />
                 ) : (
-                  <FaRegHeart className="size-3.5 md:size-4 transition-all duration-300 group-hover:scale-110" />
+                  <FaRegHeart className="size-3 md:size-3.5 xl:size-6 transition-all duration-300 group-hover:scale-110" />
                 )}
               </div>
-              <span className="text-xs md:text-sm">
-                {getEngagement(event.id).like_count}
+              <span className="md:text-sm xl:text-xl">
+                {getEngagement(event.id).like_count.toLocaleString()}
               </span>
             </button>
 
-            {/* Bookmark */}
+            {/* Bookmark Button */}
             <button
               onClick={() => handleToggleBookmark(event.id)}
               disabled={actionLoading[`bookmark-${event.id}`]}
-              className="flex items-center gap-1.5 md:gap-2.5 group cursor-pointer"
+              className="flex items-center gap-1.5 md:gap-3 2xl:gap-6 group cursor-pointer"
             >
               <div
-                className={`flex items-center justify-center size-8 md:size-10 aspect-square rounded-full bg-white custom_shadow transition-all duration-300 ${
+                className={`flex items-center justify-center size-5 md:size-7 xl:size-[42px] aspect-square rounded-full bg-white custom_shadow transition-all duration-300 ${
                   getEngagement(event.id).is_bookmarked
                     ? "!bg-blue-50 !shadow-[0_0_0_2px_rgba(25,119,221,0.3)]"
                     : "group-hover:!bg-blue-50 group-hover:!shadow-[0_0_0_2px_rgba(25,119,221,0.15)]"
                 }`}
               >
                 {getEngagement(event.id).is_bookmarked ? (
-                  <FaBookmark className="size-3.5 md:size-4 text-primary-blue transition-all duration-300 scale-110" />
+                  <FaBookmark className="size-3 md:size-3.5 xl:size-6 text-primary-blue transition-all duration-300 scale-110" />
                 ) : (
-                  <FaRegBookmark className="size-3.5 md:size-4 transition-all duration-300 group-hover:scale-110" />
+                  <FaRegBookmark className="size-3 md:size-3.5 xl:size-6 transition-all duration-300 group-hover:scale-110" />
                 )}
               </div>
-              <span className="text-xs md:text-sm">
+              <span className="md:text-sm xl:text-xl">
                 {getEngagement(event.id).is_bookmarked ? "Saved" : "Save"}
               </span>
             </button>
 
-            {/* Share */}
+            {/* Share Button */}
             <button
               onClick={() => handleShare(event.id, event.title)}
-              className="flex items-center gap-1.5 md:gap-2.5 group cursor-pointer"
+              disabled={actionLoading[`share-${event.id}`]}
+              className="flex items-center gap-1.5 md:gap-3 2xl:gap-6 group cursor-pointer"
             >
-              <div className="flex items-center justify-center size-8 md:size-10 aspect-square rounded-full bg-white custom_shadow group-hover:!bg-green-50 group-hover:!shadow-[0_0_0_2px_rgba(34,197,94,0.15)] transition-all duration-300">
-                <RxShare1 className="size-3.5 md:size-4 transition-all duration-300 group-hover:scale-110 group-hover:text-green-600" />
+              <div className="flex items-center justify-center size-5 md:size-7 xl:size-[42px] aspect-square rounded-full bg-white custom_shadow group-hover:!bg-green-50 group-hover:!shadow-[0_0_0_2px_rgba(34,197,94,0.15)] transition-all duration-300">
+                <RxShare1 className="size-3 md:size-3.5 xl:size-6 transition-all duration-300 group-hover:scale-110 group-hover:text-green-600" />
               </div>
-              <span className="text-xs md:text-sm">Share</span>
+              <span className="md:text-sm xl:text-xl">Share</span>
             </button>
           </div>
 
-          <div className="flex flex-wrap items-center gap-2.5 md:gap-3">
+          <div className="flex flex-wrap items-center gap-3 sm:gap-4">
             <Link href={`/events/${event.slug}`}>
-              <button className="rounded-full cursor-pointer bg-primary-blue text-white py-2 md:py-2.5 font-normal text-xs md:text-sm lg:text-base !w-fit px-3.5 md:px-4 hover:bg-primary-blue/90 transition-colors whitespace-nowrap">
-                Booking Event Ticket
-              </button>
+              <Button className="!py-2.5">Get Tickets</Button>
+            </Link>
+            <Link href={`/events/${event.slug}`}>
+              <Button variant="outline" className="!py-2.5">
+                view Details
+              </Button>
             </Link>
           </div>
         </div>
