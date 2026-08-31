@@ -335,61 +335,62 @@ const FeaturedEvent = ({ events }: FeaturedEventProps) => {
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <div className="flex gap-4 md:gap-5 xl:gap-10 2xl:gap-14 max-lg:flex-col container relative">
-        {/* Navigation Arrows */}
-        {events.length > 1 && (
-          <>
-            <button
-              onClick={goToPrev}
-              className="absolute left-0 lg:-left-10 top-1/2 -translate-y-1/2 size-10 md:size-12 rounded-full bg-white shadow-lg flex items-center justify-center z-20 cursor-pointer hover:bg-primary-blue hover:text-white transition-all duration-300 group"
-              aria-label="Previous event"
-            >
-              <PiCaretLeftBold className="size-4 md:size-5 group-hover:scale-110 transition-transform" />
-            </button>
-            <button
-              onClick={goToNext}
-              className="absolute right-0 lg:-right-10 top-1/2 -translate-y-1/2 size-10 md:size-12 rounded-full bg-white shadow-lg flex items-center justify-center z-20 cursor-pointer hover:bg-primary-blue hover:text-white transition-all duration-300 group"
-              aria-label="Next event"
-            >
-              <PiCaretRightBold className="size-4 md:size-5 group-hover:scale-110 transition-transform" />
-            </button>
-          </>
-        )}
-
+      <div className="flex gap-4 md:gap-5 xl:gap-10 2xl:gap-14 max-lg:flex-col container md:max-w-[70%] relative">
         <div
           key={event.id}
-          className="lg:basis-1/2 relative w-full h-[220px] sm:h-[260px] md:h-[300px] lg:h-[320px] xl:h-[460px] 2xl:h-[520px] overflow-hidden bg-black"
+          className="lg:basis-1/2 relative w-full h-[350px] sm:h-[350px] md:h-[460px] lg:h-[460px] xl:h-[460px] 2xl:h-[520px] bg-black"
         >
-          {event.promo_video_url ? (
+          {/* Navigation Arrows — overlay the image */}
+          {events.length > 1 && (
             <>
-              <video
-                ref={videoRef}
-                src={event.promo_video_url}
-                muted={isMuted}
-                playsInline
-                className="w-full h-full object-cover"
-                onClick={togglePlay}
-                onEnded={() => setIsPlaying(false)}
-              />
-              {!isPlaying && (
-                <div
-                  onClick={togglePlay}
-                  className="absolute inset-0 flex items-center justify-center bg-black/20 cursor-pointer"
-                >
-                  <PlayIcon />
-                </div>
-              )}
+              <button
+                onClick={goToPrev}
+                className="absolute left-2 md:left-3 lg:left-4 top-1/2 -translate-y-1/2 size-6 md:size-8 rounded-full bg-white/90 shadow-lg flex items-center justify-center z-20 cursor-pointer hover:bg-primary-blue hover:text-white transition-all duration-300 group"
+                aria-label="Previous event"
+              >
+                <PiCaretLeftBold className="size-4 md:size-5 group-hover:scale-110 transition-transform" />
+              </button>
+              <button
+                onClick={goToNext}
+                className="absolute right-2 md:right-3 lg:right-4 top-1/2 -translate-y-1/2 size-6 md:size-8 rounded-full bg-white/90 shadow-lg flex items-center justify-center z-20 cursor-pointer hover:bg-primary-blue hover:text-white transition-all duration-300 group"
+                aria-label="Next event"
+              >
+                <PiCaretRightBold className="size-4 md:size-5 group-hover:scale-110 transition-transform" />
+              </button>
             </>
-          ) : (
-            <Image
-              src={event.cover_image_url || "/home/featured-event-img.jpg"}
-              fill
-              alt={event.title || "featured event"}
-              className="size-full object-cover"
-            />
           )}
+          <div className="absolute inset-0 overflow-hidden">
+            {event.promo_video_url ? (
+              <>
+                <video
+                  ref={videoRef}
+                  src={event.promo_video_url}
+                  muted={isMuted}
+                  playsInline
+                  className="w-full h-full object-cover"
+                  onClick={togglePlay}
+                  onEnded={() => setIsPlaying(false)}
+                />
+                {!isPlaying && (
+                  <div
+                    onClick={togglePlay}
+                    className="absolute inset-0 flex items-center justify-center bg-black/20 cursor-pointer"
+                  >
+                    <PlayIcon />
+                  </div>
+                )}
+              </>
+            ) : (
+              <Image
+                src={event.cover_image_url || "/home/featured-event-img.jpg"}
+                fill
+                alt={event.title || "featured event"}
+                className="size-full object-cover"
+              />
+            )}
+          </div>
 
-          <div className="absolute top-4 xl:top-7 left-4 xl:left-7 xl:text-xl px-3 xl:px-5 py-1 xl:py-2 text-sm font-normal rounded-full text-primary-blue bg-[#eff6ff]">
+          <div className="absolute top-4 xl:top-7 left-4 xl:left-7 xl:text-xl px-3 xl:px-5 py-1 xl:py-2 text-sm font-normal rounded-full text-primary-blue bg-[#eff6ff] z-10">
             Featured Event
           </div>
         </div>
@@ -509,28 +510,6 @@ const FeaturedEvent = ({ events }: FeaturedEventProps) => {
             </Link>
           </div>
 
-          {/* Dot indicators */}
-          {events.length > 1 && (
-            <div className="flex items-center gap-2 mt-6">
-              {events.map((_, idx) => (
-                <button
-                  key={idx}
-                  onClick={() => {
-                    if (isTransitioning) return;
-                    setIsTransitioning(true);
-                    setCurrentIndex(idx);
-                    setTimeout(() => setIsTransitioning(false), 500);
-                  }}
-                  className={`rounded-full transition-all duration-300 ${
-                    idx === currentIndex
-                      ? "w-8 h-2.5 bg-primary-blue"
-                      : "w-2.5 h-2.5 bg-gray-300 hover:bg-gray-400"
-                  }`}
-                  aria-label={`Go to event ${idx + 1}`}
-                />
-              ))}
-            </div>
-          )}
         </div>
       </div>
     </section>

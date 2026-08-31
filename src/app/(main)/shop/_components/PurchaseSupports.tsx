@@ -48,7 +48,7 @@ const PurchaseSupports = ({ data }: PurchaseSupportsProps) => {
   return (
     <section className="section">
       <Container>
-        <div className="section rounded-[20px] custom_border bg-secondary-gray space-y-11">
+        <div className="section  custom_border bg-secondary-gray space-y-11">
           <div>
             <h2 className="section_title ">
               {/* <h2 className="section_title 2xl:!text-7xl"> */}
@@ -60,11 +60,11 @@ const PurchaseSupports = ({ data }: PurchaseSupportsProps) => {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4 md:gap-5 px-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4 md:gap-5 px-4 md:w-[80%] 2xl:w-full mx-auto">
             {items.map((item, index) => (
               <div
                 key={index}
-                className="space-y-1.5 p-4 md:p-5 rounded-xl custom_border custom_shadow flex flex-col items-center bg-white justify-center text-center"
+                className="space-y-1.5 p-4 md:p-5  custom_border custom_shadow flex flex-col items-center bg-white justify-center text-center"
               >
                 <div className="size-16 md:size-18 lg:size-[80px] flex items-center justify-center rounded-full bg-primary-blue/15 text-primary-blue mb-2.5">
                   <item.icon />

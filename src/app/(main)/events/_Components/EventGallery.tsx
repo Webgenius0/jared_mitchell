@@ -96,7 +96,7 @@ const EventGallery = () => {
   }
 
   return (
-    <section id="event-gallery" className="py-10 md:py-16 xl:py-20 container">
+    <section id="event-gallery" className="py-10 md:py-16 xl:py-20 container ">
       <h2 className="section_title text-2xl md:text-4xl xl:text-6xl 2xl:text-7xl 2xl:font-bold">
         Event Gallery
       </h2>
@@ -121,7 +121,7 @@ const EventGallery = () => {
       </div>
 
       {/* Gallery Grid */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5 md:gap-3.5 lg:gap-4">
+      <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5 md:gap-3.5 lg:gap-4 md:w-[80%] 2xl:w-full mx-auto">
         {paginatedGallery.map((item, idx) => (
           <button
             key={item.id}

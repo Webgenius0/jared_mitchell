@@ -79,12 +79,12 @@ const CoreValues = ({ data: cmsData }: { data?: CMSCoreValue }) => {
             className="object-cover w-full z-0"
           />
 
-          <div className="w-full relative z-10 bg-[linear-gradient(0deg,rgba(255,255,255,0.40),rgba(255,255,255,0.40))]">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 p-2.5 md:p-3 lg:p-4 xl:p-8 2xl:p-12">
+          <div className="w-full relative p-4 z-10 bg-[linear-gradient(0deg,rgba(255,255,255,0.40),rgba(255,255,255,0.40))]">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 lg:p-6 xl:p-10 2xl:p-12">
               {values?.map(val => (
                 <div
                   key={val.id}
-                  className="border space-y-2 lg:space-y-2.5 border-[rgba(0,0,0,0.16)] bg-white shadow-[0_4px_20px_0_rgba(0,0,0,0.07)] p-2.5 lg:py-2.5 xl:py-4 2xl:py-6 lg:px-3 xl:px-6 2xl:px-8"
+                  className="border space-y-2 lg:space-y-2.5 border-[rgba(0,0,0,0.16)] bg-white shadow-[0_4px_20px_0_rgba(0,0,0,0.07)] p-6"
                 >
                   <div className="flex gap-2 lg:gap-2.5 items-center">
                     {val.image ? (

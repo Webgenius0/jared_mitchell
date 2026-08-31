@@ -14,6 +14,7 @@ const page = async () => {
   return (
     <div className="xl:px-5">
       <ContactBanner />
+    <div className=" md:w-[80%] 2xl:w-full mx-auto">
       <GetInTouch />
       <TalentApplication />
       <VendorOpportunities />
@@ -24,6 +25,8 @@ const page = async () => {
         title="Proudly supported by our community partners"
       />
       <NewsLetter title="Be part of the movement. Get stories, updates, and opportunities straight to your inbox." />
+    </div>
+
     </div>
   );
 };

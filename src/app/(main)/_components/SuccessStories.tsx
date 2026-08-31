@@ -72,12 +72,12 @@ const SuccessStories = ({ cmsData, winners, type }: SuccessStoriesProps) => {
           >
             {items.map((item, index) => (
               <SwiperSlide key={`${type}-${item.id ?? "item"}-${index}`}>
-                <div className="relative w-full h-[300px]">
+                <div className="relative w-full h-[350px]">
                   <Image
                     src={item.image}
                     fill
                     alt={item.title}
-                    className="object-contain rounded-lg h-full w-full"
+                    className="object-cover h-full w-full"
                   />
 
                   <div className="absolute inset-0 bg-[linear-gradient(0deg,_rgba(0,0,0,0.60)_36%,_rgba(0,0,0,0.20)_63%,_rgba(0,0,0,0.00)_100%)] ">

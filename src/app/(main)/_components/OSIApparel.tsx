@@ -155,114 +155,116 @@ const OSIApparel = ({ data, featuredProducts }: OSIApparelProps) => {
         <SponsorModal onClose={() => setIsSponsorModalOpen(false)} />
       )}
 
-      <style jsx global>{`
-        .osi-swiper-wrapper {
-          overflow: hidden;
-        }
+<style jsx global>{`
+  .osi-swiper-wrapper {
+    overflow: hidden;
+  }
 
-        .osi-coverflow {
-          width: 100% !important;
-          padding-top: 10px !important;
-          padding-bottom: 40px !important;
-        }
+  .osi-coverflow {
+    width: 100% !important;
+    padding-top: 10px !important;
+    padding-bottom: 40px !important;
+  }
 
-        .osi-slide {
-          width: min(640px, 88vw) !important;
-          height: clamp(200px, 56vw, 420px) !important;
-          border-radius: 20px;
-          overflow: hidden;
-          transition:
-            transform 0.4s ease,
-            opacity 0.4s ease;
-        }
+  .osi-slide {
+    width: min(640px, 88vw) !important;
+    height: clamp(200px, 56vw, 420px) !important;
+    border-radius: 0 !important;
+    overflow: hidden;
+    transition:
+      transform 0.4s ease,
+      opacity 0.4s ease;
+  }
 
-        .osi-card {
-          position: relative;
-          width: 100%;
-          height: 100%;
-          border-radius: 20px;
-          overflow: hidden;
-        }
+  .osi-card {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border-radius: 0 !important;
+    overflow: hidden;
+  }
 
-        .osi-overlay {
-          position: absolute;
-          inset: 0;
-          background: rgba(0, 0, 0, 0.45);
-          transition: background 0.4s ease;
-          z-index: 1;
-        }
+  .osi-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+    transition: background 0.4s ease;
+    z-index: 1;
+  }
 
-        .swiper-slide-active .osi-card {
-          box-shadow: 0 30px 80px rgba(0, 0, 0, 0.25);
-        }
+  .swiper-slide-active .osi-card {
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.25);
+  }
 
-        .swiper-slide-active .osi-overlay {
-          background: rgba(0, 0, 0, 0.15);
-        }
+  .swiper-slide-active .osi-overlay {
+    background: rgba(0, 0, 0, 0.15);
+  }
 
-        .swiper-slide-prev .osi-overlay,
-        .swiper-slide-next .osi-overlay {
-          background: rgba(0, 0, 0, 0.55);
-        }
+  .swiper-slide-prev .osi-overlay,
+  .swiper-slide-next .osi-overlay {
+    background: rgba(0, 0, 0, 0.55);
+  }
 
-        .osi-slide:not(.swiper-slide-active):not(.swiper-slide-prev):not(
-            .swiper-slide-next
-          )
-          .osi-overlay {
-          background: rgba(0, 0, 0, 0.65);
-        }
+  .osi-slide:not(.swiper-slide-active):not(.swiper-slide-prev):not(
+      .swiper-slide-next
+    )
+    .osi-overlay {
+    background: rgba(0, 0, 0, 0.65);
+  }
 
-        .osi-coverflow .swiper-pagination {
-          bottom: 4px;
-        }
+  .osi-coverflow .swiper-pagination {
+    bottom: 4px;
+  }
 
-        .osi-coverflow .swiper-pagination-bullet {
-          width: 8px;
-          height: 8px;
-          background: #ccc;
-          opacity: 1;
-        }
+  .osi-coverflow .swiper-pagination-bullet {
+    width: 8px;
+    height: 8px;
+    background: #ccc;
+    opacity: 1;
+  }
 
-        .osi-coverflow .swiper-pagination-bullet-active {
-          background: #000;
-          width: 24px;
-          border-radius: 4px;
-        }
+  .osi-coverflow .swiper-pagination-bullet-active {
+    background: #000;
+    width: 24px;
+    border-radius: 4px;
+  }
 
-        @media (max-width: 639px) {
-          .osi-slide {
-            border-radius: 14px;
-          }
+  @media (max-width: 639px) {
+    .osi-slide {
+      border-radius: 0 !important;
+    }
 
- 
+    .osi-card {
+      border-radius: 0 !important;
+    }
 
-          .osi-coverflow {
-            padding-bottom: 30px !important;
-          }
+    .osi-coverflow {
+      padding-bottom: 30px !important;
+    }
 
-          .osi-coverflow .swiper-pagination-bullet {
-            width: 6px;
-            height: 6px;
-          }
+    .osi-coverflow .swiper-pagination-bullet {
+      width: 6px;
+      height: 6px;
+    }
 
-          .osi-coverflow .swiper-pagination-bullet-active {
-            width: 18px;
-          }
-        }
+    .osi-coverflow .swiper-pagination-bullet-active {
+      width: 18px;
+    }
+  }
 
-        @media (max-width: 374px) {
-          .osi-slide {
-            width: 92vw !important;
-            height: clamp(180px, 60vw, 240px) !important;
-          }
-        }
+  @media (max-width: 374px) {
+    .osi-slide {
+      width: 92vw !important;
+      height: clamp(180px, 60vw, 240px) !important;
+    }
+  }
 
-        @media (min-width: 480px) {
-          .xs\\:inline {
-            display: inline;
-          }
-        }
-      `}</style>
+  @media (min-width: 480px) {
+    .xs\\:inline {
+      display: inline;
+    }
+  }
+`}</style>
     </>
   );
 };

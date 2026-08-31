@@ -25,7 +25,7 @@ export default function BossBeginningGuidePage() {
     <BossBeginningGuideLayout>
       <div className="max-w-4xl mx-auto space-y-6 md:space-y-8">
         {/* Hero */}
-        <div className="bg-gradient-to-br from-blue-600 via-blue-700 to-indigo-800 rounded-2xl md:rounded-3xl p-8 md:p-12 text-center text-white">
+        <div className="bg-gradient-to-br from-blue-600 via-blue-700 to-indigo-800  p-8 md:p-12 text-center text-white">
           <h1 className="text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold leading-tight">
             OSI Top Business Award Contest
           </h1>
@@ -156,13 +156,13 @@ export default function BossBeginningGuidePage() {
               ].map((item) => (
                 <div
                   key={item.label}
-                  className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm ${
+                  className={`flex items-center gap-3 px-3 py-2.5  text-sm ${
                     item.active
                       ? "bg-primary-blue text-white font-medium"
                       : "text-slate-600"
                   }`}
                 >
-                  <span className="w-4 h-4 rounded bg-current/10" />
+                  <span className="w-4 h-4 bg-current/10" />
                   {item.label}
                   {item.active && (
                     <FiArrowRight className="w-3 h-3 ml-auto text-white/70" />
@@ -292,7 +292,7 @@ export default function BossBeginningGuidePage() {
                 <label className="text-xs font-medium text-slate-600">
                   Story <span className="text-red-500">*</span>
                 </label>
-                <div className="rounded-xl border border-slate-200 px-4 py-8 text-sm text-slate-400 bg-slate-50 text-center">
+                <div className=" border border-slate-200 px-4 py-8 text-sm text-slate-400 bg-slate-50 text-center">
                   Rich text editor — tell your business story
                 </div>
               </div>
@@ -351,7 +351,7 @@ export default function BossBeginningGuidePage() {
               Form Sections
             </h4>
 
-            <div className="rounded-xl border border-slate-100 bg-slate-50/60 p-4 md:p-5">
+            <div className=" border border-slate-100 bg-slate-50/60 p-4 md:p-5">
               <p className="text-xs font-semibold text-primary-blue uppercase tracking-wider mb-2">
                 Step 1 — Identification
               </p>
@@ -365,7 +365,7 @@ export default function BossBeginningGuidePage() {
               </div>
             </div>
 
-            <div className="rounded-xl border border-slate-100 bg-slate-50/60 p-4 md:p-5">
+            <div className=" border border-slate-100 bg-slate-50/60 p-4 md:p-5">
               <p className="text-xs font-semibold text-primary-blue uppercase tracking-wider mb-2">
                 Step 2 — Contact
               </p>
@@ -383,7 +383,7 @@ export default function BossBeginningGuidePage() {
               </div>
             </div>
 
-            <div className="rounded-xl border border-slate-100 bg-slate-50/60 p-4 md:p-5">
+            <div className=" border border-slate-100 bg-slate-50/60 p-4 md:p-5">
               <p className="text-xs font-semibold text-primary-blue uppercase tracking-wider mb-2">
                 Step 3 — Your Story
               </p>
@@ -396,7 +396,7 @@ export default function BossBeginningGuidePage() {
               </div>
             </div>
 
-            <div className="rounded-xl border border-slate-100 bg-slate-50/60 p-4 md:p-5">
+            <div className=" border border-slate-100 bg-slate-50/60 p-4 md:p-5">
               <p className="text-xs font-semibold text-primary-blue uppercase tracking-wider mb-2">
                 Step 4 — Media
               </p>
@@ -408,7 +408,7 @@ export default function BossBeginningGuidePage() {
               </div>
             </div>
 
-            <div className="rounded-xl border border-slate-100 bg-slate-50/60 p-4 md:p-5">
+            <div className=" border border-slate-100 bg-slate-50/60 p-4 md:p-5">
               <p className="text-xs font-semibold text-primary-blue uppercase tracking-wider mb-2">
                 Step 5 — Service Details
               </p>
@@ -417,7 +417,7 @@ export default function BossBeginningGuidePage() {
               </div>
             </div>
 
-            <div className="rounded-xl border border-slate-100 bg-slate-50/60 p-4 md:p-5">
+            <div className=" border border-slate-100 bg-slate-50/60 p-4 md:p-5">
               <p className="text-xs font-semibold text-primary-blue uppercase tracking-wider mb-2">
                 Step 6 — Spotlight Consideration
               </p>
@@ -538,7 +538,7 @@ export default function BossBeginningGuidePage() {
 
           <MockScreen title="Apply Spotlight Modal">
             <div className="space-y-3">
-              <div className="flex items-center justify-between rounded-xl border border-slate-100 bg-slate-50/60 p-4">
+              <div className="flex items-center justify-between  border border-slate-100 bg-slate-50/60 p-4">
                 <div>
                   <div className="flex items-center gap-2">
                     <p className="text-sm font-semibold text-slate-800">
@@ -557,7 +557,7 @@ export default function BossBeginningGuidePage() {
                   Apply
                 </button>
               </div>
-              <div className="flex items-center justify-between rounded-xl border border-slate-100 bg-slate-50/60 p-4 opacity-60">
+              <div className="flex items-center justify-between  border border-slate-100 bg-slate-50/60 p-4 opacity-60">
                 <div>
                   <div className="flex items-center gap-2">
                     <p className="text-sm font-semibold text-slate-800">
@@ -645,16 +645,16 @@ export default function BossBeginningGuidePage() {
               <table className="w-full text-sm">
                 <thead>
                   <tr className="bg-primary-blue text-white">
-                    <th className="text-left px-4 py-2.5 rounded-tl-lg">Rank</th>
+                    <th className="text-left px-4 py-2.5 ">Rank</th>
                     <th className="text-left px-4 py-2.5">Business</th>
                     <th className="text-center px-4 py-2.5">Score</th>
-                    <th className="text-right px-4 py-2.5 rounded-tr-lg">Trend</th>
+                    <th className="text-right px-4 py-2.5 ">Trend</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr className="border-b border-slate-100">
                     <td className="px-4 py-2.5">
-                      <span className="inline-flex items-center justify-center h-6 w-6 rounded bg-amber-400 text-white text-[10px] font-semibold">
+                      <span className="inline-flex items-center justify-center h-6 w-6  bg-amber-400 text-white text-[10px] font-semibold">
                         #1
                       </span>
                     </td>
@@ -664,7 +664,7 @@ export default function BossBeginningGuidePage() {
                   </tr>
                   <tr className="border-b border-slate-100">
                     <td className="px-4 py-2.5">
-                      <span className="inline-flex items-center justify-center h-6 w-6 rounded bg-gray-400 text-white text-[10px] font-semibold">
+                      <span className="inline-flex items-center justify-center h-6 w-6 bg-gray-400 text-white text-[10px] font-semibold">
                         #2
                       </span>
                     </td>
@@ -681,17 +681,17 @@ export default function BossBeginningGuidePage() {
             <strong>Community Voting Points:</strong>
           </TipBox>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-3">
-            <div className="border border-slate-200 rounded-2xl p-5 text-center">
+            <div className="border border-slate-200  p-5 text-center">
               <p className="font-medium text-slate-700">Clap</p>
               <p className="text-2xl font-bold text-primary-blue mt-1">1 PT</p>
               <p className="text-sm text-slate-500 mt-1">1 per nominee per day</p>
             </div>
-            <div className="border border-slate-200 rounded-2xl p-5 text-center">
+            <div className="border border-slate-200  p-5 text-center">
               <p className="font-medium text-slate-700">Love</p>
               <p className="text-2xl font-bold text-rose-500 mt-1">3 PT</p>
               <p className="text-sm text-slate-500 mt-1">Once per nominee</p>
             </div>
-            <div className="border border-slate-200 rounded-2xl p-5 text-center">
+            <div className="border border-slate-200  p-5 text-center">
               <p className="font-medium text-slate-700">Fire</p>
               <p className="text-2xl font-bold text-orange-500 mt-1">5 PT</p>
               <p className="text-sm text-slate-500 mt-1">Once per day per platform</p>
@@ -700,7 +700,7 @@ export default function BossBeginningGuidePage() {
         </StepSection>
 
         {/* Final CTA */}
-        <div className="bg-gradient-to-br from-blue-600 via-blue-700 to-indigo-800 rounded-xl md:rounded-2xl lg:rounded-3xl p-6 md:p-8 lg:p-10 xl:p-12 text-center text-white">
+        <div className="bg-gradient-to-br from-blue-600 via-blue-700 to-indigo-800  p-6 md:p-8 lg:p-10 xl:p-12 text-center text-white">
           <h2 className="text-xl md:text-2xl lg:text-3xl font-bold">
             You&apos;re Ready for the OSI Top Business Award
           </h2>

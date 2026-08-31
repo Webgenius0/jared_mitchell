@@ -25,8 +25,6 @@ const page = async () => {
   return (
     <>
       <ServiceBanner data={cmsData?.services_hero} />
-
-      {/* Overview Section */}
       <section className="section container">
         <div className="text-center space-y-3 md:space-y-3.5 lg:space-y-5 xl:space-y-10">
           <p className="text-sm md:text-sm lg:text-base xl:text-2xl text-primary-black font-medium max-w-[1200px] mx-auto">
@@ -38,15 +36,8 @@ const page = async () => {
             built to help you rise, scale, and stay visible.`}
           </p>
 
-          {/* <Button>
-            Explore Membership Plans{" "}
-            <BsArrowRight className="text-lg md:text-2xl" />
-          </Button> */}
         </div>
       </section>
-
-      {/* <PricingPlan /> */}
-      {/* <PlanComparison /> */}
       <SocialImage data={cmsData?.services_grow} />
       <Sponsors data={cmsData?.partners} />
 

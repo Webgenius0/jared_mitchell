@@ -83,7 +83,7 @@ const HowSpotlightWorks = ({ type }: HowSpotlightWorksProps) => {
         </p>
 
         {/* Two categories banner */}
-        <div className="mt-6 md:mt-8 lg:mt-10 rounded-xl lg:rounded-2xl xl:rounded-3xl bg-primary-blue px-4 md:px-6 lg:px-8 xl:px-10 py-6 md:py-7 lg:py-8 xl:py-10 text-center custom_shadow">
+        <div className="mt-6 md:mt-8 lg:mt-10  bg-primary-blue px-4 md:px-6 lg:px-8 xl:px-10 py-6 md:py-7 lg:py-8 xl:py-10 text-center custom_shadow">
           <p className="text-white text-base md:text-lg lg:text-xl xl:text-3xl font-semibold leading-[140%]">
             Two Categories. Two Weekly Winners. One Community.
           </p>
@@ -121,7 +121,7 @@ const HowSpotlightWorks = ({ type }: HowSpotlightWorksProps) => {
           {steps.map((step, idx) => (
             <div
               key={idx}
-              className="bg-white custom_border custom_shadow rounded-xl lg:rounded-2xl p-4 md:p-5 lg:p-6 xl:p-8 flex flex-col gap-3 lg:gap-4 h-full"
+              className="bg-white custom_border custom_shadow  p-4 md:p-5 lg:p-6 xl:p-8 flex flex-col gap-3 lg:gap-4 h-full"
             >
               <div className="flex items-center justify-between">
                 <span className="size-10 md:size-11 lg:size-12 xl:size-14 rounded-full bg-primary-blue/10 flex items-center justify-center">
