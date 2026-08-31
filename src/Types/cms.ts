@@ -1015,8 +1015,26 @@ export type ArtistHistoricalWinnerItem = SpotlightHistoricalWinnerItem;
 export type ArtistHistoricalWinnersResponse = SpotlightHistoricalWinnersResponse;
 export type BusinessHistoricalWinnersResponse = SpotlightHistoricalWinnersResponse;
 
+export interface AdminArticleMedia {
+  id: number;
+  url: string;
+  file_name: string;
+  file_type: string;
+  mime_type: string;
+  file_size: number;
+}
+
+export interface AdminArticle {
+  id: number;
+  title: string;
+  content: string;
+  created_at: string;
+  media: AdminArticleMedia[];
+}
+
 export interface CurrentContestWinnerResponse {
   winner: PastSixMonthsWinner | null;
+  admin_articles: AdminArticle[];
 }
 
 // ─── Spotlight of the Week (home page Artist/Business tabs) ──────────────────
@@ -1081,6 +1099,7 @@ export interface SpotlightOfTheWeekResponse {
   data: {
     type: "artist" | "business";
     current_winner: SpotlightOfTheWeekWinner | null;
+    admin_articles: AdminArticle[];
   };
   errors: null | any;
   code: number;

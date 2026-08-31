@@ -137,6 +137,7 @@ const Page = async () => {
         type="business"
       />
       <ArtistSpotlightCard data={cmsData?.spotlight} />
+      {/* <WinnerShowcase type="artist" /> */}
       <SuccessStories
         cmsData={cmsData?.celebrating_artist_spotlight_winners}
         winners={artistWinners}

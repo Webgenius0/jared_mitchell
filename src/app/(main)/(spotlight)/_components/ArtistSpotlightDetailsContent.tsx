@@ -157,26 +157,7 @@ export default function ArtistSpotlightDetailsContent({ id }: { id: number }) {
                       {currentVotes.toLocaleString()}
                     </p>
                   </div>
-                  {/* {currentVoteBreakdown && (
-                    <>
-                      <div>
-                        <h3 className="text-sm md:text-xl font-bold text-[#364153]">
-                          Free Votes
-                        </h3>
-                        <p className="text-xs md:text-base font-normal text-[#364153] pt-1 md:pt-3">
-                          {currentVoteBreakdown.free}
-                        </p>
-                      </div>
-                      <div>
-                        <h3 className="text-sm md:text-xl font-bold text-[#364153]">
-                          Paid Votes
-                        </h3>
-                        <p className="text-xs md:text-base font-normal text-[#364153] pt-1 md:pt-3">
-                          {currentVoteBreakdown.paid}
-                        </p>
-                      </div>
-                    </>
-                  )} */}
+  
                 </div>
               </div>
             </div>

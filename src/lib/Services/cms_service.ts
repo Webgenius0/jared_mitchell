@@ -33,6 +33,7 @@ import {
   ActiveSeasonRoundsResponse,
   ActiveRoundCountdownResponse,
   LiveStream,
+  SpotlightOfTheWeekResponse,
 } from "@/Types/cms";
 import { getItem } from "@/lib/localStorage";
 
@@ -630,6 +631,26 @@ export const getCurrentSpotlightWeek =
     const result = await res.json();
     return result as LeaderboardResponse;
   };
+
+export const getSpotlightOfTheWeek = async (
+  type: "artist" | "business",
+): Promise<SpotlightOfTheWeekResponse> => {
+  const res = await fetch(
+    `${SITE_URL}/v1/spotlight/weeks/spotlight-of-the-week?type=${type}`,
+    {
+      next: { revalidate: 120, tags: ["spotlight-of-the-week", `spotlight-of-the-week-${type}`] },
+    },
+  );
+
+  if (!res.ok) {
+    throw new Error(
+      `Failed to fetch spotlight of the week — Status: ${res.status}`,
+    );
+  }
+
+  const result = await res.json();
+  return result as SpotlightOfTheWeekResponse;
+};
 
 export const getContestantDetails = async (
   contestantId: number,
