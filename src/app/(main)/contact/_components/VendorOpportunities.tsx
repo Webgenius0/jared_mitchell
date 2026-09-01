@@ -29,7 +29,7 @@ const VendorOpportunities = () => {
         <p className='section_sub_title'>If you're interested in sponsoring OSI events, promoting your brand through our channels, securing vendor space at upcoming OSI events, or collaborating on community projects — our team would love to connect.</p>
         <div className='grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-3.5 lg:gap-4 mt-5 md:mt-6 lg:mt-8'>
           {data?.map((data, index) => (
-            <div key={index} className='flex flex-col px-4 md:px-5 lg:px-6 py-4 md:py-5 lg:py-6 gap-3.5 md:gap-4 lg:gap-5 rounded-xl lg:rounded-2xl custom_border bg-white'>
+            <div key={index} className='flex flex-col px-4 md:px-5 lg:px-6 py-4 md:py-5 lg:py-6 gap-3.5 md:gap-4 lg:gap-5  custom_border bg-white'>
               <div className='size-13 md:size-14 lg:size-16 xl:size-[100px] flex items-center justify-center rounded-full shrink-0 bg-[#1977DD29]'>
                 <data.icon />
               </div>

@@ -138,7 +138,7 @@ export default function LeaderboardTab() {
         </p>
       </div>
 
-      <div className="p-4 sm:p-6 rounded-2xl border border-black/15 bg-white shadow-[0_4px_20px_0_rgba(0,0,0,0.07)] mt-8 sm:mt-10">
+      <div className="p-4 sm:p-6 border border-black/15 bg-white shadow-[0_4px_20px_0_rgba(0,0,0,0.07)] mt-8 sm:mt-10">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
           <div>
             <h3 className="text-sm sm:text-base font-semibold text-black">
@@ -148,7 +148,7 @@ export default function LeaderboardTab() {
               January 1 - March 31, 2025
             </p>
           </div>
-          <div className="flex items-center gap-2 px-2.5 sm:px-3 py-1.5 rounded-lg bg-blue-50 text-[#2563EB] text-[11px] sm:text-[12px] font-medium w-fit">
+          <div className="flex items-center gap-2 px-2.5 sm:px-3 py-1.5  bg-blue-50 text-[#2563EB] text-[11px] sm:text-[12px] font-medium w-fit">
             <Clock className="size-[13px]" />
             12 days remaining
           </div>
@@ -171,12 +171,12 @@ export default function LeaderboardTab() {
           return (
             <div
               key={event.id}
-              className={`p-4 rounded-xl border ${cfg.bg} transition-all hover:shadow-md`}
+              className={`p-4 border ${cfg.bg} transition-all hover:shadow-md`}
             >
               <div className="flex items-start justify-between gap-3">
                 <div className="flex items-start gap-3">
                   <div
-                    className={`size-10 flex items-center justify-center rounded-xl ${cfg.iconColor} bg-white shrink-0`}
+                    className={`size-10 flex items-center justify-center  ${cfg.iconColor} bg-white shrink-0`}
                   >
                     <EventIcon className="size-5" />
                   </div>
@@ -191,7 +191,7 @@ export default function LeaderboardTab() {
                   </div>
                 </div>
                 <span
-                  className={`shrink-0 px-3 py-1 rounded-md text-[11px] font-medium ${cfg.badge}`}
+                  className={`shrink-0 px-3 py-1 text-[11px] font-medium ${cfg.badge}`}
                 >
                   {cfg.badgeText}
                 </span>
@@ -202,7 +202,7 @@ export default function LeaderboardTab() {
       </div>
 
       {/* Key Dates */}
-      <div className="rounded-2xl border border-black/10 bg-white p-4 sm:p-6">
+      <div className=" border border-black/10 bg-white p-4 sm:p-6">
         <h3 className="text-base font-semibold text-black mb-4">Key Dates</h3>
         <div className="space-y-0 divide-y divide-black/5">
           {KEY_DATES.map((item, idx) => (
@@ -220,7 +220,7 @@ export default function LeaderboardTab() {
       </div>
 
       {/* What happens after winning */}
-      <div className="rounded-2xl border border-black/10 bg-blue-50 p-4 sm:p-6">
+      <div className=" border border-black/10 bg-blue-50 p-4 sm:p-6">
         <h3 className="text-base font-semibold text-black mb-4">
           What Happens After the Winner is Announced?
         </h3>
@@ -251,7 +251,7 @@ export default function LeaderboardTab() {
         {QUARTERLY_CYCLES.map((cycle) => (
           <div
             key={cycle.id}
-            className={`p-4 sm:p-5 rounded-xl border transition-all ${
+            className={`p-4 sm:p-5  border transition-all ${
               cycle.isActive
                 ? "bg-[#2563EB] text-white border-[#2563EB]"
                 : "bg-[#F5F5F7] text-black border-transparent"
@@ -272,12 +272,12 @@ export default function LeaderboardTab() {
               {cycle.dateRange}
             </p>
             {cycle.isActive ? (
-              <div className="mt-3 inline-flex items-center gap-1.5 bg-white/20 px-3 py-2 rounded-lg text-[11px] font-medium">
+              <div className="mt-3 inline-flex items-center gap-1.5 bg-white/20 px-3 py-2 text-[11px] font-medium">
                 <span className="size-2 rounded-full bg-white animate-pulse" />
                 Active Now
               </div>
             ) : (
-              <p className="mt-3 text-black/40 border px-3 py-2 rounded-lg text-[12px] w-fit">
+              <p className="mt-3 text-black/40 border px-3 py-2 text-[12px] w-fit">
                 Upcoming
               </p>
             )}

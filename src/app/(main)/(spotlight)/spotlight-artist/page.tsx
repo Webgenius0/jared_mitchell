@@ -12,6 +12,7 @@ import SpotlightGuide from "../_components/SpotlightGuide";
 import SpotlightCountdown from "../_components/SpotlightCountdown";
 import SuccessStories from "../../_components/SuccessStories";
 import SpotlightWinnerSection from "@/Components/Common/SpotlightWinnerSection";
+import SpotlightAdminArticlesSection from "../_components/SpotlightAdminArticlesSection";
 import {
   getCMSAboutData,
   getCMSArtistSpotlightData,
@@ -20,8 +21,9 @@ import {
   getFeaturedStream,
   getLiveStreams,
   getVideoChannels,
+  getSpotlightOfTheWeek,
 } from "@/lib/Services/cms_service";
-import { HistoricalWinnersItem, LiveStream, SpotlightHistoricalWinnerItem, VideoChannelItem } from "@/Types/cms";
+import { AdminArticle, HistoricalWinnersItem, LiveStream, SpotlightHistoricalWinnerItem, VideoChannelItem } from "@/Types/cms";
 import Sponsors from "../../_components/Sponsors";
 
 const FALLBACK_IMAGE = "https://placehold.co/400x600.png?text=No+Image";
@@ -67,6 +69,14 @@ const page = async () => {
     console.error("Failed to fetch artist winners:", err);
   }
 
+  let adminArticles: AdminArticle[] = [];
+  try {
+    const spotlightRes = await getSpotlightOfTheWeek("artist");
+    adminArticles = spotlightRes?.data?.admin_articles ?? [];
+  } catch (err) {
+    console.error("Failed to fetch spotlight of the week:", err);
+  }
+
   return (
     <>
       <ArtistSpotlightBanner data={cmsData?.artist_spotlight_hero} />
@@ -78,6 +88,10 @@ const page = async () => {
         videoChannelVideos={artistVideos}
       />
       <SpotlightWinnerSection winner={lastArtistWinner} type="artist" />
+
+      <SpotlightAdminArticlesSection articles={adminArticles} type="artist" />
+
+      {lastArtistWinner && console.log(lastArtistWinner)}
       <div className="2xl:px-5 3xl:px-5">
         <HowSpotlightWorks type="artist" />
       </div>
@@ -87,17 +101,6 @@ const page = async () => {
       <DiscoverArtists type="artist" data={cmsData?.artist_spotlight_list} />
       {/* <CommunityAchievements data={cmsData?.artist_spotlight_highlights} /> */}
       <SuccessStories winners={artistWinners} type="artist" />
-      {/* <SpotlightLadder
-        title={
-          cmsData?.artist_spotlight_ladder?.title || "Weekly Spotlight Ladder"
-        }
-        subTitle={
-          cmsData?.artist_spotlight_ladder?.sub_title ||
-          "Community-driven recognition for outstanding developers"
-        }
-        buttonHref="/spotlight-artist/spotlight-ladder"
-        data={cmsData?.artist_spotlight_ladder}
-      /> */}
       <BecomeAPart data={cmsData?.artist_spotlight_join} />
       {/* <CreativeJourney data={cmsData?.artist_spotlight_interview} /> */}
       <WhatExist data={cmsData?.artist_spotlight_why_exists} />

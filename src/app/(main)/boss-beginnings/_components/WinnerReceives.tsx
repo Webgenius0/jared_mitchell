@@ -60,13 +60,13 @@ const WinnerReceives = ({ data }: WinnerReceivesProps) => {
           {data?.description ??
             "A comprehensive package of support, exposure, and resources to launch with confidence."}
         </p>
-        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-2.5 md:gap-3 lg:gap-4 xl:gap-6 mt-4 md:mt-5 lg:mt-6 xl:mt-11">
+        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-2.5 md:gap-3 lg:gap-4 xl:gap-6 mt-4 md:mt-5 lg:mt-6 xl:mt-11 md:w-[80%] 2xl:w-full mx-auto">
           {items.map((item, idx) => {
             const Icon = iconMap[idx % iconMap.length];
             return (
               <div
                 key={idx}
-                className="px-3 py-5 md:px-4 md:py-6 lg:px-5 lg:py-7 custom_border bg-primary-gray rounded-xl text-center"
+                className="px-3 py-5 md:px-4 md:py-6 lg:px-5 lg:py-7 custom_border bg-primary-gray text-center"
               >
                 <p className="mx-auto w-fit mb-3">
                   <Icon />

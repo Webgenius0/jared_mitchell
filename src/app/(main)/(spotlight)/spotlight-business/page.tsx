@@ -13,6 +13,7 @@ import SpotlightGuide from "../_components/SpotlightGuide";
 import SpotlightCountdown from "../_components/SpotlightCountdown";
 import SuccessStories from "../../_components/SuccessStories";
 import SpotlightWinnerSection from "@/Components/Common/SpotlightWinnerSection";
+import SpotlightAdminArticlesSection from "../_components/SpotlightAdminArticlesSection";
 import {
   getCMSAboutData,
   getCMSBusinessSpotlightData,
@@ -20,8 +21,9 @@ import {
   getFeaturedStream,
   getLiveStreams,
   getVideoChannels,
+  getSpotlightOfTheWeek,
 } from "@/lib/Services/cms_service";
-import { HistoricalWinnersItem, LiveStream, SpotlightHistoricalWinnerItem, VideoChannelItem } from "@/Types/cms";
+import { AdminArticle, HistoricalWinnersItem, LiveStream, SpotlightHistoricalWinnerItem, VideoChannelItem } from "@/Types/cms";
 import Sponsors from "../../_components/Sponsors";
 
 const FALLBACK_IMAGE = "https://placehold.co/400x600.png?text=No+Image";
@@ -67,6 +69,14 @@ const page = async () => {
     console.error("Failed to fetch business winners:", err);
   }
 
+  let adminArticles: AdminArticle[] = [];
+  try {
+    const spotlightRes = await getSpotlightOfTheWeek("business");
+    adminArticles = spotlightRes?.data?.admin_articles ?? [];
+  } catch (err) {
+    console.error("Failed to fetch spotlight of the week:", err);
+  }
+
   return (
     <>
       <BusinessSpotlightBanner data={cmsData?.business_spotlight_hero} />
@@ -78,6 +88,9 @@ const page = async () => {
         videoChannelVideos={businessVideos}
       />
       <SpotlightWinnerSection winner={lastBusinessWinner} type="business" />
+
+      <SpotlightAdminArticlesSection articles={adminArticles} type="business" />
+
 <div className="2xl:px-5 3xl:px-5">
         <HowSpotlightWorks type="business" />
       <SpotlightGuide type="business" />

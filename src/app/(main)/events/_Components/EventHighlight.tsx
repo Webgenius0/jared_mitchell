@@ -73,12 +73,12 @@ const EventHighlight = () => {
         Take a look back at some of our most memorable events and celebrations.
       </p>
 
-      <div className="my-4 md:my-6 lg:my-8">
+      <div className="my-4 md:my-6 lg:my-8 md:w-[80%] 2xl:w-full mx-auto">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-3.5 lg:gap-4">
           {paginatedEvents.map(event => (
             <div
               key={event.id}
-              className="group rounded-[20px] bg-white custom_shadow custom_border overflow-hidden"
+              className="group bg-white custom_shadow custom_border overflow-hidden"
             >
               {/* Image with title + date overlay (shown on hover) */}
               <div className="relative w-full h-[170px] md:h-[220px] lg:h-[250px] xl:h-[380px] overflow-hidden">
@@ -147,7 +147,7 @@ const EventHighlight = () => {
           <button
             onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
             disabled={currentPage === 1}
-            className="flex items-center justify-center size-10 rounded-lg border border-gray-300 text-gray-600 hover:bg-gray-100 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+            className="flex items-center justify-center size-10  border border-gray-300 text-gray-600 hover:bg-gray-100 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
             aria-label="Previous page"
           >
             <HiChevronLeft className="size-5" />
@@ -162,7 +162,7 @@ const EventHighlight = () => {
                   .getElementById("past-events")
                   ?.scrollIntoView({ behavior: "smooth", block: "start" });
               }}
-              className={`flex items-center justify-center size-10 rounded-lg text-sm font-medium transition-colors ${
+              className={`flex items-center justify-center size-10  text-sm font-medium transition-colors ${
                 currentPage === page
                   ? "bg-primary-blue text-white shadow-md"
                   : "border border-gray-300 text-gray-600 hover:bg-gray-100"
@@ -175,7 +175,7 @@ const EventHighlight = () => {
           <button
             onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
             disabled={currentPage === totalPages}
-            className="flex items-center justify-center size-10 rounded-lg border border-gray-300 text-gray-600 hover:bg-gray-100 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+            className="flex items-center justify-center size-10  border border-gray-300 text-gray-600 hover:bg-gray-100 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
             aria-label="Next page"
           >
             <HiChevronRight className="size-5" />

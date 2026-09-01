@@ -45,10 +45,10 @@ const SpotlightWinnerSection = ({
       </p>
 
       {images.length > 0 ? (
-        <>
+        <div className="w-full lg:w-[70%] mx-auto 2xl-w-full">
           <div className="grid grid-cols-1 md:grid-cols-2 items-center my-6 gap-6">
             {images[0] && (
-              <figure className="max-h-[808px] !h-full relative">
+              <figure className=" h-[400px] md:h-[550px] xl:h-[608px] relative">
                 <div className="size-full absolute bg-black/30" />
                 <Image
                   src={images[0]}
@@ -61,7 +61,7 @@ const SpotlightWinnerSection = ({
               </figure>
             )}
             {images[1] && (
-              <figure className="max-h-[808px] !h-full relative">
+              <figure className="h-[400px] md:h-[550px] xl:h-[608px] relative">
                 <div className="size-full absolute bg-black/30" />
                 <Image
                   src={images[1]}
@@ -76,7 +76,7 @@ const SpotlightWinnerSection = ({
           </div>
 
           {images[2] && (
-            <figure className="h-[400px] md:h-[550px] xl:h-[808px] relative">
+            <figure className="h-[400px] md:h-[550px] xl:h-[608px] relative">
               <div className="size-full absolute bg-black/30" />
               <Image
                 src={images[2]}
@@ -88,7 +88,7 @@ const SpotlightWinnerSection = ({
               {winner && renderCaption(winner)}
             </figure>
           )}
-        </>
+        </div>
       ) : (
         <div className="rounded-2xl border border-black/10 bg-white p-10 text-center text-sm sm:text-base text-black/50 my-6">
           No {type} spotlight winner media available yet.

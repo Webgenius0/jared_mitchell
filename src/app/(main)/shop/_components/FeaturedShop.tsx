@@ -45,7 +45,7 @@ const FeaturedShop = ({ products, isLoading }: FeaturedShopProps) => {
     return (
       <div
         id="featured-shop"
-        className="container section rounded-[20px] custom_border bg-secondary-gray space-y-11 scroll-mt-24"
+        className="container section  custom_border bg-secondary-gray space-y-11 scroll-mt-24"
       >
         <h2 className="section_title">Featured from the OSI Shop</h2>
         <p className="text-center text-secondary-black text-xl py-10">
@@ -59,11 +59,11 @@ const FeaturedShop = ({ products, isLoading }: FeaturedShopProps) => {
     <Container>
       <div
         id="featured-shop"
-        className="  section rounded-[20px] custom_border bg-secondary-gray space-y-11 scroll-mt-24"
+        className="  section custom_border bg-secondary-gray space-y-11 scroll-mt-24"
       >
         <h2 className="section_title">Featured from the OSI Shop</h2>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4 md:gap-5 lg:px-8 px-4 mt-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4 md:gap-5 lg:px-8 px-4 mt-6 md:w-[80%] 2xl:w-full mx-auto">
           {products.map(product => (
             <ShopCard
               data={mapProductToCardProps(product)}

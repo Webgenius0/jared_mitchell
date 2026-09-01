@@ -7,13 +7,13 @@ const OurStory = ({ data }: { data?: CMSAboutOrigin }) => {
     <section className="py-6 md:py-6 lg:py-8 xl:py-20 bg-[#F5F5F7]">
       <div className="container grid md:grid-cols-2 gap-3 md:gap-5 lg:gap-6 xl:gap-12 items-center">
         {/* Left */}
-        <div className="h-[220px] md:h-[280px] lg:h-[340px] xl:h-[480px] w-full rounded-xl order-1 md:order-0">
+        <div className="h-[220px] md:h-[280px] lg:h-[340px] xl:h-[480px] w-full  order-1 md:order-0">
           <Image
             src={data?.image || a2}
             alt="a2"
             width={800}
             height={480}
-            className="w-full h-full object-cover rounded-xl"
+            className="w-full h-full object-cover "
           />
         </div>
 

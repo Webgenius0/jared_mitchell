@@ -133,7 +133,7 @@ const PricingPlan = ({ plans }: { plans?: PricingPlanType[] }) => {
         <h2 className="section_title">Choose Your Growth Plan</h2>
 
         <div className="w-full py-4 md:py-6 lg:py-8 xl:py-16">
-          <div className="grid gap-2.5 md:gap-3 lg:gap-3.5 xl:gap-6 md:grid-cols-2 xl:grid-cols-4">
+          <div className="grid gap-2.5 md:gap-3 lg:gap-3.5 xl:gap-6 md:grid-cols-2 xl:grid-cols-4 md:w-[80%] 2xl:w-full mx-auto">
             {pricingPlans.map(plan => {
               const isLoading = isPlanLoading(plan.id);
               const isCurrent = currentPlanId === plan.id;

@@ -68,7 +68,7 @@ const SpotlightGuide = ({ type }: SpotlightGuideProps) => {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 lg:gap-5 xl:gap-6">
             {steps.map((step, idx) => (
               <div key={idx} className="relative group">
-                <div className="bg-white custom_border custom_shadow rounded-xl lg:rounded-2xl p-3.5 md:p-4 lg:p-5 xl:p-6 text-center flex flex-col items-center gap-2 lg:gap-3 h-full transition-transform duration-300 hover:-translate-y-1">
+                <div className="bg-white custom_border custom_shadow  p-3.5 md:p-4 lg:p-5 xl:p-6 text-center flex flex-col items-center gap-2 lg:gap-3 h-full transition-transform duration-300 hover:-translate-y-1">
                   {/* Number Badge */}
                   <span className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-primary-blue/10 flex items-center justify-center">
                     <step.icon className="w-5 h-5 md:w-6 md:h-6 text-primary-blue" />
@@ -105,7 +105,7 @@ const SpotlightGuide = ({ type }: SpotlightGuideProps) => {
         <div className="mt-8 md:mt-10 lg:mt-12 xl:mt-16 grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5 lg:gap-6">
           {/* Artist Card */}
           <div
-            className={`relative rounded-xl md:rounded-2xl lg:rounded-3xl p-4 md:p-5 lg:p-6 xl:p-8 transition-all duration-300 hover:shadow-lg ${
+            className={`relative  p-4 md:p-5 lg:p-6 xl:p-8 transition-all duration-300 hover:shadow-lg ${
               isArtist
                 ? "bg-primary-blue text-white ring-2 ring-primary-blue ring-offset-2"
                 : "bg-white custom_border custom_shadow"
@@ -113,7 +113,7 @@ const SpotlightGuide = ({ type }: SpotlightGuideProps) => {
           >
             <div className="flex items-start gap-4">
               <span
-                className={`w-10 h-10 md:w-12 md:h-12 lg:w-14 lg:h-14 rounded-xl flex items-center justify-center shrink-0 ${
+                className={`w-10 h-10 md:w-12 md:h-12 lg:w-14 lg:h-14  flex items-center justify-center shrink-0 ${
                   isArtist ? "bg-white/20" : "bg-primary-blue/10"
                 }`}
               >
@@ -158,7 +158,7 @@ const SpotlightGuide = ({ type }: SpotlightGuideProps) => {
 
           {/* Business Card */}
           <div
-            className={`relative rounded-xl md:rounded-2xl lg:rounded-3xl p-4 md:p-5 lg:p-6 xl:p-8 transition-all duration-300 hover:shadow-lg ${
+            className={`relative  p-4 md:p-5 lg:p-6 xl:p-8 transition-all duration-300 hover:shadow-lg ${
               !isArtist
                 ? "bg-primary-blue text-white ring-2 ring-primary-blue ring-offset-2"
                 : "bg-white custom_border custom_shadow"
@@ -166,7 +166,7 @@ const SpotlightGuide = ({ type }: SpotlightGuideProps) => {
           >
             <div className="flex items-start gap-4">
               <span
-                className={`w-10 h-10 md:w-12 md:h-12 lg:w-14 lg:h-14 rounded-xl flex items-center justify-center shrink-0 ${
+                className={`w-10 h-10 md:w-12 md:h-12 lg:w-14 lg:h-14  flex items-center justify-center shrink-0 ${
                   !isArtist ? "bg-white/20" : "bg-primary-blue/10"
                 }`}
               >
