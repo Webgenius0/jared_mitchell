@@ -84,41 +84,17 @@ export default function ContestTable({
 
   return (
     <div className="container mx-auto">
-      {/* Voting Status Banner */}
-      {/* <div
-        className={`rounded-2xl border p-4 sm:p-5 my-6 sm:my-8 flex items-center justify-between ${
-          isVotingOpen
-            ? "bg-emerald-50 border-emerald-200"
-            : "bg-amber-50 border-amber-200"
-        }`}
-      >
-        <div className="flex items-center gap-3">
-          <span
-            className={`inline-block w-3 h-3 rounded-full ${
-              isVotingOpen ? "bg-emerald-500" : "bg-amber-500"
-            }`}
-          />
-          <span className="text-sm sm:text-base font-medium text-[#364153]">
-            {isVotingOpen
-              ? "Voting is currently open"
-              : "Voting is currently closed"}
-          </span>
-        </div>
-        <span className="text-xs sm:text-sm text-black/50">
-          Status:{" "}
-          <span className="capitalize">{weekStatus.replace(/_/g, " ")}</span>
-        </span>
-      </div> */}
+
 
       {/* Tabs */}
-      <div className="rounded-2xl border border-black/15 bg-white shadow-[0_4px_20px_0_rgba(0,0,0,0.07)] p-3 sm:p-5 flex flex-wrap gap-2 mb-6 sm:mb-8">
+      <div className=" border border-black/15 bg-white shadow-[0_4px_20px_0_rgba(0,0,0,0.07)] p-3 sm:p-5 flex flex-wrap gap-2 mb-6 sm:mb-8">
         {TABS.map(tab => {
           const Icon = tab.icon;
           return (
             <button
               key={tab.key}
               onClick={() => setActiveTab(tab.key)}
-              className={`inline-flex items-center gap-2 px-4 py-2 rounded text-sm font-medium transition-colors ${
+              className={`inline-flex items-center gap-2 px-4 py-2  text-sm font-medium transition-colors ${
                 activeTab === tab.key
                   ? "bg-blue-50 text-blue-600 border border-blue-200"
                   : "text-gray-500 hover:bg-gray-50 border border-transparent"
@@ -132,7 +108,7 @@ export default function ContestTable({
       </div>
 
       {/* Tab content card */}
-      <div className="rounded-2xl border border-black/10 bg-white p-6 mb-6">
+      <div className=" border border-black/10 bg-white p-6 mb-6">
         <div className="flex items-start justify-between">
           <div>
             <div className="flex items-center gap-3 mb-2">
@@ -157,7 +133,7 @@ export default function ContestTable({
 
       {/* Table or Empty state */}
       {isEmpty ? (
-        <div className="bg-white border border-gray-100 shadow-sm rounded-2xl flex flex-col items-center justify-center text-center py-16 px-6">
+        <div className="bg-white border border-gray-100 shadow-sm  flex flex-col items-center justify-center text-center py-16 px-6">
           <div className="w-14 h-14 rounded-full bg-blue-50 flex items-center justify-center mb-4">
             <FiInbox className="size-6 text-blue-600" />
           </div>
@@ -201,7 +177,7 @@ export default function ContestTable({
                     <td className="px-3 sm:px-4 lg:px-6 py-3 sm:py-4">
                       <div className="flex items-center gap-2">
                         <span
-                          className={`inline-flex items-center justify-center h-7 w-7 sm:h-8 sm:w-8 rounded-lg text-[10px] sm:text-xs font-semibold ${rankBadgeStyle(
+                          className={`inline-flex items-center justify-center h-7 w-7 sm:h-8 sm:w-8  text-[10px] sm:text-xs font-semibold ${rankBadgeStyle(
                             c.rank,
                           )}`}
                         >
@@ -252,7 +228,7 @@ export default function ContestTable({
 
       {/* Winner indicator */}
       {filtered.some(e => e.is_winner) && (
-        <div className="mt-4 p-3 bg-gradient-to-r from-amber-50 to-yellow-50 border border-amber-200 rounded-lg text-center">
+        <div className="mt-4 p-3 bg-gradient-to-r from-amber-50 to-yellow-50 border border-amber-200  text-center">
           <span className="text-amber-700 font-medium text-sm">
             🏆 Winners have been announced for this week!
           </span>

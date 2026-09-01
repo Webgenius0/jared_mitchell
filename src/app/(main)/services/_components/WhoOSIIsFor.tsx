@@ -26,9 +26,9 @@ const WhoOSIIsFor = ({ data: cmsData }: { data?: CMSServicesWhoFor }) => {
           {items.map(item => (
             <div
               key={item.id}
-              className="p-2.5 md:p-2.5 lg:p-3 flex flex-col items-center justify-center gap-1.5 lg:gap-2 custom_border custom_shadow rounded-[14px] bg-white"
+              className="p-2.5 md:p-2.5 lg:p-3 flex flex-col items-center justify-center gap-1.5 lg:gap-2 custom_border custom_shadow  bg-white"
             >
-              <div className="p-1.5 md:p-1.5 lg:p-2 bg-primary-blue rounded-full custom_shadow size-12 md:size-13 lg:size-15 2xl:size-[80px]">
+              <div className="p-1.5 md:p-1.5 lg:p-2  rounded-full custom_shadow size-12 md:size-13 lg:size-15 2xl:size-[80px]">
                 <div className="relative size-full overflow-hidden rounded-full">
                   {item.image && (
                     <Image

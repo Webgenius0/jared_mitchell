@@ -268,7 +268,7 @@ const UpcomingEvents = () => {
 
         {events.length === 0 ? (
           <div className="my-4 md:my-6 lg:my-8">
-            <div className="flex flex-col items-center justify-center text-center px-5 py-10 md:py-14 lg:py-16 rounded-2xl xl:rounded-[20px] bg-[#F5F5F7] custom_shadow custom_border">
+            <div className="flex flex-col items-center justify-center text-center px-5 py-10 md:py-14 lg:py-16 bg-[#F5F5F7] custom_shadow custom_border">
               <div className="flex items-center justify-center size-13 md:size-15 rounded-full bg-white custom_shadow custom_border mb-4">
                 <PiCalendarX className="size-7 md:size-9 text-gray-300" />
               </div>
@@ -287,7 +287,7 @@ const UpcomingEvents = () => {
               {events.map(event => (
               <div
                 key={event.id}
-                className="rounded-[20px] bg-white custom_shadow custom_border overflow-hidden flex flex-col"
+                className=" bg-white custom_shadow custom_border overflow-hidden flex flex-col"
               >
                 {/* Image with badges */}
                 <div className="relative w-full">

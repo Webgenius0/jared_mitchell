@@ -24,7 +24,7 @@ const FAQAccordion = ({ data: cmsData }: { data?: CMSFAQ[] }) => {
           {items.map(faq => (
             <div
               key={faq.id}
-              className="bg-white rounded-[14px] custom_shadow custom_border"
+              className="bg-white custom_shadow custom_border"
             >
               <button
                 onClick={() => toggle(faq.id)}

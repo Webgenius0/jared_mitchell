@@ -6,6 +6,7 @@ import NewsLetter from "@/Components/Common/NewsLetter";
 import BossBeginningBanner from "./_components/BossBeginningBanner";
 import BossBeginningHero from "./_components/BossBeginningHero";
 import BusinessChosenChart from "./_components/BusinessChosenChart";
+import AdminArticlesSection from "./_components/AdminArticlesSection";
 import {
   getBossCms,
   getCMSHomepageData,
@@ -18,6 +19,7 @@ import {
   getPastSixMonthsWinners,
 } from "@/lib/Services/cms_service";
 import {
+  AdminArticle,
   CMSBossBeginnings,
   LiveStream,
   PastSixMonthsWinner,
@@ -34,9 +36,11 @@ const page = async () => {
   const pageData = (await getBossCms()) as CMSBossBeginnings;
   const cmsData = await getCMSHomepageData();
   let winner: PastSixMonthsWinner | null = null;
+  let adminArticles: AdminArticle[] = [];
   try {
     const res = await getCurrentContestWinner();
     winner = res?.winner ?? null;
+    adminArticles = res?.admin_articles ?? [];
   } catch (err) {
     console.error("Failed to fetch current contest winner:", err);
   }
@@ -102,6 +106,8 @@ const page = async () => {
       <BusinessShower data={pageData?.boss_beginnings_features} />
 
       <BossBeginningWinner winner={winner} />
+
+      <AdminArticlesSection articles={adminArticles} />
 
       <BusinessChosenChart
         data={pageData?.boss_beginnings_steps}

@@ -119,39 +119,6 @@ const BossBeginnings = ({
               </div>
             )}
           </div>
-
-          {/* Headshot + media thumbnails row */}
-          {(headshotSrc || mediaItems.length > 1) && (
-            <div className="flex items-center gap-3 mt-3 md:mt-4">
-              {headshotSrc && (
-                <div className="relative w-14 h-14 md:w-16 md:h-16 lg:w-16 lg:h-16 xl:w-20 xl:h-20 overflow-hidden border-2 border-white shadow-md shrink-0">
-                  <Image
-                    src={headshotSrc}
-                    fill
-                    sizes="80px"
-                    alt={`${winnerName} headshot`}
-                    className="object-cover"
-                  />
-                </div>
-              )}
-              <div className="flex gap-2 overflow-x-auto">
-                {mediaItems.slice(1).map((src, idx) => (
-                  <div
-                    key={idx}
-                    className="relative w-14 h-14 md:w-16 md:h-16 lg:w-16 lg:h-16 overflow-hidden border border-gray-200 shrink-0"
-                  >
-                    <Image
-                      src={src}
-                      fill
-                      sizes="64px"
-                      alt="Contest media"
-                      className="object-cover"
-                    />
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
         </div>
 
         <div

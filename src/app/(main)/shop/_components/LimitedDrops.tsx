@@ -43,11 +43,11 @@ const LimitedDrops = ({ products, isLoading }: LimitedDropsProps) => {
 
   return (
     <Container>
-      <div className=" section rounded-[20px] custom_border bg-secondary-gray space-y-11">
+      <div className=" section custom_border bg-secondary-gray space-y-11">
         <div>
           <h2 className="section_title">Limited Drops</h2>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-5 lg:px-8 px-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-5 lg:px-8 px-4 md:w-[80%] 2xl:w-full mx-auto">
           {products.map(product => (
             <ShopCard
               data={mapProductToCardProps(product)}

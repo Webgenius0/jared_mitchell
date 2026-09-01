@@ -66,7 +66,7 @@ const BossBeginningGuide = () => {
           <div className="grid grid-cols-2 md:grid-cols-5 gap-3 md:gap-3.5 lg:gap-4 xl:gap-5">
             {steps.map((step, idx) => (
               <div key={idx} className="relative group">
-                <div className="bg-white custom_border custom_shadow rounded-xl lg:rounded-2xl p-3.5 md:p-4 lg:p-5 xl:p-6 text-center flex flex-col items-center gap-2 lg:gap-3 h-full transition-transform duration-300 hover:-translate-y-1">
+                <div className="bg-white custom_border custom_shadow p-3.5 md:p-4 lg:p-5 xl:p-6 text-center flex flex-col items-center gap-2 lg:gap-3 h-full transition-transform duration-300 hover:-translate-y-1">
                   {/* Number Badge */}
                   <span className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-primary-blue/10 flex items-center justify-center">
                     <step.icon className="w-5 h-5 md:w-6 md:h-6 text-primary-blue" />
@@ -101,9 +101,9 @@ const BossBeginningGuide = () => {
 
         {/* CTA to Dedicated Guide Page */}
         <div className="mt-8 md:mt-10 lg:mt-12 xl:mt-16">
-          <div className="relative rounded-xl md:rounded-2xl lg:rounded-3xl p-4 md:p-5 lg:p-6 xl:p-8 bg-primary-blue text-white text-center">
+          <div className="relative  p-4 md:p-5 lg:p-6 xl:p-8 bg-primary-blue text-white text-center">
             <div className="flex flex-col items-center">
-              <span className="w-10 h-10 md:w-12 md:h-12 lg:w-14 lg:h-14 rounded-xl bg-white/20 flex items-center justify-center mb-3 lg:mb-4">
+              <span className="w-10 h-10 md:w-12 md:h-12 lg:w-14 lg:h-14 bg-white/20 flex items-center justify-center mb-3 lg:mb-4">
                 <FiBriefcase className="w-7 h-7 md:w-8 md:h-8 text-white" />
               </span>
 

@@ -29,7 +29,7 @@ export default function ContestSpotlights({
   return (
     <section className="pt-8 md:pt-10 lg:pt-12 xl:pt-20">
       <div className="container mx-auto">
-        <div className="rounded-xl lg:rounded-2xl border border-black/15 bg-white shadow-[0_4px_20px_0_rgba(0,0,0,0.07)] py-3 sm:py-4 lg:py-5 xl:py-8 px-2.5 sm:px-3 lg:px-5">
+        <div className=" border border-black/15 bg-white shadow-[0_4px_20px_0_rgba(0,0,0,0.07)] py-3 sm:py-4 lg:py-5 xl:py-8 px-2.5 sm:px-3 lg:px-5">
           <h3 className="text-lg sm:text-xl lg:text-2xl font-medium text-[#101828]">Spotlights</h3>
           <h4 className="text-[10px] sm:text-xs lg:text-sm font-normal text-[#1D1D1F] mt-0.5">
             OSI panel first involvement. Identify the strongest contenders for
