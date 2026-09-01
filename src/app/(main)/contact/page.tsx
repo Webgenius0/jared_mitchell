@@ -12,9 +12,9 @@ const page = async () => {
   const CmsData = await getCMSAboutData();
 
   return (
-    <div className="xl:px-5">
+    <div className="">
       <ContactBanner />
-    <div className=" md:w-[80%] 2xl:w-full mx-auto">
+    <div className="xl:px-5 md:w-[80%] 2xl:w-full mx-auto">
       <GetInTouch />
       <TalentApplication />
       <VendorOpportunities />
