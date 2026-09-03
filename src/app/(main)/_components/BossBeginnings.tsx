@@ -9,6 +9,7 @@ import { isUserSubscribed } from "@/Hooks/api/subscription_api";
 import { CMSBossBeginnings, PastSixMonthsWinner } from "@/Types/cms";
 
 const BOSS_BEGINNINGS_URL = "/boss-beginnings";
+const BOSS_BEGINNINGS_CONTEST_URL = "/boss-beginnings-contest";
 
 const BossBeginnings = ({
   data,
@@ -22,6 +23,10 @@ const BossBeginnings = ({
 
   const isBusiness = isBusinessUser(user);
   const restricted = Boolean(token) && !isBusiness;
+
+  const handleViewCompetition = () => {
+    router.push(BOSS_BEGINNINGS_CONTEST_URL);
+  };
 
   const handleNominate = () => {
     if (!token) {
@@ -127,6 +132,9 @@ const BossBeginnings = ({
         />
 
         <div className="flex flex-wrap items-center justify-center gap-2 md:gap-4 lg:gap-4 xl:gap-6 mt-4 md:mt-5 lg:mt-5 xl:mt-8">
+          <Button variant={"outline"} onClick={handleViewCompetition}>
+            VIEW THE COMPETITION
+          </Button>
           <Button
             variant={"outline"}
             onClick={handleNominate}
@@ -141,7 +149,7 @@ const BossBeginnings = ({
                 : ""
             }
           >
-            Nominate a Business
+            NOMINATE A BUSINESS
           </Button>
         </div>
       </div>
