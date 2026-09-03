@@ -24,8 +24,10 @@ import {
   getArtistHistoricalWinners,
   getBusinessHistoricalWinners,
   getPastSixMonthsWinners,
+  getEventsPageCms,
 } from "@/lib/Services/cms_service";
 import {
+  CMSEventsPage,
   FeaturedEventItem,
   FeaturedProductItem,
   HistoricalWinnersItem,
@@ -59,6 +61,7 @@ const Page = async () => {
     artistWinnersRes,
     pastSixMonthsWinnersRes,
     currentWinnerRes,
+    eventsPageRes,
   ] = await Promise.allSettled([
     getCMSHomepageData(),
     getFeaturedEvents(),
@@ -68,6 +71,7 @@ const Page = async () => {
     getArtistHistoricalWinners(),
     getPastSixMonthsWinners(),
     getCurrentContestWinner(),
+    getEventsPageCms(),
   ]);
 
   [
@@ -79,6 +83,7 @@ const Page = async () => {
     ["artist winners", artistWinnersRes],
     ["past six months winners", pastSixMonthsWinnersRes],
     ["current contest winner", currentWinnerRes],
+    ["events page data", eventsPageRes],
   ].forEach(([label, res]: any) => {
     if (res.status === "rejected") {
       console.error(`Failed to fetch ${label}:`, res.reason);
@@ -119,6 +124,9 @@ const Page = async () => {
       ? currentWinnerRes.value?.winner || null
       : null;
 
+  const eventsPageData: CMSEventsPage | undefined =
+    eventsPageRes.status === "fulfilled" ? eventsPageRes.value : undefined;
+
   return (
     <>
       <Hero data={cmsData?.hero} />
@@ -143,7 +151,7 @@ const Page = async () => {
         winners={artistWinners}
         type="artist"
       />
-      <EventBanner data={cmsData?.cta} />
+      <EventBanner data={eventsPageData?.events_page_hero} />
       <Countdown data={countdownData} />
       <FeaturedEvent events={featuredEvents} />
       <UpcomingEvents />

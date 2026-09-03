@@ -497,3 +497,140 @@ export const InstagramSvg = () => {
 export const Svg = () => {
   return <></>;
 };
+
+export const ProfileSvg = () => (
+  <svg
+    width="40"
+    height="40"
+    viewBox="0 0 40 40"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <circle cx="20" cy="14" r="6" stroke="#1977DD" strokeWidth="1.8" />
+    <path
+      d="M8 32c1.6-6.4 7-10 12-10s10.4 3.6 12 10"
+      stroke="#1977DD"
+      strokeWidth="1.8"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <circle cx="29" cy="9" r="4.5" fill="#1977DD" />
+    <path
+      d="M27 9l1.4 1.4L31.5 7"
+      stroke="white"
+      strokeWidth="1.4"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+);
+
+export const MarketingSvg = () => (
+  <svg
+    width="40"
+    height="40"
+    viewBox="0 0 40 40"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M6 17v6a2 2 0 002 2h2l3 7 3-1-2.4-6h1.4l12 5V12l-12 5H10a2 2 0 00-2 2z"
+      stroke="#1977DD"
+      strokeWidth="1.8"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M27.5 17v-5M31.5 20.5l3-2M31.5 13.5l3 2"
+      stroke="#1977DD"
+      strokeWidth="1.8"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+);
+
+export const CommunitySvg = () => (
+  <svg
+    width="40"
+    height="40"
+    viewBox="0 0 40 40"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <circle cx="14" cy="14" r="4.5" stroke="#1977DD" strokeWidth="1.8" />
+    <circle cx="26" cy="14" r="4.5" stroke="#1977DD" strokeWidth="1.8" />
+    <path
+      d="M6 32c1.2-5.2 4.4-8 8-8s6.8 2.8 8 8"
+      stroke="#1977DD"
+      strokeWidth="1.8"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M18 32c1.2-5.2 4.4-8 8-8s6.8 2.8 8 8"
+      stroke="#1977DD"
+      strokeWidth="1.8"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+);
+
+export const BusinessGrowthSvg = () => (
+  <svg
+    width="40"
+    height="40"
+    viewBox="0 0 40 40"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M6 33h28"
+      stroke="#1977DD"
+      strokeWidth="1.8"
+      strokeLinecap="round"
+    />
+    <rect
+      x="10"
+      y="24"
+      width="4.5"
+      height="9"
+      rx="1"
+      stroke="#1977DD"
+      strokeWidth="1.8"
+    />
+    <rect
+      x="18"
+      y="18"
+      width="4.5"
+      height="15"
+      rx="1"
+      stroke="#1977DD"
+      strokeWidth="1.8"
+    />
+    <rect
+      x="26"
+      y="11"
+      width="4.5"
+      height="22"
+      rx="1"
+      stroke="#1977DD"
+      strokeWidth="1.8"
+    />
+    <path
+      d="M10 12l6-5 5 4 9-8"
+      stroke="#1977DD"
+      strokeWidth="1.8"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M25 3h5v5"
+      stroke="#1977DD"
+      strokeWidth="1.8"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+);

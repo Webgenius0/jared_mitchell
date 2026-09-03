@@ -24,14 +24,14 @@ const Hero = ({ data }: { data?: CMSHero }) => {
         />
       </div>
 
-      <p className="text-secondary-black text-sm md:text-sm lg:text-base">
+      <p className="text-secondary-black text-sm md:text-sm lg:text-base max-w-2xl mx-auto my-1.5 md:my-2 lg:my-3">
         {data?.description}
       </p>
 
       <div className="space-x-1.5 md:space-x-2 lg:space-x-2.5 mt-1.5 md:mt-2">
         <Link href="/auth/login">
           <button className="bg-primary-blue text-white border border-primary-blue rounded-full px-3 md:px-3 lg:px-5 xl:px-8 py-1 md:py-1 lg:py-1.5 xl:py-2 text-xs md:text-xs lg:text-sm xl:text-lg font-medium transition-all">
-            Join OSI
+            JOIN THE COMMUNITY
           </button>
         </Link>
 
@@ -39,7 +39,7 @@ const Hero = ({ data }: { data?: CMSHero }) => {
           onClick={() => setIsSponsorModalOpen(true)}
           className="bg-white text-primary-blue border border-[#D1D5DC] rounded-full px-3 md:px-3 lg:px-5 xl:px-8 py-1 md:py-1 lg:py-1.5 xl:py-2 text-xs md:text-xs lg:text-sm xl:text-lg font-medium transition-all"
         >
-          Sponsor Us
+          EXPLORE SPOTLIGHTS
         </button>
       </div>
 

@@ -47,7 +47,7 @@ const WhyChoose = ({ data }: { data?: CMSWhyChoose }) => {
                 src={item?.image || osi}
                 fill
                 alt={item?.title || "Why Choose OSI"}
-                className="object-cover w-full"
+                className="object-cover w-full aspect-video"
               />
 
               <div className="w-full h-full absolute top-0 bg-gradient-to-t from-black/85 via-black/50 to-black/35 ">
