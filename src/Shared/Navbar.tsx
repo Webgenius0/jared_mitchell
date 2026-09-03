@@ -17,7 +17,7 @@ import logo from "../Assets/logo.jpeg";
 const navLinks = [
   { label: "Home", path: "/" },
   { label: "About", path: "/about" },
-  { label: "Service", path: "/services" },
+  { label: "Services", path: "/services" },
   {
     label: "Spotlight",
     path: "",
@@ -312,7 +312,7 @@ const Navbar = () => {
                   href="/auth/register"
                   className="bg-primary-blue text-white py-1 2xl:py-1.5 px-1 2xl:px-3 md:px-4 rounded-lg cursor-pointer hover:bg-primary-blue/90 transition-colors duration-200 text-xs 2xl:text-sm"
                 >
-                  Sign Up
+                  Join Osi
                 </Link>
               )}
 

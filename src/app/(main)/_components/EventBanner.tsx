@@ -1,31 +1,28 @@
-import Image from "next/image";
-import { CMSCTA } from "@/Types/cms";
+import { CMSEventsPageHero } from "@/Types/cms";
+import aboutBg from "@/Assets/events.jpg";
 
-const EventBanner = ({ data }: { data?: CMSCTA }) => {
+const EventBanner = ({ data }: { data?: CMSEventsPageHero }) => {
+  const bgImage = data?.image ?? aboutBg.src;
+
   return (
-    <section className="w-full h-[200px] sm:h-[240px] md:h-[260px] lg:h-[280px] xl:h-[460px] overflow-hidden flex items-center relative">
-      <Image
-        src={data?.bg || "/home/home-banner-2.jpg"}
-        width={1920}
-        height={460}
-        alt="home banner"
-        className="object-cover w-full"
-      />
-      <div className="w-full h-full absolute top-0 bg-black/60">
-        <div className="flex flex-col max-w-[1200px] w-full mx-auto h-full items-center justify-center text-center px-4">
-          <h2 className="section_title !text-white 2xl:text-5xl">
-            {data?.title || "Events"}
-          </h2>
-          <p className="section_sub_title !text-[#F5F5F7]">
-            {data?.description || (
-              <>
-                Discover celebrations, workshops, and community moments.
-                <br />A curated look at the newest and most important events
-                happening inside Our Social Image.
-              </>
-            )}
-          </p>
-        </div>
+    <section
+      style={{
+        backgroundImage: `
+          linear-gradient(0deg, rgba(0,0,0,0.7), rgba(0,0,0,0.7)),
+          url(${bgImage})
+        `,
+      }}
+      className="min-h-[260px] md:h-[340px] lg:h-[380px] xl:h-[500px] bg-no-repeat bg-center bg-cover flex items-center justify-center"
+    >
+      <div className="container flex flex-col items-center justify-center text-center">
+        <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-[70px] font-bold text-white text-center leading-tight">
+          {data?.title ?? "Events"}
+        </h2>
+
+        <p className="text-[#F5F5F7] text-xs sm:text-sm md:text-base lg:text-lg xl:text-[26px] pt-2 md:pt-3 text-center max-w-[90%] md:max-w-[80%] lg:max-w-full">
+          {data?.sub_title ??
+            "Workshops, markets, pop-ups, community gatherings, and creative experiences."}
+        </p>
       </div>
     </section>
   );

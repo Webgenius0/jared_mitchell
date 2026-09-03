@@ -72,7 +72,7 @@ const NewsLetter = ({ title, sub_title, data }: NewsletterProps) => {
             disabled={status === "loading"}
           />
           <Button type="submit" disabled={status === "loading"} className="w-full sm:w-auto shrink-0">
-            {status === "loading" ? "Submitting..." : "Get started now"}
+            {status === "loading" ? "Submitting..." : "JOIN THE OSI NEWSLETTER"}
           </Button>
         </form>
 

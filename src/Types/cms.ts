@@ -41,6 +41,7 @@ export interface CMSWhatYouGet extends CMSBase {
   metadata: {
     image: string;
     title: string;
+    description?: string;
   }[];
 }
 

@@ -72,16 +72,17 @@ const Footer = () => {
             </h3>
 
             <p className="text-[#99A1AF] text-xs md:text-sm lg:text-sm xl:text-lg max-w-md">
-              OSI is a digital platform supporting creators, entrepreneurs, and
-              community-driven businesses through curated visibility,
-              storytelling, and exposure.
+              Our Social Image is an Indianapolis-based platform helping
+              independent artists, entrepreneurs, local businesses, and
+              community-driven organizations build visibility through
+              storytelling, promotion, events, and community support.
             </p>
 
-            <p className="text-[#99A1AF] text-xs md:text-sm lg:text-sm xl:text-lg max-w-md">
+            {/* <p className="text-[#99A1AF] text-xs md:text-sm lg:text-sm xl:text-lg max-w-md">
               Features are not guaranteed and selection varies. Our Social Image
               LLC is not a talent agency, financial advisor, or legal
               representative. Platform services are promotional in nature.
-            </p>
+            </p> */}
           </div>
 
           {/* Second Column */}
@@ -125,10 +126,10 @@ const Footer = () => {
           {/* Forth Column */}
           <div className="space-y-7">
             <div>
-            <h3 className="text-white font-medium text-sm md:text-base lg:text-base xl:text-xl mb-1.5 md:mb-2">
-              For Creators & Businesses
-            </h3>
-            <ul className="space-y-1.5 md:space-y-2">
+              <h3 className="text-white font-medium text-sm md:text-base lg:text-base xl:text-xl mb-1.5 md:mb-2">
+                For Creators & Businesses
+              </h3>
+              <ul className="space-y-1.5 md:space-y-2">
                 {businessData?.map((item, idx) => (
                   <li key={idx} className="text-sm lg:text-xs xl:text-lg">
                     <Link
@@ -146,7 +147,9 @@ const Footer = () => {
               <h3 className="text-white font-medium text-base md:text-lg xl:text-xl mb-1">
                 Our Social Image LLC
               </h3>
-              <p className="text-[#99A1AF] text-sm md:text-base xl:text-lg">Indianapolis, IN</p>
+              <p className="text-[#99A1AF] text-sm md:text-base xl:text-lg">
+                Indianapolis, IN
+              </p>
             </div>
 
             <div>
@@ -189,7 +192,7 @@ const Footer = () => {
           </p>
 
           <p className="text-gray-300 text-xs lg:text-sm">
-            &copy; 2025 Our Social Image LLC. All rights reserved.
+            &copy; 2026 Our Social Image LLC. All rights reserved.
           </p>
         </div>
       </div>
