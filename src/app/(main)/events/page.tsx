@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import EventsBanner from "./_Components/EventsBanner";
 import UpcomingEvents from "./_Components/UpcomingEvents";
 import EventSchedule from "./_Components/EventSchedule";
@@ -71,6 +72,47 @@ const Page = async () => {
       <NewsLetter title="Be part of the movement. Get stories, updates, and opportunities straight to your inbox." />
     </>
   );
+};
+
+export const metadata = {
+  title: "Events - Upcoming & Featured | OSI",
+  description:
+    "Discover upcoming events, live streams, and featured happenings in the OSI community. Attend, participate, and stay connected with the Open Spotlight Initiative events calendar.",
+  keywords: [
+    "OSI events",
+    "OSI upcoming events",
+    "OSI live streams",
+    "OSI event calendar",
+    "community events",
+    "OSI happenings",
+  ],
+  openGraph: {
+    title: "Events - Upcoming & Featured | OSI",
+    description:
+      "Discover upcoming events, live streams, and featured happenings in the OSI community. Stay connected with the Open Spotlight Initiative.",
+    type: "website",
+    locale: "en_US",
+    siteName: "OSI",
+    images: [
+      {
+        url: "/og-events.png",
+        width: 1200,
+        height: 630,
+        alt: "OSI Events - Open Spotlight Initiative",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Events - Upcoming & Featured | OSI",
+    description:
+      "Discover upcoming events, live streams, and featured happenings in the OSI community. Stay connected with the Open Spotlight Initiative.",
+    images: ["/og-events.png"],
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default Page;

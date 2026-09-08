@@ -1,4 +1,4 @@
-"use client";
+import type { Metadata } from "next";
 
 import { useParams, useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
@@ -44,6 +44,42 @@ import { useAddToCart } from "@/Hooks/api/cart_api";
 import { useCart } from "@/Provider/CartProvider/CartProvider";
 import { setBuyNowItem } from "@/lib/localStorage";
 import Sponsors from "../../_components/Sponsors";
+
+export async function generateMetadata(
+  { params }: { params: Promise<{ slug: string }> },
+  parent: Readonly<{ metadata: Metadata }>,
+): Promise<Metadata> {
+  const { slug } = await params;
+  return {
+    title: `Product: ${slug.replace(/-/g, " ")} | OSI Shop`,
+    description: `Discover this exclusive product on the OSI Shop. Support creators and businesses in the Open Spotlight Initiative community.`,
+    openGraph: {
+      title: `Product: ${slug.replace(/-/g, " ")} | OSI Shop`,
+      description: `Discover this exclusive product on the OSI Shop. Support creators and businesses in the Open Spotlight Initiative community.`,
+      type: "website",
+      locale: "en_US",
+      siteName: "OSI",
+      images: [
+        {
+          url: "/og-product.png",
+          width: 1200,
+          height: 630,
+          alt: "OSI Product",
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `Product: ${slug.replace(/-/g, " ")} | OSI Shop`,
+      description: `Discover this exclusive product on the OSI Shop. Support creators and businesses in the Open Spotlight Initiative community.`,
+      images: ["/og-product.png"],
+    },
+    robots: {
+      index: true,
+      follow: true,
+    },
+  };
+}
 
 export default function ProductDetailsPage() {
   const params = useParams();

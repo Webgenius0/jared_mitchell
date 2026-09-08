@@ -1,3 +1,5 @@
+import type { Metadata } from "next";
+
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
@@ -763,6 +765,16 @@ const VotePurchase = () => {
       )}
     </div>
   );
+};
+
+export const metadata = {
+  title: "Vote Purchase - Support Your Spotlight | OSI Business Dashboard",
+  description:
+    "Purchase support votes for your business spotlight on OSI. Buy vote packages to increase your visibility and compete in the Open Spotlight Initiative community.",
+  robots: {
+    index: false,
+    follow: false,
+  },
 };
 
 export default VotePurchase;

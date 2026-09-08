@@ -1,3 +1,5 @@
+import type { Metadata } from "next";
+
 "use client";
 
 import Link from "next/link";
@@ -142,6 +144,16 @@ const CurrentSessionPage = () => {
       </Link> */}
     </div>
   );
+};
+
+export const metadata = {
+  title: "Current Session - Active Round | OSI Business Dashboard",
+  description:
+    "View details of the current OSI Top Business Award session. Check round requirements, dates, and session information in the Open Spotlight Initiative dashboard.",
+  robots: {
+    index: false,
+    follow: false,
+  },
 };
 
 export default CurrentSessionPage;

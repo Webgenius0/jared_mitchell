@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { HiOutlineDotsVertical } from "react-icons/hi";
 
 // No live billing data is wired into this page yet — these stay empty and
@@ -108,6 +109,16 @@ const page = () => {
       </div>
     </>
   );
+};
+
+export const metadata = {
+  title: "Artist Billing - Subscription & Invoices | OSI Dashboard",
+  description:
+    "Manage your OSI artist subscription billing. View invoices, payment history, and manage your subscription plan in the Open Spotlight Initiative dashboard.",
+  robots: {
+    index: false,
+    follow: false,
+  },
 };
 
 export default page;

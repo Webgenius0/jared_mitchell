@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import React from "react";
 import SubscriptionManager from "@/Components/Common/SubscriptionManager";
 
@@ -18,6 +19,16 @@ const SubscriptionPage = () => {
       <SubscriptionManager />
     </div>
   );
+};
+
+export const metadata = {
+  title: "Subscription - Manage Your Plan | OSI Dashboard",
+  description:
+    "Manage your OSI subscription. View your current plan, upgrade or downgrade, cancel subscriptions, and track billing history in the Open Spotlight Initiative dashboard.",
+  robots: {
+    index: false,
+    follow: false,
+  },
 };
 
 export default SubscriptionPage;

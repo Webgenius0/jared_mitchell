@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import CustomVideoPlayer from "@/Components/Common/CustomVideoPlayer";
 import SponsorshipMatters from "./_components/SponsorshipMatters";
 import HowSponsorshipWorks from "./_components/HowSponsorshipWorks";
@@ -44,5 +45,45 @@ const page = async () => {
   );
 };
 
-export default page;
+export const metadata = {
+  title: "Sponsorships - Partner with OSI | Open Spotlight Initiative",
+  description:
+    "Partner with OSI (Open Spotlight Initiative) through our sponsorship program. Reach a growing community of creators, artists, and businesses. Explore sponsorship opportunities and levels.",
+  keywords: [
+    "OSI sponsorships",
+    "OSI partner",
+    "sponsor OSI",
+    "OSI advertising",
+    "brand partnership",
+    "OSI sponsorship levels",
+  ],
+  openGraph: {
+    title: "Sponsorships - Partner with OSI | Open Spotlight Initiative",
+    description:
+      "Partner with OSI (Open Spotlight Initiative) through our sponsorship program. Reach a growing community of creators, artists, and businesses.",
+    type: "website",
+    locale: "en_US",
+    siteName: "OSI",
+    images: [
+      {
+        url: "/og-sponsorships.png",
+        width: 1200,
+        height: 630,
+        alt: "OSI Sponsorships - Open Spotlight Initiative",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Sponsorships - Partner with OSI | Open Spotlight Initiative",
+    description:
+      "Partner with OSI (Open Spotlight Initiative) through our sponsorship program. Reach a growing community of creators, artists, and businesses.",
+    images: ["/og-sponsorships.png"],
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
+};
 
+export default page;

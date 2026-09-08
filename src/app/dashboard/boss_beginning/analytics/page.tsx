@@ -1,3 +1,5 @@
+import type { Metadata } from "next";
+
 "use client";
 
 import React from "react";
@@ -139,6 +141,16 @@ function EngagementBar({ label, value, count, colorClass }: EngagementItem) {
 /* ------------------------------------------------------------------ */
 /*  Page                                                               */
 /* ------------------------------------------------------------------ */
+
+export const metadata = {
+  title: "Business Analytics - Votes & Reach | OSI Dashboard",
+  description:
+    "View detailed analytics for your business spotlight on OSI. Track votes, reach, profile visits, spotlight views, and engagement rates in the Open Spotlight Initiative dashboard.",
+  robots: {
+    index: false,
+    follow: false,
+  },
+};
 
 export default function Page() {
   const { data, isLoading, error } = useGetBusinessDashboardAnalytics();

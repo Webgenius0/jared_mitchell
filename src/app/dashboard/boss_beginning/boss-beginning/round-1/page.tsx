@@ -1,3 +1,5 @@
+import type { Metadata } from "next";
+
 "use client";
 
 import React from "react";
@@ -42,6 +44,16 @@ function StatCardItem({ label, value, icon: Icon }: StatCard) {
 /* ------------------------------------------------------------------ */
 /*  Page                                                               */
 /* ------------------------------------------------------------------ */
+
+export const metadata = {
+  title: "Round 1 - OSI Top Business Award | Business Dashboard",
+  description:
+    "View your Round 1 statistics for the OSI Top Business Award. Track votes, claps, saves, and ranking in the first round of the Open Spotlight Initiative contest.",
+  robots: {
+    index: false,
+    follow: false,
+  },
+};
 
 export default function Round1Page() {
   const { data } = useGetContestSummary();

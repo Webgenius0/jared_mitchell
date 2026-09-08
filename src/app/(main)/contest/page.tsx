@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import React from "react";
 import { CMSBossBeginnings } from "@/Types/cms";
 import ContestBanner from "./Components/ContestBanner";
@@ -114,4 +115,45 @@ const page = async () => {
     </div>
   );
 };
+export const metadata = {
+  title: "Contest - OSI Top Business Award | Open Spotlight Initiative",
+  description:
+    "Participate in the OSI Top Business Award contest. Vote for your favorite businesses, track the leaderboard, and support emerging entrepreneurs competing for recognition in the OSI community.",
+  keywords: [
+    "OSI contest",
+    "OSI Top Business Award",
+    "business contest",
+    "OSI voting contest",
+    "entrepreneur contest",
+    "business award",
+  ],
+  openGraph: {
+    title: "Contest - OSI Top Business Award | Open Spotlight Initiative",
+    description:
+      "Participate in the OSI Top Business Award contest. Vote for your favorite businesses and support emerging entrepreneurs.",
+    type: "website",
+    locale: "en_US",
+    siteName: "OSI",
+    images: [
+      {
+        url: "/og-contest.png",
+        width: 1200,
+        height: 630,
+        alt: "OSI Contest - Open Spotlight Initiative",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Contest - OSI Top Business Award | Open Spotlight Initiative",
+    description:
+      "Participate in the OSI Top Business Award contest. Vote for your favorite businesses and support emerging entrepreneurs.",
+    images: ["/og-contest.png"],
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
+};
+
 export default page;

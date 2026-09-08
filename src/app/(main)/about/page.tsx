@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import AboutBanner from "./_Components/AboutBanner";
 import OurSociety from "./_Components/OurSociety";
 import OurStory from "./_Components/OurStory";
@@ -43,5 +44,45 @@ const page = async () => {
   );
 };
 
-export default page;
+export const metadata = {
+  title: "About OSI - Our Story & Mission | Open Spotlight Initiative",
+  description:
+    "Learn about OSI (Open Spotlight Initiative) — our mission, values, and the story behind building a community platform that empowers creators, small businesses, and entrepreneurs to grow and thrive.",
+  keywords: [
+    "OSI about",
+    "Open Spotlight Initiative mission",
+    "OSI story",
+    "OSI values",
+    "community platform",
+    "creators network",
+  ],
+  openGraph: {
+    title: "About OSI - Our Story & Mission | Open Spotlight Initiative",
+    description:
+      "Learn about OSI (Open Spotlight Initiative) — our mission, values, and the story behind building a community platform for creators and businesses.",
+    type: "website",
+    locale: "en_US",
+    siteName: "OSI",
+    images: [
+      {
+        url: "/og-about.png",
+        width: 1200,
+        height: 630,
+        alt: "About OSI - Open Spotlight Initiative",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "About OSI - Our Story & Mission | Open Spotlight Initiative",
+    description:
+      "Learn about OSI (Open Spotlight Initiative) — our mission, values, and the story behind building a community platform for creators and businesses.",
+    images: ["/og-about.png"],
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
+};
 
+export default page;

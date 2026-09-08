@@ -1,3 +1,5 @@
+import type { Metadata } from "next";
+
 "use client";
 import {
   Briefcase,
@@ -125,6 +127,16 @@ function ChartTooltip({ active, payload }: ChartTooltipProps) {
     </div>
   );
 }
+
+export const metadata = {
+  title: "Business Dashboard - OSI Top Business Award | Dashboard",
+  description:
+    "Access your OSI business dashboard. Track your business statistics, voting summary, spotlight performance, and upcoming events in the Open Spotlight Initiative.",
+  robots: {
+    index: false,
+    follow: false,
+  },
+};
 
 export default function Page() {
   const router = useRouter();

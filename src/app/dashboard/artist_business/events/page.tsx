@@ -1,3 +1,5 @@
+import type { Metadata } from "next";
+
 "use client";
 
 import React, { useState } from "react";
@@ -95,6 +97,16 @@ const formatTotal = (registration: EventRegistration) => {
 /* ------------------------------------------------------------------ */
 /*  Page                                                               */
 /* ------------------------------------------------------------------ */
+
+export const metadata = {
+  title: "Artist Events - Upcoming & Booking History | OSI Dashboard",
+  description:
+    "Manage your event registrations on OSI. View upcoming events, purchase tickets, and check your booking history in the artist dashboard of Open Spotlight Initiative.",
+  robots: {
+    index: false,
+    follow: false,
+  },
+};
 
 export default function Page() {
   const router = useRouter();
