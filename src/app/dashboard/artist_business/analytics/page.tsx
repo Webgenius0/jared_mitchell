@@ -1,5 +1,3 @@
-import type { Metadata } from "next";
-
 "use client";
 
 import React from "react";
@@ -79,16 +77,6 @@ function ChartTooltip({ active, payload }: ChartTooltipProps) {
     </div>
   );
 }
-
-export const metadata = {
-  title: "Artist Analytics - Spotlight Reach & Performance | OSI",
-  description:
-    "View detailed analytics for your artist spotlight on OSI. Track reach, profile visits, spotlight views, and performance trends in the Open Spotlight Initiative dashboard.",
-  robots: {
-    index: false,
-    follow: false,
-  },
-};
 
 export default function Page() {
   const { data, isLoading } = useGetArtistDashboardAnalytics();

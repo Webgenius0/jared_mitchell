@@ -1,5 +1,3 @@
-import type { Metadata } from "next";
-
 "use client";
 
 import React from "react";
@@ -93,16 +91,6 @@ function ChartTooltip({ active, payload }: ChartTooltipProps) {
 /* ------------------------------------------------------------------ */
 /*  Page                                                               */
 /* ------------------------------------------------------------------ */
-
-export const metadata = {
-  title: "OSI Top Business Award - Contest Overview | Business Dashboard",
-  description:
-    "View overall statistics and performance for the OSI Top Business Award contest. Track votes, shares, fire reactions, and monthly trends in the Open Spotlight Initiative dashboard.",
-  robots: {
-    index: false,
-    follow: false,
-  },
-};
 
 export default function Page() {
   const { data, isLoading, error } = useGetContestSummary();

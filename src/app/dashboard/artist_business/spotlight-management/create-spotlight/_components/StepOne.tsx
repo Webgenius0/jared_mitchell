@@ -1,3 +1,5 @@
+"use client";
+
 import { WorldSvg } from "@/Components/Svg/SvgContainer";
 import { useFormContext } from "react-hook-form";
 

@@ -1,5 +1,3 @@
-import type { Metadata } from "next";
-
 "use client";
 import DashboardProfileSettings from "@/Components/Common/DashboardProfileSettings";
 import useAuth from "@/Hooks/useAuth";
@@ -30,16 +28,6 @@ const ProfilePage = () => {
   };
 
   return <DashboardProfileSettings initialData={initialData} />;
-};
-
-export const metadata = {
-  title: "Artist Settings - Profile & Preferences | OSI Dashboard",
-  description:
-    "Manage your artist profile settings on OSI. Update your personal information, social media links, bio, and preferences in the Open Spotlight Initiative dashboard.",
-  robots: {
-    index: false,
-    follow: false,
-  },
 };
 
 export default ProfilePage;

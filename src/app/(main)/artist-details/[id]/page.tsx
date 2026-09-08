@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import type { ResolvingMetadata } from "next";
 import ArtistDetailsContent from "../../_components/ArtistDetailsContent";
 import NewsLetter from "@/Components/Common/NewsLetter";
 import Sponsors from "../../_components/Sponsors";
@@ -20,7 +21,7 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
 
 export async function generateMetadata(
   { params }: { params: Promise<{ id: string }> },
-  parent: Readonly<{ metadata: Metadata }>,
+  parent: ResolvingMetadata,
 ): Promise<Metadata> {
   const { id } = await params;
   const artistId = parseInt(id, 10);

@@ -1,5 +1,3 @@
-import type { Metadata } from "next";
-
 "use client";
 import { getSingleArtistSpotlightDetails } from "@/Hooks/api/cms_api";
 import { useParams, useRouter } from "next/navigation";
@@ -497,16 +495,6 @@ const Page = () => {
       </SectionCard>
     </div>
   );
-};
-
-export const metadata = {
-  title: "Artist Spotlight Details - View Profile | OSI Dashboard",
-  description:
-    "View detailed information about an artist spotlight on OSI. See their story, media, social links, and consent details in the Open Spotlight Initiative dashboard.",
-  robots: {
-    index: false,
-    follow: false,
-  },
 };
 
 export default Page;

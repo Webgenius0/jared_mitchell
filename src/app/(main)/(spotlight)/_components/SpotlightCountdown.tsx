@@ -178,37 +178,45 @@ const SpotlightCountdown = () => {
   const fetchCountdown = useCallback(async () => {
     try {
       // Try running countdown first
-      const runningRes = await axiosPublic.get<ApiResponse>(
-        "/v1/spotlight/weeks/running-countdown"
-      );
+      try {
+        const runningRes = await axiosPublic.get<ApiResponse>(
+          "/v1/spotlight/weeks/running-countdown"
+        );
 
-      if (
-        runningRes.data.success &&
-        runningRes.data.data?.target_date &&
-        runningRes.data.data?.countdown
-      ) {
-        setCountdownData(runningRes.data.data);
-        setPhase("running");
-        setLoading(false);
-        setError(false);
-        return;
+        if (
+          runningRes.data.success &&
+          runningRes.data.data?.target_date &&
+          runningRes.data.data?.countdown
+        ) {
+          setCountdownData(runningRes.data.data);
+          setPhase("running");
+          setLoading(false);
+          setError(false);
+          return;
+        }
+      } catch {
+        // running-countdown endpoint may not exist — fall through
       }
 
       // Fallback to upcoming countdown
-      const upcomingRes = await axiosPublic.get<ApiResponse>(
-        "/v1/spotlight/weeks/upcoming-countdown"
-      );
+      try {
+        const upcomingRes = await axiosPublic.get<ApiResponse>(
+          "/v1/spotlight/weeks/upcoming-countdown"
+        );
 
-      if (
-        upcomingRes.data.success &&
-        upcomingRes.data.data?.target_date &&
-        upcomingRes.data.data?.countdown
-      ) {
-        setCountdownData(upcomingRes.data.data);
-        setPhase("upcoming");
-        setLoading(false);
-        setError(false);
-        return;
+        if (
+          upcomingRes.data.success &&
+          upcomingRes.data.data?.target_date &&
+          upcomingRes.data.data?.countdown
+        ) {
+          setCountdownData(upcomingRes.data.data);
+          setPhase("upcoming");
+          setLoading(false);
+          setError(false);
+          return;
+        }
+      } catch {
+        // upcoming-countdown endpoint may not exist — fall through
       }
 
       // No valid countdown data

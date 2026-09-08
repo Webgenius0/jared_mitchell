@@ -1,3 +1,5 @@
+"use client";
+
 import { ArtistCategorySkeleton } from "@/Components/Loader/Loader";
 import { SelectSvg } from "@/Components/Svg/SvgContainer";
 import { getArtistCategories } from "@/Hooks/api/cms_api";

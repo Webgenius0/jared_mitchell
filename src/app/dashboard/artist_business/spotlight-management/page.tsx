@@ -1,5 +1,3 @@
-import type { Metadata } from "next";
-
 "use client";
 import { Pagination } from "@/Components/Common/Pagination";
 import ApplySpotlightModal from "@/Components/Common/ApplySpotlightModal";
@@ -81,16 +79,6 @@ const columns = [
   "Date",
   "Actions",
 ];
-
-export const metadata = {
-  title: "Spotlight Management - Artist Spotlights | OSI Dashboard",
-  description:
-    "Manage your artist spotlight submissions on OSI. View your spotlight history, track application status, and create new spotlight profiles in the Open Spotlight Initiative dashboard.",
-  robots: {
-    index: false,
-    follow: false,
-  },
-};
 
 export default function Page() {
   const [page, setPage] = useState(1);
