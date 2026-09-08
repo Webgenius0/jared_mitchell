@@ -1,3 +1,5 @@
+import type { Metadata } from "next";
+
 "use client";
 
 import React from "react";
@@ -118,6 +120,16 @@ const columns = ["Business", "Owner", "Status", "Votes", "Date", "Actions"];
 /* ------------------------------------------------------------------ */
 /*  Page                                                               */
 /* ------------------------------------------------------------------ */
+
+export const metadata = {
+  title: "Leaderboards - Business Spotlight Rankings | OSI Dashboard",
+  description:
+    "View business spotlight leaderboards on OSI. Track rankings, votes, and status of your business spotlight submissions in the Open Spotlight Initiative dashboard.",
+  robots: {
+    index: false,
+    follow: false,
+  },
+};
 
 export default function Page() {
   const router = useRouter();

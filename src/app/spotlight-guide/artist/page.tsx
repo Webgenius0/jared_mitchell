@@ -1,3 +1,5 @@
+import type { Metadata } from "next";
+
 "use client";
 
 import Link from "next/link";
@@ -811,6 +813,47 @@ const ArtistGuidePage = () => {
       </Container>
     </GuideLayout>
   );
+};
+
+export const metadata = {
+  title: "Artist Spotlight Guide - How to Enter the Contest | OSI",
+  description:
+    "Step-by-step guide to entering the OSI Artist Spotlight Contest. Learn how to create an account, set up your profile, submit your application, and compete for the weekly spotlight.",
+  keywords: [
+    "OSI artist spotlight guide",
+    "artist spotlight contest",
+    "how to enter spotlight",
+    "OSI artist application",
+    "artist spotlight step by step",
+    "OSI contest guide",
+  ],
+  openGraph: {
+    title: "Artist Spotlight Guide - How to Enter the Contest | OSI",
+    description:
+      "Step-by-step guide to entering the OSI Artist Spotlight Contest. Learn how to create your profile and submit your application.",
+    type: "website",
+    locale: "en_US",
+    siteName: "OSI",
+    images: [
+      {
+        url: "/og-artist-guide.png",
+        width: 1200,
+        height: 630,
+        alt: "OSI Artist Spotlight Guide",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Artist Spotlight Guide - How to Enter the Contest | OSI",
+    description:
+      "Step-by-step guide to entering the OSI Artist Spotlight Contest. Learn how to create your profile and submit your application.",
+    images: ["/og-artist-guide.png"],
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default ArtistGuidePage;

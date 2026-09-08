@@ -1,3 +1,5 @@
+import type { Metadata } from "next";
+
 "use client";
 
 import React from "react";
@@ -21,6 +23,16 @@ interface RoundItem {
 /* ------------------------------------------------------------------ */
 /*  Page                                                               */
 /* ------------------------------------------------------------------ */
+
+export const metadata = {
+  title: "OSI Top Business Award Rounds - Community Member | OSI Dashboard",
+  description:
+    "View available OSI Top Business Award rounds as a community member. Track round schedules, voting periods, and participant information in the Open Spotlight Initiative dashboard.",
+  robots: {
+    index: false,
+    follow: false,
+  },
+};
 
 export default function Page() {
   // No live rounds are wired into this page yet — the list renders an empty

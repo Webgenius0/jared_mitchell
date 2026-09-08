@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import NewsLetter from "@/Components/Common/NewsLetter";
 import FAQAccordion from "../services/_components/FAQAccordion";
 import TalentApplication from "./_components/TalentApplication";
@@ -29,6 +30,47 @@ const page = async () => {
 
     </div>
   );
+};
+
+export const metadata = {
+  title: "Contact OSI - Get in Touch | Open Spotlight Initiative",
+  description:
+    "Have questions or want to collaborate? Get in touch with OSI (Open Spotlight Initiative). Reach out for support, partnerships, vendor opportunities, or general inquiries.",
+  keywords: [
+    "OSI contact",
+    "Open Spotlight Initiative contact",
+    "OSI support",
+    "OSI partnership",
+    "contact OSI",
+    "OSI help",
+  ],
+  openGraph: {
+    title: "Contact OSI - Get in Touch | Open Spotlight Initiative",
+    description:
+      "Have questions or want to collaborate? Get in touch with OSI (Open Spotlight Initiative) for support, partnerships, or general inquiries.",
+    type: "website",
+    locale: "en_US",
+    siteName: "OSI",
+    images: [
+      {
+        url: "/og-contact.png",
+        width: 1200,
+        height: 630,
+        alt: "Contact OSI - Open Spotlight Initiative",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Contact OSI - Get in Touch | Open Spotlight Initiative",
+    description:
+      "Have questions or want to collaborate? Get in touch with OSI (Open Spotlight Initiative) for support, partnerships, or general inquiries.",
+    images: ["/og-contact.png"],
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default page;

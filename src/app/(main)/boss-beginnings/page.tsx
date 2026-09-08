@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import BusinessShower from "./_components/BusinessShower";
 import BossBeginningWinner from "./_components/BossBeginningWinner";
 import NewBusiness from "./_components/NewBusiness";
@@ -138,6 +139,47 @@ const page = async () => {
       <NewsLetter title="Be part of the movement. Get stories, updates, and opportunities straight to your inbox." />
     </>
   );
+};
+
+export const metadata = {
+  title: "OSI Top Business Award - Boss Beginnings | Open Spotlight Initiative",
+  description:
+    "Discover the OSI Top Business Award — a platform celebrating exceptional businesses and entrepreneurs. Learn about the Boss Beginnings program, current winners, and how to participate.",
+  keywords: [
+    "OSI Top Business Award",
+    "Boss Beginnings",
+    "OSI business award",
+    "business recognition",
+    "entrepreneur award",
+    "OSI contest",
+  ],
+  openGraph: {
+    title: "OSI Top Business Award - Boss Beginnings | Open Spotlight Initiative",
+    description:
+      "Discover the OSI Top Business Award — a platform celebrating exceptional businesses and entrepreneurs. Learn about Boss Beginnings and how to participate.",
+    type: "website",
+    locale: "en_US",
+    siteName: "OSI",
+    images: [
+      {
+        url: "/og-boss-beginnings.png",
+        width: 1200,
+        height: 630,
+        alt: "OSI Top Business Award - Open Spotlight Initiative",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "OSI Top Business Award - Boss Beginnings | Open Spotlight Initiative",
+    description:
+      "Discover the OSI Top Business Award — a platform celebrating exceptional businesses and entrepreneurs. Learn about Boss Beginnings and how to participate.",
+    images: ["/og-boss-beginnings.png"],
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default page;

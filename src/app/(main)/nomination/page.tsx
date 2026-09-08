@@ -1,4 +1,6 @@
 "use client";
+
+import { useState } from "react";
 import { useState } from "react";
 import Container from "@/Components/Common/Container";
 import Voting from "./_components/Voting";
@@ -54,6 +56,47 @@ const Page = () => {
     <Sponsors showButton={false} />
     </>
   );
+};
+
+export const metadata = {
+  title: "Nomination - Vote & Support Spotlights | OSI",
+  description:
+    "Participate in the OSI nomination process. Vote for your favorite artists and businesses, join the OSI Panel, and check the leaderboard. Support creators and help them shine.",
+  keywords: [
+    "OSI nomination",
+    "OSI voting",
+    "OSI panel",
+    "OSI leaderboard",
+    "vote for artists",
+    "vote for businesses",
+  ],
+  openGraph: {
+    title: "Nomination - Vote & Support Spotlights | OSI",
+    description:
+      "Participate in the OSI nomination process. Vote for your favorite artists and businesses, join the OSI Panel, and check the leaderboard.",
+    type: "website",
+    locale: "en_US",
+    siteName: "OSI",
+    images: [
+      {
+        url: "/og-nomination.png",
+        width: 1200,
+        height: 630,
+        alt: "OSI Nomination - Open Spotlight Initiative",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Nomination - Vote & Support Spotlights | OSI",
+    description:
+      "Participate in the OSI nomination process. Vote for your favorite artists and businesses, join the OSI Panel, and check the leaderboard.",
+    images: ["/og-nomination.png"],
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default Page;

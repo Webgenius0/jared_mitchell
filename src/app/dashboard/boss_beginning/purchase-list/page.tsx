@@ -1,3 +1,5 @@
+import type { Metadata } from "next";
+
 "use client";
 import { usePurchaseList } from "@/Hooks/api/dashboard_api";
 import { useState } from "react";
@@ -17,6 +19,16 @@ const Page = () => {
       setPage={setPage}
     />
   );
+};
+
+export const metadata = {
+  title: "Purchase List - My Orders & Transactions | OSI Business Dashboard",
+  description:
+    "View your purchase history on OSI. Track orders, ticket purchases, vote purchases, and subscription transactions in the business dashboard of Open Spotlight Initiative.",
+  robots: {
+    index: false,
+    follow: false,
+  },
 };
 
 export default Page;

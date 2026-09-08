@@ -1,3 +1,5 @@
+import type { Metadata } from "next";
+
 "use client";
 
 import React from "react";
@@ -97,6 +99,16 @@ function Avatar({ src, name }: { src?: string; name?: string }) {
 /* ------------------------------------------------------------------ */
 /*  Page                                                               */
 /* ------------------------------------------------------------------ */
+
+export const metadata = {
+  title: "Community Member Dashboard - Votes & Activity | OSI",
+  description:
+    "Access your OSI community member dashboard. Track your votes, spotlight activity, ticket purchases, and recent activities in the Open Spotlight Initiative.",
+  robots: {
+    index: false,
+    follow: false,
+  },
+};
 
 export default function Page() {
   const router = useRouter();

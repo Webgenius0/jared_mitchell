@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import React from "react";
 import Sponsors from "../_components/Sponsors";
 import { SubscriptionPlan } from "@/Types/cms";
@@ -101,4 +102,45 @@ const page = async () => {
     </div>
   );
 };
+export const metadata = {
+  title: "Pricing - Subscription Plans | OSI",
+  description:
+    "Explore OSI subscription plans designed to help creators and businesses grow. Compare features, choose the right plan for your needs, and unlock premium tools and opportunities.",
+  keywords: [
+    "OSI pricing",
+    "OSI subscription plans",
+    "OSI membership",
+    "creator subscription",
+    "business subscription",
+    "OSI premium",
+  ],
+  openGraph: {
+    title: "Pricing - Subscription Plans | OSI",
+    description:
+      "Explore OSI subscription plans designed to help creators and businesses grow. Compare features and choose the right plan for your needs.",
+    type: "website",
+    locale: "en_US",
+    siteName: "OSI",
+    images: [
+      {
+        url: "/og-pricing.png",
+        width: 1200,
+        height: 630,
+        alt: "OSI Pricing - Open Spotlight Initiative",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Pricing - Subscription Plans | OSI",
+    description:
+      "Explore OSI subscription plans designed to help creators and businesses grow. Compare features and choose the right plan for your needs.",
+    images: ["/og-pricing.png"],
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
+};
+
 export default page;

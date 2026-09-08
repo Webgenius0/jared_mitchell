@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { BsArrowRight } from "react-icons/bs";
 import PricingPlan from "../_components/PricingPlan";
 import PlanComparison from "./_components/PlanComparison";
@@ -141,6 +142,47 @@ const page = async () => {
       />
     </>
   );
+};
+
+export const metadata = {
+  title: "Services - Artist & Business Spotlight | OSI",
+  description:
+    "OSI offers powerful spotlight programs for artists and businesses, along with AI-enhanced analytics, community engagement tools, and resources to help creators and entrepreneurs grow and succeed.",
+  keywords: [
+    "OSI services",
+    "artist spotlight application",
+    "business spotlight application",
+    "OSI platform features",
+    "creator tools",
+    "business growth",
+  ],
+  openGraph: {
+    title: "Services - Artist & Business Spotlight | OSI",
+    description:
+      "OSI offers powerful spotlight programs for artists and businesses, along with AI-enhanced analytics and community engagement tools to help you grow.",
+    type: "website",
+    locale: "en_US",
+    siteName: "OSI",
+    images: [
+      {
+        url: "/og-services.png",
+        width: 1200,
+        height: 630,
+        alt: "OSI Services - Open Spotlight Initiative",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Services - Artist & Business Spotlight | OSI",
+    description:
+      "OSI offers powerful spotlight programs for artists and businesses, along with AI-enhanced analytics and community engagement tools to help you grow.",
+    images: ["/og-services.png"],
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default page;

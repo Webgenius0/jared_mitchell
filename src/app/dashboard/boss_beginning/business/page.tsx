@@ -1,3 +1,5 @@
+import type { Metadata } from "next";
+
 "use client";
 
 import React, { useState } from "react";
@@ -72,6 +74,16 @@ const columns = [
   "Status",
   "Actions",
 ];
+
+export const metadata = {
+  title: "Business List - Manage Businesses | OSI Dashboard",
+  description:
+    "Manage your business listings on OSI. View, edit, and delete business profiles, track application status, and apply to contests in the Open Spotlight Initiative dashboard.",
+  robots: {
+    index: false,
+    follow: false,
+  },
+};
 
 export default function Page() {
   const router = useRouter();

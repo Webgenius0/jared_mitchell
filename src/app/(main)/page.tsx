@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Hero from "@/app/(main)/_components/Hero";
 import EventBanner from "./_components/EventBanner";
 import PoweredByOSI from "./_components/PoweredByOSI";
