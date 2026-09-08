@@ -1,5 +1,3 @@
-import type { Metadata } from "next";
-
 "use client";
 
 import React, { useState } from "react";
@@ -84,16 +82,6 @@ const formatTotal = (registration: EventRegistration) => {
   return `${currency ?? "USD"} ${Number(total ?? 0).toFixed(2)}`;
 };
 
-
-export const metadata = {
-  title: "Community Events - Upcoming & Booking History | OSI Dashboard",
-  description:
-    "Manage your event registrations on OSI as a community member. View upcoming events, purchase tickets, and check your booking history in the Open Spotlight Initiative.",
-  robots: {
-    index: false,
-    follow: false,
-  },
-};
 
 export default function Page() {
   const router = useRouter();

@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, ResolvingMetadata } from "next";
 import React from "react";
 import SpotlightDetails from "../Components/SpotlightDetails";
 import ArtistStory from "../Components/ArtistStory";
@@ -54,7 +54,7 @@ const page = async ({ params, searchParams }: PageProps) => {
 
 export async function generateMetadata(
   { params, searchParams }: PageProps,
-  parent: Readonly<{ metadata: Metadata }>,
+  parent: ResolvingMetadata,
 ): Promise<Metadata> {
   const { id } = await params;
   const { type } = await searchParams;

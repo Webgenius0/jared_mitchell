@@ -1,20 +1,8 @@
-import type { Metadata } from "next";
-
 "use client";
 
 import React from "react";
 import useAuth from "@/Hooks/useAuth";
 import UserEventInteractions from "@/Components/Common/UserEventInteractions";
-
-export const metadata = {
-  title: "Sponsor Dashboard - Ad Performance & Campaigns | OSI",
-  description:
-    "Access your OSI sponsor dashboard. Track ad performance, manage campaigns, view placement schedules, and monitor impression estimates in the Open Spotlight Initiative.",
-  robots: {
-    index: false,
-    follow: false,
-  },
-};
 
 export default function Page() {
   const { user } = useAuth();

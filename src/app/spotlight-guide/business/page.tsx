@@ -1,5 +1,3 @@
-import type { Metadata } from "next";
-
 "use client";
 
 import Link from "next/link";
@@ -785,47 +783,6 @@ const BusinessGuidePage = () => {
       </Container>
     </GuideLayout>
   );
-};
-
-export const metadata = {
-  title: "Business Spotlight Guide - How to Enter the Contest | OSI",
-  description:
-    "Step-by-step guide to entering the OSI Business Spotlight. Learn how to create an account, set up your business profile, submit your application, and compete for the weekly spotlight.",
-  keywords: [
-    "OSI business spotlight guide",
-    "business spotlight contest",
-    "how to enter business spotlight",
-    "OSI business application",
-    "business spotlight step by step",
-    "OSI business contest guide",
-  ],
-  openGraph: {
-    title: "Business Spotlight Guide - How to Enter the Contest | OSI",
-    description:
-      "Step-by-step guide to entering the OSI Business Spotlight. Learn how to create your business profile and submit your application.",
-    type: "website",
-    locale: "en_US",
-    siteName: "OSI",
-    images: [
-      {
-        url: "/og-business-guide.png",
-        width: 1200,
-        height: 630,
-        alt: "OSI Business Spotlight Guide",
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Business Spotlight Guide - How to Enter the Contest | OSI",
-    description:
-      "Step-by-step guide to entering the OSI Business Spotlight. Learn how to create your business profile and submit your application.",
-    images: ["/og-business-guide.png"],
-  },
-  robots: {
-    index: true,
-    follow: true,
-  },
 };
 
 export default BusinessGuidePage;

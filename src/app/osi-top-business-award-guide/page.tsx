@@ -1,5 +1,3 @@
-import type { Metadata } from "next";
-
 "use client";
 
 import Link from "next/link";
@@ -21,47 +19,6 @@ import {
   Breadcrumb,
   FlowArrow,
 } from "@/app/(main)/(spotlight)/_components/GuideUI";
-
-export const metadata = {
-  title: "OSI Top Business Award Guide - How to Enter & Compete | OSI",
-  description:
-    "Complete step-by-step guide to entering the OSI Top Business Award contest. Learn how to create a business account, set up your profile, apply to contests, and compete for the prestigious business award.",
-  keywords: [
-    "OSI Top Business Award guide",
-    "how to enter OSI contest",
-    "OSI business award application",
-    "OSI contest step by step",
-    "OSI business award eligibility",
-    "OSI business award process",
-  ],
-  openGraph: {
-    title: "OSI Top Business Award Guide - How to Enter & Compete | OSI",
-    description:
-      "Complete step-by-step guide to entering the OSI Top Business Award contest. Learn how to create your profile and apply.",
-    type: "website",
-    locale: "en_US",
-    siteName: "OSI",
-    images: [
-      {
-        url: "/og-award-guide.png",
-        width: 1200,
-        height: 630,
-        alt: "OSI Top Business Award Guide",
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "OSI Top Business Award Guide - How to Enter & Compete | OSI",
-    description:
-      "Complete step-by-step guide to entering the OSI Top Business Award contest. Learn how to create your profile and apply.",
-    images: ["/og-award-guide.png"],
-  },
-  robots: {
-    index: true,
-    follow: true,
-  },
-};
 
 function BossBeginningGuidePage() {
   return (
@@ -784,3 +741,5 @@ function BossBeginningGuidePage() {
     </BossBeginningGuideLayout>
   );
 }
+
+export default BossBeginningGuidePage;

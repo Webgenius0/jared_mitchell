@@ -1,5 +1,3 @@
-import type { Metadata } from "next";
-
 "use client";
 import React from "react";
 import DashboardProfileSettings from "@/Components/Common/DashboardProfileSettings";
@@ -31,16 +29,6 @@ const ProfilePage = () => {
   };
 
   return <DashboardProfileSettings initialData={initialData} />;
-};
-
-export const metadata = {
-  title: "Community Member Settings - Profile & Preferences | OSI Dashboard",
-  description:
-    "Manage your community member profile settings on OSI. Update your personal information, social media links, bio, and preferences in the Open Spotlight Initiative dashboard.",
-  robots: {
-    index: false,
-    follow: false,
-  },
 };
 
 export default ProfilePage;

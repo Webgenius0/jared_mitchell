@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useState } from "react";
 import { PiPlayCircle } from "react-icons/pi";
 
