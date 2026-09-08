@@ -159,11 +159,11 @@ const NewsLetter = ({ title, sub_title, data, sponsors }: NewsletterProps) => {
           </p>
         )}
 
-        {partnerLogos.length > 0 && (
+        {/* {partnerLogos.length > 0 && (
           <div className="pt-2 md:pt-3">
             <SponsorSlider logos={partnerLogos} />
           </div>
-        )}
+        )} */}
       </div>
     </section>
   );
