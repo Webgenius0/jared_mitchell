@@ -1,6 +1,6 @@
-import type { Metadata } from "next";
-
 "use client";
+
+import type { Metadata } from "next";
 
 import React from "react";
 import { Heart, Sparkles, ThumbsUp, BarChart3 } from "lucide-react";
@@ -41,16 +41,6 @@ function StatCardItem({ label, value, icon: Icon }: StatCard) {
 /* ------------------------------------------------------------------ */
 /*  Page                                                               */
 /* ------------------------------------------------------------------ */
-
-export const metadata = {
-  title: "Round 2 - OSI Top Business Award | Business Dashboard",
-  description:
-    "View your Round 2 statistics for the OSI Top Business Award. Track points, submissions, and progress in the second round of the Open Spotlight Initiative contest.",
-  robots: {
-    index: false,
-    follow: false,
-  },
-};
 
 export default function Round2Page() {
   const { data } = useGetContestSummary();

@@ -1,5 +1,3 @@
-import type { Metadata } from "next";
-
 "use client";
 import { ArrowLeft, ArrowRight, Loader2 } from "lucide-react";
 import { Suspense, useEffect, useRef, useState } from "react";

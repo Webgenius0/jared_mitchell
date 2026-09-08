@@ -1,3 +1,5 @@
+"use client";
+
 import { ImportantSvg } from "@/Components/Svg/SvgContainer";
 import { useFormContext, useWatch } from "react-hook-form";
 

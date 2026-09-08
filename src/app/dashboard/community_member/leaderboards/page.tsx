@@ -1,5 +1,3 @@
-import type { Metadata } from "next";
-
 "use client";
 
 import React from "react";
@@ -21,16 +19,6 @@ interface RoundItem {
 /* ------------------------------------------------------------------ */
 /*  Page                                                               */
 /* ------------------------------------------------------------------ */
-
-export const metadata = {
-  title: "Spotlight Leaderboards - Community Rankings | OSI Dashboard",
-  description:
-    "View spotlight leaderboards as a community member on OSI. Track rankings, votes, and trending spotlights in the Open Spotlight Initiative dashboard.",
-  robots: {
-    index: false,
-    follow: false,
-  },
-};
 
 export default function Page() {
   // No live rounds are wired into this page yet — the list renders an empty

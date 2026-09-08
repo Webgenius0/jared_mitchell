@@ -1,3 +1,5 @@
+"use client";
+
 import { CheckSvg, DownloadIconSvg } from "@/Components/Svg/SvgContainer";
 import Image from "next/image";
 import { useFormContext, useWatch } from "react-hook-form";
