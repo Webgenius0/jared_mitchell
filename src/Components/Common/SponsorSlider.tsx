@@ -1,58 +1,37 @@
 import { LogoSliderProps } from "@/Types/type";
 import Image from "next/image";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay, Keyboard, Navigation } from "swiper/modules";
-import { HiMiniChevronLeft, HiMiniChevronRight } from "react-icons/hi2";
-import "swiper/css";
-import "swiper/css/navigation";
 
 const SponsorSlider = ({ logos, reverse = false }: LogoSliderProps) => {
   if (!logos.length) return null;
 
-  return (
-    <div className="relative">
-      <Swiper
-        modules={[Autoplay, Keyboard, Navigation]}
-        slidesPerView={1}
-        spaceBetween={20}
-        speed={700}
-        loop={logos.length > 1}
-        navigation={{
-          nextEl: ".community-partner-next",
-          prevEl: ".community-partner-prev",
-        }}
-        keyboard={{ enabled: true, onlyInViewport: true }}
-        autoplay={
-          logos.length > 1
-            ? {
-                delay: 3500,
-                disableOnInteraction: false,
-                pauseOnMouseEnter: true,
-              }
-            : false
-        }
-        allowTouchMove
-        grabCursor
-        breakpoints={{
-          640: { slidesPerView: 2 },
-          768: { slidesPerView: 3 },
-          1024: { slidesPerView: 4 },
-          1280: { slidesPerView: 5 },
-        }}
-        dir={reverse ? "rtl" : "ltr"}
-        className="!pb-8"
-      >
-        {logos.map((logo, index) => {
-          const altText = logo.alt || logo.title || "Community partner logo";
+  const marqueeLogos = [...logos, ...logos];
 
-          return (
-            <SwiperSlide key={logo.id ?? `${logo.link ?? "logo"}-${index}`}>
+  return (
+    <div className="relative overflow-hidden">
+      <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-14 bg-gradient-to-r from-[#f5f5f7] to-transparent" />
+      <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-14 bg-gradient-to-l from-[#f5f5f7] to-transparent" />
+
+      <div className="overflow-hidden">
+        <div
+          className="flex w-max items-center gap-5 py-2 md:gap-6"
+          style={{
+            animation: `marquee 24s linear infinite`,
+            animationDirection: reverse ? "reverse" : "normal",
+          }}
+        >
+          {marqueeLogos.map((logo, index) => {
+            const altText = logo.alt || logo.title || "Community partner logo";
+            const isDuplicate = index >= logos.length;
+
+            return (
               <a
+                key={`${logo.id ?? index}-${isDuplicate ? "duplicate" : "original"}`}
                 href={logo.link || "#"}
                 target={logo.link ? "_blank" : undefined}
                 rel={logo.link ? "noopener noreferrer" : undefined}
                 aria-label={altText}
-                className="group flex h-[150px] w-full items-center justify-center overflow-hidden rounded-2xl border border-[#E5E7EB] bg-[#F9FAFB] p-4 shadow-[0_1.597px_4.79px_0_rgba(0,0,0,0.10),_0_1.597px_3.193px_-1.597px_rgba(0,0,0,0.10)] transition-opacity duration-200 hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-blue"
+                className="group flex h-[120px] w-[220px] shrink-0 items-center justify-center overflow-hidden rounded-2xl border border-[#E5E7EB] bg-[#F9FAFB] p-4 shadow-[0_1.597px_4.79px_0_rgba(0,0,0,0.10),_0_1.597px_3.193px_-1.597px_rgba(0,0,0,0.10)] transition-opacity duration-200 hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-blue"
+                aria-hidden={isDuplicate}
               >
                 {logo.image ? (
                   <Image
@@ -67,29 +46,21 @@ const SponsorSlider = ({ logos, reverse = false }: LogoSliderProps) => {
                   logo.icon && <logo.icon />
                 )}
               </a>
-            </SwiperSlide>
-          );
-        })}
-      </Swiper>
-
-      {logos.length > 1 && (
-        <div className="mt-3 flex items-center justify-center gap-3">
-          <button
-            type="button"
-            aria-label="Previous community partners"
-            className="community-partner-prev inline-flex h-10 w-10 items-center justify-center rounded-full border border-[#D1D5DB] bg-white text-[#111827] transition hover:border-primary-blue hover:text-primary-blue focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-blue"
-          >
-            <HiMiniChevronLeft className="h-5 w-5" />
-          </button>
-          <button
-            type="button"
-            aria-label="Next community partners"
-            className="community-partner-next inline-flex h-10 w-10 items-center justify-center rounded-full border border-[#D1D5DB] bg-white text-[#111827] transition hover:border-primary-blue hover:text-primary-blue focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-blue"
-          >
-            <HiMiniChevronRight className="h-5 w-5" />
-          </button>
+            );
+          })}
         </div>
-      )}
+      </div>
+
+      <style jsx>{`
+        @keyframes marquee {
+          0% {
+            transform: translateX(0);
+          }
+          100% {
+            transform: translateX(-50%);
+          }
+        }
+      `}</style>
     </div>
   );
 };
