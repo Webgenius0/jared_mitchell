@@ -1,0 +1,33 @@
+{
+  "default_branch": "main",
+  "branches": [
+    "alimuzzaman",
+    "alimuzzaman_2",
+    "dev",
+    "fahim",
+    "fahim-1",
+    "main",
+    "origin",
+    "renamed_file"
+  ],
+  "parent": {
+    "alimuzzaman": "main",
+    "alimuzzaman_2": "main",
+    "dev": "main",
+    "fahim": "main",
+    "fahim-1": "fahim",
+    "main": null,
+    "origin": "main",
+    "renamed_file": "main"
+  },
+  "order": [
+    "main",
+    "alimuzzaman",
+    "alimuzzaman_2",
+    "dev",
+    "fahim",
+    "origin",
+    "renamed_file",
+    "fahim-1"
+  ]
+}

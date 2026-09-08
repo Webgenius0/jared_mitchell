@@ -42,14 +42,13 @@ function mapWinners(
   winners: { spotlight?: any }[] | undefined,
   category: "Business" | "Artist",
 ): HistoricalWinnersItem[] {
-  return (winners || [])
-    .filter(Boolean)
-    .map(w => {
-      const spotlight = w?.spotlight;
-      if (!spotlight) return null;
+  return (winners || []).filter(Boolean).flatMap((w) => {
+    const spotlight = w?.spotlight;
+    if (!spotlight) return [];
 
-      const media = spotlight?.media ?? {};
-      return {
+    const media = spotlight?.media ?? {};
+    return [
+      {
         id: spotlight?.id ?? 0,
         title: spotlight?.name ?? "Featured winner",
         slug: "",
@@ -58,9 +57,9 @@ function mapWinners(
           "Community spotlight",
         image: media?.headshot || FALLBACK_IMAGE,
         category,
-      };
-    })
-    .filter((winner): winner is HistoricalWinnersItem => Boolean(winner));
+      },
+    ];
+  });
 }
 
 const Page = async () => {
