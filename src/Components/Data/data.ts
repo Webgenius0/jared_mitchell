@@ -115,7 +115,7 @@ export const pricingPlans: PricingPlan[] = [
       "Beginners, new entrepreneurs, artists, and small businesses needing steady visibility and automated posting at an affordable cost.",
     sections: [
       {
-        title: "AI-Automated Social Media Posting",
+        title: "AI-Automated Social Media Posting Coming Soon.",
         items: [
           "2 days per week",
           "3 posts per day",
@@ -157,7 +157,7 @@ export const pricingPlans: PricingPlan[] = [
       "Growing creators, small business owners, and brands that want more posts, deeper insights, and stronger exposure.",
     sections: [
       {
-        title: "AI-Automated Social Media Posting",
+        title: "AI-Automated Social Media Posting Coming Soon.",
         items: [
           "4 days per week",
           "3 posts per day",
