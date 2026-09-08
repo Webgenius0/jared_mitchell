@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { ShareSvg, WatchSvg } from "@/Components/Svg/SvgContainer2";
 import qr from "@/Assets/qr.png";
 import Image from "next/image";
@@ -140,6 +141,16 @@ const page = () => {
       </div>
     </>
   );
+};
+
+export const metadata = {
+  title: "Promotion Tools - Share Your Spotlight | OSI Artist Dashboard",
+  description:
+    "Promote your OSI artist spotlight with ready-to-use social media captions, email templates, QR codes, and shareable links. Amplify your reach in the Open Spotlight Initiative community.",
+  robots: {
+    index: false,
+    follow: false,
+  },
 };
 
 export default page;

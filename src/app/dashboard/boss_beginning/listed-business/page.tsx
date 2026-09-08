@@ -1,3 +1,5 @@
+import type { Metadata } from "next";
+
 "use client";
 import { useState } from "react";
 import { Globe, Building2, User, Play, Loader2, Eye } from "lucide-react";
@@ -51,6 +53,16 @@ const columns = [
   "Status",
   "Actions",
 ];
+
+export const metadata = {
+  title: "Listed Businesses - Contest Applications | OSI Dashboard",
+  description:
+    "View and manage businesses listed for the OSI Top Business Award contest. Track applications, view business details, and apply to competitions in the Open Spotlight Initiative dashboard.",
+  robots: {
+    index: false,
+    follow: false,
+  },
+};
 
 export default function Page() {
   const [selectedBusiness, setSelectedBusiness] = useState<Business | null>(

@@ -1,3 +1,5 @@
+import type { Metadata } from "next";
+
 "use client";
 import React, { useState } from "react";
 import { Download, Eye, Edit, Trash2, Loader2 } from "lucide-react";
@@ -321,6 +323,16 @@ const Page = () => {
       />
     </div>
   );
+};
+
+export const metadata = {
+  title: "Business Events - Upcoming & Booking History | OSI Dashboard",
+  description:
+    "Manage your event registrations on OSI. View upcoming events, purchase tickets, and check your booking history in the business dashboard of Open Spotlight Initiative.",
+  robots: {
+    index: false,
+    follow: false,
+  },
 };
 
 export default Page;

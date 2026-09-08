@@ -1,5 +1,16 @@
+import type { Metadata } from "next";
 import canva from "@/Assets/canva.png";
 import Image from "next/image";
+
+export const metadata = {
+  title: "Canva Integration - Design Tools | OSI Artist Dashboard",
+  description:
+    "Use Canva to design and customize posts for your OSI spotlight. Create professional graphics, social media content, and promotional materials for your artist profile.",
+  robots: {
+    index: false,
+    follow: false,
+  },
+};
 
 const page = () => {
   return (

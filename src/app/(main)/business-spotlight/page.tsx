@@ -1,4 +1,5 @@
 "use client";
+
 import submissionBg from "@/Assets/submission_form.png";
 import {
   CheckBtnSvg,
@@ -226,6 +227,47 @@ const Page = () => {
     <Sponsors showButton={false} />
     </>
   );
+};
+
+export const metadata = {
+  title: "Business Spotlight Submission - Apply Now | OSI",
+  description:
+    "Apply for the OSI Business Spotlight program. Share your business story, showcase your brand, and get featured on OSI (Open Spotlight Initiative). Submit your application today.",
+  keywords: [
+    "OSI business spotlight",
+    "business spotlight application",
+    "apply for business spotlight",
+    "OSI business feature",
+    "get featured on OSI",
+    "business spotlight submission",
+  ],
+  openGraph: {
+    title: "Business Spotlight Submission - Apply Now | OSI",
+    description:
+      "Apply for the OSI Business Spotlight program. Share your business story, showcase your brand, and get featured on OSI.",
+    type: "website",
+    locale: "en_US",
+    siteName: "OSI",
+    images: [
+      {
+        url: "/og-business-spotlight.png",
+        width: 1200,
+        height: 630,
+        alt: "OSI Business Spotlight - Open Spotlight Initiative",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Business Spotlight Submission - Apply Now | OSI",
+    description:
+      "Apply for the OSI Business Spotlight program. Share your business story, showcase your brand, and get featured on OSI.",
+    images: ["/og-business-spotlight.png"],
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default Page;

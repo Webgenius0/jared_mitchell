@@ -1,3 +1,5 @@
+import type { Metadata } from "next";
+
 "use client";
 import React from "react";
 import DashboardProfileSettings from "@/Components/Common/DashboardProfileSettings";
@@ -29,6 +31,16 @@ const ProfilePage = () => {
   };
 
   return <DashboardProfileSettings initialData={initialData} />;
+};
+
+export const metadata = {
+  title: "Sponsor Settings - Profile & Preferences | OSI Dashboard",
+  description:
+    "Manage your sponsor profile settings on OSI. Update your company information, contact details, billing preferences, and account settings in the Open Spotlight Initiative dashboard.",
+  robots: {
+    index: false,
+    follow: false,
+  },
 };
 
 export default ProfilePage;

@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import {
   getBossCms,
   getCMSAboutData,
@@ -70,6 +71,47 @@ const page = async () => {
       <NewsLetter title="Be part of the movement. Get stories, updates, and opportunities straight to your inbox." />
     </>
   );
+};
+
+export const metadata = {
+  title: "How Winners Are Chosen - OSI Voting Process | Open Spotlight Initiative",
+  description:
+    "Learn how OSI winners are chosen through our transparent voting and selection process. Understand the criteria, voting system, and what makes a standout spotlight winner on OSI.",
+  keywords: [
+    "OSI winners",
+    "how OSI voting works",
+    "OSI selection process",
+    "OSI winner criteria",
+    "OSI voting system",
+    "spotlight winner",
+  ],
+  openGraph: {
+    title: "How Winners Are Chosen - OSI Voting Process | Open Spotlight Initiative",
+    description:
+      "Learn how OSI winners are chosen through our transparent voting and selection process. Understand the criteria and voting system.",
+    type: "website",
+    locale: "en_US",
+    siteName: "OSI",
+    images: [
+      {
+        url: "/og-winners.png",
+        width: 1200,
+        height: 630,
+        alt: "How OSI Winners Are Chosen - Open Spotlight Initiative",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "How Winners Are Chosen - OSI Voting Process | Open Spotlight Initiative",
+    description:
+      "Learn how OSI winners are chosen through our transparent voting and selection process. Understand the criteria and voting system.",
+    images: ["/og-winners.png"],
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default page;

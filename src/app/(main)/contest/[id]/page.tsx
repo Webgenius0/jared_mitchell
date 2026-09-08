@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import React from "react";
 import SpotlightDetails from "../Components/SpotlightDetails";
 import ArtistStory from "../Components/ArtistStory";
@@ -50,5 +51,44 @@ const page = async ({ params, searchParams }: PageProps) => {
     </>
   );
 };
+
+export async function generateMetadata(
+  { params, searchParams }: PageProps,
+  parent: Readonly<{ metadata: Metadata }>,
+): Promise<Metadata> {
+  const { id } = await params;
+  const { type } = await searchParams;
+  const spotlightType = type === "business" ? "Business" : "Artist";
+
+  return {
+    title: `${spotlightType} Spotlight #${id} | OSI`,
+    description: `View spotlight details for ${spotlightType} #${id} on OSI (Open Spotlight Initiative). Discover their story, achievements, and how to support them.`,
+    openGraph: {
+      title: `${spotlightType} Spotlight #${id} | OSI`,
+      description: `View spotlight details for ${spotlightType} #${id} on OSI (Open Spotlight Initiative). Discover their story and achievements.`,
+      type: "website",
+      locale: "en_US",
+      siteName: "OSI",
+      images: [
+        {
+          url: "/og-spotlight.png",
+          width: 1200,
+          height: 630,
+          alt: `${spotlightType} Spotlight #${id}`,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${spotlightType} Spotlight #${id} | OSI`,
+      description: `View spotlight details for ${spotlightType} #${id} on OSI (Open Spotlight Initiative). Discover their story and achievements.`,
+      images: ["/og-spotlight.png"],
+    },
+    robots: {
+      index: true,
+      follow: true,
+    },
+  };
+}
 
 export default page;
