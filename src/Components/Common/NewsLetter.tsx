@@ -1,21 +1,90 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { CMSNewsletter } from "@/Types/cms";
 import { Button } from "@/Components/Common/Button";
+import SponsorSlider from "@/Components/Common/SponsorSlider";
 
 type NewsletterProps = {
   title?: string;
   sub_title?: string;
   data?: CMSNewsletter;
+  sponsors?: {
+    metadata?: Array<{
+      image?: string;
+      link?: string;
+      title?: string;
+      name?: string;
+    }>;
+  } | null;
 };
 
-const NewsLetter = ({ title, sub_title, data }: NewsletterProps) => {
+const NewsLetter = ({ title, sub_title, data, sponsors }: NewsletterProps) => {
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState<
     "idle" | "loading" | "success" | "error"
   >("idle");
   const [message, setMessage] = useState("");
+  const [partnerLogos, setPartnerLogos] = useState<
+    {
+      id: number;
+      image?: string;
+      link?: string;
+      alt?: string;
+      title?: string;
+    }[]
+  >([]);
+
+  useEffect(() => {
+    const source = sponsors?.metadata ?? null;
+
+    if (source && source.length > 0) {
+      setPartnerLogos(
+        source.map((item, index) => ({
+          id: index + 1,
+          image: item.image,
+          link: item.link,
+          alt: item.title || item.name || "Community partner logo",
+          title: item.title || item.name || "Community partner",
+        })),
+      );
+      return;
+    }
+
+    let isMounted = true;
+
+    const fetchHomepageSponsors = async () => {
+      try {
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_SITE_URL}/v1/cms/homepage`,
+        );
+        if (!res.ok) return;
+
+        const json = await res.json();
+        const metadata = json?.data?.partners?.metadata ?? [];
+
+        if (!isMounted) return;
+
+        setPartnerLogos(
+          metadata.map((item: any, index: number) => ({
+            id: index + 1,
+            image: item.image,
+            link: item.link,
+            alt: item.title || item.name || "Community partner logo",
+            title: item.title || item.name || "Community partner",
+          })),
+        );
+      } catch {
+        if (isMounted) setPartnerLogos([]);
+      }
+    };
+
+    fetchHomepageSponsors();
+
+    return () => {
+      isMounted = false;
+    };
+  }, [sponsors]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -71,7 +140,11 @@ const NewsLetter = ({ title, sub_title, data }: NewsletterProps) => {
             required
             disabled={status === "loading"}
           />
-          <Button type="submit" disabled={status === "loading"} className="w-full sm:w-auto shrink-0">
+          <Button
+            type="submit"
+            disabled={status === "loading"}
+            className="w-full sm:w-auto shrink-0"
+          >
             {status === "loading" ? "Submitting..." : "JOIN THE OSI NEWSLETTER"}
           </Button>
         </form>
@@ -84,6 +157,12 @@ const NewsLetter = ({ title, sub_title, data }: NewsletterProps) => {
           >
             {message}
           </p>
+        )}
+
+        {partnerLogos.length > 0 && (
+          <div className="pt-2 md:pt-3">
+            <SponsorSlider logos={partnerLogos} />
+          </div>
         )}
       </div>
     </section>

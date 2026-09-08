@@ -8,8 +8,8 @@ import { Button } from "@/Components/Common/Button";
 import { isUserSubscribed } from "@/Hooks/api/subscription_api";
 import { CMSBossBeginnings, PastSixMonthsWinner } from "@/Types/cms";
 
-const BOSS_BEGINNINGS_URL = "/boss-beginnings";
-const BOSS_BEGINNINGS_CONTEST_URL = "/boss-beginnings-contest";
+const BOSS_BEGINNINGS_URL = "/contest";
+const BOSS_BEGINNINGS_CONTEST_URL = "/contest";
 
 const BossBeginnings = ({
   data,

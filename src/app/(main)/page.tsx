@@ -39,17 +39,28 @@ import {
 const FALLBACK_IMAGE = "https://placehold.co/400x600.png?text=No+Image";
 
 function mapWinners(
-  winners: { spotlight: any }[] | undefined,
+  winners: { spotlight?: any }[] | undefined,
   category: "Business" | "Artist",
 ): HistoricalWinnersItem[] {
-  return (winners || []).map(w => ({
-    id: w.spotlight.id,
-    title: w.spotlight.name,
-    slug: "",
-    description: `${w.spotlight.city}, ${w.spotlight.state}`,
-    image: w.spotlight.media.headshot || FALLBACK_IMAGE,
-    category,
-  }));
+  return (winners || [])
+    .filter(Boolean)
+    .map(w => {
+      const spotlight = w?.spotlight;
+      if (!spotlight) return null;
+
+      const media = spotlight?.media ?? {};
+      return {
+        id: spotlight?.id ?? 0,
+        title: spotlight?.name ?? "Featured winner",
+        slug: "",
+        description:
+          [spotlight?.city, spotlight?.state].filter(Boolean).join(", ") ||
+          "Community spotlight",
+        image: media?.headshot || FALLBACK_IMAGE,
+        category,
+      };
+    })
+    .filter((winner): winner is HistoricalWinnersItem => Boolean(winner));
 }
 
 const Page = async () => {

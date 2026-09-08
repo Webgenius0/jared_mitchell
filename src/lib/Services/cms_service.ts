@@ -407,33 +407,38 @@ export const getPastSixMonthsWinners =
     return result.data as PastSixMonthsWinnersResponse;
   };
 
-export const getActiveRoundCountdown = async (): Promise<ActiveRoundCountdownResponse> => {
-  const res = await fetch(`${SITE_URL}/v1/contest/active-round-countdown`, {
-    cache: "no-store",
-  });
+export const getActiveRoundCountdown =
+  async (): Promise<ActiveRoundCountdownResponse> => {
+    const res = await fetch(`${SITE_URL}/v1/contest/active-round-countdown`, {
+      cache: "no-store",
+    });
 
-  if (!res.ok) {
-    throw new Error(
-      `Failed to fetch active round countdown — Status: ${res.status}`,
-    );
-  }
+    if (!res.ok) {
+      throw new Error(
+        `Failed to fetch active round countdown — Status: ${res.status}`,
+      );
+    }
 
-  const result = await res.json();
-  return result as ActiveRoundCountdownResponse;
-};
+    const result = await res.json();
+    return result as ActiveRoundCountdownResponse;
+  };
 
-export const getRoundCountdown = async (): Promise<RoundCountdownResponse> => {
-  const res = await fetch(`${SITE_URL}/v1/round-countdown`, {
-    next: { revalidate: 30, tags: ["round-countdown"] },
-  });
+export const getRoundCountdown =
+  async (): Promise<RoundCountdownResponse | null> => {
+    const res = await fetch(`${SITE_URL}/v1/round-countdown`, {
+      next: { revalidate: 30, tags: ["round-countdown"] },
+    });
 
-  if (!res.ok) {
-    throw new Error(`Failed to fetch round countdown — Status: ${res.status}`);
-  }
+    if (!res.ok) {
+      if (res.status === 404) return null;
+      throw new Error(
+        `Failed to fetch round countdown — Status: ${res.status}`,
+      );
+    }
 
-  const result = await res.json();
-  return result.data as RoundCountdownResponse;
-};
+    const result = await res.json();
+    return result?.data ?? null;
+  };
 
 export const getArtistById = async (id: number) => {
   const res = await fetch(`${SITE_URL}/v1/artists/${id}`, {
@@ -603,7 +608,9 @@ export const getStreamPlaybackUrl = (
     : (stream.vod_url ?? undefined);
 };
 
-export const getVideoChannels = async (): Promise<import("@/Types/cms").VideoChannelsData> => {
+export const getVideoChannels = async (): Promise<
+  import("@/Types/cms").VideoChannelsData
+> => {
   const res = await fetch(`${SITE_URL}/v1/video-channels`, {
     next: { revalidate: 120, tags: ["video-channels"] },
   });
@@ -638,7 +645,10 @@ export const getSpotlightOfTheWeek = async (
   const res = await fetch(
     `${SITE_URL}/v1/spotlight/weeks/spotlight-of-the-week?type=${type}`,
     {
-      next: { revalidate: 120, tags: ["spotlight-of-the-week", `spotlight-of-the-week-${type}`] },
+      next: {
+        revalidate: 120,
+        tags: ["spotlight-of-the-week", `spotlight-of-the-week-${type}`],
+      },
     },
   );
 
