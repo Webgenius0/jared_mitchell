@@ -11,6 +11,7 @@ import WinnerReceives from "../boss-beginnings/_components/WinnerReceives";
 import Sponsors from "../_components/Sponsors";
 import NewsLetter from "@/Components/Common/NewsLetter";
 import BusinessChosenChart from "../boss-beginnings/_components/BusinessChosenChart";
+import HowWinnersAreChosenContent from "./Components/HowWinnersAreChosenContent";
 import MainChoseBanner from "./Components/MainChoseBanner";
 
 const page = async () => {
@@ -64,6 +65,7 @@ const page = async () => {
         roundId={activeRoundId}
         paginated
       />
+      <HowWinnersAreChosenContent />
       {/* <NewBusiness data={pageData?.boss_beginnings_section5} /> */}
       {/* <HowVotingWorks data={pageData?.boss_beginnings_steps} /> */}
       {/* <WinnerReceives data={pageData?.boss_beginnings_dynamic} /> */}
