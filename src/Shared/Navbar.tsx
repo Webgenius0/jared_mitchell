@@ -35,14 +35,14 @@ const navLinks = [
     label: "OSI Top Business Award",
     path: "",
     subMenu: [
-      { label: "OSI Top Business Award", path: "/boss-beginnings" },
+      { label: "OSI Top Business Award", path: "/contest" },
       {
         label: "How Winners Are Chosen",
         path: "/how-winners-are-chosen",
       },
       {
         label: "OSI Top Business Award Contest",
-        path: "/boss-beginnings-contest",
+        path: "/contest",
       },
     ],
   },
@@ -108,7 +108,6 @@ const Navbar = () => {
     <nav className="py-2 md:py-2.5 lg:py-3 xl:py-5 border-b border-[#0000001C] sticky top-0 z-50 bg-white">
       <div className="container">
         <div className="flex justify-between items-center">
-
           {/* Left */}
           <div className="flex gap-2 2xl:gap-14 items-center flex-1">
             <Link href="/" className="flex items-center cursor-pointer">
@@ -125,7 +124,7 @@ const Navbar = () => {
               ref={navListRef}
               className="hidden lg:flex gap-3.5 justify-center text-sm lg:text-xs xl:text-sm 2xl:text-base 2xl:gap-7 items-center flex-1"
             >
-              {navLinks?.map((link) => {
+              {navLinks?.map(link => {
                 const isActive = pathname === link?.path;
                 const hasSubMenu = Boolean(link?.subMenu?.length);
                 const isSubmenuOpen = openSubmenu === link?.label;
@@ -178,9 +177,8 @@ const Navbar = () => {
                     {/* Sub Menu — sibling of the trigger, not nested inside it */}
                     {hasSubMenu && isSubmenuOpen && (
                       <div className="absolute top-full mt-3 left-0 bg-white z-50 shadow rounded-xl px-4 w-55">
-                        {link?.subMenu?.map((subItem) => {
-                          const isActiveSubmenu =
-                            pathname === subItem?.path;
+                        {link?.subMenu?.map(subItem => {
+                          const isActiveSubmenu = pathname === subItem?.path;
 
                           return (
                             <Link
@@ -235,9 +233,7 @@ const Navbar = () => {
               {user ? (
                 <div ref={userDropdownRef} className="relative">
                   <button
-                    onClick={() =>
-                      setUserDropdownOpen(!userDropdownOpen)
-                    }
+                    onClick={() => setUserDropdownOpen(!userDropdownOpen)}
                     className="size-11 rounded-full grid place-items-center overflow-hidden bg-blue-500/20 font-bold text-black capitalize text-lg cursor-pointer hover:bg-blue-500/30 transition-colors duration-200"
                     translate="no"
                   >
@@ -258,10 +254,7 @@ const Navbar = () => {
                   {userDropdownOpen && (
                     <div className="absolute right-0 top-full mt-2 w-48 bg-white rounded-xl shadow-lg border border-gray-100 py-2 z-50">
                       <Link
-                        href={
-                          getUserDashboardRoute(user) ||
-                          "/dashboard"
-                        }
+                        href={getUserDashboardRoute(user) || "/dashboard"}
                         onClick={() => setUserDropdownOpen(false)}
                         className="flex items-center gap-2.5 px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-primary-blue transition-colors duration-200"
                       >
@@ -278,7 +271,6 @@ const Navbar = () => {
                             d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
                           />
                         </svg>
-
                         Dashboard
                       </Link>
 
@@ -301,7 +293,6 @@ const Navbar = () => {
                             d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
                           />
                         </svg>
-
                         Log Out
                       </button>
                     </div>
@@ -356,7 +347,7 @@ const Navbar = () => {
         </div>
 
         <ul className="flex flex-col gap-5 mt-5">
-          {navLinks?.map((link) => {
+          {navLinks?.map(link => {
             const isActive = pathname === link?.path;
             const hasSubMenu = Boolean(link?.subMenu?.length);
             const isSubmenuOpen = openSubmenu === link?.label;
@@ -367,8 +358,8 @@ const Navbar = () => {
                   <button
                     type="button"
                     onClick={() =>
-                      setOpenSubmenu((prev) =>
-                        prev === link?.label ? null : link?.label
+                      setOpenSubmenu(prev =>
+                        prev === link?.label ? null : link?.label,
                       )
                     }
                     className={`flex items-center justify-between gap-2 w-full cursor-pointer ${
@@ -411,9 +402,8 @@ const Navbar = () => {
 
                 {hasSubMenu && isSubmenuOpen && (
                   <ul className="flex flex-col gap-3 mt-3 ml-3 border-l border-gray-200 pl-3">
-                    {link?.subMenu?.map((subItem) => {
-                      const isActiveSubmenu =
-                        pathname === subItem?.path;
+                    {link?.subMenu?.map(subItem => {
+                      const isActiveSubmenu = pathname === subItem?.path;
 
                       return (
                         <li key={subItem?.path}>
