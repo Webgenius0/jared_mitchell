@@ -24,6 +24,8 @@ export type LogoSliderProps = {
     icon?: () => React.ReactNode;
     image?: string;
     link?: string;
+    alt?: string;
+    title?: string;
   }[];
   reverse?: boolean;
 };

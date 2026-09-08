@@ -21,7 +21,7 @@ const AdminArticleDetailPage = async ({
   try {
     const res = await getCurrentContestWinner();
     const articles = res?.admin_articles ?? [];
-    article = articles.find((a) => a.id === articleId) ?? null;
+    article = articles.find(a => a.id === articleId) ?? null;
   } catch (err) {
     console.error("Failed to fetch article:", err);
   }
@@ -30,18 +30,18 @@ const AdminArticleDetailPage = async ({
     notFound();
   }
 
-  const images = article.media.filter((m) => m.file_type === "image");
-  const videos = article.media.filter((m) => m.file_type === "video");
+  const images = article.media.filter(m => m.file_type === "image");
+  const videos = article.media.filter(m => m.file_type === "video");
 
   return (
     <section className="container py-8 md:py-12 lg:py-16">
       {/* Back Link */}
       <div className="mb-6 md:mb-8">
         <Link
-          href="/boss-beginnings"
+          href="/contest"
           className="inline-flex items-center gap-2 text-primary-blue text-sm md:text-base font-medium hover:underline"
         >
-          ← Back to Boss Beginnings
+          ← Back to OSI Top Business Award
         </Link>
       </div>
 
@@ -65,7 +65,7 @@ const AdminArticleDetailPage = async ({
             {/* Videos */}
             {videos.length > 0 && (
               <div className="space-y-4 mb-4">
-                {videos.map((video) => (
+                {videos.map(video => (
                   <div
                     key={video.id}
                     className="relative w-full aspect-video  overflow-hidden bg-black"
@@ -91,7 +91,7 @@ const AdminArticleDetailPage = async ({
                       : "grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
                 }`}
               >
-                {images.map((image) => (
+                {images.map(image => (
                   <figure
                     key={image.id}
                     className="relative w-full aspect-video  overflow-hidden"
@@ -122,7 +122,6 @@ const AdminArticleDetailPage = async ({
             dangerouslySetInnerHTML={{ __html: article.content }}
           />
         </div>
-
       </div>
     </section>
   );

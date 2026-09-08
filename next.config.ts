@@ -15,6 +15,18 @@ if (siteUrl) {
 
 const nextConfig: NextConfig = {
   output: "standalone",
+  redirects: async () => [
+    {
+      source: "/boss-beginnings",
+      destination: "/contest",
+      permanent: true,
+    },
+    {
+      source: "/boss-beginnings-contest",
+      destination: "/contest",
+      permanent: true,
+    },
+  ],
   images: {
     dangerouslyAllowSVG: true,
     contentDispositionType: "attachment",
