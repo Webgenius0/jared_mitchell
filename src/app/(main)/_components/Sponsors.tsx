@@ -13,11 +13,14 @@ interface SponsorsProps {
 }
 
 const Sponsors = ({ data, title, showButton = true }: SponsorsProps) => {
+  const rawSponsors =
+    data?.metadata ?? data?.items ?? data?.sponsors ?? data?.partners ?? [];
+
   const logos =
-    data?.metadata?.map((m: any, i: number) => ({
+    (Array.isArray(rawSponsors) ? rawSponsors : []).map((m: any, i: number) => ({
       id: i + 1,
-      image: m.image,
-      link: m.link,
+      image: m.image || m.logo || m.url || m.src,
+      link: m.link || m.href || m.url || "#",
       alt: m.title || m.name || "Community partner logo",
       title: m.title || m.name || "Community partner",
     })) ?? [];
