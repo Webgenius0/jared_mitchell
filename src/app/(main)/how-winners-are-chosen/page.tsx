@@ -6,8 +6,6 @@ import {
   getRoundLeaderboard,
 } from "@/lib/Services/cms_service";
 import { CMSBossBeginnings } from "@/Types/cms";
-import BossBeginningBanner from "../boss-beginnings/_components/BossBeginningBanner";
-import WinnerReceives from "../boss-beginnings/_components/WinnerReceives";
 import Sponsors from "../_components/Sponsors";
 import NewsLetter from "@/Components/Common/NewsLetter";
 import BusinessChosenChart from "../boss-beginnings/_components/BusinessChosenChart";

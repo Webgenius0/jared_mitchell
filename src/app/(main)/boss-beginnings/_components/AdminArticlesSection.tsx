@@ -30,7 +30,7 @@ const AdminArticlesSection = ({ articles }: AdminArticlesSectionProps) => {
           return (
             <div
               key={article.id}
-              className="custom_border bg-white overflow-hidden flex flex-col"
+              className="custom_border bg-white overflow-hidden flex flex-col gap-3 md:gap-4 lg:gap-5 mb-4 md:mb-5 lg:mb-6"
             >
               {/* Media Section */}
               <div className="relative w-full h-48 md:h-56 lg:h-64 bg-primary-gray">
