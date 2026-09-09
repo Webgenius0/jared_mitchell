@@ -122,7 +122,7 @@ const page = async () => {
       <BecomeAPart data={cmsData?.business_spotlight_join} />
       {/* <CreativeJourney data={cmsData?.business_spotlight_interview} /> */}
       <WhatExist data={cmsData?.business_spotlight_why_exists} />
-      <Sponsors data={cmsData?.partners} />
+      <Sponsors data={CmsData?.about_sponsors} />
       <NewsLetter title="Stay connected with new spotlights, events, and creative tools." />
     </>
   );

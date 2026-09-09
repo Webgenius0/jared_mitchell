@@ -54,7 +54,7 @@ const page = async ({ params, searchParams }: PageProps) => {
           <OptionalInformation spotlight={spotlight} type={spotlightType} />
         </>
       )}
-      <Sponsors data={cmsData?.partners} />
+      <Sponsors data={CmsData?.about_sponsors} />
       <NewsLetter title="Be part of the movement. Get stories, updates, and opportunities straight to your inbox." />
     </>
   );

@@ -39,7 +39,6 @@ const page = async () => {
         </div>
       </section>
       <SocialImage data={cmsData?.services_grow} />
-      <Sponsors data={cmsData?.partners} />
 
       <WhoOSIIsFor data={cmsData?.services_who_for} />
 
