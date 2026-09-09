@@ -10,7 +10,7 @@ import Countdown from "@/app/(main)/_components/Countdown";
 import OSIApparel from "@/app/(main)/_components/OSIApparel";
 import PastEvents from "@/app/(main)/_components/PastEvents";
 import CoreValues from "@/app/(main)/_components/CoreValues";
-import BossBeginnings from "@/app/(main)/_components/BossBeginnings";
+import BusinessAward from "@/app/(main)/_components/BusinessAward";
 import SuccessStories from "@/app/(main)/_components/SuccessStories";
 import UpcomingEvents from "@/app/(main)/_components/UpcomingEvents";
 import WhatYouAreGetting from "@/app/(main)/_components/WhatYouAreGetting";
@@ -140,7 +140,7 @@ const Page = async () => {
       <WhyChoose data={cmsData?.why_choose} />
       <CoreValues data={cmsData?.core_values} />
       <WhatYouAreGetting data={cmsData?.what_you_get} />
-      <BossBeginnings
+      <BusinessAward
         data={cmsData?.boss_beginnings}
         currentWinner={currentWinner}
       />

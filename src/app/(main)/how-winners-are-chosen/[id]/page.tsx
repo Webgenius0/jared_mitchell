@@ -7,7 +7,7 @@ import Sponsors from "../../_components/Sponsors";
 import NewsLetter from "@/Components/Common/NewsLetter";
 import WinnersDetails from "../Components/WinnersDetails";
 import WinnerDetailsBanner from "../Components/WinnerDetailsBanner";
-import { CMSBossBeginnings } from "@/Types/cms";
+import { CMSBusinessAward } from "@/Types/cms";
 
 interface PageProps {
   params: Promise<{ id: string }>;
@@ -18,7 +18,7 @@ const page = async ({ params }: PageProps) => {
   const contestantId = parseInt(id, 10);
 
   const CmsData = await getCMSAboutData();
-  const pageData = (await getBossCms()) as CMSBossBeginnings;
+  const pageData = (await getBossCms()) as CMSBusinessAward;
 
   let contestant: any = null;
   if (!Number.isNaN(contestantId)) {

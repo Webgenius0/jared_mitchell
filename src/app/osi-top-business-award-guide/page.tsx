@@ -9,7 +9,7 @@ import {
   FiInfo,
   FiLock,
 } from "react-icons/fi";
-import BossBeginningGuideLayout from "@/app/(main)/boss-beginnings/_components/BossBeginningGuideLayout";
+import BusinessAwardGuideLayout from "@/app/(main)/business-award/_components/BusinessAwardGuideLayout";
 import {
   StepSection,
   InfoCard,
@@ -20,9 +20,9 @@ import {
   FlowArrow,
 } from "@/app/(main)/(spotlight)/_components/GuideUI";
 
-function BossBeginningGuidePage() {
+function BusinessAwardGuidePage() {
   return (
-    <BossBeginningGuideLayout>
+    <BusinessAwardGuideLayout>
       <div className="max-w-4xl mx-auto space-y-6 md:space-y-8">
         {/* Hero */}
         <div className="bg-gradient-to-br from-blue-600 via-blue-700 to-indigo-800  p-8 md:p-12 text-center text-white">
@@ -718,7 +718,7 @@ function BossBeginningGuidePage() {
               <FiArrowRight className="w-4 h-4" />
             </Link>
             <Link
-              href="/boss-beginnings-contest"
+              href="/business-award-contest"
               className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white/15 text-white text-sm font-medium hover:bg-white/25 transition-colors"
             >
               View Contest
@@ -738,8 +738,8 @@ function BossBeginningGuidePage() {
           </button>
         </div>
       </div>
-    </BossBeginningGuideLayout>
+    </BusinessAwardGuideLayout>
   );
 }
 
-export default BossBeginningGuidePage;
+export default BusinessAwardGuidePage;

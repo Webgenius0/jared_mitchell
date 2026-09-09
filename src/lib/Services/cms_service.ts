@@ -1,7 +1,7 @@
 import {
   CMSAbout,
   CMSArtistSpotlight,
-  CMSBossBeginnings,
+  CMSBusinessAward,
   CMSBusinessSpotlight,
   CMSRoundsPage,
   CalendarEventsResponse,
@@ -166,7 +166,7 @@ export const getEventsPageCms = async (): Promise<CMSEventsPage> => {
   return result.data as CMSEventsPage;
 };
 
-export const getBossCms = async (): Promise<CMSBossBeginnings> => {
+export const getBossCms = async (): Promise<CMSBusinessAward> => {
   const res = await fetch(`${SITE_URL}/v1/cms/boss-beginnings`, {
     next: { revalidate: 300, tags: ["cms-boss-beginnings"] },
   });
@@ -176,7 +176,7 @@ export const getBossCms = async (): Promise<CMSBossBeginnings> => {
   }
 
   const result = await res.json();
-  return result.data as CMSBossBeginnings;
+  return result.data as CMSBusinessAward;
 };
 
 export const getRoundsCms = async (): Promise<CMSRoundsPage> => {

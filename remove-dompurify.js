@@ -3,7 +3,7 @@ const path = require('path');
 
 const files = [
   'src/lib/business.ts',
-  'src/app/(main)/_components/BossBeginnings.tsx',
+  'src/app/(main)/_components/BusinessAward.tsx',
   'src/app/(main)/events/_Components/UpcomingEvents.tsx',
   'src/app/(main)/events/_Components/EventHighlight.tsx',
   'src/app/(main)/contest/Components/SpotlightDetails.tsx',

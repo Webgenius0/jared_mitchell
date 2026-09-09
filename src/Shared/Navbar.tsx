@@ -35,14 +35,14 @@ const navLinks = [
     label: "OSI Top Business Award",
     path: "",
     subMenu: [
-      { label: "OSI Top Business Award", path: "/boss-beginnings" },
+      { label: "OSI Top Business Award", path: "/business-award" },
       {
         label: "How Winners Are Chosen",
         path: "/how-winners-are-chosen",
       },
       {
         label: "OSI Top Business Award Contest",
-        path: "/boss-beginnings-contest",
+        path: "/business-award-contest",
       },
     ],
   },

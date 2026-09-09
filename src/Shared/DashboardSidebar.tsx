@@ -106,7 +106,7 @@ const DashboardSidebar = ({
               item?.id === 21 &&
               (pathname === "/dashboard/boss_beginning/create-business" ||
                 pathname?.startsWith("/dashboard/boss_beginning/business/"));
-            const isBossBeginningSubPage =
+            const isBusinessAwardSubPage =
               item?.id === 25 &&
               pathname?.startsWith("/dashboard/boss_beginning/boss-beginning/");
 
@@ -115,7 +115,7 @@ const DashboardSidebar = ({
               isActive ||
               isActiveSubMenu ||
               isBusinessSubPage ||
-              isBossBeginningSubPage;
+              isBusinessAwardSubPage;
             const itemClasses = `flex justify-between items-center px-3 py-2 rounded-md duration-300 transition-all ${
               isItemActive
                 ? "bg-primary-blue text-white"

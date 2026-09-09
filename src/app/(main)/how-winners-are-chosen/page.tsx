@@ -5,15 +5,15 @@ import {
   getActiveSeasonRounds,
   getRoundLeaderboard,
 } from "@/lib/Services/cms_service";
-import { CMSBossBeginnings } from "@/Types/cms";
+import { CMSBusinessAward } from "@/Types/cms";
 import Sponsors from "../_components/Sponsors";
 import NewsLetter from "@/Components/Common/NewsLetter";
-import BusinessChosenChart from "../boss-beginnings/_components/BusinessChosenChart";
+import BusinessChosenChart from "../business-award/_components/BusinessChosenChart";
 import HowWinnersAreChosenContent from "./Components/HowWinnersAreChosenContent";
 import MainChoseBanner from "./Components/MainChoseBanner";
 
 const page = async () => {
-  const pageData = (await getBossCms()) as CMSBossBeginnings;
+  const pageData = (await getBossCms()) as CMSBusinessAward;
   const CmsData = await getCMSAboutData();
 
 
@@ -57,7 +57,7 @@ const page = async () => {
         </div>
       </section> */}
       {/* <BusinessShower data={pageData?.boss_beginnings_features} /> */}
-      {/* <BossBeginningWinner data={pageData?.boss_beginnings_video_gallery} /> */}
+      {/* <BusinessAwardWinner data={pageData?.boss_beginnings_video_gallery} /> */}
       <BusinessChosenChart
         data={pageData?.boss_beginnings_steps}
         roundData={roundLeaderboard}

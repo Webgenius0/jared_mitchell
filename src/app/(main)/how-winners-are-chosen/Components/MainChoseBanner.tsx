@@ -1,12 +1,12 @@
 import sponsorshipBg from "@/Assets/boss.png";
-import { CMSBossBeginningsHero } from "@/Types/cms";
+import { CMSBusinessAwardHero } from "@/Types/cms";
 import bgimage from "../../../../Assets/home/Gemini_Generated_Image_pgfbsvpgfbsvpgfb.jpg"
 
-interface BossBeginningBannerProps {
-  data: CMSBossBeginningsHero;
+interface BusinessAwardBannerProps {
+  data: CMSBusinessAwardHero;
 }
 
-const MainChoseBanner = ({ data }: BossBeginningBannerProps) => {
+const MainChoseBanner = ({ data }: BusinessAwardBannerProps) => {
   // const bgImage = data?.image ?? sponsorshipBg.src;
 
   return (

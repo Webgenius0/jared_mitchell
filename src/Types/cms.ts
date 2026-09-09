@@ -45,7 +45,7 @@ export interface CMSWhatYouGet extends CMSBase {
   }[];
 }
 
-export interface CMSBossBeginnings extends CMSBase {}
+export interface CMSBusinessAward extends CMSBase {}
 
 export interface CMSSpotlight extends CMSBase {}
 
@@ -66,7 +66,7 @@ export interface CMSHomepage {
   why_choose: CMSWhyChoose;
   core_values: CMSCoreValue;
   what_you_get: CMSWhatYouGet;
-  boss_beginnings: CMSBossBeginnings;
+  boss_beginnings: CMSBusinessAward;
   spotlight: CMSSpotlight;
   highlights: CMSHighlight;
   events: CMSEvent;
@@ -383,15 +383,15 @@ export interface CMSShopPage {
 
 // Add these interfaces to your @/Types/cms.ts file
 
-export interface CMSBossBeginningsHero extends CMSBase {}
+export interface CMSBusinessAwardHero extends CMSBase {}
 
-export interface CMSBossBeginningsVideoGallery extends CMSBase {
+export interface CMSBusinessAwardVideoGallery extends CMSBase {
   metadata: {
     gallery: string[];
   } | null;
 }
 
-export interface CMSBossBeginningsFeatures extends CMSBase {
+export interface CMSBusinessAwardFeatures extends CMSBase {
   metadata: {
     features: {
       title: string;
@@ -401,7 +401,7 @@ export interface CMSBossBeginningsFeatures extends CMSBase {
   };
 }
 
-export interface CMSBossBeginningsSteps extends CMSBase {
+export interface CMSBusinessAwardSteps extends CMSBase {
   metadata: {
     steps: {
       small_text: string;
@@ -412,9 +412,9 @@ export interface CMSBossBeginningsSteps extends CMSBase {
   };
 }
 
-export interface CMSBossBeginningsSection5 extends CMSBase {}
+export interface CMSBusinessAwardSection5 extends CMSBase {}
 
-export interface CMSBossBeginningsDynamic extends CMSBase {
+export interface CMSBusinessAwardDynamic extends CMSBase {
   metadata: {
     items: {
       title: string;
@@ -424,13 +424,13 @@ export interface CMSBossBeginningsDynamic extends CMSBase {
   };
 }
 
-export interface CMSBossBeginnings {
-  boss_beginnings_hero: CMSBossBeginningsHero;
-  boss_beginnings_video_gallery: CMSBossBeginningsVideoGallery;
-  boss_beginnings_features: CMSBossBeginningsFeatures;
-  boss_beginnings_steps: CMSBossBeginningsSteps;
-  boss_beginnings_section5: CMSBossBeginningsSection5;
-  boss_beginnings_dynamic: CMSBossBeginningsDynamic;
+export interface CMSBusinessAward {
+  boss_beginnings_hero: CMSBusinessAwardHero;
+  boss_beginnings_video_gallery: CMSBusinessAwardVideoGallery;
+  boss_beginnings_features: CMSBusinessAwardFeatures;
+  boss_beginnings_steps: CMSBusinessAwardSteps;
+  boss_beginnings_section5: CMSBusinessAwardSection5;
+  boss_beginnings_dynamic: CMSBusinessAwardDynamic;
 }
 
 // ─── Rounds Page (Boss Beginnings OSI Panel) ─────────────────────────────────

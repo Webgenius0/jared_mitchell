@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import React from "react";
-import { CMSBossBeginnings } from "@/Types/cms";
+import { CMSBusinessAward } from "@/Types/cms";
 import ContestBanner from "./Components/ContestBanner";
 import {
   getBossCms,
@@ -32,7 +32,7 @@ const formatTimeLeft = (endsAt?: string | null): string | null => {
 };
 
 const page = async () => {
-  const pageData = (await getBossCms()) as CMSBossBeginnings;
+  const pageData = (await getBossCms()) as CMSBusinessAward;
   const cmsData = await getCMSHomepageData();
 
   let weekId: number | null = null;

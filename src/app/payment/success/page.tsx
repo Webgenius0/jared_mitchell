@@ -61,7 +61,7 @@ const TYPE_CONFIG: Record<PaymentType, TypeCopy> = {
     description:
       "Your support votes have been added. Head to your dashboard to see the updated vote count.",
     primaryCta: { label: "Go to Dashboard", href: "/dashboard" },
-    secondaryCta: { label: "Back to Contests", href: "/boss-beginnings-contest" },
+    secondaryCta: { label: "Back to Contests", href: "/business-award-contest" },
   },
   generic: {
     iconBg: "bg-green-50",

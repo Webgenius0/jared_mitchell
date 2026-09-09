@@ -5,7 +5,7 @@ const files = [
   'src/app/(main)/how-winners-are-chosen/Components/WinnersDetails.tsx',
   'src/app/(main)/contest/Components/ArtistStory.tsx',
   'src/app/(main)/contest/Components/Consent.tsx',
-  'src/app/(main)/boss-beginnings-contest/Components/roundtwo/RoundTwoAbout.tsx'
+  'src/app/(main)/business-award-contest/Components/roundtwo/RoundTwoAbout.tsx'
 ];
 
 const dummyString = 'A cozy neighborhood café combining specialty coffee with a curated flower shop. We source beans from fair-trade roasters and partner with local flower farms to bring beauty and warmth to our community.';

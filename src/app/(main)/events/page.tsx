@@ -9,7 +9,7 @@ import FeaturedEventsCarousel from "./_Components/FeaturedEventsCarousel";
 import NewsLetter from "@/Components/Common/NewsLetter";
 import Sponsors from "../_components/Sponsors";
 import EventHero from "./_Components/EventHero";
-import BossBeginningSponsor from "../boss-beginnings/_components/BossBeginningSponsor";
+import BusinessAwardSponsor from "../business-award/_components/BusinessAwardSponsor";
 import {
   getCMSHomepageData,
   getEventsPageCms,
@@ -67,7 +67,7 @@ const Page = async () => {
       <EventHost data={pageData?.events_page_host} />
       <EventGallery />
       <EventHighlight />
-      <BossBeginningSponsor variant="events" />
+      <BusinessAwardSponsor variant="events" />
       <Sponsors data={cmsData?.partners} showButton={true} />
       <NewsLetter title="Be part of the movement. Get stories, updates, and opportunities straight to your inbox." />
     </>

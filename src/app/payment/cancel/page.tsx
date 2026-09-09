@@ -51,7 +51,7 @@ const TYPE_CONFIG: Record<PaymentType, TypeCopy> = {
     description:
       "Your payment was not processed and no votes were added. You can head back to the vote purchase page and try again whenever you're ready.",
     primaryCta: { label: "Back to Vote Purchase", href: "/dashboard" },
-    secondaryCta: { label: "Browse Contests", href: "/boss-beginnings-contest" },
+    secondaryCta: { label: "Browse Contests", href: "/business-award-contest" },
   },
   generic: {
     title: "Payment Cancelled",

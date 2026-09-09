@@ -1,11 +1,11 @@
 import sponsorshipBg from "@/Assets/boss.png";
-import { CMSBossBeginningsHero } from "@/Types/cms";
+import { CMSBusinessAwardHero } from "@/Types/cms";
 
-interface BossBeginningBannerProps {
-  data: CMSBossBeginningsHero;
+interface BusinessAwardBannerProps {
+  data: CMSBusinessAwardHero;
 }
 
-const WinnerDetailsBanner = ({ data }: BossBeginningBannerProps) => {
+const WinnerDetailsBanner = ({ data }: BusinessAwardBannerProps) => {
   const bgImage = data?.image ?? sponsorshipBg.src;
 
   return (
