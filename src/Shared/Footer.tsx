@@ -192,7 +192,7 @@ const Footer = () => {
           </p>
 
           <p className="text-gray-300 text-xs lg:text-sm">
-            &copy; 2026 Our Social Image LLC. All rights reserved.
+            &copy; 2026 Our Social Image. All Rights Reserved.
           </p>
         </div>
       </div>

@@ -158,6 +158,51 @@ export default function OSIPanelTab({ data }: { data?: CMSRoundsSection }) {
         </div>
       ))}
 
+      {/* Why the competition exists */}
+      <section className="border border-[#2563EB]/15 bg-[#F4F8FF] px-5 py-8 sm:px-8 sm:py-10 lg:px-12 lg:py-12">
+        <div className="max-w-4xl mx-auto">
+          <p className="text-sm font-medium uppercase tracking-[0.18em] text-[#2563EB] text-center">
+            The purpose behind the award
+          </p>
+          <h3 className="mt-2 text-2xl sm:text-3xl lg:text-4xl font-bold uppercase tracking-wider text-[#101828] text-center">
+            More Than a Competition
+          </h3>
+          <p className="mt-5 text-[15px] sm:text-base leading-relaxed text-black/70 text-center">
+            The OSI Top Business Award was created to turn competition into
+            opportunity. Every participating business receives an opportunity
+            to gain exposure, introduce itself to potential customers, tell its
+            story, strengthen its brand, and build relationships throughout the
+            community.
+          </p>
+          <p className="mt-4 text-[15px] sm:text-base leading-relaxed text-black/70 text-center">
+            The goal is not simply to crown a winner. The goal is to encourage
+            people to:
+          </p>
+          <ul className="mt-6 grid gap-3 sm:grid-cols-2">
+            {[
+              "Discover local businesses",
+              "Support entrepreneurs",
+              "Shop locally",
+              "Share businesses with others",
+              "Build stronger business-to-community relationships",
+              "Create lasting visibility beyond the competition",
+            ].map((item) => (
+              <li
+                key={item}
+                className="flex items-start gap-3 rounded-lg bg-white px-4 py-3 text-sm sm:text-base text-[#101828] shadow-sm"
+              >
+                <FiCheckCircle className="mt-0.5 size-5 shrink-0 text-[#2563EB]" />
+                <span>{item}</span>
+              </li>
+            ))}
+          </ul>
+          <p className="mt-7 text-base sm:text-lg font-medium leading-relaxed text-[#101828] text-center">
+            When one local business gets stronger, the entire business
+            community has an opportunity to grow stronger with it.
+          </p>
+        </div>
+      </section>
+
       {/* Why this system is fair */}
       {bottom && (bottom.title || bottom.subtitle || fairPoints.length > 0) && (
         <div className="bg-[#306FDC] py-12 sm:py-16 lg:py-20 px-4 text-white">
