@@ -49,7 +49,10 @@ const Register = () => {
         </h5>
 
         <p className="text-secondary-black md:text-lg xl:text-xl capitalize">
-          Join our community and start your journey
+          Join the Our Social Image Community
+        </p>
+        <p className="">
+          Create your account to discover businesses, artists, creators, community programs, events, competitions, and opportunities throughout the Our Social Image community.
         </p>
 
         <form
@@ -230,7 +233,7 @@ const Register = () => {
             href={"/auth/login"}
             className="text-tertiary-blue font-medium hover:underline"
           >
-            Log in
+            Sign in
           </Link>
         </p>
       </>
