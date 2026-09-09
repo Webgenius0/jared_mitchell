@@ -36,7 +36,6 @@ const page = async () => {
             features to AI-enhanced analytics and community engagement — OSI was
             built to help you rise, scale, and stay visible.`}
           </p>
-
         </div>
       </section>
       <SocialImage data={cmsData?.services_grow} />

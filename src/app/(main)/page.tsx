@@ -42,14 +42,18 @@ function mapWinners(
   winners: { spotlight: any }[] | undefined,
   category: "Business" | "Artist",
 ): HistoricalWinnersItem[] {
-  return (winners || []).map(w => ({
-    id: w.spotlight.id,
-    title: w.spotlight.name,
-    slug: "",
-    description: `${w.spotlight.city}, ${w.spotlight.state}`,
-    image: w.spotlight.media.headshot || FALLBACK_IMAGE,
-    category,
-  }));
+  return (winners || [])
+    .filter((w) => Boolean(w?.spotlight))
+    .map((w) => ({
+      id: w.spotlight.id || w.spotlight._id || "",
+      title: w.spotlight.name || "",
+      slug: "",
+      description: [w.spotlight.city, w.spotlight.state]
+        .filter(Boolean)
+        .join(", "),
+      image: w.spotlight.media?.headshot || FALLBACK_IMAGE,
+      category,
+    }));
 }
 
 const Page = async () => {
@@ -131,7 +135,7 @@ const Page = async () => {
   return (
     <>
       <Hero data={cmsData?.hero} />
-      <Sponsors data={cmsData?.partners} showButton={false} />
+      {/* <Sponsors data={cmsData?.partners} showButton={false} /> */}
       <PoweredByOSI data={cmsData?.static_banner} />
       <WhyChoose data={cmsData?.why_choose} />
       <CoreValues data={cmsData?.core_values} />

@@ -23,7 +23,13 @@ import {
   getVideoChannels,
   getSpotlightOfTheWeek,
 } from "@/lib/Services/cms_service";
-import { AdminArticle, HistoricalWinnersItem, LiveStream, SpotlightHistoricalWinnerItem, VideoChannelItem } from "@/Types/cms";
+import {
+  AdminArticle,
+  HistoricalWinnersItem,
+  LiveStream,
+  SpotlightHistoricalWinnerItem,
+  VideoChannelItem,
+} from "@/Types/cms";
 import Sponsors from "../../_components/Sponsors";
 
 const FALLBACK_IMAGE = "https://placehold.co/400x600.png?text=No+Image";
@@ -57,7 +63,7 @@ const page = async () => {
   try {
     const res = await getBusinessHistoricalWinners();
     lastBusinessWinner = res?.winners?.[0] ?? null;
-    businessWinners = (res?.winners || []).map(w => ({
+    businessWinners = (res?.winners || []).map((w) => ({
       id: w.spotlight.id,
       title: w.spotlight.name,
       slug: w.spotlight.name.toLowerCase().replace(/\s+/g, "-") || "",
@@ -91,10 +97,10 @@ const page = async () => {
 
       <SpotlightAdminArticlesSection articles={adminArticles} type="business" />
 
-<div className="2xl:px-5 3xl:px-5">
+      <div className="2xl:px-5 3xl:px-5">
         <HowSpotlightWorks type="business" />
-      <SpotlightGuide type="business" />
-</div>
+        <SpotlightGuide type="business" />
+      </div>
       <DiscoverArtists
         type="business"
         data={cmsData?.business_spotlight_list}
@@ -116,7 +122,7 @@ const page = async () => {
       <BecomeAPart data={cmsData?.business_spotlight_join} />
       {/* <CreativeJourney data={cmsData?.business_spotlight_interview} /> */}
       <WhatExist data={cmsData?.business_spotlight_why_exists} />
-      <Sponsors data={CmsData?.partners} />
+      <Sponsors data={cmsData?.partners} />
       <NewsLetter title="Stay connected with new spotlights, events, and creative tools." />
     </>
   );

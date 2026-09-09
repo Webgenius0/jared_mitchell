@@ -6,7 +6,11 @@ import MediaUpload from "../Components/MediaUpload";
 import Consent from "../Components/Consent";
 import OptionalInformation from "../Components/OptionalInformation";
 import NewsLetter from "@/Components/Common/NewsLetter";
-import { getCMSAboutData, getArtistSpotlightDetails, getBusinessSpotlightDetails } from "@/lib/Services/cms_service";
+import {
+  getCMSAboutData,
+  getArtistSpotlightDetails,
+  getBusinessSpotlightDetails,
+} from "@/lib/Services/cms_service";
 import Sponsors from "../../_components/Sponsors";
 
 interface PageProps {
@@ -37,7 +41,11 @@ const page = async ({ params, searchParams }: PageProps) => {
 
   return (
     <>
-      <SpotlightDetails spotlight={spotlight} type={spotlightType} isLoading={!spotlight} />
+      <SpotlightDetails
+        spotlight={spotlight}
+        type={spotlightType}
+        isLoading={!spotlight}
+      />
       {spotlight && (
         <>
           <ArtistStory spotlight={spotlight} type={spotlightType} />
@@ -46,7 +54,7 @@ const page = async ({ params, searchParams }: PageProps) => {
           <OptionalInformation spotlight={spotlight} type={spotlightType} />
         </>
       )}
-      <Sponsors data={CmsData?.partners} />
+      <Sponsors data={cmsData?.partners} />
       <NewsLetter title="Be part of the movement. Get stories, updates, and opportunities straight to your inbox." />
     </>
   );

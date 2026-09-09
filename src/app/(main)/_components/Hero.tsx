@@ -8,7 +8,7 @@ import { SponsorModal } from "@/Components/Common/BecomeSponsorModal";
 const Hero = ({ data }: { data?: CMSHero }) => {
   const [isSponsorModalOpen, setIsSponsorModalOpen] = useState(false);
   return (
-    <section className="container text-center pt-4 md:pt-4 lg:pt-5 xl:pt-3 2xl:pt-4">
+    <section className="container text-center pt-4 md:pt-4 lg:pt-5 xl:pt-3 2xl:pt-4 mb-5 xl:mb-10">
       <h1 className="text-primary-black text-2xl md:text-xl lg:text-2xl xl:text-[44px] font-bold xl:leading-[48px] tracking-[-1.28px] pb-1 xl:pb-0">
         {data?.title}
       </h1>

@@ -37,7 +37,7 @@ const page = async () => {
     const seasonRes = await getActiveSeasonRounds();
     seasonRounds = seasonRes?.data?.rounds ?? [];
     activeRoundId =
-      seasonRounds.find(r => r.is_active)?.id ?? seasonRounds[0]?.id ?? null;
+      seasonRounds.find((r) => r.is_active)?.id ?? seasonRounds[0]?.id ?? null;
   } catch {
     // No active season yet — the tabs show empty states until real rounds exist
   }
@@ -54,13 +54,14 @@ const page = async () => {
       <div className="xl:px-5">
         <BossBeginningGuide />
       </div>
-      <Sponsors data={CmsData?.partners} />
+      <Sponsors data={CmsData?.about_sponsors} />
       <NewsLetter title="Be part of the movement. Get stories, updates, and opportunities straight to your inbox." />
     </>
   );
 };
 export const metadata = {
-  title: "OSI Top Business Award Contest - Apply & Compete | Open Spotlight Initiative",
+  title:
+    "OSI Top Business Award Contest - Apply & Compete | Open Spotlight Initiative",
   description:
     "Enter the OSI Top Business Award contest. Learn about qualification rounds, application requirements, and how to compete for the prestigious business award on OSI.",
   keywords: [
@@ -72,7 +73,8 @@ export const metadata = {
     "apply for business award",
   ],
   openGraph: {
-    title: "OSI Top Business Award Contest - Apply & Compete | Open Spotlight Initiative",
+    title:
+      "OSI Top Business Award Contest - Apply & Compete | Open Spotlight Initiative",
     description:
       "Enter the OSI Top Business Award contest. Learn about qualification rounds, application requirements, and how to compete for the prestigious business award.",
     type: "website",
@@ -89,7 +91,8 @@ export const metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "OSI Top Business Award Contest - Apply & Compete | Open Spotlight Initiative",
+    title:
+      "OSI Top Business Award Contest - Apply & Compete | Open Spotlight Initiative",
     description:
       "Enter the OSI Top Business Award contest. Learn about qualification rounds, application requirements, and how to compete for the prestigious business award.",
     images: ["/og-contest-entry.png"],

@@ -11,7 +11,7 @@ const Page = async () => {
   return (
     <>
       <ShippingBillingForm />
-      <Sponsors data={CmsData?.about_sponsors} />
+      <Sponsors data={cmsData?.partners} />
       <NewsLetter title="Be part of the movement. Get stories, updates, and opportunities straight to your inbox." />
     </>
   );

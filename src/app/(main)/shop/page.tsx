@@ -35,7 +35,7 @@ const page = async () => {
       <LimitedDrops products={allProducts} />
       <LimitedDrops />
       <FAQAccordion data={faqData} />
-      <Sponsors data={CmsData?.partners} title="Our Sponsors" />
+      <Sponsors data={CmsData?.about_sponsors} title="Our Sponsors" />
       <NewsLetter title="Be part of the movement. Get stories, updates, and opportunities straight to your inbox." />
     </div>
   );

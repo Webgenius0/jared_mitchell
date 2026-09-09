@@ -18,6 +18,7 @@ const page = async () => {
   const pageData = (await getBossCms()) as CMSBossBeginnings;
   const CmsData = await getCMSAboutData();
 
+
   // The "How Winners Are Chosen" BusinessChosenChart section renders while the
   // contest is open. roundData is a best-effort optimization: when the
   // server-side fetch fails or the page is served from a stale ISR snapshot,
@@ -69,7 +70,7 @@ const page = async () => {
       {/* <NewBusiness data={pageData?.boss_beginnings_section5} /> */}
       {/* <HowVotingWorks data={pageData?.boss_beginnings_steps} /> */}
       {/* <WinnerReceives data={pageData?.boss_beginnings_dynamic} /> */}
-      <Sponsors data={CmsData?.partners} title="Our Event Sponsors" />
+      <Sponsors data={CmsData?.about_sponsors} title="Our Event Sponsors" />
       <NewsLetter title="Be part of the movement. Get stories, updates, and opportunities straight to your inbox." />
     </>
   );

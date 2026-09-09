@@ -69,7 +69,7 @@ const page = async () => {
 
   // Remove duplicates (safety) and sort by total_votes descending for global ranking
   const seen = new Set<number>();
-  const unique = allEntries.filter(e => {
+  const unique = allEntries.filter((e) => {
     if (seen.has(e.nominee_id)) return false;
     seen.add(e.nominee_id);
     return true;
@@ -85,7 +85,7 @@ const page = async () => {
   // Spotlight stats — derived from live week/leaderboard data so the
   // dashboard cards never show fabricated numbers.
   const participants = leaderboard.length;
-  const advancing = leaderboard.filter(e => e.is_winner).length;
+  const advancing = leaderboard.filter((e) => e.is_winner).length;
   const advancingPct =
     participants > 0 && advancing > 0
       ? Math.round((advancing / participants) * 100)

@@ -21,7 +21,7 @@ const page = async () => {
       <VendorOpportunities />
       <FAQAccordion data={faqData} />
       <Sponsors
-        data={CmsData?.partners}
+        data={CmsData?.about_sponsors}
         showButton={false}
         title="Proudly supported by our community partners"
       />

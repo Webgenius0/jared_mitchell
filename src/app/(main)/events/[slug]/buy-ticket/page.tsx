@@ -44,7 +44,7 @@ export default function BuyTicketPage() {
 
   // Clear an inline error for a given field
   const clearError = (field: string) => {
-    setErrors(prev => {
+    setErrors((prev) => {
       if (!prev[field]) return prev;
       const next = { ...prev };
       delete next[field];
@@ -54,12 +54,12 @@ export default function BuyTicketPage() {
 
   // ── Derived helpers ──────────────────────────────────────────────────────────
   const activeTiers = useMemo(
-    () => event?.ticket_tiers?.filter(t => t.is_active) ?? [],
+    () => event?.ticket_tiers?.filter((t) => t.is_active) ?? [],
     [event],
   );
 
   const selectedTier: EventTicketTier | undefined = useMemo(
-    () => activeTiers.find(t => t.id === tierId),
+    () => activeTiers.find((t) => t.id === tierId),
     [activeTiers, tierId],
   );
   const { data: cmsRes } = getCMSAboutData();
@@ -230,7 +230,7 @@ export default function BuyTicketPage() {
                       placeholder="John"
                       value={firstName}
                       aria-invalid={Boolean(errors.first_name)}
-                      onChange={e => {
+                      onChange={(e) => {
                         setFirstName(e.target.value);
                         clearError("first_name");
                       }}
@@ -257,7 +257,7 @@ export default function BuyTicketPage() {
                       placeholder="Doe"
                       value={lastName}
                       aria-invalid={Boolean(errors.last_name)}
-                      onChange={e => {
+                      onChange={(e) => {
                         setLastName(e.target.value);
                         clearError("last_name");
                       }}
@@ -287,7 +287,7 @@ export default function BuyTicketPage() {
                     placeholder="john.doe@example.com"
                     value={email}
                     aria-invalid={Boolean(errors.email)}
-                    onChange={e => {
+                    onChange={(e) => {
                       setEmail(e.target.value);
                       clearError("email");
                     }}
@@ -316,7 +316,7 @@ export default function BuyTicketPage() {
                     placeholder="+1 (555) 123-4567"
                     value={phone}
                     aria-invalid={Boolean(errors.phone_number)}
-                    onChange={e => {
+                    onChange={(e) => {
                       setPhone(e.target.value);
                       clearError("phone_number");
                     }}
@@ -348,7 +348,7 @@ export default function BuyTicketPage() {
                           placeholder="Create a password"
                           value={password}
                           aria-invalid={Boolean(errors.password)}
-                          onChange={e => {
+                          onChange={(e) => {
                             setPassword(e.target.value);
                             clearError("password");
                             clearError("confirm_password");
@@ -361,7 +361,7 @@ export default function BuyTicketPage() {
                         />
                         <button
                           type="button"
-                          onClick={() => setShowPassword(prev => !prev)}
+                          onClick={() => setShowPassword((prev) => !prev)}
                           className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
                           aria-label={
                             showPassword ? "Hide password" : "Show password"
@@ -393,7 +393,7 @@ export default function BuyTicketPage() {
                           placeholder="Confirm your password"
                           value={confirmPassword}
                           aria-invalid={Boolean(errors.confirm_password)}
-                          onChange={e => {
+                          onChange={(e) => {
                             setConfirmPassword(e.target.value);
                             clearError("confirm_password");
                             clearError("password");
@@ -406,7 +406,9 @@ export default function BuyTicketPage() {
                         />
                         <button
                           type="button"
-                          onClick={() => setShowConfirmPassword(prev => !prev)}
+                          onClick={() =>
+                            setShowConfirmPassword((prev) => !prev)
+                          }
                           className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
                           aria-label={
                             showConfirmPassword
@@ -440,7 +442,7 @@ export default function BuyTicketPage() {
                       id="ticket_tier"
                       value={tierId}
                       aria-invalid={Boolean(errors.ticket_tier)}
-                      onChange={e => {
+                      onChange={(e) => {
                         setTierId(e.target.value ? Number(e.target.value) : "");
                         clearError("ticket_tier");
                       }}
@@ -453,7 +455,7 @@ export default function BuyTicketPage() {
                       <option value="" disabled>
                         Select Ticket type
                       </option>
-                      {activeTiers.map(tier => (
+                      {activeTiers.map((tier) => (
                         <option key={tier.id} value={tier.id}>
                           {tier.name} —{" "}
                           {parseFloat(tier.price) === 0
@@ -482,10 +484,10 @@ export default function BuyTicketPage() {
                     <select
                       id="quantity"
                       value={quantity}
-                      onChange={e => setQuantity(Number(e.target.value))}
+                      onChange={(e) => setQuantity(Number(e.target.value))}
                       className="w-full appearance-none px-4 py-2.5 rounded-lg border border-gray-200 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-[#1977DD] focus:border-transparent text-gray-800 text-sm transition pr-10 cursor-pointer"
                     >
-                      {Array.from({ length: 10 }, (_, i) => i + 1).map(n => (
+                      {Array.from({ length: 10 }, (_, i) => i + 1).map((n) => (
                         <option key={n} value={n}>
                           {n}
                         </option>
@@ -594,7 +596,7 @@ export default function BuyTicketPage() {
           </div>
         </div>
       </section>
-      <Sponsors data={CmsData?.partners} />
+      <Sponsors data={cmsData?.partners} />
       <NewsLetter title="Be part of the movement. Get stories, updates, and opportunities straight to your inbox." />
     </>
   );
