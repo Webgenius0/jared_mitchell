@@ -31,7 +31,7 @@ const page = async () => {
       <SocialWorks data={cmsData?.about_how_it_works} />
       <WeServe data={cmsData?.about_who_we_serve} />
       <WhatExist data={cmsData?.about_why_exists} />
-      <OurImpact data={cmsData?.about_our_impact} />
+      {/* <OurImpact data={cmsData?.about_our_impact} /> */}
       <FounderMessage data={cmsData?.about_founder_message} />
       <JoinMovement data={cmsData?.about_join} />
       {/* <Sponsors data={cmsData?.about_sponsors} showButton={false} /> */}
