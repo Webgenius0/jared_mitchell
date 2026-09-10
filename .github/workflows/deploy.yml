@@ -2,7 +2,7 @@ name: Deploy to EC2
 
 on:
   push:
-    branches: [main]
+    branches: [renamed_file]
   workflow_dispatch: # manual trigger
 
 jobs:
