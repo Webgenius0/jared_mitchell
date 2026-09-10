@@ -63,7 +63,7 @@ const Page = async () => {
       />
       <FeaturedEventsCarousel events={featuredEvents} />
       <UpcomingEvents />
-      <EventSchedule video={pageData?.events_page_video} />
+      {/* <EventSchedule video={pageData?.events_page_video} /> */}
       <EventHost data={pageData?.events_page_host} />
       <EventGallery />
       <EventHighlight />
