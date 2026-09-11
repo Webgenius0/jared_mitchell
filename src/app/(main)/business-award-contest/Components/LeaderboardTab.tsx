@@ -4,9 +4,11 @@ import {
   Calendar,
   Clock,
   Trophy,
-  Heart,
+  Megaphone,
+  Sparkles,
   Users,
   Briefcase,
+  ShoppingBag,
 } from "lucide-react";
 import { ActiveSeasonRound } from "@/Types/cms";
 
@@ -14,57 +16,82 @@ interface TimelineEvent {
   id: number;
   icon: React.ElementType;
   title: string;
+  subtitle: string;
   date: string;
   status: "completed" | "active" | "upcoming";
-  description: string;
+  goal: string;
+  advancement: string;
+  measures: string[];
   startDate?: Date | null;
 }
 
 const TIMELINE_EVENTS: TimelineEvent[] = [
   {
     id: 1,
-    icon: Users,
-    title: "Open Nominations",
+    icon: Megaphone,
+    title: "Round 1 — Get The Attention",
+    subtitle: "Top 20 → Top 16 Businesses",
     date: "Week 1 (Days 1–7)",
     status: "upcoming",
-    description:
-      "Businesses submit nominations to enter the competition. Up to 20 qualifying businesses secure a spot.",
+    goal: "Build awareness for your business and prove that you can attract community attention and support.",
+    advancement: "20 businesses compete. The Top 16 advance.",
+    measures: ["Awareness", "Promotion", "Reach", "Community Support"],
   },
   {
     id: 2,
-    icon: Heart,
-    title: "Momentum Round",
+    icon: Sparkles,
+    title: "Round 2 — Why Am I Here?",
+    subtitle: "Top 16 → Top 12 Businesses",
     date: "Week 2 (Days 8–14)",
     status: "upcoming",
-    description:
-      "Community engagement determines which businesses build the strongest momentum. The top 16 advance.",
+    goal: "Give the community a reason to care about your business by telling the story behind it.",
+    advancement: "16 businesses compete. The Top 12 advance.",
+    measures: ["Story", "Authenticity", "Purpose", "Connection"],
   },
   {
     id: 3,
     icon: Users,
-    title: "Community Impact Round",
+    title: "Round 3 — Community Impact",
+    subtitle: "Top 12 → Top 8 Businesses",
     date: "Week 3 (Days 15–21)",
     status: "upcoming",
-    description:
-      "Contenders showcase their community impact and outreach. The top 12 move forward based on verified impact.",
+    goal: "Show how your business can make a positive difference beyond simply making a sale.",
+    advancement: "12 businesses compete. The Top 8 advance.",
+    measures: ["Purpose", "Community Involvement", "Initiative", "Impact"],
   },
   {
     id: 4,
     icon: Briefcase,
-    title: "Business Pitch & Journey Round",
+    title: "Round 4 — Business Pitch",
+    subtitle: "Top 8 → Top 5 Businesses",
     date: "Week 4 (Days 22–28)",
     status: "upcoming",
-    description:
-      "Founders present their mission, growth story, and vision. The top 8 advance to the final evaluation.",
+    goal: "Prove that your business has a strong concept, a clear strategy, and the potential to grow.",
+    advancement: "8 businesses compete. The Top 5 advance to the Final Round.",
+    measures: [
+      "Business Model",
+      "Strategy",
+      "Differentiation",
+      "Growth Potential",
+      "Presentation",
+    ],
   },
   {
     id: 5,
-    icon: Trophy,
-    title: "OSI Customer Experience Round",
+    icon: ShoppingBag,
+    title: "Round 5 — Customer Experience",
+    subtitle: "Final 5 Businesses",
     date: "Week 5 (Days 29–35)",
     status: "upcoming",
-    description:
-      "OSI experiences each finalist firsthand by purchasing their product or service to select the final winner.",
+    goal: "Prove that your business can turn its promises into a real experience that customers would want to return to and recommend.",
+    advancement: "Finalists evaluated by community input & the Our Social Image judging panel to decide the winner.",
+    measures: [
+      "Execution",
+      "Customer Service",
+      "Quality",
+      "Professionalism",
+      "Brand Experience",
+    ],
   },
 ];
 
@@ -97,17 +124,38 @@ const statusConfig = {
 };
 
 const KEY_DATES = [
-  { date: "Day 1 (Week 1 Start)", event: "Round 1 begins: Open nominations kick off" },
-  { date: "Day 8 (Week 2 Start)", event: "Round 2 begins: Top 16 enter the Momentum Round" },
-  { date: "Day 15 (Week 3 Start)", event: "Round 3 begins: Top 12 enter the Community Impact Round" },
-  { date: "Day 22 (Week 4 Start)", event: "Round 4 begins: Top 8 present their Business Pitch & Journey" },
-  { date: "Day 29 (Week 5 Start)", event: "Round 5 begins: Customer Experience Round starts" },
-  { date: "Day 35 (Week 5 End)", event: "Competition concludes: Winner is announced and celebrated" },
+  {
+    date: "Day 1 (Week 1 Start)",
+    event: "Round 1 begins: 'Get The Attention' kicks off (Top 20 compete)",
+  },
+  {
+    date: "Day 8 (Week 2 Start)",
+    event: "Round 2 begins: 'Why Am I Here?' storytelling round (Top 16 compete)",
+  },
+  {
+    date: "Day 15 (Week 3 Start)",
+    event: "Round 3 begins: 'Community Impact' round (Top 12 compete)",
+  },
+  {
+    date: "Day 22 (Week 4 Start)",
+    event: "Round 4 begins: 2–3 min 'Business Pitch' round (Top 8 compete)",
+  },
+  {
+    date: "Day 29 (Week 5 Start)",
+    event: "Round 5 begins: 'Customer Experience' round (Final 5 compete)",
+  },
+  {
+    date: "Day 35 (Week 5 End)",
+    event: "Competition concludes: Winner is chosen by the judging panel & community vote",
+  },
 ];
 
 // ─── Date helpers ────────────────────────────────────────────────────────────
 
-const MONTHS_SHORT = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+const MONTHS_SHORT = [
+  "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+  "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
+];
 const DAY_MS = 24 * 60 * 60 * 1000;
 
 function toDate(value?: string | null): Date | null {
@@ -144,14 +192,11 @@ function formatCountdown(ms: number): string {
   return days > 0 ? `${days}d ${clock}` : clock;
 }
 
-// Standard 5-week quarterly tournament window (Q1: Jan 1 – Feb 4, Q2: Apr 1 – May 5, ...)
 function quarterWindow(year: number, quarter: number): { start: Date; end: Date } {
   const start = new Date(year, (quarter - 1) * 3, 1);
   return { start, end: new Date(start.getTime() + 34 * DAY_MS) };
 }
 
-// First contest cycle of the recurring schedule — upcoming cycles are generated
-// one quarter apart from this date (Oct 1, 2026 → Jan 1, 2027 → Apr 1, 2027 → …)
 const CYCLE_EPOCH = new Date(2026, 9, 1);
 
 interface DatedRound {
@@ -218,7 +263,6 @@ function buildQuarterlyCycles(
   const findDraft = (year: number, quarter: number) =>
     drafts.find(d => d.year === year && d.quarter === quarter);
 
-  // Cycles derived from the live season rounds
   for (const round of rounds) {
     const start = toDate(round.starts_at);
     const end = toDate(round.ends_at);
@@ -236,9 +280,6 @@ function buildQuarterlyCycles(
     if (round.is_active) draft.containsActiveRound = true;
   }
 
-  // Pad with standard 5-week quarterly windows so the grid keeps its 4-card
-  // layout. Upcoming cycles start from the contest epoch (Oct 1, 2026),
-  // advancing one quarter at a time and skipping windows that already ended.
   let cursor = new Date(CYCLE_EPOCH);
   while (drafts.length < 4) {
     const year = cursor.getFullYear();
@@ -272,7 +313,6 @@ export default function LeaderboardTab({
   const safeRounds = useMemo(() => rounds ?? [], [rounds]);
   const [now, setNow] = useState<number | null>(null);
 
-  // Live clock for countdowns — null until mounted so SSR/CSR markup matches
   useEffect(() => {
     setNow(Date.now());
     const timer = setInterval(() => setNow(Date.now()), 1000);
@@ -300,7 +340,6 @@ export default function LeaderboardTab({
     Boolean(timeline.seasonEnd) &&
     nowMs >= timeline.seasonEnd!.getTime();
 
-  // Overall progress — date-driven when the season has dates
   const progressPct = (() => {
     if (timeline.seasonStart && timeline.seasonEnd) {
       const span = timeline.seasonEnd.getTime() - timeline.seasonStart.getTime();
@@ -348,7 +387,6 @@ export default function LeaderboardTab({
     weekLine = "Schedule to be announced";
   }
 
-  // Upcoming spotlight contest countdown — counts to the next round start/end
   let countdown: string | null = null;
   if (now !== null) {
     if (activeDated) {
@@ -356,12 +394,10 @@ export default function LeaderboardTab({
     } else if (nextDated) {
       countdown = `Round ${nextDated.round.round_number} starts in ${formatCountdown(nextDated.start.getTime() - nowMs)}`;
     } else if (isSeasonOver) {
-      countdown =
-        "Contest cycle completed — next season dates will be announced";
+      countdown = "Contest cycle completed — next season dates will be announced";
     }
   }
 
-  // Key dates — real calendar dates from the live rounds
   const keyDates = useMemo(() => {
     const items = timeline.events.map((event, i) => ({
       date: event.startDate
@@ -386,6 +422,7 @@ export default function LeaderboardTab({
       ? `${cycleYears[0]} Quarterly Cycles`
       : `${cycleYears[0]}–${cycleYears[cycleYears.length - 1]} Quarterly Cycles`
     : "Quarterly Cycles";
+
   return (
     <div className="space-y-6 mt-10">
       {/* Timeline header card */}
@@ -408,6 +445,7 @@ export default function LeaderboardTab({
         )}
       </div>
 
+      {/* Progress card */}
       <div className="p-4 sm:p-6 border border-black/15 bg-white shadow-[0_4px_20px_0_rgba(0,0,0,0.07)] mt-8 sm:mt-10">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
           <div>
@@ -429,7 +467,7 @@ export default function LeaderboardTab({
         </div>
         <div className="w-full h-2.5 bg-gray-100 rounded-full mb-2 overflow-hidden">
           <div
-            className="h-full bg-[#2563EB] rounded-full"
+            className="h-full bg-[#2563EB] rounded-full transition-all duration-300"
             style={{ width: `${progressPct}%` }}
           />
         </div>
@@ -444,27 +482,55 @@ export default function LeaderboardTab({
           return (
             <div
               key={event.id}
-              className={`p-4 border ${cfg.bg} transition-all hover:shadow-md`}
+              className={`p-4 sm:p-5 border ${cfg.bg} transition-all hover:shadow-md`}
             >
               <div className="flex items-start justify-between gap-3">
-                <div className="flex items-start gap-3">
+                <div className="flex items-start gap-3.5">
                   <div
-                    className={`size-10 flex items-center justify-center ${cfg.iconColor} bg-white shrink-0`}
+                    className={`size-10 sm:size-11 flex items-center justify-center ${cfg.iconColor} bg-blue-50/50 rounded-sm shrink-0`}
                   >
-                    <EventIcon className="size-5" />
+                    <EventIcon className="size-5 sm:size-6" />
                   </div>
                   <div>
-                    <h4 className="text-[14px] font-medium text-black">
-                      {event.title}
-                    </h4>
-                    <p className="text-[12px] text-black/45">{event.date}</p>
-                    <p className="text-[13px] text-black/60 mt-1">
-                      {event.description}
+                    <div className="flex flex-wrap items-center gap-2">
+                      <h4 className="text-[14px] sm:text-[15px] font-semibold text-black">
+                        {event.title}
+                      </h4>
+                      <span className="text-[11px] font-semibold px-2 py-0.5 rounded bg-blue-50 text-[#2563EB]">
+                        {event.subtitle}
+                      </span>
+                    </div>
+
+                    <p className="text-[12px] text-black/45 mt-0.5">{event.date}</p>
+
+                    <p className="text-[13px] text-black/70 mt-2 font-medium">
+                      <span className="text-black font-semibold">Goal: </span>
+                      {event.goal}
+                    </p>
+
+                    {/* What this round measures */}
+                    <div className="mt-2.5 flex flex-wrap items-center gap-1.5">
+                      <span className="text-[11px] font-semibold text-black/60 uppercase tracking-wide mr-1">
+                        Measures:
+                      </span>
+                      {event.measures.map((m, idx) => (
+                        <span
+                          key={idx}
+                          className="text-[11px] px-2 py-0.5 rounded bg-gray-100 text-black/75 border border-black/5 font-medium"
+                        >
+                          {m}
+                        </span>
+                      ))}
+                    </div>
+
+                    {/* Advancement note */}
+                    <p className="text-[12px] text-[#2563EB] font-medium mt-2">
+                      ✦ {event.advancement}
                     </p>
                   </div>
                 </div>
                 <span
-                  className={`shrink-0 px-3 py-1 text-[11px] font-medium ${cfg.badge}`}
+                  className={`shrink-0 px-3 py-1 text-[11px] font-medium rounded-sm ${cfg.badge}`}
                 >
                   {cfg.badgeText}
                 </span>
