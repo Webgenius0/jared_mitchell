@@ -7,7 +7,6 @@ import {
   Heart,
   Users,
   Briefcase,
-  ShoppingBag,
 } from "lucide-react";
 import { ActiveSeasonRound } from "@/Types/cms";
 
@@ -60,7 +59,7 @@ const TIMELINE_EVENTS: TimelineEvent[] = [
   },
   {
     id: 5,
-    icon: ShoppingBag,
+    icon: Trophy,
     title: "OSI Customer Experience Round",
     date: "Week 5 (Days 29–35)",
     status: "upcoming",
