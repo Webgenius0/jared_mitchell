@@ -59,7 +59,7 @@ export default function OpenQualifierRound({
           />
         )}
         {activeTab === "OSI Panel" && <OSIPanelTab data={roundsData} />}
-        {activeTab === "Leader-board" && <LeaderboardTab />}
+        {activeTab === "Leader-board" && <LeaderboardTab rounds={rounds} />}
       </div>
     </section>
   );
