@@ -6,6 +6,17 @@ export const metadata = {
   title: "Canva Integration - Design Tools | OSI Artist Dashboard",
   description:
     "Use Canva to design and customize posts for your OSI spotlight. Create professional graphics, social media content, and promotional materials for your artist profile.",
+  keywords: [
+    "Our Social Image",
+    "OSI",
+    "Indianapolis small business",
+    "Indianapolis local artists",
+    "business spotlight",
+    "artist spotlight",
+    "entrepreneurs",
+    "creators",
+    "OSI Top Business Award",
+  ],
   robots: {
     index: false,
     follow: false,

@@ -25,6 +25,17 @@ export const metadata = {
   title: "Subscription - Manage Your Plan | OSI Dashboard",
   description:
     "Manage your OSI subscription. View your current plan, upgrade or downgrade, cancel subscriptions, and track billing history in the Open Spotlight Initiative dashboard.",
+  keywords: [
+    "Our Social Image",
+    "OSI",
+    "Indianapolis small business",
+    "Indianapolis local artists",
+    "business spotlight",
+    "artist spotlight",
+    "entrepreneurs",
+    "creators",
+    "OSI Top Business Award",
+  ],
   robots: {
     index: false,
     follow: false,

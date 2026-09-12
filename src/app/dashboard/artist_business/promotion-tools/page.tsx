@@ -147,6 +147,17 @@ export const metadata = {
   title: "Promotion Tools - Share Your Spotlight | OSI Artist Dashboard",
   description:
     "Promote your OSI artist spotlight with ready-to-use social media captions, email templates, QR codes, and shareable links. Amplify your reach in the Open Spotlight Initiative community.",
+  keywords: [
+    "Our Social Image",
+    "OSI",
+    "Indianapolis small business",
+    "Indianapolis local artists",
+    "business spotlight",
+    "artist spotlight",
+    "entrepreneurs",
+    "creators",
+    "OSI Top Business Award",
+  ],
   robots: {
     index: false,
     follow: false,

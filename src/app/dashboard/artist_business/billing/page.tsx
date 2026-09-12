@@ -115,6 +115,17 @@ export const metadata = {
   title: "Artist Billing - Subscription & Invoices | OSI Dashboard",
   description:
     "Manage your OSI artist subscription billing. View invoices, payment history, and manage your subscription plan in the Open Spotlight Initiative dashboard.",
+  keywords: [
+    "Our Social Image",
+    "OSI",
+    "Indianapolis small business",
+    "Indianapolis local artists",
+    "business spotlight",
+    "artist spotlight",
+    "entrepreneurs",
+    "creators",
+    "OSI Top Business Award",
+  ],
   robots: {
     index: false,
     follow: false,

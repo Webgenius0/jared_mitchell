@@ -22,12 +22,15 @@ export const metadata = {
   description:
     "Complete your purchase on OSI. Enter your shipping and billing information to finalize your order, ticket purchase, or subscription payment in the Open Spotlight Initiative checkout.",
   keywords: [
-    "OSI checkout",
-    "OSI shipping",
-    "OSI billing",
-    "OSI payment",
-    "OSI order",
-    "OSI purchase",
+    "Our Social Image",
+    "OSI",
+    "Indianapolis small business",
+    "Indianapolis local artists",
+    "business spotlight",
+    "artist spotlight",
+    "entrepreneurs",
+    "creators",
+    "OSI Top Business Award",
   ],
   openGraph: {
     title: "Shipping & Billing - OSI Checkout | Open Spotlight Initiative",

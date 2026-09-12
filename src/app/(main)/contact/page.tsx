@@ -38,6 +38,17 @@ export const metadata: Metadata = {
   },
   description:
     "Have questions or looking to collaborate? Reach out to the Our Social Image team for general inquiries, nominations, and sponsorships.",
+  keywords: [
+    "Our Social Image",
+    "OSI",
+    "Indianapolis small business",
+    "Indianapolis local artists",
+    "business spotlight",
+    "artist spotlight",
+    "entrepreneurs",
+    "creators",
+    "OSI Top Business Award",
+  ],
   openGraph: {
     title: "Contact Us | Connect with Our Social Image",
     description:

@@ -79,12 +79,15 @@ export const metadata = {
   description:
     "Learn how OSI winners are chosen through our transparent voting and selection process. Understand the criteria, voting system, and what makes a standout spotlight winner on OSI.",
   keywords: [
-    "OSI winners",
-    "how OSI voting works",
-    "OSI selection process",
-    "OSI winner criteria",
-    "OSI voting system",
-    "spotlight winner",
+    "Our Social Image",
+    "OSI",
+    "Indianapolis small business",
+    "Indianapolis local artists",
+    "business spotlight",
+    "artist spotlight",
+    "entrepreneurs",
+    "creators",
+    "OSI Top Business Award",
   ],
   openGraph: {
     title: "How Winners Are Chosen - OSI Voting Process | Open Spotlight Initiative",

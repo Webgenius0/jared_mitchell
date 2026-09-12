@@ -6,6 +6,17 @@ export const metadata: Metadata = {
   },
   description:
     "Read inspiring stories and discover featured Indianapolis artists, innovators, and entrepreneurs shaping our community culture.",
+  keywords: [
+    "Our Social Image",
+    "OSI",
+    "Indianapolis small business",
+    "Indianapolis local artists",
+    "business spotlight",
+    "artist spotlight",
+    "entrepreneurs",
+    "creators",
+    "OSI Top Business Award",
+  ],
   openGraph: {
     title: "Artist & Business Spotlights | Our Social Image",
     description:

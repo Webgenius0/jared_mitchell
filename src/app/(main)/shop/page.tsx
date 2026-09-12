@@ -47,6 +47,17 @@ export const metadata: Metadata = {
   },
   description:
     "Shop official Our Social Image apparel, merchandise, and featured goods created by local Indianapolis partners and makers.",
+  keywords: [
+    "Our Social Image",
+    "OSI",
+    "Indianapolis small business",
+    "Indianapolis local artists",
+    "business spotlight",
+    "artist spotlight",
+    "entrepreneurs",
+    "creators",
+    "OSI Top Business Award",
+  ],
   openGraph: {
     title: "OSI Community Shop | Merchandise & Local Products",
     description:

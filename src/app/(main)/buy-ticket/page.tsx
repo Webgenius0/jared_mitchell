@@ -6,11 +6,15 @@ export const metadata = {
   description:
     "Purchase tickets for OSI events, contests, and special programs. Support artists and businesses while enjoying exclusive experiences in the Open Spotlight Initiative community.",
   keywords: [
-    "OSI tickets",
-    "buy OSI tickets",
-    "OSI event tickets",
-    "OSI contest tickets",
-    "event tickets",
+    "Our Social Image",
+    "OSI",
+    "Indianapolis small business",
+    "Indianapolis local artists",
+    "business spotlight",
+    "artist spotlight",
+    "entrepreneurs",
+    "creators",
+    "OSI Top Business Award",
   ],
   openGraph: {
     title: "Buy Tickets - OSI Events & Contests",

@@ -23,6 +23,17 @@ export const metadata = {
   title: "OSI Top Business Award Guide | OSI",
   description:
     "Step-by-step guide to entering the OSI Top Business Award Contest on OSI.",
+  keywords: [
+    "Our Social Image",
+    "OSI",
+    "Indianapolis small business",
+    "Indianapolis local artists",
+    "business spotlight",
+    "artist spotlight",
+    "entrepreneurs",
+    "creators",
+    "OSI Top Business Award",
+  ],
 };
 
 export default OsiTopBusinessAwardGuideLayout;

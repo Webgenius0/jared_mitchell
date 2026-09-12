@@ -148,6 +148,17 @@ export const metadata: Metadata = {
   },
   description:
     "Explore marketing, media coverage, branding, and promotional services designed to accelerate Indianapolis businesses and creators.",
+  keywords: [
+    "Our Social Image",
+    "OSI",
+    "Indianapolis small business",
+    "Indianapolis local artists",
+    "business spotlight",
+    "artist spotlight",
+    "entrepreneurs",
+    "creators",
+    "OSI Top Business Award",
+  ],
   openGraph: {
     title: "Creative & Business Growth Services | Our Social Image",
     description:

@@ -6,6 +6,17 @@ import CartProvider from "@/Provider/CartProvider/CartProvider";
 import CartDrawer from "@/Shared/CartDrawer";
 
 export const metadata: Metadata = {
+  keywords: [
+    "Our Social Image",
+    "OSI",
+    "Indianapolis small business",
+    "Indianapolis local artists",
+    "business spotlight",
+    "artist spotlight",
+    "entrepreneurs",
+    "creators",
+    "OSI Top Business Award",
+  ],
   robots: {
     index: true,
     follow: true,

@@ -78,6 +78,17 @@ const Page = async () => {
   },
   description:
     "Find upcoming local workshops, pop-ups, networking mixers, and community gatherings hosted by Our Social Image in Indianapolis.",
+  keywords: [
+    "Our Social Image",
+    "OSI",
+    "Indianapolis small business",
+    "Indianapolis local artists",
+    "business spotlight",
+    "artist spotlight",
+    "entrepreneurs",
+    "creators",
+    "OSI Top Business Award",
+  ],
   openGraph: {
     title: "Indianapolis Events & Community Experiences | Our Social Image",
     description:

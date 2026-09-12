@@ -147,6 +147,17 @@ export const metadata: Metadata = {
   },
   description:
     "Follow the 5-week tournament celebrating Indianapolis entrepreneurs. Track each round, vote for local contenders, and celebrate community champions.",
+  keywords: [
+    "Our Social Image",
+    "OSI",
+    "Indianapolis small business",
+    "Indianapolis local artists",
+    "business spotlight",
+    "artist spotlight",
+    "entrepreneurs",
+    "creators",
+    "OSI Top Business Award",
+  ],
   openGraph: {
     title: "OSI Top Business Award | Our Social Image",
     description:

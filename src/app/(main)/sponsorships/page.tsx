@@ -51,6 +51,17 @@ export const metadata: Metadata = {
   },
   description:
     "Partner with Our Social Image to champion local culture, gain high-impact brand visibility, and connect with Indianapolis leaders.",
+  keywords: [
+    "Our Social Image",
+    "OSI",
+    "Indianapolis small business",
+    "Indianapolis local artists",
+    "business spotlight",
+    "artist spotlight",
+    "entrepreneurs",
+    "creators",
+    "OSI Top Business Award",
+  ],
   openGraph: {
     title: "Sponsor Our Social Image | Indianapolis Community Partnerships",
     description:

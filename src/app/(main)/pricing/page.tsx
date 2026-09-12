@@ -108,6 +108,17 @@ export const metadata: Metadata = {
   },
   description:
     "Join the Our Social Image ecosystem. Choose a membership plan that gives your brand the exposure, resources, and community network it needs.",
+  keywords: [
+    "Our Social Image",
+    "OSI",
+    "Indianapolis small business",
+    "Indianapolis local artists",
+    "business spotlight",
+    "artist spotlight",
+    "entrepreneurs",
+    "creators",
+    "OSI Top Business Award",
+  ],
   openGraph: {
     title: "Membership Plans | Our Social Image",
     description:

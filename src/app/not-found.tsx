@@ -5,6 +5,17 @@ export const metadata = {
   title: "404 - Page Not Found | OSI",
   description:
     "The page you are looking for does not exist on OSI (Open Spotlight Initiative). Return to the homepage to continue exploring spotlights, events, and community opportunities.",
+  keywords: [
+    "Our Social Image",
+    "OSI",
+    "Indianapolis small business",
+    "Indianapolis local artists",
+    "business spotlight",
+    "artist spotlight",
+    "entrepreneurs",
+    "creators",
+    "OSI Top Business Award",
+  ],
   robots: {
     index: false,
     follow: false,
