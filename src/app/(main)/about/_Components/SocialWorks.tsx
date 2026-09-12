@@ -1,3 +1,4 @@
+import Image from "next/image";
 import {
   WFiveSvg,
   WOneSvg,
@@ -11,6 +12,7 @@ import { CMSAboutHowItWorks } from "@/Types/cms";
 const defaultData = [
   {
     id: 1,
+    image: null,
     icon: <WOneSvg />,
     title: "Business Spotlights",
     description:
@@ -18,6 +20,7 @@ const defaultData = [
   },
   {
     id: 2,
+    image: null,
     icon: <WTwoSvg />,
     title: "Artist & Creative Features",
     description:
@@ -25,18 +28,21 @@ const defaultData = [
   },
   {
     id: 3,
+    image: null,
     icon: <WSixSvg />,
     title: "Community Engagement",
     description: "A celebration and support system for new business owners.",
   },
   {
     id: 4,
+    image: null,
     icon: <WSevenSvg />,
     title: "Visibility & Growth",
     description: "Documenting real stories, struggles, and triumphs.",
   },
   {
     id: 5,
+    image: null,
     icon: <WFiveSvg />,
     title: "Community Engagement & Events",
     description:
@@ -44,6 +50,7 @@ const defaultData = [
   },
   {
     id: 6,
+    image: null,
     icon: <WSixSvg />,
     title: "Sponsorship & Advertising",
     description: "Affordable promotions and community-driven exposure.",
@@ -51,12 +58,20 @@ const defaultData = [
 ];
 
 const SocialWorks = ({ data: cmsData }: { data?: CMSAboutHowItWorks }) => {
-  const items = cmsData?.metadata?.map((m, i) => ({
-    id: i + 1,
-    icon: m.icon ? <i className={`${m.icon} text-3xl md:text-5xl text-primary-blue`} /> : defaultData[i % defaultData.length].icon,
-    title: m.title,
-    description: m.description
-  })) || defaultData;
+  const items =
+    cmsData?.metadata?.map((m, i) => ({
+      id: i + 1,
+      image: m.image || null,
+      icon: m.icon ? (
+        <i className={`${m.icon} text-3xl md:text-5xl text-primary-blue`} />
+      ) : (
+        defaultData[i % defaultData.length].icon
+      ),
+      title: m.title,
+      description: m.description,
+    })) || defaultData;
+
+  console.log("SocialWorks data:", cmsData);
 
   return (
     <section className="py-6 md:py-6 lg:py-8 xl:py-20">
@@ -66,16 +81,29 @@ const SocialWorks = ({ data: cmsData }: { data?: CMSAboutHowItWorks }) => {
         </h2>
 
         <p className="text-[#1D1D1F] text-center text-xs md:text-sm lg:text-base xl:text-xl leading-[150%] mb-3.5 md:mb-4 lg:mb-5 xl:mb-12">
-          {cmsData?.sub_title || "A simple ecosystem built to support creators, businesses, and community—together."}
+          {cmsData?.sub_title ||
+            "A simple ecosystem built to support creators, businesses, and community—together."}
         </p>
       </div>
 
       <Marquee autoFill={true}>
         <div className="flex">
           {items?.map(item => (
-            <div key={item.id} className="border border-[#00000013]  px-3.5 lg:px-4 py-5 md:py-5 lg:py-6 xl:py-10 shadow-[0_4px_20px_0_rgba(0,0,0,0.07)] flex flex-col gap-2 md:gap-2.5 lg:gap-3 xl:gap-5 justify-between w-[260px] md:w-[300px] lg:w-[340px] xl:w-[450px] text-center mr-3 lg:mr-4">
-              <span className="size-10 md:size-11 lg:size-14 xl:size-28 mx-auto grid place-items-center rounded-full bg-gray-50 shadow border border-[#00000007]">
-                {item?.icon}
+            <div
+              key={item.id}
+              className="border border-[#00000013] px-3.5 lg:px-4 py-5 md:py-5 lg:py-6 xl:py-10 shadow-[0_4px_20px_0_rgba(0,0,0,0.07)] flex flex-col gap-2 md:gap-2.5 lg:gap-3 xl:gap-5 justify-between w-[260px] md:w-[300px] lg:w-[340px] xl:w-[450px] text-center mr-3 lg:mr-4"
+            >
+              <span className="size-10 md:size-11 lg:size-14 xl:size-28 mx-auto grid place-items-center rounded-full bg-gray-50 shadow border border-[#00000007] relative overflow-hidden">
+                {item.image ? (
+                  <Image
+                    src={item.image}
+                    alt={item.title || "Step image"}
+                    fill
+                    className="object-cover"
+                  />
+                ) : (
+                  item?.icon
+                )}
               </span>
 
               <h3 className="font-bold text-sm md:text-base lg:text-lg xl:text-2xl text-[#1D1D1F] leading-[150%]">
