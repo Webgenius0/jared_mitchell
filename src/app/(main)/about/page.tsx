@@ -44,44 +44,34 @@ const page = async () => {
   );
 };
 
-export const metadata = {
-  title: "About OSI - Our Story & Mission | Open Spotlight Initiative",
+export const metadata: Metadata = {
+  title: {
+    absolute: "About Our Social Image | Our Mission & Community",
+  },
   description:
-    "Learn about OSI (Open Spotlight Initiative) — our mission, values, and the story behind building a community platform that empowers creators, small businesses, and entrepreneurs to grow and thrive.",
-  keywords: [
-    "OSI about",
-    "Open Spotlight Initiative mission",
-    "OSI story",
-    "OSI values",
-    "community platform",
-    "creators network",
-  ],
+    "Learn about Our Social Image, our mission to uplift Indianapolis creatives and entrepreneurs, and how our collaborative ecosystem works.",
   openGraph: {
-    title: "About OSI - Our Story & Mission | Open Spotlight Initiative",
+    title: "About Our Social Image | Our Mission & Community",
     description:
-      "Learn about OSI (Open Spotlight Initiative) — our mission, values, and the story behind building a community platform for creators and businesses.",
+      "Learn about Our Social Image, our mission to uplift Indianapolis creatives and entrepreneurs, and how our collaborative ecosystem works.",
     type: "website",
     locale: "en_US",
-    siteName: "OSI",
+    siteName: "Our Social Image",
     images: [
       {
-        url: "/og-about.png",
+        url: "/home/home-banner-2.jpg",
         width: 1200,
         height: 630,
-        alt: "About OSI - Open Spotlight Initiative",
+        alt: "About Our Social Image",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "About OSI - Our Story & Mission | Open Spotlight Initiative",
+    title: "About Our Social Image | Our Mission & Community",
     description:
-      "Learn about OSI (Open Spotlight Initiative) — our mission, values, and the story behind building a community platform for creators and businesses.",
-    images: ["/og-about.png"],
-  },
-  robots: {
-    index: true,
-    follow: true,
+      "Learn about Our Social Image, our mission to uplift Indianapolis creatives and entrepreneurs, and how our collaborative ecosystem works.",
+    images: ["/home/home-banner-2.jpg"],
   },
 };
 

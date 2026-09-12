@@ -141,44 +141,34 @@ const page = async () => {
   );
 };
 
-export const metadata = {
-  title: "OSI Top Business Award - Boss Beginnings | Open Spotlight Initiative",
+export const metadata: Metadata = {
+  title: {
+    absolute: "OSI Top Business Award | Our Social Image",
+  },
   description:
-    "Discover the OSI Top Business Award — a platform celebrating exceptional businesses and entrepreneurs. Learn about the Boss Beginnings program, current winners, and how to participate.",
-  keywords: [
-    "OSI Top Business Award",
-    "Boss Beginnings",
-    "OSI business award",
-    "business recognition",
-    "entrepreneur award",
-    "OSI contest",
-  ],
+    "Follow the 5-week tournament celebrating Indianapolis entrepreneurs. Track each round, vote for local contenders, and celebrate community champions.",
   openGraph: {
-    title: "OSI Top Business Award - Boss Beginnings | Open Spotlight Initiative",
+    title: "OSI Top Business Award | Our Social Image",
     description:
-      "Discover the OSI Top Business Award — a platform celebrating exceptional businesses and entrepreneurs. Learn about Boss Beginnings and how to participate.",
+      "Follow the 5-week tournament celebrating Indianapolis entrepreneurs. Track each round, vote for local contenders, and celebrate community champions.",
     type: "website",
     locale: "en_US",
-    siteName: "OSI",
+    siteName: "Our Social Image",
     images: [
       {
-        url: "/og-business-award.png",
+        url: "/home/business-award-banner.jpg",
         width: 1200,
         height: 630,
-        alt: "OSI Top Business Award - Open Spotlight Initiative",
+        alt: "OSI Top Business Award - Our Social Image",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "OSI Top Business Award - Boss Beginnings | Open Spotlight Initiative",
+    title: "OSI Top Business Award | Our Social Image",
     description:
-      "Discover the OSI Top Business Award — a platform celebrating exceptional businesses and entrepreneurs. Learn about Boss Beginnings and how to participate.",
-    images: ["/og-business-award.png"],
-  },
-  robots: {
-    index: true,
-    follow: true,
+      "Follow the 5-week tournament celebrating Indianapolis entrepreneurs. Track each round, vote for local contenders, and celebrate community champions.",
+    images: ["/home/business-award-banner.jpg"],
   },
 };
 

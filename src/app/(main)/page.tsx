@@ -1,4 +1,36 @@
 import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: {
+    absolute: "Our Social Image | Art, Business & Community in Indianapolis",
+  },
+  description:
+    "Discover local artists, small businesses, and community events in Indianapolis. Connect, collaborate, and grow with Our Social Image.",
+  openGraph: {
+    title: "Our Social Image | Art, Business & Community in Indianapolis",
+    description:
+      "Discover local artists, small businesses, and community events in Indianapolis. Connect, collaborate, and grow with Our Social Image.",
+    type: "website",
+    locale: "en_US",
+    siteName: "Our Social Image",
+    images: [
+      {
+        url: "/home/home-banner-1.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Our Social Image - Art, Business & Community in Indianapolis",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Our Social Image | Art, Business & Community in Indianapolis",
+    description:
+      "Discover local artists, small businesses, and community events in Indianapolis. Connect, collaborate, and grow with Our Social Image.",
+    images: ["/home/home-banner-1.jpg"],
+  },
+};
+
 import Hero from "@/app/(main)/_components/Hero";
 import EventBanner from "./_components/EventBanner";
 import PoweredByOSI from "./_components/PoweredByOSI";

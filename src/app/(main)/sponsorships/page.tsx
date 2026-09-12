@@ -45,44 +45,34 @@ const page = async () => {
   );
 };
 
-export const metadata = {
-  title: "Sponsorships - Partner with OSI | Open Spotlight Initiative",
+export const metadata: Metadata = {
+  title: {
+    absolute: "Sponsor Our Social Image | Indianapolis Community Partnerships",
+  },
   description:
-    "Partner with OSI (Open Spotlight Initiative) through our sponsorship program. Reach a growing community of creators, artists, and businesses. Explore sponsorship opportunities and levels.",
-  keywords: [
-    "OSI sponsorships",
-    "OSI partner",
-    "sponsor OSI",
-    "OSI advertising",
-    "brand partnership",
-    "OSI sponsorship levels",
-  ],
+    "Partner with Our Social Image to champion local culture, gain high-impact brand visibility, and connect with Indianapolis leaders.",
   openGraph: {
-    title: "Sponsorships - Partner with OSI | Open Spotlight Initiative",
+    title: "Sponsor Our Social Image | Indianapolis Community Partnerships",
     description:
-      "Partner with OSI (Open Spotlight Initiative) through our sponsorship program. Reach a growing community of creators, artists, and businesses.",
+      "Partner with Our Social Image to champion local culture, gain high-impact brand visibility, and connect with Indianapolis leaders.",
     type: "website",
     locale: "en_US",
-    siteName: "OSI",
+    siteName: "Our Social Image",
     images: [
       {
-        url: "/og-sponsorships.png",
+        url: "/home/home-banner-2.jpg",
         width: 1200,
         height: 630,
-        alt: "OSI Sponsorships - Open Spotlight Initiative",
+        alt: "Sponsor Our Social Image",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Sponsorships - Partner with OSI | Open Spotlight Initiative",
+    title: "Sponsor Our Social Image | Indianapolis Community Partnerships",
     description:
-      "Partner with OSI (Open Spotlight Initiative) through our sponsorship program. Reach a growing community of creators, artists, and businesses.",
-    images: ["/og-sponsorships.png"],
-  },
-  robots: {
-    index: true,
-    follow: true,
+      "Partner with Our Social Image to champion local culture, gain high-impact brand visibility, and connect with Indianapolis leaders.",
+    images: ["/home/home-banner-2.jpg"],
   },
 };
 

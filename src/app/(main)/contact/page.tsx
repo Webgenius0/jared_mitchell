@@ -32,44 +32,34 @@ const page = async () => {
   );
 };
 
-export const metadata = {
-  title: "Contact OSI - Get in Touch | Open Spotlight Initiative",
+export const metadata: Metadata = {
+  title: {
+    absolute: "Contact Us | Connect with Our Social Image",
+  },
   description:
-    "Have questions or want to collaborate? Get in touch with OSI (Open Spotlight Initiative). Reach out for support, partnerships, vendor opportunities, or general inquiries.",
-  keywords: [
-    "OSI contact",
-    "Open Spotlight Initiative contact",
-    "OSI support",
-    "OSI partnership",
-    "contact OSI",
-    "OSI help",
-  ],
+    "Have questions or looking to collaborate? Reach out to the Our Social Image team for general inquiries, nominations, and sponsorships.",
   openGraph: {
-    title: "Contact OSI - Get in Touch | Open Spotlight Initiative",
+    title: "Contact Us | Connect with Our Social Image",
     description:
-      "Have questions or want to collaborate? Get in touch with OSI (Open Spotlight Initiative) for support, partnerships, or general inquiries.",
+      "Have questions or looking to collaborate? Reach out to the Our Social Image team for general inquiries, nominations, and sponsorships.",
     type: "website",
     locale: "en_US",
-    siteName: "OSI",
+    siteName: "Our Social Image",
     images: [
       {
-        url: "/og-contact.png",
+        url: "/home/home-banner-1.jpg",
         width: 1200,
         height: 630,
-        alt: "Contact OSI - Open Spotlight Initiative",
+        alt: "Contact Our Social Image",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Contact OSI - Get in Touch | Open Spotlight Initiative",
+    title: "Contact Us | Connect with Our Social Image",
     description:
-      "Have questions or want to collaborate? Get in touch with OSI (Open Spotlight Initiative) for support, partnerships, or general inquiries.",
-    images: ["/og-contact.png"],
-  },
-  robots: {
-    index: true,
-    follow: true,
+      "Have questions or looking to collaborate? Reach out to the Our Social Image team for general inquiries, nominations, and sponsorships.",
+    images: ["/home/home-banner-1.jpg"],
   },
 };
 

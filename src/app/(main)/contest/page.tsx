@@ -115,44 +115,34 @@ const page = async () => {
     </div>
   );
 };
-export const metadata = {
-  title: "Contest - OSI Top Business Award | Open Spotlight Initiative",
+export const metadata: Metadata = {
+  title: {
+    absolute: "OSI Top Business Award | Our Social Image",
+  },
   description:
-    "Participate in the OSI Top Business Award contest. Vote for your favorite businesses, track the leaderboard, and support emerging entrepreneurs competing for recognition in the OSI community.",
-  keywords: [
-    "OSI contest",
-    "OSI Top Business Award",
-    "business contest",
-    "OSI voting contest",
-    "entrepreneur contest",
-    "business award",
-  ],
+    "Follow the 5-week tournament celebrating Indianapolis entrepreneurs. Track each round, vote for local contenders, and celebrate community champions.",
   openGraph: {
-    title: "Contest - OSI Top Business Award | Open Spotlight Initiative",
+    title: "OSI Top Business Award | Our Social Image",
     description:
-      "Participate in the OSI Top Business Award contest. Vote for your favorite businesses and support emerging entrepreneurs.",
+      "Follow the 5-week tournament celebrating Indianapolis entrepreneurs. Track each round, vote for local contenders, and celebrate community champions.",
     type: "website",
     locale: "en_US",
-    siteName: "OSI",
+    siteName: "Our Social Image",
     images: [
       {
-        url: "/og-contest.png",
+        url: "/home/business-award-banner.jpg",
         width: 1200,
         height: 630,
-        alt: "OSI Contest - Open Spotlight Initiative",
+        alt: "OSI Top Business Award - Our Social Image",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Contest - OSI Top Business Award | Open Spotlight Initiative",
+    title: "OSI Top Business Award | Our Social Image",
     description:
-      "Participate in the OSI Top Business Award contest. Vote for your favorite businesses and support emerging entrepreneurs.",
-    images: ["/og-contest.png"],
-  },
-  robots: {
-    index: true,
-    follow: true,
+      "Follow the 5-week tournament celebrating Indianapolis entrepreneurs. Track each round, vote for local contenders, and celebrate community champions.",
+    images: ["/home/business-award-banner.jpg"],
   },
 };
 

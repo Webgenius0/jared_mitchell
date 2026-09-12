@@ -59,47 +59,34 @@ const page = async () => {
     </>
   );
 };
-export const metadata = {
-  title:
-    "OSI Top Business Award Contest - Apply & Compete | Open Spotlight Initiative",
+export const metadata: Metadata = {
+  title: {
+    absolute: "OSI Top Business Award | Our Social Image",
+  },
   description:
-    "Enter the OSI Top Business Award contest. Learn about qualification rounds, application requirements, and how to compete for the prestigious business award on OSI.",
-  keywords: [
-    "OSI business contest",
-    "OSI Top Business Award contest",
-    "business award application",
-    "qualification rounds",
-    "OSI competition",
-    "apply for business award",
-  ],
+    "Follow the 5-week tournament celebrating Indianapolis entrepreneurs. Track each round, vote for local contenders, and celebrate community champions.",
   openGraph: {
-    title:
-      "OSI Top Business Award Contest - Apply & Compete | Open Spotlight Initiative",
+    title: "OSI Top Business Award | Our Social Image",
     description:
-      "Enter the OSI Top Business Award contest. Learn about qualification rounds, application requirements, and how to compete for the prestigious business award.",
+      "Follow the 5-week tournament celebrating Indianapolis entrepreneurs. Track each round, vote for local contenders, and celebrate community champions.",
     type: "website",
     locale: "en_US",
-    siteName: "OSI",
+    siteName: "Our Social Image",
     images: [
       {
-        url: "/og-contest-entry.png",
+        url: "/home/business-award-banner.jpg",
         width: 1200,
         height: 630,
-        alt: "OSI Top Business Award Contest - Open Spotlight Initiative",
+        alt: "OSI Top Business Award - Our Social Image",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title:
-      "OSI Top Business Award Contest - Apply & Compete | Open Spotlight Initiative",
+    title: "OSI Top Business Award | Our Social Image",
     description:
-      "Enter the OSI Top Business Award contest. Learn about qualification rounds, application requirements, and how to compete for the prestigious business award.",
-    images: ["/og-contest-entry.png"],
-  },
-  robots: {
-    index: true,
-    follow: true,
+      "Follow the 5-week tournament celebrating Indianapolis entrepreneurs. Track each round, vote for local contenders, and celebrate community champions.",
+    images: ["/home/business-award-banner.jpg"],
   },
 };
 

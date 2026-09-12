@@ -142,44 +142,34 @@ const page = async () => {
   );
 };
 
-export const metadata = {
-  title: "Services - Artist & Business Spotlight | OSI",
+export const metadata: Metadata = {
+  title: {
+    absolute: "Creative & Business Growth Services | Our Social Image",
+  },
   description:
-    "OSI offers powerful spotlight programs for artists and businesses, along with AI-enhanced analytics, community engagement tools, and resources to help creators and entrepreneurs grow and succeed.",
-  keywords: [
-    "OSI services",
-    "artist spotlight application",
-    "business spotlight application",
-    "OSI platform features",
-    "creator tools",
-    "business growth",
-  ],
+    "Explore marketing, media coverage, branding, and promotional services designed to accelerate Indianapolis businesses and creators.",
   openGraph: {
-    title: "Services - Artist & Business Spotlight | OSI",
+    title: "Creative & Business Growth Services | Our Social Image",
     description:
-      "OSI offers powerful spotlight programs for artists and businesses, along with AI-enhanced analytics and community engagement tools to help you grow.",
+      "Explore marketing, media coverage, branding, and promotional services designed to accelerate Indianapolis businesses and creators.",
     type: "website",
     locale: "en_US",
-    siteName: "OSI",
+    siteName: "Our Social Image",
     images: [
       {
-        url: "/og-services.png",
+        url: "/services/social-image.jpg",
         width: 1200,
         height: 630,
-        alt: "OSI Services - Open Spotlight Initiative",
+        alt: "Our Social Image Services",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Services - Artist & Business Spotlight | OSI",
+    title: "Creative & Business Growth Services | Our Social Image",
     description:
-      "OSI offers powerful spotlight programs for artists and businesses, along with AI-enhanced analytics and community engagement tools to help you grow.",
-    images: ["/og-services.png"],
-  },
-  robots: {
-    index: true,
-    follow: true,
+      "Explore marketing, media coverage, branding, and promotional services designed to accelerate Indianapolis businesses and creators.",
+    images: ["/services/social-image.jpg"],
   },
 };
 

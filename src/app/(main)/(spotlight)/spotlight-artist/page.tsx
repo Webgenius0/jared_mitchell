@@ -1,3 +1,36 @@
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: {
+    absolute: "Artist & Business Spotlights | Our Social Image",
+  },
+  description:
+    "Read inspiring stories and discover featured Indianapolis artists, innovators, and entrepreneurs shaping our community culture.",
+  openGraph: {
+    title: "Artist & Business Spotlights | Our Social Image",
+    description:
+      "Read inspiring stories and discover featured Indianapolis artists, innovators, and entrepreneurs shaping our community culture.",
+    type: "website",
+    locale: "en_US",
+    siteName: "Our Social Image",
+    images: [
+      {
+        url: "/spotlight/artist-pick-img.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Artist Spotlight - Our Social Image",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Artist & Business Spotlights | Our Social Image",
+    description:
+      "Read inspiring stories and discover featured Indianapolis artists, innovators, and entrepreneurs shaping our community culture.",
+    images: ["/spotlight/artist-pick-img.jpg"],
+  },
+};
+
 import NewsLetter from "@/Components/Common/NewsLetter";
 import BecomeAPart from "../_components/BecomeAPart";
 import CreativeJourney from "../_components/CreativeJourney";

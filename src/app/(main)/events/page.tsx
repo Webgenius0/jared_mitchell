@@ -72,46 +72,34 @@ const Page = async () => {
       <NewsLetter title="Be part of the movement. Get stories, updates, and opportunities straight to your inbox." />
     </>
   );
-};
-
-export const metadata = {
-  title: "Events - Upcoming & Featured | OSI",
+};export const metadata: Metadata = {
+  title: {
+    absolute: "Indianapolis Events & Community Experiences | Our Social Image",
+  },
   description:
-    "Discover upcoming events, live streams, and featured happenings in the OSI community. Attend, participate, and stay connected with the Open Spotlight Initiative events calendar.",
-  keywords: [
-    "OSI events",
-    "OSI upcoming events",
-    "OSI live streams",
-    "OSI event calendar",
-    "community events",
-    "OSI happenings",
-  ],
+    "Find upcoming local workshops, pop-ups, networking mixers, and community gatherings hosted by Our Social Image in Indianapolis.",
   openGraph: {
-    title: "Events - Upcoming & Featured | OSI",
+    title: "Indianapolis Events & Community Experiences | Our Social Image",
     description:
-      "Discover upcoming events, live streams, and featured happenings in the OSI community. Stay connected with the Open Spotlight Initiative.",
+      "Find upcoming local workshops, pop-ups, networking mixers, and community gatherings hosted by Our Social Image in Indianapolis.",
     type: "website",
     locale: "en_US",
-    siteName: "OSI",
+    siteName: "Our Social Image",
     images: [
       {
-        url: "/og-events.png",
+        url: "/home/featured-event-img.jpg",
         width: 1200,
         height: 630,
-        alt: "OSI Events - Open Spotlight Initiative",
+        alt: "Indianapolis Events - Our Social Image",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Events - Upcoming & Featured | OSI",
+    title: "Indianapolis Events & Community Experiences | Our Social Image",
     description:
-      "Discover upcoming events, live streams, and featured happenings in the OSI community. Stay connected with the Open Spotlight Initiative.",
-    images: ["/og-events.png"],
-  },
-  robots: {
-    index: true,
-    follow: true,
+      "Find upcoming local workshops, pop-ups, networking mixers, and community gatherings hosted by Our Social Image in Indianapolis.",
+    images: ["/home/featured-event-img.jpg"],
   },
 };
 

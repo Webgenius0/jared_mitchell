@@ -102,44 +102,34 @@ const page = async () => {
     </div>
   );
 };
-export const metadata = {
-  title: "Pricing - Subscription Plans | OSI",
+export const metadata: Metadata = {
+  title: {
+    absolute: "Membership Plans | Our Social Image",
+  },
   description:
-    "Explore OSI subscription plans designed to help creators and businesses grow. Compare features, choose the right plan for your needs, and unlock premium tools and opportunities.",
-  keywords: [
-    "OSI pricing",
-    "OSI subscription plans",
-    "OSI membership",
-    "creator subscription",
-    "business subscription",
-    "OSI premium",
-  ],
+    "Join the Our Social Image ecosystem. Choose a membership plan that gives your brand the exposure, resources, and community network it needs.",
   openGraph: {
-    title: "Pricing - Subscription Plans | OSI",
+    title: "Membership Plans | Our Social Image",
     description:
-      "Explore OSI subscription plans designed to help creators and businesses grow. Compare features and choose the right plan for your needs.",
+      "Join the Our Social Image ecosystem. Choose a membership plan that gives your brand the exposure, resources, and community network it needs.",
     type: "website",
     locale: "en_US",
-    siteName: "OSI",
+    siteName: "Our Social Image",
     images: [
       {
-        url: "/og-pricing.png",
+        url: "/home/home-banner-1.jpg",
         width: 1200,
         height: 630,
-        alt: "OSI Pricing - Open Spotlight Initiative",
+        alt: "Membership Plans - Our Social Image",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Pricing - Subscription Plans | OSI",
+    title: "Membership Plans | Our Social Image",
     description:
-      "Explore OSI subscription plans designed to help creators and businesses grow. Compare features and choose the right plan for your needs.",
-    images: ["/og-pricing.png"],
-  },
-  robots: {
-    index: true,
-    follow: true,
+      "Join the Our Social Image ecosystem. Choose a membership plan that gives your brand the exposure, resources, and community network it needs.",
+    images: ["/home/home-banner-1.jpg"],
   },
 };
 
