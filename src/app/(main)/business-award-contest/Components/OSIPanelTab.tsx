@@ -205,18 +205,19 @@ export default function OSIPanelTab({ data }: { data?: CMSRoundsSection }) {
 
       {/* Why this system is fair */}
       {bottom && (bottom.title || bottom.subtitle || fairPoints.length > 0) && (
-        <div className="bg-[#306FDC] py-12 sm:py-16 lg:py-20 px-4 text-white">
+        <div className="bg-[#306FDC]  py-12 sm:py-16 lg:py-20 px-4 text-white">
           {bottom.title && (
             <h3 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 text-center uppercase tracking-wider text-white">
               {bottom.title}
             </h3>
           )}
-          {fairPoints.length > 0 && (
+<div className="flex flex-col items-center justify-center max-w-5xl mx-auto">
+            {fairPoints.length > 0 && (
             <div className="space-y-3 border-b border-white/20 pb-5 mb-5 max-w-5xl mx-auto">
               {fairPoints.map((item, idx) => (
                 <div
                   key={idx}
-                  className="flex items-center justify-center gap-3"
+                  className="flex items-center justify-left gap-3"
                 >
                   <FiCheckCircle className="size-4 shrink-0" />
                   <p className="text-base font-normal">{item}</p>
@@ -224,6 +225,7 @@ export default function OSIPanelTab({ data }: { data?: CMSRoundsSection }) {
               ))}
             </div>
           )}
+</div>
           {bottom.subtitle && (
             <p className="text-lg sm:text-xl lg:text-[24px] text-center text-white/80 max-w-3xl mx-auto">
               {bottom.subtitle}
