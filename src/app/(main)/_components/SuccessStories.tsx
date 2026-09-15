@@ -32,9 +32,9 @@ const SuccessStories = ({ cmsData, winners, type }: SuccessStoriesProps) => {
   return (
     <section className="section">
       <div className="container">
-        <h2 className="section_title 2xl:text-5xl">{title}</h2>
+        <h2 className="section_title 2xl:text-5xl max-md:mb-6!">{title}</h2>
 
-        <p className="section_sub_title">{subTitle}</p>
+        <p className="section_sub_title max-md:mb-6!">{subTitle}</p>
       </div>
 
       {items.length === 0 && (

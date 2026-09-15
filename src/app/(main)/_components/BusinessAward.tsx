@@ -83,11 +83,11 @@ const BusinessAward = ({
         <h2 className="text-primary-black text-2xl md:text-3xl lg:text-3xl xl:text-4xl 2xl:text-6xl font-bold leading-tight xl:leading-[1.1] tracking-[-1.28px]">
           {data?.title || "OSI Top Business Award"}
         </h2>
-        <h3 className="section_title mt-1 md:mt-2">
+        <h3 className="section_title mt-6 md:mt-2">
           {data?.sub_title || "A Business Shower"}
         </h3>
 
-        <div className="max-w-[1179px] w-full mx-auto my-3 md:w-[620px] md:mx-auto md:my-4 lg:w-[620px] lg:mx-auto lg:my-4 xl:max-w-[1179px] xl:w-full xl:my-6">
+        <div className="max-w-[1179px] w-full mx-auto my-6 md:w-[620px] md:mx-auto md:my-4 lg:w-[620px] lg:mx-auto lg:my-4 xl:max-w-[1179px] xl:w-full xl:my-6">
           {/* Main media area — original on mobile/large device, fixed & same for tab+laptop */}
           <div className="relative w-full aspect-video overflow-hidden">
             <div className="absolute top-0 left-0 size-full bg-black/40 z-[1]" />
@@ -127,11 +127,11 @@ const BusinessAward = ({
         </div>
 
         <div
-          className="text-secondary-black max-w-3xl mx-auto text-xs md:text-sm lg:text-sm xl:text-base 2xl:text-xl"
+          className="text-secondary-black max-w-3xl mx-auto text-xs md:text-sm lg:text-sm xl:text-base 2xl:text-xl mt-6 md:mt-0"
           dangerouslySetInnerHTML={{ __html: description }}
         />
 
-        <div className="flex flex-wrap items-center justify-center gap-2 md:gap-4 lg:gap-4 xl:gap-6 mt-4 md:mt-5 lg:mt-5 xl:mt-8">
+        <div className="flex flex-wrap items-center justify-center gap-2 md:gap-4 lg:gap-4 xl:gap-6 mt-6 md:mt-5 lg:mt-5 xl:mt-8">
           <Button variant={"outline"} onClick={handleViewCompetition}>
             VIEW THE COMPETITION
           </Button>

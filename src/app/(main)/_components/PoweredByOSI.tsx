@@ -16,7 +16,7 @@ const PoweredByOSI = ({ data }: { data?: CMSFeature }) => {
         <div className="flex flex-col container w-full mx-auto h-full items-center justify-center text-center px-4">
           <h2 className="section_title !text-white">{data?.title}</h2>
 
-          <p className="section_sub_title max-w-[1280px] mx-auto !text-[#F5F5F7] mt-1.5 md:mt-2">
+          <p className="section_sub_title max-w-[1280px] mx-auto !text-[#F5F5F7] max-md:mt-6! md:mt-2">
             {data?.description}
           </p>
         </div>

@@ -53,22 +53,22 @@ const WhatYouAreGetting = ({ data: cmsData }: { data?: CMSWhatYouGet }) => {
   return (
     <section className="section">
       <div className="container">
-        <h2 className="section_title md:font-bold 2xl:text-5xl">
+        <h2 className="section_title md:font-bold 2xl:text-5xl max-md:mb-6!">
           {cmsData?.title || "MORE THAN A PROFILE. A COMPLETE VISIBILITY SYSTEM."}
         </h2>
 
-        <p className="text-sm md:text-base lg:text-lg text-center text-secondary-black mt-1.5 md:mt-2">
+        <p className="text-sm md:text-base lg:text-lg text-center text-secondary-black mt-6 md:mt-2">
           {cmsData?.sub_title ||
             "OSI combines professional presentation, promotional opportunities, community connection, and practical growth support in one platform."}
         </p>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-2.5 md:gap-2.5 lg:gap-3 xl:gap-5 mt-3 md:mt-4 lg:mt-5 xl:mt-8">
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-2.5 lg:gap-3 xl:gap-5 mt-6 md:mt-4 lg:mt-5 xl:mt-8">
           {items?.map((item, idx) => {
             const Icon = iconMap[idx % iconMap.length];
             return (
               <div
                 key={item.id}
-                className="w-full py-4 md:py-4 lg:py-5 2xl:py-12 px-3 md:px-3 lg:px-4 2xl:px-6 flex items-center flex-col border space-y-2 lg:space-y-3 border-[rgba(0,0,0,0.16)] shadow"
+                className="w-full py-4 md:py-4 lg:py-5 2xl:py-12 px-3 md:px-3 lg:px-4 2xl:px-6 flex items-center flex-col border space-y-2 max-md:space-y-6 lg:space-y-3 border-[rgba(0,0,0,0.16)] shadow"
               >
                 <div className="flex items-center justify-center aspect-square bg-[rgba(25,119,221,0.16)] size-10 md:size-12 lg:size-14 xl:size-[100px] rounded-full">
                   <div className="md:scale-[130%] 2xl:scale-[160%]">

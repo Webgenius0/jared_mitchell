@@ -13,22 +13,22 @@ const Hero = ({ data }: { data?: CMSHero }) => {
         {data?.title}
       </h1>
 
-      <p className="text-secondary-black text-sm md:text-sm lg:text-base xl:text-xl lg:mt-1.5">
+      <p className="text-secondary-black text-sm md:text-sm lg:text-base xl:text-xl max-md:mt-6 lg:mt-1.5">
         {data?.sub_title}
       </p>
 
-      <div className="flex items-center justify-center my-1.5 md:my-4 lg:my-5 overflow-hidden  mx-auto">
+      <div className="flex items-center justify-center my-6 md:my-4 lg:my-5 overflow-hidden  mx-auto">
         <CustomVideoPlayer
           videoSrc={data?.video || "/home/hero-video.mp4"}
           className=""
         />
       </div>
 
-      <p className="text-secondary-black text-sm md:text-sm lg:text-base max-w-2xl mx-auto my-1.5 md:my-2 lg:my-3">
+      <p className="text-secondary-black text-sm md:text-sm lg:text-base max-w-2xl mx-auto my-6 md:my-2 lg:my-3">
         {data?.description}
       </p>
 
-      <div className="space-x-1.5 md:space-x-2 lg:space-x-2.5 mt-1.5 md:mt-2">
+      <div className="space-x-1.5 md:space-x-2 lg:space-x-2.5 mt-6 md:mt-2">
         <Link href="/auth/login">
           <button className="bg-primary-blue text-white border border-primary-blue rounded-full px-3 md:px-3 lg:px-5 xl:px-8 py-1 md:py-1 lg:py-1.5 xl:py-2 text-xs md:text-xs lg:text-sm xl:text-lg font-medium transition-all">
             JOIN THE COMMUNITY

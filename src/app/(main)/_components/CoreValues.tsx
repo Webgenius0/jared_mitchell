@@ -65,7 +65,7 @@ const CoreValues = ({ data: cmsData }: { data?: CMSCoreValue }) => {
       {" "}
       <div className="container">
         {" "}
-        <h2 className="section_title !mb-4 md:!mb-6 lg:!mb-8">
+        <h2 className="section_title !mb-6 lg:!mb-8">
           {" "}
           {cmsData?.title || "Our Core Values"}{" "}
         </h2>{" "}
@@ -131,12 +131,12 @@ const CoreValues = ({ data: cmsData }: { data?: CMSCoreValue }) => {
           </div>{" "}
         </div>{" "}
         {/* Mobile / Tablet View */}{" "}
-        <div className="space-y-3 lg:hidden">
+        <div className="space-y-6 lg:hidden">
           {" "}
           {values.map(val => (
             <div
               key={val.id}
-              className="border space-y-3 border-[rgba(0,0,0,0.16)] bg-white shadow-[0_4px_20px_0_rgba(0,0,0,0.07)] p-3 lg:py-4 2xl:py-6 lg:px-4 xl:px-6 2xl:px-8"
+              className="border space-y-6 border-[rgba(0,0,0,0.16)] bg-white shadow-[0_4px_20px_0_rgba(0,0,0,0.07)] p-3 lg:py-4 2xl:py-6 lg:px-4 xl:px-6 2xl:px-8"
             >
               {" "}
               {/* Icon + Title */}{" "}
