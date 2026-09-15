@@ -28,6 +28,10 @@ interface TopProductSectionProps {
   originalPrice: number | null;
   images: string[];
   isAddingToCart?: boolean;
+  isCheckingOut?: boolean;
+  variants?: { id: number; title: string; price?: number | null; sku?: string | null; inventory_quantity?: number | null }[];
+  selectedVariantId?: number | null;
+  setSelectedVariantId?: (id: number | null) => void;
 }
 
 export default function TopProductSection({
@@ -44,6 +48,10 @@ export default function TopProductSection({
   originalPrice,
   images,
   isAddingToCart,
+  isCheckingOut,
+  variants,
+  selectedVariantId,
+  setSelectedVariantId,
 }: TopProductSectionProps) {
   const discountPercentage = product.discountPercentage || 0;
   const categoryName = product.categoryName || "";
@@ -131,6 +139,36 @@ export default function TopProductSection({
           )}
         </div>
 
+        {/* Variants */}
+        {variants && variants.length > 0 && (
+          <div className="flex items-center gap-5 flex-wrap">
+            <span className="text-xs font-semibold text-gray-500 uppercase tracking-wider">
+              Variant:
+            </span>
+            <div className="flex flex-wrap gap-2">
+              {variants.map(variant => {
+                const isSelected =
+                  selectedVariantId === variant.id ||
+                  (selectedVariantId == null && variants.length === 1);
+                return (
+                  <button
+                    key={variant.id}
+                    type="button"
+                    onClick={() => setSelectedVariantId?.(variant.id)}
+                    className={`px-3 py-1.5 rounded-lg text-sm border transition ${
+                      isSelected
+                        ? "border-[#1977DD] bg-blue-50 text-[#1977DD] font-semibold"
+                        : "border-gray-200 text-gray-600 hover:border-gray-400"
+                    }`}
+                  >
+                    {variant.title}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        )}
+
         {/* Quantity */}
         <div className="flex items-center gap-5">
           <span className="text-xs font-semibold text-gray-500 uppercase tracking-wider">
@@ -198,9 +236,10 @@ export default function TopProductSection({
           <button
             type="button"
             onClick={handleBuyNow}
-            className="flex-1 bg-[#121620] text-white py-3.5 rounded-xl font-semibold hover:bg-black transition shadow-sm"
+            disabled={isCheckingOut}
+            className="flex-1 bg-[#121620] text-white py-3.5 rounded-xl font-semibold hover:bg-black transition shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            Buy Now
+            {isCheckingOut ? "Redirecting..." : "Buy Now"}
           </button>
         </div>
 

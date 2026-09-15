@@ -106,6 +106,17 @@ export const usePlaceOrder = () => {
   });
 };
 
+// Checkout — generates a Shopify checkout URL from the current cart
+// POST /v1/cart/checkout → { data: { checkout_url, type } }
+export const useCartCheckout = () => {
+  return useClientApi({
+    method: "post",
+    key: ["cart-checkout"],
+    endpoint: "/v1/cart/checkout",
+    isPrivate: true,
+  });
+};
+
 export const useClearCart = () => {
   return useClientApi({
     method: "delete",

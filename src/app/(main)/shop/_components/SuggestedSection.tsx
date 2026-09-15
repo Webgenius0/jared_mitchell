@@ -97,7 +97,7 @@ export default function SuggestedSection({
                     type="button"
                     onClick={e => {
                       e.stopPropagation();
-                      handleAddToCart(item);
+                      router.push(`/shop/${item?.slug}`);
                     }}
                     className="bg-[#1977DD] text-white text-xs font-semibold px-3 py-1.5 rounded-xl hover:bg-[#1565C0] transition flex items-center gap-1"
                   >

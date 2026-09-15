@@ -90,7 +90,11 @@ const ShopCard = ({
           <div className="flex items-center justify-between">
             <div className="text-2xl text-primary-black">{data.price}</div>
             <button
-              onClick={handleAddToCart}
+              onClick={e => {
+                e.preventDefault();
+                e.stopPropagation();
+                router.push(`/shop/${data?.slug ?? data?.id}`);
+              }}
               className="px-4 py-2 flex items-center gap-3 text-lg text-nowrap bg-primary-blue text-white rounded-full cursor-pointer hover:bg-secondary-blue"
             >
               <FiShoppingCart className="text-xl" />

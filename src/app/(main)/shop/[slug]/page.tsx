@@ -40,7 +40,7 @@ import SuggestedSection from "../_components/SuggestedSection";
 import { PageLoader } from "@/Shared/PageLoader";
 import useAuth from "@/Hooks/useAuth";
 import toast from "react-hot-toast";
-import { useAddToCart } from "@/Hooks/api/cart_api";
+import { useAddToCart, useCartCheckout } from "@/Hooks/api/cart_api";
 import { useCart } from "@/Provider/CartProvider/CartProvider";
 import { setBuyNowItem } from "@/lib/localStorage";
 import Sponsors from "../../_components/Sponsors";
@@ -90,10 +90,24 @@ export default function ProductDetailsPage() {
   // Cart API hooks
   const { mutate: addToCartMutation, isPending: isAddingToCart } =
     useAddToCart();
+  const { mutate: checkoutMutation, isPending: isCheckingOut } =
+    useCartCheckout();
 
   // States
   const [quantity, setQuantity] = useState<number>(1);
   const [isDetailsOpen, setIsDetailsOpen] = useState<boolean>(false);
+  const [selectedVariantId, setSelectedVariantId] = useState<number | null>(
+    null,
+  );
+
+  // Variants come straight from the product detail API (optional)
+  const variants = productRaw?.variants ?? [];
+
+  // Reset variant selection when the product changes
+  useEffect(() => {
+    setSelectedVariantId(variants.length === 1 ? variants[0].id : null);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [productRaw?.id]);
 
   const images: string[] = product?.images?.length
     ? product.images
@@ -142,8 +156,17 @@ export default function ProductDetailsPage() {
   const handleAddToCart = () => {
     if (!requireAuth()) return;
 
+    if (variants.length > 0 && !selectedVariantId) {
+      toast.error("Please select a variant");
+      return;
+    }
+
     addToCartMutation(
-      { product_id: product.id, quantity },
+      {
+        product_id: product.id,
+        ...(selectedVariantId ? { variant_id: selectedVariantId } : {}),
+        quantity,
+      },
       {
         onSuccess: () => {
           refetchCart();
@@ -156,17 +179,38 @@ export default function ProductDetailsPage() {
   const handleBuyNow = () => {
     if (!requireAuth()) return;
 
-    // Save product info to localStorage for the shipping-billing page
-    setBuyNowItem({
-      product_id: product.id,
-      quantity,
-      name: product.title,
-      thumbnail: product.thumbnail,
-      price: currentPrice,
-      slug: product.slug,
-    });
-    
-    router.push("/shipping-billing");
+    if (variants.length > 0 && !selectedVariantId) {
+      toast.error("Please select a variant");
+      return;
+    }
+
+    // Add the selected product/variant to the cart, then generate the
+    // Shopify checkout URL and redirect to it.
+    addToCartMutation(
+      {
+        product_id: product.id,
+        ...(selectedVariantId ? { variant_id: selectedVariantId } : {}),
+        quantity,
+      },
+      {
+        onSuccess: () => {
+          refetchCart();
+          checkoutMutation(undefined, {
+            onSuccess: (res: any) => {
+              const checkoutUrl = res?.data?.checkout_url;
+              if (checkoutUrl) {
+                window.location.href = checkoutUrl;
+              } else {
+                toast.error(res?.message || "Failed to start checkout.");
+              }
+            },
+            onError: () => {
+              toast.error("Failed to start checkout. Please try again.");
+            },
+          });
+        },
+      },
+    );
   };
 
   return (
@@ -184,9 +228,13 @@ export default function ProductDetailsPage() {
           handleAddToCart={handleAddToCart}
           handleBuyNow={handleBuyNow}
           isAddingToCart={isAddingToCart}
+          isCheckingOut={isCheckingOut}
           currentPrice={currentPrice}
           originalPrice={originalPrice}
           images={images}
+          variants={variants}
+          selectedVariantId={selectedVariantId}
+          setSelectedVariantId={setSelectedVariantId}
         />
 
         {/* ── Suggested for You ── */}

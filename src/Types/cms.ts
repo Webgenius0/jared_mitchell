@@ -798,6 +798,13 @@ export interface FeaturedProductDetail {
   category: FeaturedProductCategory;
   stock: FeaturedProductStock;
   vendor: FeaturedProductVendorDetail;
+  variants?: {
+    id: number;
+    title: string;
+    price?: number | null;
+    sku?: string | null;
+    inventory_quantity?: number | null;
+  }[];
   created_at: string;
   updated_at: string;
 }

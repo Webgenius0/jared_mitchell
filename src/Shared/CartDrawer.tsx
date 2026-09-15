@@ -12,9 +12,11 @@ import {
   useUpdateCartItem,
   useDeleteCartItem,
   useClearCart,
+  useCartCheckout,
 } from "@/Hooks/api/cart_api";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
 type RelatedProduct = {
   id: number | string;
@@ -47,6 +49,8 @@ export default function CartDrawer({
   const { mutate: updateCartMutation } = useUpdateCartItem();
   const { mutate: deleteCartMutation } = useDeleteCartItem();
   const { mutate: clearCartMutation } = useClearCart();
+  const { mutate: checkoutMutation, isPending: isCheckingOut } =
+    useCartCheckout();
 
   const scrollerRef = useRef<HTMLDivElement>(null);
 
@@ -132,6 +136,23 @@ export default function CartDrawer({
       { data: { data: { quantity: cartCount } } },
       { onSuccess: () => refetchCart() },
     );
+  };
+
+  const handleCheckout = () => {
+    checkoutMutation(undefined, {
+      onSuccess: (res: any) => {
+        const checkoutUrl = res?.data?.checkout_url;
+        if (checkoutUrl) {
+          closeCart();
+          window.location.href = checkoutUrl;
+        } else {
+          toast.error(res?.message || "Failed to start checkout.");
+        }
+      },
+      onError: () => {
+        toast.error("Failed to start checkout. Please try again.");
+      },
+    });
   };
 
   const scrollByCard = (dir: 1 | -1) => {
@@ -355,13 +376,11 @@ export default function CartDrawer({
             </div>
             <button
               type="button"
-              onClick={() => {
-                closeCart();
-                router.push("/shipping-billing");
-              }}
-              className="w-full bg-[#1977DD] text-white py-3 rounded-xl font-semibold hover:bg-[#1565C0] transition"
+              onClick={handleCheckout}
+              disabled={isCheckingOut}
+              className="w-full bg-[#1977DD] text-white py-3 rounded-xl font-semibold hover:bg-[#1565C0] transition disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              Proceed to checkout
+              {isCheckingOut ? "Redirecting..." : "Proceed to checkout"}
             </button>
           </div>
         )}
