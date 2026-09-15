@@ -5,20 +5,27 @@ import TalentApplication from "./_components/TalentApplication";
 import VendorOpportunities from "./_components/VendorOpportunities";
 import GetInTouch from "./_components/GetInTouch";
 import ContactBanner from "./_components/ContactBanner";
-import { getCMSAboutData, getCMSFAQs } from "@/lib/Services/cms_service";
+import {
+  getCMSAboutData,
+  getCMSContactData,
+  getCMSFAQs,
+} from "@/lib/Services/cms_service";
 import Sponsors from "../_components/Sponsors";
 
 const page = async () => {
-  const faqData = await getCMSFAQs();
-  const CmsData = await getCMSAboutData();
+  const [faqData, CmsData, contactCmsData] = await Promise.all([
+    getCMSFAQs(),
+    getCMSAboutData(),
+    getCMSContactData(),
+  ]);
 
   return (
     <div className="">
-      <ContactBanner />
+      <ContactBanner data={contactCmsData?.contact_hero} />
     <div className="xl:px-5 md:w-[80%] 2xl:w-full mx-auto">
       <GetInTouch />
-      <TalentApplication />
-      <VendorOpportunities />
+      <TalentApplication data={contactCmsData?.contact_spotlight} />
+      <VendorOpportunities data={contactCmsData?.contact_opportunities} />
       <FAQAccordion data={faqData} />
       <Sponsors
         data={CmsData?.about_sponsors}

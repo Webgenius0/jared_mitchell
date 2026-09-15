@@ -85,6 +85,41 @@ export interface CMSHomepage {
   become_a_part_of_our_community: CMSBase;
 }
 
+export interface CMSContactHero extends CMSBase {
+  name: string | null;
+  small_title: string | null;
+  sub_description: string | null;
+  metadata: unknown;
+}
+
+export interface CMSContactSpotlightSection extends CMSContactHero {
+  metadata:
+    | {
+        image: string;
+        title: string;
+        description: string;
+        link: string | null;
+      }[]
+    | null;
+}
+
+export interface CMSContactOpportunitiesSection extends CMSContactHero {
+  metadata:
+    | {
+        icon: string;
+        title: string;
+        description: string;
+        link: string | null;
+      }[]
+    | null;
+}
+
+export interface CMSContact {
+  contact_hero: CMSContactHero;
+  contact_spotlight: CMSContactSpotlightSection;
+  contact_opportunities: CMSContactOpportunitiesSection;
+}
+
 export interface CMSAboutHero extends CMSBase {}
 export interface CMSAboutSociety extends CMSBase {}
 export interface CMSAboutOrigin extends CMSBase {}

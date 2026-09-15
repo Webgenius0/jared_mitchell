@@ -1,5 +1,6 @@
 import {
   CMSAbout,
+  CMSContact,
   CMSArtistSpotlight,
   CMSBusinessAward,
   CMSBusinessSpotlight,
@@ -70,6 +71,19 @@ export const getCMSAboutData = async (): Promise<CMSAbout> => {
 
   const result = await res.json();
   return result.data;
+};
+
+export const getCMSContactData = async (): Promise<CMSContact> => {
+  const res = await fetch(`${SITE_URL}/v1/cms/contact`, {
+    next: { revalidate: 300, tags: ["cms-contact"] },
+  });
+
+  if (!res.ok) {
+    throw new Error(`Failed to fetch contact CMS data — Status: ${res.status}`);
+  }
+
+  const result = await res.json();
+  return result.data as CMSContact;
 };
 
 export const getCMSServicesData = async (): Promise<CMSServices> => {
