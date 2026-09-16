@@ -5,7 +5,7 @@ import OSIPanelTab from "./OSIPanelTab";
 import LeaderboardTab from "./LeaderboardTab";
 import { ActiveSeasonRound, CMSRoundsSection } from "@/Types/cms";
 
-const TABS = ["Voting", "OSI Panel", "Leader-board"] as const;
+const TABS = ["Voting", "5 Challenges", "Leader-board"] as const;
 
 export default function OpenQualifierRound({
   roundsData,
@@ -58,7 +58,7 @@ export default function OpenQualifierRound({
             rounds={rounds}
           />
         )}
-        {activeTab === "OSI Panel" && <OSIPanelTab data={roundsData} />}
+        {activeTab === "5 Challenges" && <OSIPanelTab data={roundsData} />}
         {activeTab === "Leader-board" && <LeaderboardTab rounds={rounds} />}
       </div>
     </section>

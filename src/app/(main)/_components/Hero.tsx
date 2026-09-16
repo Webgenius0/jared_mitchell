@@ -24,7 +24,7 @@ const Hero = ({ data }: { data?: CMSHero }) => {
         />
       </div>
 
-      <p className="text-secondary-black text-sm md:text-sm lg:text-base max-w-2xl mx-auto my-6 md:my-2 lg:my-3">
+      <p className="text-secondary-black text-sm md:text-sm lg:text-base max-w-2xl mx-auto my-6 md:my-2 lg:my-8 xl:my-10">
         {data?.description}
       </p>
 
