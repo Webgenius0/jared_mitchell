@@ -12,10 +12,10 @@ const WhyChoose = ({ data }: { data?: CMSWhyChoose }) => {
   const items = data?.metadata ?? [];
   return (
     <div className="container py-4 md:py-5 lg:py-6 xl:py-12">
-      <div className="text-center mb-6 md:mb-3.5 lg:mb-4 xl:mb-8">
-        <h2 className="section_title max-md:mb-6!">{data?.title}</h2>
+      <div className="text-center mb-6 md:mb-3.5 lg:mb-6 xl:mb-8">
+        <h2 className="section_title ">{data?.title}</h2>
 
-        <p className="section_sub_title max-md:mt-6!">{data?.sub_title}</p>
+        <p className="section_sub_title ">{data?.sub_title}</p>
       </div>
 
       <Swiper
