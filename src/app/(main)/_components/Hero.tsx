@@ -13,7 +13,7 @@ const Hero = ({ data }: { data?: CMSHero }) => {
         {data?.title}
       </h1>
 
-      <p className="text-secondary-black text-sm md:text-sm lg:text-base xl:text-xl max-md:mt-6 lg:mt-1.5">
+      <p className="text-secondary-black text-sm md:text-sm lg:text-base xl:text-xl mt-1.5 mb-6">
         {data?.sub_title}
       </p>
 
