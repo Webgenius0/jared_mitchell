@@ -1,5 +1,6 @@
 import "./globals.css";
 import type { Metadata } from "next";
+import Script from "next/script";
 import { Toaster } from "react-hot-toast";
 // import { getSiteSettings } from "@/Hooks/api/cms_api";
 import AosProvider from "@/Provider/AosProvider/AosProvider";
@@ -73,7 +74,8 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  let faviconUrl = "/favicon.svg";
+  const faviconUrl = "/favicon.svg";
+  const gaId = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID || "G-F207FCGTF1";
 
   return (
     <html lang="en">
@@ -88,9 +90,28 @@ export default async function RootLayout({
               <Toaster />
               {children}
             </AosProvider>
-            <Toaster />
           </AuthProvider>
         </QueryProvider>
+
+        {/* Google tag (gtag.js) */}
+        <Script
+          strategy="afterInteractive"
+          src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`}
+        />
+        <Script
+          id="google-analytics"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', '${gaId}', {
+                page_path: window.location.pathname,
+              });
+            `,
+          }}
+        />
       </body>
     </html>
   );
