@@ -84,7 +84,7 @@ export default function ContestSpotlights({
                   Voting Weight
                 </h5>
                 <h6 className="text-xs sm:text-sm lg:text-base font-normal text-[#0F172B]">
-                  50% Community
+                  100% Community
                 </h6>
               </div>
             </div>
