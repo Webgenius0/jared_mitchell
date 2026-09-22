@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import React from "react";
+
+export const dynamic = "force-dynamic";
 import { CMSBusinessAward } from "@/Types/cms";
 import ContestBanner from "./Components/ContestBanner";
 import {

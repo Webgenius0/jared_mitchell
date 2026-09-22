@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: {
     absolute: "Artist & Business Spotlights | Our Social Image",
@@ -101,14 +103,16 @@ const page = async () => {
   try {
     const res = await getArtistHistoricalWinners();
     lastArtistWinner = res?.winners?.[0] ?? null;
-    artistWinners = (res?.winners || []).map(w => ({
-      id: w.spotlight.id,
-      title: w.spotlight.name,
-      slug: w.spotlight.name.toLowerCase().replace(/\s+/g, "-") || "",
-      description: `${w.spotlight.city}, ${w.spotlight.state}`,
-      image: w.spotlight.media.headshot || FALLBACK_IMAGE,
-      category: "Artist",
-    }));
+    artistWinners = (res?.winners || [])
+      .filter(w => w.spotlight != null)
+      .map(w => ({
+        id: w.spotlight.id,
+        title: w.spotlight.name,
+        slug: w.spotlight.name.toLowerCase().replace(/\s+/g, "-") || "",
+        description: `${w.spotlight.city}, ${w.spotlight.state}`,
+        image: w.spotlight.media.headshot || FALLBACK_IMAGE,
+        category: "Artist",
+      }));
   } catch (err) {
     console.error("Failed to fetch artist winners:", err);
   }

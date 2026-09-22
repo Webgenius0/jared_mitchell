@@ -79,6 +79,7 @@ export const getCMSContactData = async (): Promise<CMSContact> => {
   });
 
   if (!res.ok) {
+    if (res.status === 404) return null as unknown as CMSContact;
     throw new Error(`Failed to fetch contact CMS data — Status: ${res.status}`);
   }
 
