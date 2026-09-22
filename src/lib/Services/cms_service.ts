@@ -215,6 +215,7 @@ export const getSponsorshipPageCms = async (): Promise<CMSSponsorshipPage> => {
   });
 
   if (!res.ok) {
+    if (res.status === 500 || res.status === 404) return null as unknown as CMSSponsorshipPage;
     throw new Error(
       `Failed to fetch sponsorship CMS data — URL: ${url} | Status: ${res.status} ${res.statusText}`,
     );
@@ -319,6 +320,7 @@ export const getFeaturedProducts = async (): Promise<FeaturedProductItem[]> => {
   });
 
   if (!res.ok) {
+    if (res.status === 500 || res.status === 404) return [] as FeaturedProductItem[];
     throw new Error(
       `Failed to fetch featured products — Status: ${res.status}`,
     );

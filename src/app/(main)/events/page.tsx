@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+
+export const dynamic = "force-dynamic";
 import EventsBanner from "./_Components/EventsBanner";
 import UpcomingEvents from "./_Components/UpcomingEvents";
 import EventSchedule from "./_Components/EventSchedule";

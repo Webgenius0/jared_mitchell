@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+
+export const dynamic = "force-dynamic";
 import BusinessShower from "./_components/BusinessShower";
 import BusinessAwardWinner from "./_components/BusinessAwardWinner";
 import NewBusiness from "./_components/NewBusiness";
