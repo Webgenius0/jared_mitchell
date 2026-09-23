@@ -40,6 +40,12 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: "https",
+        hostname: "oursocialimage-media.s3.us-east-1.amazonaws.com",
+        port: "",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
         hostname: "i.ibb.co.com",
         port: "",
         pathname: "/**",

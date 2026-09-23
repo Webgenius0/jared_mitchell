@@ -266,7 +266,7 @@ export const getUpcomingEvents = async (): Promise<EventsResponse> => {
   return result.data as EventsResponse;
 };
 
-export const getPastEvents = async (): Promise<EventsResponse> => {
+export const getPastEvents = async (): Promise<any> => {
   const res = await fetch(`${SITE_URL}/v1/events/past-events`, {
     next: { revalidate: 600, tags: ["past-events"] },
   });
@@ -275,10 +275,9 @@ export const getPastEvents = async (): Promise<EventsResponse> => {
     throw new Error(`Failed to fetch past events — Status: ${res.status}`);
   }
 
-  const result = await res.json();
-  return result.data as EventsResponse;
+  const result: any = await res.json();
+  return result.data;
 };
-
 export const getEvents = async (
   time?: EventTimeFilter,
   page: number = 1,
