@@ -53,20 +53,22 @@ const BusinessAward = ({
   const winnerName =
     winner?.display_name || winner?.contestable?.business_name || "";
 
-  // Headshot from avatar_url
-  const headshotSrc = winner?.avatar_url || null;
 
   // Media items with file_path
   const mediaItems: string[] = winnerMedia
     .map((m: any) => m.file_path)
     .filter((src: string | undefined): src is string => Boolean(src));
 
-  // Main banner image: first media or fallback
-  const bannerImage =
-    mediaItems[0] ||
-    headshotSrc ||
-    data?.image ||
-    "/home/business-award-banner.jpg";
+const headshotSrc = 
+  winner?.avatar_url && !winner.avatar_url.includes("default/user.jpg") 
+    ? winner.avatar_url 
+    : null;
+
+const bannerImage =
+  mediaItems[0] ||
+  data?.image ||
+  headshotSrc ||
+  "/home/business-award-banner.jpg";
 
   // Description: prefer contestable story, then community impact, then CMS
   const description =
