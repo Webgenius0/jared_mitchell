@@ -13,16 +13,19 @@ interface CommunityAchievementsProps {
 const extractCategory = (contestableType?: string): string => {
   if (!contestableType) return "Business";
   const parts = contestableType.split("\\");
-  return parts[parts.length - 1] || "Business";
+  const value = parts[parts.length - 1] || "Business";
+  return value.charAt(0).toUpperCase() + value.slice(1);
 };
 
 const getSpotlightLink = (winner: PastSixMonthsWinner): string => {
   return `/contest/contestants/${winner.id}`;
 };
 
-const getCardImage = (winner: PastSixMonthsWinner): string => {
-  const firstMedia = winner.contestable?.media?.[0]?.file_path;
-  return firstMedia || winner.avatar_url;
+const getCardImage = (winner: any): string => {
+  const firstMedia =
+    winner?.contestable?.media?.[0]?.file_path ||
+    winner?.showcase?.custom_media?.[0]?.file_path;
+  return firstMedia || winner?.avatar_url || "";
 };
 
 const AUTOPLAY_DELAY = 3000;
@@ -31,7 +34,11 @@ const CommunityAchievements = ({
   data,
   pastSixMonthsWinners,
 }: CommunityAchievementsProps) => {
-  const winners = pastSixMonthsWinners || [];
+  // Prefer CMS metadata winners when provided, fall back to API winners
+  const metadataWinners: any[] = data?.metadata || [];
+  const winners: any[] = metadataWinners.length
+    ? metadataWinners
+    : pastSixMonthsWinners || [];
   const [activeIndex, setActiveIndex] = useState(0);
   const scrollerRef = useRef<HTMLUListElement | null>(null);
   const autoplayRef = useRef<ReturnType<typeof setInterval> | null>(null);
@@ -151,10 +158,14 @@ const CommunityAchievements = ({
               {winners.map(winner => {
                 const title =
                   winner.display_name || winner.contestable?.business_name;
-                const category = extractCategory(winner.contestable?.type);
+                const category = extractCategory(
+                  winner.contestable?.type || winner.season?.contest_type,
+                );
                 const description =
                   winner.contestable?.story ||
                   winner.contestable?.community_impact_statement ||
+                  winner.showcase?.description ||
+                  winner.description ||
                   "";
                 const linkHref = getSpotlightLink(winner);
                 const cardImage = getCardImage(winner);
@@ -181,7 +192,7 @@ const CommunityAchievements = ({
 
                           {/* Season badge */}
                           <div className="absolute top-2.5 right-2.5 md:top-3 md:right-3 bg-primary-blue/90 text-white py-0.5 px-2 md:py-0.5 md:px-2.5 rounded-full text-[9px] md:text-[10px] font-medium backdrop-blur-sm">
-                            {winner.season.title}
+                            {winner.season?.title}
                           </div>
 
                           {/* Bottom Content */}

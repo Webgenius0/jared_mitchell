@@ -6,6 +6,11 @@ export interface CMSBase {
   image: string | null;
   bg: string | null;
   video: string | null;
+  /**
+   * Optional editor-managed metadata payload. Most sections don't use it;
+   * typed per-section by interfaces extending CMSBase.
+   */
+  metadata?: any;
 }
 
 export interface CMSHero extends CMSBase {}

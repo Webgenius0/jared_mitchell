@@ -8,6 +8,7 @@ import NewsLetter from "@/Components/Common/NewsLetter";
 
 import {
   getCMSAboutData,
+  getCMSHomepageData,
   getContestantDetails,
 } from "@/lib/Services/cms_service";
 import Sponsors from "../../../_components/Sponsors";
@@ -151,7 +152,71 @@ const Page = async ({ params }: PageProps) => {
   try {
     const res = await getContestantDetails(contestantId);
     contestant = res?.data?.contestant || res?.data || null;
+  } catch (e) {
+    console.error("Failed to fetch contestant details", e);
+  }
 
+  // Enrich/patch contestant with the CMS "past 6 months winners" metadata
+  // (showcase title, description and custom media gallery), so the details
+  // page renders according to the CMS data when available.
+  try {
+    const cmsHomepage = await getCMSHomepageData();
+    const highlightMeta =
+      cmsHomepage?.past_6_month_boss_beginnings_highlight?.metadata;
+    const cmsMeta = Array.isArray(highlightMeta)
+      ? highlightMeta.find((m: any) => String(m?.id) === id)
+      : null;
+
+    if (cmsMeta) {
+      const excluded: string[] =
+        (cmsMeta.showcase?.excluded_media_ids as string[]) || [];
+      const showcaseImages: string[] = (
+        (cmsMeta.showcase?.custom_media as any[]) || []
+      )
+        .filter((m: any) => !excluded.includes(String(m.id)))
+        .map((m: any) => m.file_path)
+        .filter(Boolean);
+
+      const base = contestant || {};
+      contestant = {
+        ...base,
+        id: cmsMeta.id ?? base.id ?? contestantId,
+        display_name: cmsMeta.display_name || base.display_name,
+        business_name:
+          cmsMeta.display_name ||
+          cmsMeta.showcase?.title ||
+          cmsMeta.title ||
+          base.business_name,
+        story:
+          cmsMeta.showcase?.description ||
+          cmsMeta.description ||
+          base.story,
+        community_impact_statement:
+          cmsMeta.showcase?.description ||
+          cmsMeta.description ||
+          base.community_impact_statement,
+        avatar_url: cmsMeta.avatar_url || base.avatar_url,
+        status: cmsMeta.status || base.status,
+        total_score: cmsMeta.total_score ?? base.total_score,
+        media: {
+          ...(base.media || {}),
+          primary_image: cmsMeta.avatar_url || base.media?.primary_image,
+          images: showcaseImages.length
+            ? showcaseImages
+            : base.media?.images || [],
+        },
+        current_round: {
+          ...(base.current_round || {}),
+          title: cmsMeta.season?.title || base.current_round?.title,
+        },
+        season_title: cmsMeta.season?.title || base.season_title,
+      };
+    }
+  } catch (e) {
+    console.error("Failed to load CMS highlight metadata", e);
+  }
+
+  try {
     // Boss Beginnings contest is business-only
     spotlightType = "business";
 
@@ -160,7 +225,7 @@ const Page = async ({ params }: PageProps) => {
       spotlight = mapContestantToSpotlight(contestant, spotlightType);
     }
   } catch (e) {
-    console.error("Failed to fetch contestant details", e);
+    console.error("Failed to map contestant details", e);
   }
 
   return (
