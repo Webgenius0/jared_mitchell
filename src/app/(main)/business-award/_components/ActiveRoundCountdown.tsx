@@ -250,11 +250,11 @@ const ActiveRoundCountdown = () => {
   }, [cleanup]);
 
   // Handle reload after countdown reaches zero
-  useEffect(() => {
-    if (shouldReload) {
-      window.location.reload();
-    }
-  }, [shouldReload]);
+  // useEffect(() => {
+  //   if (shouldReload) {
+  //     window.location.reload();
+  //   }
+  // }, [shouldReload]);
 
   // Compute display values
   const isExpired =
